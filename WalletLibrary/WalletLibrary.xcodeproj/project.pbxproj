@@ -589,7 +589,6 @@
 		552E5088293E6AB100868F47 = {
 			isa = PBXGroup;
 			children = (
-				552E50AB293E6F5500868F47 /* VerifiedIdFlow.swift */,
 				552E50AA293E6B6B00868F47 /* Submodules */,
 				552E5094293E6AB200868F47 /* WalletLibrary */,
 				552E509E293E6AB200868F47 /* WalletLibraryTests */,
@@ -610,6 +609,7 @@
 		552E5094293E6AB200868F47 /* WalletLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				552E50AB293E6F5500868F47 /* VerifiedIdFlow.swift */,
 				552E5095293E6AB200868F47 /* WalletLibrary.h */,
 			);
 			path = WalletLibrary;
