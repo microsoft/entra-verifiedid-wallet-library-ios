@@ -18,19 +18,11 @@ public struct IssuanceRequest: Request {
     public let contracts: [Contract]
 
     /// Optional pin requirements needed to display a pin for the request.
-    public let pinRequirements: PinRequirements?
+    public let pinRequirements: PinRequirement?
 
     /// Credential format data that describes requested verified id accepted formats.
     let credentialFormats: [CredentialFormat]
 
     /// the state that is sent back with issuance completion response.
     let state: String
-}
-
-public protocol CredentialFormat {
-    
-}
-
-public protocol PinRequirements {
-    
 }

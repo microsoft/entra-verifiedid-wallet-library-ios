@@ -24,7 +24,8 @@
 		55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33713293FDEEF00CD2ED7 /* Contract.swift */; };
 		55E3375A2942317100CD2ED7 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337592942317100CD2ED7 /* RequestHandler.swift */; };
 		55E3375F2942321C00CD2ED7 /* RequestHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3375E2942321C00CD2ED7 /* RequestHandling.swift */; };
-		55E337622942361200CD2ED7 /* PresentationService+PresentationServiceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337612942361200CD2ED7 /* PresentationService+PresentationServiceable.swift */; };
+		55E33775294792B900CD2ED7 /* PinRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33774294792B900CD2ED7 /* PinRequirement.swift */; };
+		55E3378C2947938300CD2ED7 /* CredentialFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3378B2947938300CD2ED7 /* CredentialFormat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,7 +211,8 @@
 		55E33713293FDEEF00CD2ED7 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
 		55E337592942317100CD2ED7 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		55E3375E2942321C00CD2ED7 /* RequestHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandling.swift; sourceTree = "<group>"; };
-		55E337612942361200CD2ED7 /* PresentationService+PresentationServiceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationService+PresentationServiceable.swift"; sourceTree = "<group>"; };
+		55E33774294792B900CD2ED7 /* PinRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRequirement.swift; sourceTree = "<group>"; };
+		55E3378B2947938300CD2ED7 /* CredentialFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialFormat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,7 +258,6 @@
 		552E5094293E6AB200868F47 /* WalletLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				55E33760294235EE00CD2ED7 /* Extensions */,
 				55E3375B294231F000CD2ED7 /* Protocols */,
 				55E3370F293FDDF400CD2ED7 /* Requests */,
 				55E336D2293FA74100CD2ED7 /* VerifiedId */,
@@ -348,8 +349,10 @@
 				55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */,
 				55E336D7293FCE0500CD2ED7 /* CredentialIssuanceParams.swift */,
 				55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */,
+				55E33774294792B900CD2ED7 /* PinRequirement.swift */,
 				55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */,
 				55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */,
+				55E3378B2947938300CD2ED7 /* CredentialFormat.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -460,14 +463,6 @@
 				55E3375E2942321C00CD2ED7 /* RequestHandling.swift */,
 			);
 			path = Handlers;
-			sourceTree = "<group>";
-		};
-		55E33760294235EE00CD2ED7 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				55E337612942361200CD2ED7 /* PresentationService+PresentationServiceable.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -764,10 +759,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55E33775294792B900CD2ED7 /* PinRequirement.swift in Sources */,
 				55E3370E293FD84700CD2ED7 /* IssuanceRequest.swift in Sources */,
 				55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */,
 				55E3375A2942317100CD2ED7 /* RequestHandler.swift in Sources */,
 				55E336D8293FCE0500CD2ED7 /* CredentialIssuanceParams.swift in Sources */,
+				55E3378C2947938300CD2ED7 /* CredentialFormat.swift in Sources */,
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
@@ -775,7 +772,6 @@
 				55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */,
 				552E546B293E759300868F47 /* VerifiedIdFlow.swift in Sources */,
 				55E33711293FDE1400CD2ED7 /* Request.swift in Sources */,
-				55E337622942361200CD2ED7 /* PresentationService+PresentationServiceable.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 			);
