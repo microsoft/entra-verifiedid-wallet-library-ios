@@ -5,12 +5,16 @@
 
 import VCServices
 import VCEntities
-import PromiseKit
 
-protocol PresentationServiceable {
-    func getRequest(usingUrl urlStr: String) -> Promise<PresentationRequest>
-}
 /**
- *
+ * An Extension of the VCServices.PresentationService class.
  */
-extension PresentationService: PresentationServiceable { }
+extension PresentationService: PresentationServiceable {
+    
+    /// An async function that gets and validates the presentation request
+    func getRequest(url: String) async throws -> VCEntities.PresentationRequest {
+        return try await AsyncWrapper().wrap { () in
+            self.getRequest(usingUrl: url)
+        }()
+    }
+}
