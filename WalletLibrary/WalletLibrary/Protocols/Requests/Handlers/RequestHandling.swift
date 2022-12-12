@@ -4,10 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- *
+ * Request Handling Protocol
  */
 protocol RequestHandling {
     
+    /// Handle a request using the request uri and return an object that conforms to the Request protocol.
     func handle(requestUri: URL) async throws -> Request
     
 }

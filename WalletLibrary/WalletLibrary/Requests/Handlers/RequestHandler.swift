@@ -23,13 +23,7 @@ class RequestHandler: RequestHandling {
     
     func handle(requestUri: URL) async throws -> Request {
         do {
-            let request = try await withCheckedThrowingContinuation { continuation in
-                presentationService.getRequest(usingUrl: requestUri.absoluteString).done { request in
-                    continuation.resume(returning: request)
-                }.catch { error in
-                    continuation.resume(throwing: error)
-                }
-            }
+            let request = try await presentationService.getRequest(url: requestUri.absoluteString)
             print(request)
             return IssuanceRequest(requester: request.content.nonce!,
                                    credentialIssuerMetadata: [],
