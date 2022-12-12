@@ -16,8 +16,10 @@ class VerifiedIdFlowTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testInitiateFlow() throws {
-        print(VerifiedIdFlow().initiate())
+    func testInitiateFlow() async throws {
+        let requestUri = URL(string: "openid-vc://?request_uri=https://beta.did.msidentity.com/v1.0/tenants/9c59be8b-bd18-45d9-b9d9-082bc07c094f/verifiableCredentials/issuanceRequests/4eba26a1-ce31-435b-9f2a-f8a783fce5f8")!
+        let request = try await VerifiedIdFlow().initiate(requestUri: requestUri)
+        print(request)
     }
 
     func testPerformanceExample() throws {
