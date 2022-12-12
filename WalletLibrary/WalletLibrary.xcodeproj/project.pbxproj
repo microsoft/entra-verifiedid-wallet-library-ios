@@ -25,6 +25,9 @@
 		55E3375A2942317100CD2ED7 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337592942317100CD2ED7 /* RequestHandler.swift */; };
 		55E3375F2942321C00CD2ED7 /* RequestHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3375E2942321C00CD2ED7 /* RequestHandling.swift */; };
 		55E337622942361200CD2ED7 /* PresentationService+PresentationServiceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337612942361200CD2ED7 /* PresentationService+PresentationServiceable.swift */; };
+		55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337642943749600CD2ED7 /* AsyncWrapper.swift */; };
+		55E3376829437E3500CD2ED7 /* PresentationServiceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376729437E3500CD2ED7 /* PresentationServiceable.swift */; };
+		55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,6 +214,9 @@
 		55E337592942317100CD2ED7 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		55E3375E2942321C00CD2ED7 /* RequestHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandling.swift; sourceTree = "<group>"; };
 		55E337612942361200CD2ED7 /* PresentationService+PresentationServiceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationService+PresentationServiceable.swift"; sourceTree = "<group>"; };
+		55E337642943749600CD2ED7 /* AsyncWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapper.swift; sourceTree = "<group>"; };
+		55E3376729437E3500CD2ED7 /* PresentationServiceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationServiceable.swift; sourceTree = "<group>"; };
+		55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +262,7 @@
 		552E5094293E6AB200868F47 /* WalletLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				55E337632943747E00CD2ED7 /* Utilities */,
 				55E33760294235EE00CD2ED7 /* Extensions */,
 				55E3375B294231F000CD2ED7 /* Protocols */,
 				55E3370F293FDDF400CD2ED7 /* Requests */,
@@ -269,6 +276,7 @@
 		552E509E293E6AB200868F47 /* WalletLibraryTests */ = {
 			isa = PBXGroup;
 			children = (
+				55E3376929478C3300CD2ED7 /* Utilities */,
 				552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */,
 			);
 			path = WalletLibraryTests;
@@ -441,6 +449,7 @@
 		55E3375B294231F000CD2ED7 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				55E3376629437E1000CD2ED7 /* Services */,
 				55E3375C294231F600CD2ED7 /* Requests */,
 			);
 			path = Protocols;
@@ -468,6 +477,30 @@
 				55E337612942361200CD2ED7 /* PresentationService+PresentationServiceable.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		55E337632943747E00CD2ED7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				55E337642943749600CD2ED7 /* AsyncWrapper.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		55E3376629437E1000CD2ED7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				55E3376729437E3500CD2ED7 /* PresentationServiceable.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		55E3376929478C3300CD2ED7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -770,8 +803,10 @@
 				55E336D8293FCE0500CD2ED7 /* CredentialIssuanceParams.swift in Sources */,
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
+				55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55E3375F2942321C00CD2ED7 /* RequestHandling.swift in Sources */,
+				55E3376829437E3500CD2ED7 /* PresentationServiceable.swift in Sources */,
 				55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */,
 				552E546B293E759300868F47 /* VerifiedIdFlow.swift in Sources */,
 				55E33711293FDE1400CD2ED7 /* Request.swift in Sources */,
@@ -785,6 +820,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
