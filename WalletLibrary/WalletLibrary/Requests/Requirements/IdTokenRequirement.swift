@@ -7,7 +7,7 @@
  * Information to describe an id token required for a Verified Id issuance flow.
  */
 public struct IdTokenRequirement {
-    /// id of the requirement
+    /// id of the requirement.
     let id: String
     
     /// if the requirement should be encrypted.
@@ -19,13 +19,13 @@ public struct IdTokenRequirement {
     /// The configuration url to get id token through an authentication library.
     public let configuration: URL
     
-    /// The client id used to get the id token through an authentication library
+    /// The client id used to get the id token through an authentication library.
     public let clientId: String
     
-    /// The redirect url used to get the id token through an authentication library
+    /// The redirect url used to get the id token through an authentication library.
     public let redirectUri: String
     
-    /// The scope used to get the id token through an authentication library
+    /// The scope used to get the id token through an authentication library.
     public let scope: String
     
     /// The nonce acts as an extra level of security and is used as an additional property

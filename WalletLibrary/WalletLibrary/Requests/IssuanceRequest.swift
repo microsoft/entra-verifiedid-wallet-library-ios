@@ -8,7 +8,7 @@
  */
 public struct IssuanceRequest: Request {
     
-    /// URL of the customer who is the issuer
+    /// URL of the customer who is the issuer.
     public let requester: String
     
     /// Information such as a list of contract URLs to describe where to get contract.

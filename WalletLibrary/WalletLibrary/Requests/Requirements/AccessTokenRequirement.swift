@@ -19,7 +19,7 @@ public struct AccessTokenRequirement {
     /// The configuration url to get Access Token through an authentication library.
     public let configuration: String
     
-    /// The client id used to get the access token through an authentication library
+    /// The client id used to get the access token through an authentication library.
     public let clientId: String
     
     /// The resource id used to get the access token through an authentication library.
