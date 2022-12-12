@@ -6,14 +6,9 @@
 /**
  * A contract that contains the information needed to get a Verified Id
  * including display information through the trait properties.
+ * TODO: Add display information properties once we have agreed on design.
  */
 public struct Contract {
-    
-    /// the traits like name to describe the issuer.
-    public let issuerTraits: RequesterTraits
-
-    /// the traits such as background color and name to describe the verified id.
-    public let verifiedIdTraits: VerifiedIdTraits
 
     /// information to describe Verified IDs required for issuance.
     public let verifiedIdRequirements: [VerifiedIdRequirement]
@@ -30,9 +25,3 @@ public struct Contract {
     /// raw representation of the contract.
     let raw: String
 }
-
-/// TODO: implement Requester Traits
-public protocol RequesterTraits {}
-
-/// TODO: implement VerifiedIdTraits
-public protocol VerifiedIdTraits {}
