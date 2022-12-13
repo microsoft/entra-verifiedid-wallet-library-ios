@@ -4,13 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * A mapping of the claims contained within a Verified Id.
+ * Data that describes requested verified id formats.
  */
-public struct VerifiedIdClaim {
-    /// id of the claim. For example, within a VC, it is the key value of credentialSubject.
-    let id: String
+public struct CredentialFormat {
     
-    /// the value of the claim.
-    let value: Any
+    /// the format of the verified Id requested such as jwt-vc.
+    public let format: String
+    
+    /// types of the requested verified Id.
+    public let types: [String]
 }
-

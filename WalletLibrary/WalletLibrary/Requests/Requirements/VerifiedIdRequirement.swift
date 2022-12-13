@@ -28,7 +28,7 @@ public struct VerifiedIdRequirement {
     /// optional property for info needed for issuance during presentation flow.
     public let credentialIssuanceParams: CredentialIssuanceParams?
     
-    /// helper method that returns Verified Id that match the requirement from a list of Verified Ids.
+    /// TODO: helper method that returns verified id that match the requirement from a list of verified ids.
     public func getMatches(verifiedIds: [VerifiedId]) -> [VerifiedId] {
         return []
     }

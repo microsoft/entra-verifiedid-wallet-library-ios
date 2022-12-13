@@ -7,7 +7,7 @@
  * Information to describe a self attested claim required for a Verified Id issuance flow.
  */
 public struct SelfAttestedClaimRequirement {
-    /// id of the requirement
+    /// id of the requirement.
     let id: String
     
     /// if the requirement should be encrypted.

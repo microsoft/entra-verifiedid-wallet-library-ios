@@ -4,11 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Request Handling Protocol
+ * Information to describe a pin that is required.
  */
-protocol RequestHandling {
+public struct PinRequirement {
     
-    /// Handle a request using the request uri and return an object that conforms to the Request protocol.
-    func handle(requestUri: URL) async throws -> Request
+    /// the length of the pin to display.
+    public let length: String
     
+    /// the type of the pin such as alphanumeric or numeric.
+    public let type: String
 }
