@@ -1,0 +1,3 @@
+[submodule "WalletLibrary/Submodules/VerifiableCredential-SDK-iOS"]
+	path = WalletLibrary/Submodules/VerifiableCredential-SDK-iOS
+	url = https://github.com/microsoft/VerifiableCredential-SDK-iOS
