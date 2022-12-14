@@ -8,9 +8,9 @@
  */
 public struct PinRequirement {
     
-    /// the length of the pin to display.
-    public let length: String
+    /// The length of the pin to display.
+    public let length: Int
     
-    /// the type of the pin such as alphanumeric or numeric.
+    /// The type of the pin such as alphanumeric or numeric.
     public let type: String
 }
