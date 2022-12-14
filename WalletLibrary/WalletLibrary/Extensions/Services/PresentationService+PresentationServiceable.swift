@@ -7,7 +7,7 @@ import VCServices
 import VCEntities
 
 /**
- * An Extension of the VCServices.PresentationService class.
+ * An extension of the VCServices.PresentationService class.
  */
 extension PresentationService: PresentationServiceable {
     
@@ -18,8 +18,9 @@ extension PresentationService: PresentationServiceable {
         }()
     }
     
-    /// Sends the presentation response container and if successful, returns void, if unsuccessful, throws an error.
-    func send(response: PresentationResponseContainer) async throws -> Void {
+    /// Sends the presentation response container and if successful, returns void,
+    /// If unsuccessful, throws an error.
+    func send(response: VCEntities.PresentationResponseContainer) async throws -> Void {
         let _ = try await AsyncWrapper().wrap { () in
             self.send(response: response)
         }()
