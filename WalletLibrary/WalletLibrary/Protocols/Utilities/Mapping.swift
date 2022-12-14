@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/// Protocol that defines a Translator used to translate one object to another.
-protocol Translating {
-    func translate<T: Translateable>(_ object: T) throws -> T.T
+/// Protocol that defines a Mapper used to map one object to another.
+protocol Mapping {
+    func map<T: Mappable>(_ object: T) throws -> T.T
 }

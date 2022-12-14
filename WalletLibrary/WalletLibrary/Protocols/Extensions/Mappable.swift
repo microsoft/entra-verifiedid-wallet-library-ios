@@ -4,30 +4,30 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Errors pertaining to translating one data model to another using the Translateable protocol.
+ * Errors pertaining to Mapping one data model to another using the Mappable protocol.
  */
-enum TranslationError<T>: Error {
-    case PropertyNotPresent(property: String, in: T.Type)
-    case InvalidProperty(property: String, in: T.Type)
+enum MappingError: Error, Equatable {
+    case PropertyNotPresent(property: String, in: String)
+    case InvalidProperty(property: String, in: String)
 }
 
 /**
- * Translate the object that conforms to Translateable to object T.
- * This pattern is very similar to the JSONEncoder pattern, and will be tied to a Translator.
+ * Translate the object that conforms to Mappable to object T.
+ * This pattern is very similar to the JSONEncoder pattern, and will be tied to a Mapper.
  */
-protocol Translateable {
+protocol Mappable {
     associatedtype T
     
     /// Translates the object that conforms to the protocol to another object.
-    func translate(using translator: Translating) throws -> T
+    func map(using mapper: Mapping) throws -> T
 }
 
-extension Translateable {
+extension Mappable {
     
     func getRequiredProperty<U>(property: U?, propertyName: String) throws -> U {
         
         guard let requiredProperty = property else {
-            throw TranslationError.PropertyNotPresent(property: propertyName, in: T.self)
+            throw MappingError.PropertyNotPresent(property: propertyName, in: String(describing: Self.self))
         }
         
         return requiredProperty
