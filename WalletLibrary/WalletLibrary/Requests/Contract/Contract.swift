@@ -10,6 +10,9 @@
  */
 public struct Contract {
 
+    /// Root of Trust such as Linked Domain Verified for the request.
+    public let rootOfTrust: RootOfTrust
+    
     /// information to describe Verified IDs required for issuance.
     public let verifiedIdRequirements: [VerifiedIdRequirement]
 
