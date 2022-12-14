@@ -6,7 +6,7 @@
 /**
  * Information to describe an access token required for a Verified Id issuance flow.
  */
-public struct AccessTokenRequirement {
+public struct AccessTokenRequirement: Equatable {
     
     /// If the requirement should be encrypted.
     let encrypted: Bool

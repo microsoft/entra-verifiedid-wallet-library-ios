@@ -6,7 +6,7 @@
 /**
  * Information to describe a self attested claim required for a Verified Id issuance flow.
  */
-public struct SelfAttestedClaimRequirement {
+public struct SelfAttestedClaimRequirement: Equatable {
     
     /// If the requirement should be encrypted.
     let encrypted: Bool

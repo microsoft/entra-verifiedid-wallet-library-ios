@@ -7,7 +7,7 @@ import XCTest
 import VCEntities
 @testable import WalletLibrary
 
-class IdTokenDescriptorTranslationTests: XCTestCase {
+class IdTokenDescriptorMappingTests: XCTestCase {
     
     let mapper = Mapper()
     

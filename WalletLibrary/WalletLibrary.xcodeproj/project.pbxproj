@@ -25,14 +25,16 @@
 		5534E66E294A0F8F005D0765 /* Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E66D294A0F8F005D0765 /* Mapping.swift */; };
 		5534E670294A1008005D0765 /* PresentationRequest+Translateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E66F294A1008005D0765 /* PresentationRequest+Translateable.swift */; };
 		5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */; };
-		5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Translateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Translateable.swift */; };
+		5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */; };
 		5534E679294A286A005D0765 /* SeltAttestedDescriptor+Translateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E678294A286A005D0765 /* SeltAttestedDescriptor+Translateable.swift */; };
 		5534E67B294A2B05005D0765 /* IssuanceRequest+Translateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E67A294A2B05005D0765 /* IssuanceRequest+Translateable.swift */; };
-		5534E681294A3978005D0765 /* SelfIssuedDescriptorTranslationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E680294A3978005D0765 /* SelfIssuedDescriptorTranslationTests.swift */; };
+		5534E681294A3978005D0765 /* SelfIssuedDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E680294A3978005D0765 /* SelfIssuedDescriptorMappingTests.swift */; };
 		5534E684294A3EC9005D0765 /* MockSelfIssuedClaimDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E683294A3EC9005D0765 /* MockSelfIssuedClaimDescriptor.swift */; };
 		5534E686294A3F19005D0765 /* MockClaimDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E685294A3F19005D0765 /* MockClaimDescriptor.swift */; };
 		5534E688294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */; };
 		5534E68A294A5F7B005D0765 /* MockIdTokenDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E689294A5F7B005D0765 /* MockIdTokenDescriptor.swift */; };
+		5534E68C294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */; };
+		5534E68E294A8BC4005D0765 /* MockAccessTokenDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E68D294A8BC3005D0765 /* MockAccessTokenDescriptor.swift */; };
 		55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
 		55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */; };
 		55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D3293FA75300CD2ED7 /* VerifiedId.swift */; };
@@ -247,14 +249,16 @@
 		5534E66D294A0F8F005D0765 /* Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapping.swift; sourceTree = "<group>"; };
 		5534E66F294A1008005D0765 /* PresentationRequest+Translateable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationRequest+Translateable.swift"; sourceTree = "<group>"; };
 		5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdTokenDescriptor+Mappable.swift"; sourceTree = "<group>"; };
-		5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Translateable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccessTokenDescriptor+Translateable.swift"; sourceTree = "<group>"; };
+		5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccessTokenDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		5534E678294A286A005D0765 /* SeltAttestedDescriptor+Translateable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SeltAttestedDescriptor+Translateable.swift"; sourceTree = "<group>"; };
 		5534E67A294A2B05005D0765 /* IssuanceRequest+Translateable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceRequest+Translateable.swift"; sourceTree = "<group>"; };
-		5534E680294A3978005D0765 /* SelfIssuedDescriptorTranslationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfIssuedDescriptorTranslationTests.swift; sourceTree = "<group>"; };
+		5534E680294A3978005D0765 /* SelfIssuedDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfIssuedDescriptorMappingTests.swift; sourceTree = "<group>"; };
 		5534E683294A3EC9005D0765 /* MockSelfIssuedClaimDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSelfIssuedClaimDescriptor.swift; sourceTree = "<group>"; };
 		5534E685294A3F19005D0765 /* MockClaimDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockClaimDescriptor.swift; sourceTree = "<group>"; };
 		5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenDescriptorMappingTests.swift; sourceTree = "<group>"; };
 		5534E689294A5F7B005D0765 /* MockIdTokenDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIdTokenDescriptor.swift; sourceTree = "<group>"; };
+		5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenDescriptorMappingTests.swift; sourceTree = "<group>"; };
+		5534E68D294A8BC3005D0765 /* MockAccessTokenDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAccessTokenDescriptor.swift; sourceTree = "<group>"; };
 		55E33666293E7B5000CD2ED7 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		55E3366F293E7B5F00CD2ED7 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		55E33685293E7B7D00CD2ED7 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
@@ -436,7 +440,7 @@
 		5534E673294A1A00005D0765 /* VCSDK */ = {
 			isa = PBXGroup;
 			children = (
-				5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Translateable.swift */,
+				5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */,
 				5534E67A294A2B05005D0765 /* IssuanceRequest+Translateable.swift */,
 				5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */,
 				5534E64C294A0888005D0765 /* PresentationDescriptor+Translateable.swift */,
@@ -465,7 +469,8 @@
 		5534E67E294A3943005D0765 /* VCSDK */ = {
 			isa = PBXGroup;
 			children = (
-				5534E680294A3978005D0765 /* SelfIssuedDescriptorTranslationTests.swift */,
+				5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */,
+				5534E680294A3978005D0765 /* SelfIssuedDescriptorMappingTests.swift */,
 				5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */,
 			);
 			path = VCSDK;
@@ -474,6 +479,7 @@
 		5534E682294A3EB3005D0765 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				5534E68D294A8BC3005D0765 /* MockAccessTokenDescriptor.swift */,
 				5534E685294A3F19005D0765 /* MockClaimDescriptor.swift */,
 				5534E689294A5F7B005D0765 /* MockIdTokenDescriptor.swift */,
 				5534E683294A3EC9005D0765 /* MockSelfIssuedClaimDescriptor.swift */,
@@ -993,7 +999,7 @@
 				552E546B293E759300868F47 /* VerifiedIdFlow.swift in Sources */,
 				5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */,
 				55E33711293FDE1400CD2ED7 /* Request.swift in Sources */,
-				5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Translateable.swift in Sources */,
+				5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift in Sources */,
 				55E337BC2948B5FE00CD2ED7 /* PresentationService+PresentationServiceable.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
@@ -1008,8 +1014,10 @@
 				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				5534E684294A3EC9005D0765 /* MockSelfIssuedClaimDescriptor.swift in Sources */,
 				5534E68A294A5F7B005D0765 /* MockIdTokenDescriptor.swift in Sources */,
+				5534E68C294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift in Sources */,
 				552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */,
-				5534E681294A3978005D0765 /* SelfIssuedDescriptorTranslationTests.swift in Sources */,
+				5534E681294A3978005D0765 /* SelfIssuedDescriptorMappingTests.swift in Sources */,
+				5534E68E294A8BC4005D0765 /* MockAccessTokenDescriptor.swift in Sources */,
 				5534E688294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift in Sources */,
 				5534E686294A3F19005D0765 /* MockClaimDescriptor.swift in Sources */,
 			);

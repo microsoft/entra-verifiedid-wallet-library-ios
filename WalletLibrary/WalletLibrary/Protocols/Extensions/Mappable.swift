@@ -12,18 +12,18 @@ enum MappingError: Error, Equatable {
 }
 
 /**
- * Translate the object that conforms to Mappable to object T.
- * This pattern is very similar to the JSONEncoder pattern, and will be tied to a Mapper.
+ * Map the object that conforms to Mappable to object T.
  */
 protocol Mappable {
     associatedtype T
     
-    /// Translates the object that conforms to the protocol to another object.
+    /// Map the object that conforms to the protocol to another object.
     func map(using mapper: Mapping) throws -> T
 }
 
 extension Mappable {
     
+    /// Helper method to convert an optional property to a required property, else throw an error.
     func getRequiredProperty<U>(property: U?, propertyName: String) throws -> U {
         
         guard let requiredProperty = property else {
