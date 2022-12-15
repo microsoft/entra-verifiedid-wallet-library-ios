@@ -42,7 +42,6 @@ class AsyncWrapperTests: XCTestCase {
             XCTFail(result)
         } catch {
             XCTAssertEqual(error as? AsyncWrapperTestsError, AsyncWrapperTestsError.testCaseThrowsError)
-            print("done")
         }
     }
 }
