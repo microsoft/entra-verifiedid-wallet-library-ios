@@ -6,7 +6,7 @@
 /**
  * Information to describe Verified IDs required.
  */
-public struct VerifiedIdRequirement {
+public struct VerifiedIdRequirement: Equatable {
     
     /// If requirement must be encrypted.
     let encrypted: Bool
