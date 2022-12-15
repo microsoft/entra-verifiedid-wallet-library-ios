@@ -7,4 +7,6 @@ import VCEntities
 
 protocol PresentationServiceable {
     func getRequest(url: String) async throws -> VCEntities.PresentationRequest
+    
+    func send(response: PresentationResponseContainer) async throws -> Void
 }
