@@ -11,8 +11,6 @@ import VCEntities
  */
 extension VCEntities.AccessTokenDescriptor: Mappable {
     
-    typealias T = AccessTokenRequirement
-    
     func map(using mapper: Mapping) throws -> AccessTokenRequirement {
         
         let configuration = try getRequiredProperty(property: configuration, propertyName: "configuration")

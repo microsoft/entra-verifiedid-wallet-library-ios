@@ -4,11 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Utility Class used to handle data model transformations
+ * Utility Class used to handle data model mapping.
  */
 struct Mapper: Mapping {
     
-    /// Translate one object into another.
+    /// Map one object to another.
     func map<T: Mappable>(_ object: T) throws -> T.T {
         return try object.map(using: self)
     }

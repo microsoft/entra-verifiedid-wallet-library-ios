@@ -10,7 +10,6 @@ import VCEntities
  * to map IdTokenDescriptor to IdTokenRequirement.
  */
 extension VCEntities.IdTokenDescriptor: Mappable {
-    typealias T = IdTokenRequirement
     
     func map(using mapper: Mapping) throws -> IdTokenRequirement {
         

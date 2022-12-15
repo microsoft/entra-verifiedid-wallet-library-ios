@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Errors pertaining to Mapping one data model to another using the Mappable protocol.
+ * Errors pertaining to mapping one data model to another using the Mappable protocol.
  */
 enum MappingError: Error, Equatable {
     case PropertyNotPresent(property: String, in: String)
