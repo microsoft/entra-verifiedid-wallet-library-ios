@@ -6,11 +6,12 @@
 import VCEntities
 
 /**
- * An Extension of the VCEntities.AccessTokenDescriptor class to be able
+ * An extension of the VCEntities.AccessTokenDescriptor class to be able
  * to map AccessTokenDescriptor to AccessTokenRequirement.
  */
 extension VCEntities.AccessTokenDescriptor: Mappable {
     
+    /// Map the access token descriptor to access token requirement.
     func map(using mapper: Mapping) throws -> AccessTokenRequirement {
         
         let configuration = try getRequiredProperty(property: configuration, propertyName: "configuration")

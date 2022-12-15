@@ -6,11 +6,12 @@
 import VCEntities
 
 /**
- * An Extension of the VCEntities.IdTokenDescriptor class to be able
+ * An extension of the VCEntities.IdTokenDescriptor class to be able
  * to map IdTokenDescriptor to IdTokenRequirement.
  */
 extension VCEntities.IdTokenDescriptor: Mappable {
     
+    /// Map the id token descriptor to the id token requirement.
     func map(using mapper: Mapping) throws -> IdTokenRequirement {
         
         guard let configuration = URL(string: configuration) else {
