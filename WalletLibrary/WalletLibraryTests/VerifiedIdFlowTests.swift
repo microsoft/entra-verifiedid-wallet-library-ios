@@ -17,7 +17,7 @@ class VerifiedIdFlowTests: XCTestCase {
     }
 
     func testInitiateFlow() throws {
-            print(VerifiedIdFlow().initiate())
+        print(VerifiedIdFlow().initiate())
     }
 
     func testPerformanceExample() throws {

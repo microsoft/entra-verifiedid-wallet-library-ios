@@ -15,6 +15,8 @@ class AsyncWrapperTests: XCTestCase {
     
     private let asyncWrapper = AsyncWrapper()
     
+    private let expectedResult = "expected1243"
+    
     private func testCase(input: String) -> Promise<String> {
         return Promise.value(input)
     }
@@ -24,18 +26,18 @@ class AsyncWrapperTests: XCTestCase {
     }
 
     func testSuccessfulWrapping() async throws {
-        let expectedResult = "expected1223"
+        
         let actualResult = try await asyncWrapper.wrap { () in
-            self.testCase(input: expectedResult)
+            self.testCase(input: self.expectedResult)
         }()
+        
         XCTAssertEqual(expectedResult, actualResult)
     }
     
     func testWrappingThrowsError() async throws {
-        let expectedResult = "expected1243"
         
         let wrappedFunction = asyncWrapper.wrap { () in
-            self.errorThrowingTestCase(input: expectedResult)
+            self.errorThrowingTestCase(input: self.expectedResult)
         }
         do {
             let result = try await wrappedFunction()
