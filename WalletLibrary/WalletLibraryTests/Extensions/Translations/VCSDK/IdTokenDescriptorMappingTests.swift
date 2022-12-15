@@ -20,37 +20,37 @@ class IdTokenDescriptorMappingTests: XCTestCase {
     let expectedRedirectUri = "redirectUri645"
     let expectedScope = "scope234"
     
-    func testSuccessfulTranslation() throws {
+    func testSuccessfulMapping() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
         let actualResult = try mapper.map(input)
         XCTAssertEqual(actualResult, expectedResult)
     }
     
-    func testTranslationWithEncryptedAsTrueValue() throws {
+    func testMappingWithEncryptedAsTrueValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: true, required: false)
         let actualResult = try mapper.map(input)
         XCTAssertEqual(actualResult, expectedResult)
     }
     
-    func testTranslationWithEncryptedAsNilValue() throws {
+    func testMappingWithEncryptedAsNilValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: nil, required: false)
         let actualResult = try mapper.map(input)
         XCTAssertEqual(actualResult, expectedResult)
     }
     
-    func testTranslationWithRequiredAsTrueValue() throws {
+    func testMappingWithRequiredAsTrueValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: true)
         let actualResult = try mapper.map(input)
         XCTAssertEqual(actualResult, expectedResult)
     }
     
-    func testTranslationWithRequiredAsNilValue() throws {
+    func testMappingWithRequiredAsNilValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: nil)
         let actualResult = try mapper.map(input)
         XCTAssertEqual(actualResult, expectedResult)
     }
     
-    func testTranslationWithNoRedirectUrlPresentError() throws {
+    func testMappingWithNoRedirectUrlPresentError() throws {
         let mockedInput = MockIdTokenDescriptor(encrypted: false,
                                                 claims: [],
                                                 idTokenRequired: false,
@@ -68,7 +68,7 @@ class IdTokenDescriptorMappingTests: XCTestCase {
         }
     }
     
-    func testTranslationWithNoClientIdPresentError() throws {
+    func testMappingWithNoClientIdPresentError() throws {
         let mockedInput = MockIdTokenDescriptor(encrypted: false,
                                                 claims: [],
                                                 idTokenRequired: false,
@@ -86,7 +86,7 @@ class IdTokenDescriptorMappingTests: XCTestCase {
         }
     }
     
-    func testTranslationWithNoScopePresentError() throws {
+    func testMappingWithNoScopePresentError() throws {
         let mockedInput = MockIdTokenDescriptor(encrypted: false,
                                                 claims: [],
                                                 idTokenRequired: false,
@@ -129,6 +129,4 @@ class IdTokenDescriptorMappingTests: XCTestCase {
         let expectedInput = try decoder.decode(IdTokenDescriptor.self, from: encodedData)
         return expectedInput
     }
-    
-    
 }
