@@ -5,7 +5,9 @@
 
 import VCEntities
 
-/// Protocol that handles getting vc sdk presentation requests and sending vc sdk presentation responses.
+/**
+ * Protocol that handles getting vc sdk presentation requests and sending vc sdk presentation responses.
+ */
 protocol PresentationServiceable {
     
     /// Fetches and validates the presentation request.

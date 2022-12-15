@@ -25,5 +25,4 @@ extension VCEntities.AccessTokenDescriptor: Mappable {
                                       resourceId: resourceId,
                                       scope: scope)
     }
-    
 }

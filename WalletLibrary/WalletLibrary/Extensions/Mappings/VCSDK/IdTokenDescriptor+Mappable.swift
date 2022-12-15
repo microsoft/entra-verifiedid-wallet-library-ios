@@ -30,5 +30,4 @@ extension VCEntities.IdTokenDescriptor: Mappable {
                                   scope: scope,
                                   nonce: nil)
     }
-    
 }

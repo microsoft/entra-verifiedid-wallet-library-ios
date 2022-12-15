@@ -3,8 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCServices
 import VCEntities
+import VCServices
 
 /**
  * An extension of the VCServices.PresentationService class.
