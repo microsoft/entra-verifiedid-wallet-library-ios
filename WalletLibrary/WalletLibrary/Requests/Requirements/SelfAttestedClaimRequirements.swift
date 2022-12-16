@@ -4,14 +4,17 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Information to describe a self attested claim required for a Verified Id issuance flow.
+ * Information to describe a self attested claims required for a Verified Id issuance flow.
  */
-public struct SelfAttestedClaimRequirement: Equatable {
+public struct SelfAttestedClaimRequirements: Equatable {
+    
+    /// If the requirement should be encrypted.
+    public let encrypted: Bool
     
     /// If the requirement is required or not.
     public let required: Bool
     
-    /// The claim requested.
-    public let claim: String
+    /// The claims required.
+    public let requiredClaims: [SelfAttestedClaimRequirement]
 }
 

@@ -23,7 +23,7 @@ public struct Contract {
     public let accessTokenRequirements: [AccessTokenRequirement]
 
     /// information to describe self-attested required for issuance.
-    public let selfAttestedClaimRequirements: [SelfAttestedClaimRequirement]
+    public let selfAttestedClaimRequirements: SelfAttestedClaimRequirements?
 
     /// raw representation of the contract.
     let raw: String

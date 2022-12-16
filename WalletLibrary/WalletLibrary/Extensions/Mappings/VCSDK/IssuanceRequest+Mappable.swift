@@ -6,7 +6,7 @@
 import VCEntities
 
 /**
- * An Extension of the VCEntities.IssuanceRequest class to be able
+ * An extension of the VCEntities.IssuanceRequest class to be able
  * to map VCEntities.IssuanceRequest to Contract.
  */
 extension VCEntities.IssuanceRequest: Mappable {
@@ -32,7 +32,7 @@ extension VCEntities.IssuanceRequest: Mappable {
             try mapper.map($0)
         } ?? []
         
-        var selfAttestedClaimRequirements: [SelfAttestedClaimRequirement] = []
+        var selfAttestedClaimRequirements: SelfAttestedClaimRequirements? = nil
         if let selfIssued = requirements.selfIssued {
             selfAttestedClaimRequirements = try mapper.map(selfIssued)
         }

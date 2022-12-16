@@ -6,11 +6,10 @@
 import VCEntities
 
 /**
- * An Extension of the VCEntities.PresentationRequest class to be able
+ * An extension of the VCEntities.PresentationRequest class to be able
  * to map VCEntities.PresentationRequest to Request.
  */
 extension VCEntities.PresentationRequest: Mappable {
-    typealias T = Request
     
     func map(using mapper: Mapping) throws -> Request {
         
