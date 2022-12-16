@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import XCTest
 import VCEntities
@@ -51,15 +51,13 @@ class IdTokenDescriptorMappingTests: XCTestCase {
     }
     
     func testMappingWithNoRedirectUrlPresentError() throws {
-        let mockedInput = MockIdTokenDescriptor(encrypted: false,
-                                                claims: [],
-                                                idTokenRequired: false,
-                                                configuration: expectedConfiguration,
-                                                clientID: expectedClientId,
-                                                redirectURI: nil,
-                                                scope: expectedScope)
-        
-        let input = try setUpInput(mockedInput: mockedInput)
+        let input = IdTokenDescriptor(encrypted: false,
+                                      claims: [],
+                                      idTokenRequired: false,
+                                      configuration: expectedConfiguration,
+                                      clientID: expectedClientId,
+                                      redirectURI: nil,
+                                      scope: expectedScope)
         
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
@@ -69,15 +67,13 @@ class IdTokenDescriptorMappingTests: XCTestCase {
     }
     
     func testMappingWithNoClientIdPresentError() throws {
-        let mockedInput = MockIdTokenDescriptor(encrypted: false,
-                                                claims: [],
-                                                idTokenRequired: false,
-                                                configuration: "$|[%=",
-                                                clientID: expectedConfiguration,
-                                                redirectURI: expectedRedirectUri,
-                                                scope: expectedScope)
-        
-        let input = try setUpInput(mockedInput: mockedInput)
+        let input = IdTokenDescriptor(encrypted: false,
+                                      claims: [],
+                                      idTokenRequired: false,
+                                      configuration: "$|[%=",
+                                      clientID: expectedConfiguration,
+                                      redirectURI: expectedRedirectUri,
+                                      scope: expectedScope)
         
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
@@ -87,15 +83,13 @@ class IdTokenDescriptorMappingTests: XCTestCase {
     }
     
     func testMappingWithNoScopePresentError() throws {
-        let mockedInput = MockIdTokenDescriptor(encrypted: false,
-                                                claims: [],
-                                                idTokenRequired: false,
-                                                configuration: expectedConfiguration,
-                                                clientID: expectedClientId,
-                                                redirectURI: expectedRedirectUri,
-                                                scope: nil)
-        
-        let input = try setUpInput(mockedInput: mockedInput)
+        let input = IdTokenDescriptor(encrypted: false,
+                                      claims: [],
+                                      idTokenRequired: false,
+                                      configuration: expectedConfiguration,
+                                      clientID: expectedClientId,
+                                      redirectURI: expectedRedirectUri,
+                                      scope: nil)
         
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
@@ -105,13 +99,13 @@ class IdTokenDescriptorMappingTests: XCTestCase {
     }
     
     private func setUpInput(encrypted: Bool?, required: Bool?) throws -> (IdTokenDescriptor, IdTokenRequirement) {
-        let mockedInput = MockIdTokenDescriptor(encrypted: encrypted,
-                                                claims: [],
-                                                idTokenRequired: required,
-                                                configuration: expectedConfiguration,
-                                                clientID: expectedClientId,
-                                                redirectURI: expectedRedirectUri,
-                                                scope: expectedScope)
+        let input = IdTokenDescriptor(encrypted: encrypted,
+                                      claims: [],
+                                      idTokenRequired: required,
+                                      configuration: expectedConfiguration,
+                                      clientID: expectedClientId,
+                                      redirectURI: expectedRedirectUri,
+                                      scope: expectedScope)
         
         let expectedResult = IdTokenRequirement(encrypted: encrypted ?? false,
                                                 required: required ?? false,
@@ -120,13 +114,6 @@ class IdTokenDescriptorMappingTests: XCTestCase {
                                                 redirectUri: expectedRedirectUri,
                                                 scope: expectedScope)
         
-        let input = try setUpInput(mockedInput: mockedInput)
         return (input, expectedResult)
-    }
-    
-    private func setUpInput(mockedInput: MockIdTokenDescriptor) throws -> IdTokenDescriptor {
-        let encodedData = try encoder.encode(mockedInput)
-        let expectedInput = try decoder.decode(IdTokenDescriptor.self, from: encodedData)
-        return expectedInput
     }
 }

@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import XCTest
 import VCEntities
@@ -52,15 +52,13 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
     }
     
     func testMappingWithNoConfigurationPresentError() throws {
-        let mockedInput = MockAccessTokenDescriptor(id: expectedId,
-                                                    encrypted: false,
-                                                    claims: [],
-                                                    required: false,
-                                                    configuration: nil,
-                                                    resourceId: expectedResourceId,
-                                                    oboScope: expectedScope)
-        
-        let input = try setUpInput(mockedInput: mockedInput)
+        let input = AccessTokenDescriptor(id: expectedId,
+                                          encrypted: false,
+                                          claims: [],
+                                          required: false,
+                                          configuration: nil,
+                                          resourceId: expectedResourceId,
+                                          oboScope: expectedScope)
         
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
@@ -71,15 +69,13 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
     }
     
     func testMappingWithNoResourceIdPresentError() throws {
-        let mockedInput = MockAccessTokenDescriptor(id: expectedId,
-                                                    encrypted: false,
-                                                    claims: [],
-                                                    required: false,
-                                                    configuration: expectedConfiguration,
-                                                    resourceId: nil,
-                                                    oboScope: expectedScope)
-        
-        let input = try setUpInput(mockedInput: mockedInput)
+        let input = AccessTokenDescriptor(id: expectedId,
+                                          encrypted: false,
+                                          claims: [],
+                                          required: false,
+                                          configuration: expectedConfiguration,
+                                          resourceId: nil,
+                                          oboScope: expectedScope)
         
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
@@ -90,15 +86,13 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
     }
     
     func testMappingWithNoScopePresentError() throws {
-        let mockedInput = MockAccessTokenDescriptor(id: expectedId,
-                                                    encrypted: false,
-                                                    claims: [],
-                                                    required: false,
-                                                    configuration: expectedConfiguration,
-                                                    resourceId: expectedResourceId,
-                                                    oboScope: nil)
-        
-        let input = try setUpInput(mockedInput: mockedInput)
+        let input = AccessTokenDescriptor(id: expectedId,
+                                          encrypted: false,
+                                          claims: [],
+                                          required: false,
+                                          configuration: expectedConfiguration,
+                                          resourceId: expectedResourceId,
+                                          oboScope: nil)
         
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
@@ -110,13 +104,13 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
     
     private func setUpInput(encrypted: Bool?,
                             required: Bool?) throws -> (AccessTokenDescriptor, AccessTokenRequirement) {
-        let mockedInput = MockAccessTokenDescriptor(id: expectedId,
-                                                    encrypted: encrypted,
-                                                    claims: [],
-                                                    required: required,
-                                                    configuration: expectedConfiguration,
-                                                    resourceId: expectedResourceId,
-                                                    oboScope: expectedScope)
+        let input = AccessTokenDescriptor(id: expectedId,
+                                          encrypted: encrypted,
+                                          claims: [],
+                                          required: required,
+                                          configuration: expectedConfiguration,
+                                          resourceId: expectedResourceId,
+                                          oboScope: expectedScope)
         
         let expectedResult = AccessTokenRequirement(encrypted: encrypted ?? false,
                                                     required: required ?? false,
@@ -125,14 +119,6 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
                                                     resourceId: expectedResourceId,
                                                     scope: expectedScope)
         
-        let input = try setUpInput(mockedInput: mockedInput)
         return (input, expectedResult)
     }
-    
-    private func setUpInput(mockedInput: MockAccessTokenDescriptor) throws -> AccessTokenDescriptor {
-        let encodedData = try encoder.encode(mockedInput)
-        let expectedInput = try decoder.decode(AccessTokenDescriptor.self, from: encodedData)
-        return expectedInput
-    }
 }
-

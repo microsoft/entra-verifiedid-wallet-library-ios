@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import XCTest
 import VCEntities
@@ -86,13 +86,13 @@ class PresentationDescriptorMappingTests: XCTestCase {
                             issuers: [String?]? = [],
                             contracts: [String]? = []) throws -> (PresentationDescriptor, VerifiedIdRequirement) {
         
-        let mockedIssuers = issuers?.compactMap { MockIssuerDescriptor(iss: $0) }
-        let mockedInput = MockPresentationDescriptor(encrypted: encrypted,
-                                                     claims: [],
-                                                     presentationRequired: required,
-                                                     credentialType: exceptedCredentialType,
-                                                     issuers: mockedIssuers,
-                                                     contracts: contracts)
+        let issuersInput = issuers?.compactMap { IssuerDescriptor(iss: $0) }
+        let input = PresentationDescriptor(encrypted: encrypted,
+                                           claims: [],
+                                           presentationRequired: required,
+                                           credentialType: exceptedCredentialType,
+                                           issuers: issuersInput,
+                                           contracts: contracts)
         
         let expectedIssuers = issuers?.compactMap { $0 } ?? []
         
@@ -109,15 +109,6 @@ class PresentationDescriptorMappingTests: XCTestCase {
                                                    acceptedIssuers: expectedIssuers,
                                                    purpose: nil,
                                                    credentialIssuanceParams: expectedIssuanceParams)
-        
-        let input = try setUpInput(mockedInput: mockedInput)
         return (input, expectedResult)
     }
-    
-    private func setUpInput(mockedInput: MockPresentationDescriptor) throws -> PresentationDescriptor {
-        let encodedData = try encoder.encode(mockedInput)
-        let expectedInput = try decoder.decode(PresentationDescriptor.self, from: encodedData)
-        return expectedInput
-    }
-    
 }
