@@ -47,6 +47,7 @@
 		55FC7BC3294CD398005033B1 /* IssuanceRequest+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FC7BC0294CD398005033B1 /* IssuanceRequest+Mappable.swift */; };
 		55FC7BC5294CD53D005033B1 /* SelfAttestedClaimRequirements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FC7BC4294CD53D005033B1 /* SelfAttestedClaimRequirements.swift */; };
 		55FC7BC7294CD9D2005033B1 /* SelfIssuedClaimsDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FC7BC6294CD9D2005033B1 /* SelfIssuedClaimsDescriptorMappingTests.swift */; };
+		55FC7BC9294CE2DE005033B1 /* IssuanceRequestMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FC7BC8294CE2DE005033B1 /* IssuanceRequestMappingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -266,6 +267,7 @@
 		55FC7BC0294CD398005033B1 /* IssuanceRequest+Mappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IssuanceRequest+Mappable.swift"; sourceTree = "<group>"; };
 		55FC7BC4294CD53D005033B1 /* SelfAttestedClaimRequirements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttestedClaimRequirements.swift; sourceTree = "<group>"; };
 		55FC7BC6294CD9D2005033B1 /* SelfIssuedClaimsDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfIssuedClaimsDescriptorMappingTests.swift; sourceTree = "<group>"; };
+		55FC7BC8294CE2DE005033B1 /* IssuanceRequestMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceRequestMappingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,6 +440,7 @@
 			children = (
 				5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */,
 				5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */,
+				55FC7BC8294CE2DE005033B1 /* IssuanceRequestMappingTests.swift */,
 				5534E6AC294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift */,
 				55FC7BC6294CD9D2005033B1 /* SelfIssuedClaimsDescriptorMappingTests.swift */,
 			);
@@ -968,6 +971,7 @@
 				552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */,
 				5534E688294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift in Sources */,
 				55FC7BC7294CD9D2005033B1 /* SelfIssuedClaimsDescriptorMappingTests.swift in Sources */,
+				55FC7BC9294CE2DE005033B1 /* IssuanceRequestMappingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

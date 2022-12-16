@@ -8,7 +8,7 @@
  * including display information through the trait properties.
  * TODO: Add display information properties once we have agreed on design.
  */
-public struct Contract {
+public struct Contract: Equatable {
 
     /// Root of Trust such as Linked Domain Verified for the request.
     public let rootOfTrust: RootOfTrust
