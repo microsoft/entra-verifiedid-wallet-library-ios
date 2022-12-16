@@ -9,16 +9,12 @@ import VCEntities
 
 class IdTokenDescriptorMappingTests: XCTestCase {
     
-    let mapper = Mapper()
+    private let mapper = Mapper()
     
-    let encoder = JSONEncoder()
-    
-    let decoder = JSONDecoder()
-    
-    let expectedConfiguration = "https://test.com"
-    let expectedClientId = "clientId12"
-    let expectedRedirectUri = "redirectUri645"
-    let expectedScope = "scope234"
+    private let expectedConfiguration = "https://test.com"
+    private let expectedClientId = "clientId12"
+    private let expectedRedirectUri = "redirectUri645"
+    private let expectedScope = "scope234"
     
     func testSuccessfulMapping() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: false)

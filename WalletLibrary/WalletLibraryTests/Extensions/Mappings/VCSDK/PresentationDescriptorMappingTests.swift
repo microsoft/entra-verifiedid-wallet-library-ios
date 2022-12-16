@@ -9,13 +9,9 @@ import VCEntities
 
 class PresentationDescriptorMappingTests: XCTestCase {
     
-    let mapper = Mapper()
+    private let mapper = Mapper()
     
-    let encoder = JSONEncoder()
-    
-    let decoder = JSONDecoder()
-    
-    let exceptedCredentialType = "credentialType4235"
+    private let exceptedCredentialType = "credentialType4235"
     
     func testSuccessfulMapping() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
