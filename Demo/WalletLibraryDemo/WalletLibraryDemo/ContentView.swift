@@ -7,12 +7,14 @@ import SwiftUI
 import CoreData
 import WalletLibrary
 
-struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+struct ContentView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = RequirementsViewController
     
-    var body: some View {
-        NavigationView {
-            Text(VerifiedIdFlow().initiate())
-        }
+    func makeUIViewController(context: Context) -> RequirementsViewController {
+        return RequirementsViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: RequirementsViewController, context: Context) {
+//        print(context)
     }
 }

@@ -4,13 +4,19 @@
 *--------------------------------------------------------------------------------------------*/
 
 import Foundation
-import VCEntities
 
-public class VerifiedIdFlow {
-    
-    public init() {}
+public protocol RequesterStyle {
+    var requester: String { get }
+}
 
-    public func initiate() -> String {
-        return "Hello World"
-    }
+public struct MockRequesterStyle: RequesterStyle {
+    public let requester: String
+}
+
+public protocol VerifiedIdStyle {
+    var title: String { get }
+}
+
+public struct MockVerifiedIdStyle: VerifiedIdStyle {
+    public let title: String
 }
