@@ -4,17 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Information to describe a self attested claim required for a Verified Id issuance flow.
+ * Utility Class used to handle data model mapping.
  */
-public struct SelfAttestedClaimRequirement: Equatable {
+struct Mapper: Mapping {
     
-    /// If the requirement should be encrypted.
-    let encrypted: Bool
-    
-    /// If the requirement is required or not.
-    public let required: Bool
-    
-    /// The claim requested.
-    public let claim: String
+    /// Map one object to another.
+    func map<T: Mappable>(_ object: T) throws -> T.T {
+        return try object.map(using: self)
+    }
 }
-

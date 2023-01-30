@@ -4,13 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Information to describe a pin that is required.
+ * Protocol that defines a Mapper used to map one object to another.
  */
-public struct PinRequirement {
-    
-    /// The length of the pin to display.
-    public let length: Int
-    
-    /// The type of the pin such as alphanumeric or numeric.
-    public let type: String
+protocol Mapping {
+    func map<T: Mappable>(_ object: T) throws -> T.T
 }

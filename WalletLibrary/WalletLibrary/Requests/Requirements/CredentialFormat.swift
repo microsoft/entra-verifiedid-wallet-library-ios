@@ -8,9 +8,9 @@
  */
 public struct CredentialFormat {
     
-    /// the format of the verified Id requested such as jwt-vc.
+    /// The format of the verified Id requested such as jwt-vc.
     public let format: String
     
-    /// types of the requested verified Id.
+    /// The types of the requested verified Id.
     public let types: [String]
 }

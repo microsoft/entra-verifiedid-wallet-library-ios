@@ -15,14 +15,17 @@ public struct IssuanceRequest: Request {
     public let credentialIssuerMetadata: [String]
     
     /// A list of contracts that can be used to issue the verified id.
-    public let contracts: [Contract]
+    public internal(set) var contracts: [Contract]
 
-    /// Optional pin requirements needed to display a pin for the request.
+    /// The optional pin requirements needed to display a pin for the request.
     public let pinRequirements: PinRequirement?
 
-    /// Credential format data that describes requested verified id accepted formats.
-    let credentialFormats: [CredentialFormat]
+    /// The credential format data that describes requested verified id accepted formats.
+    let credentialFormats: [CredentialFormat]?
 
-    /// the state that is sent back with issuance completion response.
+    /// The state that is sent back with issuance completion response.
     let state: String
+    
+    /// The optional raw representation of the request.
+    let raw: String?
 }

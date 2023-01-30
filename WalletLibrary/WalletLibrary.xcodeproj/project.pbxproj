@@ -11,6 +11,20 @@
 		552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		552E546B293E759300868F47 /* VerifiedIdFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E50AB293E6F5500868F47 /* VerifiedIdFlow.swift */; };
+		5534E5972948B8C2005D0765 /* VCServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336E7293FCE4F00CD2ED7 /* VCServices.framework */; platformFilter = ios; };
+		5534E5982948B8C2005D0765 /* VCServices.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336E7293FCE4F00CD2ED7 /* VCServices.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5534E5AC2948B8C8005D0765 /* VCEntities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336DE293FCE4200CD2ED7 /* VCEntities.framework */; platformFilter = ios; };
+		5534E5AD2948B8C8005D0765 /* VCEntities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336DE293FCE4200CD2ED7 /* VCEntities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E5B42948FEB5005D0765 /* RootOfTrust.swift */; };
+		5534E64D294A0888005D0765 /* PresentationDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */; };
+		5534E667294A0B6C005D0765 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E666294A0B6C005D0765 /* Mappable.swift */; };
+		5534E669294A0C3F005D0765 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E668294A0C3F005D0765 /* Mapper.swift */; };
+		5534E66E294A0F8F005D0765 /* Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E66D294A0F8F005D0765 /* Mapping.swift */; };
+		5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */; };
+		5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */; };
+		5534E688294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */; };
+		5534E68C294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */; };
+		5534E6AD294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E6AC294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift */; };
 		55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
 		55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */; };
 		55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D3293FA75300CD2ED7 /* VerifiedId.swift */; };
@@ -22,8 +36,12 @@
 		55E3370E293FD84700CD2ED7 /* IssuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3370D293FD84700CD2ED7 /* IssuanceRequest.swift */; };
 		55E33711293FDE1400CD2ED7 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33710293FDE1400CD2ED7 /* Request.swift */; };
 		55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33713293FDEEF00CD2ED7 /* Contract.swift */; };
-		55E33775294792B900CD2ED7 /* PinRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33774294792B900CD2ED7 /* PinRequirement.swift */; };
-		55E3378C2947938300CD2ED7 /* CredentialFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3378B2947938300CD2ED7 /* CredentialFormat.swift */; };
+		55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337642943749600CD2ED7 /* AsyncWrapper.swift */; };
+		55E3376829437E3500CD2ED7 /* PresentationServiceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376729437E3500CD2ED7 /* PresentationServiceable.swift */; };
+		55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */; };
+		55E337B42948B4B000CD2ED7 /* CredentialFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3379D2948B4B000CD2ED7 /* CredentialFormat.swift */; };
+		55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337B32948B4B000CD2ED7 /* PinRequirement.swift */; };
+		55E337BC2948B5FE00CD2ED7 /* PresentationService+PresentationServiceable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337BB2948B5FE00CD2ED7 /* PresentationService+PresentationServiceable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +201,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5534E5992948B8C2005D0765 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5534E5AD2948B8C8005D0765 /* VCEntities.framework in Embed Frameworks */,
+				5534E5982948B8C2005D0765 /* VCServices.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
@@ -194,6 +227,16 @@
 		552E51D8293E71D700868F47 /* VCToken.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCToken.xcodeproj; path = VCToken/VCToken.xcodeproj; sourceTree = "<group>"; };
 		552E5229293E71D700868F47 /* VCCrypto.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCCrypto.xcodeproj; path = VCCrypto/VCCrypto.xcodeproj; sourceTree = "<group>"; };
 		552E5237293E71D700868F47 /* VCNetworking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCNetworking.xcodeproj; path = VCNetworking/VCNetworking.xcodeproj; sourceTree = "<group>"; };
+		5534E5B42948FEB5005D0765 /* RootOfTrust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootOfTrust.swift; sourceTree = "<group>"; };
+		5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDescriptor+Mappable.swift"; sourceTree = "<group>"; };
+		5534E666294A0B6C005D0765 /* Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
+		5534E668294A0C3F005D0765 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
+		5534E66D294A0F8F005D0765 /* Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapping.swift; sourceTree = "<group>"; };
+		5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdTokenDescriptor+Mappable.swift"; sourceTree = "<group>"; };
+		5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccessTokenDescriptor+Mappable.swift"; sourceTree = "<group>"; };
+		5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenDescriptorMappingTests.swift; sourceTree = "<group>"; };
+		5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenDescriptorMappingTests.swift; sourceTree = "<group>"; };
+		5534E6AC294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationDescriptorMappingTests.swift; sourceTree = "<group>"; };
 		55E33666293E7B5000CD2ED7 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		55E3366F293E7B5F00CD2ED7 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		55E33685293E7B7D00CD2ED7 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
@@ -207,8 +250,12 @@
 		55E3370D293FD84700CD2ED7 /* IssuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceRequest.swift; sourceTree = "<group>"; };
 		55E33710293FDE1400CD2ED7 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		55E33713293FDEEF00CD2ED7 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
-		55E33774294792B900CD2ED7 /* PinRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinRequirement.swift; sourceTree = "<group>"; };
-		55E3378B2947938300CD2ED7 /* CredentialFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialFormat.swift; sourceTree = "<group>"; };
+		55E337642943749600CD2ED7 /* AsyncWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapper.swift; sourceTree = "<group>"; };
+		55E3376729437E3500CD2ED7 /* PresentationServiceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationServiceable.swift; sourceTree = "<group>"; };
+		55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapperTests.swift; sourceTree = "<group>"; };
+		55E3379D2948B4B000CD2ED7 /* CredentialFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CredentialFormat.swift; path = WalletLibrary/Requests/Requirements/CredentialFormat.swift; sourceTree = SOURCE_ROOT; };
+		55E337B32948B4B000CD2ED7 /* PinRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinRequirement.swift; path = WalletLibrary/Requests/Requirements/PinRequirement.swift; sourceTree = SOURCE_ROOT; };
+		55E337BB2948B5FE00CD2ED7 /* PresentationService+PresentationServiceable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationService+PresentationServiceable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,7 +263,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5534E5AC2948B8C8005D0765 /* VCEntities.framework in Frameworks */,
 				55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */,
+				5534E5972948B8C2005D0765 /* VCServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,8 +303,11 @@
 		552E5094293E6AB200868F47 /* WalletLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				55E337BA2948B5E700CD2ED7 /* Extensions */,
+				55E3375B294231F000CD2ED7 /* Protocols */,
 				55E3370F293FDDF400CD2ED7 /* Requests */,
 				55E336D2293FA74100CD2ED7 /* VerifiedId */,
+				55E337632943747E00CD2ED7 /* Utilities */,
 				552E50AB293E6F5500868F47 /* VerifiedIdFlow.swift */,
 				552E5095293E6AB200868F47 /* WalletLibrary.h */,
 			);
@@ -265,6 +317,8 @@
 		552E509E293E6AB200868F47 /* WalletLibraryTests */ = {
 			isa = PBXGroup;
 			children = (
+				5534E67C294A392F005D0765 /* Extensions */,
+				55E3376929478C3300CD2ED7 /* Utilities */,
 				552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */,
 			);
 			path = WalletLibraryTests;
@@ -308,6 +362,74 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5534E663294A0B28005D0765 /* Mappings */ = {
+			isa = PBXGroup;
+			children = (
+				5534E673294A1A00005D0765 /* VCSDK */,
+			);
+			path = Mappings;
+			sourceTree = "<group>";
+		};
+		5534E664294A0B3E005D0765 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				55E337BB2948B5FE00CD2ED7 /* PresentationService+PresentationServiceable.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		5534E665294A0B55005D0765 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5534E666294A0B6C005D0765 /* Mappable.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5534E66C294A0F76005D0765 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5534E66D294A0F8F005D0765 /* Mapping.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		5534E673294A1A00005D0765 /* VCSDK */ = {
+			isa = PBXGroup;
+			children = (
+				5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */,
+				5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */,
+				5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */,
+			);
+			path = VCSDK;
+			sourceTree = "<group>";
+		};
+		5534E67C294A392F005D0765 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5534E67D294A3937005D0765 /* Translations */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5534E67D294A3937005D0765 /* Translations */ = {
+			isa = PBXGroup;
+			children = (
+				5534E67E294A3943005D0765 /* VCSDK */,
+			);
+			path = Translations;
+			sourceTree = "<group>";
+		};
+		5534E67E294A3943005D0765 /* VCSDK */ = {
+			isa = PBXGroup;
+			children = (
+				5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */,
+				5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */,
+				5534E6AC294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift */,
+			);
+			path = VCSDK;
+			sourceTree = "<group>";
+		};
 		55E33667293E7B5000CD2ED7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -342,12 +464,12 @@
 			isa = PBXGroup;
 			children = (
 				55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */,
+				55E3379D2948B4B000CD2ED7 /* CredentialFormat.swift */,
 				55E336D7293FCE0500CD2ED7 /* CredentialIssuanceParams.swift */,
 				55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */,
-				55E33774294792B900CD2ED7 /* PinRequirement.swift */,
+				55E337B32948B4B000CD2ED7 /* PinRequirement.swift */,
 				55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */,
 				55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */,
-				55E3378B2947938300CD2ED7 /* CredentialFormat.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -411,10 +533,11 @@
 		55E3370F293FDDF400CD2ED7 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				55E337432942311000CD2ED7 /* Handlers */,
 				55E33712293FDEDF00CD2ED7 /* Contract */,
 				55E336CF293FA6D900CD2ED7 /* Requirements */,
 				55E3370D293FD84700CD2ED7 /* IssuanceRequest.swift */,
-				55E33710293FDE1400CD2ED7 /* Request.swift */,
+				5534E5B42948FEB5005D0765 /* RootOfTrust.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -425,6 +548,74 @@
 				55E33713293FDEEF00CD2ED7 /* Contract.swift */,
 			);
 			path = Contract;
+			sourceTree = "<group>";
+		};
+		55E337432942311000CD2ED7 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
+		55E3375B294231F000CD2ED7 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				5534E66C294A0F76005D0765 /* Utilities */,
+				5534E665294A0B55005D0765 /* Extensions */,
+				55E337B62948B4F900CD2ED7 /* Requests */,
+				55E3376629437E1000CD2ED7 /* Services */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		55E337632943747E00CD2ED7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				55E337642943749600CD2ED7 /* AsyncWrapper.swift */,
+				5534E668294A0C3F005D0765 /* Mapper.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		55E3376629437E1000CD2ED7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				55E3376729437E3500CD2ED7 /* PresentationServiceable.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		55E3376929478C3300CD2ED7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		55E337B62948B4F900CD2ED7 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				55E337B72948B50800CD2ED7 /* Handlers */,
+				55E33710293FDE1400CD2ED7 /* Request.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		55E337B72948B50800CD2ED7 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
+		55E337BA2948B5E700CD2ED7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5534E664294A0B3E005D0765 /* Services */,
+				5534E663294A0B28005D0765 /* Mappings */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -449,6 +640,7 @@
 				552E508E293E6AB200868F47 /* Sources */,
 				552E508F293E6AB200868F47 /* Frameworks */,
 				552E5090293E6AB200868F47 /* Resources */,
+				5534E5992948B8C2005D0765 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -721,17 +913,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55E33775294792B900CD2ED7 /* PinRequirement.swift in Sources */,
+				5534E667294A0B6C005D0765 /* Mappable.swift in Sources */,
 				55E3370E293FD84700CD2ED7 /* IssuanceRequest.swift in Sources */,
 				55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */,
 				55E336D8293FCE0500CD2ED7 /* CredentialIssuanceParams.swift in Sources */,
-				55E3378C2947938300CD2ED7 /* CredentialFormat.swift in Sources */,
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,
+				5534E66E294A0F8F005D0765 /* Mapping.swift in Sources */,
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
+				55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */,
+				5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */,
+				55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */,
+				5534E669294A0C3F005D0765 /* Mapper.swift in Sources */,
+				5534E64D294A0888005D0765 /* PresentationDescriptor+Mappable.swift in Sources */,
+				55E337B42948B4B000CD2ED7 /* CredentialFormat.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
+				55E3376829437E3500CD2ED7 /* PresentationServiceable.swift in Sources */,
 				55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */,
 				552E546B293E759300868F47 /* VerifiedIdFlow.swift in Sources */,
+				5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */,
 				55E33711293FDE1400CD2ED7 /* Request.swift in Sources */,
+				5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift in Sources */,
+				55E337BC2948B5FE00CD2ED7 /* PresentationService+PresentationServiceable.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 			);
@@ -741,7 +943,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
+				5534E6AD294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift in Sources */,
+				5534E68C294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift in Sources */,
 				552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */,
+				5534E688294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

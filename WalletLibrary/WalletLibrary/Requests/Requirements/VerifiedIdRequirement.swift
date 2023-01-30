@@ -6,26 +6,24 @@
 /**
  * Information to describe Verified IDs required.
  */
-public struct VerifiedIdRequirement {
-    /// id of the requirement.
-    let id: String
+public struct VerifiedIdRequirement: Equatable {
     
     /// If requirement must be encrypted.
     let encrypted: Bool
     
-    /// if the requirement is required or not.
+    /// If the requirement is required or not.
     public let required: Bool
     
-    /// the type of the verified Id required.
+    /// The type of the verified Id required.
     public let types: [String]
     
-    /// accepted issuers for verified Id required.
+    /// The accepted issuers for verified Id required.
     public let acceptedIssuers: [String]
     
-    /// the purpose for the verified Id, developer can display to the user if desired.
+    /// The purpose for the verified Id, developer can display to the user if desired.
     public let purpose: String?
     
-    /// optional property for info needed for issuance during presentation flow.
+    /// An optional property for information needed for issuance during presentation flow.
     public let credentialIssuanceParams: CredentialIssuanceParams?
     
     /// TODO: helper method that returns verified id that match the requirement from a list of verified ids.

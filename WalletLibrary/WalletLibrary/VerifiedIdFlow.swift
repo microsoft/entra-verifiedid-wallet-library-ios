@@ -9,7 +9,7 @@ import VCEntities
 public class VerifiedIdFlow {
     
     public init() {}
-    
+
     public func initiate() -> String {
         return "Hello World"
     }

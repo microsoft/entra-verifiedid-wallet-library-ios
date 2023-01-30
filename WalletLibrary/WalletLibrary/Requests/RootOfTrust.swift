@@ -4,17 +4,14 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Information to describe a self attested claim required for a Verified Id issuance flow.
+ * Root of Trust such as Linked Domain Verified for the request.
  */
-public struct SelfAttestedClaimRequirement: Equatable {
+public struct RootOfTrust {
     
-    /// If the requirement should be encrypted.
-    let encrypted: Bool
+    /// Whether root of trust is verified or not (for example, if the linked domain check succeeded.
+    public let verified: Bool
     
-    /// If the requirement is required or not.
-    public let required: Bool
+    /// The source of the root of trust (could be the well-known endpoint url or a hub perhaps).
+    public let source: String?
     
-    /// The claim requested.
-    public let claim: String
 }
-
