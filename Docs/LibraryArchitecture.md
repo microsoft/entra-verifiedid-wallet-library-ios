@@ -24,7 +24,7 @@ class VerifiedIdClient{
 }
 <<Interface>> VerifiedIdRequestInput
 class VerifiedIdRequestInput{
-    ~resolve(configuration: WalletConfiguration) ResolvedInput
+    ~resolve(configuration: VerifiedIdClientConfiguration) ResolvedInput
 }
 class URLVerifiedIdRequestInput{
     +init(url)
@@ -38,6 +38,7 @@ class VerifiedIdRequest{
     +complete() Result<<T>T>
     +cancel(message: String?) Result<<T>Void>
 }
+<<Interface>> VerifiedIdIssuanceRequest
 class VerifiedIdIssuanceRequest{
     +style: RequesterStyle
     +verifiedIdStyle: VerifiedIdStyle
@@ -46,6 +47,7 @@ class VerifiedIdIssuanceRequest{
     +complete() Result<<T>VerifiedId>
     +cancel(message: String?) Result<<T>Void>
 }
+<<Interface>> VerifiedIdPresentationRequest
 class VerifiedIdPresentationRequest{
     +style: RequesterStyle
     +requirement: Requirement
