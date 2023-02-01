@@ -4,8 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 public protocol Requirement {
-    var type: String { get }
     var required: Bool { get }
+    
+    func validate() throws
 }
 
 public class MockRequirement: Requirement, CustomStringConvertible {
@@ -22,13 +23,7 @@ public class MockRequirement: Requirement, CustomStringConvertible {
         input = value
     }
     
-    public func isFulfilled() -> Bool {
-        if input != nil {
-            return true
-        } else {
-            return false
-        }
-    }
+    public func validate() throws { }
     
     public var description: String {
         return "MockRequirement: \n type=\(type), \n required=\(required), \n label=\(label), \n input=\(input ?? "not fulfilled")"
