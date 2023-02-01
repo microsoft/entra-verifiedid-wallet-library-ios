@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		550E31A9298987F8004E7716 /* VerifiedIdClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E31A8298987F8004E7716 /* VerifiedIdClient.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		552E546B293E759300868F47 /* VerifiedIdClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E50AB293E6F5500868F47 /* VerifiedIdClient.swift */; };
+		552E546B293E759300868F47 /* VerifiedIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E50AB293E6F5500868F47 /* VerifiedIdRequest.swift */; };
 		5534E5972948B8C2005D0765 /* VCServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336E7293FCE4F00CD2ED7 /* VCServices.framework */; platformFilter = ios; };
 		5534E5982948B8C2005D0765 /* VCServices.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336E7293FCE4F00CD2ED7 /* VCServices.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5534E5AC2948B8C8005D0765 /* VCEntities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336DE293FCE4200CD2ED7 /* VCEntities.framework */; platformFilter = ios; };
@@ -29,6 +30,13 @@
 		55D42AF6298095BB006B3A16 /* Requirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42AF5298095BB006B3A16 /* Requirement.swift */; };
 		55D42AF829809707006B3A16 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42AF729809707006B3A16 /* Style.swift */; };
 		55D42AFA29809853006B3A16 /* VerifiedIdClientInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42AF929809853006B3A16 /* VerifiedIdClientInput.swift */; };
+		55D42B4E298857FB006B3A16 /* WalletLibraryLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B4D298857FB006B3A16 /* WalletLibraryLogConsumer.swift */; };
+		55D42B6529885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B6429885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift */; };
+		55D42B67298858D1006B3A16 /* WalletLibraryLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B66298858D1006B3A16 /* WalletLibraryLogger.swift */; };
+		55D42B6D29886272006B3A16 /* ResolvedInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B6C29886272006B3A16 /* ResolvedInput.swift */; };
+		55D42B6F298864D2006B3A16 /* URLVerifiedIdClientInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B6E298864D2006B3A16 /* URLVerifiedIdClientInput.swift */; };
+		55D42B72298865E6006B3A16 /* IssuanceResolvedInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B71298865E6006B3A16 /* IssuanceResolvedInput.swift */; };
+		55D42B74298865F3006B3A16 /* PresentationResolvedInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B73298865F3006B3A16 /* PresentationResolvedInput.swift */; };
 		55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
 		55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */; };
 		55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D3293FA75300CD2ED7 /* VerifiedId.swift */; };
@@ -227,11 +235,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		550E31A8298987F8004E7716 /* VerifiedIdClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClient.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdFlowTests.swift; sourceTree = "<group>"; };
-		552E50AB293E6F5500868F47 /* VerifiedIdClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClient.swift; sourceTree = "<group>"; };
+		552E50AB293E6F5500868F47 /* VerifiedIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequest.swift; sourceTree = "<group>"; };
 		552E50BD293E71D600868F47 /* VCEntities.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCEntities.xcodeproj; path = VCEntities/VCEntities.xcodeproj; sourceTree = "<group>"; };
 		552E51AE293E71D700868F47 /* VCServices.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCServices.xcodeproj; path = VCServices/VCServices.xcodeproj; sourceTree = "<group>"; };
 		552E51D8293E71D700868F47 /* VCToken.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCToken.xcodeproj; path = VCToken/VCToken.xcodeproj; sourceTree = "<group>"; };
@@ -251,6 +260,13 @@
 		55D42AF5298095BB006B3A16 /* Requirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requirement.swift; sourceTree = "<group>"; };
 		55D42AF729809707006B3A16 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		55D42AF929809853006B3A16 /* VerifiedIdClientInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientInput.swift; sourceTree = "<group>"; };
+		55D42B4D298857FB006B3A16 /* WalletLibraryLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryLogConsumer.swift; sourceTree = "<group>"; };
+		55D42B6429885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVerifiedIdWalletLogConsumer.swift; sourceTree = "<group>"; };
+		55D42B66298858D1006B3A16 /* WalletLibraryLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryLogger.swift; sourceTree = "<group>"; };
+		55D42B6C29886272006B3A16 /* ResolvedInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolvedInput.swift; sourceTree = "<group>"; };
+		55D42B6E298864D2006B3A16 /* URLVerifiedIdClientInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLVerifiedIdClientInput.swift; sourceTree = "<group>"; };
+		55D42B71298865E6006B3A16 /* IssuanceResolvedInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceResolvedInput.swift; sourceTree = "<group>"; };
+		55D42B73298865F3006B3A16 /* PresentationResolvedInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResolvedInput.swift; sourceTree = "<group>"; };
 		55E33666293E7B5000CD2ED7 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		55E3366F293E7B5F00CD2ED7 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		55E33685293E7B7D00CD2ED7 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
@@ -329,8 +345,8 @@
 				55E336D2293FA74100CD2ED7 /* VerifiedId */,
 				55E337632943747E00CD2ED7 /* Utilities */,
 				55D42AD6297F531E006B3A16 /* VerifiedIdClientBuilder.swift */,
-				552E50AB293E6F5500868F47 /* VerifiedIdClient.swift */,
-				55D42AF929809853006B3A16 /* VerifiedIdClientInput.swift */,
+				550E31A8298987F8004E7716 /* VerifiedIdClient.swift */,
+				552E50AB293E6F5500868F47 /* VerifiedIdRequest.swift */,
 				55D42AF5298095BB006B3A16 /* Requirement.swift */,
 				55D42AF729809707006B3A16 /* Style.swift */,
 				552E5095293E6AB200868F47 /* WalletLibrary.h */,
@@ -459,6 +475,33 @@
 			path = VCSDK;
 			sourceTree = "<group>";
 		};
+		55D42B6A298861FA006B3A16 /* ResolvedInput */ = {
+			isa = PBXGroup;
+			children = (
+				55D42B70298865B3006B3A16 /* Entities */,
+				55D42B6E298864D2006B3A16 /* URLVerifiedIdClientInput.swift */,
+			);
+			path = ResolvedInput;
+			sourceTree = "<group>";
+		};
+		55D42B6B2988621B006B3A16 /* ResolvedInput */ = {
+			isa = PBXGroup;
+			children = (
+				55D42AF929809853006B3A16 /* VerifiedIdClientInput.swift */,
+				55D42B6C29886272006B3A16 /* ResolvedInput.swift */,
+			);
+			path = ResolvedInput;
+			sourceTree = "<group>";
+		};
+		55D42B70298865B3006B3A16 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				55D42B71298865E6006B3A16 /* IssuanceResolvedInput.swift */,
+				55D42B73298865F3006B3A16 /* PresentationResolvedInput.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		55E33667293E7B5000CD2ED7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,6 +606,7 @@
 		55E3370F293FDDF400CD2ED7 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				55D42B6A298861FA006B3A16 /* ResolvedInput */,
 				55E337432942311000CD2ED7 /* Handlers */,
 				55E33712293FDEDF00CD2ED7 /* Contract */,
 				55E336CF293FA6D900CD2ED7 /* Requirements */,
@@ -603,6 +647,9 @@
 			children = (
 				55E337642943749600CD2ED7 /* AsyncWrapper.swift */,
 				5534E668294A0C3F005D0765 /* Mapper.swift */,
+				55D42B4D298857FB006B3A16 /* WalletLibraryLogConsumer.swift */,
+				55D42B6429885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift */,
+				55D42B66298858D1006B3A16 /* WalletLibraryLogger.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -626,6 +673,7 @@
 		55E337B62948B4F900CD2ED7 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				55D42B6B2988621B006B3A16 /* ResolvedInput */,
 				55E337B72948B50800CD2ED7 /* Handlers */,
 				55E33710293FDE1400CD2ED7 /* Request.swift */,
 			);
@@ -943,6 +991,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55D42B67298858D1006B3A16 /* WalletLibraryLogger.swift in Sources */,
+				55D42B6529885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift in Sources */,
 				55FC7BC2294CD398005033B1 /* SelfIssuedClaimsDescriptor+Mappable.swift in Sources */,
 				5534E667294A0B6C005D0765 /* Mappable.swift in Sources */,
 				55E3370E293FD84700CD2ED7 /* IssuanceRequest.swift in Sources */,
@@ -953,6 +1003,8 @@
 				55FC7BC1294CD398005033B1 /* PresentationRequest+Mappable.swift in Sources */,
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,
 				5534E66E294A0F8F005D0765 /* Mapping.swift in Sources */,
+				550E31A9298987F8004E7716 /* VerifiedIdClient.swift in Sources */,
+				55D42B4E298857FB006B3A16 /* WalletLibraryLogConsumer.swift in Sources */,
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
 				55D42AF6298095BB006B3A16 /* Requirement.swift in Sources */,
 				55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */,
@@ -964,15 +1016,19 @@
 				55E337B42948B4B000CD2ED7 /* CredentialFormat.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55D42AF829809707006B3A16 /* Style.swift in Sources */,
+				55D42B72298865E6006B3A16 /* IssuanceResolvedInput.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* PresentationServiceable.swift in Sources */,
 				55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */,
-				552E546B293E759300868F47 /* VerifiedIdClient.swift in Sources */,
+				55D42B6D29886272006B3A16 /* ResolvedInput.swift in Sources */,
+				55D42B74298865F3006B3A16 /* PresentationResolvedInput.swift in Sources */,
+				552E546B293E759300868F47 /* VerifiedIdRequest.swift in Sources */,
 				5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */,
 				55E33711293FDE1400CD2ED7 /* Request.swift in Sources */,
 				5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift in Sources */,
 				55E337BC2948B5FE00CD2ED7 /* PresentationService+PresentationServiceable.swift in Sources */,
 				55FC7BC3294CD398005033B1 /* IssuanceRequest+Mappable.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
+				55D42B6F298864D2006B3A16 /* URLVerifiedIdClientInput.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
