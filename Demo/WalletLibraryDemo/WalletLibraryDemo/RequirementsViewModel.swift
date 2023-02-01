@@ -28,7 +28,7 @@ class RequirementsViewModel {
     func createVerifiedIdRequest(from uri: String) throws {
         Task {
             do {
-                let mockInput = URLVerifiedIdClientInput(uri)
+                let mockInput = try URLInput(url: uri)
                 let request = try await verifiedIdUseCase.createVerifiedIdRequest(from: mockInput)
                 initializeRequest(request: request)
             } catch {
@@ -39,7 +39,7 @@ class RequirementsViewModel {
     
     private func initializeRequest(request: some VerifiedIdRequest) {
         self.verifiedIdRequest = request
-        self.selfAttestedRequirements.value = [verifiedIdRequest?.input.requirement as! MockRequirement]
+        self.selfAttestedRequirements.value = [verifiedIdRequest?.requirement as! MockRequirement]
     }
     
     func fulfillRequirement(requirement: MockRequirement, with value: String) {
@@ -61,13 +61,13 @@ class RequirementsViewModel {
     
     func completeFlow() {
         Task {
-            if let verifiedIdRequest = self.verifiedIdRequest as? VerifiedIdIssuanceRequest {
-                await completeFlow(request: verifiedIdRequest)
-            }
+//            if let verifiedIdRequest = self.verifiedIdRequest as? VerifiedIdIssuanceRequest {
+//                await completeFlow(request: verifiedIdRequest)
+//            }
         }
     }
     
-    private func completeFlow(request: VerifiedIdIssuanceRequest) async {
+    private func completeFlow(request: any VerifiedIdIssuanceRequest) async {
         let result = await request.complete()
         
         switch result {
