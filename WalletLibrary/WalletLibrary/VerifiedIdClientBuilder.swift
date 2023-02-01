@@ -3,35 +3,33 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+/**
+ * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
+ */
 public class VerifiedIdClientBuilder {
     
     var logConsumer: WalletLibraryLogConsumer?
     
-    lazy var protocolConfigurations: [ProtocolConfiguration] = {
-        return registerProtocolConfigurations()
+    lazy var requestProtocolMappings: [RequestProtocolMapping] = {
+        return registerRequestProtocolMappings()
     }()
 
     public init() {
         logConsumer = nil
     }
 
+    /// Build the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
         return VerifiedIdClient(builder: self)
     }
 
+    /// Optional method to add a custom log consumer to VerifiedIdClient.
     public func with(logConsumer: WalletLibraryLogConsumer) -> VerifiedIdClientBuilder {
         self.logConsumer = logConsumer
         return self
     }
     
-    func with(protocolConfiguration: ProtocolConfiguration) -> VerifiedIdClientBuilder {
-        self.protocolConfigurations.append(protocolConfiguration)
-        return self
-    }
-    
-    private func registerProtocolConfigurations() -> [ProtocolConfiguration] {
-        let siopConfig = ProtocolConfiguration(protocolHandler: SIOPProtocolHandler(),
-                                               supportedInputType: URLInput.self)
-        return [siopConfig]
+    private func registerRequestProtocolMappings() -> [RequestProtocolMapping] {
+        return [SIOPURLProtocolMapping()]
     }
 }
