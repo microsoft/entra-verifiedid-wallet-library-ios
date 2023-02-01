@@ -7,66 +7,40 @@ import Foundation
 
 public class VerifiedIdClientBuilder {
     
-    var logConsumer: VerifiedIdWalletLogConsumer?
+    var logConsumer: WalletLibraryLogConsumer?
     
-    var input: VerifiedIdClientInput?
-    
-    var resolvedInput: ResolvedInput?
+    var protocolConfigurations: [ProtocolConfiguration] = []
 
-    public init() {
+    public init()
+    {
         logConsumer = nil
-        input = nil
     }
 
-    public func with(input: VerifiedIdClientInput) -> VerifiedIdClientBuilder
+    public func build() -> VerifiedIdClient
     {
-        self.input = input
-        return self
+        return VerifiedIdClient(builder: self)
     }
 
-    public func build() async throws -> any VerifiedIdClient
-    {
-        let resolvedInput = await input?.resolve()
-        self.resolvedInput = resolvedInput
-        
-        switch(resolvedInput?.type) {
-        case .Issuance:
-            if let client = VerifiedIdIssuanceClient(builder: self) {
-                return client
-            } else {
-                throw VerifiedIdClientError.notImplemented
-            }
-        default:
-            throw VerifiedIdClientError.notImplemented
-        }
-    }
-
-    public func with(logConsumer: VerifiedIdWalletLogConsumer) -> VerifiedIdClientBuilder
+    public func with(logConsumer: WalletLibraryLogConsumer) -> VerifiedIdClientBuilder
     {
         self.logConsumer = logConsumer
         return self
     }
-
-    // MARK: Post Private Preview
-    
-    /// add a custom identifier document resolver
-    public func with(IdentifierDocumentResolverUri: IdentifierDocumentResolver) -> VerifiedIdClientBuilder {
-        return self
-    }
-    
-    /// add a verified id repository.
-    public func with(verifiedIdRepository: VerifiedIdRepository) -> VerifiedIdClientBuilder {
-        return self
-    }
 }
 
-public enum InputType {
-    case Issuance
-    case Presentation
+protocol VerifiedIdClientConfiguration {
+    var logConsumer: WalletLibraryLogConsumer? { get }
+    
+    var protocolConfigurations: [ProtocolConfiguration] { get }
 }
 
-public protocol VerifiedIdWalletLogConsumer {}
-
-public protocol IdentifierDocumentResolver {}
-
-public protocol VerifiedIdRepository {}
+class ClientConfiguration: VerifiedIdClientConfiguration {
+    let logConsumer: WalletLibraryLogConsumer?
+    
+    let protocolConfigurations: [ProtocolConfiguration]
+    
+    init(logConsumer: WalletLibraryLogConsumer?, protocolConfigurations: [ProtocolConfiguration]) {
+        self.logConsumer = logConsumer
+        self.protocolConfigurations = protocolConfigurations
+    }
+}

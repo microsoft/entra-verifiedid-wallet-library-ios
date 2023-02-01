@@ -5,65 +5,56 @@
 
 public enum VerifiedIdClientError: Error {
     case notImplemented
+    case protocolNotSupported
 }
 
-public protocol VerifiedIdClient {
-    associatedtype T
-
-    var style: RequesterStyle { get }
-
-    var requirement: Requirement { get }
-
-    var rootOfTrust: RootOfTrust { get }
+public class VerifiedIdClient {
     
-    func areAllRequirementsFulfilled() -> Bool
-
-    func complete() async -> Result<T, Error>
-
-    func completeWithError() -> Result<T, Error>
+    private let configuration: VerifiedIdClientConfiguration
+    
+    init(builder: VerifiedIdClientBuilder) {
+        self.configuration = ClientConfiguration(logConsumer: builder.logConsumer,
+                                                 protocolConfigurations: builder.protocolConfigurations)
+    }
+    
+    public func createVerifiedIdRequest(from input: VerifiedIdClientInput) async throws -> any VerifiedIdRequest {
+        
+        let supportedProtocolConfiguration = configuration.protocolConfigurations.filter {
+            $0.supportedInput.contains {
+                $0 == type(of: input)
+            }
+        }.first
+        
+        guard let supportedProtocolConfiguration = supportedProtocolConfiguration else {
+            throw VerifiedIdClientError.protocolNotSupported
+        }
+        
+        let request = supportedProtocolConfiguration.protocolHandler.handle(input: input, with: configuration)
+        return request
+    }
 }
 
-public class VerifiedIdIssuanceClient: VerifiedIdClient {
+class ProtocolConfiguration {
     
-    public var style: RequesterStyle
+    let protocolHandler: ProtocolHandler
     
-    public var verfiedIdStyle: VerifiedIdStyle
+    let supportedInput: [VerifiedIdClientInput.Type]
     
-    public var requirement: Requirement
-    
-    public var rootOfTrust: RootOfTrust
-    
-    init?(builder: VerifiedIdClientBuilder) {
-        
-        /// TODO: maybe this should throw an error instead.
-        guard let resolvedInput = builder.resolvedInput as? MockResolvedInput else {
-            return nil
-        }
-        
-        self.style = resolvedInput.style
-        self.verfiedIdStyle = resolvedInput.verifiedIdStyle
-        self.requirement = resolvedInput.requirement
-        self.rootOfTrust = resolvedInput.rootOfTrust
+    init(protocolHandler: ProtocolHandler, supportedInput: [VerifiedIdClientInput.Type]) {
+        self.protocolHandler = protocolHandler
+        self.supportedInput = supportedInput
     }
+}
+
+protocol ProtocolHandler {
+    func handle(input: VerifiedIdClientInput, with configuration: VerifiedIdClientConfiguration) -> any VerifiedIdRequest
+}
+
+class SIOPURLInput: VerifiedIdClientInput {
     
-    public func areAllRequirementsFulfilled() -> Bool {
-        return true
-    }
+    let data: Data
     
-    public func complete() async -> Result<VerifiedId, Error> {
-        var claim: VerifiedIdClaim = VerifiedIdClaim(id: "mockClaim", value: "mock")
-        if let requirement = requirement as? MockRequirement {
-            claim = VerifiedIdClaim(id: requirement.label, value: requirement.input ?? "no input")
-        }
-        return Result.success(VerifiedId(id: "",
-                                         type: "VerifiedEmployee",
-                                         claims: [claim],
-                                         expiresOn: Date(),
-                                         issuedOn: Date(),
-                                         raw: ""))
-    }
-    
-    public func completeWithError() -> Result<VerifiedId, Error> {
-        return Result.failure(VerifiedIdClientError.notImplemented)
+    init(data: Data) {
+        self.data = data
     }
 }
