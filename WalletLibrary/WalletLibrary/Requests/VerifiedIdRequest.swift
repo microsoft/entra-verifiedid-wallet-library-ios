@@ -4,16 +4,19 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Protocol that handles a Verified Id Request that contains the look and feel of the request in style,
- * the requirements needed to fulfill request, and the root of trust.
+ * Protocol that handles a Verified Id Request that contains the look and feel of the requester,
+ * the requirement needed to fulfill request, and the root of trust.
  */
 public protocol VerifiedIdRequest {
     associatedtype T
     
+    /// The look and feel of the requester.
     var style: RequesterStyle { get }
     
+    /// The requirement needed to fulfill request.
     var requirement: Requirement { get }
     
+    /// The root of trust results between the request and the source of the request.
     var rootOfTrust: RootOfTrust { get }
     
     /// Whether or not the request is satisfied on client side.
