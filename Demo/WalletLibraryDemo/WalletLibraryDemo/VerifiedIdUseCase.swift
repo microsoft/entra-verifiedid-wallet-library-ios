@@ -14,10 +14,10 @@ class VerifiedIdUseCase {
         self.verifiedIdClientBuilder = VerifiedIdClientBuilder()
     }
     
-    func createVerifiedIdClient(from input: VerifiedIdClientInput) async throws -> any VerifiedIdClient {
-        self.verifiedIdClientBuilder = verifiedIdClientBuilder.with(input: input)
-        let verifiedIdClient = try await verifiedIdClientBuilder.build()
-        return verifiedIdClient
+    func createVerifiedIdRequest(from input: VerifiedIdClientInput) async throws -> any VerifiedIdRequest {
+        let verifiedIdClient = verifiedIdClientBuilder.build()
+        let request = try await verifiedIdClient.createVerifiedIdRequest(from: input)
+        return request
     }
     
     func resetVerifiedIdClientBuilder() { }

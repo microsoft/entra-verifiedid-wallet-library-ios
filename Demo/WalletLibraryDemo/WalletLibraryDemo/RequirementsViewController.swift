@@ -79,7 +79,7 @@ class RequirementsViewController: UIViewController
         setupView()
         bindViewModelComponents()
         do {
-            try viewModel.createVerifiedIdClient(from: "this is test")
+            try viewModel.createVerifiedIdRequest(from: "this is test")
         } catch {
             print(error)
         }

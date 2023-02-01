@@ -10,7 +10,7 @@ class RequirementsViewModel {
     
     private var verifiedIdUseCase: VerifiedIdUseCase
     
-    private var verifiedIdClient: (any VerifiedIdClient)?
+    private var verifiedIdRequest: (any VerifiedIdRequest)?
     
     var selfAttestedRequirements: Observer<[MockRequirement]>
     
@@ -25,46 +25,50 @@ class RequirementsViewModel {
         self.areAllRequirementsFulfilled = Observer(false)
     }
     
-    func createVerifiedIdClient(from uri: String) throws {
+    func createVerifiedIdRequest(from uri: String) throws {
         Task {
-            let mockInput = MockVerifiedIdClientInput(uri: uri)
-            let client = try await verifiedIdUseCase.createVerifiedIdClient(from: mockInput)
-            initializeClient(client: client)
+            do {
+                let mockInput = URLVerifiedIdClientInput(uri)
+                let request = try await verifiedIdUseCase.createVerifiedIdRequest(from: mockInput)
+                initializeRequest(request: request)
+            } catch {
+                print(error)
+            }
         }
     }
     
-    private func initializeClient(client: some VerifiedIdClient) {
-        self.verifiedIdClient = client
-        self.selfAttestedRequirements.value = [verifiedIdClient?.requirement as! MockRequirement]
+    private func initializeRequest(request: some VerifiedIdRequest) {
+        self.verifiedIdRequest = request
+        self.selfAttestedRequirements.value = [verifiedIdRequest?.input.requirement as! MockRequirement]
     }
     
     func fulfillRequirement(requirement: MockRequirement, with value: String) {
         requirement.fulfill(with: value)
-        areAllRequirementsFulfilled.value = true
+        areAllRequirementsFulfilled.value = validate()
     }
     
     func validate() -> Bool {
-        if let verifiedIdClient = self.verifiedIdClient {
-            return validate(client: verifiedIdClient)
+        if let verifiedIdRequest = self.verifiedIdRequest {
+            return validate(request: verifiedIdRequest)
         }
         
         return false
     }
     
-    private func validate(client: some VerifiedIdClient) -> Bool {
-        return client.areAllRequirementsFulfilled()
+    private func validate(request: some VerifiedIdRequest) -> Bool {
+        return request.isSatisfied()
     }
     
     func completeFlow() {
         Task {
-            if let verifiedIdClient = self.verifiedIdClient as? VerifiedIdIssuanceClient {
-                await completeFlow(client: verifiedIdClient)
+            if let verifiedIdRequest = self.verifiedIdRequest as? VerifiedIdIssuanceRequest {
+                await completeFlow(request: verifiedIdRequest)
             }
         }
     }
     
-    private func completeFlow(client: VerifiedIdIssuanceClient) async {
-        let result = await client.complete()
+    private func completeFlow(request: VerifiedIdIssuanceRequest) async {
+        let result = await request.complete()
         
         switch result {
         case .success(let verifiedId):
