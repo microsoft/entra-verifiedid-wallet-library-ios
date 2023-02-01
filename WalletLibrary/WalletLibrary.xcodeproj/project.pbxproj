@@ -34,7 +34,7 @@
 		55D42B6529885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B6429885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift */; };
 		55D42B67298858D1006B3A16 /* WalletLibraryLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B66298858D1006B3A16 /* WalletLibraryLogger.swift */; };
 		55D42B6D29886272006B3A16 /* ResolvedInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B6C29886272006B3A16 /* ResolvedInput.swift */; };
-		55D42B6F298864D2006B3A16 /* URLVerifiedIdClientInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B6E298864D2006B3A16 /* URLVerifiedIdClientInput.swift */; };
+		55D42B6F298864D2006B3A16 /* SIOPURLInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B6E298864D2006B3A16 /* SIOPURLInput.swift */; };
 		55D42B72298865E6006B3A16 /* IssuanceResolvedInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B71298865E6006B3A16 /* IssuanceResolvedInput.swift */; };
 		55D42B74298865F3006B3A16 /* PresentationResolvedInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D42B73298865F3006B3A16 /* PresentationResolvedInput.swift */; };
 		55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
@@ -264,7 +264,7 @@
 		55D42B6429885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVerifiedIdWalletLogConsumer.swift; sourceTree = "<group>"; };
 		55D42B66298858D1006B3A16 /* WalletLibraryLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryLogger.swift; sourceTree = "<group>"; };
 		55D42B6C29886272006B3A16 /* ResolvedInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolvedInput.swift; sourceTree = "<group>"; };
-		55D42B6E298864D2006B3A16 /* URLVerifiedIdClientInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLVerifiedIdClientInput.swift; sourceTree = "<group>"; };
+		55D42B6E298864D2006B3A16 /* SIOPURLInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIOPURLInput.swift; sourceTree = "<group>"; };
 		55D42B71298865E6006B3A16 /* IssuanceResolvedInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceResolvedInput.swift; sourceTree = "<group>"; };
 		55D42B73298865F3006B3A16 /* PresentationResolvedInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResolvedInput.swift; sourceTree = "<group>"; };
 		55E33666293E7B5000CD2ED7 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
@@ -479,7 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				55D42B70298865B3006B3A16 /* Entities */,
-				55D42B6E298864D2006B3A16 /* URLVerifiedIdClientInput.swift */,
+				55D42B6E298864D2006B3A16 /* SIOPURLInput.swift */,
 			);
 			path = ResolvedInput;
 			sourceTree = "<group>";
@@ -1028,7 +1028,7 @@
 				55E337BC2948B5FE00CD2ED7 /* PresentationService+PresentationServiceable.swift in Sources */,
 				55FC7BC3294CD398005033B1 /* IssuanceRequest+Mappable.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
-				55D42B6F298864D2006B3A16 /* URLVerifiedIdClientInput.swift in Sources */,
+				55D42B6F298864D2006B3A16 /* SIOPURLInput.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

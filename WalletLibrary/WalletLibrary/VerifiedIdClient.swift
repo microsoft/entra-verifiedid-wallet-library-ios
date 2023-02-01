@@ -49,12 +49,3 @@ class ProtocolConfiguration {
 protocol ProtocolHandler {
     func handle(input: VerifiedIdClientInput, with configuration: VerifiedIdClientConfiguration) -> any VerifiedIdRequest
 }
-
-class SIOPURLInput: VerifiedIdClientInput {
-    
-    let data: Data
-    
-    init(data: Data) {
-        self.data = data
-    }
-}
