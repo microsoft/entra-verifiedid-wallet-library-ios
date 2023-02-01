@@ -10,6 +10,10 @@
 		550E31A9298987F8004E7716 /* VerifiedIdClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E31A8298987F8004E7716 /* VerifiedIdClient.swift */; };
 		550E31DE298AF066004E7716 /* VerifiedIdClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E31DD298AF066004E7716 /* VerifiedIdClientConfiguration.swift */; };
 		550E31E0298AF0A4004E7716 /* ClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E31DF298AF0A4004E7716 /* ClientConfiguration.swift */; };
+		550E31E2298B06F0004E7716 /* RequestProtocolMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E31E1298B06F0004E7716 /* RequestProtocolMapping.swift */; };
+		550E31E4298B0738004E7716 /* RequestProtocolHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E31E3298B0738004E7716 /* RequestProtocolHandler.swift */; };
+		550E31E6298B077F004E7716 /* SIOPProtocolHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E31E5298B077F004E7716 /* SIOPProtocolHandler.swift */; };
+		550E31E9298B07C6004E7716 /* SIOPURLProtocolMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E31E8298B07C6004E7716 /* SIOPURLProtocolMapping.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -237,6 +241,10 @@
 		550E31A8298987F8004E7716 /* VerifiedIdClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClient.swift; sourceTree = "<group>"; };
 		550E31DD298AF066004E7716 /* VerifiedIdClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientConfiguration.swift; sourceTree = "<group>"; };
 		550E31DF298AF0A4004E7716 /* ClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientConfiguration.swift; sourceTree = "<group>"; };
+		550E31E1298B06F0004E7716 /* RequestProtocolMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocolMapping.swift; sourceTree = "<group>"; };
+		550E31E3298B0738004E7716 /* RequestProtocolHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocolHandler.swift; sourceTree = "<group>"; };
+		550E31E5298B077F004E7716 /* SIOPProtocolHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIOPProtocolHandler.swift; sourceTree = "<group>"; };
+		550E31E8298B07C6004E7716 /* SIOPURLProtocolMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIOPURLProtocolMapping.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,6 +322,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		550E31E7298B07AB004E7716 /* ProtocolMappings */ = {
+			isa = PBXGroup;
+			children = (
+				550E31E8298B07C6004E7716 /* SIOPURLProtocolMapping.swift */,
+			);
+			path = ProtocolMappings;
+			sourceTree = "<group>";
+		};
 		552E5088293E6AB100868F47 = {
 			isa = PBXGroup;
 			children = (
@@ -586,6 +602,7 @@
 		55E3370F293FDDF400CD2ED7 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				550E31E7298B07AB004E7716 /* ProtocolMappings */,
 				55D42B6A298861FA006B3A16 /* VerifiedIdClientInput */,
 				55E337432942311000CD2ED7 /* Handlers */,
 				55E33712293FDEDF00CD2ED7 /* Contract */,
@@ -607,6 +624,7 @@
 		55E337432942311000CD2ED7 /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
+				550E31E5298B077F004E7716 /* SIOPProtocolHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -619,6 +637,8 @@
 				55E337B62948B4F900CD2ED7 /* Requests */,
 				55E3376629437E1000CD2ED7 /* Services */,
 				550E31DD298AF066004E7716 /* VerifiedIdClientConfiguration.swift */,
+				550E31E3298B0738004E7716 /* RequestProtocolHandler.swift */,
+				550E31E1298B06F0004E7716 /* RequestProtocolMapping.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -972,6 +992,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				550E31E4298B0738004E7716 /* RequestProtocolHandler.swift in Sources */,
 				55D42B67298858D1006B3A16 /* WalletLibraryLogger.swift in Sources */,
 				55D42B6529885896006B3A16 /* DefaultVerifiedIdWalletLogConsumer.swift in Sources */,
 				55FC7BC2294CD398005033B1 /* SelfIssuedClaimsDescriptor+Mappable.swift in Sources */,
@@ -986,6 +1007,7 @@
 				5534E66E294A0F8F005D0765 /* Mapping.swift in Sources */,
 				550E31A9298987F8004E7716 /* VerifiedIdClient.swift in Sources */,
 				55D42B4E298857FB006B3A16 /* WalletLibraryLogConsumer.swift in Sources */,
+				550E31E6298B077F004E7716 /* SIOPProtocolHandler.swift in Sources */,
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
 				55D42AF6298095BB006B3A16 /* Requirement.swift in Sources */,
 				55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */,
@@ -996,12 +1018,14 @@
 				5534E669294A0C3F005D0765 /* Mapper.swift in Sources */,
 				5534E64D294A0888005D0765 /* PresentationDescriptor+Mappable.swift in Sources */,
 				55E337B42948B4B000CD2ED7 /* CredentialFormat.swift in Sources */,
+				550E31E2298B06F0004E7716 /* RequestProtocolMapping.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55D42AF829809707006B3A16 /* Style.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* PresentationServiceable.swift in Sources */,
 				55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */,
 				552E546B293E759300868F47 /* VerifiedIdRequest.swift in Sources */,
 				5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */,
+				550E31E9298B07C6004E7716 /* SIOPURLProtocolMapping.swift in Sources */,
 				55E33711293FDE1400CD2ED7 /* Request.swift in Sources */,
 				5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift in Sources */,
 				550E31E0298AF0A4004E7716 /* ClientConfiguration.swift in Sources */,
