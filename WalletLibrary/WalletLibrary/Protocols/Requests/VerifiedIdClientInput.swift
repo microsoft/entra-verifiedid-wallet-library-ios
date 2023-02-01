@@ -3,11 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public protocol ResolvedInput {
-    
-    var style: RequesterStyle { get }
-    
-    var requirement: Requirement { get }
-
-    var rootOfTrust: RootOfTrust { get }
+/**
+ * Input to initiate a Verified Id Flow.
+ */
+public protocol VerifiedIdClientInput {
+    func resolve(with configuration: VerifiedIdClientConfiguration) -> any VerifiedIdRequest
 }

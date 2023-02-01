@@ -20,9 +20,7 @@ public class VerifiedIdClient {
     public func createVerifiedIdRequest(from input: VerifiedIdClientInput) async throws -> any VerifiedIdRequest {
         
         let supportedProtocolConfiguration = configuration.protocolConfigurations.filter {
-            $0.supportedInput.contains {
-                $0 == type(of: input)
-            }
+            $0.supportedInputType == type(of: input)
         }.first
         
         guard let supportedProtocolConfiguration = supportedProtocolConfiguration else {
@@ -38,14 +36,21 @@ class ProtocolConfiguration {
     
     let protocolHandler: ProtocolHandler
     
-    let supportedInput: [VerifiedIdClientInput.Type]
+    let supportedInputType: VerifiedIdClientInput.Type
     
-    init(protocolHandler: ProtocolHandler, supportedInput: [VerifiedIdClientInput.Type]) {
+    init(protocolHandler: ProtocolHandler, supportedInputType: VerifiedIdClientInput.Type) {
         self.protocolHandler = protocolHandler
-        self.supportedInput = supportedInput
+        self.supportedInputType = supportedInputType
     }
 }
 
 protocol ProtocolHandler {
     func handle(input: VerifiedIdClientInput, with configuration: VerifiedIdClientConfiguration) -> any VerifiedIdRequest
+}
+
+class SIOPProtocolHandler: ProtocolHandler {
+    func handle(input: VerifiedIdClientInput,
+                with configuration: VerifiedIdClientConfiguration) -> any VerifiedIdRequest {
+        return SIOPV1IssuanceRequest(input: input)
+    }
 }

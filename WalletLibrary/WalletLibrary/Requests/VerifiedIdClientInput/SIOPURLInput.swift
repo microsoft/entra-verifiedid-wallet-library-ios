@@ -26,4 +26,19 @@ public class SIOPURLInput: VerifiedIdClientInput {
         
         self.url = url
     }
+    
+    func resolve(with configuration: VerifiedIdClientConfiguration) throws -> any VerifiedIdRequest {
+        let supportedProtocolConfiguration = configuration.protocolConfigurations.filter {
+            $0.supportedInput.contains {
+                $0 == SIOPURLInput.self
+            }
+        }.first
+        
+        guard let supportedProtocolConfiguration = supportedProtocolConfiguration else {
+            throw VerifiedIdClientError.protocolNotSupported
+        }
+        
+        let request = supportedProtocolConfiguration.protocolHandler.handle(input: self, with: configuration)
+        return request
+    }
 }
