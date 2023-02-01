@@ -71,6 +71,7 @@ Requirement <|-- VerifiedIdRequirement: implements
 Requirement <|-- PinRequirement: implements
 Requirement <|-- IdTokenRequirement: implements
 Requirement <|-- AccessTokenRequirement: implements
+<<Interface>> Requirement
 class Requirement {
     +required: Bool
     +validate()
