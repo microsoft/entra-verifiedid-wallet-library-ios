@@ -9,12 +9,13 @@ enum VerifiedIdClientError: Error {
 }
 
 /**
- * This interface handles a user flow for either presentation or issuance using the configuration from the builder.
+ * Verified Id Client is used to create requests and is configured using the VerifiedIdClientBuilder.
  */
 public class VerifiedIdClient {
     
     private let builder: VerifiedIdClientBuilder
     
+    /// TODO: configure client using builder.
     init(builder: VerifiedIdClientBuilder) {
         self.builder = builder
     }

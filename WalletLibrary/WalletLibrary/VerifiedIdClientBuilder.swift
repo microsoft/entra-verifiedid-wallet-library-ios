@@ -14,7 +14,7 @@ public class VerifiedIdClientBuilder {
         logger = WalletLibraryLogger()
     }
 
-    /// Build the VerifiedIdClient with the set configuration from the builder.
+    /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
         return VerifiedIdClient(builder: self)
     }
