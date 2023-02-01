@@ -6,7 +6,7 @@
 /**
  * Input to start a request from a openid-vc url.
  */
-public class SIOPURLInput: VerifiedIdClientInput {
+public class URLInput: VerifiedIdClientInput {
     
     enum URLVerifiedIdClientInputError: Error {
         case inputNotSupportedURL(input: String)
@@ -18,27 +18,12 @@ public class SIOPURLInput: VerifiedIdClientInput {
      * - Parameters:
      *      - url: the url that will initate the request.
      */
-    public init(_ url: String) throws {
+    public init(url: String) throws {
         
         guard let url = URL(string: url) else {
             throw URLVerifiedIdClientInputError.inputNotSupportedURL(input: url)
         }
         
         self.url = url
-    }
-    
-    func resolve(with configuration: VerifiedIdClientConfiguration) throws -> any VerifiedIdRequest {
-        let supportedProtocolConfiguration = configuration.protocolConfigurations.filter {
-            $0.supportedInput.contains {
-                $0 == SIOPURLInput.self
-            }
-        }.first
-        
-        guard let supportedProtocolConfiguration = supportedProtocolConfiguration else {
-            throw VerifiedIdClientError.protocolNotSupported
-        }
-        
-        let request = supportedProtocolConfiguration.protocolHandler.handle(input: self, with: configuration)
-        return request
     }
 }

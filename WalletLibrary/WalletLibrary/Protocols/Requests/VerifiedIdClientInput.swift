@@ -6,6 +6,4 @@
 /**
  * Input to initiate a Verified Id Flow.
  */
-public protocol VerifiedIdClientInput {
-    func resolve(with configuration: VerifiedIdClientConfiguration) -> any VerifiedIdRequest
-}
+public protocol VerifiedIdClientInput { }
