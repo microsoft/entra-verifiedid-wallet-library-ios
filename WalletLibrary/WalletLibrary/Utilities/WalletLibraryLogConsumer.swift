@@ -3,6 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+/// The trace level of the data that will be logged.
 public enum TraceLevel {
     case VERBOSE
     case DEBUG
@@ -12,24 +13,18 @@ public enum TraceLevel {
     case FAILURE
 }
 
+/**
+ * Protocol for consumers of the library to use to inject logging into the library.
+ */
 public protocol WalletLibraryLogConsumer {
-    /**
-     Logs a trace with calling function name, line, file.
-     - Parameters:
-     - traceLevel: VCTraceLevel of the log like verbose, info
-     */
+    
+    /// Logs a trace with calling function name, line, file.
     func log(_ traceLevel: TraceLevel,
              message: String,
              functionName: String,
              file: String,
              line: Int)
     
-    /**
-     Creates an event with with event name and properties.
-     - Parameters:
-     - name: Name of the class calling the function.
-     - properties: dictionary of properties for the specific event.
-     - measurements: dictionary of measurements taken.
-     */
+    /// Creates an event with with event name and properties.
     func event(name: String, properties: [String: String]?, measurements: [String: NSNumber]?)
 }

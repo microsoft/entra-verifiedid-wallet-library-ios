@@ -3,18 +3,22 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct WalletLibraryLogger {
+/**
+ * Object used to log data within the library.
+ */
+struct WalletLibraryLogger {
     
     private var consumers: [WalletLibraryLogConsumer] = []
     
-    public mutating func add(consumer: WalletLibraryLogConsumer) {
+    /// Adds a log consumer to logger.
+    mutating func add(consumer: WalletLibraryLogConsumer) {
         consumers.append(consumer)
     }
     
-    public func logVerbose(message: String,
-                           functionName: String = #function,
-                           file: String = #file,
-                           line: Int = #line) {
+    func logVerbose(message: String,
+                    functionName: String = #function,
+                    file: String = #file,
+                    line: Int = #line) {
         log(.VERBOSE,
             message: message,
             functionName: functionName,
@@ -22,10 +26,10 @@ public struct WalletLibraryLogger {
             line: line)
     }
     
-    public func logDebug(message: String,
-                         functionName: String = #function,
-                         file: String = #file,
-                         line: Int = #line) {
+    func logDebug(message: String,
+                  functionName: String = #function,
+                  file: String = #file,
+                  line: Int = #line) {
         log(.DEBUG,
             message: message,
             functionName: functionName,
@@ -33,10 +37,10 @@ public struct WalletLibraryLogger {
             line: line)
     }
     
-    public func logInfo(message: String,
-                        functionName: String = #function,
-                        file: String = #file,
-                        line: Int = #line) {
+    func logInfo(message: String,
+                 functionName: String = #function,
+                 file: String = #file,
+                 line: Int = #line) {
         log(.INFO,
             message: message,
             functionName: functionName,
@@ -44,10 +48,10 @@ public struct WalletLibraryLogger {
             line: line)
     }
     
-    public func logWarning(message: String,
-                           functionName: String = #function,
-                           file: String = #file,
-                           line: Int = #line) {
+    func logWarning(message: String,
+                    functionName: String = #function,
+                    file: String = #file,
+                    line: Int = #line) {
         log(.WARN,
             message: message,
             functionName: functionName,
@@ -55,10 +59,10 @@ public struct WalletLibraryLogger {
             line: line)
     }
     
-    public func logError(message: String,
-                         functionName: String = #function,
-                         file: String = #file,
-                         line: Int = #line) {
+    func logError(message: String,
+                  functionName: String = #function,
+                  file: String = #file,
+                  line: Int = #line) {
         log(.ERROR,
             message: message,
             functionName: functionName,
@@ -66,10 +70,10 @@ public struct WalletLibraryLogger {
             line: line)
     }
     
-    public func logFailure(message: String,
-                           functionName: String = #function,
-                           file: String = #file,
-                           line: Int = #line) {
+    func logFailure(message: String,
+                    functionName: String = #function,
+                    file: String = #file,
+                    line: Int = #line) {
         log(.FAILURE,
             message: message,
             functionName: functionName,
@@ -78,10 +82,10 @@ public struct WalletLibraryLogger {
     }
     
     private func log(_ traceLevel: TraceLevel,
-                            message: String,
-                            functionName: String,
-                            file: String,
-                            line: Int) {
+                     message: String,
+                     functionName: String,
+                     file: String,
+                     line: Int) {
         consumers.forEach { logger in
             logger.log(traceLevel,
                        message: message,
@@ -91,10 +95,13 @@ public struct WalletLibraryLogger {
         }
     }
     
-    public func event(name: String, properties: [String: String]? = nil, measurements: [String: NSNumber]? = nil) {
+    func event(name: String,
+               properties: [String: String]? = nil,
+               measurements: [String: NSNumber]? = nil) {
         consumers.forEach { logger in
-            logger.event(name: name, properties: properties, measurements: measurements)
+            logger.event(name: name,
+                         properties: properties,
+                         measurements: measurements)
         }
     }
-    
 }
