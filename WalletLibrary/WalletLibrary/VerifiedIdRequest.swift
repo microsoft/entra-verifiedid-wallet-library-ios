@@ -76,6 +76,6 @@ class SIOPV1IssuanceRequest: VerifiedIdRequest {
     }
     
     public func completeWithError() -> Result<VerifiedId, Error> {
-        return Result.failure(VerifiedIdClientError.notImplemented)
+        return Result.failure(VerifiedIdClientError.TODO(message: "implement complete with error."))
     }
 }
