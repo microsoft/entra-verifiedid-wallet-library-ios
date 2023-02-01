@@ -6,10 +6,10 @@
 class ClientConfiguration: VerifiedIdClientConfiguration {
     let logConsumer: WalletLibraryLogConsumer?
     
-    let protocolConfigurations: [ProtocolConfiguration]
+    let requestProtocolMappings: [RequestProtocolMapping]
     
-    init(logConsumer: WalletLibraryLogConsumer?, protocolConfigurations: [ProtocolConfiguration]) {
+    init(logConsumer: WalletLibraryLogConsumer?, requestProtocolMappings: [RequestProtocolMapping]) {
         self.logConsumer = logConsumer
-        self.protocolConfigurations = protocolConfigurations
+        self.requestProtocolMappings = requestProtocolMappings
     }
 }

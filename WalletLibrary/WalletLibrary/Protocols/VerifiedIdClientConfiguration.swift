@@ -6,5 +6,5 @@
 protocol VerifiedIdClientConfiguration {
     var logConsumer: WalletLibraryLogConsumer? { get }
     
-    var protocolConfigurations: [ProtocolConfiguration] { get }
+    var requestProtocolMappings: [RequestProtocolMapping] { get }
 }
