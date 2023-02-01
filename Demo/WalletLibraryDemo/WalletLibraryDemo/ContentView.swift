@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            Text(VerifiedIdFlow().initiate())
+            Text("Hello World")
         }
     }
 }
