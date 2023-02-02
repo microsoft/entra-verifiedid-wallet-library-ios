@@ -16,7 +16,7 @@
 		550E3214298B11A5004E7716 /* Requirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3213298B11A5004E7716 /* Requirement.swift */; };
 		550E3217298B1236004E7716 /* RequesterStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3216298B1236004E7716 /* RequesterStyle.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
-		552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */; };
+		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5534E5972948B8C2005D0765 /* VCServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336E7293FCE4F00CD2ED7 /* VCServices.framework */; platformFilter = ios; };
 		5534E5982948B8C2005D0765 /* VCServices.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336E7293FCE4F00CD2ED7 /* VCServices.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -235,7 +235,7 @@
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdFlowTests.swift; sourceTree = "<group>"; };
+		552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientTests.swift; sourceTree = "<group>"; };
 		552E50BD293E71D600868F47 /* VCEntities.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCEntities.xcodeproj; path = VCEntities/VCEntities.xcodeproj; sourceTree = "<group>"; };
 		552E51AE293E71D700868F47 /* VCServices.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCServices.xcodeproj; path = VCServices/VCServices.xcodeproj; sourceTree = "<group>"; };
 		552E51D8293E71D700868F47 /* VCToken.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCToken.xcodeproj; path = VCToken/VCToken.xcodeproj; sourceTree = "<group>"; };
@@ -342,7 +342,7 @@
 			children = (
 				5534E67C294A392F005D0765 /* Extensions */,
 				55E3376929478C3300CD2ED7 /* Utilities */,
-				552E509F293E6AB200868F47 /* VerifiedIdFlowTests.swift */,
+				552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */,
 			);
 			path = WalletLibraryTests;
 			sourceTree = "<group>";
@@ -974,7 +974,7 @@
 				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift in Sources */,
 				5534E68C294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift in Sources */,
-				552E50A0293E6AB200868F47 /* VerifiedIdFlowTests.swift in Sources */,
+				552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */,
 				5534E688294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
