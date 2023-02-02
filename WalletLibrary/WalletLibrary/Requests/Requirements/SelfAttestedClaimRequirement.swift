@@ -6,7 +6,7 @@
 /**
  * Information to describe a self attested claim required for a Verified Id issuance flow.
  */
-public struct SelfAttestedClaimRequirement: Equatable {
+public class SelfAttestedClaimRequirement: Requirement {
     
     /// If the requirement should be encrypted.
     let encrypted: Bool
@@ -16,5 +16,13 @@ public struct SelfAttestedClaimRequirement: Equatable {
     
     /// The claim requested.
     public let claim: String
+    
+    init(encrypted: Bool, required: Bool, claim: String) {
+        self.encrypted = encrypted
+        self.required = required
+        self.claim = claim
+    }
+    
+    public func validate() throws { }
 }
 
