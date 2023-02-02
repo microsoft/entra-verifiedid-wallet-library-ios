@@ -27,7 +27,6 @@ extension VCEntities.IdTokenDescriptor: Mappable {
                                   configuration: configuration,
                                   clientId: clientID,
                                   redirectUri: redirectUri,
-                                  scope: scope,
-                                  nonce: nil)
+                                  scope: scope)
     }
 }

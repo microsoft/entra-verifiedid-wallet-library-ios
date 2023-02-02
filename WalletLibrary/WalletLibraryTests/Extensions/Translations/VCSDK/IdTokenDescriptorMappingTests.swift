@@ -23,31 +23,31 @@ class IdTokenDescriptorMappingTests: XCTestCase {
     func testSuccessfulMapping() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithEncryptedAsTrueValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: true, required: false)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithEncryptedAsNilValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: nil, required: false)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithRequiredAsTrueValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: true)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithRequiredAsNilValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: nil)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithNoRedirectUrlPresentError() throws {
@@ -96,6 +96,16 @@ class IdTokenDescriptorMappingTests: XCTestCase {
             XCTAssertEqual(error as? MappingError,
                            .PropertyNotPresent(property: "scope", in: String(describing: IdTokenDescriptor.self)))
         }
+    }
+    
+    private func assertEqual(_ actual: IdTokenRequirement, _ expected: IdTokenRequirement) {
+        XCTAssertEqual(actual.encrypted, expected.encrypted)
+        XCTAssertEqual(actual.required, expected.required)
+        XCTAssertEqual(actual.configuration, expected.configuration)
+        XCTAssertEqual(actual.clientId, expected.clientId)
+        XCTAssertEqual(actual.redirectUri, expected.redirectUri)
+        XCTAssertEqual(actual.scope, expected.scope)
+        XCTAssertEqual(actual.nonce, expected.nonce)
     }
     
     private func setUpInput(encrypted: Bool?, required: Bool?) throws -> (IdTokenDescriptor, IdTokenRequirement) {
