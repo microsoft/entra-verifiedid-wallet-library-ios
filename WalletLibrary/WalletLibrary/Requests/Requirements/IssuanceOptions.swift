@@ -7,7 +7,7 @@
  * Parameters used for an Issuance during Presentation flow
  * to define information needed for the issuance of the requested Verified Id.
  */
-public struct CredentialIssuanceParams: Equatable {
+public struct IssuanceOptions: Equatable {
     
     /// A list of issuers that are accepted.
     public let acceptedIssuers: [String]
