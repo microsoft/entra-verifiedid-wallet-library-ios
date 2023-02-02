@@ -25,5 +25,7 @@ public class PinRequirement: Requirement {
         self.type = type
     }
     
-    public func validate() throws { }
+    public func validate() throws {
+        throw VerifiedIdClientError.TODO(message: "implement validate")
+    }
 }

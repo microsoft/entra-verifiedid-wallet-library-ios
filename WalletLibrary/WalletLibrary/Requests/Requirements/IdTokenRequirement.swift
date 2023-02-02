@@ -45,5 +45,7 @@ public class IdTokenRequirement: Requirement {
         self.scope = scope
     }
     
-    public func validate() throws { }
+    public func validate() throws {
+        throw VerifiedIdClientError.TODO(message: "implement validate")
+    }
 }

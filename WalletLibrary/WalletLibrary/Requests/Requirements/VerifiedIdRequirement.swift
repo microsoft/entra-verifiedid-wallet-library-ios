@@ -45,5 +45,7 @@ public class VerifiedIdRequirement: Requirement {
         self.issuanceOptions = issuanceOptions
     }
     
-    public func validate() throws { }
+    public func validate() throws {
+        throw VerifiedIdClientError.TODO(message: "implement validate")
+    }
 }

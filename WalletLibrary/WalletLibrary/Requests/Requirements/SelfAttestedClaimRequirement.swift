@@ -23,6 +23,7 @@ public class SelfAttestedClaimRequirement: Requirement {
         self.claim = claim
     }
     
-    public func validate() throws { }
+    public func validate() throws {
+        throw VerifiedIdClientError.TODO(message: "implement validate")
+    }
 }
-

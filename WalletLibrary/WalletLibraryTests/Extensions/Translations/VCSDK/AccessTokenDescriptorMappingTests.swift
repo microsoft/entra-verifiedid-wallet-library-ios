@@ -24,31 +24,31 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
     func testSuccessfulMapping() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
         let actualResult = try mapper.map(input)
-        assertEquals(actual: actualResult, expected: expectedResult)
+        assertEqual(actual: actualResult, expected: expectedResult)
     }
     
     func testMappingWithEncryptedAsTrueValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: true, required: false)
         let actualResult = try mapper.map(input)
-        assertEquals(actual: actualResult, expected: expectedResult)
+        assertEqual(actual: actualResult, expected: expectedResult)
     }
     
     func testMappingWithEncryptedAsNilValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: nil, required: false)
         let actualResult = try mapper.map(input)
-        assertEquals(actual: actualResult, expected: expectedResult)
+        assertEqual(actual: actualResult, expected: expectedResult)
     }
     
     func testMappingWithRequiredAsTrueValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: true)
         let actualResult = try mapper.map(input)
-        assertEquals(actual: actualResult, expected: expectedResult)
+        assertEqual(actual: actualResult, expected: expectedResult)
     }
     
     func testMappingWithRequiredAsNilValue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: nil)
         let actualResult = try mapper.map(input)
-        assertEquals(actual: actualResult, expected: expectedResult)
+        assertEqual(actual: actualResult, expected: expectedResult)
     }
     
     func testMappingWithNoConfigurationPresentError() throws {
@@ -102,7 +102,7 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
         }
     }
     
-    private func assertEquals(actual: AccessTokenRequirement, expected: AccessTokenRequirement) {
+    private func assertEqual(actual: AccessTokenRequirement, expected: AccessTokenRequirement) {
         XCTAssertEqual(actual.encrypted, expected.encrypted)
         XCTAssertEqual(actual.required, expected.required)
         XCTAssertEqual(actual.configuration, expected.configuration)

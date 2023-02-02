@@ -26,7 +26,6 @@ public class AccessTokenRequirement: Requirement {
     /// The scope value used to get the access token through an authentication library.
     public let scope: String
     
-    
     init(encrypted: Bool,
          required: Bool,
          configuration: String,
@@ -41,7 +40,7 @@ public class AccessTokenRequirement: Requirement {
         self.scope = scope
     }
     
-    
-    public func validate() throws { }
+    public func validate() throws {
+        throw VerifiedIdClientError.TODO(message: "implement validate")
+    }
 }
-

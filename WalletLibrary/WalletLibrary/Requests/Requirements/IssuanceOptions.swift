@@ -15,5 +15,3 @@ public struct IssuanceOptions: Equatable {
     /// Information such as a contract URL to describe where to get contract.
     public let credentialIssuerMetadata: [String]
 }
-
-
