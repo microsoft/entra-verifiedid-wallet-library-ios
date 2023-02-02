@@ -36,7 +36,7 @@
 		55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */; };
 		55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D3293FA75300CD2ED7 /* VerifiedId.swift */; };
 		55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D5293FA78C00CD2ED7 /* VerifiedIdClaim.swift */; };
-		55E336D8293FCE0500CD2ED7 /* CredentialIssuanceParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D7293FCE0500CD2ED7 /* CredentialIssuanceParams.swift */; };
+		55E336D8293FCE0500CD2ED7 /* IssuanceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D7293FCE0500CD2ED7 /* IssuanceOptions.swift */; };
 		55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */; };
 		55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */; };
 		55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */; };
@@ -257,7 +257,7 @@
 		55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequirement.swift; sourceTree = "<group>"; };
 		55E336D3293FA75300CD2ED7 /* VerifiedId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedId.swift; sourceTree = "<group>"; };
 		55E336D5293FA78C00CD2ED7 /* VerifiedIdClaim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClaim.swift; sourceTree = "<group>"; };
-		55E336D7293FCE0500CD2ED7 /* CredentialIssuanceParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialIssuanceParams.swift; sourceTree = "<group>"; };
+		55E336D7293FCE0500CD2ED7 /* IssuanceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceOptions.swift; sourceTree = "<group>"; };
 		55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequirement.swift; sourceTree = "<group>"; };
 		55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenRequirement.swift; sourceTree = "<group>"; };
 		55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttestedClaimRequirement.swift; sourceTree = "<group>"; };
@@ -488,7 +488,7 @@
 			children = (
 				55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */,
 				55E3379D2948B4B000CD2ED7 /* CredentialFormat.swift */,
-				55E336D7293FCE0500CD2ED7 /* CredentialIssuanceParams.swift */,
+				55E336D7293FCE0500CD2ED7 /* IssuanceOptions.swift */,
 				55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */,
 				55E337B32948B4B000CD2ED7 /* PinRequirement.swift */,
 				55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */,
@@ -938,7 +938,7 @@
 				5534E667294A0B6C005D0765 /* Mappable.swift in Sources */,
 				55E3370E293FD84700CD2ED7 /* IssuanceRequest.swift in Sources */,
 				55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */,
-				55E336D8293FCE0500CD2ED7 /* CredentialIssuanceParams.swift in Sources */,
+				55E336D8293FCE0500CD2ED7 /* IssuanceOptions.swift in Sources */,
 				550E320C298B0F30004E7716 /* WalletLibraryLogConsumer.swift in Sources */,
 				550E3217298B1236004E7716 /* RequesterStyle.swift in Sources */,
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,

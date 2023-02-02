@@ -20,31 +20,31 @@ class PresentationDescriptorMappingTests: XCTestCase {
     func testSuccessfulMapping() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithEncryptedAsTrue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: true, required: false)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithRequiredAsTrue() throws {
         let (input, expectedResult) = try setUpInput(encrypted: false, required: true)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithOneNilIssuerValue() throws {
         let (input, expectedResult) = try setUpInput(issuers: [nil])
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithOneIssuerValue() throws {
         let (input, expectedResult) = try setUpInput(issuers: ["issuer235"])
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithThreeIssuerValue() throws {
@@ -52,25 +52,25 @@ class PresentationDescriptorMappingTests: XCTestCase {
                                                                "issuer7345",
                                                                "issuer9083"])
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithNilIssuerValue() throws {
         let (input, expectedResult) = try setUpInput(issuers: nil)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithNilContractValue() throws {
         let (input, expectedResult) = try setUpInput(contracts: nil)
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithOneContractValue() throws {
         let (input, expectedResult) = try setUpInput(contracts: ["contract2645"])
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
     }
     
     func testMappingWithThreeContractValue() throws {
@@ -78,7 +78,16 @@ class PresentationDescriptorMappingTests: XCTestCase {
                                                                  "contract0394",
                                                                  "contract2343"])
         let actualResult = try mapper.map(input)
-        XCTAssertEqual(actualResult, expectedResult)
+        assertEqual(actualResult, expectedResult)
+    }
+    
+    private func assertEqual(_ actual: VerifiedIdRequirement, _ expected: VerifiedIdRequirement) {
+        XCTAssertEqual(actual.encrypted, expected.encrypted)
+        XCTAssertEqual(actual.required, expected.required)
+        XCTAssertEqual(actual.types, expected.types)
+        XCTAssertEqual(actual.acceptedIssuers, expected.acceptedIssuers)
+        XCTAssertEqual(actual.purpose, expected.purpose)
+        XCTAssertEqual(actual.issuanceOptions, expected.issuanceOptions)
     }
     
     private func setUpInput(encrypted: Bool? = false,
@@ -96,11 +105,11 @@ class PresentationDescriptorMappingTests: XCTestCase {
         
         let expectedIssuers = issuers?.compactMap { $0 } ?? []
         
-        var expectedIssuanceParams: CredentialIssuanceParams? = nil
+        var expectedIssuanceOptions: IssuanceOptions? = nil
         if let expectedContracts = contracts,
            !expectedContracts.isEmpty {
-            expectedIssuanceParams = CredentialIssuanceParams(acceptedIssuers: expectedIssuers,
-                                                              credentialIssuerMetadata: expectedContracts)
+            expectedIssuanceOptions = IssuanceOptions(acceptedIssuers: expectedIssuers,
+                                                     credentialIssuerMetadata: expectedContracts)
         }
         
         let expectedResult = VerifiedIdRequirement(encrypted: encrypted ?? false,
@@ -108,7 +117,7 @@ class PresentationDescriptorMappingTests: XCTestCase {
                                                    types: [exceptedCredentialType],
                                                    acceptedIssuers: expectedIssuers,
                                                    purpose: nil,
-                                                   credentialIssuanceParams: expectedIssuanceParams)
+                                                   issuanceOptions: expectedIssuanceOptions)
         return (input, expectedResult)
     }
 }
