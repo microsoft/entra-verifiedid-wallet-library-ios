@@ -3,9 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/**
- * Input to initiate a Verified Id Flow.
- */
-public protocol VerifiedIdClientInput {
-    
+protocol VerifiedIdClientConfiguration {
+    var logger: WalletLibraryLogger { get }
 }

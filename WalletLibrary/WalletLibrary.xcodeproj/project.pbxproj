@@ -32,6 +32,7 @@
 		5534E688294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */; };
 		5534E68C294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */; };
 		5534E6AD294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E6AC294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift */; };
+		55A81B46298DB685002C259A /* VerifiedIdClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81B45298DB685002C259A /* VerifiedIdClientConfiguration.swift */; };
 		55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
 		55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */; };
 		55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D3293FA75300CD2ED7 /* VerifiedId.swift */; };
@@ -251,6 +252,7 @@
 		5534E687294A5F16005D0765 /* IdTokenDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenDescriptorMappingTests.swift; sourceTree = "<group>"; };
 		5534E68B294A8B8F005D0765 /* AccessTokenDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenDescriptorMappingTests.swift; sourceTree = "<group>"; };
 		5534E6AC294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationDescriptorMappingTests.swift; sourceTree = "<group>"; };
+		55A81B45298DB685002C259A /* VerifiedIdClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientConfiguration.swift; sourceTree = "<group>"; };
 		55E33666293E7B5000CD2ED7 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		55E3366F293E7B5F00CD2ED7 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		55E33685293E7B7D00CD2ED7 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 				5534E665294A0B55005D0765 /* Extensions */,
 				55E337B62948B4F900CD2ED7 /* Requests */,
 				55E3376629437E1000CD2ED7 /* Services */,
+				55A81B45298DB685002C259A /* VerifiedIdClientConfiguration.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -950,6 +953,7 @@
 				5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */,
 				550E320E298B0FAC004E7716 /* WalletLibraryLogger.swift in Sources */,
 				55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */,
+				55A81B46298DB685002C259A /* VerifiedIdClientConfiguration.swift in Sources */,
 				5534E669294A0C3F005D0765 /* Mapper.swift in Sources */,
 				550E320A298B0EA4004E7716 /* VerifiedIdClient.swift in Sources */,
 				5534E64D294A0888005D0765 /* PresentationDescriptor+Mappable.swift in Sources */,

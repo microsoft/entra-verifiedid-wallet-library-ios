@@ -15,11 +15,15 @@ class VerifiedIdClientTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+    func testFlowExample() async throws {
+        let builder = VerifiedIdClientBuilder()
+        let client = builder.build()
+        let input = URLInput(url: URL(string: "openid-vc://?request_uri=https://beta.did.msidentity.com/v1.0/tenants/9c59be8b-bd18-45d9-b9d9-082bc07c094f/verifiableCredentials/presentationRequests/49027fe8-05c6-4524-9b0c-0ff8c54c8b7d")!)
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        let request = try await client.createVerifiedIdRequest(from: input)
+        print(request.rootOfTrust)
+        print(request.requirement)
+
     }
 }

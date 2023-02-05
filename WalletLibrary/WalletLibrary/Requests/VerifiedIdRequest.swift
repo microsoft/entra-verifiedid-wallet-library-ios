@@ -28,3 +28,40 @@ public protocol VerifiedIdRequest {
     /// Cancel the request with an optional message.
     func cancel(message: String?) -> Result<Void, Error>
 }
+
+public class VerifiedIdIssuanceRequest: VerifiedIdRequest {
+    
+    public var style: RequesterStyle
+    
+    public var requirement: Requirement
+    
+    public var rootOfTrust: RootOfTrust
+    
+    init(style: RequesterStyle, requirement: Requirement, rootOfTrust: RootOfTrust) {
+        self.style = style
+        self.requirement = requirement
+        self.rootOfTrust = rootOfTrust
+    }
+    
+    public func isSatisfied() -> Bool {
+        return false
+    }
+    
+    public func complete() async -> Result<VerifiedId, Error> {
+        let verifiedId = VerifiedId(id: "",
+                                    type: "test",
+                                    claims: [],
+                                    expiresOn: Date(),
+                                    issuedOn: Date(),
+                                    raw: "test")
+        return Result.success(verifiedId)
+    }
+    
+    public func cancel(message: String?) -> Result<Void, Error> {
+        return Result.success(Void())
+    }
+}
+
+public struct MockRequesterStyle: RequesterStyle {
+    public var requester: String = "request test"
+}
