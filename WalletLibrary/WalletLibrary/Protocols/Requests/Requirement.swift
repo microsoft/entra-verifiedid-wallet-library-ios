@@ -3,16 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import SwiftUI
-import CoreData
-import WalletLibrary
-
-struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+/**
+ * An object that describes a necessary piece of information to be included within a Request.
+ */
+public protocol Requirement {
+    /// Whether or not the requirement is required to fulfill request.
+    var required: Bool { get }
     
-    var body: some View {
-        NavigationView {
-            Text("Hello World")
-        }
-    }
+    /// Validate the requirement, and throw if there is something invalid.
+    func validate() throws
 }
