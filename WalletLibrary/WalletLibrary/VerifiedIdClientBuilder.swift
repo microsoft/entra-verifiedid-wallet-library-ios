@@ -3,6 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+import VCServices
+
 /**
  * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
  */
@@ -10,42 +12,54 @@ public class VerifiedIdClientBuilder {
     
     var logger: WalletLibraryLogger = WalletLibraryLogger()
     
-    var requestFactory: RequestHandlerFactory = RequestHandlerFactory()
+    var accessGroupIdentifier: String? = nil
+    
+    var requestHandlerFactory: RequestHandlerFactory = RequestHandlerFactory()
+    
+    var requestResolverFactory: RequestResolverFactory = RequestResolverFactory()
 
-    public init() { }
+    public init() {}
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
-    public func build() -> VerifiedIdClient {
+    public func build() throws -> VerifiedIdClient {
+        let _ = VerifiableCredentialSDK.initialize(accessGroupIdentifier: accessGroupIdentifier)
         let configuration = ClientConfiguration(logger: logger)
         registerSupportedRequestHandlers(with: configuration)
-        registerSupportedMappingStrategies()
-        return VerifiedIdClient(configuration: configuration, requestFactory: requestFactory)
+        registerRequestResolvers()
+        return VerifiedIdClient(configuration: configuration,
+                                resolverFactory: requestResolverFactory,
+                                requestHandlerFactory: requestHandlerFactory)
     }
-
+    
     /// Optional method to add a custom log consumer to VerifiedIdClient.
     public func with(logConsumer: WalletLibraryLogConsumer) -> VerifiedIdClientBuilder {
         logger.add(consumer: logConsumer)
         return self
     }
     
-    func with(requestHandler: RequestHandler) -> VerifiedIdClientBuilder {
-        requestFactory.requestHandlers.append(requestHandler)
+    public func with(accessGroupIdentifier: String) -> VerifiedIdClientBuilder {
+        self.accessGroupIdentifier = accessGroupIdentifier
         return self
     }
     
-    func with(inputMappingStrategy: any RequestResolver) -> VerifiedIdClientBuilder {
-        requestFactory.mappingStrategies.append(inputMappingStrategy)
+    func with(requestHandler: RequestHandler) -> VerifiedIdClientBuilder {
+        requestHandlerFactory.requestHandlers.append(requestHandler)
+        return self
+    }
+    
+    func with(requestResolver: any RequestResolver) -> VerifiedIdClientBuilder {
+        requestResolverFactory.resolvers.append(requestResolver)
         return self
     }
     
     private func registerSupportedRequestHandlers(with configuration: VerifiedIdClientConfiguration) {
         let openIdRequestHandler = OpenIdRequestHandler(configuration: configuration)
-        requestFactory.requestHandlers.append(openIdRequestHandler)
+        requestHandlerFactory.requestHandlers.append(openIdRequestHandler)
     }
     
-    private func registerSupportedMappingStrategies() {
-        let urlToOpenIdMapping = OpenIdURLRequestResolver()
-        requestFactory.mappingStrategies.append(urlToOpenIdMapping)
+    private func registerRequestResolvers() {
+        let requestResolver = OpenIdURLRequestResolver(presentationService: PresentationService())
+        requestResolverFactory.resolvers.append(requestResolver)
     }
 }
 

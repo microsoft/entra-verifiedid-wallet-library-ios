@@ -31,8 +31,8 @@ public class VerifiedIdClient {
     /// Creates either an issuance or presentation request from the input.
     public func createVerifiedIdRequest(from input: VerifiedIdClientInput) async throws -> any VerifiedIdRequest {
         let resolver = try resolverFactory.makeResolver(from: input)
-        let requestHandler = try requestHandlerFactory.makeHandler(from: input)
-        return try await requestHandler.handleRequest(input: input)
+        let requestHandler = try requestHandlerFactory.makeHandler(from: resolver)
+        return try await requestHandler.handleRequest(input: input, using: resolver)
     }
 }
 
@@ -56,131 +56,110 @@ public class DataInput: VerifiedIdClientInput {
 
 protocol RequestResolver {
     
-    var handler: RequestHandler.Type { get }
+    func canResolve(using handler: RequestHandler) -> Bool
     
     func canResolve(input: VerifiedIdClientInput) -> Bool
     
-    func resolve(using params: ClientInputParams?) async throws -> Data
-}
-
-struct OpenIdURLRequestResolver: RequestResolver {
-    
-    let handler: RequestHandler.Type = OpenIdRequestHandler.self
-    
-    func canResolve(input: VerifiedIdClientInput) -> Bool {
-        
-        guard let input = input as? URLInput else {
-            return false
-        }
-        
-        if input.url.scheme == "openid-vc" {
-            return true
-        }
-        
-        return false
-    }
-    
-    func resolve(using params: ClientInputParams?) async throws -> Data {
-        return Data()
-    }
-    
+    func resolve(input: VerifiedIdClientInput, using params: [AdditionalRequestParams]) async throws -> RawRequest
 }
 
 protocol RequestHandler {
     
-    var mappingStrategy: (any RequestResolver)? { get set }
-    
-    func handleRequest(input: VerifiedIdClientInput) async throws -> any VerifiedIdRequest
+    func handleRequest(input: VerifiedIdClientInput, using resolver: RequestResolver) async throws -> any VerifiedIdRequest
 }
 
-protocol RequestResolverFactory {
-    func makeResolver(from input: VerifiedIdClientInput) throws -> any RequestResolver
+class RequestResolverFactory {
+    
+    var resolvers: [RequestResolver] = []
+    
+    init() { }
+    
+    func makeResolver(from input: VerifiedIdClientInput) throws -> any RequestResolver {
+        
+        let resolver = resolvers.filter {
+            $0.canResolve(input: input)
+        }.first!
+        
+        return resolver
+    }
 }
 
 class RequestHandlerFactory {
     
     var requestHandlers: [RequestHandler] = []
     
-    var mappingStrategies: [any RequestResolver] = []
-    
     init() { }
     
-    func makeHandler(from input: VerifiedIdClientInput) throws -> RequestHandler {
+    func makeHandler(from resolver: RequestResolver) throws -> RequestHandler {
         
-        let mappingStrategy = mappingStrategies.filter {
-            filter(input: input, using: $0)
+        let handler = requestHandlers.filter {
+            resolver.canResolve(using: $0)
         }.first!
-        
-        var handler = requestHandlers.filter { handler in
-            mappingStrategy.handler == type(of: handler)
-        }.first!
-        
-        handler.mappingStrategy = mappingStrategy
         
         return handler
     }
-    
-    func filter(input: VerifiedIdClientInput, using mappingStrategy: some RequestResolver) -> Bool {
-        return mappingStrategy.canResolve(input: input)
-    }
 }
-
-//class ContractRequestHandler: RequestHandler {
-//
-//    let configuration: VerifiedIdClientConfiguration
-//
-//    init(configuration: VerifiedIdClientConfiguration) {
-//        self.configuration = configuration
-//    }
-//
-//    func handleRequest(input: VerifiedIdClientInput) async throws -> any VerifiedIdRequest {
-//        /// Fetch contract or something
-//        throw VerifiedIdClientError.TODO(message: "not implemented")
-//    }
-//}
 
 class OpenIdRequestHandler: RequestHandler {
     
     let configuration: VerifiedIdClientConfiguration
     
-    var processors: [RequestProcessor] = [SIOPV1Processor()]
-    
-    var mappingStrategy: (any RequestResolver)?
+    var processors: [RequestProcessor] = [OpenIdJWTV1Processor()]
     
     init(configuration: VerifiedIdClientConfiguration) {
         self.configuration = configuration
     }
     
-    func handleRequest(input: VerifiedIdClientInput) async throws -> any VerifiedIdRequest {
+    func handleRequest(input: VerifiedIdClientInput,
+                       using resolver: RequestResolver) async throws -> any VerifiedIdRequest {
         
-        let clientParams = getClientParams()
+        let additionalParams = getAdditionalRequestParams()
         
-        let rawRequest = try await mappingStrategy!.resolve(using: clientParams)
+        let rawRequest = try await resolver.resolve(input: input, using: additionalParams)
         
         let supportedProcessor = processors.filter {
-            $0.canProcess(data: rawRequest)
+            $0.canProcess(rawRequest: rawRequest)
         }.first
         
-        guard let request = try await supportedProcessor?.process(data: rawRequest) else {
+        guard let request = try await supportedProcessor?.process(rawRequest: rawRequest) else {
             throw VerifiedIdClientError.TODO(message: "better error handling")
         }
         
         return request
     }
     
-    private func getClientParams() -> ClientInputParams {
+    private func getAdditionalRequestParams() -> [AdditionalRequestParams] {
         /// Use Processors to configure params
-        return MockClientParams(headers: [:])
+        return processors.map { $0.requestParams }
     }
 }
 
-class SIOPV1Processor: RequestProcessor {
-    func canProcess(data: Data) -> Bool {
-        return true
+protocol RawRequest {
+    var raw: Data { get }
+}
+
+class OpenIdJWTV1Processor: RequestProcessor {
+    
+    let requestParams: AdditionalRequestParams = OpenIdRequestParams()
+    
+    func canProcess(rawRequest: RawRequest) -> Bool {
+        
+        if rawRequest is OpenIdURLRequest {
+            return true
+        }
+        
+        return false
     }
     
-    func process(data: Data) async throws -> any VerifiedIdRequest {
-        return VerifiedIdIssuanceRequest(style: MockRequesterStyle(),
+    func process(rawRequest: RawRequest) async throws -> any VerifiedIdRequest {
+        
+        guard let openIdRequest = rawRequest as? OpenIdURLRequest else {
+            throw VerifiedIdClientError.TODO(message: "not an open id url request")
+        }
+        
+        print(openIdRequest.presentationRequest)
+        
+        return VerifiedIdIssuanceRequest(style: MockRequesterStyle(requester: openIdRequest.presentationRequest.content.registration?.clientName ?? "requester"),
                                          requirement: SelfAttestedClaimRequirement(encrypted: false,
                                                                                    required: true,
                                                                                    claim: "test claim"),
@@ -190,17 +169,19 @@ class SIOPV1Processor: RequestProcessor {
     
 }
 
-protocol ClientInputParams {
+protocol AdditionalRequestParams {
     
 }
 
-struct MockClientParams: ClientInputParams {
-    let headers: [String: String]
+struct OpenIdRequestParams: AdditionalRequestParams {
+    let supportedProtocolVersions: [String] = ["jwt"]
 }
 
 protocol RequestProcessor {
     
-    func canProcess(data: Data) -> Bool
+    var requestParams: AdditionalRequestParams { get }
     
-    func process(data: Data) async throws -> any VerifiedIdRequest
+    func canProcess(rawRequest: RawRequest) -> Bool
+    
+    func process(rawRequest: RawRequest) async throws -> any VerifiedIdRequest
 }
