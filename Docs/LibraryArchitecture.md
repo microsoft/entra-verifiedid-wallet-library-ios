@@ -22,7 +22,6 @@ class VerifiedIdClient{
 <<Interface>> VerifiedIdRequestInput
 class URLRequestInput{
     +init(url)
-    ~resolve() ResolvedInput
 }
 <<Interface>> VerifiedIdRequest
 class VerifiedIdRequest{
