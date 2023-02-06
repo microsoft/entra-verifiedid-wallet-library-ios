@@ -6,7 +6,7 @@
 /**
  * Information to describe Verified IDs required.
  */
-public struct VerifiedIdRequirement: Equatable {
+public class VerifiedIdRequirement: Requirement {
     
     /// If requirement must be encrypted.
     let encrypted: Bool
@@ -24,10 +24,28 @@ public struct VerifiedIdRequirement: Equatable {
     public let purpose: String?
     
     /// An optional property for information needed for issuance during presentation flow.
-    public let credentialIssuanceParams: CredentialIssuanceParams?
+    public let issuanceOptions: IssuanceOptions?
     
     /// TODO: helper method that returns verified id that match the requirement from a list of verified ids.
     public func getMatches(verifiedIds: [VerifiedId]) -> [VerifiedId] {
         return []
+    }
+    
+    init(encrypted: Bool,
+         required: Bool,
+         types: [String],
+         acceptedIssuers: [String],
+         purpose: String?,
+         issuanceOptions: IssuanceOptions?) {
+        self.encrypted = encrypted
+        self.required = required
+        self.types = types
+        self.acceptedIssuers = acceptedIssuers
+        self.purpose = purpose
+        self.issuanceOptions = issuanceOptions
+    }
+    
+    public func validate() throws {
+        throw VerifiedIdClientError.TODO(message: "implement validate")
     }
 }

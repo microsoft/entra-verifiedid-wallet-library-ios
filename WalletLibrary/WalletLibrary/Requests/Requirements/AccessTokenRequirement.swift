@@ -6,8 +6,8 @@
 /**
  * Information to describe an access token required for a Verified Id issuance flow.
  */
-public struct AccessTokenRequirement: Equatable {
-    
+public class AccessTokenRequirement: Requirement {
+        
     /// If the requirement should be encrypted.
     let encrypted: Bool
 
@@ -25,5 +25,22 @@ public struct AccessTokenRequirement: Equatable {
     
     /// The scope value used to get the access token through an authentication library.
     public let scope: String
+    
+    init(encrypted: Bool,
+         required: Bool,
+         configuration: String,
+         clientId: String?,
+         resourceId: String,
+         scope: String) {
+        self.encrypted = encrypted
+        self.required = required
+        self.configuration = configuration
+        self.clientId = clientId
+        self.resourceId = resourceId
+        self.scope = scope
+    }
+    
+    public func validate() throws {
+        throw VerifiedIdClientError.TODO(message: "implement validate")
+    }
 }
-

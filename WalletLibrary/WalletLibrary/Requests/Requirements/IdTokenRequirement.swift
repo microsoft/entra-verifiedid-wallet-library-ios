@@ -6,7 +6,7 @@
 /**
  * Information to describe an id token required for a Verified Id issuance flow.
  */
-public struct IdTokenRequirement: Equatable {
+public class IdTokenRequirement: Requirement {
 
     /// If the requirement should be encrypted.
     let encrypted: Bool
@@ -30,5 +30,22 @@ public struct IdTokenRequirement: Equatable {
     /// within the id token request through an authentication library. The nonce will be placed within
     /// the id token retrieved and can be used for validation during an issuance request to an issuance service.
     public internal(set) var nonce: String? = nil
+    
+    init(encrypted: Bool,
+         required: Bool,
+         configuration: URL,
+         clientId: String,
+         redirectUri: String,
+         scope: String) {
+        self.encrypted = encrypted
+        self.required = required
+        self.configuration = configuration
+        self.clientId = clientId
+        self.redirectUri = redirectUri
+        self.scope = scope
+    }
+    
+    public func validate() throws {
+        throw VerifiedIdClientError.TODO(message: "implement validate")
+    }
 }
-
