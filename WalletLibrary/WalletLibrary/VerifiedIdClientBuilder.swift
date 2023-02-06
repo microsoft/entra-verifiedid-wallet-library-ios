@@ -15,8 +15,12 @@ public class VerifiedIdClientBuilder {
     }
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
-    public func build() -> VerifiedIdClient {
-        return VerifiedIdClient(builder: self)
+    public func build() throws -> VerifiedIdClient {
+        /// TODO: add supported resolver and handlers.
+        let requestResolverFactory = RequestResolverFactory(resolvers: [])
+        let requestHandlerFactory = RequestHandlerFactory(requestHandlers: [])
+        return VerifiedIdClient(requestResolverFactory: requestResolverFactory,
+                                requestHandlerFactory: requestHandlerFactory)
     }
 
     /// Optional method to add a custom log consumer to VerifiedIdClient.

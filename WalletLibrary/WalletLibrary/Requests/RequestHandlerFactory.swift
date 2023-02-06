@@ -16,7 +16,7 @@ enum RequestHandlerFactoryError: Error {
  */
 class RequestHandlerFactory {
 
-    var requestHandlers: [RequestHandling]
+    private let requestHandlers: [RequestHandling]
 
     init(requestHandlers: [RequestHandling]) {
         self.requestHandlers = requestHandlers
