@@ -31,16 +31,22 @@ public protocol VerifiedIdRequest {
 
 public class VerifiedIdIssuanceRequest: VerifiedIdRequest {
     
-    public var style: RequesterStyle
+    public let style: RequesterStyle
     
-    public var requirement: Requirement
+    public let requirement: Requirement
     
-    public var rootOfTrust: RootOfTrust
+    public let rootOfTrust: RootOfTrust
     
-    init(style: RequesterStyle, requirement: Requirement, rootOfTrust: RootOfTrust) {
+    let configuration: VerifiedIdClientConfiguration
+    
+    init(style: RequesterStyle,
+         requirement: Requirement,
+         rootOfTrust: RootOfTrust,
+         configuration: VerifiedIdClientConfiguration) {
         self.style = style
         self.requirement = requirement
         self.rootOfTrust = rootOfTrust
+        self.configuration = configuration
     }
     
     public func isSatisfied() -> Bool {

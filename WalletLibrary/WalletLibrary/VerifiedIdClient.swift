@@ -104,10 +104,11 @@ class OpenIdRequestHandler: RequestHandler {
     
     let configuration: VerifiedIdClientConfiguration
     
-    var processors: [RequestProcessor] = [OpenIdJWTV1Processor()]
+    var processors: [RequestProcessor]
     
     init(configuration: VerifiedIdClientConfiguration) {
         self.configuration = configuration
+        self.processors = [OpenIdJWTV1Processor(configuration: configuration)]
     }
     
     func handleRequest(input: VerifiedIdClientInput,
@@ -136,37 +137,6 @@ class OpenIdRequestHandler: RequestHandler {
 
 protocol RawRequest {
     var raw: Data { get }
-}
-
-class OpenIdJWTV1Processor: RequestProcessor {
-    
-    let requestParams: AdditionalRequestParams = OpenIdRequestParams()
-    
-    func canProcess(rawRequest: RawRequest) -> Bool {
-        
-        if rawRequest is OpenIdURLRequest {
-            return true
-        }
-        
-        return false
-    }
-    
-    func process(rawRequest: RawRequest) async throws -> any VerifiedIdRequest {
-        
-        guard let openIdRequest = rawRequest as? OpenIdURLRequest else {
-            throw VerifiedIdClientError.TODO(message: "not an open id url request")
-        }
-        
-        print(openIdRequest.presentationRequest)
-        
-        return VerifiedIdIssuanceRequest(style: MockRequesterStyle(requester: openIdRequest.presentationRequest.content.registration?.clientName ?? "requester"),
-                                         requirement: SelfAttestedClaimRequirement(encrypted: false,
-                                                                                   required: true,
-                                                                                   claim: "test claim"),
-                                         rootOfTrust: RootOfTrust(verified: true, source: "test source"))
-    }
-    
-    
 }
 
 protocol AdditionalRequestParams {
