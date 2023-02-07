@@ -6,6 +6,7 @@
 @testable import WalletLibrary
 
 class MockHandler: RequestHandling {
+    typealias RawRequest = MockInput
     
     enum MockHandlerError: Error {
         case nilMockHandlerMethod
@@ -17,7 +18,7 @@ class MockHandler: RequestHandling {
         self.mockHandleRequest = mockHandleRequest
     }
     
-    func handleRequest(input: VerifiedIdClientInput, using resolver: RequestResolving) async throws -> any VerifiedIdRequest {
+    func handleRequest(from: MockInput) async throws -> any VerifiedIdRequest {
         
         guard let mockHandleRequest = mockHandleRequest else {
             throw MockHandlerError.nilMockHandlerMethod

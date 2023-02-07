@@ -15,7 +15,7 @@ class RequestHandlerFactoryTests: XCTestCase {
         
         let factory = RequestHandlerFactory(requestHandlers: [expectedHandler])
         
-        let actualHandler = try factory.makeHandler(from: mockResolver)
+        let actualHandler = try factory.getHandler(from: mockResolver)
         XCTAssertIdentical(expectedHandler as AnyObject, actualHandler as AnyObject)
     }
     
@@ -25,7 +25,7 @@ class RequestHandlerFactoryTests: XCTestCase {
         let firstMockHandler = MockHandler()
         let secondMockHandler = MockHandler()
         
-        let canResolveUsingHandlerMock = { (requestHandler: RequestHandling) in
+        let canResolveUsingHandlerMock = { (requestHandler: any RequestHandling) in
             
             if expectedHandler === requestHandler as? MockHandler {
                 return true
@@ -38,7 +38,7 @@ class RequestHandlerFactoryTests: XCTestCase {
         
         let factory = RequestHandlerFactory(requestHandlers: [expectedHandler, firstMockHandler, secondMockHandler])
         
-        let actualHandler = try factory.makeHandler(from: mockResolver)
+        let actualHandler = try factory.getHandler(from: mockResolver)
         XCTAssertIdentical(expectedHandler as AnyObject, actualHandler as AnyObject)
     }
 
@@ -49,7 +49,7 @@ class RequestHandlerFactoryTests: XCTestCase {
         
         let factory = RequestHandlerFactory(requestHandlers: [mockHandler])
         
-        XCTAssertThrowsError(try factory.makeHandler(from: mockResolver)) { error in
+        XCTAssertThrowsError(try factory.getHandler(from: mockResolver)) { error in
             XCTAssert(error is RequestHandlerFactoryError)
             XCTAssertEqual(error as? RequestHandlerFactoryError, .UnsupportedResolver)
         }
@@ -60,7 +60,7 @@ class RequestHandlerFactoryTests: XCTestCase {
         let factory = RequestHandlerFactory(requestHandlers: [])
         let mockResolver = MockResolver(canResolveUsingInput: true, canResolveUsingHandler: { _ in true })
         
-        XCTAssertThrowsError(try factory.makeHandler(from: mockResolver)) { error in
+        XCTAssertThrowsError(try factory.getHandler(from: mockResolver)) { error in
             XCTAssert(error is RequestHandlerFactoryError)
             XCTAssertEqual(error as? RequestHandlerFactoryError, .UnsupportedResolver)
         }

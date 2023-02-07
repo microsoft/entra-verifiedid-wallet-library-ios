@@ -17,7 +17,7 @@ class RequestResolverFactoryTests: XCTestCase {
         
         let factory = RequestResolverFactory(resolvers: [expectedResolver])
         
-        let actualResolver = try factory.makeResolver(from: mockInput)
+        let actualResolver = try factory.getResolver(from: mockInput)
         XCTAssertIdentical(expectedResolver as AnyObject, actualResolver as AnyObject)
     }
     
@@ -30,7 +30,7 @@ class RequestResolverFactoryTests: XCTestCase {
         
         let factory = RequestResolverFactory(resolvers: [firstMockResolver, secondMockResolver, expectedResolver])
         
-        let actualResolver = try factory.makeResolver(from: mockInput)
+        let actualResolver = try factory.getResolver(from: mockInput)
         XCTAssertIdentical(expectedResolver as AnyObject, actualResolver as AnyObject)
     }
 
@@ -41,7 +41,7 @@ class RequestResolverFactoryTests: XCTestCase {
         
         let factory = RequestResolverFactory(resolvers: [mockResolver])
         
-        XCTAssertThrowsError(try factory.makeResolver(from: mockInput)) { error in
+        XCTAssertThrowsError(try factory.getResolver(from: mockInput)) { error in
             XCTAssert(error is RequestResolverFactoryError)
             XCTAssertEqual(error as? RequestResolverFactoryError, .UnsupportedInput)
         }
@@ -52,7 +52,7 @@ class RequestResolverFactoryTests: XCTestCase {
         let factory = RequestResolverFactory(resolvers: [])
         let mockInput = MockInput(mockData: mockData)
         
-        XCTAssertThrowsError(try factory.makeResolver(from: mockInput)) { error in
+        XCTAssertThrowsError(try factory.getResolver(from: mockInput)) { error in
             XCTAssert(error is RequestResolverFactoryError)
             XCTAssertEqual(error as? RequestResolverFactoryError, .UnsupportedInput)
         }
