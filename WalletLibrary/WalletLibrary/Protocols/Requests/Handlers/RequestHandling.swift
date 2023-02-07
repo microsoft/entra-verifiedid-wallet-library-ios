@@ -8,7 +8,8 @@
  * then processed, validated and mapped to a verified id request. A conforming object is request protocol specific.
  */
 protocol RequestHandling {
+    associatedtype RawRequest
     
-    /// Resolve, validate and map an input to a verified id request.
-    func handleRequest(input: VerifiedIdClientInput, using resolver: RequestResolving) async throws -> any VerifiedIdRequest
+    /// Validate and map an input to a verified id request.
+    func handleRequest(from: RawRequest) async throws -> any VerifiedIdRequest
 }
