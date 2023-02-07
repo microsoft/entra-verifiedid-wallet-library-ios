@@ -22,7 +22,7 @@ class RequestHandlerFactory {
         self.requestHandlers = requestHandlers
     }
 
-    /// Based on requestHandlers, return one that supports the resolver given.
+    /// Return one of the request handlers that supports the resolver given.
     func makeHandler(from resolver: RequestResolving) throws -> RequestHandling {
 
         let handler = requestHandlers.filter {

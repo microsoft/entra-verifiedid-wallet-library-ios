@@ -7,14 +7,14 @@
 
 class MockHandler: RequestHandling {
     
+    enum MockHandlerError: Error {
+        case nilMockHandlerMethod
+    }
+    
     let mockHandleRequest: (() -> any VerifiedIdRequest)?
     
     init(mockHandleRequest: (() -> any VerifiedIdRequest)? = nil) {
         self.mockHandleRequest = mockHandleRequest
-    }
-    
-    enum MockHandlerError: Error {
-        case nilMockHandlerMethod
     }
     
     func handleRequest(input: VerifiedIdClientInput, using resolver: RequestResolving) async throws -> any VerifiedIdRequest {

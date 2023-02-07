@@ -11,5 +11,3 @@ protocol RawRequest {
     /// The raw value of the request.
     var raw: Data { get }
 }
-
-
