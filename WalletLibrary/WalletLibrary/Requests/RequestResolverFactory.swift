@@ -22,7 +22,7 @@ class RequestResolverFactory {
         self.resolvers = resolvers
     }
     
-    func makeResolver(from input: VerifiedIdClientInput) throws -> RequestResolving {
+    func getResolver(from input: VerifiedIdClientInput) throws -> RequestResolving {
         
         let resolver = resolvers.filter {
             $0.canResolve(input: input)

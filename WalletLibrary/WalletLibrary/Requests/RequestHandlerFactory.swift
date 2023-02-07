@@ -16,14 +16,14 @@ enum RequestHandlerFactoryError: Error {
  */
 class RequestHandlerFactory {
 
-    private let requestHandlers: [RequestHandling]
+    private let requestHandlers: [any RequestHandling]
 
-    init(requestHandlers: [RequestHandling]) {
+    init(requestHandlers: [any RequestHandling]) {
         self.requestHandlers = requestHandlers
     }
 
     /// Return one of the request handlers that supports the resolver given.
-    func makeHandler(from resolver: RequestResolving) throws -> RequestHandling {
+    func getHandler(from resolver: RequestResolving) throws -> any RequestHandling {
 
         let handler = requestHandlers.filter {
             resolver.canResolve(using: $0)
