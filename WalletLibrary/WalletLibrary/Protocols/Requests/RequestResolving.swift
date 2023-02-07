@@ -10,7 +10,7 @@
 protocol RequestResolving {
 
     /// Whether or not the object can resolve a raw request that will be handled by the given handler.
-    func canResolve(using handler: RequestHandling) -> Bool
+    func canResolve(using handler: any RequestHandling) -> Bool
     
     /// Whether or not the object can resolve the given input.
     func canResolve(input: VerifiedIdClientInput) -> Bool
