@@ -33,7 +33,7 @@ class MockResolver: RequestResolving {
         canResolveUsingInput
     }
     
-    func resolve(input: VerifiedIdClientInput) async throws -> RawRequest {
+    func resolve(input: VerifiedIdClientInput) async throws -> MockRawRequest {
         
         guard let mockResolve = mockResolve else {
             throw MockResolverError.nilMockResolveMethod

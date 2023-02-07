@@ -3,11 +3,11 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/**
- * The Raw Request that has been resolved.
- */
-protocol RawRequest {
+struct MockRawRequest {
     
-    /// The raw value of the request.
-    var raw: Data { get }
+    let raw: String
+    
+    init(raw: String) {
+        self.raw = raw
+    }
 }

@@ -16,14 +16,14 @@ enum RequestResolverFactoryError: Error {
  */
 class RequestResolverFactory {
     
-    private let resolvers: [RequestResolving]
+    private let resolvers: [any RequestResolving]
     
-    init(resolvers: [RequestResolving]) {
+    init(resolvers: [any RequestResolving]) {
         self.resolvers = resolvers
     }
     
     /// Return one of the resolvers that supports the input given.
-    func getResolver(from input: VerifiedIdClientInput) throws -> RequestResolving {
+    func getResolver(from input: VerifiedIdClientInput) throws -> any RequestResolving {
         
         let resolver = resolvers.filter {
             $0.canResolve(input: input)

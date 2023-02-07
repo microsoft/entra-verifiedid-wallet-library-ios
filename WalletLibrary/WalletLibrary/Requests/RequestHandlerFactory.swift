@@ -23,7 +23,7 @@ class RequestHandlerFactory {
     }
 
     /// Return one of the request handlers that supports the resolver given.
-    func getHandler(from resolver: RequestResolving) throws -> any RequestHandling {
+    func getHandler(from resolver: some RequestResolving) throws -> any RequestHandling {
 
         let handler = requestHandlers.filter {
             resolver.canResolve(using: $0)
