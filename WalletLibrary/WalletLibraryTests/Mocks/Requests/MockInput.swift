@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockInput: VerifiedIdClientInput {
+struct MockInput: VerifiedIdRequestInput {
     
     let mockData: String
     

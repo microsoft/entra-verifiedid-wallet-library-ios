@@ -6,4 +6,4 @@
 /**
  * Input to initiate a Verified Id Flow.
  */
-public protocol VerifiedIdClientInput { }
+public protocol VerifiedIdRequestInput { }

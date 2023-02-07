@@ -23,7 +23,7 @@ class RequestResolverFactory {
     }
     
     /// Return one of the resolvers that supports the input given.
-    func getResolver(from input: VerifiedIdClientInput) throws -> any RequestResolving {
+    func getResolver(from input: VerifiedIdRequestInput) throws -> any RequestResolving {
         
         let resolver = resolvers.filter {
             $0.canResolve(input: input)

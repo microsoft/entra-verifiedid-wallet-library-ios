@@ -24,7 +24,7 @@ public class VerifiedIdClient {
     }
     
     /// Creates either an issuance or presentation request from the input.
-    public func createVerifiedIdRequest(from input: VerifiedIdClientInput) async throws -> any VerifiedIdRequest {
+    public func createVerifiedIdRequest(from input: VerifiedIdRequestInput) async throws -> any VerifiedIdRequest {
         throw VerifiedIdClientError.TODO(message: "implement create request")
     }
 }
