@@ -22,6 +22,7 @@ class RequestResolverFactory {
         self.resolvers = resolvers
     }
     
+    /// Return one of the resolvers that supports the input given.
     func getResolver(from input: VerifiedIdClientInput) throws -> RequestResolving {
         
         let resolver = resolvers.filter {
