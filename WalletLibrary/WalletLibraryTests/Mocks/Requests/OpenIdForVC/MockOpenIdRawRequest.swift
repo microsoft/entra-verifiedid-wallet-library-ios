@@ -5,11 +5,11 @@
 
 @testable import WalletLibrary
 
-struct MockInput: VerifiedIdRequestInput {
+struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     
-    let mockData: String
+    var raw: Data?
     
-    init(mockData: String) {
-        self.mockData = mockData
+    init(raw: Data?) {
+        self.raw = raw
     }
 }

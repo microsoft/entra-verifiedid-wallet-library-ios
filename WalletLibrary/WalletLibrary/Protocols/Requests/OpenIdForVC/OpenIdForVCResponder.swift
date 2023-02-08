@@ -3,13 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
+import VCEntities
 
-struct MockInput: VerifiedIdRequestInput {
-    
-    let mockData: String
-    
-    init(mockData: String) {
-        self.mockData = mockData
-    }
+/**
+ * Protocol is used as a wrapper to wrap the VC SDK send presentation response method.
+ */
+protocol OpenIdForVCResponder {
+    /// Sends the presentation response container and if successful, returns void,
+    /// If unsuccessful, throws an error.
+    func send(response: PresentationResponseContainer) async throws -> Void
 }

@@ -3,7 +3,12 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+import VCEntities
+
 /**
- * Input to initiate a Verified Id Flow.
+ * Protocol is used as a wrapper to wrap the VC SDK get presentation response method.
  */
-public protocol VerifiedIdClientInput { }
+protocol OpenIdForVCResolver {
+    /// Fetches and validates the presentation request.
+    func getRequest(url: String) async throws -> OpenIdRawRequest
+}

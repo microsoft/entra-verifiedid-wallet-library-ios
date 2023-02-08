@@ -15,11 +15,11 @@ class MockResolver: RequestResolving {
     
     let canResolveUsingInput: Bool
     
-    let mockResolve: ((VerifiedIdClientInput) -> RawRequest)?
+    let mockResolve: ((VerifiedIdRequestInput) -> RawRequest)?
     
     init(canResolveUsingInput: Bool,
          canResolveUsingHandler: ((any RequestHandling) -> Bool)? = nil,
-         mockResolve: ((VerifiedIdClientInput) -> RawRequest)? = nil) {
+         mockResolve: ((VerifiedIdRequestInput) -> RawRequest)? = nil) {
         self.canResolveUsingHandler = canResolveUsingHandler
         self.canResolveUsingInput = canResolveUsingInput
         self.mockResolve = mockResolve
@@ -29,11 +29,11 @@ class MockResolver: RequestResolving {
         return canResolveUsingHandler?(handler) ?? false
     }
     
-    func canResolve(input: VerifiedIdClientInput) -> Bool {
+    func canResolve(input: VerifiedIdRequestInput) -> Bool {
         canResolveUsingInput
     }
     
-    func resolve(input: VerifiedIdClientInput) async throws -> MockRawRequest {
+    func resolve(input: VerifiedIdRequestInput) async throws -> MockRawRequest {
         
         guard let mockResolve = mockResolve else {
             throw MockResolverError.nilMockResolveMethod

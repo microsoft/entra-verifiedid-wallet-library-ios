@@ -3,13 +3,14 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
-
-struct MockInput: VerifiedIdRequestInput {
+/**
+ * A URL used to initiate a Verified Id Request. For example, an Open Id reference url or a Contract url.
+ */
+public struct VerifiedIdRequestURL: VerifiedIdRequestInput {
     
-    let mockData: String
+    let url: URL
     
-    init(mockData: String) {
-        self.mockData = mockData
+    public init(url: URL) {
+        self.url = url
     }
 }

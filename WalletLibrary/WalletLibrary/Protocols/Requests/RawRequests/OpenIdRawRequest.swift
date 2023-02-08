@@ -3,13 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
-
-struct MockInput: VerifiedIdRequestInput {
+/// Representation of a Raw Open Id Request.
+protocol OpenIdRawRequest {
     
-    let mockData: String
-    
-    init(mockData: String) {
-        self.mockData = mockData
-    }
+    var raw: Data? { get }
 }
