@@ -8,13 +8,21 @@ import VCEntities
 
 struct MockOpenIdForVCResolver: OpenIdForVCResolver {
     
-    let mockGetRequestCallback: (String) -> OpenIdRawRequest
+    enum MockOpenIdForVCResolverError: Error {
+        case nilCallback
+    }
     
-    init(mockGetRequestCallback: @escaping (String) -> OpenIdRawRequest) {
+    let mockGetRequestCallback: ((String) -> OpenIdRawRequest)?
+    
+    init(mockGetRequestCallback: ((String) -> OpenIdRawRequest)? = nil) {
         self.mockGetRequestCallback = mockGetRequestCallback
     }
     
     func getRequest(url: String) async throws -> OpenIdRawRequest {
+        
+        guard let mockGetRequestCallback = mockGetRequestCallback else {
+            throw MockOpenIdForVCResolverError.nilCallback
+        }
         return mockGetRequestCallback(url)
     }
 }

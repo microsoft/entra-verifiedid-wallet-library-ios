@@ -47,7 +47,7 @@ struct OpenIdURLRequestResolver: RequestResolving {
     func resolve(input: VerifiedIdRequestInput) async throws -> OpenIdRawRequest {
         
         guard let input = input as? VerifiedIdRequestURL else {
-            throw OpenIdURLRequestResolverError.unsupportedVerifiedIdRequestInput(type: String(describing: input))
+            throw OpenIdURLRequestResolverError.unsupportedVerifiedIdRequestInput(type: String(describing: type(of: input)))
         }
         
         return try await openIdResolver.getRequest(url: input.url.absoluteString)
