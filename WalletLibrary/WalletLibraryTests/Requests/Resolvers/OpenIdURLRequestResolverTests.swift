@@ -32,15 +32,15 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         
         do {
             let _ = try await resolver.resolve(input: mockInput)
-            XCTFail()
+            XCTFail("resolver did not throw an error.")
         } catch {
             XCTAssert(error is OpenIdURLRequestResolverError)
             
             switch (error as? OpenIdURLRequestResolverError) {
-            case .unsupportedVerifiedIdRequestInput(type: let type):
+            case .unsupportedVerifiedIdRequestInputWith(type: let type):
                 XCTAssertEqual(type, "MockInput")
             default:
-                XCTFail()
+                XCTFail("error thrown is incorrect type.")
             }
         }
     }
@@ -53,7 +53,6 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let actualResult = resolver.canResolve(input: mockInput)
         
         XCTAssertFalse(actualResult)
-        
     }
     
     func testCanResolve_WithInvalidRequestInputScheme_ReturnFalse() throws {
@@ -74,7 +73,6 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let actualResult = resolver.canResolve(input: mockInput)
         
         XCTAssertTrue(actualResult)
-
     }
     
     func testCanResolve_WithInvalidRequestHandler_ReturnFalse() throws {
@@ -85,7 +83,6 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let actualResult = resolver.canResolve(using: mockHandler)
         
         XCTAssertFalse(actualResult)
-
     }
     
     func testCanResolve_WithValidRequestHandler_ReturnTrue() throws {

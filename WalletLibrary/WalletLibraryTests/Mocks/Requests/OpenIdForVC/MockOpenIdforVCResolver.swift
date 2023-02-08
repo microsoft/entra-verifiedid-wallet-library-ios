@@ -12,7 +12,7 @@ struct MockOpenIdForVCResolver: OpenIdForVCResolver {
         case nilCallback
     }
     
-    let mockGetRequestCallback: ((String) -> OpenIdRawRequest)?
+    private let mockGetRequestCallback: ((String) -> OpenIdRawRequest)?
     
     init(mockGetRequestCallback: ((String) -> OpenIdRawRequest)? = nil) {
         self.mockGetRequestCallback = mockGetRequestCallback

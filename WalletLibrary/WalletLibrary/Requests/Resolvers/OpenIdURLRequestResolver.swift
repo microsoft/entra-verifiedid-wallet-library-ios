@@ -5,12 +5,15 @@
 
 import VCEntities
 
+/**
+ * Errors associated with the Open Id URL Request Resolver.
+ */
 enum OpenIdURLRequestResolverError: Error {
-    case unsupportedVerifiedIdRequestInput(type: String)
+    case unsupportedVerifiedIdRequestInputWith(type: String)
 }
 
 /**
- * Handles a raw Open Id request and configures a VeriifedIdRequest object.
+ * Resolves a raw Open Id request from a URL input.
  */
 struct OpenIdURLRequestResolver: RequestResolving {
     
@@ -22,6 +25,7 @@ struct OpenIdURLRequestResolver: RequestResolving {
         self.openIdResolver = openIdResolver
     }
     
+    /// Whether or not the request handler given request handler can handle the resolved raw request.
     func canResolve(using handler: any RequestHandling) -> Bool {
         
         guard handler is OpenIdRequestHandler else {
@@ -31,6 +35,7 @@ struct OpenIdURLRequestResolver: RequestResolving {
         return true
     }
     
+    /// Whether or not the resolver can resolve input given.
     func canResolve(input: VerifiedIdRequestInput) -> Bool {
         
         guard let input = input as? VerifiedIdRequestURL else {
@@ -44,10 +49,11 @@ struct OpenIdURLRequestResolver: RequestResolving {
         return false
     }
     
+    /// Resolve raw request from input given.
     func resolve(input: VerifiedIdRequestInput) async throws -> OpenIdRawRequest {
         
         guard let input = input as? VerifiedIdRequestURL else {
-            throw OpenIdURLRequestResolverError.unsupportedVerifiedIdRequestInput(type: String(describing: type(of: input)))
+            throw OpenIdURLRequestResolverError.unsupportedVerifiedIdRequestInputWith(type: String(describing: type(of: input)))
         }
         
         return try await openIdResolver.getRequest(url: input.url.absoluteString)
