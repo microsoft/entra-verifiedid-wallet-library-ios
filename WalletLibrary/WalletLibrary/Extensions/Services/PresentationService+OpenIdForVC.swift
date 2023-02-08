@@ -4,16 +4,25 @@
 *--------------------------------------------------------------------------------------------*/
 
 import VCEntities
+import VCServices
 
 /**
- * Protocol that handles getting vc sdk presentation requests and sending vc sdk presentation responses.
+ * An extension of the VCServices.PresentationService class.
  */
-protocol PresentationServiceable {
+extension PresentationService: OpenIdForVCResolver, OpenIdForVCResponder {
     
     /// Fetches and validates the presentation request.
-    func getRequest(url: String) async throws -> VCEntities.PresentationRequest
+    func getRequest(url: String) async throws -> VCEntities.PresentationRequest {
+        return try await AsyncWrapper().wrap { () in
+            self.getRequest(usingUrl: url)
+        }()
+    }
     
     /// Sends the presentation response container and if successful, returns void,
     /// If unsuccessful, throws an error.
-    func send(response: PresentationResponseContainer) async throws -> Void
+    func send(response: VCEntities.PresentationResponseContainer) async throws -> Void {
+        let _ = try await AsyncWrapper().wrap { () in
+            self.send(response: response)
+        }()
+    }
 }
