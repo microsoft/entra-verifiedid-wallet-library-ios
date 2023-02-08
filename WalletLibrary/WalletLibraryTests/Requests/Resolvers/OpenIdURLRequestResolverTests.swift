@@ -8,7 +8,7 @@ import XCTest
 
 class OpenIdURLRequestResolverTests: XCTestCase {
     
-    func testResolve_WithURLInput_ReturnRawRequest() async throws {
+    func testResolve_WithURLInput_ReturnsRawRequest() async throws {
         
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com")!)
         let expectedRawData = "test data".data(using: .utf8)!
@@ -55,7 +55,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         XCTAssertFalse(actualResult)
     }
     
-    func testCanResolve_WithInvalidRequestInputScheme_ReturnFalse() throws {
+    func testCanResolve_WithInvalidRequestInputScheme_ReturnsFalse() throws {
         
         let mockInput = VerifiedIdRequestURL(url: URL(string: "https://mock.com")!)
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
@@ -65,7 +65,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         XCTAssertFalse(actualResult)
     }
 
-    func testCanResolve_WithValidRequestInput_ReturnTrue() throws {
+    func testCanResolve_WithValidRequestInput_ReturnsTrue() throws {
         
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com")!)
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
@@ -75,7 +75,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         XCTAssertTrue(actualResult)
     }
     
-    func testCanResolve_WithInvalidRequestHandler_ReturnFalse() throws {
+    func testCanResolve_WithInvalidRequestHandler_ReturnsFalse() throws {
         
         let mockHandler = MockHandler()
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
@@ -85,7 +85,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         XCTAssertFalse(actualResult)
     }
     
-    func testCanResolve_WithValidRequestHandler_ReturnTrue() throws {
+    func testCanResolve_WithValidRequestHandler_ReturnsTrue() throws {
 
         let mockHandler = OpenIdRequestHandler()
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
