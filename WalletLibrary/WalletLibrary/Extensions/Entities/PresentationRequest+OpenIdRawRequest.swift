@@ -5,8 +5,12 @@
 
 import VCEntities
 
+/**
+ * An extension of the VCEntities.PresentationRequest class.
+ */
 extension VCEntities.PresentationRequest: OpenIdRawRequest {
     
+    /// The raw representation of the request.
     var raw: Data? {
         do {
             let serializedToken = try self.token.serialize()

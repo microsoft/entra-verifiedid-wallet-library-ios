@@ -14,8 +14,8 @@ protocol RequestResolving {
     func canResolve(using handler: any RequestHandling) -> Bool
     
     /// Whether or not the object can resolve the given input.
-    func canResolve(input: VerifiedIdClientInput) -> Bool
+    func canResolve(input: VerifiedIdRequestInput) -> Bool
     
     /// Resolve the raw request from the given input.
-    func resolve(input: VerifiedIdClientInput) async throws -> RawRequest
+    func resolve(input: VerifiedIdRequestInput) async throws -> RawRequest
 }
