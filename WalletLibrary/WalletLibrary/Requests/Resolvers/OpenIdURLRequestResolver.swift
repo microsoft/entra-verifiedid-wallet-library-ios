@@ -14,12 +14,12 @@ enum OpenIdURLRequestResolverError: Error {
  */
 struct OpenIdURLRequestResolver: RequestResolving {
     
-    private let presentationService: PresentationServiceable
+    private let openIdResolver: OpenIdForVCResolver
     
     private let openIdScheme = "openid-vc"
     
-    init(presentationService: PresentationServiceable) {
-        self.presentationService = presentationService
+    init(openIdResolver: OpenIdForVCResolver) {
+        self.openIdResolver = openIdResolver
     }
     
     func canResolve(using handler: any RequestHandling) -> Bool {
@@ -44,12 +44,12 @@ struct OpenIdURLRequestResolver: RequestResolving {
         return false
     }
     
-    func resolve(input: VerifiedIdRequestInput) async throws -> PresentationRequest {
+    func resolve(input: VerifiedIdRequestInput) async throws -> OpenIdRawRequest {
         
         guard let input = input as? VerifiedIdRequestURL else {
             throw OpenIdURLRequestResolverError.unsupportedVerifiedIdRequestInput(type: String(describing: input))
         }
         
-        return try await presentationService.getRequest(url: input.url.absoluteString)
+        return try await openIdResolver.getRequest(url: input.url.absoluteString)
     }
 }
