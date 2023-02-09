@@ -12,6 +12,23 @@ import VCEntities
 extension VCEntities.PresentationDefinition: Mappable {
     
     func map(using mapper: Mapping) throws -> Requirement {
-        throw VerifiedIdClientError.TODO(message: "implement")
+        
+        guard let inputDescriptors = self.inputDescriptors else {
+            throw VerifiedIdClientError.TODO(message: "add error")
+        }
+        
+        if inputDescriptors.capacity == 1,
+           let onlyDescriptor = inputDescriptors.first {
+            return try mapper.map(onlyDescriptor)
+        }
+        
+        let requirements = try inputDescriptors.compactMap {
+            try mapper.map($0)
+        }
+
+        /// VC SDK only supports any operator for now.
+        return GroupRequirement(required: true,
+                                requirements: requirements,
+                                requirementsOperator: .ANY)
     }
 }
