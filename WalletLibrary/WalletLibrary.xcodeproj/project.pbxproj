@@ -51,6 +51,9 @@
 		55A81C0D2991BF86002C259A /* MockInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81C0C2991BF86002C259A /* MockInput.swift */; };
 		55A81C102991C211002C259A /* MockResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81C0F2991C211002C259A /* MockResolver.swift */; };
 		55A81C132991C829002C259A /* MockHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81C122991C829002C259A /* MockHandler.swift */; };
+		55E2F06C299553300008010D /* PresentationRequest+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F056299553300008010D /* PresentationRequest+Mappable.swift */; };
+		55E2F06F299553B40008010D /* OpenIdRequestHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F06E299553B40008010D /* OpenIdRequestHandlerTests.swift */; };
+		55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F070299554110008010D /* LibraryConfiguration.swift */; };
 		55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
 		55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */; };
 		55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D3293FA75300CD2ED7 /* VerifiedId.swift */; };
@@ -289,6 +292,9 @@
 		55A81C0C2991BF86002C259A /* MockInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockInput.swift; sourceTree = "<group>"; };
 		55A81C0F2991C211002C259A /* MockResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResolver.swift; sourceTree = "<group>"; };
 		55A81C122991C829002C259A /* MockHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHandler.swift; sourceTree = "<group>"; };
+		55E2F056299553300008010D /* PresentationRequest+Mappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PresentationRequest+Mappable.swift"; sourceTree = "<group>"; };
+		55E2F06E299553B40008010D /* OpenIdRequestHandlerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIdRequestHandlerTests.swift; sourceTree = "<group>"; };
+		55E2F070299554110008010D /* LibraryConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryConfiguration.swift; sourceTree = "<group>"; };
 		55E33666293E7B5000CD2ED7 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		55E3366F293E7B5F00CD2ED7 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		55E33685293E7B7D00CD2ED7 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
@@ -425,6 +431,7 @@
 				55E3370F293FDDF400CD2ED7 /* Requests */,
 				55E336D2293FA74100CD2ED7 /* VerifiedId */,
 				55E337632943747E00CD2ED7 /* Utilities */,
+				55E2F070299554110008010D /* LibraryConfiguration.swift */,
 				550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */,
 				550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */,
 				552E5095293E6AB200868F47 /* WalletLibrary.h */,
@@ -520,6 +527,7 @@
 				5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */,
 				5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */,
 				5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */,
+				55E2F056299553300008010D /* PresentationRequest+Mappable.swift */,
 			);
 			path = VCSDK;
 			sourceTree = "<group>";
@@ -553,6 +561,7 @@
 		55A81BF02991BB13002C259A /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				55E2F06D299553B40008010D /* Handlers */,
 				550A9193299402450014D030 /* Resolvers */,
 				55A81C062991BB2C002C259A /* RequestResolverFactoryTests.swift */,
 				55A81C082991BB3A002C259A /* RequestHandlerFactoryTests.swift */,
@@ -592,6 +601,14 @@
 			isa = PBXGroup;
 			children = (
 				55A81C122991C829002C259A /* MockHandler.swift */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
+		55E2F06D299553B40008010D /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				55E2F06E299553B40008010D /* OpenIdRequestHandlerTests.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -1117,6 +1134,7 @@
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
 				55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */,
 				55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */,
+				55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */,
 				550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */,
 				550A9192299400820014D030 /* OpenIdForVCResponder.swift in Sources */,
 				5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */,
@@ -1125,6 +1143,7 @@
 				550A919E29940ED70014D030 /* OpenIdRawRequest.swift in Sources */,
 				55E337BC2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
+				55E2F06C299553300008010D /* PresentationRequest+Mappable.swift in Sources */,
 				55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 			);
@@ -1134,6 +1153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55E2F06F299553B40008010D /* OpenIdRequestHandlerTests.swift in Sources */,
 				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptorMappingTests.swift in Sources */,
 				55A81C132991C829002C259A /* MockHandler.swift in Sources */,

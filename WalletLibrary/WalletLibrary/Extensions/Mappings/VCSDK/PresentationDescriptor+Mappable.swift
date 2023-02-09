@@ -15,12 +15,10 @@ extension VCEntities.PresentationDescriptor: Mappable {
         
         let acceptedIssuers = issuers?.compactMap { $0.iss } ?? []
         
-        var issuanceOptions: [IssuanceOption] = []
+        var issuanceOptions: IssuanceOptions? = nil
         if let contracts = contracts,
            !contracts.isEmpty {
-            issuanceOptions = contracts.compactMap {
-                IssuanceOption(credentialIssuerMetadata: $0)
-            }
+            issuanceOptions = IssuanceOptions(acceptedIssuers: acceptedIssuers, credentialIssuerMetadata: contracts)
         }
         
         return VerifiedIdRequirement(encrypted: encrypted ?? false,
