@@ -5,6 +5,10 @@
 
 import VCEntities
 
+enum PresentationRequestMappingError: Error {
+    case presentationDefinitionMissingInRequest
+}
+
 /**
  * An extension of the VCEntities.PresentationRequest class to be able
  * to map PresentationRequest to VerifiedIdRequestContent.
@@ -12,6 +16,19 @@ import VCEntities
 extension VCEntities.PresentationRequest: Mappable {
     
     func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
-        throw VerifiedIdClientError.TODO(message: "implement")
+        
+        guard let presentationDefinition = content.claims?.vpToken?.presentationDefinition else {
+            throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
+        }
+        
+        let requirement = try mapper.map(presentationDefinition)
+        let requesterStyle = OpenIdRequesterStyle(requester: "test")
+        let rootOfTrust = try mapper.map(self.linkedDomainResult)
+        
+        let content = VerifiedIdRequestContent(style: requesterStyle,
+                                               requirement: requirement,
+                                               rootOfTrust: rootOfTrust)
+        
+        return content
     }
 }
