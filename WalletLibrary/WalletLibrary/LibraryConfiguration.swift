@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+/**
+ * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
+ * all of library will use.
+ */
 class LibraryConfiguration {
 
     let logger: WalletLibraryLogger
