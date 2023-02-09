@@ -5,7 +5,7 @@
 
 /**
  * Contents in a Verified Id Request.
- * This protocol is used to map protocol specific requests to common request object.
+ * This object is used to map protocol specific requests to common request object.
  */
 struct VerifiedIdRequestContent {
     

@@ -788,6 +788,7 @@
 				5534E5B42948FEB5005D0765 /* RootOfTrust.swift */,
 				55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */,
 				55A81BE62991B2F3002C259A /* RequestHandlerFactory.swift */,
+				55E2F07E29955A3B0008010D /* VerifiedIdRequestContent.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -849,7 +850,6 @@
 				55A81BC92991AB82002C259A /* RequestResolving.swift */,
 				55E2F08029955A960008010D /* RequestType.swift */,
 				550E320F298B113C004E7716 /* VerifiedIdRequest.swift */,
-				55E2F07E29955A3B0008010D /* VerifiedIdRequestContent.swift */,
 				550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */,
 			);
 			path = Requests;
