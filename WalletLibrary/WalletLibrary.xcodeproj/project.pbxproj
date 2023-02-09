@@ -61,6 +61,10 @@
 		55E2F07F29955A3B0008010D /* VerifiedIdRequestContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F07E29955A3B0008010D /* VerifiedIdRequestContent.swift */; };
 		55E2F08129955A960008010D /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F08029955A960008010D /* RequestType.swift */; };
 		55E2F08429955E8A0008010D /* MockMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F08329955E8A0008010D /* MockMapper.swift */; };
+		55E2F086299573C30008010D /* OpenIdRequesterStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F085299573C30008010D /* OpenIdRequesterStyle.swift */; };
+		55E2F0882995743D0008010D /* LinkedDomainResult+RootOfTrust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F0872995743D0008010D /* LinkedDomainResult+RootOfTrust.swift */; };
+		55E2F08A299576350008010D /* PresentationDefinition+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F089299576350008010D /* PresentationDefinition+Mappable.swift */; };
+		55E2F08C299576730008010D /* GroupRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F08B299576730008010D /* GroupRequirement.swift */; };
 		55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
 		55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */; };
 		55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D3293FA75300CD2ED7 /* VerifiedId.swift */; };
@@ -307,6 +311,10 @@
 		55E2F07E29955A3B0008010D /* VerifiedIdRequestContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequestContent.swift; sourceTree = "<group>"; };
 		55E2F08029955A960008010D /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
 		55E2F08329955E8A0008010D /* MockMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMapper.swift; sourceTree = "<group>"; };
+		55E2F085299573C30008010D /* OpenIdRequesterStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdRequesterStyle.swift; sourceTree = "<group>"; };
+		55E2F0872995743D0008010D /* LinkedDomainResult+RootOfTrust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinkedDomainResult+RootOfTrust.swift"; sourceTree = "<group>"; };
+		55E2F089299576350008010D /* PresentationDefinition+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+Mappable.swift"; sourceTree = "<group>"; };
+		55E2F08B299576730008010D /* GroupRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRequirement.swift; sourceTree = "<group>"; };
 		55E33666293E7B5000CD2ED7 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		55E3366F293E7B5F00CD2ED7 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		55E33685293E7B7D00CD2ED7 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
@@ -535,8 +543,10 @@
 			isa = PBXGroup;
 			children = (
 				5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */,
+				55E2F0872995743D0008010D /* LinkedDomainResult+RootOfTrust.swift */,
 				5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */,
 				5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */,
+				55E2F089299576350008010D /* PresentationDefinition+Mappable.swift */,
 				55E2F056299553300008010D /* PresentationRequest+Mappable.swift */,
 			);
 			path = VCSDK;
@@ -655,6 +665,7 @@
 			isa = PBXGroup;
 			children = (
 				55E2F07C2995561E0008010D /* OpenIdPresentationRequest.swift */,
+				55E2F085299573C30008010D /* OpenIdRequesterStyle.swift */,
 			);
 			path = OpenId;
 			sourceTree = "<group>";
@@ -702,6 +713,7 @@
 			children = (
 				55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */,
 				55E3379D2948B4B000CD2ED7 /* CredentialFormat.swift */,
+				55E2F08B299576730008010D /* GroupRequirement.swift */,
 				55E336D7293FCE0500CD2ED7 /* IssuanceOptions.swift */,
 				55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */,
 				55E337B32948B4B000CD2ED7 /* PinRequirement.swift */,
@@ -1159,6 +1171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55E2F08C299576730008010D /* GroupRequirement.swift in Sources */,
 				550E3212298B1150004E7716 /* VerifiedIdRequestInput.swift in Sources */,
 				550A919B29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift in Sources */,
 				5534E667294A0B6C005D0765 /* Mappable.swift in Sources */,
@@ -1188,6 +1201,7 @@
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */,
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
+				55E2F086299573C30008010D /* OpenIdRequesterStyle.swift in Sources */,
 				55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */,
 				55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */,
 				55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */,
@@ -1195,11 +1209,13 @@
 				550A9192299400820014D030 /* OpenIdForVCResponder.swift in Sources */,
 				5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */,
 				5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift in Sources */,
+				55E2F08A299576350008010D /* PresentationDefinition+Mappable.swift in Sources */,
 				550A919E29940ED70014D030 /* OpenIdRawRequest.swift in Sources */,
 				55E337BC2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
 				55E2F06C299553300008010D /* PresentationRequest+Mappable.swift in Sources */,
 				55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */,
+				55E2F0882995743D0008010D /* LinkedDomainResult+RootOfTrust.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 				55E2F07D2995561E0008010D /* OpenIdPresentationRequest.swift in Sources */,
 			);
