@@ -37,6 +37,5 @@ protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == any VerifiedIdR
 
 /**
  * Internal Protocol that represents a Presentation Request.
- * TODO: add VerifiedId Style
  */
 protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }
