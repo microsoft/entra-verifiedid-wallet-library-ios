@@ -10,6 +10,14 @@ import VCEntities
  */
 extension VCEntities.PresentationRequest: OpenIdRawRequest {
     
+    var type: RequestType {
+        if content.prompt == "create" {
+            return .Issuance
+        }
+        
+        return .Presentation
+    }
+    
     /// The raw representation of the request.
     var raw: Data? {
         do {
