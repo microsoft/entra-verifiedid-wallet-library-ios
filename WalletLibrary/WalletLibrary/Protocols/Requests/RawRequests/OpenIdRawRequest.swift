@@ -4,7 +4,24 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Representation of a Raw Open Id Request.
-protocol OpenIdRawRequest {
+protocol OpenIdRawRequest: Mappable where T == VerifiedIdRequestContent {
+    
+    var type: RequestType { get }
     
     var raw: Data? { get }
+}
+
+protocol VerifiedIdRequestContent {
+    
+    var style: RequesterStyle { get }
+    
+    var requirement: Requirement { get }
+    
+    var rootOfTrust: RootOfTrust { get }
+    
+}
+
+enum RequestType {
+    case Presentation
+    case Issuance
 }
