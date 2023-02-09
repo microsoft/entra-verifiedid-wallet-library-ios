@@ -6,7 +6,7 @@
 /**
  * A URL used to initiate a Verified Id Request. For example, an Open Id reference url or a Contract url.
  */
-public struct VerifiedIdRequestURL: VerifiedIdRequestInput {
+public struct VerifiedIdRequestURL: VerifiedIdRequestInput, Equatable {
     
     let url: URL
     
