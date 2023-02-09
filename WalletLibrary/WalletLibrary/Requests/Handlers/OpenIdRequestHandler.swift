@@ -5,6 +5,7 @@
 
 /**
  * Handles a raw Open Id request and configures a VeriifedIdRequest object.
+ * Post Private Preview TODO: add processors to support multiple profiles of open id.
  */
 struct OpenIdRequestHandler: RequestHandling {
     
@@ -15,7 +16,6 @@ struct OpenIdRequestHandler: RequestHandling {
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    /// TODO: post private preview, input needs to be more generic to support multiple profiles of Open Id.
     func handleRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdRequest {
         
         if request.type == .Issuance {
@@ -33,12 +33,4 @@ struct OpenIdRequestHandler: RequestHandling {
         let content = try configuration.mapper.map(request)
         return OpenIdPresentationRequest(content: content, configuration: configuration)
     }
-}
-
-protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == any VerifiedIdRequest {
-    
-}
-
-protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void {
-    
 }
