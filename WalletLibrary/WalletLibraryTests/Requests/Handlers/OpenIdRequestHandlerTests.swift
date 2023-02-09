@@ -8,7 +8,11 @@ import XCTest
 
 class OpenIdRequestHandlerTests: XCTestCase {
     
-    func testHandleRequest_WithRawRequest_ReturnsVerifiedIdPresentationRequest() async throws {
+    enum ExpectedError: Error, Equatable {
+        case expectedToBeThrown
+    }
+    
+    func testHandleRequest_WithRawPresentationRequest_ReturnsVerifiedIdRequest() async throws {
         
         // Arrange Mocked Mapper
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
@@ -31,56 +35,25 @@ class OpenIdRequestHandlerTests: XCTestCase {
         XCTAssertEqual(actualRequest.style as? MockRequesterStyle, expectedStyle)
         XCTAssertEqual(actualRequest.requirement as? MockRequirement, expectedRequirement)
         XCTAssertEqual(actualRequest.rootOfTrust.source, expectedRootOfTrust.source)
-
     }
     
-    func testHandleRequest_WithInvalidMapping_ThrowsError() async throws {
+    func testHandleRequest_WithPresentationRequestInvalidMapping_ThrowsError() async throws {
         
-        // Arrange
-        let mockData = "test data"
-        let mockInput = MockInput(mockData: mockData)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
+        let mockMapper = MockMapper(error: ExpectedError.expectedToBeThrown)
+        
+        // Arrange Input
+        let mockRawRequest = MockOpenIdRawRequest(raw: Data())
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
+        let handler = OpenIdRequestHandler(configuration: configuration)
         
         // Act
         do {
-            let _ = try await resolver.resolve(input: mockInput)
-            XCTFail("resolver did not throw an error.")
+            let _ = try await handler.handleRequest(from: mockRawRequest)
+            XCTFail("handler did not throw an error.")
         } catch {
             // Assert
-            XCTAssert(error is OpenIdURLRequestResolverError)
-            
-            switch (error as? OpenIdURLRequestResolverError) {
-            case .unsupportedVerifiedIdRequestInputWith(type: let type):
-                XCTAssertEqual(type, "MockInput")
-            default:
-                XCTFail("error thrown is incorrect type.")
-            }
+            XCTAssert(error is ExpectedError)
+            XCTAssertEqual(error as? ExpectedError, ExpectedError.expectedToBeThrown)
         }
-    }
-}
-
-struct MockMapper: Mapping {
-    
-    let error: Error?
-    
-    let returnedObject: Any?
-    
-    init(error: Error? = nil, returnedObject: Any? = nil) {
-        self.error = error
-        self.returnedObject = returnedObject
-    }
-    
-    /// Map one object to another.
-    func map<T: Mappable>(_ object: T) throws -> T.T {
-        
-        if let error = error {
-            throw error
-        }
-        
-        if let returnedObject = returnedObject as? T.T {
-            return returnedObject
-        }
-        
-        return try object.map(using: self)
     }
 }
