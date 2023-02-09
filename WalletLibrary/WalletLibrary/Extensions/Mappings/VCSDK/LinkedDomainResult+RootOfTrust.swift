@@ -6,12 +6,11 @@
 import VCEntities
 
 /**
- * An extension of the VCEntities.IdTokenDescriptor class to be able
- * to map IdTokenDescriptor to IdTokenRequirement.
+ * An extension of the VCEntities.LinkedDomainResult class to be able
+ * to map LinkedDomainResult to RootOfTrust.
  */
 extension VCEntities.LinkedDomainResult: Mappable {
     
-    /// Map the id token descriptor to the id token requirement.
     func map(using mapper: Mapping) throws -> RootOfTrust {
         switch (self) {
         case LinkedDomainResult.linkedDomainMissing:
