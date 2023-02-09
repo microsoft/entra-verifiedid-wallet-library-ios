@@ -24,7 +24,7 @@ public class VerifiedIdRequirement: Requirement {
     public let purpose: String?
     
     /// An optional property for information needed for issuance during presentation flow.
-    public let issuanceOptions: IssuanceOptions?
+    public let issuanceOptions: [VerifiedIdIssuanceOption]
     
     /// TODO: helper method that returns verified id that match the requirement from a list of verified ids.
     public func getMatches(verifiedIds: [VerifiedId]) -> [VerifiedId] {
@@ -36,7 +36,7 @@ public class VerifiedIdRequirement: Requirement {
          types: [String],
          acceptedIssuers: [String],
          purpose: String?,
-         issuanceOptions: IssuanceOptions?) {
+         issuanceOptions: [VerifiedIdIssuanceOption] = []) {
         self.encrypted = encrypted
         self.required = required
         self.types = types
