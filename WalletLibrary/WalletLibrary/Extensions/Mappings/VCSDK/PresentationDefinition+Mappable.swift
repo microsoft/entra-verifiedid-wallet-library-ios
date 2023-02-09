@@ -29,6 +29,6 @@ extension VCEntities.PresentationDefinition: Mappable {
         /// VC SDK only supports any operator for now.
         return GroupRequirement(required: true,
                                 requirements: requirements,
-                                requirementsOperator: .ANY)
+                                requirementOperator: .ANY)
     }
 }
