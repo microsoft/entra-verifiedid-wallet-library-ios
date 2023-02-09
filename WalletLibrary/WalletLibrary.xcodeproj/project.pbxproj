@@ -767,7 +767,6 @@
 				55E336CF293FA6D900CD2ED7 /* Requirements */,
 				55E3370D293FD84700CD2ED7 /* IssuanceRequest.swift */,
 				5534E5B42948FEB5005D0765 /* RootOfTrust.swift */,
-				550E320F298B113C004E7716 /* VerifiedIdRequest.swift */,
 				55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */,
 				55A81BE62991B2F3002C259A /* RequestHandlerFactory.swift */,
 			);
@@ -828,9 +827,10 @@
 				55E337B72948B50800CD2ED7 /* Handlers */,
 				55E3376629437E1000CD2ED7 /* OpenIdForVC */,
 				55E33710293FDE1400CD2ED7 /* Request.swift */,
-				550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */,
 				550E3213298B11A5004E7716 /* Requirement.swift */,
 				55A81BC92991AB82002C259A /* RequestResolving.swift */,
+				550E320F298B113C004E7716 /* VerifiedIdRequest.swift */,
+				550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
