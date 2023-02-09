@@ -106,7 +106,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testCanResolve_WithValidRequestHandler_ReturnsTrue() throws {
 
         // Arrange
-        let mockHandler = OpenIdRequestHandler()
+        let mockHandler = OpenIdRequestHandler(configuration: LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper()))
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
         
         // Act
