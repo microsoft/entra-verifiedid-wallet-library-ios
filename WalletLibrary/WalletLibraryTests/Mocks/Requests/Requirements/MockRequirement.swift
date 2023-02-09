@@ -24,6 +24,6 @@ struct MockRequirement: Requirement, Equatable {
     }
     
     static func == (lhs: MockRequirement, rhs: MockRequirement) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.id.lowercased() == rhs.id.lowercased()
     }
 }
