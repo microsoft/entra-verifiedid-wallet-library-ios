@@ -7,11 +7,11 @@
 
 struct MockVerifiedIdRequestContent: VerifiedIdRequestContent {
     
-    var style: WalletLibrary.RequesterStyle
+    var style: RequesterStyle
     
-    var requirement: WalletLibrary.Requirement
+    var requirement: Requirement
     
-    var rootOfTrust: WalletLibrary.RootOfTrust
+    var rootOfTrust: RootOfTrust
     
     init(style: RequesterStyle, requirement: Requirement, rootOfTrust: RootOfTrust) {
         self.style = style
