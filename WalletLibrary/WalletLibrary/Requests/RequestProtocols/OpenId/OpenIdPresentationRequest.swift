@@ -24,6 +24,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         self.configuration = configuration
     }
     
+    /// TODO: implement.
     func isSatisfied() -> Bool {
         return false
     }
