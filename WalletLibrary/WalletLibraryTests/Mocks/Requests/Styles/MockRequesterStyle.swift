@@ -5,18 +5,11 @@
 
 @testable import WalletLibrary
 
-struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
+struct MockRequesterStyle: RequesterStyle, Equatable {
     
-    var type: RequestType
+    let requester: String
     
-    var raw: Data?
-    
-    init(raw: Data?, type: RequestType = .Presentation) {
-        self.raw = raw
-        self.type = type
-    }
-    
-    func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
-        throw VerifiedIdClientError.TODO(message: "not implemented")
+    init(requester: String) {
+        self.requester = requester
     }
 }
