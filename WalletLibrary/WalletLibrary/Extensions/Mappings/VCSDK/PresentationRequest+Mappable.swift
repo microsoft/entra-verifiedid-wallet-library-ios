@@ -18,7 +18,6 @@ extension VCEntities.PresentationRequest: Mappable {
     func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
         
         guard let presentationDefinition = content.claims?.vpToken?.presentationDefinition else {
-            throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
         }
         
         let requirement = try mapper.map(presentationDefinition)
@@ -30,5 +29,3 @@ extension VCEntities.PresentationRequest: Mappable {
                                                rootOfTrust: rootOfTrust)
         
         return content
-    }
-}
