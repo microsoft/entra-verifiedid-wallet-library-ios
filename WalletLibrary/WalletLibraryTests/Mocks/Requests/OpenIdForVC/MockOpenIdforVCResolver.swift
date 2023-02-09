@@ -12,13 +12,13 @@ struct MockOpenIdForVCResolver: OpenIdForVCResolver {
         case nilCallback
     }
     
-    private let mockGetRequestCallback: ((String) -> OpenIdRawRequest)?
+    private let mockGetRequestCallback: ((String) -> any OpenIdRawRequest)?
     
-    init(mockGetRequestCallback: ((String) -> OpenIdRawRequest)? = nil) {
+    init(mockGetRequestCallback: ((String) -> any OpenIdRawRequest)? = nil) {
         self.mockGetRequestCallback = mockGetRequestCallback
     }
     
-    func getRequest(url: String) async throws -> OpenIdRawRequest {
+    func getRequest(url: String) async throws -> any OpenIdRawRequest {
         
         guard let mockGetRequestCallback = mockGetRequestCallback else {
             throw MockOpenIdForVCResolverError.nilCallback

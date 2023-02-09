@@ -10,6 +10,19 @@ import VCEntities
  */
 extension VCEntities.PresentationRequest: OpenIdRawRequest {
     
+    /// If prompt equals create, the request is an issuance request.
+    private var promptValueForIssuance: String {
+        "create"
+    }
+    
+    var type: RequestType {
+        if content.prompt == promptValueForIssuance {
+            return .Issuance
+        }
+        
+        return .Presentation
+    }
+    
     /// The raw representation of the request.
     var raw: Data? {
         do {

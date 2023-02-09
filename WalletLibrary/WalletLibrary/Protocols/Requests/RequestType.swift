@@ -4,12 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of a Raw Open Id Request.
- * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
+ * The request types that the library supports.
  */
-protocol OpenIdRawRequest: Mappable where T == VerifiedIdRequestContent {
-    
-    var type: RequestType { get }
-    
-    var raw: Data? { get }
+enum RequestType {
+    case Presentation
+    case Issuance
 }

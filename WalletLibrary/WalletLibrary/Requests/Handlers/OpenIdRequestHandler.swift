@@ -5,12 +5,32 @@
 
 /**
  * Handles a raw Open Id request and configures a VeriifedIdRequest object.
+ * Post Private Preview TODO: add processors to support multiple profiles of open id.
  */
 struct OpenIdRequestHandler: RequestHandling {
     
+    private let configuration: LibraryConfiguration
+    
+    init(configuration: LibraryConfiguration) {
+        self.configuration = configuration
+    }
+    
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    /// TODO: post private preview, input needs to be more generic to support multiple profiles of Open Id.
-    func handleRequest(from: OpenIdRawRequest) async throws -> any VerifiedIdRequest {
+    func handleRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdRequest {
+        
+        if request.type == .Issuance {
+            return try await handleIssuanceRequest(from: request)
+        }
+        
+        return try handlePresentationRequest(from: request)
+    }
+    
+    private func handleIssuanceRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdIssuanceRequest {
         throw VerifiedIdClientError.TODO(message: "implement")
+    }
+    
+    private func handlePresentationRequest(from request: any OpenIdRawRequest) throws -> any VerifiedIdPresentationRequest {
+        let content = try configuration.mapper.map(request)
+        return OpenIdPresentationRequest(content: content, configuration: configuration)
     }
 }

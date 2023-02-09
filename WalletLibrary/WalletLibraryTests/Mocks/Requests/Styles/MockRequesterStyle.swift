@@ -3,13 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/**
- * Representation of a Raw Open Id Request.
- * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
- */
-protocol OpenIdRawRequest: Mappable where T == VerifiedIdRequestContent {
+@testable import WalletLibrary
+
+struct MockRequesterStyle: RequesterStyle, Equatable {
     
-    var type: RequestType { get }
+    let requester: String
     
-    var raw: Data? { get }
+    init(requester: String) {
+        self.requester = requester
+    }
 }

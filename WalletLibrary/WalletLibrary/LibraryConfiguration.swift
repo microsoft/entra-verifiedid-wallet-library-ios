@@ -4,11 +4,17 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Request Protocol that all Verified Id Requests will conform to.
+ * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
+ * all of library will use.
  */
-public protocol Request {
-    
-    /// A string to describe the requester.
-    var requester: String { get }
-    
+class LibraryConfiguration {
+
+    let logger: WalletLibraryLogger
+
+    let mapper: Mapping
+
+    init(logger: WalletLibraryLogger, mapper: Mapping) {
+        self.logger = logger
+        self.mapper = mapper
+    }
 }

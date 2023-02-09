@@ -10,5 +10,5 @@ import VCEntities
  */
 protocol OpenIdForVCResolver {
     /// Fetches and validates the presentation request.
-    func getRequest(url: String) async throws -> OpenIdRawRequest
+    func getRequest(url: String) async throws -> any OpenIdRawRequest
 }

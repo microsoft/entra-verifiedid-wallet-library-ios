@@ -3,13 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+import VCEntities
+
 /**
- * Representation of a Raw Open Id Request.
- * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
+ * An extension of the VCEntities.PresentationRequest class to be able
+ * to map PresentationRequest to VerifiedIdRequestContent.
  */
-protocol OpenIdRawRequest: Mappable where T == VerifiedIdRequestContent {
+extension VCEntities.PresentationRequest: Mappable {
     
-    var type: RequestType { get }
-    
-    var raw: Data? { get }
+    func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
+        throw VerifiedIdClientError.TODO(message: "implement")
+    }
 }

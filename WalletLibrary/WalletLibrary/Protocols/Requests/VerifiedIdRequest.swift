@@ -28,3 +28,14 @@ public protocol VerifiedIdRequest {
     /// Cancel the request with an optional message.
     func cancel(message: String?) -> Result<Void, Error>
 }
+
+/**
+ * Internal Protocol that represents an Issuance Request.
+ * TODO: add VerifiedId Style
+ */
+protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == any VerifiedIdRequest { }
+
+/**
+ * Internal Protocol that represents a Presentation Request.
+ */
+protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }

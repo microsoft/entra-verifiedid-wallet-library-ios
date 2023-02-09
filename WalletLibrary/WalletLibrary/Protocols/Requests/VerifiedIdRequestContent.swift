@@ -4,12 +4,15 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of a Raw Open Id Request.
- * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
+ * Contents in a Verified Id Request.
+ * This protocol is used to map protocol specific requests to common request object.
  */
-protocol OpenIdRawRequest: Mappable where T == VerifiedIdRequestContent {
+protocol VerifiedIdRequestContent {
     
-    var type: RequestType { get }
+    var style: RequesterStyle { get }
     
-    var raw: Data? { get }
+    var requirement: Requirement { get }
+    
+    var rootOfTrust: RootOfTrust { get }
+    
 }
