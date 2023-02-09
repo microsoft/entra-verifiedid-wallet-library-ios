@@ -12,7 +12,7 @@ import VCServices
 extension PresentationService: OpenIdForVCResolver, OpenIdForVCResponder {
     
     /// Fetches and validates the presentation request.
-    func getRequest(url: String) async throws -> OpenIdRawRequest {
+    func getRequest(url: String) async throws -> any OpenIdRawRequest {
         return try await AsyncWrapper().wrap { () in
             self.getRequest(usingUrl: url)
         }()
