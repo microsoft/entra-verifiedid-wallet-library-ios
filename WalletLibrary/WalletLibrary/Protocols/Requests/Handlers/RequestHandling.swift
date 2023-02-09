@@ -11,5 +11,5 @@ protocol RequestHandling {
     associatedtype RawRequest
     
     /// Validate and map an input to a verified id request.
-    func handleRequest(from: RawRequest) async throws -> any VerifiedIdRequest
+    func handleRequest(from request: RawRequest) async throws -> any VerifiedIdRequest
 }
