@@ -18,9 +18,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
         let expectedRequirement = MockRequirement(id: "mockRequirement324")
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedContent = MockVerifiedIdRequestContent(style: expectedStyle,
-                                                           requirement: expectedRequirement,
-                                                           rootOfTrust: expectedRootOfTrust)
+        let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
+                                                       requirement: expectedRequirement,
+                                                       rootOfTrust: expectedRootOfTrust)
         let mockMapper = MockMapper(returnedObject: expectedContent)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
