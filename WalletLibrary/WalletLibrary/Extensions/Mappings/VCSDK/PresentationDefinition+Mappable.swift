@@ -6,8 +6,8 @@
 import VCEntities
 
 /**
- * An extension of the VCEntities.PresentationDescriptor class to be able
- * to map PresentationDescriptor to VerifiedIdRequirement.
+ * An extension of the VCEntities.PresentationDefinition class to be able
+ * to map PresentationDefinition to a Requirement.
  */
 extension VCEntities.PresentationDefinition: Mappable {
     
