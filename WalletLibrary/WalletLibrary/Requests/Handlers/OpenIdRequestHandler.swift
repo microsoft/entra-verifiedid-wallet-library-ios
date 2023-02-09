@@ -22,14 +22,14 @@ struct OpenIdRequestHandler: RequestHandling {
             return try await handleIssuanceRequest(from: request)
         }
         
-        return try await handlePresentationRequest(from: request)
+        return try handlePresentationRequest(from: request)
     }
     
     private func handleIssuanceRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdIssuanceRequest {
         throw VerifiedIdClientError.TODO(message: "implement")
     }
     
-    private func handlePresentationRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdPresentationRequest {
+    private func handlePresentationRequest(from request: any OpenIdRawRequest) throws -> any VerifiedIdPresentationRequest {
         let content = try configuration.mapper.map(request)
         return OpenIdPresentationRequest(content: content, configuration: configuration)
     }
