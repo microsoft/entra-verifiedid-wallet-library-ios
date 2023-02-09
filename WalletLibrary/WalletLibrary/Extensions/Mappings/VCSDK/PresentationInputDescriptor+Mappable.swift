@@ -9,6 +9,10 @@ enum PresentationInputDescriptorMappingError: Error {
     case noVerifiedIdRequirementTypePresent
 }
 
+/**
+ * An extension of the VCEntities.PresentationInputDescriptor class to be able
+ * to map PresentationInputDescriptor to VerifiedIdRequirement.
+ */
 extension VCEntities.PresentationInputDescriptor: Mappable {
     
     func map(using mapper: Mapping) throws -> VerifiedIdRequirement {
