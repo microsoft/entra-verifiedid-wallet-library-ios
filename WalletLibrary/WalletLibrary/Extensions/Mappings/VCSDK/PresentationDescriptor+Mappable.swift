@@ -18,7 +18,8 @@ extension VCEntities.PresentationDescriptor: Mappable {
         var issuanceOptions: IssuanceOptions? = nil
         if let contracts = contracts,
            !contracts.isEmpty {
-            issuanceOptions = IssuanceOptions(acceptedIssuers: acceptedIssuers, credentialIssuerMetadata: contracts)
+            issuanceOptions = IssuanceOptions(acceptedIssuers: acceptedIssuers,
+                                              credentialIssuerMetadata: contracts)
         }
         
         return VerifiedIdRequirement(encrypted: encrypted ?? false,
