@@ -20,6 +20,7 @@ public class GroupRequirement: Requirement {
          requirementsOperator: Operator) {
         self.required = required
         self.requirements = requirements
+        self.requirementsOperator = requirementsOperator
     }
     
     public func validate() throws {
