@@ -7,12 +7,11 @@
  * Contents in a Verified Id Request.
  * This protocol is used to map protocol specific requests to common request object.
  */
-protocol VerifiedIdRequestContent {
+struct VerifiedIdRequestContent {
     
-    var style: RequesterStyle { get }
+    let style: RequesterStyle
     
-    var requirement: Requirement { get }
+    let requirement: Requirement
     
-    var rootOfTrust: RootOfTrust { get }
-    
+    let rootOfTrust: RootOfTrust
 }
