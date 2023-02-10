@@ -28,7 +28,7 @@ class PresentationDefinitionMappingTests: XCTestCase {
     func testMap_WithOneInputDescriptorPresent_ReturnsVerifiedIdRequirement() throws {
         
         // Arrange
-        let mockVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                               required: false,
                                                               types: [],
                                                               purpose: nil,
@@ -45,6 +45,54 @@ class PresentationDefinitionMappingTests: XCTestCase {
         
         func callback(type: Any) throws -> Any? {
             if type is PresentationInputDescriptor {
+                return expectedVerifiedIdRequirement
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(callback: callback)
+        
+        let actualResult = try mockMapper.map(presentationDefinition)
+        
+        // Assert
+        XCTAssert(actualResult is VerifiedIdRequirement)
+        XCTAssertIdentical(actualResult as AnyObject, expectedVerifiedIdRequirement as AnyObject)
+    }
+    
+    func testMap_WithMultipleInputDescriptorPresent_ReturnsGroupRequirement() throws {
+        
+        // Arrange
+        let mockVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                              required: false,
+                                                              types: [],
+                                                              purpose: nil,
+                                                              issuanceOptions: [])
+        let firstMockInputDescriptor = PresentationInputDescriptor(id: nil,
+                                                          schema: nil,
+                                                          issuanceMetadata: nil,
+                                                          name: nil,
+                                                          purpose: nil,
+                                                          constraints: nil)
+        let secondMockInputDescriptor = PresentationInputDescriptor(id: nil,
+                                                          schema: nil,
+                                                          issuanceMetadata: nil,
+                                                          name: nil,
+                                                          purpose: nil,
+                                                          constraints: nil)
+        let thirdMockInputDescriptor = PresentationInputDescriptor(id: nil,
+                                                          schema: nil,
+                                                          issuanceMetadata: nil,
+                                                          name: nil,
+                                                          purpose: nil,
+                                                          constraints: nil)
+        let inputDescriptors = [firstMockInputDescriptor, secondMockInputDescriptor, thirdMockInputDescriptor]
+        let presentationDefinition = PresentationDefinition(id: nil,
+                                                            inputDescriptors: inputDescriptors,
+                                                            issuance: nil)
+        
+        func callback(type: Any) throws -> Any? {
+            if type is PresentationInputDescriptor {
                 return mockVerifiedIdRequirement
             }
             
@@ -56,17 +104,12 @@ class PresentationDefinitionMappingTests: XCTestCase {
         let actualResult = try mockMapper.map(presentationDefinition)
         
         // Assert
-        XCTAssertIdentical(actualResult as AnyObject, mockVerifiedIdRequirement as AnyObject)
-    }
-    
-    func testMap_WithMultipleInputDescriptorPresent_ReturnsGroupRequirement() throws {
-        // Arrange
-//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
-        
-        // Act
-//        let actualResult = try mapper.map(input)
-        
-        // Assert
-//        assertEqual(actualResult, expectedResult)
+        XCTAssert(actualResult is GroupRequirement)
+        XCTAssertEqual((actualResult as? GroupRequirement)?.requirements.count, 3)
+        XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements.first as AnyObject, mockVerifiedIdRequirement as AnyObject)
+        XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements[1] as AnyObject, mockVerifiedIdRequirement as AnyObject)
+        XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements[2] as AnyObject, mockVerifiedIdRequirement as AnyObject)
+        XCTAssert((actualResult as? GroupRequirement)?.required ?? false)
+        XCTAssertEqual((actualResult as? GroupRequirement)?.requirementOperator, .ANY)
     }
 }
