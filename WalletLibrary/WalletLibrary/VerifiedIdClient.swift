@@ -13,11 +13,11 @@ enum VerifiedIdClientError: Error {
  */
 public class VerifiedIdClient {
     
-    private let configuration: LibraryConfiguration
+    let configuration: LibraryConfiguration
     
-    private let requestResolverFactory: RequestResolverFactory
+    let requestResolverFactory: RequestResolverFactory
     
-    private let requestHandlerFactory: RequestHandlerFactory
+    let requestHandlerFactory: RequestHandlerFactory
     
     init(requestResolverFactory: RequestResolverFactory,
          requestHandlerFactory: RequestHandlerFactory,
