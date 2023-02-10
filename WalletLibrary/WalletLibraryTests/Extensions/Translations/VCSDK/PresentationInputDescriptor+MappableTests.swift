@@ -11,7 +11,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
     
     let mapper = Mapper()
     
-    func testMap_WhenWithAllDefaultInput_ReturnsVerifiedIdRequirement() throws {
+    func testMap_WithNilSchema_ThrowsError() throws {
         // Arrange
 //        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
         
@@ -22,4 +22,91 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
 //        assertEqual(actualResult, expectedResult)
     }
     
+    func testMap_WithNoVerifiedIdTypesPresent_ThrowsError() throws {
+        // Arrange
+//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
+//        let actualResult = try mapper.map(input)
+        
+        // Assert
+//        assertEqual(actualResult, expectedResult)
+    }
+    
+    func testMap_WithOneTypePresent_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
+//        let actualResult = try mapper.map(input)
+        
+        // Assert
+//        assertEqual(actualResult, expectedResult)
+    }
+    
+    func testMap_WithMultipleTypesPresent_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
+//        let actualResult = try mapper.map(input)
+        
+        // Assert
+//        assertEqual(actualResult, expectedResult)
+    }
+    
+    func testMap_WithNoIssuanceMetadataPresent_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
+//        let actualResult = try mapper.map(input)
+        
+        // Assert
+//        assertEqual(actualResult, expectedResult)
+    }
+    
+    func testMap_WithInvalidContractFormatInIssuanceMetadata_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
+//        let actualResult = try mapper.map(input)
+        
+        // Assert
+//        assertEqual(actualResult, expectedResult)
+    }
+    
+    func testMap_WithOneContractPresent_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
+//        let actualResult = try mapper.map(input)
+        
+        // Assert
+//        assertEqual(actualResult, expectedResult)
+    }
+    
+    func testMap_WithMultipleContractsPresent_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
+//        let actualResult = try mapper.map(input)
+        
+        // Assert
+//        assertEqual(actualResult, expectedResult)
+    }
+    
+    func testMap_WithNoPurposePresent_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+//        let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
+//        let actualResult = try mapper.map(input)
+        
+        // Assert
+//        assertEqual(actualResult, expectedResult)
+    }
 }
