@@ -6,7 +6,7 @@
 import VCEntities
 
 enum PresentationInputDescriptorMappingError: Error {
-    case noVerifiedIdRequirementTypePresent
+    case noVerifiedIdTypeInPresentationInputDescriptor
 }
 
 /**
@@ -19,10 +19,11 @@ extension VCEntities.PresentationInputDescriptor: Mappable {
         
         guard let types = schema?.compactMap({ $0.uri }),
               !types.isEmpty else {
-            throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
+            throw PresentationInputDescriptorMappingError.noVerifiedIdTypeInPresentationInputDescriptor
         }
         
         let issuanceOptions = self.issuanceMetadata?.compactMap {
+            
             if let contract = $0.contract,
                let url = URL(string: contract) {
                 return VerifiedIdRequestURL(url: url)
@@ -34,7 +35,7 @@ extension VCEntities.PresentationInputDescriptor: Mappable {
         return VerifiedIdRequirement(encrypted: false,
                                      required: true,
                                      types: types,
-                                     purpose: nil,
+                                     purpose: purpose,
                                      issuanceOptions: issuanceOptions ?? [])
     }
 }
