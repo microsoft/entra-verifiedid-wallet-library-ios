@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * This value tells the user if they must get all of the requirements in the list or just one of them.
+ * This value specifies if all requirements are needed in the list or just one.
  */
 public enum GroupRequirementOperator {
     case ANY

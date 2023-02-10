@@ -5,6 +5,9 @@
 
 import VCEntities
 
+/**
+ * Errors thrown in Presentation Definition Mappable extension.
+ */
 enum PresentationDefinitionMappingError: Error {
     case nilInputDescriptors
 }
@@ -22,15 +25,15 @@ extension VCEntities.PresentationDefinition: Mappable {
         }
         
         if inputDescriptors.capacity == 1,
-           let onlyDescriptor = inputDescriptors.first {
-            return try mapper.map(onlyDescriptor)
+           let onlyPresentationInputDescriptor = inputDescriptors.first {
+            return try mapper.map(onlyPresentationInputDescriptor)
         }
         
         let requirements = try inputDescriptors.compactMap {
             try mapper.map($0)
         }
 
-        /// VC SDK only supports any operator for now.
+        /// VC SDK only supports ANY operator for now.
         return GroupRequirement(required: true,
                                 requirements: requirements,
                                 requirementOperator: .ANY)

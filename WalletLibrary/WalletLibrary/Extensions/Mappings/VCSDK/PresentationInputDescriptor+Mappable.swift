@@ -5,6 +5,9 @@
 
 import VCEntities
 
+/**
+ * Errors thrown in Presentation Input Descriptor Mappable extension.
+ */
 enum PresentationInputDescriptorMappingError: Error {
     case noVerifiedIdTypeInPresentationInputDescriptor
 }

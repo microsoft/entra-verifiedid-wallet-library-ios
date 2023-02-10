@@ -5,6 +5,9 @@
 
 import VCEntities
 
+/**
+ * Errors thrown in Presentation Request Mappable extension.
+ */
 enum PresentationRequestMappingError: Error {
     case presentationDefinitionMissingInRequest
 }
