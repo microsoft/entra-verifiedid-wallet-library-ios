@@ -18,7 +18,7 @@ public enum TraceLevel {
 /**
  * Protocol for consumers of the library to use to inject logging into the library.
  */
-public protocol WalletLibraryLogConsumer: VCLogConsumer {
+public protocol WalletLibraryLogConsumer {
     
     /// Logs a trace with calling function name, line, file.
     func log(_ traceLevel: TraceLevel,

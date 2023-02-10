@@ -8,7 +8,7 @@
  */
 struct WalletLibraryLogger {
     
-    private var consumers: [WalletLibraryLogConsumer] = []
+    var consumers: [WalletLibraryLogConsumer] = []
     
     /// Adds a log consumer to logger.
     mutating func add(consumer: WalletLibraryLogConsumer) {
