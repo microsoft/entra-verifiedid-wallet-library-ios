@@ -3,6 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+import VCEntities
+
 /// The trace level of the data that will be logged.
 public enum TraceLevel {
     case VERBOSE
@@ -16,7 +18,7 @@ public enum TraceLevel {
 /**
  * Protocol for consumers of the library to use to inject logging into the library.
  */
-public protocol WalletLibraryLogConsumer {
+public protocol WalletLibraryLogConsumer: VCLogConsumer {
     
     /// Logs a trace with calling function name, line, file.
     func log(_ traceLevel: TraceLevel,
