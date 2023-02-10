@@ -43,15 +43,15 @@ class PresentationDefinitionMappingTests: XCTestCase {
                                                             inputDescriptors: [inputDescriptor],
                                                             issuance: nil)
         
-        func callback(type: Any) throws -> Any? {
-            if type is PresentationInputDescriptor {
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is PresentationInputDescriptor {
                 return expectedVerifiedIdRequirement
             }
             
             return nil
         }
         
-        let mockMapper = MockMapper(callback: callback)
+        let mockMapper = MockMapper(mockResults: mockResults)
         
         // Act
         let actualResult = try mockMapper.map(presentationDefinition)
@@ -93,8 +93,8 @@ class PresentationDefinitionMappingTests: XCTestCase {
                                                             issuance: nil)
         
         var requirementCount = 0
-        func callback(type: Any) throws -> Any? {
-            if type is PresentationInputDescriptor {
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is PresentationInputDescriptor {
                 requirementCount = requirementCount + 1
                 return mockVerifiedIdRequirement
             }
@@ -102,7 +102,7 @@ class PresentationDefinitionMappingTests: XCTestCase {
             return nil
         }
         
-        let mockMapper = MockMapper(callback: callback)
+        let mockMapper = MockMapper(mockResults: mockResults)
         
         // Act
         let actualResult = try mockMapper.map(presentationDefinition)
