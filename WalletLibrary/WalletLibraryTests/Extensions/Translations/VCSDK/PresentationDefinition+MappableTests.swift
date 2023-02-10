@@ -53,6 +53,7 @@ class PresentationDefinitionMappingTests: XCTestCase {
         
         let mockMapper = MockMapper(callback: callback)
         
+        // Act
         let actualResult = try mockMapper.map(presentationDefinition)
         
         // Assert
@@ -91,8 +92,10 @@ class PresentationDefinitionMappingTests: XCTestCase {
                                                             inputDescriptors: inputDescriptors,
                                                             issuance: nil)
         
+        var requirementCount = 0
         func callback(type: Any) throws -> Any? {
             if type is PresentationInputDescriptor {
+                requirementCount = requirementCount + 1
                 return mockVerifiedIdRequirement
             }
             
@@ -101,11 +104,12 @@ class PresentationDefinitionMappingTests: XCTestCase {
         
         let mockMapper = MockMapper(callback: callback)
         
+        // Act
         let actualResult = try mockMapper.map(presentationDefinition)
         
         // Assert
         XCTAssert(actualResult is GroupRequirement)
-        XCTAssertEqual((actualResult as? GroupRequirement)?.requirements.count, 3)
+        XCTAssertEqual((actualResult as? GroupRequirement)?.requirements.count, requirementCount)
         XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements.first as AnyObject, mockVerifiedIdRequirement as AnyObject)
         XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements[1] as AnyObject, mockVerifiedIdRequirement as AnyObject)
         XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements[2] as AnyObject, mockVerifiedIdRequirement as AnyObject)
