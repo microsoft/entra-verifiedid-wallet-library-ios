@@ -11,18 +11,18 @@ class MockHandler: RequestHandling {
         case nilMockHandlerMethod
     }
     
-    let mockHandleRequest: (() -> any VerifiedIdRequest)?
+    let mockHandleRequest: (() throws -> any VerifiedIdRequest)?
     
-    init(mockHandleRequest: (() -> any VerifiedIdRequest)? = nil) {
+    init(mockHandleRequest: (() throws -> any VerifiedIdRequest)? = nil) {
         self.mockHandleRequest = mockHandleRequest
     }
     
-    func handleRequest(from: MockRawRequest) async throws -> any VerifiedIdRequest {
+    func handleRequest<RawRequest>(from: RawRequest) async throws -> any VerifiedIdRequest {
         
         guard let mockHandleRequest = mockHandleRequest else {
             throw MockHandlerError.nilMockHandlerMethod
         }
         
-        return mockHandleRequest()
+        return try mockHandleRequest()
     }
 }
