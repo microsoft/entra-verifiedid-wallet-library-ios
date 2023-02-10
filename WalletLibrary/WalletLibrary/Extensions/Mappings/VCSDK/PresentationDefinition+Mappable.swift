@@ -5,6 +5,10 @@
 
 import VCEntities
 
+enum PresentationDefinitionMappingError: Error {
+    case nilInputDescriptors
+}
+
 /**
  * An extension of the VCEntities.PresentationDefinition class to be able
  * to map PresentationDefinition to a Requirement.
@@ -14,7 +18,7 @@ extension VCEntities.PresentationDefinition: Mappable {
     func map(using mapper: Mapping) throws -> Requirement {
         
         guard let inputDescriptors = self.inputDescriptors else {
-            throw VerifiedIdClientError.TODO(message: "add error")
+            throw PresentationDefinitionMappingError.nilInputDescriptors
         }
         
         if inputDescriptors.capacity == 1,
