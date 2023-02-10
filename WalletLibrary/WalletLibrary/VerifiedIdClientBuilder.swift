@@ -10,11 +10,11 @@ import VCServices
  */
 public class VerifiedIdClientBuilder {
     
-    var logger: WalletLibraryLogger
+    private var logger: WalletLibraryLogger
     
-    var requestResolvers: [any RequestResolving] = []
+    private var requestResolvers: [any RequestResolving] = []
     
-    var requestHandlers: [any RequestHandling] = []
+    private var requestHandlers: [any RequestHandling] = []
 
     public init() {
         logger = WalletLibraryLogger()
