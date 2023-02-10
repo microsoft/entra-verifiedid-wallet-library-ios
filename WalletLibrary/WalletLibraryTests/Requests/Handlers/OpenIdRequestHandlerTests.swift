@@ -4,6 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
+import VCEntities
 @testable import WalletLibrary
 
 class OpenIdRequestHandlerTests: XCTestCase {
@@ -21,7 +22,16 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
                                                        requirement: expectedRequirement,
                                                        rootOfTrust: expectedRootOfTrust)
-        let mockMapper = MockMapper(returnedObject: expectedContent)
+        
+        func callback(object: Any) throws -> Any? {
+            if object is MockOpenIdRawRequest {
+                return expectedContent
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(callback: callback)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration)
@@ -38,7 +48,15 @@ class OpenIdRequestHandlerTests: XCTestCase {
     func testHandleRequest_WithPresentationRequestInvalidMapping_ThrowsError() async throws {
         
         // Arrange
-        let mockMapper = MockMapper(error: ExpectedError.expectedToBeThrown)
+        func callback(object: Any) throws -> Any? {
+            if object is MockOpenIdRawRequest {
+                throw ExpectedError.expectedToBeThrown
+            }
+            
+            return nil
+        }
+
+        let mockMapper = MockMapper(callback: callback)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration)
