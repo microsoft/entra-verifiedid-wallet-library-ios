@@ -16,7 +16,11 @@ struct OpenIdRequestHandler: RequestHandling {
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    func handleRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdRequest {
+    func handleRequest<RawRequest>(from request: RawRequest) async throws -> any VerifiedIdRequest {
+        
+        guard let request = request as? any OpenIdRawRequest else {
+            throw VerifiedIdClientError.TODO(message: "implement")
+        }
         
         if request.type == .Issuance {
             return try await handleIssuanceRequest(from: request)
