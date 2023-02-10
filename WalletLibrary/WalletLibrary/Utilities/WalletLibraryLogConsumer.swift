@@ -3,8 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
-
 /// The trace level of the data that will be logged.
 public enum TraceLevel {
     case VERBOSE
