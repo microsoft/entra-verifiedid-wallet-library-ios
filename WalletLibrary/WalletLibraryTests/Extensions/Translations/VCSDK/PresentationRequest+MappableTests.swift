@@ -66,5 +66,4 @@ class PresentationRequestMappingTests: XCTestCase {
         // Assert
 //        assertEqual(actualResult, expectedResult)
     }
-    
 }
