@@ -15,7 +15,11 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
-    init(configuration: LibraryConfiguration) {
+    private let contractResolver: ContractResolver
+    
+    init(contractResolver: ContractResolver,
+         configuration: LibraryConfiguration) {
+        self.contractResolver = contractResolver
         self.configuration = configuration
     }
     
@@ -34,6 +38,16 @@ struct OpenIdRequestHandler: RequestHandling {
     }
     
     private func handleIssuanceRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdIssuanceRequest {
+        let content = try configuration.mapper.map(request)
+        
+        if let requirement = content.requirement as? VerifiedIdRequirement,
+           let issuanceInput = requirement.issuanceOptions.first {
+            
+            let request = try await contractResolver.resolve(input: issuanceInput)
+            let issuanceContent = try configuration.mapper.map(request)
+            return OpenIdIssuanceRequest(content: content, configuration: configuration)
+        }
+        
         throw VerifiedIdClientError.TODO(message: "implement")
     }
     
@@ -41,4 +55,36 @@ struct OpenIdRequestHandler: RequestHandling {
         let content = try configuration.mapper.map(request)
         return OpenIdPresentationRequest(content: content, configuration: configuration)
     }
+}
+
+class OpenIdIssuanceRequest: VerifiedIdIssuanceRequest {
+    
+    var style: RequesterStyle
+    
+    var requirement: Requirement
+    
+    var rootOfTrust: RootOfTrust
+    
+    private let configuration: LibraryConfiguration
+    
+    init(content: VerifiedIdRequestContent, configuration: LibraryConfiguration) {
+        self.style = content.style
+        self.requirement = content.requirement
+        self.rootOfTrust = content.rootOfTrust
+        self.configuration = configuration
+    }
+    
+    func isSatisfied() -> Bool {
+        return false
+    }
+    
+    func complete() async -> Result<any VerifiedIdRequest, Error> {
+        return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
+    }
+    
+    func cancel(message: String?) -> Result<Void, Error> {
+        return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
+    }
+    
+    
 }

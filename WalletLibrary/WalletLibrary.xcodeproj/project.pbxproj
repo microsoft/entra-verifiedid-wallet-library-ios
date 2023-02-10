@@ -50,6 +50,7 @@
 		559BD30D2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */; };
 		559BD30F2996C1C500BD61AC /* MockLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */; };
 		559BD3112996D3CE00BD61AC /* MockVerifiedIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */; };
+		559BD3132996DC3100BD61AC /* ContractResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3122996DC3100BD61AC /* ContractResolver.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestHandling.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -305,6 +306,7 @@
 		559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientBuilderTests.swift; sourceTree = "<group>"; };
 		559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLogConsumer.swift; sourceTree = "<group>"; };
 		559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdRequest.swift; sourceTree = "<group>"; };
+		559BD3122996DC3100BD61AC /* ContractResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractResolver.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandling.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				550A916E299310D40014D030 /* OpenIdURLRequestResolver.swift */,
+				559BD3122996DC3100BD61AC /* ContractResolver.swift */,
 			);
 			path = Resolvers;
 			sourceTree = "<group>";
@@ -1187,6 +1190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55E2F08C299576730008010D /* GroupRequirement.swift in Sources */,
+				559BD3132996DC3100BD61AC /* ContractResolver.swift in Sources */,
 				550E3212298B1150004E7716 /* VerifiedIdRequestInput.swift in Sources */,
 				550A919B29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift in Sources */,
 				5534E667294A0B6C005D0765 /* Mappable.swift in Sources */,
