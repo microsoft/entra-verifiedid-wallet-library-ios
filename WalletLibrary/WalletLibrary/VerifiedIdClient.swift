@@ -13,14 +13,18 @@ enum VerifiedIdClientError: Error {
  */
 public class VerifiedIdClient {
     
+    private let configuration: LibraryConfiguration
+    
     private let requestResolverFactory: RequestResolverFactory
     
     private let requestHandlerFactory: RequestHandlerFactory
     
     init(requestResolverFactory: RequestResolverFactory,
-         requestHandlerFactory: RequestHandlerFactory) {
+         requestHandlerFactory: RequestHandlerFactory,
+         configuration: LibraryConfiguration) {
         self.requestResolverFactory = requestResolverFactory
         self.requestHandlerFactory = requestHandlerFactory
+        self.configuration = configuration
     }
     
     /// Creates either an issuance or presentation request from the input.
