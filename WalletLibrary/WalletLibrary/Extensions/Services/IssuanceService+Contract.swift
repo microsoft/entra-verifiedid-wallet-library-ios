@@ -11,7 +11,7 @@ import VCServices
  */
 extension IssuanceService: ContractResolver {
     
-    /// Fetches and validates the issuance request
+    /// Fetches and validates the issuance request.
     func getRequest(url: String) async throws -> any RawContract {
         return try await AsyncWrapper().wrap { () in
             self.getRequest(usingUrl: url)
