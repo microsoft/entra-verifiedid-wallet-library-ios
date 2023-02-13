@@ -104,7 +104,7 @@ class PresentationRequestMappingTests: XCTestCase {
     
     func testMap_WithNoClientNamePresent_ReturnVerifiedIdRequestContent() throws {
         // Arrange
-        let expectedStyle = OpenIdRequesterStyle(requester: "")
+        let expectedStyle = OpenIdVerifierStyle(name: "")
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                               required: false,
                                                               types: [],
@@ -145,13 +145,13 @@ class PresentationRequestMappingTests: XCTestCase {
         // Act
         XCTAssertIdentical(actualResult.requirement as AnyObject, expectedVerifiedIdRequirement as AnyObject)
         XCTAssertEqual(actualResult.rootOfTrust, expectedRootOfTrust)
-        XCTAssertEqual(actualResult.style as? OpenIdRequesterStyle, expectedStyle)
+        XCTAssertEqual(actualResult.style as? OpenIdVerifierStyle, expectedStyle)
     }
     
     func testMap_WithClientNamePresent_ReturnVerifiedIdRequestContent() throws {
         // Arrange
         let mockRequesterName = "mockRequesterName235"
-        let expectedStyle = OpenIdRequesterStyle(requester: mockRequesterName)
+        let expectedStyle = OpenIdVerifierStyle(name: mockRequesterName)
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                               required: false,
                                                               types: [],
@@ -192,7 +192,7 @@ class PresentationRequestMappingTests: XCTestCase {
         // Act
         XCTAssertIdentical(actualResult.requirement as AnyObject, expectedVerifiedIdRequirement as AnyObject)
         XCTAssertEqual(actualResult.rootOfTrust, expectedRootOfTrust)
-        XCTAssertEqual(actualResult.style as? OpenIdRequesterStyle, expectedStyle)
+        XCTAssertEqual(actualResult.style as? OpenIdVerifierStyle, expectedStyle)
     }
     
     private func createPresentationRequestToken(with requestedClaims: RequestedClaims?,

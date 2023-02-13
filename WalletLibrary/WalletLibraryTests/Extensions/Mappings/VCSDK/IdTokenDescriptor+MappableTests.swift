@@ -11,10 +11,6 @@ class IdTokenDescriptorMappingTests: XCTestCase {
     
     let mapper = Mapper()
     
-    let encoder = JSONEncoder()
-    
-    let decoder = JSONDecoder()
-    
     let expectedConfiguration = "https://test.com"
     let expectedClientId = "clientId12"
     let expectedRedirectUri = "redirectUri645"

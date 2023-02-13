@@ -4,8 +4,20 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Requester Style that is Open Id specific.
+ * Requester Style that is specific to the verifier.
  */
-struct OpenIdRequesterStyle: RequesterStyle, Equatable {
-    let requester: String
+public protocol VerifierStyle: RequesterStyle {
+    var name: String { get }
+}
+
+struct OpenIdVerifierStyle: VerifierStyle, Equatable {
+    let name: String
+}
+
+public protocol IssuerStyle: RequesterStyle {
+    var name: String { get }
+}
+
+struct MSIssuerStyle: IssuerStyle, Equatable {
+    let name: String
 }

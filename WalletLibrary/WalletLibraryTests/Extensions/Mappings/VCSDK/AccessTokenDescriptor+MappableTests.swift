@@ -11,10 +11,6 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
     
     let mapper = Mapper()
     
-    let encoder = JSONEncoder()
-    
-    let decoder = JSONDecoder()
-    
     let expectedId = "id432"
     let expectedConfiguration = "https://test.com"
     let expectedClientId = "clientId12"
