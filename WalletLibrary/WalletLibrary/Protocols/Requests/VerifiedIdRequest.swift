@@ -8,10 +8,11 @@
  * the requirement needed to fulfill request, and the root of trust.
  */
 public protocol VerifiedIdRequest {
-    associatedtype T
+    associatedtype Style
+    associatedtype Response
     
     /// The look and feel of the requester.
-    var style: RequesterStyle { get }
+    var style: Style { get }
     
     /// The requirement needed to fulfill request.
     var requirement: Requirement { get }
@@ -23,19 +24,22 @@ public protocol VerifiedIdRequest {
     func isSatisfied() -> Bool
 
     /// Completes the request and returns a generic object if successful.
-    func complete() async -> Result<T, Error>
+    func complete() async -> Result<Response, Error>
 
     /// Cancel the request with an optional message.
     func cancel(message: String?) -> Result<Void, Error>
 }
 
 /**
- * Internal Protocol that represents an Issuance Request.
+ * Protocol that represents an Issuance Request.
  * TODO: add VerifiedId Style
  */
-protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == any VerifiedIdRequest { }
+public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where Style: IssuerStyle, Response == VerifiedId  {
+    
+    var verifiedIdStyle: VerifiedIdStyle { get }
+}
 
 /**
- * Internal Protocol that represents a Presentation Request.
+ * Protocol that represents a Presentation Request.
  */
-protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }
+public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where Style: VerifierStyle, Response == Void { }

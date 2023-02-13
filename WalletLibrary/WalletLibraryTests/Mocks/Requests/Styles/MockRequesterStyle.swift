@@ -7,9 +7,9 @@
 
 struct MockRequesterStyle: RequesterStyle, Equatable {
     
-    let requester: String
+    let name: String
     
     init(requester: String) {
-        self.requester = requester
+        self.name = requester
     }
 }

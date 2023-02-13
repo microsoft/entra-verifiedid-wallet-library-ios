@@ -8,8 +8,8 @@
  * TODO: we will need open id specific data to implement complete and cancel.
  */
 class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
-    
-    let style: RequesterStyle
+
+    let style: OpenIdVerifierStyle
     
     let requirement: Requirement
     
@@ -18,7 +18,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     private let configuration: LibraryConfiguration
     
     init(content: VerifiedIdRequestContent, configuration: LibraryConfiguration) {
-        self.style = content.style
+        self.style = content.style as! OpenIdVerifierStyle
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.configuration = configuration
