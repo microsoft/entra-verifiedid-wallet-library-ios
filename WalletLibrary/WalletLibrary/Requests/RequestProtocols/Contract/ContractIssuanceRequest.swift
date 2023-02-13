@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Issuance Requst that is Contract specific.
+ * Issuance Request that is Contract specific.
  * TODO: we will need contract specific data to implement complete and cancel.
  * TODO: add VerifiedIdStyle property.
  */
