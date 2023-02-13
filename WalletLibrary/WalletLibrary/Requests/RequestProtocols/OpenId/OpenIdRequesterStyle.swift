@@ -4,15 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Contents in a Verified Id Request.
- * This protocol is used to map protocol specific requests to common request object.
+ * Requester Style that is Open Id specific.
  */
-protocol VerifiedIdRequestContent {
-    
-    var style: RequesterStyle { get }
-    
-    var requirement: Requirement { get }
-    
-    var rootOfTrust: RootOfTrust { get }
-    
+struct OpenIdRequesterStyle: RequesterStyle, Equatable {
+    let requester: String
 }

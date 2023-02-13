@@ -6,7 +6,7 @@
 /**
  * Root of Trust such as Linked Domain Verified for the request.
  */
-public struct RootOfTrust {
+public struct RootOfTrust: Equatable {
     
     /// Whether root of trust is verified or not (for example, if the linked domain check succeeded.
     public let verified: Bool

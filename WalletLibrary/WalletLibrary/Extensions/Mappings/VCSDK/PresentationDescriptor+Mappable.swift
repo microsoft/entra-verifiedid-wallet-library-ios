@@ -13,20 +13,19 @@ extension VCEntities.PresentationDescriptor: Mappable {
     
     func map(using mapper: Mapping) throws -> VerifiedIdRequirement {
         
-        let acceptedIssuers = issuers?.compactMap { $0.iss } ?? []
-        
-        var issuanceOptions: IssuanceOptions? = nil
-        if let contracts = contracts,
-           !contracts.isEmpty {
-            issuanceOptions = IssuanceOptions(acceptedIssuers: acceptedIssuers,
-                                              credentialIssuerMetadata: contracts)
+        let issuanceOptions = contracts?.compactMap {
+            
+            if let contract = URL(string: $0) {
+                return VerifiedIdRequestURL(url: contract)
+            }
+            
+            return nil
         }
         
         return VerifiedIdRequirement(encrypted: encrypted ?? false,
                                      required: presentationRequired ?? false,
                                      types: [credentialType],
-                                     acceptedIssuers: acceptedIssuers,
                                      purpose: nil,
-                                     issuanceOptions: issuanceOptions)
+                                     issuanceOptions: issuanceOptions ?? [])
     }
 }

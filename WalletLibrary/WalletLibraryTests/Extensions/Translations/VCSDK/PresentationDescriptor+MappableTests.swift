@@ -8,116 +8,111 @@ import VCEntities
 @testable import WalletLibrary
 
 class PresentationDescriptorMappingTests: XCTestCase {
-    
+
     let mapper = Mapper()
-    
-    let encoder = JSONEncoder()
-    
-    let decoder = JSONDecoder()
-    
-    let exceptedCredentialType = "credentialType4235"
-    
-    func testSuccessfulMapping() throws {
+
+    func testMap_WhenWithAllDefaultInput_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
         let (input, expectedResult) = try setUpInput(encrypted: false, required: false)
+        
+        // Act
         let actualResult = try mapper.map(input)
+        
+        // Assert
         assertEqual(actualResult, expectedResult)
     }
-    
-    func testMappingWithEncryptedAsTrue() throws {
+
+    func testMap_WhenEncyptedIsTrue_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
         let (input, expectedResult) = try setUpInput(encrypted: true, required: false)
+        
+        // Act
         let actualResult = try mapper.map(input)
+        
+        // Assert
         assertEqual(actualResult, expectedResult)
     }
-    
-    func testMappingWithRequiredAsTrue() throws {
+
+    func testMap_WhenRequiredIsTrue_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
         let (input, expectedResult) = try setUpInput(encrypted: false, required: true)
+        
+        // Act
         let actualResult = try mapper.map(input)
+        
+        // Assert
         assertEqual(actualResult, expectedResult)
     }
-    
-    func testMappingWithOneNilIssuerValue() throws {
-        let (input, expectedResult) = try setUpInput(issuers: [nil])
-        let actualResult = try mapper.map(input)
-        assertEqual(actualResult, expectedResult)
-    }
-    
-    func testMappingWithOneIssuerValue() throws {
-        let (input, expectedResult) = try setUpInput(issuers: ["issuer235"])
-        let actualResult = try mapper.map(input)
-        assertEqual(actualResult, expectedResult)
-    }
-    
-    func testMappingWithThreeIssuerValue() throws {
-        let (input, expectedResult) = try setUpInput(issuers: ["issuer235",
-                                                               "issuer7345",
-                                                               "issuer9083"])
-        let actualResult = try mapper.map(input)
-        assertEqual(actualResult, expectedResult)
-    }
-    
-    func testMappingWithNilIssuerValue() throws {
-        let (input, expectedResult) = try setUpInput(issuers: nil)
-        let actualResult = try mapper.map(input)
-        assertEqual(actualResult, expectedResult)
-    }
-    
-    func testMappingWithNilContractValue() throws {
+
+    func testMap_WhenContractIsNil_ReturnsVerifiedIdRequiremen() throws {
+        // Arrange
         let (input, expectedResult) = try setUpInput(contracts: nil)
+        
+        // Act
         let actualResult = try mapper.map(input)
+        
+        // Assert
         assertEqual(actualResult, expectedResult)
     }
-    
-    func testMappingWithOneContractValue() throws {
+
+    func testMap_WithOneContract_ReturnsVerifiedIdRequiremen() throws {
+        // Arrange
         let (input, expectedResult) = try setUpInput(contracts: ["contract2645"])
+        
+        // Act
         let actualResult = try mapper.map(input)
+        
+        // Assert
         assertEqual(actualResult, expectedResult)
     }
-    
-    func testMappingWithThreeContractValue() throws {
+
+    func testMap_WithThreeContracts_ReturnsVerifiedIdRequiremen() throws {
+        // Arrange
         let (input, expectedResult) = try setUpInput(contracts: ["contract2645",
                                                                  "contract0394",
                                                                  "contract2343"])
+        
+        // Act
         let actualResult = try mapper.map(input)
+        
+        // Assert
         assertEqual(actualResult, expectedResult)
     }
-    
+
     private func assertEqual(_ actual: VerifiedIdRequirement, _ expected: VerifiedIdRequirement) {
         XCTAssertEqual(actual.encrypted, expected.encrypted)
         XCTAssertEqual(actual.required, expected.required)
         XCTAssertEqual(actual.types, expected.types)
-        XCTAssertEqual(actual.acceptedIssuers, expected.acceptedIssuers)
         XCTAssertEqual(actual.purpose, expected.purpose)
-        XCTAssertEqual(actual.issuanceOptions, expected.issuanceOptions)
+        XCTAssertEqual(actual.issuanceOptions as? [VerifiedIdRequestURL], expected.issuanceOptions as? [VerifiedIdRequestURL])
     }
-    
+
     private func setUpInput(encrypted: Bool? = false,
                             required: Bool? = false,
-                            issuers: [String?]? = [],
+                            credentialType: String = "credentialType",
                             contracts: [String]? = []) throws -> (PresentationDescriptor, VerifiedIdRequirement) {
-        
-        let issuersInput = issuers?.compactMap { IssuerDescriptor(iss: $0) }
+
         let input = PresentationDescriptor(encrypted: encrypted,
                                            claims: [],
                                            presentationRequired: required,
-                                           credentialType: exceptedCredentialType,
-                                           issuers: issuersInput,
+                                           credentialType: credentialType,
+                                           issuers: nil,
                                            contracts: contracts)
-        
-        let expectedIssuers = issuers?.compactMap { $0 } ?? []
-        
-        var expectedIssuanceOptions: IssuanceOptions? = nil
-        if let expectedContracts = contracts,
-           !expectedContracts.isEmpty {
-            expectedIssuanceOptions = IssuanceOptions(acceptedIssuers: expectedIssuers,
-                                                     credentialIssuerMetadata: expectedContracts)
+
+        let expectedIssuanceOptions = contracts?.compactMap {
+            
+            if let contract = URL(string: $0) {
+                return VerifiedIdRequestURL(url: contract)
+            }
+            
+            return nil
         }
-        
+
         let expectedResult = VerifiedIdRequirement(encrypted: encrypted ?? false,
                                                    required: required ?? false,
-                                                   types: [exceptedCredentialType],
-                                                   acceptedIssuers: expectedIssuers,
+                                                   types: [credentialType],
                                                    purpose: nil,
-                                                   issuanceOptions: expectedIssuanceOptions)
+                                                   issuanceOptions: expectedIssuanceOptions ?? [])
         return (input, expectedResult)
     }
 }

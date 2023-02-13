@@ -4,13 +4,14 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Data that describes requested verified id formats.
+ * Contents in a Verified Id Request.
+ * This object is used to map protocol specific requests to common request object.
  */
-public struct CredentialFormat {
+struct VerifiedIdRequestContent {
     
-    /// The format of the verified Id requested such as jwt-vc.
-    public let format: String
+    let style: RequesterStyle
     
-    /// The types of the requested verified Id.
-    public let types: [String]
+    let requirement: Requirement
+    
+    let rootOfTrust: RootOfTrust
 }

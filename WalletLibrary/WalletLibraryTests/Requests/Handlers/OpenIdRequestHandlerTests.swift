@@ -4,6 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
+import VCEntities
 @testable import WalletLibrary
 
 class OpenIdRequestHandlerTests: XCTestCase {
@@ -18,10 +19,19 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
         let expectedRequirement = MockRequirement(id: "mockRequirement324")
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedContent = MockVerifiedIdRequestContent(style: expectedStyle,
-                                                           requirement: expectedRequirement,
-                                                           rootOfTrust: expectedRootOfTrust)
-        let mockMapper = MockMapper(returnedObject: expectedContent)
+        let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
+                                                       requirement: expectedRequirement,
+                                                       rootOfTrust: expectedRootOfTrust)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is MockOpenIdRawRequest {
+                return expectedContent
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration)
@@ -38,7 +48,15 @@ class OpenIdRequestHandlerTests: XCTestCase {
     func testHandleRequest_WithPresentationRequestInvalidMapping_ThrowsError() async throws {
         
         // Arrange
-        let mockMapper = MockMapper(error: ExpectedError.expectedToBeThrown)
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is MockOpenIdRawRequest {
+                throw ExpectedError.expectedToBeThrown
+            }
+            
+            return nil
+        }
+
+        let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration)
