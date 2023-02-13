@@ -6,9 +6,9 @@
 import VCEntities
 
 /**
- * Protocol is used as a wrapper to wrap the VC SDK get presentation response method.
+ * Protocol is used as a wrapper to wrap the VC SDK get contract method.
  */
 protocol ContractResolver {
-    /// Fetches and validates the presentation request.
+    /// Fetches and validates the contract.
     func getRequest(url: String) async throws -> any RawContract
 }
