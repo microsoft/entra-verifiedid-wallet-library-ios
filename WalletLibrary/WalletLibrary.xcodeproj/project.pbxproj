@@ -50,6 +50,10 @@
 		559BD30D2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */; };
 		559BD30F2996C1C500BD61AC /* MockLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */; };
 		559BD3112996D3CE00BD61AC /* MockVerifiedIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */; };
+		559BD3A3299AD95200BD61AC /* IssuanceService+Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3A2299AD95200BD61AC /* IssuanceService+Contract.swift */; };
+		559BD3A6299AD9BD00BD61AC /* ContractResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3A5299AD9BD00BD61AC /* ContractResolver.swift */; };
+		559BD3A8299ADE9C00BD61AC /* RawContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3A7299ADE9C00BD61AC /* RawContract.swift */; };
+		559BD3AB299ADEFF00BD61AC /* ContractIssuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3AA299ADEFF00BD61AC /* ContractIssuanceRequest.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestHandling.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -79,7 +83,6 @@
 		55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */; };
 		55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */; };
 		55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */; };
-		55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33713293FDEEF00CD2ED7 /* Contract.swift */; };
 		55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337642943749600CD2ED7 /* AsyncWrapper.swift */; };
 		55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376729437E3500CD2ED7 /* OpenIdForVCResolver.swift */; };
 		55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */; };
@@ -305,6 +308,10 @@
 		559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientBuilderTests.swift; sourceTree = "<group>"; };
 		559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLogConsumer.swift; sourceTree = "<group>"; };
 		559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdRequest.swift; sourceTree = "<group>"; };
+		559BD3A2299AD95200BD61AC /* IssuanceService+Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceService+Contract.swift"; sourceTree = "<group>"; };
+		559BD3A5299AD9BD00BD61AC /* ContractResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractResolver.swift; sourceTree = "<group>"; };
+		559BD3A7299ADE9C00BD61AC /* RawContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawContract.swift; sourceTree = "<group>"; };
+		559BD3AA299ADEFF00BD61AC /* ContractIssuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractIssuanceRequest.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandling.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -336,7 +343,6 @@
 		55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequirement.swift; sourceTree = "<group>"; };
 		55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenRequirement.swift; sourceTree = "<group>"; };
 		55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttestedClaimRequirement.swift; sourceTree = "<group>"; };
-		55E33713293FDEEF00CD2ED7 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
 		55E337642943749600CD2ED7 /* AsyncWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapper.swift; sourceTree = "<group>"; };
 		55E3376729437E3500CD2ED7 /* OpenIdForVCResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdForVCResolver.swift; sourceTree = "<group>"; };
 		55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapperTests.swift; sourceTree = "<group>"; };
@@ -419,6 +425,7 @@
 			isa = PBXGroup;
 			children = (
 				550A919D29940ED70014D030 /* OpenIdRawRequest.swift */,
+				559BD3A7299ADE9C00BD61AC /* RawContract.swift */,
 			);
 			path = RawRequests;
 			sourceTree = "<group>";
@@ -530,6 +537,7 @@
 			isa = PBXGroup;
 			children = (
 				55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */,
+				559BD3A2299AD95200BD61AC /* IssuanceService+Contract.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -592,6 +600,22 @@
 				559BD30A2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift */,
 			);
 			path = VCSDK;
+			sourceTree = "<group>";
+		};
+		559BD3A4299AD9A200BD61AC /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				559BD3A5299AD9BD00BD61AC /* ContractResolver.swift */,
+			);
+			path = Contract;
+			sourceTree = "<group>";
+		};
+		559BD3A9299ADEF300BD61AC /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				559BD3AA299ADEFF00BD61AC /* ContractIssuanceRequest.swift */,
+			);
+			path = Contract;
 			sourceTree = "<group>";
 		};
 		55A81BF02991BB13002C259A /* Requests */ = {
@@ -672,6 +696,7 @@
 		55E2F07A2995561E0008010D /* RequestProtocols */ = {
 			isa = PBXGroup;
 			children = (
+				559BD3A9299ADEF300BD61AC /* Contract */,
 				55E2F07B2995561E0008010D /* OpenId */,
 			);
 			path = RequestProtocols;
@@ -801,7 +826,6 @@
 				550A91712993117B0014D030 /* Input */,
 				550A9156299310D40014D030 /* Handlers */,
 				550A916D299310D40014D030 /* Resolvers */,
-				55E33712293FDEDF00CD2ED7 /* Contract */,
 				55E336CF293FA6D900CD2ED7 /* Requirements */,
 				5534E5B42948FEB5005D0765 /* RootOfTrust.swift */,
 				55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */,
@@ -809,14 +833,6 @@
 				55E2F07E29955A3B0008010D /* VerifiedIdRequestContent.swift */,
 			);
 			path = Requests;
-			sourceTree = "<group>";
-		};
-		55E33712293FDEDF00CD2ED7 /* Contract */ = {
-			isa = PBXGroup;
-			children = (
-				55E33713293FDEEF00CD2ED7 /* Contract.swift */,
-			);
-			path = Contract;
 			sourceTree = "<group>";
 		};
 		55E3375B294231F000CD2ED7 /* Protocols */ = {
@@ -861,6 +877,7 @@
 		55E337B62948B4F900CD2ED7 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				559BD3A4299AD9A200BD61AC /* Contract */,
 				550A919C29940ECA0014D030 /* RawRequests */,
 				55E337B72948B50800CD2ED7 /* Handlers */,
 				55E3376629437E1000CD2ED7 /* OpenIdForVC */,
@@ -1190,8 +1207,10 @@
 				550E3212298B1150004E7716 /* VerifiedIdRequestInput.swift in Sources */,
 				550A919B29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift in Sources */,
 				5534E667294A0B6C005D0765 /* Mappable.swift in Sources */,
+				559BD3A8299ADE9C00BD61AC /* RawContract.swift in Sources */,
 				55E2F08129955A960008010D /* RequestType.swift in Sources */,
 				55A81BE72991B2F3002C259A /* RequestHandlerFactory.swift in Sources */,
+				559BD3A3299AD95200BD61AC /* IssuanceService+Contract.swift in Sources */,
 				55E2F07F29955A3B0008010D /* VerifiedIdRequestContent.swift in Sources */,
 				550A916F299310D40014D030 /* OpenIdRequestHandler.swift in Sources */,
 				55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */,
@@ -1204,10 +1223,12 @@
 				550E3214298B11A5004E7716 /* Requirement.swift in Sources */,
 				550A9173299311A10014D030 /* VerifiedIdRequestURL.swift in Sources */,
 				550E3210298B113C004E7716 /* VerifiedIdRequest.swift in Sources */,
+				559BD3AB299ADEFF00BD61AC /* ContractIssuanceRequest.swift in Sources */,
 				5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */,
 				550E320E298B0FAC004E7716 /* WalletLibraryLogger.swift in Sources */,
 				559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */,
 				55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */,
+				559BD3A6299AD9BD00BD61AC /* ContractResolver.swift in Sources */,
 				550A9170299310D40014D030 /* OpenIdURLRequestResolver.swift in Sources */,
 				5534E669294A0C3F005D0765 /* Mapper.swift in Sources */,
 				550E320A298B0EA4004E7716 /* VerifiedIdClient.swift in Sources */,
@@ -1217,7 +1238,6 @@
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
 				55E2F086299573C30008010D /* OpenIdRequesterStyle.swift in Sources */,
 				55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */,
-				55E33714293FDEEF00CD2ED7 /* Contract.swift in Sources */,
 				55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */,
 				550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */,
 				550A9192299400820014D030 /* OpenIdForVCResponder.swift in Sources */,
