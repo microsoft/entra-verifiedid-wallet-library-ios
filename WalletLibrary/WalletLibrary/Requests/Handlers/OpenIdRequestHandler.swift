@@ -47,6 +47,7 @@ struct OpenIdRequestHandler: RequestHandling {
         }
         
         let rawContract = try await contractResolver.getRequest(url: issuanceOption.url.absoluteString)
+        /// TODO: add logic here to add PinRequirement to ContractIssuanceRequest if it exists.
         let issuanceRequestContent = try configuration.mapper.map(rawContract)
         return ContractIssuanceRequest(content: issuanceRequestContent, configuration: configuration)
     }
