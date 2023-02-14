@@ -33,9 +33,9 @@ extension VCEntities.PresentationDefinition: Mappable {
             try mapper.map($0)
         }
 
-        /// VC SDK only supports ANY operator for now.
+        /// VC SDK only supports ALL operator for now.
         return GroupRequirement(required: true,
                                 requirements: requirements,
-                                requirementOperator: .ANY)
+                                requirementOperator: .ALL)
     }
 }
