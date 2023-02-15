@@ -5,6 +5,8 @@
 
 enum OpenIdRequestHandlerError: Error {
     case unsupportedRawRequestType
+    case noIssuanceOptionsPresentToCreateIssuanceRequest
+    case unableToCaseRequirementToVerifiedIdRequirement
 }
 
 /**
@@ -15,8 +17,11 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
-    init(configuration: LibraryConfiguration) {
+    private let contractResolver: ContractResolver
+    
+    init(configuration: LibraryConfiguration, contractResolver: ContractResolver) {
         self.configuration = configuration
+        self.contractResolver = contractResolver
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
@@ -26,19 +31,31 @@ struct OpenIdRequestHandler: RequestHandling {
             throw OpenIdRequestHandlerError.unsupportedRawRequestType
         }
         
+        let requestContent = try configuration.mapper.map(request)
+        
         if request.type == .Issuance {
-            return try await handleIssuanceRequest(from: request)
+            return try await handleIssuanceRequest(from: requestContent)
         }
         
-        return try handlePresentationRequest(from: request)
+        return try handlePresentationRequest(from: requestContent)
     }
     
-    private func handleIssuanceRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdIssuanceRequest {
-        throw VerifiedIdClientError.TODO(message: "implement")
+    private func handleIssuanceRequest(from requestContent: VerifiedIdRequestContent) async throws -> any VerifiedIdIssuanceRequest {
+        
+        guard let verifiedIdRequirement = requestContent.requirement as? VerifiedIdRequirement else {
+            throw OpenIdRequestHandlerError.unableToCaseRequirementToVerifiedIdRequirement
+        }
+        
+        guard let issuanceOption = verifiedIdRequirement.issuanceOptions.first as? VerifiedIdRequestURL else {
+            throw OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest
+        }
+        
+        let rawContract = try await contractResolver.getRequest(url: issuanceOption.url.absoluteString)
+        let issuanceRequestContent = try configuration.mapper.map(rawContract)
+        return ContractIssuanceRequest(content: issuanceRequestContent, configuration: configuration)
     }
     
-    private func handlePresentationRequest(from request: any OpenIdRawRequest) throws -> any VerifiedIdPresentationRequest {
-        let content = try configuration.mapper.map(request)
-        return OpenIdPresentationRequest(content: content, configuration: configuration)
+    private func handlePresentationRequest(from requestContent: VerifiedIdRequestContent) throws -> any VerifiedIdPresentationRequest {
+        return OpenIdPresentationRequest(content: requestContent, configuration: configuration)
     }
 }
