@@ -5,6 +5,10 @@
 
 import VCEntities
 
+enum AttestationsDescriptorMappingError: Error {
+    case noRequirementsPresent
+}
+
 /**
  * An extension of the VCEntities.AttestationsDescriptor class to be able
  * to map AttestationsDescriptor to Requirement.
@@ -27,6 +31,10 @@ extension VCEntities.AttestationsDescriptor: Mappable {
         if let selfIssued = selfIssued,
            let selfAttestedClaimRequirements = try mapper.map(selfIssued) {
             requirements.append(selfAttestedClaimRequirements)
+        }
+        
+        if requirements.isEmpty {
+            throw AttestationsDescriptorMappingError.noRequirementsPresent
         }
         
         if requirements.count == 1,
