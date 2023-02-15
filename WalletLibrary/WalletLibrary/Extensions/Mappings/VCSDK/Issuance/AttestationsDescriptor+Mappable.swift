@@ -11,7 +11,6 @@ import VCEntities
  */
 extension VCEntities.AttestationsDescriptor: Mappable {
     
-    /// Map the access token descriptor to access token requirement.
     func map(using mapper: Mapping) throws -> Requirement {
         
         var requirements: [Requirement] = []
