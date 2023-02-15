@@ -24,7 +24,7 @@ extension VCEntities.PresentationDefinition: Mappable {
             throw PresentationDefinitionMappingError.nilInputDescriptors
         }
         
-        if inputDescriptors.capacity == 1,
+        if inputDescriptors.count == 1,
            let onlyPresentationInputDescriptor = inputDescriptors.first {
             return try mapper.map(onlyPresentationInputDescriptor)
         }

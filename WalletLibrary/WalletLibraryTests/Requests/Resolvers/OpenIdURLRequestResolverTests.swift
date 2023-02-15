@@ -11,6 +11,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testResolve_WithURLInput_ReturnsRawRequest() async throws {
         
         // Arrange
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com")!)
         let expectedRawData = "test data".data(using: .utf8)!
         let expectedRawRequest = MockOpenIdRawRequest(raw: expectedRawData)
@@ -18,7 +19,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
             return expectedRawRequest
         }
         let openIdResolver = MockOpenIdForVCResolver(mockGetRequestCallback: mockCallback)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: openIdResolver)
+        let resolver = OpenIdURLRequestResolver(openIdResolver: openIdResolver, configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
@@ -30,9 +31,10 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testResolve_WithInvalidRequestInput_ThrowsError() async throws {
         
         // Arrange
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockData = "test data"
         let mockInput = MockInput(mockData: mockData)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
         // Act
         do {
@@ -54,8 +56,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testCanResolve_WithInvalidRequestInputType_ReturnsFalse() throws {
         
         // Arrange
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockInput = MockInput(mockData: "mock data")
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
         // Act
         let actualResult = resolver.canResolve(input: mockInput)
@@ -67,8 +70,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testCanResolve_WithInvalidRequestInputScheme_ReturnsFalse() throws {
         
         // Arrange
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockInput = VerifiedIdRequestURL(url: URL(string: "https://mock.com")!)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
         // Act
         let actualResult = resolver.canResolve(input: mockInput)
@@ -80,8 +84,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testCanResolve_WithValidRequestInput_ReturnsTrue() throws {
         
         // Arrange
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com")!)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
         // Act
         let actualResult = resolver.canResolve(input: mockInput)
@@ -93,8 +98,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testCanResolve_WithInvalidRequestHandler_ReturnsFalse() throws {
         
         // Arrange
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockHandler = MockHandler()
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
         // Act
         let actualResult = resolver.canResolve(using: mockHandler)
@@ -106,8 +112,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testCanResolve_WithValidRequestHandler_ReturnsTrue() throws {
 
         // Arrange
-        let mockHandler = OpenIdRequestHandler(configuration: LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper()))
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver())
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
+        let mockHandler = OpenIdRequestHandler(configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
         // Act
         let actualResult = resolver.canResolve(using: mockHandler)

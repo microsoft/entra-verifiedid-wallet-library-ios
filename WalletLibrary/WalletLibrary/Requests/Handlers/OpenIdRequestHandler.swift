@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum OpenIdRequestHandlerError: Error {
+    case unsupportedRawRequestType
+}
+
 /**
  * Handles a raw Open Id request and configures a VeriifedIdRequest object.
  * Post Private Preview TODO: add processors to support multiple profiles of open id.
@@ -16,7 +20,11 @@ struct OpenIdRequestHandler: RequestHandling {
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    func handleRequest(from request: any OpenIdRawRequest) async throws -> any VerifiedIdRequest {
+    func handleRequest<RawRequest>(from request: RawRequest) async throws -> any VerifiedIdRequest {
+        
+        guard let request = request as? any OpenIdRawRequest else {
+            throw OpenIdRequestHandlerError.unsupportedRawRequestType
+        }
         
         if request.type == .Issuance {
             return try await handleIssuanceRequest(from: request)

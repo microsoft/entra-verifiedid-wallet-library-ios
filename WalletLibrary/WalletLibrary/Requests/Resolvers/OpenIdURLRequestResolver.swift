@@ -17,12 +17,15 @@ enum OpenIdURLRequestResolverError: Error {
  */
 struct OpenIdURLRequestResolver: RequestResolving {
     
-    private let openIdResolver: OpenIdForVCResolver
-    
     private let openIdScheme = "openid-vc"
     
-    init(openIdResolver: OpenIdForVCResolver) {
+    private let openIdResolver: OpenIdForVCResolver
+    
+    private let configuration: LibraryConfiguration
+    
+    init(openIdResolver: OpenIdForVCResolver, configuration: LibraryConfiguration) {
         self.openIdResolver = openIdResolver
+        self.configuration = configuration
     }
     
     /// Whether or not the request handler given request handler can handle the resolved raw request.

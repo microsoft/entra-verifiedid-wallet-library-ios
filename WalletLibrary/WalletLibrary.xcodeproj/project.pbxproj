@@ -47,6 +47,9 @@
 		559BD3072995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3062995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift */; };
 		559BD3092995ABE800BD61AC /* PresentationRequest+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3082995ABE800BD61AC /* PresentationRequest+MappableTests.swift */; };
 		559BD30B2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30A2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift */; };
+		559BD30D2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */; };
+		559BD30F2996C1C500BD61AC /* MockLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */; };
+		559BD3112996D3CE00BD61AC /* MockVerifiedIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestHandling.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -299,6 +302,9 @@
 		559BD3062995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD3082995ABE800BD61AC /* PresentationRequest+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationRequest+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD30A2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinkedDomainResult+MappableTests.swift"; sourceTree = "<group>"; };
+		559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientBuilderTests.swift; sourceTree = "<group>"; };
+		559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLogConsumer.swift; sourceTree = "<group>"; };
+		559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdRequest.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandling.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -468,6 +474,7 @@
 				5534E67C294A392F005D0765 /* Extensions */,
 				55A81BF02991BB13002C259A /* Requests */,
 				55E3376929478C3300CD2ED7 /* Utilities */,
+				559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */,
 				552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */,
 			);
 			path = WalletLibraryTests;
@@ -617,6 +624,7 @@
 				55E2F074299555280008010D /* Styles */,
 				55A81C0C2991BF86002C259A /* MockInput.swift */,
 				550A913C29930D970014D030 /* MockRawRequest.swift */,
+				559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -682,6 +690,7 @@
 			isa = PBXGroup;
 			children = (
 				55E2F08329955E8A0008010D /* MockMapper.swift */,
+				559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1239,17 +1248,20 @@
 				55A81C072991BB2C002C259A /* RequestResolverFactoryTests.swift in Sources */,
 				55A81C102991C211002C259A /* MockResolver.swift in Sources */,
 				55A81C092991BB3A002C259A /* RequestHandlerFactoryTests.swift in Sources */,
+				559BD30D2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift in Sources */,
 				550A91952994025C0014D030 /* OpenIdURLRequestResolverTests.swift in Sources */,
 				559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */,
 				55A81C0D2991BF86002C259A /* MockInput.swift in Sources */,
 				550A919829940DCE0014D030 /* MockOpenIdforVCResolver.swift in Sources */,
 				559BD3092995ABE800BD61AC /* PresentationRequest+MappableTests.swift in Sources */,
 				550A91A0299412790014D030 /* MockOpenIdRawRequest.swift in Sources */,
+				559BD30F2996C1C500BD61AC /* MockLogConsumer.swift in Sources */,
 				55E2F076299555280008010D /* MockRequirement.swift in Sources */,
 				5534E68C294A8B8F005D0765 /* AccessTokenDescriptor+MappableTests.swift in Sources */,
 				55E2F077299555280008010D /* MockRequesterStyle.swift in Sources */,
 				552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */,
 				5534E688294A5F16005D0765 /* IdTokenDescriptor+MappableTests.swift in Sources */,
+				559BD3112996D3CE00BD61AC /* MockVerifiedIdRequest.swift in Sources */,
 				550A913D29930D970014D030 /* MockRawRequest.swift in Sources */,
 				559BD30B2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift in Sources */,
 			);

@@ -16,7 +16,7 @@ enum RequestResolverFactoryError: Error {
  */
 class RequestResolverFactory {
     
-    private let resolvers: [any RequestResolving]
+    let resolvers: [any RequestResolving]
     
     init(resolvers: [any RequestResolving]) {
         self.resolvers = resolvers
