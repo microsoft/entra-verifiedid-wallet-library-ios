@@ -24,7 +24,7 @@ extension VCEntities.SelfIssuedClaimsDescriptor: Mappable {
             
             let isIndividualClaimRequired = onlyClaim.claimRequired ?? false
             let required = areSelfAttestedClaimsRequired || isIndividualClaimRequired
-            return SelfAttestedClaimRequirement(encrypted: false,
+            return SelfAttestedClaimRequirement(encrypted: encrypted ?? false,
                                                 required: required,
                                                 claim: onlyClaim.claim)
         }
@@ -32,7 +32,7 @@ extension VCEntities.SelfIssuedClaimsDescriptor: Mappable {
         let requirements = claims.compactMap { claim in
             
             let isIndividualClaimRequired = claim.claimRequired ?? false
-            return SelfAttestedClaimRequirement(encrypted: false,
+            return SelfAttestedClaimRequirement(encrypted: encrypted ?? false,
                                                 required: isIndividualClaimRequired,
                                                 claim: claim.claim)
         }
