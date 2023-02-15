@@ -13,16 +13,22 @@ extension VCEntities.AttestationsDescriptor: Mappable {
     
     /// Map the access token descriptor to access token requirement.
     func map(using mapper: Mapping) throws -> Requirement {
+        
+        var requirements: [Requirement] = []
+        
         let accessTokenRequirements: [Requirement] = try accessTokens?.compactMap { try mapper.map($0) } ?? []
+        requirements.append(contentsOf: accessTokenRequirements)
+        
         let idTokenRequirements: [Requirement] = try idTokens?.compactMap { try mapper.map($0) } ?? []
+        requirements.append(contentsOf: idTokenRequirements)
+        
         let verifiedIdRequirements: [Requirement] = try presentations?.compactMap { try mapper.map($0) } ?? []
+        requirements.append(contentsOf: verifiedIdRequirements)
         
-        let selfAttestedClaimRequirements: [Requirement] = selfIssued?.claims?.compactMap { claim in
-            let isClaimRequired = claim.claimRequired ?? true
-            return SelfAttestedClaimRequirement(encrypted: false, required: isClaimRequired, claim: claim.claim)
-        } ?? []
-        
-        let requirements: [Requirement] = accessTokenRequirements + idTokenRequirements + verifiedIdRequirements + selfAttestedClaimRequirements
+        if let selfIssued = selfIssued,
+           let selfAttestedClaimRequirements = try mapper.map(selfIssued) {
+            requirements.append(selfAttestedClaimRequirements)
+        }
         
         if requirements.count == 1,
            let onlyRequirement = requirements.first {
