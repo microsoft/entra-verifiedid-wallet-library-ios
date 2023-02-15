@@ -8,6 +8,6 @@
  */
 public protocol RequesterStyle {
     /// The name of the requester.
-    var requester: String { get }
+    var name: String { get }
 }
 

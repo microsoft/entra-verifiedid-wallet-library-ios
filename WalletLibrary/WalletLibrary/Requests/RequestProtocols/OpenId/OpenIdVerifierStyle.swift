@@ -3,13 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
-
-struct MockRequesterStyle: RequesterStyle, Equatable {
-    
+/**
+ * Requester Style that is Open Id specific.
+ */
+struct OpenIdVerifierStyle: RequesterStyle, Equatable {
     let name: String
-    
-    init(requester: String) {
-        self.name = requester
-    }
 }

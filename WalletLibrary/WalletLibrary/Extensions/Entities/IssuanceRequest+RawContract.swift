@@ -10,7 +10,3 @@ import VCEntities
  * TODO: Update RawContract to RawManifest
  */
 extension VCEntities.IssuanceRequest: RawContract { }
-
-struct IssuerStyle: RequesterStyle, Equatable {
-    var requester: String
-}

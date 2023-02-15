@@ -108,7 +108,7 @@ class IssuanceRequestMappingTests: XCTestCase {
         let actualResult = try mapper.map(issuanceRequest)
         
         // Assert
-        XCTAssertEqual(actualResult.style.requester, "mock issuer")
+        XCTAssertEqual(actualResult.style.name, "mock issuer")
         XCTAssertEqual(actualResult.rootOfTrust, mockRootOfTrust)
         XCTAssertEqual(actualResult.requirement as? MockRequirement, mockRequirement)
     }

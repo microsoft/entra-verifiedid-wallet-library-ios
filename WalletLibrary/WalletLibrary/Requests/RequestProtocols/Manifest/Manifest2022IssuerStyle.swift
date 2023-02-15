@@ -4,8 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Requester Style that is Open Id specific.
+ * Representation of Issuer Style configured by a Manifest implemented in 2020.
  */
-struct OpenIdRequesterStyle: RequesterStyle, Equatable {
-    let requester: String
+struct Manifest2020IssuerStyle: RequesterStyle, Equatable {
+    var name: String
 }

@@ -28,7 +28,7 @@ extension VCEntities.PresentationRequest: Mappable {
         let rootOfTrust = try mapper.map(linkedDomainResult)
         
         let clientName = content.registration?.clientName ?? ""
-        let requesterStyle = OpenIdRequesterStyle(requester: clientName)
+        let requesterStyle = OpenIdVerifierStyle(name: clientName)
         
         let content = VerifiedIdRequestContent(style: requesterStyle,
                                                requirement: requirement,
