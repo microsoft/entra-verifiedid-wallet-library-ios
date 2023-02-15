@@ -21,7 +21,7 @@ class PresentationDefinitionMappingTests: XCTestCase {
         XCTAssertThrowsError(try mockMapper.map(presentationDefinition)) { error in
             // Assert
             XCTAssert(error is PresentationDefinitionMappingError)
-            XCTAssertEqual(error as? PresentationDefinitionMappingError, .noPresentInputDescriptors)
+            XCTAssertEqual(error as? PresentationDefinitionMappingError, .missingInputDescriptors)
         }
     }
     
@@ -37,7 +37,7 @@ class PresentationDefinitionMappingTests: XCTestCase {
         XCTAssertThrowsError(try mockMapper.map(presentationDefinition)) { error in
             // Assert
             XCTAssert(error is PresentationDefinitionMappingError)
-            XCTAssertEqual(error as? PresentationDefinitionMappingError, .noPresentInputDescriptors)
+            XCTAssertEqual(error as? PresentationDefinitionMappingError, .missingInputDescriptors)
         }
     }
     

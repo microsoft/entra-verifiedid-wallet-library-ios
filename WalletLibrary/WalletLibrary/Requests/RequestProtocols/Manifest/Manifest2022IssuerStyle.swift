@@ -4,9 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of Issuer Style configured by a Manifest implemented in 2020.
+ * Representation of Issuer Style configured by a Manifest implemented in 2022.
  * TODO: Add more attributes from manifest.
  */
-struct Manifest2020IssuerStyle: RequesterStyle, Equatable {
+struct Manifest2022IssuerStyle: RequesterStyle, Equatable {
     var name: String
 }

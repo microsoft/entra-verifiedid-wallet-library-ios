@@ -76,11 +76,11 @@ class OpenIdRequestHandlerTests: XCTestCase {
         }
     }
     
-    func testHandleIssuanceRequest_WithInvalidRequirementTypeOnPresentationRequest_ThrowsError() async throws {
+    func testHandleIssuanceRequest_WithUnableToCaseRequirementToVerifiedIdRequirement_ThrowsError() async throws {
         
         // Arrange
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
-        let expectedRequirement = MockRequirement(id: "mockRequirement324")
+        let expectedRequirement = MockRequirement(id: "test")
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
                                                        requirement: expectedRequirement,
@@ -106,7 +106,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         } catch {
             // Assert
             XCTAssert(error is OpenIdRequestHandlerError)
-            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest)
+            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.unableToCaseRequirementToVerifiedIdRequirement)
         }
     }
     

@@ -16,7 +16,7 @@ extension VCEntities.IssuanceRequest: Mappable {
                                                    propertyName: "attestations")
         let requirement = try mapper.map(attestations)
         let rootOfTrust = try mapper.map(linkedDomainResult)
-        let issuerStyle = Manifest2020IssuerStyle(name: content.display.card.issuedBy)
+        let issuerStyle = Manifest2022IssuerStyle(name: content.display.card.issuedBy)
         
         return VerifiedIdRequestContent(style: issuerStyle,
                                         requirement: requirement,
