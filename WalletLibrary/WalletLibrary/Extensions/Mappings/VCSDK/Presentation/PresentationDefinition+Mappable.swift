@@ -9,7 +9,7 @@ import VCEntities
  * Errors thrown in Presentation Definition Mappable extension.
  */
 enum PresentationDefinitionMappingError: Error {
-    case noPresentInputDescriptors
+    case missingInputDescriptors
 }
 
 /**
@@ -22,7 +22,7 @@ extension VCEntities.PresentationDefinition: Mappable {
         
         guard let inputDescriptors = self.inputDescriptors,
               !inputDescriptors.isEmpty else {
-            throw PresentationDefinitionMappingError.noPresentInputDescriptors
+            throw PresentationDefinitionMappingError.missingInputDescriptors
         }
         
         if inputDescriptors.count == 1,
