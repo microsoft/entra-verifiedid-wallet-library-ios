@@ -11,6 +11,6 @@ import VCEntities
  */
 extension VCEntities.IssuanceRequest: RawContract { }
 
-struct IssuerStyle: RequesterStyle {
+struct IssuerStyle: RequesterStyle, Equatable {
     var requester: String
 }

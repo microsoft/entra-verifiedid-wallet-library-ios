@@ -13,7 +13,7 @@ extension VCEntities.IssuanceRequest: Mappable {
     func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
         
         let attestations = try getRequiredProperty(property: content.input.attestations,
-                                                   propertyName: "Contract Attestations")
+                                                   propertyName: "attestations")
         let requirement = try mapper.map(attestations)
         let rootOfTrust = try mapper.map(linkedDomainResult)
         let issuerStyle = IssuerStyle(requester: content.display.card.issuedBy)
