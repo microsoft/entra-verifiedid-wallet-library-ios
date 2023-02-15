@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum AccessTokenRequirementError: Error {
+    case accessTokenRequirementHasNotBeenFulfilled
+}
+
 /**
  * Information to describe an access token required for a Verified Id issuance flow.
  */
@@ -26,6 +30,8 @@ public class AccessTokenRequirement: Requirement {
     /// The scope value used to get the access token through an authentication library.
     public let scope: String
     
+    var accessToken: String?
+    
     init(encrypted: Bool,
          required: Bool,
          configuration: String,
@@ -40,7 +46,15 @@ public class AccessTokenRequirement: Requirement {
         self.scope = scope
     }
     
+    /// Throws error if requirement is not valid.
     public func validate() throws {
-        throw VerifiedIdClientError.TODO(message: "implement validate")
+        if accessToken != nil {
+            throw AccessTokenRequirementError.accessTokenRequirementHasNotBeenFulfilled
+        }
+    }
+    
+    /// Fulfill requirement with a raw access token.
+    public func fulfill(with rawToken: String) {
+        accessToken = rawToken
     }
 }
