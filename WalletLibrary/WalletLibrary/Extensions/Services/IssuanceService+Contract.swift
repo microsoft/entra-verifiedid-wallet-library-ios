@@ -18,10 +18,10 @@ extension IssuanceService: ContractResolver {
         }()
     }
     
-    /// Sends the issuance response container and if successful, returns void,
+    /// Sends the issuance response container and if successful, returns Verifiable Credential.
     /// If unsuccessful, throws an error.
-    func send(response: VCEntities.IssuanceResponseContainer) async throws -> Void {
-        let _ = try await AsyncWrapper().wrap { () in
+    func send(response: VCEntities.IssuanceResponseContainer) async throws -> VerifiableCredential {
+        return try await AsyncWrapper().wrap { () in
             self.send(response: response)
         }()
     }
