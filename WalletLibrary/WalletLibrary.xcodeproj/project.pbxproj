@@ -57,6 +57,7 @@
 		559BD3AD299AE6C000BD61AC /* IssuanceRequest+RawContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3AC299AE6C000BD61AC /* IssuanceRequest+RawContract.swift */; };
 		559BD3AF299AF42C00BD61AC /* MockContractResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3AE299AF42C00BD61AC /* MockContractResolver.swift */; };
 		559BD3B2299B0A0400BD61AC /* AttestationsDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3B1299B0A0400BD61AC /* AttestationsDescriptor+Mappable.swift */; };
+		559BD414299D37B100BD61AC /* SelfIssuedClaimsDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD413299D37B100BD61AC /* SelfIssuedClaimsDescriptor.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestHandling.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -318,6 +319,7 @@
 		559BD3AC299AE6C000BD61AC /* IssuanceRequest+RawContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceRequest+RawContract.swift"; sourceTree = "<group>"; };
 		559BD3AE299AF42C00BD61AC /* MockContractResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContractResolver.swift; sourceTree = "<group>"; };
 		559BD3B1299B0A0400BD61AC /* AttestationsDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttestationsDescriptor+Mappable.swift"; sourceTree = "<group>"; };
+		559BD413299D37B100BD61AC /* SelfIssuedClaimsDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfIssuedClaimsDescriptor.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandling.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -569,11 +571,8 @@
 			isa = PBXGroup;
 			children = (
 				559BD3B0299B09F200BD61AC /* Issuance */,
-				5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */,
 				55E2F0872995743D0008010D /* LinkedDomainResult+Mappable.swift */,
-				5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */,
 				55E2F089299576350008010D /* PresentationDefinition+Mappable.swift */,
-				5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */,
 				559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */,
 				55E2F056299553300008010D /* PresentationRequest+Mappable.swift */,
 			);
@@ -629,7 +628,11 @@
 		559BD3B0299B09F200BD61AC /* Issuance */ = {
 			isa = PBXGroup;
 			children = (
+				5534E676294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift */,
 				559BD3B1299B0A0400BD61AC /* AttestationsDescriptor+Mappable.swift */,
+				5534E671294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift */,
+				5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */,
+				559BD413299D37B100BD61AC /* SelfIssuedClaimsDescriptor.swift */,
 			);
 			path = Issuance;
 			sourceTree = "<group>";
@@ -1256,6 +1259,7 @@
 				55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */,
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
 				55E2F086299573C30008010D /* OpenIdRequesterStyle.swift in Sources */,
+				559BD414299D37B100BD61AC /* SelfIssuedClaimsDescriptor.swift in Sources */,
 				55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */,
 				55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */,
 				550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */,
