@@ -23,7 +23,7 @@ class SelfAttestedClaimRequirementTests: XCTestCase {
         }
     }
     
-    func testValidate_WithPin_DoesNotThrow() async throws {
+    func testValidate_WithValue_DoesNotThrow() async throws {
         
         // Arrange
         let requirement = SelfAttestedClaimRequirement(encrypted: false,
@@ -35,7 +35,7 @@ class SelfAttestedClaimRequirementTests: XCTestCase {
         XCTAssertNoThrow(try requirement.validate())
     }
     
-    func testFulfill_WithPin_SetsAccessToken() async throws {
+    func testFulfill_WithValue_SetsAccessToken() async throws {
         
         // Arrange
         let requirement = SelfAttestedClaimRequirement(encrypted: false,
