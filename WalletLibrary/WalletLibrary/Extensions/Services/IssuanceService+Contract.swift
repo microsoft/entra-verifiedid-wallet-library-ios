@@ -38,8 +38,3 @@ extension IssuanceService: ManifestResolver, VerifiedIdRequester {
 struct RawVerifiedId {
     let raw: String
 }
-
-protocol RawRequestContent {
-    
-    mutating func add(requirement: Requirement) throws
-}
