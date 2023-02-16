@@ -50,7 +50,7 @@
 		559BD30D2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */; };
 		559BD30F2996C1C500BD61AC /* MockLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */; };
 		559BD3112996D3CE00BD61AC /* MockVerifiedIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */; };
-		559BD3A3299AD95200BD61AC /* IssuanceService+Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3A2299AD95200BD61AC /* IssuanceService+Contract.swift */; };
+		559BD3A3299AD95200BD61AC /* IssuanceService+ManifestResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3A2299AD95200BD61AC /* IssuanceService+ManifestResolver.swift */; };
 		559BD3A6299AD9BD00BD61AC /* ManifestResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3A5299AD9BD00BD61AC /* ManifestResolver.swift */; };
 		559BD3A8299ADE9C00BD61AC /* RawManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3A7299ADE9C00BD61AC /* RawManifest.swift */; };
 		559BD3AB299ADEFF00BD61AC /* ContractIssuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3AA299ADEFF00BD61AC /* ContractIssuanceRequest.swift */; };
@@ -63,8 +63,10 @@
 		559BD457299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD456299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift */; };
 		559BD459299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD458299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift */; };
 		559BD45B299D587200BD61AC /* Manifest2022IssuerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD45A299D587200BD61AC /* Manifest2022IssuerStyle.swift */; };
-		559BD485299D8DCC00BD61AC /* VerifiedIdRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD484299D8DCC00BD61AC /* VerifiedIdRequester.swift */; };
+		559BD485299D8DCC00BD61AC /* VerifiableCredentialRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD484299D8DCC00BD61AC /* VerifiableCredentialRequester.swift */; };
 		559BD49C299D913F00BD61AC /* IssuanceResponseContainer+RequirementCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD49B299D913F00BD61AC /* IssuanceResponseContainer+RequirementCollection.swift */; };
+		559BD4B3299EDFB400BD61AC /* VerifiableCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */; };
+		559BD4B5299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4B4299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestHandling.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -319,7 +321,7 @@
 		559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientBuilderTests.swift; sourceTree = "<group>"; };
 		559BD30E2996C1C500BD61AC /* MockLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLogConsumer.swift; sourceTree = "<group>"; };
 		559BD3102996D3CE00BD61AC /* MockVerifiedIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdRequest.swift; sourceTree = "<group>"; };
-		559BD3A2299AD95200BD61AC /* IssuanceService+Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceService+Contract.swift"; sourceTree = "<group>"; };
+		559BD3A2299AD95200BD61AC /* IssuanceService+ManifestResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceService+ManifestResolver.swift"; sourceTree = "<group>"; };
 		559BD3A5299AD9BD00BD61AC /* ManifestResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestResolver.swift; sourceTree = "<group>"; };
 		559BD3A7299ADE9C00BD61AC /* RawManifest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawManifest.swift; sourceTree = "<group>"; };
 		559BD3AA299ADEFF00BD61AC /* ContractIssuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractIssuanceRequest.swift; sourceTree = "<group>"; };
@@ -332,8 +334,10 @@
 		559BD456299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttestationsDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD458299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelfIssuedClaimsDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD45A299D587200BD61AC /* Manifest2022IssuerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manifest2022IssuerStyle.swift; sourceTree = "<group>"; };
-		559BD484299D8DCC00BD61AC /* VerifiedIdRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequester.swift; sourceTree = "<group>"; };
+		559BD484299D8DCC00BD61AC /* VerifiableCredentialRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiableCredentialRequester.swift; sourceTree = "<group>"; };
 		559BD49B299D913F00BD61AC /* IssuanceResponseContainer+RequirementCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceResponseContainer+RequirementCollection.swift"; sourceTree = "<group>"; };
+		559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiableCredential.swift; sourceTree = "<group>"; };
+		559BD4B4299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceService+VerifiableCredentialRequester.swift"; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandling.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -560,7 +564,8 @@
 		5534E664294A0B3E005D0765 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				559BD3A2299AD95200BD61AC /* IssuanceService+Contract.swift */,
+				559BD3A2299AD95200BD61AC /* IssuanceService+ManifestResolver.swift */,
+				559BD4B4299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift */,
 				55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */,
 			);
 			path = Services;
@@ -622,7 +627,7 @@
 			isa = PBXGroup;
 			children = (
 				559BD3A5299AD9BD00BD61AC /* ManifestResolver.swift */,
-				559BD484299D8DCC00BD61AC /* VerifiedIdRequester.swift */,
+				559BD484299D8DCC00BD61AC /* VerifiableCredentialRequester.swift */,
 			);
 			path = Contract;
 			sourceTree = "<group>";
@@ -680,6 +685,14 @@
 				55E2F056299553300008010D /* PresentationRequest+Mappable.swift */,
 			);
 			path = Presentation;
+			sourceTree = "<group>";
+		};
+		559BD4B1299EDF9E00BD61AC /* VerifiableCredential */ = {
+			isa = PBXGroup;
+			children = (
+				559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */,
+			);
+			path = VerifiableCredential;
 			sourceTree = "<group>";
 		};
 		55A81BF02991BB13002C259A /* Requests */ = {
@@ -831,6 +844,7 @@
 		55E336D2293FA74100CD2ED7 /* VerifiedId */ = {
 			isa = PBXGroup;
 			children = (
+				559BD4B1299EDF9E00BD61AC /* VerifiableCredential */,
 				55E336D3293FA75300CD2ED7 /* VerifiedId.swift */,
 				55E336D5293FA78C00CD2ED7 /* VerifiedIdClaim.swift */,
 			);
@@ -1275,7 +1289,7 @@
 				559BD3A8299ADE9C00BD61AC /* RawManifest.swift in Sources */,
 				55E2F08129955A960008010D /* RequestType.swift in Sources */,
 				55A81BE72991B2F3002C259A /* RequestHandlerFactory.swift in Sources */,
-				559BD3A3299AD95200BD61AC /* IssuanceService+Contract.swift in Sources */,
+				559BD3A3299AD95200BD61AC /* IssuanceService+ManifestResolver.swift in Sources */,
 				55E2F07F29955A3B0008010D /* VerifiedIdRequestContent.swift in Sources */,
 				550A916F299310D40014D030 /* OpenIdRequestHandler.swift in Sources */,
 				55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */,
@@ -1283,6 +1297,7 @@
 				550E3217298B1236004E7716 /* RequesterStyle.swift in Sources */,
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,
 				5534E66E294A0F8F005D0765 /* Mapping.swift in Sources */,
+				559BD4B3299EDFB400BD61AC /* VerifiableCredential.swift in Sources */,
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
 				55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */,
 				550E3214298B11A5004E7716 /* Requirement.swift in Sources */,
@@ -1305,7 +1320,7 @@
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */,
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
-				559BD485299D8DCC00BD61AC /* VerifiedIdRequester.swift in Sources */,
+				559BD485299D8DCC00BD61AC /* VerifiableCredentialRequester.swift in Sources */,
 				55E2F086299573C30008010D /* OpenIdVerifierStyle.swift in Sources */,
 				559BD49C299D913F00BD61AC /* IssuanceResponseContainer+RequirementCollection.swift in Sources */,
 				559BD414299D37B100BD61AC /* SelfIssuedClaimsDescriptor+Mappable.swift in Sources */,
@@ -1320,6 +1335,7 @@
 				55E337BC2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
 				55E2F06C299553300008010D /* PresentationRequest+Mappable.swift in Sources */,
+				559BD4B5299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift in Sources */,
 				55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */,
 				55E2F0882995743D0008010D /* LinkedDomainResult+Mappable.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
