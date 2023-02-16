@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Protocol defines the behavior of taking the given generic request and requesting from an issuer, a Verified Id in raw form.
+ * Protocol defines the behavior of given generic request, requests a Verifiable Credential from an issuer.
  * For example, it is used as a wrapper to wrap the VC SDK send response method.
  */
 protocol VerifiableCredentialRequester {
