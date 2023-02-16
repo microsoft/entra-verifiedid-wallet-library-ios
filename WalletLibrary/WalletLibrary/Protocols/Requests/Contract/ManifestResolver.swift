@@ -3,9 +3,12 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/**
- * Representation of a Raw Contract.
- * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
- */
-protocol RawContract: Mappable where T == VerifiedIdRequestContent {}
+import VCEntities
 
+/**
+ * Protocol is used as a wrapper to wrap the VC SDK get contract method.
+ */
+protocol ManifestResolver {
+    /// Fetches and validates the contract.
+    func resolve(with url: String) async throws -> any RawManifest
+}
