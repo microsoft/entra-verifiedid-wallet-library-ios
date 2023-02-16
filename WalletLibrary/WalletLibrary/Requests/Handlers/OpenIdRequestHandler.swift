@@ -17,9 +17,9 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
-    private let manifestService: ContractResolver & ContractResponder
+    private let manifestService: ManifestResolver & VerifiedIdRequester
     
-    init(configuration: LibraryConfiguration, manifestService: ContractResolver & ContractResponder) {
+    init(configuration: LibraryConfiguration, manifestService: ManifestResolver & VerifiedIdRequester) {
         self.configuration = configuration
         self.manifestService = manifestService
     }
@@ -50,13 +50,13 @@ struct OpenIdRequestHandler: RequestHandling {
             throw OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest
         }
         
-        let rawContract = try await manifestService.getRequest(url: issuanceOption.url.absoluteString)
+        let rawContract = try await manifestService.resolve(with: issuanceOption.url.absoluteString)
         /// TODO: add logic here to add PinRequirement to ContractIssuanceRequest if it exists.
         let issuanceRequestContent = try configuration.mapper.map(rawContract)
         return ContractIssuanceRequest(content: issuanceRequestContent,
                                        rawContract: rawContract,
                                        input: issuanceOption,
-                                       contractResponder: manifestService,
+                                       verifiedIdRequester: manifestService,
                                        configuration: configuration)
     }
     
