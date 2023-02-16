@@ -113,7 +113,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
 
         // Arrange
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        let mockHandler = OpenIdRequestHandler(configuration: configuration, manifestService: MockContractResolver())
+        let mockHandler = OpenIdRequestHandler(configuration: configuration,
+                                               manifestResolver: MockManifestResolver(),
+                                               verifiableCredentialRequester: MockVerifiableCredentialRequester())
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
         // Act
