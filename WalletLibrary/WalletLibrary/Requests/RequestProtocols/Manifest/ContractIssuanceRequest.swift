@@ -18,25 +18,25 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
     public let rootOfTrust: RootOfTrust
     
-    private let contractResponder: ContractResponder
+    private let verifiedIdRequester: VerifiedIdRequester
     
     private let configuration: LibraryConfiguration
     
-    private let rawContract: any RawContract
+    private let rawContract: any RawManifest
     
     private let input: VerifiedIdRequestInput
     
     init(content: VerifiedIdRequestContent,
-         rawContract: any RawContract,
+         rawContract: any RawManifest,
          input: VerifiedIdRequestInput,
-         contractResponder: ContractResponder,
+         verifiedIdRequester: VerifiedIdRequester,
          configuration: LibraryConfiguration) {
         self.style = content.style
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.rawContract = rawContract
         self.input = input
-        self.contractResponder = contractResponder
+        self.verifiedIdRequester = verifiedIdRequester
         self.configuration = configuration
     }
     
@@ -49,7 +49,7 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
         do {
             var responseContainer = try IssuanceResponseContainer(from: rawContract, input: input)
             try responseContainer.add(requirement: requirement)
-            let rawVerifiedId = try await contractResponder.send(requestContent: responseContainer)
+            let rawVerifiedId = try await verifiedIdRequester.send(request: responseContainer)
             return Result.success(VerifiedId(id: "test",
                                              type: "type",
                                              claims: [],
