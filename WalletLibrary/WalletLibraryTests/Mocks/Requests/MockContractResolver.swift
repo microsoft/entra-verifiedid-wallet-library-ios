@@ -6,7 +6,7 @@
 @testable import WalletLibrary
 import VCEntities
 
-class MockContractResolver: ManifestResolver, VerifiedIdRequester {
+class MockContractResolver: ManifestResolver, VerifiableCredentialRequester {
     
     let mockGetRequestCallback: ((String) throws -> any RawManifest)?
     
