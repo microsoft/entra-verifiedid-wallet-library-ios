@@ -7,7 +7,8 @@ import VCEntities
 import VCServices
 
 /**
- * An extension of the VCServices.IssuanceService class.
+ * An extension of the VCServices.IssuanceService class
+ * that wraps getRequest method with a resolve method that conforms to ManifestResolver protocol.
  */
 extension IssuanceService: ManifestResolver {
     
