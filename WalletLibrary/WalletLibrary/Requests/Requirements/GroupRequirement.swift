@@ -35,6 +35,7 @@ public class GroupRequirement: Requirement {
         self.requirementOperator = requirementOperator
     }
     
+    /// Throws error if requirement is not valid or incomplete.
     public func validate() throws {
         
         var errorsThrown: [Error] = []
