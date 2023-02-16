@@ -17,15 +17,27 @@ public class PinRequirement: Requirement {
     /// The type of the pin such as alphanumeric or numeric.
     public let type: String
     
+    let salt: String?
+    
+    var pin: String?
+    
     init(required: Bool,
          length: Int,
-         type: String) {
+         type: String,
+         salt: String?) {
         self.required = required
         self.length = length
         self.type = type
+        self.salt = salt
     }
     
+    /// Throws error if requirement is not complete.
     public func validate() throws {
         throw VerifiedIdClientError.TODO(message: "implement validate")
+    }
+    
+    /// Fulfill requirement with a pin.
+    public func fulfill(with pin: String) {
+        self.pin = pin
     }
 }
