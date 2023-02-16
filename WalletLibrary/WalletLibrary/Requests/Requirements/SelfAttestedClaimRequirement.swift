@@ -17,6 +17,8 @@ public class SelfAttestedClaimRequirement: Requirement {
     /// The claim requested.
     public let claim: String
     
+    var value: String?
+    
     init(encrypted: Bool, required: Bool, claim: String) {
         self.encrypted = encrypted
         self.required = required
@@ -24,6 +26,13 @@ public class SelfAttestedClaimRequirement: Requirement {
     }
     
     public func validate() throws {
-        throw VerifiedIdClientError.TODO(message: "implement validate")
+        if value == nil {
+            throw VerifiedIdClientError.TODO(message: "implement")
+        }
+    }
+    
+    /// Fulfill requirement with a self-attested value.
+    public func fulfill(with value: String) {
+        self.value = value
     }
 }
