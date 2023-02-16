@@ -9,7 +9,7 @@ import VCEntities
  * An extension of the VCEntities.IssuanceRequest class.
  * TODO: Update RawContract to RawManifest
  */
-extension VCEntities.IssuanceResponseContainer {
+extension VCEntities.IssuanceResponseContainer: RawRequestContent {
     
     init(from rawContract: any RawContract, input: VerifiedIdRequestInput) throws {
         
