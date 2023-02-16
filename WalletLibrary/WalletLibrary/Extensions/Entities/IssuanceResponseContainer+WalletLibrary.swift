@@ -12,19 +12,21 @@ enum IssuanceResponseContainerError: Error {
 }
 
 /**
- * An extension of the VCEntities.IssuanceRequest class.
- * TODO: Update RawContract to RawManifest
+ * An extension of the VCEntities.IssuanceResponseContainer class
+ * to convert Requirements to mappings in IssuanceResponseContainer.
  */
 extension VCEntities.IssuanceResponseContainer {
     
     init(from manifest: any RawManifest, input: VerifiedIdRequestInput) throws {
         
         guard let manifest = manifest as? IssuanceRequest else {
-            throw IssuanceResponseContainerError.unableToCastVCSDKIssuanceRequestFromRawManifestOfType(String(describing: manifest.self))
+            let manifestType = String(describing: type(of: manifest))
+            throw IssuanceResponseContainerError.unableToCastVCSDKIssuanceRequestFromRawManifestOfType(manifestType)
         }
         
         guard let input = input as? VerifiedIdRequestURL else {
-            throw IssuanceResponseContainerError.unableToCastVerifiedIdRequestURLFromInputOfType(String(describing: input.self))
+            let inputType = String(describing: type(of: input))
+            throw IssuanceResponseContainerError.unableToCastVerifiedIdRequestURLFromInputOfType(inputType)
         }
         
         try self.init(from: manifest.content, contractUri: input.url.absoluteString)
