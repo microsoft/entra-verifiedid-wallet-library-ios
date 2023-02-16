@@ -3,6 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+import VCEntities
+
 enum OpenIdRequestHandlerError: Error {
     case unsupportedRawRequestType
     case noIssuanceOptionsPresentToCreateIssuanceRequest
@@ -17,9 +19,10 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
-    private let manifestService: ManifestResolver & VerifiedIdRequester
+    private let manifestService: ManifestResolver & VerifiableCredentialRequester
     
-    init(configuration: LibraryConfiguration, manifestService: ManifestResolver & VerifiedIdRequester) {
+    /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
+    init(configuration: LibraryConfiguration, manifestService: ManifestResolver & VerifiableCredentialRequester) {
         self.configuration = configuration
         self.manifestService = manifestService
     }
@@ -50,12 +53,12 @@ struct OpenIdRequestHandler: RequestHandling {
             throw OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest
         }
         
-        let rawContract = try await manifestService.resolve(with: issuanceOption.url.absoluteString)
+        let rawContract = try await manifestService.resolve(with: issuanceOption.url)
+        let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
         /// TODO: add logic here to add PinRequirement to ContractIssuanceRequest if it exists.
         let issuanceRequestContent = try configuration.mapper.map(rawContract)
         return ContractIssuanceRequest(content: issuanceRequestContent,
-                                       rawContract: rawContract,
-                                       input: issuanceOption,
+                                       issuanceResponseContainer: issuanceResponseContainer,
                                        verifiedIdRequester: manifestService,
                                        configuration: configuration)
     }
