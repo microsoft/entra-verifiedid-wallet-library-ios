@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum PinRequirementError: Error {
+    case pinRequirementHasNotBeenFulfilled
+}
+
 /**
  * Information to describe a pin that is required.
  */
@@ -33,7 +37,9 @@ public class PinRequirement: Requirement {
     
     /// Throws error if requirement is not complete.
     public func validate() throws {
-        throw VerifiedIdClientError.TODO(message: "implement validate")
+        if pin == nil {
+            throw PinRequirementError.pinRequirementHasNotBeenFulfilled
+        }
     }
     
     /// Fulfill requirement with a pin.
