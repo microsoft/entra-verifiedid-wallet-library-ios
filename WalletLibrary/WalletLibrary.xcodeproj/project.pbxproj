@@ -623,13 +623,13 @@
 			path = VCSDK;
 			sourceTree = "<group>";
 		};
-		559BD3A4299AD9A200BD61AC /* Contract */ = {
+		559BD3A4299AD9A200BD61AC /* Manifest */ = {
 			isa = PBXGroup;
 			children = (
 				559BD3A5299AD9BD00BD61AC /* ManifestResolver.swift */,
 				559BD484299D8DCC00BD61AC /* VerifiableCredentialRequester.swift */,
 			);
-			path = Contract;
+			path = Manifest;
 			sourceTree = "<group>";
 		};
 		559BD3A9299ADEF300BD61AC /* Manifest */ = {
@@ -956,7 +956,7 @@
 		55E337B62948B4F900CD2ED7 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				559BD3A4299AD9A200BD61AC /* Contract */,
+				559BD3A4299AD9A200BD61AC /* Manifest */,
 				550A919C29940ECA0014D030 /* RawRequests */,
 				55E337B72948B50800CD2ED7 /* Handlers */,
 				55E3376629437E1000CD2ED7 /* OpenIdForVC */,

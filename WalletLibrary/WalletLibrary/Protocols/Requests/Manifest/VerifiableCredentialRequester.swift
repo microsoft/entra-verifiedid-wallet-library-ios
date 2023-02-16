@@ -4,11 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Protocol defines the before of taking the given generic request and requesting from an issuer, a Verified Id in raw form.
+ * Protocol defines the behavior of taking the given generic request and requesting from an issuer, a Verified Id in raw form.
  * For example, it is used as a wrapper to wrap the VC SDK send response method.
  */
-protocol VerifiedIdRequester {
+protocol VerifiableCredentialRequester {
     
     /// Giiven generic request,  requests a raw Verified Id from an issuer.
-    func send<Request>(request: Request) async throws -> RawVerifiedId
+    func send<Request>(request: Request) async throws -> VerifiableCredential
 }
