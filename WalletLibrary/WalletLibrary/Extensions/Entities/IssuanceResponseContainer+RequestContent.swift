@@ -11,9 +11,9 @@ import VCEntities
  */
 extension VCEntities.IssuanceResponseContainer: RawRequestContent {
     
-    init(from rawContract: any RawContract, input: VerifiedIdRequestInput) throws {
+    init(from manifest: any RawManifest, input: VerifiedIdRequestInput) throws {
         
-        guard let contract = rawContract as? IssuanceRequest else {
+        guard let manifest = manifest as? IssuanceRequest else {
             throw VerifiedIdClientError.TODO(message: "implement")
         }
         
@@ -21,7 +21,7 @@ extension VCEntities.IssuanceResponseContainer: RawRequestContent {
             throw VerifiedIdClientError.TODO(message: "implement")
         }
         
-        try self.init(from: contract.content, contractUri: input.url.absoluteString)
+        try self.init(from: manifest.content, contractUri: input.url.absoluteString)
     }
     
     mutating func add(requirement: Requirement) throws {

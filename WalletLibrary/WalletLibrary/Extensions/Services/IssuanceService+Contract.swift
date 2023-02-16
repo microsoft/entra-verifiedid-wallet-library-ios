@@ -9,10 +9,10 @@ import VCServices
 /**
  * An extension of the VCServices.IssuanceService class.
  */
-extension IssuanceService: ContractResolver, ContractResponder {
+extension IssuanceService: ManifestResolver, VerifiedIdRequester {
     
     /// Fetches and validates the issuance request.
-    func getRequest(url: String) async throws -> any RawContract {
+    func resolve(with url: String) async throws -> any RawManifest {
         return try await AsyncWrapper().wrap { () in
             self.getRequest(usingUrl: url)
         }()
@@ -20,9 +20,9 @@ extension IssuanceService: ContractResolver, ContractResponder {
     
     /// Sends the issuance response container and if successful, returns Verifiable Credential.
     /// If unsuccessful, throws an error.
-    func send(requestContent: RawRequestContent) async throws -> RawVerifiedId {
+    func send<Request>(request: Request) async throws -> RawVerifiedId {
         
-        guard let issuanceResponseContainer = requestContent as? IssuanceResponseContainer else {
+        guard let issuanceResponseContainer = request as? IssuanceResponseContainer else {
             throw VerifiedIdClientError.TODO(message: "add error")
         }
         
