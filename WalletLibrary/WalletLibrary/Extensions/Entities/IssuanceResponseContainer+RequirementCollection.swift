@@ -5,20 +5,26 @@
 
 import VCEntities
 
+enum IssuanceResponseContainerError: Error {
+    case unableToCastVCSDKIssuanceRequestFromRawManifestOfType(String)
+    case unableToCastVerifiedIdRequestURLFromInputOfType(String)
+    case unsupportedRequirementOfType(String)
+}
+
 /**
  * An extension of the VCEntities.IssuanceRequest class.
  * TODO: Update RawContract to RawManifest
  */
-extension VCEntities.IssuanceResponseContainer: RawRequestContent {
+extension VCEntities.IssuanceResponseContainer {
     
     init(from manifest: any RawManifest, input: VerifiedIdRequestInput) throws {
         
         guard let manifest = manifest as? IssuanceRequest else {
-            throw VerifiedIdClientError.TODO(message: "implement")
+            throw IssuanceResponseContainerError.unableToCastVCSDKIssuanceRequestFromRawManifestOfType(String(describing: manifest.self))
         }
         
         guard let input = input as? VerifiedIdRequestURL else {
-            throw VerifiedIdClientError.TODO(message: "implement")
+            throw IssuanceResponseContainerError.unableToCastVerifiedIdRequestURLFromInputOfType(String(describing: input.self))
         }
         
         try self.init(from: manifest.content, contractUri: input.url.absoluteString)
@@ -26,20 +32,20 @@ extension VCEntities.IssuanceResponseContainer: RawRequestContent {
     
     mutating func add(requirement: Requirement) throws {
         switch (requirement) {
-        case is GroupRequirement:
-            try add(groupRequirement: requirement as! GroupRequirement)
-        case is IdTokenRequirement:
-            try add(idTokenRequirement: requirement as! IdTokenRequirement)
-        case is AccessTokenRequirement:
-            try add(accessTokenRequirement: requirement as! AccessTokenRequirement)
-        case is VerifiedIdRequirement:
-            try add(verifiedIdRequirement: requirement as! VerifiedIdRequirement)
-        case is SelfAttestedClaimRequirement:
-            try add(selfAttestedRequirement: requirement as! SelfAttestedClaimRequirement)
-        case is PinRequirement:
-            try add(pinRequirement: requirement as! PinRequirement)
+        case let groupRequirement as GroupRequirement:
+            try add(groupRequirement: groupRequirement)
+        case let idTokenRequirement as IdTokenRequirement:
+            try add(idTokenRequirement: idTokenRequirement)
+        case let accessTokenRequirement as AccessTokenRequirement:
+            try add(accessTokenRequirement: accessTokenRequirement)
+        case let verifiedIdRequirement as VerifiedIdRequirement:
+            try add(verifiedIdRequirement: verifiedIdRequirement)
+        case let selfAttestedClaimRequirement as SelfAttestedClaimRequirement:
+            try add(selfAttestedRequirement: selfAttestedClaimRequirement)
+        case let pinRequirement as PinRequirement:
+            try add(pinRequirement: pinRequirement)
         default:
-            throw VerifiedIdClientError.TODO(message: "implement")
+            throw IssuanceResponseContainerError.unsupportedRequirementOfType(String(describing: requirement.self))
         }
     }
     
