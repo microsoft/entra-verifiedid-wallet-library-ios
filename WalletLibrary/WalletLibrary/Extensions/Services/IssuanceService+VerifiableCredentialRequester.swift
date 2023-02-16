@@ -6,8 +6,12 @@
 import VCEntities
 import VCServices
 
+enum IssuanceServiceVCRequesterError: Error {
+    case unableToCastIssuanceResponseContainerFromType(String)
+}
 /**
- * An extension of the VCServices.IssuanceService class.
+ * An extension of the VCServices.IssuanceService class
+ * that wraps send method with a generic send method that conforms to VerifiableCredentialRequester protocol.
  */
 extension IssuanceService: VerifiableCredentialRequester {
     
@@ -16,7 +20,8 @@ extension IssuanceService: VerifiableCredentialRequester {
     func send<Request>(request: Request) async throws -> VerifiableCredential {
         
         guard let issuanceResponseContainer = request as? IssuanceResponseContainer else {
-            throw VerifiedIdClientError.TODO(message: "add error")
+            let requestType = String(describing: request.self)
+            throw IssuanceServiceVCRequesterError.unableToCastIssuanceResponseContainerFromType(requestType)
         }
         
         let rawVerifiableCredential = try await AsyncWrapper().wrap { () in
