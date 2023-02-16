@@ -46,9 +46,9 @@ public class AccessTokenRequirement: Requirement {
         self.scope = scope
     }
     
-    /// Throws error if requirement is not valid.
+    /// Throws error if requirement is not complete.
     public func validate() throws {
-        if accessToken != nil {
+        if accessToken == nil {
             throw AccessTokenRequirementError.accessTokenRequirementHasNotBeenFulfilled
         }
     }
