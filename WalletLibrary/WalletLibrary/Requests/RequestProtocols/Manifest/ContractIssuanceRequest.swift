@@ -18,24 +18,20 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
     public let rootOfTrust: RootOfTrust
     
-    private let verifiedIdRequester: VerifiedIdRequester
+    private let verifiedIdRequester: VerifiableCredentialRequester
     
     private let configuration: LibraryConfiguration
     
-    private let rawContract: any RawManifest
-    
-    private let input: VerifiedIdRequestInput
+    private var responseContainer: IssuanceResponseContainer
     
     init(content: VerifiedIdRequestContent,
-         rawContract: any RawManifest,
-         input: VerifiedIdRequestInput,
-         verifiedIdRequester: VerifiedIdRequester,
+         issuanceResponseContainer: IssuanceResponseContainer,
+         verifiedIdRequester: VerifiableCredentialRequester,
          configuration: LibraryConfiguration) {
         self.style = content.style
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
-        self.rawContract = rawContract
-        self.input = input
+        self.responseContainer = issuanceResponseContainer
         self.verifiedIdRequester = verifiedIdRequester
         self.configuration = configuration
     }
@@ -47,15 +43,10 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
     public func complete() async -> Result<VerifiedId, Error> {
         do {
-            var responseContainer = try IssuanceResponseContainer(from: rawContract, input: input)
-            try responseContainer.add(requirement: requirement)
-            let rawVerifiedId = try await verifiedIdRequester.send(request: responseContainer)
-            return Result.success(VerifiedId(id: "test",
-                                             type: "type",
-                                             claims: [],
-                                             expiresOn: Date(),
-                                             issuedOn: Date(),
-                                             raw: rawVerifiedId.raw))
+            try self.responseContainer.add(requirement: requirement)
+            let verifiableCredential = try await verifiedIdRequester.send(request: responseContainer)
+            let verifiedId: VerifiedId = try configuration.mapper.map(verifiableCredential)
+            return Result.success(verifiedId)
         } catch {
             return Result.failure(error)
         }
