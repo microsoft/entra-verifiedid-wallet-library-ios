@@ -50,7 +50,7 @@ public class VerifiedIdClientBuilder {
     }
     
     private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
-        let openIdHandler = OpenIdRequestHandler(configuration: configuration, contractResolver: IssuanceService())
+        let openIdHandler = OpenIdRequestHandler(configuration: configuration, manifestService: IssuanceService())
         requestHandlers.append(openIdHandler)
     }
 }
