@@ -9,7 +9,7 @@ import VCServices
 /**
  * An extension of the VCServices.IssuanceService class.
  */
-extension IssuanceService: ContractResolver {
+extension IssuanceService: ContractResolver, ContractResponder {
     
     /// Fetches and validates the issuance request.
     func getRequest(url: String) async throws -> any RawContract {
@@ -20,9 +20,26 @@ extension IssuanceService: ContractResolver {
     
     /// Sends the issuance response container and if successful, returns Verifiable Credential.
     /// If unsuccessful, throws an error.
-    func send(response: VCEntities.IssuanceResponseContainer) async throws -> VerifiableCredential {
-        return try await AsyncWrapper().wrap { () in
-            self.send(response: response)
+    func send(requestContent: RawRequestContent) async throws -> RawVerifiedId {
+        
+        guard let issuanceResponseContainer = requestContent as? IssuanceResponseContainer else {
+            throw VerifiedIdClientError.TODO(message: "add error")
+        }
+        
+        let verifiableCredential = try await AsyncWrapper().wrap { () in
+            self.send(response: issuanceResponseContainer)
         }()
+        
+        let rawValue = try verifiableCredential.serialize()
+        return RawVerifiedId(raw: rawValue)
     }
+}
+
+struct RawVerifiedId {
+    let raw: String
+}
+
+protocol RawRequestContent {
+    
+    mutating func add(requirement: Requirement) throws
 }
