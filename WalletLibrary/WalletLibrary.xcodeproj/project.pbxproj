@@ -63,6 +63,8 @@
 		559BD457299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD456299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift */; };
 		559BD459299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD458299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift */; };
 		559BD45B299D587200BD61AC /* Manifest2022IssuerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD45A299D587200BD61AC /* Manifest2022IssuerStyle.swift */; };
+		559BD485299D8DCC00BD61AC /* ContractResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD484299D8DCC00BD61AC /* ContractResponder.swift */; };
+		559BD49C299D913F00BD61AC /* IssuanceResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD49B299D913F00BD61AC /* IssuanceResponseContainer.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestHandling.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -330,6 +332,8 @@
 		559BD456299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttestationsDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD458299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelfIssuedClaimsDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD45A299D587200BD61AC /* Manifest2022IssuerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manifest2022IssuerStyle.swift; sourceTree = "<group>"; };
+		559BD484299D8DCC00BD61AC /* ContractResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractResponder.swift; sourceTree = "<group>"; };
+		559BD49B299D913F00BD61AC /* IssuanceResponseContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceResponseContainer.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandling.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -436,6 +440,7 @@
 			children = (
 				550A919A29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift */,
 				559BD3AC299AE6C000BD61AC /* IssuanceRequest+RawContract.swift */,
+				559BD49B299D913F00BD61AC /* IssuanceResponseContainer.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -617,6 +622,7 @@
 			isa = PBXGroup;
 			children = (
 				559BD3A5299AD9BD00BD61AC /* ContractResolver.swift */,
+				559BD484299D8DCC00BD61AC /* ContractResponder.swift */,
 			);
 			path = Contract;
 			sourceTree = "<group>";
@@ -1299,7 +1305,9 @@
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */,
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
+				559BD485299D8DCC00BD61AC /* ContractResponder.swift in Sources */,
 				55E2F086299573C30008010D /* OpenIdVerifierStyle.swift in Sources */,
+				559BD49C299D913F00BD61AC /* IssuanceResponseContainer.swift in Sources */,
 				559BD414299D37B100BD61AC /* SelfIssuedClaimsDescriptor+Mappable.swift in Sources */,
 				55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */,
 				55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */,
