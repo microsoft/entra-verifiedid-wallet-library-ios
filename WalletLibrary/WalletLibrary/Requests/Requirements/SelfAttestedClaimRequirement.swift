@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum SelfAttestedClaimRequirementError: Error {
+    case selfAttestedClaimRequirementHasNotBeenFulfilled
+}
+
 /**
  * Information to describe a self attested claim required for a Verified Id issuance flow.
  */
@@ -27,7 +31,7 @@ public class SelfAttestedClaimRequirement: Requirement {
     
     public func validate() throws {
         if value == nil {
-            throw VerifiedIdClientError.TODO(message: "implement")
+            throw SelfAttestedClaimRequirementError.selfAttestedClaimRequirementHasNotBeenFulfilled
         }
     }
     
