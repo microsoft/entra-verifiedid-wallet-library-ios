@@ -6,6 +6,6 @@
 /**
  * Requester Style that is Open Id specific.
  */
-struct OpenIdRequesterStyle: RequesterStyle, Equatable {
-    let requester: String
+struct OpenIdVerifierStyle: RequesterStyle, Equatable {
+    let name: String
 }

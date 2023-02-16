@@ -3,13 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
-
-struct MockRequesterStyle: RequesterStyle, Equatable {
-    
-    let name: String
-    
-    init(requester: String) {
-        self.name = requester
-    }
+/**
+ * Representation of Issuer Style configured by a Manifest implemented in 2022.
+ * TODO: Add more attributes from manifest.
+ */
+struct Manifest2022IssuerStyle: RequesterStyle, Equatable {
+    var name: String
 }

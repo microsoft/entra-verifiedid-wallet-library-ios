@@ -7,9 +7,6 @@ import VCEntities
 
 /**
  * An extension of the VCEntities.IssuanceRequest class.
+ * TODO: Update RawContract to RawManifest
  */
-extension VCEntities.IssuanceRequest: RawContract {
-    func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
-        throw VerifiedIdClientError.TODO(message: "implement")
-    }
-}
+extension VCEntities.IssuanceRequest: RawContract { }

@@ -6,6 +6,7 @@
 /**
  * Contents in a Verified Id Request.
  * This object is used to map protocol specific requests to common request object.
+ * TODO: make this object extensibility to be able to add VerifiedIdStyle.
  */
 struct VerifiedIdRequestContent {
     

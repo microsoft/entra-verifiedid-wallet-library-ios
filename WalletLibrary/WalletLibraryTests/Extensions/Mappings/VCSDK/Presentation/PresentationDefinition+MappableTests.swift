@@ -21,7 +21,23 @@ class PresentationDefinitionMappingTests: XCTestCase {
         XCTAssertThrowsError(try mockMapper.map(presentationDefinition)) { error in
             // Assert
             XCTAssert(error is PresentationDefinitionMappingError)
-            XCTAssertEqual(error as? PresentationDefinitionMappingError, .nilInputDescriptors)
+            XCTAssertEqual(error as? PresentationDefinitionMappingError, .missingInputDescriptors)
+        }
+    }
+    
+    func testMap_NoInputDescriptors_ThrowsError() throws {
+        
+        // Arrange
+        let mockMapper = MockMapper()
+        let presentationDefinition = PresentationDefinition(id: nil,
+                                                            inputDescriptors: [],
+                                                            issuance: nil)
+        
+        // Act
+        XCTAssertThrowsError(try mockMapper.map(presentationDefinition)) { error in
+            // Assert
+            XCTAssert(error is PresentationDefinitionMappingError)
+            XCTAssertEqual(error as? PresentationDefinitionMappingError, .missingInputDescriptors)
         }
     }
     
@@ -114,6 +130,6 @@ class PresentationDefinitionMappingTests: XCTestCase {
         XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements[1] as AnyObject, mockVerifiedIdRequirement as AnyObject)
         XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements[2] as AnyObject, mockVerifiedIdRequirement as AnyObject)
         XCTAssert((actualResult as? GroupRequirement)?.required ?? false)
-        XCTAssertEqual((actualResult as? GroupRequirement)?.requirementOperator, .ANY)
+        XCTAssertEqual((actualResult as? GroupRequirement)?.requirementOperator, .ALL)
     }
 }
