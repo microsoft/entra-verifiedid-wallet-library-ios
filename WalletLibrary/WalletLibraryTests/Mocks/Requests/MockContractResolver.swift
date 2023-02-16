@@ -4,22 +4,27 @@
 *--------------------------------------------------------------------------------------------*/
 
 @testable import WalletLibrary
+import VCEntities
 
-class MockContractResolver: ContractResolver {
+class MockContractResolver: ManifestResolver, VerifiedIdRequester {
     
-    let mockGetRequestCallback: ((String) throws -> any RawContract)?
+    let mockGetRequestCallback: ((String) throws -> any RawManifest)?
     
-    init(mockGetRequestCallback: ((String) throws -> any RawContract)? = nil) {
+    init(mockGetRequestCallback: ((String) throws -> any RawManifest)? = nil) {
         self.mockGetRequestCallback = mockGetRequestCallback
     }
     
-    func getRequest(url: String) async throws -> any RawContract {
+    func resolve(with url: String) async throws -> any RawManifest {
         return try mockGetRequestCallback?(url) ?? MockRawContract(id: "")
+    }
+    
+    func send<Request>(request: Request) async throws -> RawVerifiedId {
+        throw VerifiedIdClientError.TODO(message: "implement")
     }
     
 }
 
-struct MockRawContract: RawContract, Equatable {
+struct MockRawContract: RawManifest, Equatable {
     
     let id: String
     

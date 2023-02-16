@@ -36,7 +36,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let handler = OpenIdRequestHandler(configuration: configuration, contractResolver: MockContractResolver())
+        let handler = OpenIdRequestHandler(configuration: configuration, manifestService: MockContractResolver())
         
         // Act
         let actualRequest = try await handler.handleRequest(from: mockRawRequest)
@@ -63,7 +63,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let handler = OpenIdRequestHandler(configuration: configuration, contractResolver: MockContractResolver())
+        let handler = OpenIdRequestHandler(configuration: configuration, manifestService: MockContractResolver())
         
         // Act
         do {
@@ -97,7 +97,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let handler = OpenIdRequestHandler(configuration: configuration, contractResolver: MockContractResolver())
+        let handler = OpenIdRequestHandler(configuration: configuration, manifestService: MockContractResolver())
         
         // Act
         do {
@@ -135,7 +135,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let handler = OpenIdRequestHandler(configuration: configuration, contractResolver: MockContractResolver())
+        let handler = OpenIdRequestHandler(configuration: configuration, manifestService: MockContractResolver())
         
         // Act
         do {
@@ -173,7 +173,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let handler = OpenIdRequestHandler(configuration: configuration, contractResolver: MockContractResolver())
+        let handler = OpenIdRequestHandler(configuration: configuration, manifestService: MockContractResolver())
         
         // Act
         do {
@@ -209,7 +209,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
             return nil
         }
         
-        func mockResolveContract(url: String) throws -> any RawContract {
+        func mockResolveContract(url: String) throws -> any RawManifest {
             throw ExpectedError.expectedToBeUnableToResolveContract
         }
         
@@ -217,7 +217,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
-                                           contractResolver: MockContractResolver(mockGetRequestCallback: mockResolveContract))
+                                           manifestService: MockContractResolver(mockGetRequestCallback: mockResolveContract))
         
         // Act
         do {
@@ -257,7 +257,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
             return nil
         }
         
-        func mockResolveContract(url: String) throws -> any RawContract {
+        func mockResolveContract(url: String) throws -> any RawManifest {
             return MockRawContract(id: "testContract345")
         }
         
@@ -265,7 +265,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
-                                           contractResolver: MockContractResolver(mockGetRequestCallback: mockResolveContract))
+                                           manifestService: MockContractResolver(mockGetRequestCallback: mockResolveContract))
         
         // Act
         do {
@@ -312,7 +312,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
             return nil
         }
         
-        func mockResolveContract(url: String) throws -> any RawContract {
+        func mockResolveContract(url: String) throws -> any RawManifest {
             return MockRawContract(id: "testContract345")
         }
         
@@ -320,7 +320,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
-                                           contractResolver: MockContractResolver(mockGetRequestCallback: mockResolveContract))
+                                           manifestService: MockContractResolver(mockGetRequestCallback: mockResolveContract))
         
         // Act
         let actualRequest = try await handler.handleRequest(from: mockRawRequest)
