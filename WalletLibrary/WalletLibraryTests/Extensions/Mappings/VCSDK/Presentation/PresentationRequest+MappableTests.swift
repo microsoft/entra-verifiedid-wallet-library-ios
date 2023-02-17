@@ -200,8 +200,8 @@ class PresentationRequestMappingTests: XCTestCase {
         let presentationRequestTokenClaims = PresentationRequestClaims(jti: nil,
                                                                        clientID: nil,
                                                                        redirectURI: nil,
-                                                                       responseType: nil,
                                                                        responseMode: nil,
+                                                                       responseType: nil,
                                                                        claims: requestedClaims,
                                                                        state: nil,
                                                                        nonce: nil,
@@ -210,7 +210,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                        registration: registration,
                                                                        idTokenHint: nil,
                                                                        iat: nil,
-                                                                       exp: nil)
+                                                                       exp: nil,
+                                                                       pin: nil)
         
         return PresentationRequestToken(headers: Header(), content: presentationRequestTokenClaims)!
     }
