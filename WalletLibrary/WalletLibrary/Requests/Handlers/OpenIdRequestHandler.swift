@@ -60,7 +60,6 @@ struct OpenIdRequestHandler: RequestHandling {
         
         let rawContract = try await manifestResolver.resolve(with: issuanceOption.url)
         
-        
         let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
         /// TODO: add logic here to add PinRequirement to ContractIssuanceRequest if it exists.
         let issuanceRequestContent = try configuration.mapper.map(rawContract)

@@ -79,7 +79,7 @@ class GroupRequirementTests: XCTestCase {
                                                 requirements: [firstRequirement, secondRequirement, thirdRequirement, fourthRequirement],
                                                 requirementOperator: .ALL)
         
-        // Act
+        // Act / Assert
         XCTAssertNoThrow(try groupRequirement.validate())
     }
 }

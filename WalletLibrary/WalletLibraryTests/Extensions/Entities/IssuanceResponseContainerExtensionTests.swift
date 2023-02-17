@@ -26,7 +26,8 @@ class IssuanceResponseContainerExtensionTests: XCTestCase {
         XCTAssertThrowsError(try IssuanceResponseContainer(from: mockRawManifest, input: mockInput)) { error in
             // Assert
             XCTAssert(error is IssuanceResponseContainerError)
-            XCTAssertEqual(error as? IssuanceResponseContainerError, .unableToCastVCSDKIssuanceRequestFromRawManifestOfType("MockRawManifest"))
+            XCTAssertEqual(error as? IssuanceResponseContainerError,
+                           .unableToCastVCSDKIssuanceRequestFromRawManifestOfType("MockRawManifest"))
         }
     }
     
@@ -40,7 +41,8 @@ class IssuanceResponseContainerExtensionTests: XCTestCase {
         XCTAssertThrowsError(try IssuanceResponseContainer(from: issuanceRequest, input: mockInput)) { error in
             // Assert
             XCTAssert(error is IssuanceResponseContainerError)
-            XCTAssertEqual(error as? IssuanceResponseContainerError, .unableToCastVerifiedIdRequestURLFromInputOfType("MockInput"))
+            XCTAssertEqual(error as? IssuanceResponseContainerError,
+                           .unableToCastVerifiedIdRequestURLFromInputOfType("MockInput"))
             
         }
     }

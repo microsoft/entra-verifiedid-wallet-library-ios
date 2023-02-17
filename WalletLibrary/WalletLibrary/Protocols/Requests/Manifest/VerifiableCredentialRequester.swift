@@ -9,6 +9,6 @@
  */
 protocol VerifiableCredentialRequester {
     
-    /// Giiven generic request,  requests a raw Verified Id from an issuer.
+    /// Given generic request,  requests a raw Verified Id from an issuer.
     func send<Request>(request: Request) async throws -> VerifiableCredential
 }
