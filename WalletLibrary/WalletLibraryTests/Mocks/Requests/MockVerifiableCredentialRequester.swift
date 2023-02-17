@@ -4,9 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 
 @testable import WalletLibrary
-import VCEntities
 
 class MockVerifiableCredentialRequester: VerifiableCredentialRequester {
+    
+    enum MockVerifiableCredentialRequestError: Error {
+        case missingCallback
+    }
     
     let sendRequestCallback: ((String) throws -> WalletLibrary.VerifiableCredential)?
     
@@ -16,11 +19,12 @@ class MockVerifiableCredentialRequester: VerifiableCredentialRequester {
     
     func send<Request>(request: Request) async throws -> WalletLibrary.VerifiableCredential {
         
-        if let sendRequestCallback = sendRequestCallback {
-            return try sendRequestCallback("test")
+        if let sendRequestCallback = sendRequestCallback,
+           let request = request as? String {
+            return try sendRequestCallback(request)
         }
         
-        throw VerifiedIdClientError.TODO(message: "add")
+        throw MockVerifiableCredentialRequestError.missingCallback
     }
     
 }
