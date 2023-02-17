@@ -68,7 +68,6 @@
 		559BD4B3299EDFB400BD61AC /* VerifiableCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */; };
 		559BD4B5299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4B4299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift */; };
 		559BD4E5299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4E4299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift */; };
-		559BD4E8299EEA8B00BD61AC /* IssuanceService+VerifiableCredentialRequesterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4E7299EEA8B00BD61AC /* IssuanceService+VerifiableCredentialRequesterTests.swift */; };
 		559BD4EB299EEAC400BD61AC /* GroupRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4EA299EEAC400BD61AC /* GroupRequirementTests.swift */; };
 		559BD4ED299EEAD100BD61AC /* IdTokenRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4EC299EEAD100BD61AC /* IdTokenRequirementTests.swift */; };
 		559BD4EF299EEADF00BD61AC /* AccessTokenRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4EE299EEADF00BD61AC /* AccessTokenRequirementTests.swift */; };
@@ -348,7 +347,6 @@
 		559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiableCredential.swift; sourceTree = "<group>"; };
 		559BD4B4299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceService+VerifiableCredentialRequester.swift"; sourceTree = "<group>"; };
 		559BD4E4299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceResponseContainerExtensionTests.swift; sourceTree = "<group>"; };
-		559BD4E7299EEA8B00BD61AC /* IssuanceService+VerifiableCredentialRequesterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceService+VerifiableCredentialRequesterTests.swift"; sourceTree = "<group>"; };
 		559BD4EA299EEAC400BD61AC /* GroupRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRequirementTests.swift; sourceTree = "<group>"; };
 		559BD4EC299EEAD100BD61AC /* IdTokenRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenRequirementTests.swift; sourceTree = "<group>"; };
 		559BD4EE299EEADF00BD61AC /* AccessTokenRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequirementTests.swift; sourceTree = "<group>"; };
@@ -618,7 +616,6 @@
 		5534E67C294A392F005D0765 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				559BD4E6299EEA6F00BD61AC /* Services */,
 				559BD4CE299EEA1500BD61AC /* Entities */,
 				5534E67D294A3937005D0765 /* Mappings */,
 			);
@@ -721,14 +718,6 @@
 				559BD4E4299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift */,
 			);
 			path = Entities;
-			sourceTree = "<group>";
-		};
-		559BD4E6299EEA6F00BD61AC /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				559BD4E7299EEA8B00BD61AC /* IssuanceService+VerifiableCredentialRequesterTests.swift */,
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		559BD4E9299EEAA200BD61AC /* Requirements */ = {
@@ -1416,7 +1405,6 @@
 				55A81C132991C829002C259A /* MockHandler.swift in Sources */,
 				559BD3072995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift in Sources */,
 				559BD4EB299EEAC400BD61AC /* GroupRequirementTests.swift in Sources */,
-				559BD4E8299EEA8B00BD61AC /* IssuanceService+VerifiableCredentialRequesterTests.swift in Sources */,
 				55A81C072991BB2C002C259A /* RequestResolverFactoryTests.swift in Sources */,
 				559BD4EF299EEADF00BD61AC /* AccessTokenRequirementTests.swift in Sources */,
 				55A81C102991C211002C259A /* MockResolver.swift in Sources */,

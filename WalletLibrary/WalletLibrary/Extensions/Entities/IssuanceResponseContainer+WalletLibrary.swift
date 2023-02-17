@@ -5,7 +5,7 @@
 
 import VCEntities
 
-enum IssuanceResponseContainerError: Error {
+enum IssuanceResponseContainerError: Error, Equatable {
     case unableToCastVCSDKIssuanceRequestFromRawManifestOfType(String)
     case unableToCastVerifiedIdRequestURLFromInputOfType(String)
     case unsupportedRequirementOfType(String)
@@ -47,7 +47,8 @@ extension VCEntities.IssuanceResponseContainer {
         case let pinRequirement as PinRequirement:
             try add(pinRequirement: pinRequirement)
         default:
-            throw IssuanceResponseContainerError.unsupportedRequirementOfType(String(describing: requirement.self))
+            let requirementType = String(describing: type(of: requirement))
+            throw IssuanceResponseContainerError.unsupportedRequirementOfType(requirementType)
         }
     }
     
