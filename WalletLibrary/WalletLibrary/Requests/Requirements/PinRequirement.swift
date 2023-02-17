@@ -21,8 +21,10 @@ public class PinRequirement: Requirement {
     /// The type of the pin such as alphanumeric or numeric.
     public let type: String
     
+    /// The optional salt.
     let salt: String?
     
+    /// The pin that fulfills the requirement.
     var pin: String?
     
     init(required: Bool,

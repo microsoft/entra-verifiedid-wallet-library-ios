@@ -35,6 +35,7 @@ public class IdTokenRequirement: Requirement {
     /// the id token retrieved and can be used for validation during an issuance request to an issuance service.
     public internal(set) var nonce: String? = nil
     
+    /// The id token that fulfills the requirement.
     var idToken: String?
     
     init(encrypted: Bool,

@@ -30,6 +30,7 @@ public class AccessTokenRequirement: Requirement {
     /// The scope value used to get the access token through an authentication library.
     public let scope: String
     
+    /// The access token that fulfills the requirement.
     var accessToken: String?
     
     init(encrypted: Bool,

@@ -21,6 +21,7 @@ public class SelfAttestedClaimRequirement: Requirement {
     /// The claim requested.
     public let claim: String
     
+    /// The claim value that fulfills the requirement.
     var value: String?
     
     init(encrypted: Bool, required: Bool, claim: String) {
