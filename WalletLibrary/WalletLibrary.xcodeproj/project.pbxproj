@@ -42,6 +42,7 @@
 		5534E688294A5F16005D0765 /* IdTokenDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E687294A5F16005D0765 /* IdTokenDescriptor+MappableTests.swift */; };
 		5534E68C294A8B8F005D0765 /* AccessTokenDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E68B294A8B8F005D0765 /* AccessTokenDescriptor+MappableTests.swift */; };
 		5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E6AC294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift */; };
+		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */; };
 		559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */; };
 		559BD3072995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3062995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift */; };
@@ -321,6 +322,7 @@
 		5534E687294A5F16005D0765 /* IdTokenDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdTokenDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		5534E68B294A8B8F005D0765 /* AccessTokenDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccessTokenDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		5534E6AC294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
+		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD3062995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
@@ -833,6 +835,7 @@
 			children = (
 				55E2F07C2995561E0008010D /* OpenIdPresentationRequest.swift */,
 				55E2F085299573C30008010D /* OpenIdVerifierStyle.swift */,
+				5585BDE629A6C38C0059710B /* InjectedIdToken.swift */,
 			);
 			path = OpenId;
 			sourceTree = "<group>";
@@ -1341,6 +1344,7 @@
 				55E2F07F29955A3B0008010D /* VerifiedIdRequestContent.swift in Sources */,
 				550A916F299310D40014D030 /* OpenIdRequestHandler.swift in Sources */,
 				55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */,
+				5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */,
 				550E320C298B0F30004E7716 /* WalletLibraryLogConsumer.swift in Sources */,
 				550E3217298B1236004E7716 /* RequesterStyle.swift in Sources */,
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,

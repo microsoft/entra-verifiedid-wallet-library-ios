@@ -61,9 +61,3 @@ extension VCEntities.PresentationRequest: Mappable {
         return nil
     }
 }
-
-struct InjectedIdToken {
-    let rawToken: String
-    
-    let pin: PinRequirement?
-}
