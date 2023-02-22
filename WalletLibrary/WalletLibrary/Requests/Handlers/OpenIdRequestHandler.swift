@@ -61,12 +61,28 @@ struct OpenIdRequestHandler: RequestHandling {
         let rawContract = try await manifestResolver.resolve(with: issuanceOption.url)
         
         let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
-        /// TODO: add logic here to add PinRequirement to ContractIssuanceRequest if it exists.
-        let issuanceRequestContent = try configuration.mapper.map(rawContract)
+        var issuanceRequestContent = try configuration.mapper.map(rawContract)
+        repopulateIssuanceRequirementsIfInjectedIdTokenExists(presentationRequestContent: requestContent,
+                                                              issuanceRequestContent: &issuanceRequestContent)
+        
         return ContractIssuanceRequest(content: issuanceRequestContent,
                                        issuanceResponseContainer: issuanceResponseContainer,
                                        verifiableCredentialRequester: verifiableCredentialRequester,
                                        configuration: configuration)
+    }
+    
+    private func repopulateIssuanceRequirementsIfInjectedIdTokenExists(presentationRequestContent: VerifiedIdRequestContent,
+                                                                       issuanceRequestContent: inout VerifiedIdRequestContent) {
+        if let injectedIdToken = presentationRequestContent.injectedIdToken,
+           let idTokenRequirement = issuanceRequestContent.requirement as? IdTokenRequirement {
+            idTokenRequirement.fulfill(with: injectedIdToken.rawToken)
+            if let pinRequirement = injectedIdToken.pin {
+                let groupRequirement = GroupRequirement(required: true,
+                                                        requirements: [idTokenRequirement, pinRequirement],
+                                                        requirementOperator: .ALL)
+                issuanceRequestContent.requirement = groupRequirement
+            }
+        }
     }
     
     private func handlePresentationRequest(from requestContent: VerifiedIdRequestContent) throws -> any VerifiedIdPresentationRequest {
