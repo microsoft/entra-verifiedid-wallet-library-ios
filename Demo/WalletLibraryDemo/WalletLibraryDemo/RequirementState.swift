@@ -45,8 +45,7 @@ class RequirementState: Identifiable {
             self.label = "Add Pin"
         case let idTokenRequirement as IdTokenRequirement:
             self.label = "Id Token for: \(idTokenRequirement.configuration)"
-            try? idTokenRequirement.validate()
-            self.status = .valid
+            try? addNewLabelIfValid(newLabel: "Valid Id Token Present.")
         default:
             throw RequirementStateError.unsupportedRequirementType
         }
