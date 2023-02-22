@@ -11,7 +11,6 @@ enum SampleViewModelError: String, Error {
     case unableToCreateRequest = "Unable to create request."
     case requestIsUndefined = "Verified Id Request is Undefined."
     case unsupportedRequirementType = "One of the requirement types is not supported."
-    case TODO = "TODO"
 }
 
 
@@ -41,6 +40,7 @@ enum SampleViewModelError: String, Error {
     /// The current issuance or presentation request that is being processed.
     private var request: (any VerifiedIdRequest)? = nil
     
+    /// TODO: enable deeplinking and the rest of the requirements.
     init() {
         do {
             let builder = VerifiedIdClientBuilder()
@@ -59,7 +59,8 @@ enum SampleViewModelError: String, Error {
                 self.request = try await verifiedIdClient?.createVerifiedIdRequest(from: input)
                 
                 if let request = request {
-                   try configureRequirements(requirement: request.requirement)
+                    try configureRequirements(requirement: request.requirement)
+                    isCompleteButtonEnabled = request.isSatisfied()
                 } else {
                     showErrorMessage(from: SampleViewModelError.unableToCreateRequest)
                 }
@@ -163,5 +164,7 @@ enum SampleViewModelError: String, Error {
     func reset() {
         errorMessage = nil
         successMessage = nil
+        requirements = []
+        request = nil
     }
 }
