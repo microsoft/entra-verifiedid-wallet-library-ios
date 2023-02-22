@@ -12,7 +12,19 @@ struct VerifiedIdRequestContent {
     
     let style: RequesterStyle
     
-    let requirement: Requirement
+    var requirement: Requirement
     
     let rootOfTrust: RootOfTrust
+    
+    let injectedIdToken: InjectedIdToken?
+    
+    init(style: RequesterStyle,
+         requirement: Requirement,
+         rootOfTrust: RootOfTrust,
+         injectedIdToken: InjectedIdToken? = nil) {
+        self.style = style
+        self.requirement = requirement
+        self.rootOfTrust = rootOfTrust
+        self.injectedIdToken = injectedIdToken
+    }
 }
