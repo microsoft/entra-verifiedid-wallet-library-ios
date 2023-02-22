@@ -36,8 +36,12 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     }
     
     public func isSatisfied() -> Bool {
-        /// TODO: implement.
-        return false
+        do {
+            try requirement.validate()
+            return true
+        } catch {
+            return false
+        }
     }
     
     public func complete() async -> Result<VerifiedId, Error> {
