@@ -61,7 +61,12 @@ extension VCEntities.IssuanceResponseContainer {
     
     private mutating func add(idTokenRequirement: IdTokenRequirement) throws {
         try idTokenRequirement.validate()
-        self.requestedIdTokenMap[idTokenRequirement.configuration.absoluteString] = idTokenRequirement.idToken
+        
+        if idTokenRequirement.configuration.absoluteString == "https://self-issued.me" {
+            self.issuanceIdToken = idTokenRequirement.idToken
+        } else {
+            self.requestedIdTokenMap[idTokenRequirement.configuration.absoluteString] = idTokenRequirement.idToken
+        }
     }
     
     private mutating func add(accessTokenRequirement: AccessTokenRequirement) throws {
