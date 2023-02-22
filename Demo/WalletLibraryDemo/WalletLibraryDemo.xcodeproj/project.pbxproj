@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5585BDE129A047370059710B /* SampleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE029A047370059710B /* SampleViewModel.swift */; };
+		5585BDE529A692E10059710B /* RequirementState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE429A692E10059710B /* RequirementState.swift */; };
 		55E33698293E8F7500CD2ED7 /* WalletLibraryDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33697293E8F7500CD2ED7 /* WalletLibraryDemoApp.swift */; };
 		55E3369A293E8F7500CD2ED7 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33699293E8F7500CD2ED7 /* Persistence.swift */; };
 		55E3369D293E8F7500CD2ED7 /* WalletLibraryDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 55E3369B293E8F7500CD2ED7 /* WalletLibraryDemo.xcdatamodeld */; };
@@ -32,6 +34,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5585BDE029A047370059710B /* SampleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewModel.swift; sourceTree = "<group>"; };
+		5585BDE429A692E10059710B /* RequirementState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequirementState.swift; sourceTree = "<group>"; };
 		55E33694293E8F7500CD2ED7 /* WalletLibraryDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalletLibraryDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55E33697293E8F7500CD2ED7 /* WalletLibraryDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryDemoApp.swift; sourceTree = "<group>"; };
 		55E33699293E8F7500CD2ED7 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -77,6 +81,8 @@
 			children = (
 				55E33697293E8F7500CD2ED7 /* WalletLibraryDemoApp.swift */,
 				55E33699293E8F7500CD2ED7 /* Persistence.swift */,
+				5585BDE429A692E10059710B /* RequirementState.swift */,
+				5585BDE029A047370059710B /* SampleViewModel.swift */,
 				55E3369E293E8F7500CD2ED7 /* ContentView.swift */,
 				55E336A0293E8F7700CD2ED7 /* Assets.xcassets */,
 				55E336A2293E8F7700CD2ED7 /* WalletLibraryDemo.entitlements */,
@@ -176,7 +182,9 @@
 				55E3369D293E8F7500CD2ED7 /* WalletLibraryDemo.xcdatamodeld in Sources */,
 				55E33698293E8F7500CD2ED7 /* WalletLibraryDemoApp.swift in Sources */,
 				55E3369F293E8F7500CD2ED7 /* ContentView.swift in Sources */,
+				5585BDE529A692E10059710B /* RequirementState.swift in Sources */,
 				55E3369A293E8F7500CD2ED7 /* Persistence.swift in Sources */,
+				5585BDE129A047370059710B /* SampleViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

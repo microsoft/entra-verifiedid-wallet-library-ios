@@ -1,0 +1,167 @@
+/*---------------------------------------------------------------------------------------------
+*  Copyright (c) Microsoft Corporation. All rights reserved.
+*  Licensed under the MIT License. See License.txt in the project root for license information.
+*--------------------------------------------------------------------------------------------*/
+
+import SwiftUI
+import WalletLibrary
+
+enum SampleViewModelError: String, Error {
+    case unableToCreateInput = "Invalid Input."
+    case unableToCreateRequest = "Unable to create request."
+    case requestIsUndefined = "Verified Id Request is Undefined."
+    case unsupportedRequirementType = "One of the requirement types is not supported."
+    case TODO = "TODO"
+}
+
+
+@MainActor class ViewModel: ObservableObject {
+    
+    /// The requirements to be gathered by the user.
+    @Published var requirements: [RequirementState] = []
+    
+    /// The input string to kick off the flow (e.g. openid request url).
+    @Published var input: String = ""
+    
+    /// If all requirements are satisfied, complete button is enabled.
+    @Published var isCompleteButtonEnabled: Bool = false
+    
+    /// Show a progress view when while doing internal logic.
+    @Published var isProgressViewShowing: Bool = true
+    
+    /// if not nil, error message to be displayed.
+    @Published var errorMessage: String? = nil
+    
+    /// If not nil, success message to be displayed.
+    @Published var successMessage: String? = nil
+    
+    /// The Verified Id Client is used to create requests with a configuration set by the Builder.
+    private let verifiedIdClient: VerifiedIdClient?
+    
+    /// The current issuance or presentation request that is being processed.
+    private var request: (any VerifiedIdRequest)? = nil
+    
+    init() {
+        do {
+            let builder = VerifiedIdClientBuilder()
+            verifiedIdClient = try builder.build()
+        } catch {
+            verifiedIdClient = nil
+            showErrorMessage(from: error)
+        }
+    }
+    
+    func createRequest() {
+        Task {
+            isProgressViewShowing = true
+            do {
+                let input = try createInput()
+                self.request = try await verifiedIdClient?.createVerifiedIdRequest(from: input)
+                
+                if let request = request {
+                   try configureRequirements(requirement: request.requirement)
+                } else {
+                    showErrorMessage(from: SampleViewModelError.unableToCreateRequest)
+                }
+                
+            } catch {
+                showErrorMessage(from: error, additionalInfo: "Unable to create request.")
+            }
+            isProgressViewShowing = false
+        }
+    }
+    
+    private func configureRequirements(requirement: Requirement) throws {
+        
+        if let groupRequirement = requirement as? GroupRequirement {
+            for req in groupRequirement.requirements {
+                try configureRequirements(requirement: req)
+            }
+            return
+        }
+        
+        do {
+            let requirementState = try RequirementState(requirement: requirement)
+            requirements.append(requirementState)
+        } catch {
+            throw SampleViewModelError.unsupportedRequirementType
+        }
+    }
+    
+    private func createInput() throws -> VerifiedIdRequestInput {
+        
+        guard let openidUrl = URL(string: input) else {
+            throw SampleViewModelError.unableToCreateInput
+        }
+        
+        return VerifiedIdRequestURL(url: openidUrl)
+    }
+    
+    func complete() {
+        switch (request) {
+        case let issuanceRequest as any VerifiedIdIssuanceRequest:
+            complete(issuanceRequest: issuanceRequest)
+        case let presentationRequest as any VerifiedIdPresentationRequest:
+            complete(presentationRequest: presentationRequest)
+        default:
+            showErrorMessage(from: SampleViewModelError.requestIsUndefined)
+        }
+    }
+    
+    private func complete(issuanceRequest: any VerifiedIdIssuanceRequest) {
+        Task {
+            let result = await issuanceRequest.complete()
+            switch (result) {
+            case .success(let verifiedId):
+                showSuccessMessage(message: String(describing: verifiedId))
+            case .failure(let error):
+                showErrorMessage(from: error)
+            }
+        }
+    }
+    
+    private func complete(presentationRequest: any VerifiedIdPresentationRequest) {
+        Task {
+            let result = await presentationRequest.complete()
+            switch (result) {
+            case .success(_):
+                showSuccessMessage(message: "Presented Verified IDs successfully.")
+            case .failure(let error):
+                showErrorMessage(from: error)
+            }
+        }
+    }
+    
+    func fulfill(requirementState: RequirementState, with value: String) throws {
+        do {
+            try requirementState.fulfill(with: value)
+        } catch RequirementStateError.invalidInputToFulfillRequirement {
+            showErrorMessage(from: RequirementStateError.invalidInputToFulfillRequirement, additionalInfo: "Value == \(value)")
+        }
+        self.isCompleteButtonEnabled = request?.isSatisfied() ?? false
+    }
+    
+    private func showErrorMessage(from error: Error, additionalInfo: String? = nil) {
+        print(error)
+        if let error = error as? SampleViewModelError {
+            errorMessage = error.rawValue
+        } else if let error = error as? RequirementStateError {
+            errorMessage = error.rawValue
+        } else {
+            errorMessage = error.localizedDescription
+        }
+        
+        if let additionalInfo = additionalInfo {
+            errorMessage?.append("\n\(additionalInfo)")
+        }
+    }
+    
+    private func showSuccessMessage(message: String) {
+        successMessage = message
+    }
+    
+    func reset() {
+        errorMessage = nil
+        successMessage = nil
+    }
+}
