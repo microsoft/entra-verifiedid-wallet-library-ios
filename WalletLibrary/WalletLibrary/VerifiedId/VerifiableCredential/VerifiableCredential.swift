@@ -21,6 +21,11 @@ struct VerifiableCredential: Mappable {
     }
     
     func map(using mapper: Mapping) throws -> VerifiedId {
-        throw VerifiedIdClientError.TODO(message: "implement")
+        return VerifiedId(id: "id",
+                          type: raw.content.vc?.type?.first ?? "",
+                          claims: [],
+                          expiresOn: Date(timeIntervalSince1970: raw.content.iat ?? 0),
+                          issuedOn: Date(timeIntervalSince1970: raw.content.exp ?? 0),
+                          raw: raw.rawValue ?? "")
     }
 }
