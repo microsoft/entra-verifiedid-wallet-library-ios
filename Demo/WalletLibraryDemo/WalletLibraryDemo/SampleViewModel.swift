@@ -34,6 +34,9 @@ enum SampleViewModelError: String, Error {
     /// If not nil, success message to be displayed.
     @Published var successMessage: String? = nil
     
+    /// If not nil, show issued verified id.
+    @Published var issuedVerifiedId: VerifiedId? = nil
+    
     /// The Verified Id Client is used to create requests with a configuration set by the Builder.
     private let verifiedIdClient: VerifiedIdClient?
     
@@ -53,6 +56,7 @@ enum SampleViewModelError: String, Error {
     
     func createRequest() {
         Task {
+            reset()
             isProgressViewShowing = true
             do {
                 let input = try createInput()
@@ -114,7 +118,7 @@ enum SampleViewModelError: String, Error {
             let result = await issuanceRequest.complete()
             switch (result) {
             case .success(let verifiedId):
-                showSuccessMessage(message: String(describing: verifiedId))
+                showSuccessfulFlow(with: verifiedId)
             case .failure(let error):
                 showErrorMessage(from: error)
             }
@@ -126,7 +130,7 @@ enum SampleViewModelError: String, Error {
             let result = await presentationRequest.complete()
             switch (result) {
             case .success(_):
-                showSuccessMessage(message: "Presented Verified IDs successfully.")
+                showSuccessfulFlow()
             case .failure(let error):
                 showErrorMessage(from: error)
             }
@@ -157,13 +161,19 @@ enum SampleViewModelError: String, Error {
         }
     }
     
-    private func showSuccessMessage(message: String) {
-        successMessage = message
+    private func showSuccessfulFlow(with verifiedId: VerifiedId? = nil) {
+        
+        if let verifiedId = verifiedId {
+            issuedVerifiedId = verifiedId
+        } else {
+            successMessage = "Presentation Successful!"
+        }
     }
     
     func reset() {
         errorMessage = nil
         successMessage = nil
+        issuedVerifiedId = nil
         requirements = []
         request = nil
     }
