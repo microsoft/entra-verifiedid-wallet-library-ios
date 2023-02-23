@@ -18,7 +18,8 @@ struct ContentView: View {
                 Text("Sample Request URL:")
                 TextField(
                     "OpenId Request URL",
-                    text: $viewModel.input
+                    text: $viewModel.input,
+                    axis: .vertical
                 )
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                 .textInputAutocapitalization(.never)
