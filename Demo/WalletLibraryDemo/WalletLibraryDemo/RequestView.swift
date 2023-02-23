@@ -35,23 +35,58 @@ struct RequestView: View {
                     Text("Reset")
                 }
             }
-            else {
-                List(viewModel.requirements) { requirement in
-                    NavigationLink(destination: RequirementView(requirement: requirement)) {
+            else if let issuedVerifiedId = viewModel.issuedVerifiedId {
+                VStack {
+                    Text("\(issuedVerifiedId.id)")
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                    Text("Issued on: \(issuedVerifiedId.issuedOn.formatted())")
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                    Text("Expires on: \(issuedVerifiedId.expiresOn.formatted())")
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                    Text("Claims:")
+                        .multilineTextAlignment(.center)
+                    List(issuedVerifiedId.claims.indices, id: \.self) { index in
                         HStack {
-                            if requirement.status == .valid {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
-                            }
-                            Text(requirement.label)
+                            Text("\(issuedVerifiedId.claims[index].id):")
+                            Text(String(describing: issuedVerifiedId.claims[index].value))
                         }
-                    }
-                }
-                Button {
-                    viewModel.complete()
-                } label: {
-                    Text("Complete")
-                }.disabled(!viewModel.isCompleteButtonEnabled)
+                    }.listStyle(.inset)
+                }.navigationTitle("Verified Id Successfully Issued!")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            else {
+                VStack {
+                    List(viewModel.requirements) { requirement in
+                        NavigationLink(destination: RequirementView(requirement: requirement)) {
+                            HStack {
+                                switch (requirement.status) {
+                                case .valid:
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.green)
+                                case .invalid:
+                                    Image(systemName: "x.circle.fill")
+                                        .foregroundColor(.red)
+                                case .missing:
+                                    Image(systemName: "circle.fill")
+                                        .foregroundColor(.accentColor)
+                                }
+                                Text(requirement.label)
+                            }
+                        }
+                    }.listStyle(.inset)
+                    Spacer()
+                    Divider()
+                    Button {
+                        viewModel.complete()
+                    } label: {
+                        Text("Complete")
+                    }.disabled(!viewModel.isCompleteButtonEnabled)
+                    Spacer()
+                }.navigationTitle("Fulfill Requirements")
+                    .navigationBarTitleDisplayMode(.inline)
             }
         }
     }
