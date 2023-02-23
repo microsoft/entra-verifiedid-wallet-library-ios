@@ -14,7 +14,7 @@ public struct VerifiedId {
     public let id: String
     
     /// the type of the verified id. For example, Verifiable Credential would be the type of a VC.
-    public let type: String
+    public let type: VerifiedIdType
     
     /// a list of claims within the verified id.
     public let claims: [VerifiedIdClaim]
