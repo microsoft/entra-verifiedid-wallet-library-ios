@@ -17,6 +17,10 @@ enum IssuanceResponseContainerError: Error, Equatable {
  */
 extension VCEntities.IssuanceResponseContainer {
     
+    struct Constants {
+        static let IdTokenHintKey = "https://self-issued.me"
+    }
+    
     init(from manifest: any RawManifest, input: VerifiedIdRequestInput) throws {
         
         guard let manifest = manifest as? IssuanceRequest else {
@@ -62,7 +66,7 @@ extension VCEntities.IssuanceResponseContainer {
     private mutating func add(idTokenRequirement: IdTokenRequirement) throws {
         try idTokenRequirement.validate()
         
-        if idTokenRequirement.configuration.absoluteString == "https://self-issued.me" {
+        if idTokenRequirement.configuration.absoluteString == Constants.IdTokenHintKey {
             self.issuanceIdToken = idTokenRequirement.idToken
         } else {
             self.requestedIdTokenMap[idTokenRequirement.configuration.absoluteString] = idTokenRequirement.idToken
