@@ -5,6 +5,7 @@
 
 import SwiftUI
 import WalletLibrary
+import AuthenticationServices
 
 enum SampleViewModelError: String, Error {
     case unableToCreateInput = "Invalid Input."
@@ -14,7 +15,7 @@ enum SampleViewModelError: String, Error {
 }
 
 
-@MainActor class ViewModel: ObservableObject {
+class ViewModel: NSObject, ObservableObject, ASWebAuthenticationPresentationContextProviding {
     
     /// The requirements to be gathered by the user.
     @Published var requirements: [RequirementState] = []
@@ -44,14 +45,33 @@ enum SampleViewModelError: String, Error {
     private var request: (any VerifiedIdRequest)? = nil
     
     /// TODO: enable deeplinking and the rest of the requirements.
-    init() {
+    override init() {
         do {
             let builder = VerifiedIdClientBuilder()
             verifiedIdClient = try builder.build()
         } catch {
             verifiedIdClient = nil
-            showErrorMessage(from: error)
+//            showErrorMessage(from: error)
         }
+    }
+    
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return ASPresentationAnchor()
+    }
+    
+    func testAuthService() {
+        let url = URL(string: "https://myaccount.microsoft.com/")!
+        let webAuthSession = ASWebAuthenticationSession(url: url,
+                                                        callbackURLScheme: "walletlibrarysample",
+                                                        completionHandler: { (callback:URL?, error:Error?) in
+            
+            print(callback)
+            print(error)
+        })
+        
+        webAuthSession.presentationContextProvider = self
+        webAuthSession.prefersEphemeralWebBrowserSession = true
+        webAuthSession.start()
     }
     
     func createRequest() {

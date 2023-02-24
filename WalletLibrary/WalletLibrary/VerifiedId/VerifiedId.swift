@@ -26,6 +26,6 @@ public struct VerifiedId {
     public let issuedOn: Date
     
     /// the raw representation of the verified id.
-    let raw: String
+    public let raw: String
 }
 

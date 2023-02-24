@@ -6,6 +6,7 @@
 import SwiftUI
 import CoreData
 import WalletLibrary
+import AuthenticationServices
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -29,10 +30,29 @@ struct ContentView: View {
                 NavigationLink(destination: RequestView()) {
                     Text("Create Request")
                 }.navigationTitle("Verified Id Sample App")
+                Button {
+                    test()
+                } label: {
+                    Text("deeplink")
+                }
+                Button {
+                    aswebtest()
+                } label: {
+                    Text("ASWebAuthenticatioSession")
+                }
             }.onDisappear {
                 viewModel.createRequest()
             }
         }
         .environmentObject(viewModel)
+    }
+    
+    private func test() {
+        let url = URL(string: "https://myaccount.microsoft.com/")!
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    private func aswebtest() {
+        viewModel.testAuthService()
     }
 }
