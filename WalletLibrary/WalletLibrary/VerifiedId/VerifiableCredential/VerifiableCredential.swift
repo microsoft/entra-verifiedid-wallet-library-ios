@@ -19,10 +19,6 @@ struct VerifiableCredential: VerifiedId {
 
     public let id: String
     
-    public private(set) lazy var claims: [VerifiedIdClaim] = {
-        return createClaims()
-    }()
-    
     public let expiresOn: Date?
     
     public let issuedOn: Date
@@ -72,6 +68,10 @@ struct VerifiableCredential: VerifiedId {
         let serializedToken = try raw.serialize()
         try container.encode(serializedToken, forKey: .raw)
         try container.encode(contract, forKey: .contract)
+    }
+    
+    public func getClaims() -> [VerifiedIdClaim] {
+        return createClaims()
     }
     
     private func createClaims() -> [VerifiedIdClaim] {
