@@ -17,11 +17,11 @@ enum RequirementStatus {
     case invalid
 }
 
-class RequirementState: Identifiable {
+class RequirementState: Identifiable, ObservableObject {
     
-    var label: String
+    @Published var label: String
     
-    var status: RequirementStatus
+    @Published var status: RequirementStatus
     
     let requirement: Requirement
     
