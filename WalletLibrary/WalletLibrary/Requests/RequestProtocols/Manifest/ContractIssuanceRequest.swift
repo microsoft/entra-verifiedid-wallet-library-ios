@@ -48,8 +48,7 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
         do {
             try self.responseContainer.add(requirement: requirement)
             let verifiableCredential = try await verifiableCredentialRequester.send(request: responseContainer)
-            let verifiedId: VerifiedId = try configuration.mapper.map(verifiableCredential)
-            return Result.success(verifiedId)
+            return Result.success(verifiableCredential)
         } catch {
             return Result.failure(error)
         }

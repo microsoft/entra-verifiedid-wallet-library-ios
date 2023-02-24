@@ -28,8 +28,8 @@ extension IssuanceService: VerifiableCredentialRequester {
             self.send(response: issuanceResponseContainer)
         }()
         
-        let verifiableCredential = VerifiableCredential(raw: rawVerifiableCredential,
-                                                        from: issuanceResponseContainer.contract)
+        let verifiableCredential = try VerifiableCredential(raw: rawVerifiableCredential,
+                                                            from: issuanceResponseContainer.contract)
         return verifiableCredential
     }
 }
