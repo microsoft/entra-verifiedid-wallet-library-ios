@@ -42,6 +42,14 @@
 		5534E688294A5F16005D0765 /* IdTokenDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E687294A5F16005D0765 /* IdTokenDescriptor+MappableTests.swift */; };
 		5534E68C294A8B8F005D0765 /* AccessTokenDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E68B294A8B8F005D0765 /* AccessTokenDescriptor+MappableTests.swift */; };
 		5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E6AC294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift */; };
+		553CC06A29A818F7005A5FD6 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
+		553CC06B29A818F7005A5FD6 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		553CC08129A81931005A5FD6 /* VCToken.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336F1293FCE5E00CD2ED7 /* VCToken.framework */; platformFilter = ios; };
+		553CC08229A81931005A5FD6 /* VCToken.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336F1293FCE5E00CD2ED7 /* VCToken.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		553CC08329A8193E005A5FD6 /* VCNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33704293FCE9C00CD2ED7 /* VCNetworking.framework */; platformFilter = ios; };
+		553CC08429A8193E005A5FD6 /* VCNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33704293FCE9C00CD2ED7 /* VCNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		553CC08529A81949005A5FD6 /* VCCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336FA293FCE8200CD2ED7 /* VCCrypto.framework */; platformFilter = ios; };
+		553CC08629A81949005A5FD6 /* VCCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 55E336FA293FCE8200CD2ED7 /* VCCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		5585BE0229A6D42B0059710B /* VerifiedIdType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BE0129A6D42B0059710B /* VerifiedIdType.swift */; };
 		559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */; };
@@ -99,7 +107,6 @@
 		55E2F0882995743D0008010D /* LinkedDomainResult+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F0872995743D0008010D /* LinkedDomainResult+Mappable.swift */; };
 		55E2F08A299576350008010D /* PresentationDefinition+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F089299576350008010D /* PresentationDefinition+Mappable.swift */; };
 		55E2F08C299576730008010D /* GroupRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F08B299576730008010D /* GroupRequirement.swift */; };
-		55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E33679293E7B5F00CD2ED7 /* PromiseKit.framework */; };
 		55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */; };
 		55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D3293FA75300CD2ED7 /* VerifiedId.swift */; };
 		55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E336D5293FA78C00CD2ED7 /* VerifiedIdClaim.swift */; };
@@ -277,8 +284,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				553CC06B29A818F7005A5FD6 /* PromiseKit.framework in Embed Frameworks */,
 				5534E5AD2948B8C8005D0765 /* VCEntities.framework in Embed Frameworks */,
+				553CC08629A81949005A5FD6 /* VCCrypto.framework in Embed Frameworks */,
 				5534E5982948B8C2005D0765 /* VCServices.framework in Embed Frameworks */,
+				553CC08429A8193E005A5FD6 /* VCNetworking.framework in Embed Frameworks */,
+				553CC08229A81931005A5FD6 /* VCToken.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,9 +412,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				553CC06A29A818F7005A5FD6 /* PromiseKit.framework in Frameworks */,
 				5534E5AC2948B8C8005D0765 /* VCEntities.framework in Frameworks */,
-				55E33684293E7B6600CD2ED7 /* PromiseKit.framework in Frameworks */,
+				553CC08529A81949005A5FD6 /* VCCrypto.framework in Frameworks */,
 				5534E5972948B8C2005D0765 /* VCServices.framework in Frameworks */,
+				553CC08329A8193E005A5FD6 /* VCNetworking.framework in Frameworks */,
+				553CC08129A81931005A5FD6 /* VCToken.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
