@@ -7,40 +7,79 @@ import VCEntities
 
 enum VerifiableCredentialMappingError: Error {
     case missingJtiInVerifiableCredential
+    case unableToDecodeRawVerifiableCredentialToken
+    case missingIssuedOnValueInVerifiableCredential
 }
 
 /**
  * Verifiable Credential object contains the raw VC, and the contract that created the Verifiable Credential.
  * This object conforms to the Mappable protocol and maps VC claims and display contract to a Verified Id.
  */
-struct VerifiableCredential: Mappable {
+struct VerifiableCredential: VerifiedId {
+
+    public let id: String
+    
+    public private(set) lazy var claims: [VerifiedIdClaim] = {
+        return createClaims()
+    }()
+    
+    public let expiresOn: Date?
+    
+    public let issuedOn: Date
     
     let raw: VCEntities.VerifiableCredential
     
     let contract: Contract
     
-    init(raw: VCEntities.VerifiableCredential, from contract: Contract) {
+    init(raw: VCEntities.VerifiableCredential, from contract: Contract) throws {
+        
+        guard let issuedOn = raw.content.iat else {
+            throw VerifiableCredentialMappingError.missingIssuedOnValueInVerifiableCredential
+        }
+        
+        guard let id = raw.content.jti else {
+            throw VerifiableCredentialMappingError.missingJtiInVerifiableCredential
+        }
+        
         self.raw = raw
         self.contract = contract
+        self.issuedOn = Date(timeIntervalSince1970: issuedOn)
+        self.id = id
+        
+        if let expiresOn = raw.content.exp {
+            self.expiresOn = Date(timeIntervalSince1970: expiresOn)
+        } else {
+            self.expiresOn = nil
+        }
     }
     
-    func map(using mapper: Mapping) throws -> VerifiedId {
-        
-        let rawToken = try raw.serialize()
-        let id = try getRequiredProperty(property: raw.content.jti, propertyName: "jti")
-        let issuedOnDate = try getRequiredProperty(property: raw.content.iat, propertyName: "issued on date")
-        let expiresOnDate = try getRequiredProperty(property: raw.content.exp, propertyName: "expires on date")
-        
-        return VerifiedId(id: id,
-                          type: VerifiedIdType.verifiableCredential,
-                          claims: try createClaims(),
-                          expiresOn: Date(timeIntervalSince1970: expiresOnDate),
-                          issuedOn: Date(timeIntervalSince1970: issuedOnDate),
-                          raw: rawToken)
+    enum CodingKeys: String, CodingKey {
+        case raw, contract
     }
     
-    private func createClaims() throws -> [VerifiedIdClaim] {
-        let vcClaims = try getRequiredProperty(property: raw.content.vc?.credentialSubject, propertyName: "claims")
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let rawToken = try values.decode(String.self, forKey: .raw)
+        guard let raw = VCEntities.VerifiableCredential(from: rawToken) else {
+            throw VerifiableCredentialMappingError.unableToDecodeRawVerifiableCredentialToken
+        }
+        let contract = try values.decode(Contract.self, forKey: .contract)
+        try self.init(raw: raw, from: contract)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        let serializedToken = try raw.serialize()
+        try container.encode(serializedToken, forKey: .raw)
+        try container.encode(contract, forKey: .contract)
+    }
+    
+    private func createClaims() -> [VerifiedIdClaim] {
+        
+        guard let vcClaims = raw.content.vc?.credentialSubject else {
+            return []
+        }
+        
         let claimLabels = contract.display.claims
         
         var verifiedIdClaims: [VerifiedIdClaim] = []
