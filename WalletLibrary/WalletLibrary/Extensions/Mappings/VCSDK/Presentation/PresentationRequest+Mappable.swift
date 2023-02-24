@@ -26,7 +26,7 @@ extension VCEntities.PresentationRequest: Mappable {
         
         let requirement = try mapper.map(presentationDefinition)
         let rootOfTrust = try mapper.map(linkedDomainResult)
-        let injectedIdToken = createInjectedIdTokenIfExists()
+        let injectedIdToken = try createInjectedIdTokenIfExists(using: mapper)
         
         let clientName = content.registration?.clientName ?? ""
         let requesterStyle = OpenIdVerifierStyle(name: clientName)
@@ -39,23 +39,18 @@ extension VCEntities.PresentationRequest: Mappable {
         return content
     }
     
-    private func createInjectedIdTokenIfExists() -> InjectedIdToken? {
+    private func createInjectedIdTokenIfExists(using mapper: Mapping) throws -> InjectedIdToken? {
         if let idTokenHint = content.idTokenHint {
             return InjectedIdToken(rawToken: idTokenHint,
-                                              pin: createPinRequirementIfExists())
+                                   pin: try createPinRequirementIfExists(using: mapper))
         }
         
         return nil
     }
     
-    private func createPinRequirementIfExists() -> PinRequirement? {
-        if let pin = content.pin,
-           let type = pin.type {
-            let pinRequirement = PinRequirement(required: true,
-                                                length: pin.length,
-                                                type: type,
-                                                salt: pin.salt)
-            return pinRequirement
+    private func createPinRequirementIfExists(using mapper: Mapping) throws -> PinRequirement? {
+        if let pin = content.pin {
+            return try mapper.map(pin)
         }
         
         return nil
