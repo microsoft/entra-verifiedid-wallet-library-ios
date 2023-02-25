@@ -7,10 +7,10 @@
  * A mapping of the claims contained within a Verified Id.
  */
 public struct VerifiedIdClaim {
+    
     /// id of the claim. For example, within a VC, it is the key value of credentialSubject.
     public let id: String
     
     /// the value of the claim.
     public let value: Any
 }
-
