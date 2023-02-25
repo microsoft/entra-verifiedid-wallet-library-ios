@@ -21,12 +21,12 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let manifestResolver: ManifestResolver
     
-    private let verifiableCredentialRequester: VerifiableCredentialRequester
+    private let verifiableCredentialRequester: VerifiedIdRequester
     
     /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
     init(configuration: LibraryConfiguration,
          manifestResolver: ManifestResolver,
-         verifiableCredentialRequester: VerifiableCredentialRequester) {
+         verifiableCredentialRequester: VerifiedIdRequester) {
         self.configuration = configuration
         self.manifestResolver = manifestResolver
         self.verifiableCredentialRequester = verifiableCredentialRequester
@@ -62,27 +62,15 @@ struct OpenIdRequestHandler: RequestHandling {
         
         let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
         var issuanceRequestContent = try configuration.mapper.map(rawContract)
-        repopulateIssuanceRequirementsIfInjectedIdTokenExists(presentationRequestContent: requestContent,
-                                                              issuanceRequestContent: &issuanceRequestContent)
+        
+        if let injectedIdToken = requestContent.injectedIdToken {
+            issuanceRequestContent.addRequirement(from: injectedIdToken)
+        }
         
         return ContractIssuanceRequest(content: issuanceRequestContent,
                                        issuanceResponseContainer: issuanceResponseContainer,
-                                       verifiableCredentialRequester: verifiableCredentialRequester,
+                                       verifiedIdRequester: verifiableCredentialRequester,
                                        configuration: configuration)
-    }
-    
-    private func repopulateIssuanceRequirementsIfInjectedIdTokenExists(presentationRequestContent: VerifiedIdRequestContent,
-                                                                       issuanceRequestContent: inout VerifiedIdRequestContent) {
-        if let injectedIdToken = presentationRequestContent.injectedIdToken,
-           let idTokenRequirement = issuanceRequestContent.requirement as? IdTokenRequirement {
-            idTokenRequirement.fulfill(with: injectedIdToken.rawToken)
-            if let pinRequirement = injectedIdToken.pin {
-                let groupRequirement = GroupRequirement(required: true,
-                                                        requirements: [idTokenRequirement, pinRequirement],
-                                                        requirementOperator: .ALL)
-                issuanceRequestContent.requirement = groupRequirement
-            }
-        }
     }
     
     private func handlePresentationRequest(from requestContent: VerifiedIdRequestContent) throws -> any VerifiedIdPresentationRequest {
