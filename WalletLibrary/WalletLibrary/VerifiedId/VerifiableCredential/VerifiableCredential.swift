@@ -53,7 +53,7 @@ struct VerifiableCredential: VerifiedId {
         case raw, contract
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let rawToken = try values.decode(String.self, forKey: .raw)
         guard let raw = VCEntities.VerifiableCredential(from: rawToken) else {
