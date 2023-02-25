@@ -13,11 +13,11 @@ enum IssuanceServiceVCRequesterError: Error {
  * An extension of the VCServices.IssuanceService class
  * that wraps send method with a generic send method that conforms to VerifiableCredentialRequester protocol.
  */
-extension IssuanceService: VerifiableCredentialRequester {
+extension IssuanceService: VerifiedIdRequester {
     
     /// Sends the issuance response container and if successful, returns a Verifiable Credential.
     /// If unsuccessful, throws an error.
-    func send<Request>(request: Request) async throws -> VerifiableCredential {
+    func send<Request>(request: Request) async throws -> VerifiedId {
         
         guard let issuanceResponseContainer = request as? IssuanceResponseContainer else {
             let requestType = String(describing: request.self)
