@@ -15,7 +15,7 @@ enum IssuanceResponseContainerError: Error, Equatable {
  * An extension of the VCEntities.IssuanceResponseContainer class
  * to convert Requirements to mappings in IssuanceResponseContainer.
  */
-extension VCEntities.IssuanceResponseContainer {
+extension VCEntities.IssuanceResponseContainer: IssuanceResponseContaining {
     
     struct Constants {
         static let IdTokenHintKey = "https://self-issued.me"
