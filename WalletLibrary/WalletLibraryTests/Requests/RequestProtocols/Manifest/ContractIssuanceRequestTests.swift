@@ -19,7 +19,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRootOfTrust = RootOfTrust(verified: true, source: "")
         let mockMapper = MockMapper()
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let mockVCRequester = MockVerifiableCredentialRequester()
+        let mockVCRequester = MockVerifiedIdRequester()
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
         
         let mockRequirement = MockRequirement(id: "mockRequirement324",
@@ -31,7 +31,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
-                                                              verifiableCredentialRequester: mockVCRequester,
+                                                              verifiedIdRequester: mockVCRequester,
                                                               configuration: configuration)
         
         // Act
@@ -47,7 +47,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRootOfTrust = RootOfTrust(verified: true, source: "")
         let mockMapper = MockMapper()
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let mockVCRequester = MockVerifiableCredentialRequester()
+        let mockVCRequester = MockVerifiedIdRequester()
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
         
         let invalidRequirement = MockRequirement(id: "mockRequirement324",
@@ -65,7 +65,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
-                                                              verifiableCredentialRequester: mockVCRequester,
+                                                              verifiedIdRequester: mockVCRequester,
                                                               configuration: configuration)
         
         // Act
@@ -81,7 +81,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRootOfTrust = RootOfTrust(verified: true, source: "")
         let mockMapper = MockMapper()
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let mockVCRequester = MockVerifiableCredentialRequester()
+        let mockVCRequester = MockVerifiedIdRequester()
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
         
         let validRequirement = MockRequirement(id: "mockRequirement324")
@@ -93,7 +93,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
-                                                              verifiableCredentialRequester: mockVCRequester,
+                                                              verifiedIdRequester: mockVCRequester,
                                                               configuration: configuration)
         
         // Act
@@ -109,7 +109,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRootOfTrust = RootOfTrust(verified: true, source: "")
         let mockMapper = MockMapper()
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let mockVCRequester = MockVerifiableCredentialRequester()
+        let mockVCRequester = MockVerifiedIdRequester()
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
         
         let firstValidRequirement = MockRequirement(id: "mockRequirement634")
@@ -126,7 +126,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
-                                                              verifiableCredentialRequester: mockVCRequester,
+                                                              verifiedIdRequester: mockVCRequester,
                                                               configuration: configuration)
         
         // Act
@@ -144,7 +144,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRequirement = MockRequirement(id: "mockRequirement634")
         let mockMapper = MockMapper()
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let mockVCRequester = MockVerifiableCredentialRequester(sendRequestCallback: { _ in expectedVerifiedId })
+        let mockVCRequester = MockVerifiedIdRequester(sendRequestCallback: { _ in expectedVerifiedId })
         
         func mockAddRequirementCallback(requirement: Requirement) throws {
             XCTAssertEqual(requirement as? MockRequirement, mockRequirement)
@@ -158,7 +158,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
-                                                              verifiableCredentialRequester: mockVCRequester,
+                                                              verifiedIdRequester: mockVCRequester,
                                                               configuration: configuration)
         
         // Act
@@ -180,7 +180,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRequirement = MockRequirement(id: "mockRequirement634")
         let mockMapper = MockMapper()
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
-        let mockVCRequester = MockVerifiableCredentialRequester(sendRequestCallback: { _ in throw ExpectedError.expectedToBeThrown })
+        let mockVCRequester = MockVerifiedIdRequester(sendRequestCallback: { _ in throw ExpectedError.expectedToBeThrown })
         
         func mockAddRequirementCallback(requirement: Requirement) throws {
             XCTAssertEqual(requirement as? MockRequirement, mockRequirement)
@@ -194,7 +194,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
-                                                              verifiableCredentialRequester: mockVCRequester,
+                                                              verifiedIdRequester: mockVCRequester,
                                                               configuration: configuration)
         
         // Act

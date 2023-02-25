@@ -39,7 +39,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiableCredentialRequester())
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         let actualRequest = try await handler.handleRequest(from: mockRawRequest)
@@ -68,7 +68,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiableCredentialRequester())
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -104,7 +104,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiableCredentialRequester())
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -144,7 +144,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiableCredentialRequester())
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -184,7 +184,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiableCredentialRequester())
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -229,7 +229,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: MockVerifiableCredentialRequester())
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -278,7 +278,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: MockVerifiableCredentialRequester())
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -334,7 +334,65 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: MockVerifiableCredentialRequester())
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+        
+        // Act
+        let actualRequest = try await handler.handleRequest(from: mockRawRequest)
+        
+        // Assert
+        XCTAssert(actualRequest is ContractIssuanceRequest)
+        XCTAssertEqual(actualRequest.style as? MockRequesterStyle, expectedIssuanceStyle)
+        XCTAssertEqual(actualRequest.requirement as? MockRequirement, expectedIssuanceRequirement)
+        XCTAssertEqual(actualRequest.rootOfTrust.source, expectedIssuanceRootOfTrust.source)
+        XCTAssert(actualRequest.rootOfTrust.verified)
+    }
+    
+    func testHandleIssuanceRequest_WithValidContractAndInjectedIdToken_ReturnsVerifiedIdIssuanceRequest() async throws {
+        
+        // Arrange
+        let issuanceOptionURL = URL(string: "https://test.com")!
+        let expectedPresentationStyle = MockRequesterStyle(requester: "mock requester")
+        let expectedPresentationRequirement = VerifiedIdRequirement(encrypted: false,
+                                                                    required: true,
+                                                                    types: [],
+                                                                    purpose: nil,
+                                                                    issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
+        let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
+        let expectedInjectedIdToken = InjectedIdToken(rawToken: "mock idToken hint", pin: nil)
+        let expectedPresentationContent = VerifiedIdRequestContent(style: expectedPresentationStyle,
+                                                                   requirement: expectedPresentationRequirement,
+                                                                   rootOfTrust: expectedPresentationRootOfTrust,
+                                                                   injectedIdToken: expectedInjectedIdToken)
+        
+        let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
+        let expectedIssuanceRequirement = MockRequirement(id: "mockRequirement23535")
+        let expectedIssuanceRootOfTrust = RootOfTrust(verified: true, source: "mock issuer source")
+        let expectedIssuanceContent = VerifiedIdRequestContent(style: expectedIssuanceStyle,
+                                                               requirement: expectedIssuanceRequirement,
+                                                               rootOfTrust: expectedIssuanceRootOfTrust)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is MockOpenIdRawRequest {
+                return expectedPresentationContent
+            }
+            
+            if objectToBeMapped is IssuanceRequest {
+                return expectedIssuanceContent
+            }
+            
+            return nil
+        }
+        
+        func mockResolveContract(url: String) throws -> any RawManifest {
+            return createMockIssuanceRequest()
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
+        let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
+        let handler = OpenIdRequestHandler(configuration: configuration,
+                                           manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         let actualRequest = try await handler.handleRequest(from: mockRawRequest)
