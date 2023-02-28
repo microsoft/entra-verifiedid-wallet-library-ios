@@ -5,10 +5,10 @@
 
 import VCEntities
 
-enum VerifiableCredentialMappingError: Error {
+enum VerifiableCredentialError: Error {
+    case missingIssuedOnValueInVerifiableCredential
     case missingJtiInVerifiableCredential
     case unableToDecodeRawVerifiableCredentialToken
-    case missingIssuedOnValueInVerifiableCredential
 }
 
 /**
@@ -30,11 +30,11 @@ struct VerifiableCredential: VerifiedId {
     init(raw: VCEntities.VerifiableCredential, from contract: Contract) throws {
         
         guard let issuedOn = raw.content.iat else {
-            throw VerifiableCredentialMappingError.missingIssuedOnValueInVerifiableCredential
+            throw VerifiableCredentialError.missingIssuedOnValueInVerifiableCredential
         }
         
         guard let id = raw.content.jti else {
-            throw VerifiableCredentialMappingError.missingJtiInVerifiableCredential
+            throw VerifiableCredentialError.missingJtiInVerifiableCredential
         }
         
         self.raw = raw
@@ -57,7 +57,7 @@ struct VerifiableCredential: VerifiedId {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let rawToken = try values.decode(String.self, forKey: .raw)
         guard let raw = VCEntities.VerifiableCredential(from: rawToken) else {
-            throw VerifiableCredentialMappingError.unableToDecodeRawVerifiableCredentialToken
+            throw VerifiableCredentialError.unableToDecodeRawVerifiableCredentialToken
         }
         let contract = try values.decode(Contract.self, forKey: .contract)
         try self.init(raw: raw, from: contract)
@@ -71,10 +71,6 @@ struct VerifiableCredential: VerifiedId {
     }
     
     public func getClaims() -> [VerifiedIdClaim] {
-        return createClaims()
-    }
-    
-    private func createClaims() -> [VerifiedIdClaim] {
         
         guard let vcClaims = raw.content.vc?.credentialSubject else {
             return []

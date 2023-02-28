@@ -10,6 +10,12 @@ import VCToken
 
 class VerifiableCredentialTests: XCTestCase {
     
+    struct MockVerifiableCredential: Codable {
+        let raw: String
+        
+        let contract: Contract
+    }
+    
     func testInit_WithValidInput_CreatesVerifiableCredential() async throws {
         // Arrange
         let mockVerifiableCredential = createVCEntitiesVC()
@@ -35,8 +41,8 @@ class VerifiableCredentialTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)) { error in
             // Assert
-            XCTAssert(error is VerifiableCredentialMappingError)
-            XCTAssertEqual(error as? VerifiableCredentialMappingError, .missingJtiInVerifiableCredential)
+            XCTAssert(error is VerifiableCredentialError)
+            XCTAssertEqual(error as? VerifiableCredentialError, .missingJtiInVerifiableCredential)
         }
     }
     
@@ -48,8 +54,8 @@ class VerifiableCredentialTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)) { error in
             // Assert
-            XCTAssert(error is VerifiableCredentialMappingError)
-            XCTAssertEqual(error as? VerifiableCredentialMappingError, .missingIssuedOnValueInVerifiableCredential)
+            XCTAssert(error is VerifiableCredentialError)
+            XCTAssertEqual(error as? VerifiableCredentialError, .missingIssuedOnValueInVerifiableCredential)
         }
     }
     
@@ -168,8 +174,8 @@ class VerifiableCredentialTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try decoder.decode(VerifiableCredential.self, from: encodedMockVC)) { error in
             // Assert
-            XCTAssert(error is VerifiableCredentialMappingError)
-            XCTAssertEqual(error as? VerifiableCredentialMappingError, .unableToDecodeRawVerifiableCredentialToken)
+            XCTAssert(error is VerifiableCredentialError)
+            XCTAssertEqual(error as? VerifiableCredentialError, .unableToDecodeRawVerifiableCredentialToken)
         }
     }
     
@@ -188,14 +194,6 @@ class VerifiableCredentialTests: XCTestCase {
         // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), expectedSerializedVC)
         XCTAssertEqual(actualResult.contract, expectedContract)
-    }
-    
-    func testEncode_WithValidInput_CreatesEncodedVerifiableCredential() async throws {
-        // Arrange
-        
-        // Act
-        
-        // Assert
     }
     
     private func createMockSignedContract(claims: [String: ClaimDisplayDescriptor] = [:]) -> Contract {
@@ -239,10 +237,4 @@ class VerifiableCredentialTests: XCTestCase {
     private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) -> Bool {
         return (result.id == expected.id) && (result.value as! String == expected.value as! String)
     }
-}
-
-struct MockVerifiableCredential: Codable {
-    let raw: String
-    
-    let contract: Contract
 }
