@@ -10,7 +10,7 @@ import WalletLibrary
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @StateObject private var viewModel = ViewModel()
+    @StateObject private var viewModel = SampleViewModel()
     
     var body: some View {
         NavigationView {

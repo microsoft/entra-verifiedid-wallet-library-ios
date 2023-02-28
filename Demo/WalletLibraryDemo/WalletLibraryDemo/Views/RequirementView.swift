@@ -7,7 +7,7 @@ import SwiftUI
 
 struct RequirementView: View {
     
-    @EnvironmentObject var viewModel: ViewModel
+    @EnvironmentObject var viewModel: SampleViewModel
     
     @State private var userInput: String = ""
     

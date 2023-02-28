@@ -14,7 +14,7 @@ enum SampleViewModelError: String, Error {
 }
 
 
-@MainActor class ViewModel: ObservableObject {
+@MainActor class SampleViewModel: ObservableObject {
     
     /// The requirements to be gathered by the user.
     @Published var requirements: [RequirementState] = []

@@ -7,7 +7,7 @@ import SwiftUI
 
 struct ErrorView: View {
     
-    @EnvironmentObject var viewModel: ViewModel
+    @EnvironmentObject var viewModel: SampleViewModel
     
     let errorMessage: String
     

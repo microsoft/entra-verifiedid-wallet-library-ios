@@ -7,7 +7,7 @@ import SwiftUI
 
 struct SuccessView: View {
     
-    @EnvironmentObject var viewModel: ViewModel
+    @EnvironmentObject var viewModel: SampleViewModel
     
     @Environment(\.dismiss) var dismiss
     

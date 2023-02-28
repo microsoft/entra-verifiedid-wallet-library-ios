@@ -34,7 +34,7 @@ struct VerifiedIdRequestContent {
         case var groupRequirement as GroupRequirement:
             repopulateGroupRequirementIfInjectedIdTokenExists(injectedIdToken: injectedIdToken,
                                                               groupRequirement: &groupRequirement)
-        case var idTokenRequirement as IdTokenRequirement:
+        case let idTokenRequirement as IdTokenRequirement:
             idTokenRequirement.fulfill(with: injectedIdToken.rawToken)
             if let pinRequirement = injectedIdToken.pin {
                 requirement = GroupRequirement(required: false,
@@ -49,7 +49,7 @@ struct VerifiedIdRequestContent {
     private func repopulateGroupRequirementIfInjectedIdTokenExists(injectedIdToken: InjectedIdToken,
                                                                    groupRequirement: inout GroupRequirement) {
         for requirement in groupRequirement.requirements {
-            if var idTokenRequirement = requirement as? IdTokenRequirement {
+            if let idTokenRequirement = requirement as? IdTokenRequirement {
                 idTokenRequirement.fulfill(with: injectedIdToken.rawToken)
                 if let pinRequirement = injectedIdToken.pin {
                     groupRequirement.requirements.append(pinRequirement)
