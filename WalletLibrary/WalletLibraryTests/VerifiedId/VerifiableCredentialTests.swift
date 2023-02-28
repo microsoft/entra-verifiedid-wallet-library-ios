@@ -16,55 +16,15 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        let actualResult = try WalletLibrary.VerifiableCredential(raw: mockVerifiableCredential, from: mockContract.content)
+        let actualResult = try WalletLibrary.VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)
         
         // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), try mockVerifiableCredential.serialize())
-        XCTAssertEqual(actualResult.contract, mockContract.content)
+        XCTAssertEqual(actualResult.contract, mockContract)
         XCTAssertEqual(actualResult.expiresOn, Date(timeIntervalSince1970: 0))
         XCTAssertEqual(actualResult.issuedOn, Date(timeIntervalSince1970: 0))
         XCTAssertEqual(actualResult.id, actualResult.id)
 
-    }
-    
-    private func createMockSignedContract(attestations: AttestationsDescriptor? = nil) -> SignedContract {
-        let mockCardDisplay = CardDisplayDescriptor(title: "mock title",
-                                                    issuedBy: "mock issuer",
-                                                    backgroundColor: "mock background color",
-                                                    textColor: "mock text color",
-                                                    logo: nil,
-                                                    cardDescription: "mock description")
-        let mockConsentDisplay = ConsentDisplayDescriptor(title: nil,
-                                                          instructions: "mock purpose")
-        let mockDisplayDescriptor = DisplayDescriptor(id: nil,
-                                                      locale: nil,
-                                                      contract: nil,
-                                                      card: mockCardDisplay,
-                                                      consent: mockConsentDisplay,
-                                                      claims: [:])
-        let mockContractInputDescriptor = ContractInputDescriptor(credentialIssuer: "mock credential issuer",
-                                                                  issuer: "mock issuer",
-                                                                  attestations: attestations)
-        let mockContract = Contract(id: "mockContract",
-                                    display: mockDisplayDescriptor,
-                                    input: mockContractInputDescriptor)
-        
-        return SignedContract(headers: Header(), content: mockContract)!
-    }
-    
-    private func createVCEntitiesVC(expectedJti: String? = "1234",
-                                    expectedIat: Double? = 0,
-                                    expectedExp: Double? = 0,
-                                    expectedClaims: [String: String] = [:]) -> VCEntities.VerifiableCredential {
-        let claims = VCClaims(jti: expectedJti,
-                              iss: "",
-                              sub: "",
-                              iat: expectedIat,
-                              exp: expectedExp,
-                              vc: VerifiableCredentialDescriptor(context: nil,
-                                                                 type: nil,
-                                                                 credentialSubject: expectedClaims))
-        return VCEntities.VerifiableCredential(headers: Header(), content: claims)!
     }
     
     func testInit_WithMissingJtiOnVC_ThrowsError() async throws {
@@ -73,7 +33,7 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        XCTAssertThrowsError(try VerifiableCredential(raw: mockVerifiableCredential, from: mockContract.content)) { error in
+        XCTAssertThrowsError(try VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)) { error in
             // Assert
             XCTAssert(error is VerifiableCredentialMappingError)
             XCTAssertEqual(error as? VerifiableCredentialMappingError, .missingJtiInVerifiableCredential)
@@ -86,7 +46,7 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        XCTAssertThrowsError(try VerifiableCredential(raw: mockVerifiableCredential, from: mockContract.content)) { error in
+        XCTAssertThrowsError(try VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)) { error in
             // Assert
             XCTAssert(error is VerifiableCredentialMappingError)
             XCTAssertEqual(error as? VerifiableCredentialMappingError, .missingIssuedOnValueInVerifiableCredential)
@@ -99,11 +59,11 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        let actualResult = try WalletLibrary.VerifiableCredential(raw: mockVerifiableCredential, from: mockContract.content)
+        let actualResult = try WalletLibrary.VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)
         
         // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), try mockVerifiableCredential.serialize())
-        XCTAssertEqual(actualResult.contract, mockContract.content)
+        XCTAssertEqual(actualResult.contract, mockContract)
         XCTAssertNil(actualResult.expiresOn)
         XCTAssertEqual(actualResult.issuedOn, Date(timeIntervalSince1970: 0))
         XCTAssertEqual(actualResult.id, actualResult.id)
@@ -114,7 +74,7 @@ class VerifiableCredentialTests: XCTestCase {
         let mockVerifiableCredential = createVCEntitiesVC()
         let mockContract = createMockSignedContract()
         let verifiableCredential = try VerifiableCredential(raw: mockVerifiableCredential,
-                                                            from: mockContract.content)
+                                                            from: mockContract)
 
         // Act
         let actualResult = verifiableCredential.getClaims()
@@ -129,43 +89,109 @@ class VerifiableCredentialTests: XCTestCase {
         let expectedValue2 = "mockValue2"
         let expectedClaim1 = VerifiedIdClaim(id: "mockKey1", value: expectedValue1)
         let expectedClaim2 = VerifiedIdClaim(id: "mockKey2", value: expectedValue2)
-        let expectedResult = [expectedClaim1, expectedClaim2]
         let mockVCClaimDictionary = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
         let mockVerifiableCredential = createVCEntitiesVC(expectedClaims: mockVCClaimDictionary)
         let mockContract = createMockSignedContract()
         let verifiableCredential = try VerifiableCredential(raw: mockVerifiableCredential,
-                                                            from: mockContract.content)
+                                                            from: mockContract)
 
         // Act
         let actualResult = verifiableCredential.getClaims()
         
         // Assert
-        areClaimsEqual(result: actualResult[0], expected: expectedClaim1)
-        areClaimsEqual(result: actualResult[1], expected: expectedClaim2)
-    }
-    
-    private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) {
-        XCTAssertEqual(result.id, expected.id)
-        XCTAssertEqual(result.value as! String, expected.value as! String)
+        XCTAssertEqual(actualResult.count, 2)
+        XCTAssert(actualResult.contains {
+            areClaimsEqual(result: $0, expected: expectedClaim1)
+        })
+        XCTAssert(actualResult.contains {
+            areClaimsEqual(result: $0, expected: expectedClaim2)
+        })
     }
     
     func testGetClaims_WithLabelsInContract_ReturnsClaims() async throws {
         // Arrange
-        
+        let expectedValue1 = "mockValue1"
+        let expectedClaim1 = VerifiedIdClaim(id: "MockLabel1", value: expectedValue1)
+        let mockVCClaimDictionary = ["mockKey1": expectedValue1]
+        let mockVerifiableCredential = createVCEntitiesVC(expectedClaims: mockVCClaimDictionary)
+        let expectedClaimLabel1 = ClaimDisplayDescriptor(type: "String",
+                                                         label: "MockLabel1")
+        let expectedClaimLabels = ["vc.credentialSubject.mockKey1": expectedClaimLabel1]
+        let mockContract = createMockSignedContract(claims: expectedClaimLabels)
+        let verifiableCredential = try VerifiableCredential(raw: mockVerifiableCredential,
+                                                            from: mockContract)
+
         // Act
+        let actualResult = verifiableCredential.getClaims()
         
         // Assert
+        XCTAssertEqual(actualResult.count, 1)
+        XCTAssert(actualResult.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", value: expectedValue1))
+        })
     }
     
     func testGetClaims_WithOneClaimWithNoLabelInContract_ReturnsClaims() async throws {
         // Arrange
+        let expectedValue1 = "mockValue1"
+        let expectedValue2 = "mockValue2"
         
+        let mockVCClaimDictionary = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
+        let mockVerifiableCredential = createVCEntitiesVC(expectedClaims: mockVCClaimDictionary)
+        
+        let expectedClaimLabel1 = ClaimDisplayDescriptor(type: "String", label: "MockLabel1")
+        let expectedClaimLabels = ["vc.credentialSubject.mockKey1": expectedClaimLabel1]
+        let mockContract = createMockSignedContract(claims: expectedClaimLabels)
+
+        let verifiableCredential = try VerifiableCredential(raw: mockVerifiableCredential,
+                                                            from: mockContract)
+
         // Act
+        let actualResult = verifiableCredential.getClaims()
         
         // Assert
+        XCTAssertEqual(actualResult.count, 2)
+        XCTAssert(actualResult.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", value: expectedValue1))
+        })
+        XCTAssert(actualResult.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey2", value: expectedValue2))
+        })
     }
     
-    func testEncode_WhenUnableToSerializeVCToken_ThrowsError() async throws {
+    func testDecode_WhenUnableToSerializeVCToken_ThrowsError() async throws {
+        // Arrange
+        let decoder = JSONDecoder()
+        let encoder = JSONEncoder()
+        let mockVC = MockVerifiableCredential(raw: "unserializableToken", contract: createMockSignedContract())
+        let encodedMockVC = try encoder.encode(mockVC)
+        
+        // Act
+        XCTAssertThrowsError(try decoder.decode(VerifiableCredential.self, from: encodedMockVC)) { error in
+            // Assert
+            XCTAssert(error is VerifiableCredentialMappingError)
+            XCTAssertEqual(error as? VerifiableCredentialMappingError, .unableToDecodeRawVerifiableCredentialToken)
+        }
+    }
+    
+    func testDecode_WithValidInput_ReturnsVerifiableCredential() async throws {
+        // Arrange
+        let decoder = JSONDecoder()
+        let encoder = JSONEncoder()
+        let expectedSerializedVC = try createVCEntitiesVC().serialize()
+        let expectedContract = createMockSignedContract()
+        let mockVC = MockVerifiableCredential(raw: expectedSerializedVC, contract: expectedContract)
+        let encodedMockVC = try encoder.encode(mockVC)
+        
+        // Act
+        let actualResult = try decoder.decode(VerifiableCredential.self, from: encodedMockVC)
+        
+        // Assert
+        XCTAssertEqual(try actualResult.raw.serialize(), expectedSerializedVC)
+        XCTAssertEqual(actualResult.contract, expectedContract)
+    }
+    
+    func testEncode_WithValidInput_CreatesEncodedVerifiableCredential() async throws {
         // Arrange
         
         // Act
@@ -173,43 +199,51 @@ class VerifiableCredentialTests: XCTestCase {
         // Assert
     }
     
-    func testEncode_WhenUnableToSerializeContract_ThrowsError() async throws {
-        // Arrange
-        
-        // Act
-        
-        // Assert
+    private func createMockSignedContract(claims: [String: ClaimDisplayDescriptor] = [:]) -> Contract {
+        let mockCardDisplay = CardDisplayDescriptor(title: "mock title",
+                                                    issuedBy: "mock issuer",
+                                                    backgroundColor: "mock background color",
+                                                    textColor: "mock text color",
+                                                    logo: nil,
+                                                    cardDescription: "mock description")
+        let mockConsentDisplay = ConsentDisplayDescriptor(title: nil,
+                                                          instructions: "mock purpose")
+        let mockDisplayDescriptor = DisplayDescriptor(id: nil,
+                                                      locale: nil,
+                                                      contract: nil,
+                                                      card: mockCardDisplay,
+                                                      consent: mockConsentDisplay,
+                                                      claims: claims)
+        let mockContractInputDescriptor = ContractInputDescriptor(credentialIssuer: "mock credential issuer",
+                                                                  issuer: "mock issuer",
+                                                                  attestations: nil)
+        return Contract(id: "mockContract",
+                        display: mockDisplayDescriptor,
+                        input: mockContractInputDescriptor)
     }
     
-    func testEncode_WithValidInput_ReturnsEncodedVerifiableCredential() async throws {
-        // Arrange
-        
-        // Act
-        
-        // Assert
+    private func createVCEntitiesVC(expectedJti: String? = "1234",
+                                    expectedIat: Double? = 0,
+                                    expectedExp: Double? = 0,
+                                    expectedClaims: [String: String] = [:]) -> VCEntities.VerifiableCredential {
+        let claims = VCClaims(jti: expectedJti,
+                              iss: "",
+                              sub: "",
+                              iat: expectedIat,
+                              exp: expectedExp,
+                              vc: VerifiableCredentialDescriptor(context: [],
+                                                                 type: [],
+                                                                 credentialSubject: expectedClaims))
+        return VCEntities.VerifiableCredential(headers: Header(), content: claims)!
     }
     
-    func testDecode_WithInvalidRawToken_ThrowsError() async throws {
-        // Arrange
-        
-        // Act
-        
-        // Assert
+    private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) -> Bool {
+        return (result.id == expected.id) && (result.value as! String == expected.value as! String)
     }
+}
+
+struct MockVerifiableCredential: Codable {
+    let raw: String
     
-    func testDecode_WithInvalidContract_ThrowsError() async throws {
-        // Arrange
-        
-        // Act
-        
-        // Assert
-    }
-    
-    func testDecode_WithValidInput_CreatesVerifiableCredential() async throws {
-        // Arrange
-        
-        // Act
-        
-        // Assert
-    }
+    let contract: Contract
 }
