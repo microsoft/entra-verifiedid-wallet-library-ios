@@ -3,6 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+import VCEntities
+
 enum OpenIdRequestHandlerError: Error {
     case unsupportedRawRequestType
     case noIssuanceOptionsPresentToCreateIssuanceRequest
@@ -17,11 +19,17 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
-    private let contractResolver: ContractResolver
+    private let manifestResolver: ManifestResolver
     
-    init(configuration: LibraryConfiguration, contractResolver: ContractResolver) {
+    private let verifiableCredentialRequester: VerifiableCredentialRequester
+    
+    /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
+    init(configuration: LibraryConfiguration,
+         manifestResolver: ManifestResolver,
+         verifiableCredentialRequester: VerifiableCredentialRequester) {
         self.configuration = configuration
-        self.contractResolver = contractResolver
+        self.manifestResolver = manifestResolver
+        self.verifiableCredentialRequester = verifiableCredentialRequester
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
@@ -50,10 +58,15 @@ struct OpenIdRequestHandler: RequestHandling {
             throw OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest
         }
         
-        let rawContract = try await contractResolver.getRequest(url: issuanceOption.url.absoluteString)
+        let rawContract = try await manifestResolver.resolve(with: issuanceOption.url)
+        
+        let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
         /// TODO: add logic here to add PinRequirement to ContractIssuanceRequest if it exists.
         let issuanceRequestContent = try configuration.mapper.map(rawContract)
-        return ContractIssuanceRequest(content: issuanceRequestContent, configuration: configuration)
+        return ContractIssuanceRequest(content: issuanceRequestContent,
+                                       issuanceResponseContainer: issuanceResponseContainer,
+                                       verifiableCredentialRequester: verifiableCredentialRequester,
+                                       configuration: configuration)
     }
     
     private func handlePresentationRequest(from requestContent: VerifiedIdRequestContent) throws -> any VerifiedIdPresentationRequest {

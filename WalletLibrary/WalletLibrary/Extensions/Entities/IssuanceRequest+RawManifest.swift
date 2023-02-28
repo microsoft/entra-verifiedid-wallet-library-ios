@@ -3,9 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/**
- * Representation of a Raw Contract.
- * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
- */
-protocol RawContract: Mappable where T == VerifiedIdRequestContent {}
+import VCEntities
 
+/**
+ * An extension of the VCEntities.IssuanceRequest class.
+ */
+extension VCEntities.IssuanceRequest: RawManifest { }

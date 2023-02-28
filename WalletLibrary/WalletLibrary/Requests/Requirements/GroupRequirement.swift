@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum GroupRequirementError: Error {
+    case requirementsAreNotValid([Error])
+}
+
 /**
  * This value specifies if all requirements are needed in the list or just one.
  */
@@ -31,7 +35,20 @@ public class GroupRequirement: Requirement {
         self.requirementOperator = requirementOperator
     }
     
+    /// Throws error if requirement is not valid or incomplete.
     public func validate() throws {
-        throw VerifiedIdClientError.TODO(message: "implement")
+        
+        var errorsThrown: [Error] = []
+        for requirement in requirements {
+            do {
+                try requirement.validate()
+            } catch {
+                errorsThrown.append(error)
+            }
+        }
+        
+        if !errorsThrown.isEmpty {
+            throw GroupRequirementError.requirementsAreNotValid(errorsThrown)
+        }
     }
 }

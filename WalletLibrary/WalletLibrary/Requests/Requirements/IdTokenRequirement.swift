@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum IdTokenRequirementError: Error {
+    case idTokenRequirementHasNotBeenFulfilled
+}
+
 /**
  * Information to describe an id token required for a Verified Id issuance flow.
  */
@@ -31,6 +35,9 @@ public class IdTokenRequirement: Requirement {
     /// the id token retrieved and can be used for validation during an issuance request to an issuance service.
     public internal(set) var nonce: String? = nil
     
+    /// The id token that fulfills the requirement.
+    var idToken: String?
+    
     init(encrypted: Bool,
          required: Bool,
          configuration: URL,
@@ -45,7 +52,15 @@ public class IdTokenRequirement: Requirement {
         self.scope = scope
     }
     
+    /// Throws error if requirement is not complete.
     public func validate() throws {
-        throw VerifiedIdClientError.TODO(message: "implement validate")
+        if idToken == nil {
+            throw IdTokenRequirementError.idTokenRequirementHasNotBeenFulfilled
+        }
+    }
+    
+    /// Fulfill requirement with a raw id token.
+    public func fulfill(with rawToken: String) {
+        idToken = rawToken
     }
 }

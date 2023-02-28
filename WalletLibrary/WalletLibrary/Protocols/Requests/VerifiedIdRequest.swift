@@ -33,7 +33,7 @@ public protocol VerifiedIdRequest {
  * Internal Protocol that represents an Issuance Request.
  * TODO: add VerifiedId Style
  */
-protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == VerifiedId { }
+public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == VerifiedId { }
 
 /**
  * Internal Protocol that represents a Presentation Request.

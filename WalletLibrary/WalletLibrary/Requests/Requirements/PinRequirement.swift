@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum PinRequirementError: Error {
+    case pinRequirementHasNotBeenFulfilled
+}
+
 /**
  * Information to describe a pin that is required.
  */
@@ -17,15 +21,31 @@ public class PinRequirement: Requirement {
     /// The type of the pin such as alphanumeric or numeric.
     public let type: String
     
+    /// The optional salt.
+    let salt: String?
+    
+    /// The pin that fulfills the requirement.
+    var pin: String?
+    
     init(required: Bool,
          length: Int,
-         type: String) {
+         type: String,
+         salt: String?) {
         self.required = required
         self.length = length
         self.type = type
+        self.salt = salt
     }
     
+    /// Throws error if requirement is not complete.
     public func validate() throws {
-        throw VerifiedIdClientError.TODO(message: "implement validate")
+        if pin == nil {
+            throw PinRequirementError.pinRequirementHasNotBeenFulfilled
+        }
+    }
+    
+    /// Fulfill requirement with a pin.
+    public func fulfill(with pin: String) {
+        self.pin = pin
     }
 }

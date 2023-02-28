@@ -3,10 +3,17 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+@testable import WalletLibrary
 
-/**
- * An extension of the VCEntities.IssuanceRequest class.
- * TODO: Update RawContract to RawManifest
- */
-extension VCEntities.IssuanceRequest: RawContract { }
+struct MockRawManifest: RawManifest, Equatable {
+    
+    let id: String
+    
+    init(id: String) {
+        self.id = id
+    }
+    
+    func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
+        throw VerifiedIdClientError.TODO(message: "implement")
+    }
+}
