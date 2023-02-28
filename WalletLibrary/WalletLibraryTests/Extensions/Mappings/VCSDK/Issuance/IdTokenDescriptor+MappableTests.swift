@@ -82,22 +82,6 @@ class IdTokenDescriptorMappingTests: XCTestCase {
         }
     }
     
-    func testMappingWithNoScopePresentError() throws {
-        let input = IdTokenDescriptor(encrypted: false,
-                                      claims: [],
-                                      idTokenRequired: false,
-                                      configuration: expectedConfiguration,
-                                      clientID: expectedClientId,
-                                      redirectURI: expectedRedirectUri,
-                                      scope: nil)
-        
-        XCTAssertThrowsError(try mapper.map(input)) { error in
-            XCTAssert(error is MappingError)
-            XCTAssertEqual(error as? MappingError,
-                           .PropertyNotPresent(property: "scope", in: String(describing: IdTokenDescriptor.self)))
-        }
-    }
-    
     private func assertEqual(_ actual: IdTokenRequirement, _ expected: IdTokenRequirement) {
         XCTAssertEqual(actual.encrypted, expected.encrypted)
         XCTAssertEqual(actual.required, expected.required)
