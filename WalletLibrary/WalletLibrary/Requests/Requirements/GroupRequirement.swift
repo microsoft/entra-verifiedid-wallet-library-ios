@@ -23,7 +23,7 @@ public class GroupRequirement: Requirement {
     /// If the requirement is required or not.
     public let required: Bool
     
-    public let requirements: [Requirement]
+    internal(set) public var requirements: [Requirement]
     
     public let requirementOperator: GroupRequirementOperator
     
