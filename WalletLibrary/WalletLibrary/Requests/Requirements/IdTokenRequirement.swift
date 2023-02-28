@@ -28,7 +28,7 @@ public class IdTokenRequirement: Requirement {
     public let redirectUri: String
     
     /// The scope used to get the id token through an authentication library.
-    public let scope: String
+    public let scope: String?
     
     /// The nonce acts as an extra level of security and is used as an additional property
     /// within the id token request through an authentication library. The nonce will be placed within
@@ -43,7 +43,7 @@ public class IdTokenRequirement: Requirement {
          configuration: URL,
          clientId: String,
          redirectUri: String,
-         scope: String) {
+         scope: String?) {
         self.encrypted = encrypted
         self.required = required
         self.configuration = configuration
