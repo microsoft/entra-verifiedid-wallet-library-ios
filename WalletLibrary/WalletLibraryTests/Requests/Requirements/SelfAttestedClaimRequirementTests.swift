@@ -35,7 +35,7 @@ class SelfAttestedClaimRequirementTests: XCTestCase {
         XCTAssertNoThrow(try requirement.validate())
     }
     
-    func testFulfill_WithValue_SetsAccessToken() async throws {
+    func testFulfill_WithValue_SetsSelfAttestedClaimRequirement() async throws {
         
         // Arrange
         let requirement = SelfAttestedClaimRequirement(encrypted: false,
