@@ -21,12 +21,12 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let manifestResolver: ManifestResolver
     
-    private let verifiableCredentialRequester: VerifiableCredentialRequester
+    private let verifiableCredentialRequester: VerifiedIdRequester
     
     /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
     init(configuration: LibraryConfiguration,
          manifestResolver: ManifestResolver,
-         verifiableCredentialRequester: VerifiableCredentialRequester) {
+         verifiableCredentialRequester: VerifiedIdRequester) {
         self.configuration = configuration
         self.manifestResolver = manifestResolver
         self.verifiableCredentialRequester = verifiableCredentialRequester
@@ -61,11 +61,15 @@ struct OpenIdRequestHandler: RequestHandling {
         let rawContract = try await manifestResolver.resolve(with: issuanceOption.url)
         
         let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
-        /// TODO: add logic here to add PinRequirement to ContractIssuanceRequest if it exists.
-        let issuanceRequestContent = try configuration.mapper.map(rawContract)
+        var issuanceRequestContent = try configuration.mapper.map(rawContract)
+        
+        if let injectedIdToken = requestContent.injectedIdToken {
+            issuanceRequestContent.addRequirement(from: injectedIdToken)
+        }
+        
         return ContractIssuanceRequest(content: issuanceRequestContent,
                                        issuanceResponseContainer: issuanceResponseContainer,
-                                       verifiableCredentialRequester: verifiableCredentialRequester,
+                                       verifiedIdRequester: verifiableCredentialRequester,
                                        configuration: configuration)
     }
     
