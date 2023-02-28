@@ -64,10 +64,10 @@ class PresentationRequestMappingTests: XCTestCase {
     func testMap_WithInvalidRootOfTrust_ThrowsError() throws {
         // Arrange
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
-                                                              required: false,
-                                                              types: [],
-                                                              purpose: nil,
-                                                              issuanceOptions: [])
+                                                                  required: false,
+                                                                  types: [],
+                                                                  purpose: nil,
+                                                                  issuanceOptions: [])
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
         let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: nil)
@@ -104,8 +104,8 @@ class PresentationRequestMappingTests: XCTestCase {
         // Arrange
         let expectedStyle = OpenIdVerifierStyle(name: "")
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
-                                                              required: false,
-                                                              types: [],
+                                                                  required: false,
+                                                                  types: [],
                                                                   purpose: nil,
                                                                   issuanceOptions: [])
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)

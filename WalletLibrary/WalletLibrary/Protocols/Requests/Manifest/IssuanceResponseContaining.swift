@@ -5,7 +5,7 @@
 
 /**
  * Protocol defines the behavior of collecting requirements to send to requester.
- * For example, it is used as a wrapper to wrap the VC SDK get contract method.
+ * For example, it is used as a wrapper to wrap the VC SDK issuance response container.
  */
 protocol IssuanceResponseContaining {
     mutating func add(requirement: Requirement) throws

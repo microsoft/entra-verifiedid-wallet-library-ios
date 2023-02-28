@@ -47,8 +47,8 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     public func complete() async -> Result<VerifiedId, Error> {
         do {
             try self.responseContainer.add(requirement: requirement)
-            let verifiableCredential = try await verifiedIdRequester.send(request: responseContainer)
-            return Result.success(verifiableCredential)
+            let verifiedId = try await verifiedIdRequester.send(request: responseContainer)
+            return Result.success(verifiedId)
         } catch {
             return Result.failure(error)
         }
