@@ -3,14 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/**
- * A mapping of the claims contained within a Verified Id.
- */
-public struct VerifiedIdClaim {
-    
-    /// id of the claim. For example, within a VC, it is the key value of credentialSubject.
-    public let id: String
-    
-    /// the value of the claim.
-    public let value: Any
+public enum VerifiedIdType {
+    case verifiableCredential
 }
