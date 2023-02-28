@@ -20,7 +20,6 @@ extension VCEntities.IdTokenDescriptor: Mappable {
         }
         
         let redirectUri = try getRequiredProperty(property: redirectURI, propertyName: "redirectURI")
-        let scope = try getRequiredProperty(property: scope, propertyName: "scope")
 
         return IdTokenRequirement(encrypted: encrypted ?? false,
                                   required: idTokenRequired ?? false,
