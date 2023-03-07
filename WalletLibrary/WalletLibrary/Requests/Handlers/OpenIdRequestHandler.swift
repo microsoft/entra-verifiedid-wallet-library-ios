@@ -8,7 +8,7 @@ import VCEntities
 enum OpenIdRequestHandlerError: Error {
     case unsupportedRawRequestType
     case noIssuanceOptionsPresentToCreateIssuanceRequest
-    case unableToCaseRequirementToVerifiedIdRequirement
+    case unableToCastRequirementToVerifiedIdRequirement
 }
 
 /**
@@ -51,7 +51,7 @@ struct OpenIdRequestHandler: RequestHandling {
     private func handleIssuanceRequest(from requestContent: VerifiedIdRequestContent) async throws -> any VerifiedIdIssuanceRequest {
         
         guard let verifiedIdRequirement = requestContent.requirement as? VerifiedIdRequirement else {
-            throw OpenIdRequestHandlerError.unableToCaseRequirementToVerifiedIdRequirement
+            throw OpenIdRequestHandlerError.unableToCastRequirementToVerifiedIdRequirement
         }
         
         guard let issuanceOption = verifiedIdRequirement.issuanceOptions.first as? VerifiedIdRequestURL else {
