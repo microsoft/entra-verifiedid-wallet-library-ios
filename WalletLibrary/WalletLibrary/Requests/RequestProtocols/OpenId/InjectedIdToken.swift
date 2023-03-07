@@ -4,13 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * A mapping of the claims contained within a Verified Id.
+ * An object that represents an id token that is injected from a presentation request into an issuance request.
  */
-public struct VerifiedIdClaim {
+struct InjectedIdToken {
+    let rawToken: String
     
-    /// id of the claim. For example, within a VC, it is the key value of credentialSubject.
-    public let id: String
-    
-    /// the value of the claim.
-    public let value: Any
+    let pin: PinRequirement?
 }

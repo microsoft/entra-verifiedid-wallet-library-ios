@@ -79,6 +79,34 @@ class IssuanceResponseContainerExtensionTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(container.requestedIdTokenMap, [requirement.configuration.absoluteString: requirement.idToken])
+        XCTAssertNil(container.issuanceIdToken)
+        XCTAssert(container.requestedAccessTokenMap.isEmpty)
+        XCTAssert(container.requestedSelfAttestedClaimMap.isEmpty)
+        XCTAssert(container.requestVCMap.isEmpty)
+        XCTAssertNil(container.issuancePin)
+    }
+    
+    func testAddRequirement_WithIdTokenHintRequirement_UpdateIdTokenHintValue() async throws {
+        // Arrange
+        let issuanceRequest = createMockIssuanceRequest()
+        let mockInput = VerifiedIdRequestURL(url: URL(string: "https://test.com")!)
+        var container = try IssuanceResponseContainer(from: issuanceRequest, input: mockInput)
+        
+        let requirement = IdTokenRequirement(encrypted: false,
+                                             required: true,
+                                             configuration: URL(string: "https://self-issued.me")!,
+                                             clientId: "",
+                                             redirectUri: "",
+                                             scope: "")
+        requirement.fulfill(with: "mock token")
+        
+        // Act
+        try container.add(requirement: requirement)
+        
+        // Assert
+        XCTAssertNotNil(container.issuanceIdToken)
+        XCTAssertEqual(container.issuanceIdToken, "mock token")
+        XCTAssert(container.requestedIdTokenMap.isEmpty)
         XCTAssert(container.requestedAccessTokenMap.isEmpty)
         XCTAssert(container.requestedSelfAttestedClaimMap.isEmpty)
         XCTAssert(container.requestVCMap.isEmpty)

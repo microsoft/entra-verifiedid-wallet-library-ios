@@ -15,7 +15,11 @@ enum IssuanceResponseContainerError: Error, Equatable {
  * An extension of the VCEntities.IssuanceResponseContainer class
  * to convert Requirements to mappings in IssuanceResponseContainer.
  */
-extension VCEntities.IssuanceResponseContainer {
+extension VCEntities.IssuanceResponseContainer: IssuanceResponseContaining {
+    
+    struct Constants {
+        static let IdTokenHintKey = "https://self-issued.me"
+    }
     
     init(from manifest: any RawManifest, input: VerifiedIdRequestInput) throws {
         
@@ -61,7 +65,12 @@ extension VCEntities.IssuanceResponseContainer {
     
     private mutating func add(idTokenRequirement: IdTokenRequirement) throws {
         try idTokenRequirement.validate()
-        self.requestedIdTokenMap[idTokenRequirement.configuration.absoluteString] = idTokenRequirement.idToken
+        
+        if idTokenRequirement.configuration.absoluteString == Constants.IdTokenHintKey {
+            self.issuanceIdToken = idTokenRequirement.idToken
+        } else {
+            self.requestedIdTokenMap[idTokenRequirement.configuration.absoluteString] = idTokenRequirement.idToken
+        }
     }
     
     private mutating func add(accessTokenRequirement: AccessTokenRequirement) throws {

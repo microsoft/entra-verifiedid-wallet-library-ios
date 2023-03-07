@@ -4,13 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * A mapping of the claims contained within a Verified Id.
+ * Protocol defines the behavior of given generic request, requests a Verified Id from an issuer.
+ * For example, it is used as a wrapper to wrap the VC SDK send response method.
  */
-public struct VerifiedIdClaim {
+protocol VerifiedIdRequester {
     
-    /// id of the claim. For example, within a VC, it is the key value of credentialSubject.
-    public let id: String
-    
-    /// the value of the claim.
-    public let value: Any
+    /// Given generic request, requests a raw Verified Id from an issuer.
+    func send<Request>(request: Request) async throws -> VerifiedId
 }

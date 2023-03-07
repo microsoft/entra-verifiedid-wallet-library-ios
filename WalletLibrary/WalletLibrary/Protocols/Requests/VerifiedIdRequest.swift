@@ -38,4 +38,4 @@ public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == Verified
 /**
  * Internal Protocol that represents a Presentation Request.
  */
-protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }
+public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }

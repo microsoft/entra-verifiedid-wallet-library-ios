@@ -17,34 +17,37 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
     public let rootOfTrust: RootOfTrust
     
-    private let verifiableCredentialRequester: VerifiableCredentialRequester
+    private let verifiedIdRequester: VerifiedIdRequester
     
     private let configuration: LibraryConfiguration
     
-    private var responseContainer: IssuanceResponseContainer
+    private var responseContainer: IssuanceResponseContaining
     
     init(content: VerifiedIdRequestContent,
-         issuanceResponseContainer: IssuanceResponseContainer,
-         verifiableCredentialRequester: VerifiableCredentialRequester,
+         issuanceResponseContainer: IssuanceResponseContaining,
+         verifiedIdRequester: VerifiedIdRequester,
          configuration: LibraryConfiguration) {
         self.style = content.style
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.responseContainer = issuanceResponseContainer
-        self.verifiableCredentialRequester = verifiableCredentialRequester
+        self.verifiedIdRequester = verifiedIdRequester
         self.configuration = configuration
     }
     
     public func isSatisfied() -> Bool {
-        /// TODO: implement.
-        return false
+        do {
+            try requirement.validate()
+            return true
+        } catch {
+            return false
+        }
     }
     
     public func complete() async -> Result<VerifiedId, Error> {
         do {
             try self.responseContainer.add(requirement: requirement)
-            let verifiableCredential = try await verifiableCredentialRequester.send(request: responseContainer)
-            let verifiedId: VerifiedId = try configuration.mapper.map(verifiableCredential)
+            let verifiedId = try await verifiedIdRequester.send(request: responseContainer)
             return Result.success(verifiedId)
         } catch {
             return Result.failure(error)

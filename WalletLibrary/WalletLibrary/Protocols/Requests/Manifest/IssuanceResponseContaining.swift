@@ -4,13 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * A mapping of the claims contained within a Verified Id.
+ * Protocol defines the behavior of collecting requirements to send to requester.
+ * For example, it is used as a wrapper to wrap the VC SDK issuance response container.
  */
-public struct VerifiedIdClaim {
-    
-    /// id of the claim. For example, within a VC, it is the key value of credentialSubject.
-    public let id: String
-    
-    /// the value of the claim.
-    public let value: Any
+protocol IssuanceResponseContaining {
+    mutating func add(requirement: Requirement) throws
 }
