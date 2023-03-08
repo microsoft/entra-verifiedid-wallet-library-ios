@@ -22,14 +22,4 @@ extension VCEntities.PresentationRequest: OpenIdRawRequest {
         
         return .Presentation
     }
-    
-    /// The raw representation of the request.
-    var raw: Data? {
-        do {
-            let serializedToken = try self.token.serialize()
-            return serializedToken.data(using: .utf8)
-        } catch {
-            return nil
-        }
-    }
 }
