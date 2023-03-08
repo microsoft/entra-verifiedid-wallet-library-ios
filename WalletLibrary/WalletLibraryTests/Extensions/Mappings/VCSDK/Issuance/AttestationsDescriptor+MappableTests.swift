@@ -67,15 +67,15 @@ class AttestationsDescriptorMappingTests: XCTestCase {
             XCTAssertEqual(error as? MockError, .expectedToBeUnableToMapAccessTokenDescriptor)
         }
     }
-    
+
     func testMap_WithOnlyOneIdTokenRequirement_ReturnsRequirement() throws {
         // Arrange
         let expectedIdTokenRequirement = IdTokenRequirement(encrypted: false,
-                                                            required: true,
-                                                            configuration: URL(string: "https://test.com")!,
-                                                            clientId: "mock client id",
-                                                            redirectUri: "mock redirect uri",
-                                                            scope: "mock scope")
+                                                                required: true,
+                                                                configuration: URL(string: "https://test.com")!,
+                                                                clientId: "mock client id",
+                                                                redirectUri: "mock redirect uri",
+                                                                scope: "mock scope")
         let mockIdTokenDescriptor = IdTokenDescriptor(claims: [], configuration: "mock config", clientID: "mock client id")
         let attestations = AttestationsDescriptor(idTokens: [mockIdTokenDescriptor])
         
@@ -233,11 +233,11 @@ class AttestationsDescriptorMappingTests: XCTestCase {
                                                                   purpose: nil,
                                                                   issuanceOptions: [])
         let expectedIdTokenRequirement = IdTokenRequirement(encrypted: false,
-                                                            required: true,
-                                                            configuration: URL(string: "https://test.com")!,
-                                                            clientId: "mock client id",
-                                                            redirectUri: "mock redirect uri",
-                                                            scope: "mock scope")
+                                                                required: true,
+                                                                configuration: URL(string: "https://test.com")!,
+                                                                clientId: "mock client id",
+                                                                redirectUri: "mock redirect uri",
+                                                                scope: "mock scope")
         let expectedAccessTokenRequirement = AccessTokenRequirement(encrypted: false,
                                                                     required: true,
                                                                     configuration: "mock configuration",
@@ -301,11 +301,11 @@ class AttestationsDescriptorMappingTests: XCTestCase {
                                                                   purpose: nil,
                                                                   issuanceOptions: [])
         let expectedIdTokenRequirement = IdTokenRequirement(encrypted: false,
-                                                            required: true,
-                                                            configuration: URL(string: "https://test.com")!,
-                                                            clientId: "mock client id",
-                                                            redirectUri: "mock redirect uri",
-                                                            scope: "mock scope")
+                                                                required: true,
+                                                                configuration: URL(string: "https://test.com")!,
+                                                                clientId: "mock client id",
+                                                                redirectUri: "mock redirect uri",
+                                                                scope: "mock scope")
         let expectedAccessTokenRequirement = AccessTokenRequirement(encrypted: false,
                                                                     required: true,
                                                                     configuration: "mock configuration",

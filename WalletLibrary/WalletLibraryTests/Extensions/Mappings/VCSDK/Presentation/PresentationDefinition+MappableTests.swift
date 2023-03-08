@@ -44,12 +44,11 @@ class PresentationDefinitionMappingTests: XCTestCase {
     func testMap_WithOneInputDescriptorPresent_ReturnsVerifiedIdRequirement() throws {
         
         // Arrange
-        let expectedVerifiedIdRequirement = VerifiedIdRequirement(id: "mockId",
-                                                                  encrypted: false,
-                                                                  required: false,
-                                                                  types: [],
-                                                                  purpose: nil,
-                                                                  issuanceOptions: [])
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                              required: false,
+                                                              types: [],
+                                                              purpose: nil,
+                                                              issuanceOptions: [])
         let inputDescriptor = PresentationInputDescriptor(id: nil,
                                                           schema: nil,
                                                           issuanceMetadata: nil,
@@ -81,8 +80,7 @@ class PresentationDefinitionMappingTests: XCTestCase {
     func testMap_WithMultipleInputDescriptorPresent_ReturnsGroupRequirement() throws {
         
         // Arrange
-        let mockVerifiedIdRequirement = VerifiedIdRequirement(id: "mockId",
-                                                              encrypted: false,
+        let mockVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                               required: false,
                                                               types: [],
                                                               purpose: nil,

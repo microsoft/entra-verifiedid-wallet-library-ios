@@ -23,8 +23,7 @@ extension VCEntities.PresentationDescriptor: Mappable {
         }
         
         /// VerifiedIdRequirements associated with issuance do not have an id.
-        return VerifiedIdRequirement(id: nil,
-                                     encrypted: encrypted ?? false,
+        return VerifiedIdRequirement(encrypted: encrypted ?? false,
                                      required: presentationRequired ?? false,
                                      types: [credentialType],
                                      purpose: nil,

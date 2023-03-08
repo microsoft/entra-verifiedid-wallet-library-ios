@@ -42,15 +42,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     }
     
     func complete() async -> Result<(), Error> {
-        do {
-            
-            var response = try PresentationResponseContainer(from: rawRequest)
-            try response.add(requirement: requirement)
-            try await responder.send(response: response)
-            return Result.success(())
-        } catch {
-            return Result.failure(error)
-        }
+        return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
     }
     
     func cancel(message: String?) -> Result<Void, Error> {
