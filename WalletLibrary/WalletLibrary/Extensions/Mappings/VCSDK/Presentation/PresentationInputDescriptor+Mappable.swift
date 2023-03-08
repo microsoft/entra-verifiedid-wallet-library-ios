@@ -20,8 +20,6 @@ extension VCEntities.PresentationInputDescriptor: Mappable {
     
     func map(using mapper: Mapping) throws -> VerifiedIdRequirement {
         
-        let id = try getRequiredProperty(property: id, propertyName: "Input Descriptor Id")
-        
         guard let types = schema?.compactMap({ $0.uri }),
               !types.isEmpty else {
             throw PresentationInputDescriptorMappingError.noVerifiedIdTypeInPresentationInputDescriptor
@@ -37,8 +35,7 @@ extension VCEntities.PresentationInputDescriptor: Mappable {
             return nil
         }
         
-        return VerifiedIdRequirement(id: id,
-                                     encrypted: false,
+        return VerifiedIdRequirement(encrypted: false,
                                      required: true,
                                      types: types,
                                      purpose: purpose,
