@@ -13,7 +13,7 @@ struct MockRawManifest: RawManifest, Equatable {
         self.id = id
     }
     
-    func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
+    func map(using mapper: Mapping) throws -> IssuanceRequestContent {
         throw VerifiedIdClientError.TODO(message: "implement")
     }
 }
