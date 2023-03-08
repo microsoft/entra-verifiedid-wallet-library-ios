@@ -8,7 +8,7 @@ import VCEntities
 enum PresentationResponseError: Error, Equatable {
     case unableToCastVCSDKPresentationRequestFromRawRequestOfType(String)
     case unsupportedRequirementOfType(String)
-    case unableToCastVerifiedIdToVerifiableCredentialOfType(String)
+    case unableToCastVerifableCredentialFromVerifiedIdOfType(String)
     case missingIdInVerifiedIdRequirement
 }
 
@@ -52,7 +52,7 @@ extension VCEntities.PresentationResponseContainer: PresentationResponse {
         
         guard let verifiableCredential = verifiedIdRequirement.selectedVerifiedId as? WalletLibrary.VerifiableCredential else {
             let verifiedIdType = String(describing: type(of: verifiedIdRequirement.selectedVerifiedId))
-            throw PresentationResponseError.unableToCastVerifiedIdToVerifiableCredentialOfType(verifiedIdType)
+            throw PresentationResponseError.unableToCastVerifableCredentialFromVerifiedIdOfType(verifiedIdType)
         }
         
         guard let id = verifiedIdRequirement.id else {
