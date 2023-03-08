@@ -22,7 +22,8 @@ extension VCEntities.PresentationDescriptor: Mappable {
             return nil
         }
         
-        return VerifiedIdRequirement(encrypted: encrypted ?? false,
+        return VerifiedIdRequirement(id: nil,
+                                     encrypted: encrypted ?? false,
                                      required: presentationRequired ?? false,
                                      types: [credentialType],
                                      purpose: nil,
