@@ -19,17 +19,13 @@ struct PresentationRequestContent {
     
     let injectedIdToken: InjectedIdToken?
     
-    let raw: RawRequest
-    
     init(style: RequesterStyle,
          requirement: Requirement,
          rootOfTrust: RootOfTrust,
-         raw: RawRequest,
          injectedIdToken: InjectedIdToken? = nil) {
         self.style = style
         self.requirement = requirement
         self.rootOfTrust = rootOfTrust
-        self.raw = raw
         self.injectedIdToken = injectedIdToken
     }
 }
@@ -41,8 +37,6 @@ struct IssuanceRequestContent: RequestContent {
     var requirement: Requirement
     
     let rootOfTrust: RootOfTrust
-    
-    let raw: RawRequest
     
     mutating func addRequirement(from injectedIdToken: InjectedIdToken) {
         switch (requirement) {
@@ -87,6 +81,4 @@ protocol RequestContent {
     var requirement: Requirement { get }
     
     var rootOfTrust: RootOfTrust { get }
-    
-    var raw: RawRequest { get }
 }
