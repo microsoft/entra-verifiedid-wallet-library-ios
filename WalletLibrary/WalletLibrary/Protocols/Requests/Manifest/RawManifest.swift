@@ -7,5 +7,5 @@
  * Representation of a Raw Contract.
  * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
  */
-protocol RawManifest: RawRequest, Mappable where T == IssuanceRequestContent {}
+protocol RawManifest: Mappable where T == IssuanceRequestContent {}
 
