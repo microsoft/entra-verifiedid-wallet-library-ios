@@ -44,7 +44,7 @@ class PresentationDefinitionMappingTests: XCTestCase {
     func testMap_WithOneInputDescriptorPresent_ReturnsVerifiedIdRequirement() throws {
         
         // Arrange
-        let expectedVerifiedIdRequirement = VerifiedIdRequirement(id: "",
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(id: "mockId",
                                                                   encrypted: false,
                                                                   required: false,
                                                                   types: [],
