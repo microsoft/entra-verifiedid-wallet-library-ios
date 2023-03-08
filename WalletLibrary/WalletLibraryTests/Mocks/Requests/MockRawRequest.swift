@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-struct MockRawRequest {
+@testable import WalletLibrary
+
+struct MockRawRequest: RawRequest {
     
     let raw: String
     
