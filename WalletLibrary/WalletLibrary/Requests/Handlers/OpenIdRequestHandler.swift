@@ -19,15 +19,19 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
+    private let presentationRequestResponder: OpenIdForVCResponder
+    
     private let manifestResolver: ManifestResolver
     
     private let verifiableCredentialRequester: VerifiedIdRequester
     
     /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
     init(configuration: LibraryConfiguration,
+         presentationRequestResponder: OpenIdForVCResponder,
          manifestResolver: ManifestResolver,
          verifiableCredentialRequester: VerifiedIdRequester) {
         self.configuration = configuration
+        self.presentationRequestResponder = presentationRequestResponder
         self.manifestResolver = manifestResolver
         self.verifiableCredentialRequester = verifiableCredentialRequester
     }
@@ -48,7 +52,7 @@ struct OpenIdRequestHandler: RequestHandling {
         return try handlePresentationRequest(from: requestContent)
     }
     
-    private func handleIssuanceRequest(from requestContent: VerifiedIdRequestContent) async throws -> any VerifiedIdIssuanceRequest {
+    private func handleIssuanceRequest(from requestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest {
         
         guard let verifiedIdRequirement = requestContent.requirement as? VerifiedIdRequirement else {
             throw OpenIdRequestHandlerError.unableToCastRequirementToVerifiedIdRequirement
@@ -73,7 +77,9 @@ struct OpenIdRequestHandler: RequestHandling {
                                        configuration: configuration)
     }
     
-    private func handlePresentationRequest(from requestContent: VerifiedIdRequestContent) throws -> any VerifiedIdPresentationRequest {
-        return OpenIdPresentationRequest(content: requestContent, configuration: configuration)
+    private func handlePresentationRequest(from requestContent: PresentationRequestContent) throws -> any VerifiedIdPresentationRequest {
+        return try OpenIdPresentationRequest(content: requestContent,
+                                             openIdResponder: presentationRequestResponder,
+                                             configuration: configuration)
     }
 }
