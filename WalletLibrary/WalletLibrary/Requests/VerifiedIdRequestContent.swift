@@ -9,7 +9,7 @@
  * TODO: make this object extensible by separating Presentation with Issuance esp. for InjectedIdToken logic.
  * TODO: add VerifiedIdStyle to Issuance Content.
  */
-struct VerifiedIdRequestContent {
+struct PresentationRequestContent {
     
     let style: RequesterStyle
     
@@ -19,15 +19,30 @@ struct VerifiedIdRequestContent {
     
     let injectedIdToken: InjectedIdToken?
     
+    let raw: RawRequest
+    
     init(style: RequesterStyle,
          requirement: Requirement,
          rootOfTrust: RootOfTrust,
+         raw: RawRequest,
          injectedIdToken: InjectedIdToken? = nil) {
         self.style = style
         self.requirement = requirement
         self.rootOfTrust = rootOfTrust
+        self.raw = raw
         self.injectedIdToken = injectedIdToken
     }
+}
+
+struct IssuanceRequestContent: RequestContent {
+    
+    let style: RequesterStyle
+    
+    var requirement: Requirement
+    
+    let rootOfTrust: RootOfTrust
+    
+    let raw: RawRequest
     
     mutating func addRequirement(from injectedIdToken: InjectedIdToken) {
         switch (requirement) {
@@ -57,4 +72,21 @@ struct VerifiedIdRequestContent {
             }
         }
     }
+    
+}
+
+protocol RawRequest {
+    
+}
+
+
+protocol RequestContent {
+    
+    var style: RequesterStyle { get }
+    
+    var requirement: Requirement { get }
+    
+    var rootOfTrust: RootOfTrust { get }
+    
+    var raw: RawRequest { get }
 }
