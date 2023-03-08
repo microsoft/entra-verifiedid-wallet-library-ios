@@ -13,7 +13,7 @@ enum PresentationServiceError: Error {
 /**
  * An extension of the VCServices.PresentationService class.
  */
-extension PresentationService: OpenIdForVCResolver, OpenIdForVCResponder {
+extension PresentationService: OpenIdForVCResolver, OpenIdResponder {
     
     /// Fetches and validates the presentation request.
     func getRequest(url: String) async throws -> any OpenIdRawRequest {
@@ -35,9 +35,3 @@ extension PresentationService: OpenIdForVCResolver, OpenIdForVCResponder {
         }()
     }
 }
-
-protocol PresentationResponse {
-    mutating func add(requirement: Requirement) throws
-}
-
-
