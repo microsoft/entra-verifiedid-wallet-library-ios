@@ -7,7 +7,7 @@
  * Representation of a Raw Open Id Request.
  * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
  */
-protocol OpenIdRawRequest: RawRequest, Mappable where T == PresentationRequestContent {
+protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent {
     
     var type: RequestType { get }
 }
