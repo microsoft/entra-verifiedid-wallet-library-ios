@@ -9,7 +9,7 @@ import VCEntities
  * Protocol is used as a wrapper to wrap the VC SDK send presentation response method.
  */
 protocol OpenIdResponder {
-    /// Sends the presentation response container and if successful, returns void,
+    /// Sends the presentation response and if successful, returns void,
     /// If unsuccessful, throws an error.
     func send(response: PresentationResponse) async throws -> Void
 }
