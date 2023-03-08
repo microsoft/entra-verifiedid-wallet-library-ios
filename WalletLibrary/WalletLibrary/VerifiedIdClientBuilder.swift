@@ -53,7 +53,7 @@ public class VerifiedIdClientBuilder {
         let issuanceService = IssuanceService()
         let presentationService = PresentationService()
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
-                                                 presentationRequestResponder: presentationService,
+                                                 openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,
                                                  verifiableCredentialRequester: issuanceService)
         requestHandlers.append(openIdHandler)

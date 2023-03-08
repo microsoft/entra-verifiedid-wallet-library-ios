@@ -27,11 +27,11 @@ struct OpenIdRequestHandler: RequestHandling {
     
     /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
     init(configuration: LibraryConfiguration,
-         presentationRequestResponder: OpenIdResponder,
+         openIdResponder: OpenIdResponder,
          manifestResolver: ManifestResolver,
          verifiableCredentialRequester: VerifiedIdRequester) {
         self.configuration = configuration
-        self.openIdResponder = presentationRequestResponder
+        self.openIdResponder = openIdResponder
         self.manifestResolver = manifestResolver
         self.verifiedIdRequester = verifiableCredentialRequester
     }
