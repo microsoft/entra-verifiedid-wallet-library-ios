@@ -34,7 +34,6 @@ extension VCEntities.PresentationRequest: Mappable {
         let content = PresentationRequestContent(style: requesterStyle,
                                                  requirement: requirement,
                                                  rootOfTrust: rootOfTrust,
-                                                 raw: self,
                                                  injectedIdToken: injectedIdToken)
         
         return content

@@ -20,7 +20,6 @@ extension VCEntities.IssuanceRequest: RawRequest, Mappable {
         
         return IssuanceRequestContent(style: issuerStyle,
                                       requirement: requirement,
-                                      rootOfTrust: rootOfTrust,
-                                      raw: self)
+                                      rootOfTrust: rootOfTrust)
     }
 }
