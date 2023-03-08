@@ -22,9 +22,10 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
         let expectedRequirement = MockRequirement(id: "mockRequirement324")
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
-                                                       requirement: expectedRequirement,
-                                                       rootOfTrust: expectedRootOfTrust)
+        let expectedContent = PresentationRequestContent(style: expectedStyle,
+                                                         requirement: expectedRequirement,
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         raw: MockOpenIdRawRequest(raw: nil))
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -38,6 +39,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -67,6 +69,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -87,9 +90,10 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
         let expectedRequirement = MockRequirement(id: "test")
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
-                                                       requirement: expectedRequirement,
-                                                       rootOfTrust: expectedRootOfTrust)
+        let expectedContent = PresentationRequestContent(style: expectedStyle,
+                                                         requirement: expectedRequirement,
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         raw: MockOpenIdRawRequest(raw: nil))
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -103,6 +107,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -127,9 +132,10 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                         purpose: nil,
                                                         issuanceOptions: [])
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
-                                                       requirement: expectedRequirement,
-                                                       rootOfTrust: expectedRootOfTrust)
+        let expectedContent = PresentationRequestContent(style: expectedStyle,
+                                                         requirement: expectedRequirement,
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         raw: MockOpenIdRawRequest(raw: nil))
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -143,6 +149,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -167,9 +174,10 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                         purpose: nil,
                                                         issuanceOptions: [MockInput(mockData: "")])
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
-                                                       requirement: expectedRequirement,
-                                                       rootOfTrust: expectedRootOfTrust)
+        let expectedContent = PresentationRequestContent(style: expectedStyle,
+                                                         requirement: expectedRequirement,
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         raw: MockOpenIdRawRequest(raw: nil))
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -183,6 +191,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -208,9 +217,10 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                         purpose: nil,
                                                         issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
-                                                       requirement: expectedRequirement,
-                                                       rootOfTrust: expectedRootOfTrust)
+        let expectedContent = PresentationRequestContent(style: expectedStyle,
+                                                         requirement: expectedRequirement,
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         raw: MockOpenIdRawRequest(raw: nil))
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -228,6 +238,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -253,9 +264,10 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                         purpose: nil,
                                                         issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedContent = VerifiedIdRequestContent(style: expectedStyle,
-                                                       requirement: expectedRequirement,
-                                                       rootOfTrust: expectedRootOfTrust)
+        let expectedContent = PresentationRequestContent(style: expectedStyle,
+                                                         requirement: expectedRequirement,
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         raw: MockOpenIdRawRequest(raw: nil))
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -277,6 +289,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -302,16 +315,18 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                                     purpose: nil,
                                                                     issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
         let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
-        let expectedPresentationContent = VerifiedIdRequestContent(style: expectedPresentationStyle,
-                                                                   requirement: expectedPresentationRequirement,
-                                                                   rootOfTrust: expectedPresentationRootOfTrust)
+        let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
+                                                                     requirement: expectedPresentationRequirement,
+                                                                     rootOfTrust: expectedPresentationRootOfTrust,
+                                                                     raw: MockOpenIdRawRequest(raw: nil))
         
         let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
         let expectedIssuanceRequirement = MockRequirement(id: "mockRequirement23535")
         let expectedIssuanceRootOfTrust = RootOfTrust(verified: true, source: "mock issuer source")
-        let expectedIssuanceContent = VerifiedIdRequestContent(style: expectedIssuanceStyle,
-                                                               requirement: expectedIssuanceRequirement,
-                                                               rootOfTrust: expectedIssuanceRootOfTrust)
+        let expectedIssuanceContent = IssuanceRequestContent(style: expectedIssuanceStyle,
+                                                             requirement: expectedIssuanceRequirement,
+                                                             rootOfTrust: expectedIssuanceRootOfTrust,
+                                                             raw: MockOpenIdRawRequest(raw: nil))
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -333,6 +348,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -359,17 +375,19 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                                     issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
         let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedInjectedIdToken = InjectedIdToken(rawToken: "mock idToken hint", pin: nil)
-        let expectedPresentationContent = VerifiedIdRequestContent(style: expectedPresentationStyle,
-                                                                   requirement: expectedPresentationRequirement,
-                                                                   rootOfTrust: expectedPresentationRootOfTrust,
-                                                                   injectedIdToken: expectedInjectedIdToken)
+        let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
+                                                                     requirement: expectedPresentationRequirement,
+                                                                     rootOfTrust: expectedPresentationRootOfTrust,
+                                                                     raw: MockOpenIdRawRequest(raw: nil),
+                                                                     injectedIdToken: expectedInjectedIdToken)
         
         let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
         let expectedIssuanceRequirement = MockRequirement(id: "mockRequirement23535")
         let expectedIssuanceRootOfTrust = RootOfTrust(verified: true, source: "mock issuer source")
-        let expectedIssuanceContent = VerifiedIdRequestContent(style: expectedIssuanceStyle,
-                                                               requirement: expectedIssuanceRequirement,
-                                                               rootOfTrust: expectedIssuanceRootOfTrust)
+        let expectedIssuanceContent = IssuanceRequestContent(style: expectedIssuanceStyle,
+                                                             requirement: expectedIssuanceRequirement,
+                                                             rootOfTrust: expectedIssuanceRootOfTrust,
+                                                             raw: createMockIssuanceRequest())
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -391,6 +409,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
+                                           presentationRequestResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
