@@ -6,6 +6,10 @@
 import VCEntities
 import VCServices
 
+enum PresentationServiceError: Error {
+    case unableToCastOpenIdForVCResponseToPresentationResponseContainer
+}
+
 /**
  * An extension of the VCServices.PresentationService class.
  */
@@ -20,9 +24,20 @@ extension PresentationService: OpenIdForVCResolver, OpenIdForVCResponder {
     
     /// Sends the presentation response container and if successful, returns void,
     /// If unsuccessful, throws an error.
-    func send(response: VCEntities.PresentationResponseContainer) async throws -> Void {
+    func send(response: PresentationResponse) async throws -> Void {
+        
+        guard let presentationResponseContainer = response as? PresentationResponseContainer else {
+            throw PresentationServiceError.unableToCastOpenIdForVCResponseToPresentationResponseContainer
+        }
+        
         let _ = try await AsyncWrapper().wrap { () in
-            self.send(response: response)
+            self.send(response: presentationResponseContainer)
         }()
     }
 }
+
+protocol PresentationResponse {
+    mutating func add(requirement: Requirement) throws
+}
+
+
