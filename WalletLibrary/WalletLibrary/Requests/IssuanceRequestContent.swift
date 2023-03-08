@@ -4,33 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Contents in a Verified Id Request.
+ * Contents in a Verified Id Issuance Request.
  * This object is used to map protocol specific requests to common request object.
- * TODO: make this object extensible by separating Presentation with Issuance esp. for InjectedIdToken logic.
  * TODO: add VerifiedIdStyle to Issuance Content.
  */
-struct PresentationRequestContent {
-    
-    let style: RequesterStyle
-    
-    var requirement: Requirement
-    
-    let rootOfTrust: RootOfTrust
-    
-    let injectedIdToken: InjectedIdToken?
-    
-    init(style: RequesterStyle,
-         requirement: Requirement,
-         rootOfTrust: RootOfTrust,
-         injectedIdToken: InjectedIdToken? = nil) {
-        self.style = style
-        self.requirement = requirement
-        self.rootOfTrust = rootOfTrust
-        self.injectedIdToken = injectedIdToken
-    }
-}
-
-struct IssuanceRequestContent: RequestContent {
+struct IssuanceRequestContent {
     
     let style: RequesterStyle
     
@@ -69,16 +47,3 @@ struct IssuanceRequestContent: RequestContent {
     
 }
 
-protocol RawRequest {
-    
-}
-
-
-protocol RequestContent {
-    
-    var style: RequesterStyle { get }
-    
-    var requirement: Requirement { get }
-    
-    var rootOfTrust: RootOfTrust { get }
-}
