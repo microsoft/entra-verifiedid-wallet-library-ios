@@ -44,11 +44,12 @@ class PresentationDefinitionMappingTests: XCTestCase {
     func testMap_WithOneInputDescriptorPresent_ReturnsVerifiedIdRequirement() throws {
         
         // Arrange
-        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
-                                                              required: false,
-                                                              types: [],
-                                                              purpose: nil,
-                                                              issuanceOptions: [])
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(id: "",
+                                                                  encrypted: false,
+                                                                  required: false,
+                                                                  types: [],
+                                                                  purpose: nil,
+                                                                  issuanceOptions: [])
         let inputDescriptor = PresentationInputDescriptor(id: nil,
                                                           schema: nil,
                                                           issuanceMetadata: nil,

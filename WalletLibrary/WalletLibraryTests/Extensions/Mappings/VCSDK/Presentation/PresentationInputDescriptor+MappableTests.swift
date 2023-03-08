@@ -12,7 +12,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
     func testMap_WithNilSchema_ThrowsError() throws {
         // Arrange
         let mockMapper = MockMapper()
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: nil,
                                                                       issuanceMetadata: nil,
                                                                       name: nil,
@@ -31,7 +31,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         // Arrange
         let mockMapper = MockMapper()
         let schema = InputDescriptorSchema(uri: nil)
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: [schema],
                                                                       issuanceMetadata: nil,
                                                                       name: nil,
@@ -49,7 +49,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
     func testMap_WithNoVerifiedIdTypesPresent_ThrowsError() throws {
         // Arrange
         let mockMapper = MockMapper()
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: [],
                                                                       issuanceMetadata: nil,
                                                                       name: nil,
@@ -73,7 +73,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               types: ["mockType"],
                                                               purpose: nil,
                                                               issuanceOptions: [])
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: nil,
                                                                       name: nil,
@@ -105,7 +105,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               types: [firstType, secondType, thirdType],
                                                               purpose: nil,
                                                               issuanceOptions: [])
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: [firstSchema, secondSchema, thirdSchema],
                                                                       issuanceMetadata: nil,
                                                                       name: nil,
@@ -132,7 +132,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               types: ["mockType"],
                                                               purpose: nil,
                                                               issuanceOptions: [])
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: nil,
                                                                       name: nil,
@@ -161,7 +161,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               types: ["mockType"],
                                                               purpose: nil,
                                                               issuanceOptions: [])
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: [invalidIssuanceMetadata],
                                                                       name: nil,
@@ -201,7 +201,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               issuanceOptions: [firstVerifiedIdRequestURL, secondVerifiedIdRequestURL])
         
         let issuanceMetadatas = [firstValidIssuanceMetadata, invalidIssuanceMetadata, secondValidIssuanceMetadata]
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: issuanceMetadatas,
                                                                       name: nil,
@@ -229,7 +229,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               types: ["mockType"],
                                                               purpose: purpose,
                                                               issuanceOptions: [])
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: "mockId",
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: nil,
                                                                       name: nil,

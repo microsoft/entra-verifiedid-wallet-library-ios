@@ -122,7 +122,8 @@ class AttestationsDescriptorMappingTests: XCTestCase {
     
     func testMap_WithOnlyOneVerifiedIdRequirement_ReturnsRequirement() throws {
         // Arrange
-        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(id: "",
+                                                                  encrypted: false,
                                                                   required: true,
                                                                   types: [],
                                                                   purpose: nil,
@@ -227,7 +228,8 @@ class AttestationsDescriptorMappingTests: XCTestCase {
         let expectedSelfAttestedClaimRequirement = SelfAttestedClaimRequirement(encrypted: false,
                                                                                 required: true,
                                                                                 claim: "mock claim")
-        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(id: "",
+                                                                  encrypted: false,
                                                                   required: true,
                                                                   types: [],
                                                                   purpose: nil,
@@ -295,7 +297,8 @@ class AttestationsDescriptorMappingTests: XCTestCase {
         let expectedSelfAttestedClaimRequirement = SelfAttestedClaimRequirement(encrypted: false,
                                                                                 required: true,
                                                                                 claim: "mock claim")
-        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(id: "",
+                                                                  encrypted: false,
                                                                   required: true,
                                                                   types: [],
                                                                   purpose: nil,
