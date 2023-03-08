@@ -19,7 +19,7 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
-    private let presentationRequestResponder: OpenIdForVCResponder
+    private let presentationRequestResponder: OpenIdResponder
     
     private let manifestResolver: ManifestResolver
     
@@ -27,7 +27,7 @@ struct OpenIdRequestHandler: RequestHandling {
     
     /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
     init(configuration: LibraryConfiguration,
-         presentationRequestResponder: OpenIdForVCResponder,
+         presentationRequestResponder: OpenIdResponder,
          manifestResolver: ManifestResolver,
          verifiableCredentialRequester: VerifiedIdRequester) {
         self.configuration = configuration
@@ -49,7 +49,7 @@ struct OpenIdRequestHandler: RequestHandling {
             return try await handleIssuanceRequest(from: requestContent)
         }
         
-        return try handlePresentationRequest(from: requestContent)
+        return handlePresentationRequest(requestContent: requestContent, rawRequest: request)
     }
     
     private func handleIssuanceRequest(from requestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest {
@@ -77,9 +77,11 @@ struct OpenIdRequestHandler: RequestHandling {
                                        configuration: configuration)
     }
     
-    private func handlePresentationRequest(from requestContent: PresentationRequestContent) throws -> any VerifiedIdPresentationRequest {
-        return try OpenIdPresentationRequest(content: requestContent,
-                                             openIdResponder: presentationRequestResponder,
-                                             configuration: configuration)
+    private func handlePresentationRequest(requestContent: PresentationRequestContent,
+                                           rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest {
+        return OpenIdPresentationRequest(content: requestContent,
+                                         rawRequest: rawRequest,
+                                         openIdResponder: presentationRequestResponder,
+                                         configuration: configuration)
     }
 }
