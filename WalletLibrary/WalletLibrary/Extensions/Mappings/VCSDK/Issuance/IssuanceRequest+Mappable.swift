@@ -9,7 +9,7 @@ import VCEntities
  * An extension of the VCEntities.IssuanceRequest class.
  * TODO: Update Style to include VerifiedIdStyle and more requester style attributes.
  */
-extension VCEntities.IssuanceRequest: RawRequest, Mappable {
+extension VCEntities.IssuanceRequest: Mappable {
     func map(using mapper: Mapping) throws -> IssuanceRequestContent {
         
         let attestations = try getRequiredProperty(property: content.input.attestations,
