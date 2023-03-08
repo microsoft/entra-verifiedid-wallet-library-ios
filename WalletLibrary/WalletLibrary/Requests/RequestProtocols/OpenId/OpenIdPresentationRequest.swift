@@ -17,24 +17,21 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     
     let rootOfTrust: RootOfTrust
     
-    private let raw: any OpenIdRawRequest
+    private let rawRequest: any OpenIdRawRequest
     
-    private let responder: OpenIdForVCResponder
+    private let responder: OpenIdResponder
     
     private let configuration: LibraryConfiguration
     
     init(content: PresentationRequestContent,
-         openIdResponder: OpenIdForVCResponder,
-         configuration: LibraryConfiguration) throws {
-        
-        guard let raw = content.raw as? any OpenIdRawRequest else {
-            throw VerifiedIdClientError.TODO(message: "test")
-        }
+         rawRequest: any OpenIdRawRequest,
+         openIdResponder: OpenIdResponder,
+         configuration: LibraryConfiguration) {
         
         self.style = content.style
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
-        self.raw = raw
+        self.rawRequest = rawRequest
         self.responder = openIdResponder
         self.configuration = configuration
     }
@@ -47,7 +44,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     func complete() async -> Result<(), Error> {
         do {
             
-            var response = try PresentationResponseContainer(from: raw)
+            var response = try PresentationResponseContainer(from: rawRequest)
             try response.add(requirement: requirement)
             try await responder.send(response: response)
             return Result.success(())
