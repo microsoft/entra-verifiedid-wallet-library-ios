@@ -19,11 +19,11 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
-    private let presentationRequestResponder: OpenIdResponder
+    private let openIdResponder: OpenIdResponder
     
     private let manifestResolver: ManifestResolver
     
-    private let verifiableCredentialRequester: VerifiedIdRequester
+    private let verifiedIdRequester: VerifiedIdRequester
     
     /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
     init(configuration: LibraryConfiguration,
@@ -31,9 +31,9 @@ struct OpenIdRequestHandler: RequestHandling {
          manifestResolver: ManifestResolver,
          verifiableCredentialRequester: VerifiedIdRequester) {
         self.configuration = configuration
-        self.presentationRequestResponder = presentationRequestResponder
+        self.openIdResponder = presentationRequestResponder
         self.manifestResolver = manifestResolver
-        self.verifiableCredentialRequester = verifiableCredentialRequester
+        self.verifiedIdRequester = verifiableCredentialRequester
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
@@ -73,7 +73,7 @@ struct OpenIdRequestHandler: RequestHandling {
         
         return ContractIssuanceRequest(content: issuanceRequestContent,
                                        issuanceResponseContainer: issuanceResponseContainer,
-                                       verifiedIdRequester: verifiableCredentialRequester,
+                                       verifiedIdRequester: verifiedIdRequester,
                                        configuration: configuration)
     }
     
@@ -81,7 +81,7 @@ struct OpenIdRequestHandler: RequestHandling {
                                            rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest {
         return OpenIdPresentationRequest(content: requestContent,
                                          rawRequest: rawRequest,
-                                         openIdResponder: presentationRequestResponder,
+                                         openIdResponder: openIdResponder,
                                          configuration: configuration)
     }
 }
