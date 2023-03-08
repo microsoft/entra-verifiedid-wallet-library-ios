@@ -18,7 +18,7 @@ enum PresentationRequestMappingError: Error {
  */
 extension VCEntities.PresentationRequest: Mappable {
     
-    func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
+    func map(using mapper: Mapping) throws -> PresentationRequestContent {
         
         guard let presentationDefinition = content.claims?.vpToken?.presentationDefinition else {
             throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
@@ -31,10 +31,11 @@ extension VCEntities.PresentationRequest: Mappable {
         let clientName = content.registration?.clientName ?? ""
         let requesterStyle = OpenIdVerifierStyle(name: clientName)
         
-        let content = VerifiedIdRequestContent(style: requesterStyle,
-                                               requirement: requirement,
-                                               rootOfTrust: rootOfTrust,
-                                               injectedIdToken: injectedIdToken)
+        let content = PresentationRequestContent(style: requesterStyle,
+                                                 requirement: requirement,
+                                                 rootOfTrust: rootOfTrust,
+                                                 raw: self,
+                                                 injectedIdToken: injectedIdToken)
         
         return content
     }
