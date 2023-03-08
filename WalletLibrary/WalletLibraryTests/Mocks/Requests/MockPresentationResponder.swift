@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-class MockPresentationResponder: OpenIdForVCResponder {
+class MockPresentationResponder: OpenIdResponder {
     
     func send(response: PresentationResponse) async throws { }
 }

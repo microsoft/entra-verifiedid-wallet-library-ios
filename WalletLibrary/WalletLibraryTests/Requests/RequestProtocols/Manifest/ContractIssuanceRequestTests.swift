@@ -21,15 +21,13 @@ class ContractIssuanceRequestTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let mockVCRequester = MockVerifiedIdRequester()
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
-        let mockRawManifest = MockRawManifest(id: "")
         
         let mockRequirement = MockRequirement(id: "mockRequirement324",
                                               mockValidateCallback: { throw ExpectedError.expectedToBeThrown })
         
         let content = IssuanceRequestContent(style: mockStyle,
                                              requirement: mockRequirement,
-                                             rootOfTrust: mockRootOfTrust,
-                                             raw: mockRawManifest)
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -51,7 +49,6 @@ class ContractIssuanceRequestTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let mockVCRequester = MockVerifiedIdRequester()
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
-        let mockRawManifest = MockRawManifest(id: "")
         
         let invalidRequirement = MockRequirement(id: "mockRequirement324",
                                               mockValidateCallback: { throw ExpectedError.expectedToBeThrown })
@@ -64,8 +61,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let content = IssuanceRequestContent(style: mockStyle,
                                              requirement: mockRequirement,
-                                             rootOfTrust: mockRootOfTrust,
-                                             raw: mockRawManifest)
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -87,14 +83,12 @@ class ContractIssuanceRequestTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let mockVCRequester = MockVerifiedIdRequester()
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
-        let mockRawManifest = MockRawManifest(id: "")
         
         let validRequirement = MockRequirement(id: "mockRequirement324")
         
         let content = IssuanceRequestContent(style: mockStyle,
                                              requirement: validRequirement,
-                                             rootOfTrust: mockRootOfTrust,
-                                             raw: mockRawManifest)
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -116,7 +110,6 @@ class ContractIssuanceRequestTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let mockVCRequester = MockVerifiedIdRequester()
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
-        let mockRawManifest = MockRawManifest(id: "")
         
         let firstValidRequirement = MockRequirement(id: "mockRequirement634")
         let secondValidRequirement = MockRequirement(id: "mockRequirement674")
@@ -127,8 +120,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let content = IssuanceRequestContent(style: mockStyle,
                                              requirement: mockRequirement,
-                                             rootOfTrust: mockRootOfTrust,
-                                             raw: mockRawManifest)
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -151,7 +143,6 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockMapper = MockMapper()
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let mockVCRequester = MockVerifiedIdRequester(sendRequestCallback: { _ in expectedVerifiedId })
-        let mockRawManifest = MockRawManifest(id: "")
         
         func mockAddRequirementCallback(requirement: Requirement) throws {
             XCTAssertEqual(requirement as? MockRequirement, mockRequirement)
@@ -161,8 +152,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let content = IssuanceRequestContent(style: mockStyle,
                                              requirement: mockRequirement,
-                                             rootOfTrust: mockRootOfTrust,
-                                             raw: mockRawManifest)
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -189,7 +179,6 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockMapper = MockMapper()
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let mockVCRequester = MockVerifiedIdRequester(sendRequestCallback: { _ in throw ExpectedError.expectedToBeThrown })
-        let mockRawManifest = MockRawManifest(id: "")
         
         func mockAddRequirementCallback(requirement: Requirement) throws {
             XCTAssertEqual(requirement as? MockRequirement, mockRequirement)
@@ -199,8 +188,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         let content = IssuanceRequestContent(style: mockStyle,
                                              requirement: mockRequirement,
-                                             rootOfTrust: mockRootOfTrust,
-                                             raw: mockRawManifest)
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,

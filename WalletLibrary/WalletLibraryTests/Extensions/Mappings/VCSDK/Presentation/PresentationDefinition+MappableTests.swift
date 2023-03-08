@@ -81,7 +81,8 @@ class PresentationDefinitionMappingTests: XCTestCase {
     func testMap_WithMultipleInputDescriptorPresent_ReturnsGroupRequirement() throws {
         
         // Arrange
-        let mockVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+        let mockVerifiedIdRequirement = VerifiedIdRequirement(id: "mockId",
+                                                              encrypted: false,
                                                               required: false,
                                                               types: [],
                                                               purpose: nil,

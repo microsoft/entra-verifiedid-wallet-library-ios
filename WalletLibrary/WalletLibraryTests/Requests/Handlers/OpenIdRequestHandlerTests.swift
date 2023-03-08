@@ -24,8 +24,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust,
-                                                         raw: MockOpenIdRawRequest(raw: nil))
+                                                         rootOfTrust: expectedRootOfTrust)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -92,8 +91,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust,
-                                                         raw: MockOpenIdRawRequest(raw: nil))
+                                                         rootOfTrust: expectedRootOfTrust)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -134,8 +132,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust,
-                                                         raw: MockOpenIdRawRequest(raw: nil))
+                                                         rootOfTrust: expectedRootOfTrust)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -176,8 +173,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust,
-                                                         raw: MockOpenIdRawRequest(raw: nil))
+                                                         rootOfTrust: expectedRootOfTrust)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -219,8 +215,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust,
-                                                         raw: MockOpenIdRawRequest(raw: nil))
+                                                         rootOfTrust: expectedRootOfTrust)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -266,8 +261,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust,
-                                                         raw: MockOpenIdRawRequest(raw: nil))
+                                                         rootOfTrust: expectedRootOfTrust)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -317,16 +311,14 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
                                                                      requirement: expectedPresentationRequirement,
-                                                                     rootOfTrust: expectedPresentationRootOfTrust,
-                                                                     raw: MockOpenIdRawRequest(raw: nil))
+                                                                     rootOfTrust: expectedPresentationRootOfTrust)
         
         let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
         let expectedIssuanceRequirement = MockRequirement(id: "mockRequirement23535")
         let expectedIssuanceRootOfTrust = RootOfTrust(verified: true, source: "mock issuer source")
         let expectedIssuanceContent = IssuanceRequestContent(style: expectedIssuanceStyle,
                                                              requirement: expectedIssuanceRequirement,
-                                                             rootOfTrust: expectedIssuanceRootOfTrust,
-                                                             raw: MockOpenIdRawRequest(raw: nil))
+                                                             rootOfTrust: expectedIssuanceRootOfTrust)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -378,7 +370,6 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
                                                                      requirement: expectedPresentationRequirement,
                                                                      rootOfTrust: expectedPresentationRootOfTrust,
-                                                                     raw: MockOpenIdRawRequest(raw: nil),
                                                                      injectedIdToken: expectedInjectedIdToken)
         
         let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
@@ -386,8 +377,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedIssuanceRootOfTrust = RootOfTrust(verified: true, source: "mock issuer source")
         let expectedIssuanceContent = IssuanceRequestContent(style: expectedIssuanceStyle,
                                                              requirement: expectedIssuanceRequirement,
-                                                             rootOfTrust: expectedIssuanceRootOfTrust,
-                                                             raw: createMockIssuanceRequest())
+                                                             rootOfTrust: expectedIssuanceRootOfTrust)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -445,7 +435,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let mockContract = Contract(id: "mockContract",
                                     display: mockDisplayDescriptor,
                                     input: mockContractInputDescriptor)
-        
+
         let mockSignedContract = SignedContract(headers: Header(), content: mockContract)!
         return IssuanceRequest(from: mockSignedContract, linkedDomainResult: .linkedDomainMissing)
     }
