@@ -113,7 +113,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         } catch {
             // Assert
             XCTAssert(error is OpenIdRequestHandlerError)
-            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.unableToCaseRequirementToVerifiedIdRequirement)
+            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.unableToCastRequirementToVerifiedIdRequirement)
         }
     }
     
