@@ -44,6 +44,4 @@ struct IssuanceRequestContent {
             }
         }
     }
-    
 }
-
