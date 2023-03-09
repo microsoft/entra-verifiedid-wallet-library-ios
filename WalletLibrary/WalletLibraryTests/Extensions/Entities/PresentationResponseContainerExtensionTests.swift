@@ -25,7 +25,8 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         XCTAssertThrowsError(try PresentationResponseContainer(rawRequest: mockRawRequest)) { error in
             // Assert
             XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual(error as? PresentationResponseError, PresentationResponseError.unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
+            XCTAssertEqual(error as? PresentationResponseError,
+                           PresentationResponseError.unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
         }
     }
     

@@ -3,8 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
-
 /**
  * Presentation Requst that is Open Id specific.
  * TODO: we will need open id specific data to implement complete and cancel.
