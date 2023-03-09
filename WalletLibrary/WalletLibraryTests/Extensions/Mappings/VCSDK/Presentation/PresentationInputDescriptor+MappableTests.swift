@@ -72,7 +72,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               required: true,
                                                               types: ["mockType"],
                                                               purpose: nil,
-                                                              issuanceOptions: [])
+                                                              issuanceOptions: [],
+                                                              id: nil,
+                                                              constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: nil,
@@ -104,7 +106,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               required: true,
                                                               types: [firstType, secondType, thirdType],
                                                               purpose: nil,
-                                                              issuanceOptions: [])
+                                                              issuanceOptions: [],
+                                                              id: nil,
+                                                              constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
                                                                       schema: [firstSchema, secondSchema, thirdSchema],
                                                                       issuanceMetadata: nil,
@@ -131,7 +135,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               required: true,
                                                               types: ["mockType"],
                                                               purpose: nil,
-                                                              issuanceOptions: [])
+                                                              issuanceOptions: [],
+                                                              id: nil,
+                                                              constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: nil,
@@ -160,7 +166,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               required: true,
                                                               types: ["mockType"],
                                                               purpose: nil,
-                                                              issuanceOptions: [])
+                                                              issuanceOptions: [],
+                                                              id: nil,
+                                                              constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: [invalidIssuanceMetadata],
@@ -198,7 +206,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               required: true,
                                                               types: ["mockType"],
                                                               purpose: nil,
-                                                              issuanceOptions: [firstVerifiedIdRequestURL, secondVerifiedIdRequestURL])
+                                                              issuanceOptions: [firstVerifiedIdRequestURL, secondVerifiedIdRequestURL],
+                                                              id: nil,
+                                                              constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         
         let issuanceMetadatas = [firstValidIssuanceMetadata, invalidIssuanceMetadata, secondValidIssuanceMetadata]
         let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
@@ -228,7 +238,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               required: true,
                                                               types: ["mockType"],
                                                               purpose: purpose,
-                                                              issuanceOptions: [])
+                                                              issuanceOptions: [],
+                                                              id: nil,
+                                                              constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: nil,

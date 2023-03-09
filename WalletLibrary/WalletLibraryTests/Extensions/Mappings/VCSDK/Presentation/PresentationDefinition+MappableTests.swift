@@ -45,10 +45,13 @@ class PresentationDefinitionMappingTests: XCTestCase {
         
         // Arrange
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
-                                                              required: false,
-                                                              types: [],
-                                                              purpose: nil,
-                                                              issuanceOptions: [])
+                                                                  required: false,
+                                                                  types: [],
+                                                                  purpose: nil,
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let inputDescriptor = PresentationInputDescriptor(id: nil,
                                                           schema: nil,
                                                           issuanceMetadata: nil,
@@ -84,7 +87,10 @@ class PresentationDefinitionMappingTests: XCTestCase {
                                                               required: false,
                                                               types: [],
                                                               purpose: nil,
-                                                              issuanceOptions: [])
+                                                              issuanceOptions: [],
+                                                              id: nil,
+                                                              constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                                                    constraintOperator: .ALL))
         let firstMockInputDescriptor = PresentationInputDescriptor(id: nil,
                                                           schema: nil,
                                                           issuanceMetadata: nil,

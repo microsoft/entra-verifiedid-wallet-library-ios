@@ -128,7 +128,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                         required: true,
                                                         types: [],
                                                         purpose: nil,
-                                                        issuanceOptions: [])
+                                                        issuanceOptions: [],
+                                                        id: nil,
+                                                        constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
@@ -169,7 +171,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                         required: true,
                                                         types: [],
                                                         purpose: nil,
-                                                        issuanceOptions: [MockInput(mockData: "")])
+                                                        issuanceOptions: [MockInput(mockData: "")],
+                                                        id: nil,
+                                                        constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
@@ -211,7 +215,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                         required: true,
                                                         types: [],
                                                         purpose: nil,
-                                                        issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
+                                                        issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)],
+                                                        id: nil,
+                                                        constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
@@ -257,7 +263,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                         required: true,
                                                         types: [],
                                                         purpose: nil,
-                                                        issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
+                                                        issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)],
+                                                        id: nil,
+                                                        constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
@@ -307,7 +315,10 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                                     required: true,
                                                                     types: [],
                                                                     purpose: nil,
-                                                                    issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
+                                                                    issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)],
+                                                                    id: nil,
+                                                                    constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                                                          constraintOperator: .ALL))
         let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
                                                                      requirement: expectedPresentationRequirement,
@@ -364,7 +375,10 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                                     required: true,
                                                                     types: [],
                                                                     purpose: nil,
-                                                                    issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)])
+                                                                    issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)],
+                                                                    id: nil,
+                                                                    constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                                                          constraintOperator: .ALL))
         let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedInjectedIdToken = InjectedIdToken(rawToken: "mock idToken hint", pin: nil)
         let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,

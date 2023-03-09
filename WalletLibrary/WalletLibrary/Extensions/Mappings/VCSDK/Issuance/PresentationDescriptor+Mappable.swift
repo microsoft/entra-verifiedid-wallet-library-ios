@@ -26,6 +26,8 @@ extension VCEntities.PresentationDescriptor: Mappable {
                                      required: presentationRequired ?? false,
                                      types: [credentialType],
                                      purpose: nil,
-                                     issuanceOptions: issuanceOptions ?? [])
+                                     issuanceOptions: issuanceOptions ?? [],
+                                     id: nil,
+                                     constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
     }
 }

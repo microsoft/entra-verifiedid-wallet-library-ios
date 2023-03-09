@@ -35,10 +35,15 @@ extension VCEntities.PresentationInputDescriptor: Mappable {
             return nil
         }
         
+        // TODO
+        let constraint = VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL)
+        
         return VerifiedIdRequirement(encrypted: false,
                                      required: true,
                                      types: types,
                                      purpose: purpose,
-                                     issuanceOptions: issuanceOptions ?? [])
+                                     issuanceOptions: issuanceOptions ?? [],
+                                     id: id,
+                                     constraint: constraint)
     }
 }

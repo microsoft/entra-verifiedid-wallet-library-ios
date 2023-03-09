@@ -112,7 +112,9 @@ class PresentationDescriptorMappingTests: XCTestCase {
                                                    required: required ?? false,
                                                    types: [credentialType],
                                                    purpose: nil,
-                                                   issuanceOptions: expectedIssuanceOptions ?? [])
+                                                   issuanceOptions: expectedIssuanceOptions ?? [],
+                                                   id: nil,
+                                                   constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         return (input, expectedResult)
     }
 }

@@ -126,7 +126,10 @@ class AttestationsDescriptorMappingTests: XCTestCase {
                                                                   required: true,
                                                                   types: [],
                                                                   purpose: nil,
-                                                                  issuanceOptions: [])
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let mockPresentationDescriptor = PresentationDescriptor(claims: [],
                                                                 credentialType: "mock type")
         let attestations = AttestationsDescriptor(presentations: [mockPresentationDescriptor])
@@ -231,7 +234,10 @@ class AttestationsDescriptorMappingTests: XCTestCase {
                                                                   required: true,
                                                                   types: [],
                                                                   purpose: nil,
-                                                                  issuanceOptions: [])
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let expectedIdTokenRequirement = IdTokenRequirement(encrypted: false,
                                                                 required: true,
                                                                 configuration: URL(string: "https://test.com")!,
@@ -299,7 +305,10 @@ class AttestationsDescriptorMappingTests: XCTestCase {
                                                                   required: true,
                                                                   types: [],
                                                                   purpose: nil,
-                                                                  issuanceOptions: [])
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let expectedIdTokenRequirement = IdTokenRequirement(encrypted: false,
                                                                 required: true,
                                                                 configuration: URL(string: "https://test.com")!,
