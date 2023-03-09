@@ -10,6 +10,10 @@
  */
 struct IssuanceRequestContent {
     
+    private struct Constants {
+        static let IdTokenHintKey = "https://self-issued.me"
+    }
+    
     let style: RequesterStyle
     
     var requirement: Requirement
@@ -20,21 +24,29 @@ struct IssuanceRequestContent {
         switch (requirement) {
         case var groupRequirement as GroupRequirement:
             repopulateGroupRequirementIfInjectedIdTokenExists(injectedIdToken: injectedIdToken,
-                                                              groupRequirement: &groupRequirement)
+                                                              groupRequirement: groupRequirement)
         case let idTokenRequirement as IdTokenRequirement:
+            addInjectedIdTokenHintToIdTokenRequirement(injectedIdToken: injectedIdToken,
+                                                       idTokenRequirement: idTokenRequirement)
+        default:
+            return
+        }
+    }
+    
+    private mutating func addInjectedIdTokenHintToIdTokenRequirement(injectedIdToken: InjectedIdToken,
+                                                                     idTokenRequirement: IdTokenRequirement) {
+        if idTokenRequirement.configuration.absoluteString == Constants.IdTokenHintKey {
             idTokenRequirement.fulfill(with: injectedIdToken.rawToken)
             if let pinRequirement = injectedIdToken.pin {
                 requirement = GroupRequirement(required: false,
                                                requirements: [idTokenRequirement, pinRequirement],
                                                requirementOperator: .ALL)
             }
-        default:
-            return
         }
     }
     
     private func repopulateGroupRequirementIfInjectedIdTokenExists(injectedIdToken: InjectedIdToken,
-                                                                   groupRequirement: inout GroupRequirement) {
+                                                                   groupRequirement: GroupRequirement) {
         for requirement in groupRequirement.requirements {
             if let idTokenRequirement = requirement as? IdTokenRequirement {
                 idTokenRequirement.fulfill(with: injectedIdToken.rawToken)

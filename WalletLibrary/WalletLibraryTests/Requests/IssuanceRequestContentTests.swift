@@ -8,60 +8,150 @@ import XCTest
 
 class IssuanceRequestContentTests: XCTestCase {
     
-    func testAddInjecteIdToken_WithIdTokenRequirementAndNoPin_CreatesGroupRequirement() async throws {
+    func testAddInjectedIdToken_WithIdTokenRequirementAndNoPin_AddIdTokenToRequirement() async throws {
         
         // Arrange
-        let requirement = SelfAttestedClaimRequirement(encrypted: false,
-                                                       required: true,
-                                                       claim: "")
+        let idTokenRequirement = IdTokenRequirement(encrypted: false,
+                                                    required: false,
+                                                    configuration: URL(string: "https://self-issued.me")!,
+                                                    clientId: "mockClientId",
+                                                    redirectUri: "mockRedirectUri",
+                                                    scope: nil)
+        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            requirement: idTokenRequirement,
+                                                            rootOfTrust: RootOfTrust(verified: false, source: nil))
+        let injectedIdToken = InjectedIdToken(rawToken: "mockRawToken", pin: nil)
         
         // Act
-        XCTAssertThrowsError(try requirement.validate()) { error in
-            // Assert
-            XCTAssert(error is SelfAttestedClaimRequirementError)
-            XCTAssertEqual(error as? SelfAttestedClaimRequirementError, .selfAttestedClaimRequirementHasNotBeenFulfilled)
-        }
-    }
-    
-    func testAddInjecteIdToken_WithIdTokenRequirementAndPin_CreatesGroupRequirement() async throws {
-        
-        // Arrange
-        let requirement = SelfAttestedClaimRequirement(encrypted: false,
-                                                       required: true,
-                                                       claim: "")
-        requirement.fulfill(with: "mock value")
-        
-        // Act / Assert
-        XCTAssertNoThrow(try requirement.validate())
-    }
-    
-    func testAddInjecteIdToken_WithGroupRequirementAndNoPin_AddsIdTokenRequirement() async throws {
-        
-        // Arrange
-        let requirement = SelfAttestedClaimRequirement(encrypted: false,
-                                                       required: true,
-                                                       claim: "")
-        let mockValue = "mock value"
-        
-        // Act
-        requirement.fulfill(with: mockValue)
+        issuanceRequestContent.addRequirement(from: injectedIdToken)
         
         // Assert
-        XCTAssertEqual(requirement.value, mockValue)
+        XCTAssert(issuanceRequestContent.requirement is IdTokenRequirement)
+        XCTAssertEqual((issuanceRequestContent.requirement as? IdTokenRequirement)?.idToken, injectedIdToken.rawToken)
+        
     }
     
-    func testAddInjecteIdToken_WithGroupRequirementAndPin_AddsIdTokenAndPinRequirement() async throws {
+    func testAddInjectedIdToken_WithIdTokenRequirementWithInvalidConfigurationValue_DoesNothing() async throws {
         
         // Arrange
-        let requirement = SelfAttestedClaimRequirement(encrypted: false,
-                                                       required: true,
-                                                       claim: "")
-        let mockValue = "mock value"
+        let idTokenRequirement = IdTokenRequirement(encrypted: false,
+                                                    required: false,
+                                                    configuration: URL(string: "https://invalidConfiguration.me")!,
+                                                    clientId: "mockClientId",
+                                                    redirectUri: "mockRedirectUri",
+                                                    scope: nil)
+        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            requirement: idTokenRequirement,
+                                                            rootOfTrust: RootOfTrust(verified: false, source: nil))
+        let injectedIdToken = InjectedIdToken(rawToken: "mockRawToken", pin: nil)
         
         // Act
-        requirement.fulfill(with: mockValue)
+        issuanceRequestContent.addRequirement(from: injectedIdToken)
         
         // Assert
-        XCTAssertEqual(requirement.value, mockValue)
+        XCTAssert(issuanceRequestContent.requirement is IdTokenRequirement)
+        XCTAssertNil((issuanceRequestContent.requirement as? IdTokenRequirement)?.idToken)
+    }
+    
+    func testAddInjectedIdToken_WithIdTokenRequirementAndPin_CreatesGroupRequirement() async throws {
+        
+        // Arrange
+        let idTokenRequirement = IdTokenRequirement(encrypted: false,
+                                                    required: false,
+                                                    configuration: URL(string: "https://self-issued.me")!,
+                                                    clientId: "mockClientId",
+                                                    redirectUri: "mockRedirectUri",
+                                                    scope: nil)
+        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            requirement: idTokenRequirement,
+                                                            rootOfTrust: RootOfTrust(verified: false, source: nil))
+        let pinRequirement = PinRequirement(required: false,
+                                            length: 4,
+                                            type: "numeric",
+                                            salt: nil)
+        let injectedIdToken = InjectedIdToken(rawToken: "mockRawToken", pin: pinRequirement)
+        
+        // Act
+        issuanceRequestContent.addRequirement(from: injectedIdToken)
+        
+        // Assert
+        XCTAssert(issuanceRequestContent.requirement is GroupRequirement)
+        XCTAssertEqual((issuanceRequestContent.requirement as? GroupRequirement)?.requirements.count, 2)
+        XCTAssertIdentical((issuanceRequestContent.requirement as? GroupRequirement)?.requirements.first as AnyObject,
+                           idTokenRequirement as AnyObject)
+        XCTAssertEqual(((issuanceRequestContent.requirement as? GroupRequirement)?.requirements.first as? IdTokenRequirement)?.idToken,
+                       injectedIdToken.rawToken)
+        XCTAssertIdentical((issuanceRequestContent.requirement as? GroupRequirement)?.requirements[1] as AnyObject,
+                           pinRequirement as AnyObject)
+    }
+    
+    func testAddInjectedIdToken_WithGroupRequirementAndNoPin_AddsIdTokenRequirement() async throws {
+        
+        // Arrange
+        let mockRequirement = MockRequirement(id: "mockRequirement")
+        let idTokenRequirement = IdTokenRequirement(encrypted: false,
+                                                    required: false,
+                                                    configuration: URL(string: "https://self-issued.me")!,
+                                                    clientId: "mockClientId",
+                                                    redirectUri: "mockRedirectUri",
+                                                    scope: nil)
+        let groupRequirement = GroupRequirement(required: false,
+                                                requirements: [mockRequirement, idTokenRequirement],
+                                                requirementOperator: .ALL)
+        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            requirement: groupRequirement,
+                                                            rootOfTrust: RootOfTrust(verified: false, source: nil))
+        let injectedIdToken = InjectedIdToken(rawToken: "mockRawToken", pin: nil)
+        
+        // Act
+        issuanceRequestContent.addRequirement(from: injectedIdToken)
+        
+        // Assert
+        XCTAssert(issuanceRequestContent.requirement is GroupRequirement)
+        XCTAssertEqual((issuanceRequestContent.requirement as? GroupRequirement)?.requirements.count, 2)
+        XCTAssertEqual((issuanceRequestContent.requirement as? GroupRequirement)?.requirements.first as? MockRequirement,
+                       mockRequirement)
+        XCTAssertIdentical((issuanceRequestContent.requirement as? GroupRequirement)?.requirements[1] as AnyObject,
+                           idTokenRequirement as AnyObject)
+        XCTAssertEqual(((issuanceRequestContent.requirement as? GroupRequirement)?.requirements[1] as? IdTokenRequirement)?.idToken,
+                       injectedIdToken.rawToken)
+    }
+    
+    func testAddInjectedIdToken_WithGroupRequirementAndPin_AddsIdTokenAndPinRequirement() async throws {
+        
+        // Arrange
+        let mockRequirement = MockRequirement(id: "mockRequirement")
+        let idTokenRequirement = IdTokenRequirement(encrypted: false,
+                                                    required: false,
+                                                    configuration: URL(string: "https://self-issued.me")!,
+                                                    clientId: "mockClientId",
+                                                    redirectUri: "mockRedirectUri",
+                                                    scope: nil)
+        let groupRequirement = GroupRequirement(required: false,
+                                                requirements: [mockRequirement, idTokenRequirement],
+                                                requirementOperator: .ALL)
+        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            requirement: groupRequirement,
+                                                            rootOfTrust: RootOfTrust(verified: false, source: nil))
+        let pinRequirement = PinRequirement(required: false,
+                                            length: 4,
+                                            type: "numeric",
+                                            salt: nil)
+        let injectedIdToken = InjectedIdToken(rawToken: "mockRawToken", pin: pinRequirement)
+        
+        // Act
+        issuanceRequestContent.addRequirement(from: injectedIdToken)
+        
+        // Assert
+        XCTAssert(issuanceRequestContent.requirement is GroupRequirement)
+        XCTAssertEqual((issuanceRequestContent.requirement as? GroupRequirement)?.requirements.count, 3)
+        XCTAssertEqual((issuanceRequestContent.requirement as? GroupRequirement)?.requirements.first as? MockRequirement,
+                       mockRequirement)
+        XCTAssertIdentical((issuanceRequestContent.requirement as? GroupRequirement)?.requirements[1] as AnyObject,
+                           idTokenRequirement as AnyObject)
+        XCTAssertEqual(((issuanceRequestContent.requirement as? GroupRequirement)?.requirements[1] as? IdTokenRequirement)?.idToken,
+                       injectedIdToken.rawToken)
+        XCTAssertIdentical((issuanceRequestContent.requirement as? GroupRequirement)?.requirements[2] as AnyObject,
+                           pinRequirement as AnyObject)
     }
 }
