@@ -18,14 +18,14 @@ enum PresentationResponseError: Error, Equatable {
  */
 extension VCEntities.PresentationResponseContainer: PresentationResponse {
 
-    init(from request: any OpenIdRawRequest) throws {
+    init(rawRequest: any OpenIdRawRequest) throws {
 
-        guard let request = request as? PresentationRequest else {
-            let requestType = String(describing: type(of: request))
+        guard let presentationRequest = rawRequest as? VCEntities.PresentationRequest else {
+            let requestType = String(describing: type(of: rawRequest))
             throw PresentationResponseError.unableToCastVCSDKPresentationRequestFromRawRequestOfType(requestType)
         }
 
-        try self.init(from: request)
+        try self.init(from: presentationRequest)
     }
 
     mutating func add(requirement: Requirement) throws {
