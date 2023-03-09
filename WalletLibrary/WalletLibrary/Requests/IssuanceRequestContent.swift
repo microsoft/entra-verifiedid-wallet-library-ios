@@ -16,13 +16,13 @@ struct IssuanceRequestContent {
     
     let style: RequesterStyle
     
-    var requirement: Requirement
+    private(set) var requirement: Requirement
     
     let rootOfTrust: RootOfTrust
     
     mutating func addRequirement(from injectedIdToken: InjectedIdToken) {
         switch (requirement) {
-        case var groupRequirement as GroupRequirement:
+        case let groupRequirement as GroupRequirement:
             repopulateGroupRequirementIfInjectedIdTokenExists(injectedIdToken: injectedIdToken,
                                                               groupRequirement: groupRequirement)
         case let idTokenRequirement as IdTokenRequirement:
