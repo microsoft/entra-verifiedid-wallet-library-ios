@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum VerifiedIdRequirementError: Error {
+    case verifiedIdDoesNotMeetConstraints
+    case requirementHasNotBeenFulfilled
+}
 /**
  * Information to describe Verified IDs required.
  */
@@ -23,24 +27,85 @@ public class VerifiedIdRequirement: Requirement {
     /// An optional property for information needed for issuance during presentation flow.
     public let issuanceOptions: [VerifiedIdRequestInput]
     
-    /// TODO: helper method that returns verified id that match the requirement from a list of verified ids.
-    public func getMatches(verifiedIds: [VerifiedId]) -> [VerifiedId] {
-        return []
-    }
+    /// Optional id of requirement defined by the request.
+    let id: String?
+    
+    /// Constraint that define how the requirement can be satisfied.
+    let constraint: VerifiedIdConstraint
+    
+    /// The verified id that was selected.
+    var selectedVerifiedId: VerifiedId?
     
     init(encrypted: Bool,
          required: Bool,
          types: [String],
          purpose: String?,
-         issuanceOptions: [VerifiedIdRequestInput]) {
+         issuanceOptions: [VerifiedIdRequestInput],
+         id: String?,
+         constraint: VerifiedIdConstraint) {
         self.encrypted = encrypted
         self.required = required
         self.types = types
         self.purpose = purpose
         self.issuanceOptions = issuanceOptions
+        self.id = id
+        self.constraint = constraint
     }
     
     public func validate() throws {
-        throw VerifiedIdClientError.TODO(message: "implement validate")
+        guard let selectedVerifiedId = self.selectedVerifiedId else {
+            throw VerifiedIdRequirementError.requirementHasNotBeenFulfilled
+        }
+        
+        guard constraint.doesMatch(verifiedId: selectedVerifiedId) else {
+            throw VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints
+        }
+    }
+    
+    public func getMatches(verifiedIds: [VerifiedId]) -> [VerifiedId] {
+        return verifiedIds.filter {
+            constraint.doesMatch(verifiedId: $0)
+        }
+    }
+    
+    public func fulfill(with verifiedId: VerifiedId) throws {
+        if constraint.doesMatch(verifiedId: verifiedId) {
+            self.selectedVerifiedId = verifiedId
+            return
+        }
+        
+        throw VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints
+    }
+}
+
+protocol VerifiedIdConstraint {
+    func doesMatch(verifiedId: VerifiedId) -> Bool
+    
+    func doesMatch(verifiedId: VerifiedId) throws
+}
+
+enum GroupConstraintOperator {
+    case ANY
+    case ALL
+}
+
+struct VerifiedIdGroupConstraint: VerifiedIdConstraint {
+    
+    let constraints: [VerifiedIdConstraint]
+    
+    let constraintOperator: GroupConstraintOperator
+    
+    init(constraints: [VerifiedIdConstraint],
+         constraintOperator: GroupConstraintOperator) {
+        self.constraints = constraints
+        self.constraintOperator = constraintOperator
+    }
+    
+    func doesMatch(verifiedId: VerifiedId) -> Bool {
+        return false
+    }
+    
+    func doesMatch(verifiedId: VerifiedId) throws {
+        throw VerifiedIdClientError.TODO(message: "implement")
     }
 }
