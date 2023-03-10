@@ -23,6 +23,8 @@ struct VerifiableCredential: VerifiedId {
     
     public let issuedOn: Date
     
+    let types: [String]
+    
     let raw: VCEntities.VerifiableCredential
     
     let contract: Contract
@@ -41,6 +43,7 @@ struct VerifiableCredential: VerifiedId {
         self.contract = contract
         self.issuedOn = Date(timeIntervalSince1970: issuedOn)
         self.id = id
+        self.types = raw.content.vc?.type ?? []
         
         if let expiresOn = raw.content.exp {
             self.expiresOn = Date(timeIntervalSince1970: expiresOn)
