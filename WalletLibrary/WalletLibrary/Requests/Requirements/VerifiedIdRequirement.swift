@@ -7,6 +7,7 @@ enum VerifiedIdRequirementError: Error {
     case verifiedIdDoesNotMeetConstraints
     case requirementHasNotBeenFulfilled
 }
+
 /**
  * Information to describe Verified IDs required.
  */
@@ -30,7 +31,7 @@ public class VerifiedIdRequirement: Requirement {
     /// Optional id of requirement defined by the request.
     let id: String?
     
-    /// Constraint that define how the requirement can be satisfied.
+    /// Constraint defines how the requirement can be fulfilled.
     let constraint: VerifiedIdConstraint
     
     /// The verified id that was selected.
@@ -81,6 +82,7 @@ public class VerifiedIdRequirement: Requirement {
 protocol VerifiedIdConstraint {
     func doesMatch(verifiedId: VerifiedId) -> Bool
     
+    /// TODO: do we want a method that gives an explicit reason why it is not a match?
     func doesMatch(verifiedId: VerifiedId) throws
 }
 
@@ -103,6 +105,23 @@ struct VerifiedIdGroupConstraint: VerifiedIdConstraint {
     
     func doesMatch(verifiedId: VerifiedId) -> Bool {
         return false
+    }
+    
+    func doesMatch(verifiedId: VerifiedId) throws {
+        throw VerifiedIdClientError.TODO(message: "implement")
+    }
+}
+
+struct VCTypeConstraint: VerifiedIdConstraint {
+    
+    let type: String
+
+    func doesMatch(verifiedId: VerifiedId) -> Bool {
+        guard let verifiableCredential = verifiedId as? VerifiableCredential else {
+            return false
+        }
+        
+        return verifiableCredential.types.contains(where: { $0 == type })
     }
     
     func doesMatch(verifiedId: VerifiedId) throws {
