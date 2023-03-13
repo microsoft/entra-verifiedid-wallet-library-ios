@@ -24,7 +24,6 @@ extension VCEntities.PresentationDescriptor: Mappable {
         
         let constraint = VCTypeConstraint(type: credentialType)
         
-        /// TODO: do we need types in VerifiedIdRequirement anymore? We display it in Auth App.
         return VerifiedIdRequirement(encrypted: encrypted ?? false,
                                      required: presentationRequired ?? false,
                                      types: [credentialType],

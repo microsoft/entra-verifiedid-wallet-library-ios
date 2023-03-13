@@ -91,6 +91,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.types, expectedVerifiedIdRequest.types)
         XCTAssertEqual(actualResult.issuanceOptions as? [VerifiedIdRequestURL], [])
         XCTAssertEqual(actualResult.purpose, expectedVerifiedIdRequest.purpose)
+        XCTAssert(actualResult.constraint is VCTypeConstraint)
+        XCTAssertEqual((actualResult.constraint as? VCTypeConstraint)?.type, "mockType")
+        XCTAssertEqual(actualResult.id, expectedVerifiedIdRequest.id)
     }
     
     func testMap_WithMultipleTypesPresent_ReturnsVerifiedIdRequirement() throws {
@@ -125,6 +128,13 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.types, expectedVerifiedIdRequest.types)
         XCTAssertEqual(actualResult.issuanceOptions as? [VerifiedIdRequestURL], [])
         XCTAssertEqual(actualResult.purpose, expectedVerifiedIdRequest.purpose)
+        XCTAssert(actualResult.constraint is VerifiedIdGroupConstraint)
+        let constraints = (actualResult.constraint as? VerifiedIdGroupConstraint)!.constraints
+        XCTAssertEqual(constraints.count, 3)
+        XCTAssertEqual((constraints[0] as? VCTypeConstraint)?.type, firstType)
+        XCTAssertEqual((constraints[1] as? VCTypeConstraint)?.type, secondType)
+        XCTAssertEqual((constraints[2] as? VCTypeConstraint)?.type, thirdType)
+        XCTAssertEqual(actualResult.id, expectedVerifiedIdRequest.id)
     }
     
     func testMap_WithNoIssuanceMetadataPresent_ReturnsVerifiedIdRequirement() throws {
@@ -154,12 +164,16 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.types, expectedVerifiedIdRequest.types)
         XCTAssertEqual(actualResult.issuanceOptions as? [VerifiedIdRequestURL], [])
         XCTAssertEqual(actualResult.purpose, expectedVerifiedIdRequest.purpose)
+        XCTAssert(actualResult.constraint is VCTypeConstraint)
+        XCTAssertEqual((actualResult.constraint as? VCTypeConstraint)?.type, "mockType")
+        XCTAssertEqual(actualResult.id, expectedVerifiedIdRequest.id)
     }
     
     func testMap_WithInvalidContractFormatInIssuanceMetadata_ReturnsVerifiedIdRequirement() throws {
         // Arrange
         let mockMapper = MockMapper()
         let mockSchema = InputDescriptorSchema(uri: "mockType")
+        let mockId = "mockId"
         let invalidContract = "//|\\"
         let invalidIssuanceMetadata = IssuanceMetadata(contract: invalidContract, issuerDid: nil)
         let expectedVerifiedIdRequest = VerifiedIdRequirement(encrypted: false,
@@ -167,9 +181,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               types: ["mockType"],
                                                               purpose: nil,
                                                               issuanceOptions: [],
-                                                              id: nil,
+                                                              id: mockId,
                                                               constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: mockId,
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: [invalidIssuanceMetadata],
                                                                       name: nil,
@@ -185,12 +199,16 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.types, expectedVerifiedIdRequest.types)
         XCTAssertEqual(actualResult.issuanceOptions as? [VerifiedIdRequestURL], [])
         XCTAssertEqual(actualResult.purpose, expectedVerifiedIdRequest.purpose)
+        XCTAssert(actualResult.constraint is VCTypeConstraint)
+        XCTAssertEqual((actualResult.constraint as? VCTypeConstraint)?.type, "mockType")
+        XCTAssertEqual(actualResult.id, expectedVerifiedIdRequest.id)
     }
     
     func testMap_WithOneInvalidContractAndTwoValidContractsPresent_ReturnsVerifiedIdRequirement() throws {
         // Arrange
         let mockMapper = MockMapper()
         let mockSchema = InputDescriptorSchema(uri: "mockType")
+        let mockId = "mockId"
         let invalidContract = "//|\\"
         let firstValidContract = "https://mockcontract1.com"
         let secondValidContract = "https://mockcontract2.com"
@@ -211,7 +229,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
                                                               constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
         
         let issuanceMetadatas = [firstValidIssuanceMetadata, invalidIssuanceMetadata, secondValidIssuanceMetadata]
-        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+        let presentationInputDescriptor = PresentationInputDescriptor(id: mockId,
                                                                       schema: [mockSchema],
                                                                       issuanceMetadata: issuanceMetadatas,
                                                                       name: nil,
@@ -227,6 +245,9 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.types, expectedVerifiedIdRequest.types)
         XCTAssertEqual(actualResult.issuanceOptions as? [VerifiedIdRequestURL], [firstVerifiedIdRequestURL, secondVerifiedIdRequestURL])
         XCTAssertEqual(actualResult.purpose, expectedVerifiedIdRequest.purpose)
+        XCTAssert(actualResult.constraint is VCTypeConstraint)
+        XCTAssertEqual((actualResult.constraint as? VCTypeConstraint)?.type, "mockType")
+        XCTAssertEqual(actualResult.id, mockId)
     }
     
     func testMap_WithPurposePresent_ReturnsVerifiedIdRequirement() throws {
@@ -257,5 +278,7 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.types, expectedVerifiedIdRequest.types)
         XCTAssertEqual(actualResult.issuanceOptions as? [VerifiedIdRequestURL], [])
         XCTAssertEqual(actualResult.purpose, expectedVerifiedIdRequest.purpose)
+        XCTAssert(actualResult.constraint is VCTypeConstraint)
+        XCTAssertEqual((actualResult.constraint as? VCTypeConstraint)?.type, "mockType")
     }
 }
