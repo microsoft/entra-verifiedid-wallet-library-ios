@@ -3,9 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+import VCEntities
+
 /**
  * Presentation Requst that is Open Id specific.
- * TODO: we will need open id specific data to implement complete and cancel.
  */
 class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     
@@ -34,13 +35,25 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         self.configuration = configuration
     }
     
-    /// TODO: implement.
     func isSatisfied() -> Bool {
-        return false
+        do {
+            try requirement.validate()
+            return true
+        } catch {
+            /// TODO: log error.
+            return false
+        }
     }
     
     func complete() async -> Result<(), Error> {
-        return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
+        do {
+            var response = try PresentationResponseContainer(rawRequest: rawRequest)
+            try response.add(requirement: requirement)
+            try await responder.send(response: response)
+            return Result.success(())
+        } catch {
+            return Result.failure(error)
+        }
     }
     
     func cancel(message: String?) -> Result<Void, Error> {
