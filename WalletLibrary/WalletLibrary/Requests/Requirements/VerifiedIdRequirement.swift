@@ -70,61 +70,11 @@ public class VerifiedIdRequirement: Requirement {
     }
     
     public func fulfill(with verifiedId: VerifiedId) throws {
-        if constraint.doesMatch(verifiedId: verifiedId) {
-            self.selectedVerifiedId = verifiedId
-            return
+        
+        guard constraint.doesMatch(verifiedId: verifiedId) else {
+            throw VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints
         }
         
-        throw VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints
-    }
-}
-
-protocol VerifiedIdConstraint {
-    func doesMatch(verifiedId: VerifiedId) -> Bool
-    
-    /// TODO: do we want a method that gives an explicit reason why it is not a match?
-    func doesMatch(verifiedId: VerifiedId) throws
-}
-
-enum GroupConstraintOperator {
-    case ANY
-    case ALL
-}
-
-struct VerifiedIdGroupConstraint: VerifiedIdConstraint {
-    
-    let constraints: [VerifiedIdConstraint]
-    
-    let constraintOperator: GroupConstraintOperator
-    
-    init(constraints: [VerifiedIdConstraint],
-         constraintOperator: GroupConstraintOperator) {
-        self.constraints = constraints
-        self.constraintOperator = constraintOperator
-    }
-    
-    func doesMatch(verifiedId: VerifiedId) -> Bool {
-        return false
-    }
-    
-    func doesMatch(verifiedId: VerifiedId) throws {
-        throw VerifiedIdClientError.TODO(message: "implement")
-    }
-}
-
-struct VCTypeConstraint: VerifiedIdConstraint {
-    
-    let type: String
-
-    func doesMatch(verifiedId: VerifiedId) -> Bool {
-        guard let verifiableCredential = verifiedId as? VerifiableCredential else {
-            return false
-        }
-        
-        return verifiableCredential.types.contains(where: { $0 == type })
-    }
-    
-    func doesMatch(verifiedId: VerifiedId) throws {
-        throw VerifiedIdClientError.TODO(message: "implement")
+        self.selectedVerifiedId = verifiedId
     }
 }
