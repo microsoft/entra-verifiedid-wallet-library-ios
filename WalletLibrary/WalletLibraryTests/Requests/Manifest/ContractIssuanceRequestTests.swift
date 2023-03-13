@@ -13,7 +13,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         case expectedToBeThrown
     }
     
-    func testIsSatisfied_WithInvalidRequirement_ThrowsError() async throws {
+    func testIsSatisfied_WithInvalidRequirement_ReturnsFalse() async throws {
         // Arrange
         let mockStyle = MockRequesterStyle(requester: "mock requester")
         let mockRootOfTrust = RootOfTrust(verified: true, source: "")
@@ -41,7 +41,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         XCTAssertFalse(actualResult)
     }
     
-    func testIsSatisfied_WithOneInvalidRequirementofMultipleValidRequirements_ThrowsError() async throws {
+    func testIsSatisfied_WithOneInvalidRequirementofMultipleValidRequirements_ReturnsFalse() async throws {
         // Arrange
         let mockStyle = MockRequesterStyle(requester: "mock requester")
         let mockRootOfTrust = RootOfTrust(verified: true, source: "")
