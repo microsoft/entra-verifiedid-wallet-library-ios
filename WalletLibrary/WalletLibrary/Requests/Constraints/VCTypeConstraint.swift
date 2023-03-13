@@ -14,8 +14,4 @@ struct VCTypeConstraint: VerifiedIdConstraint {
         
         return verifiableCredential.types.contains(where: { $0 == type })
     }
-    
-    func doesMatch(verifiedId: VerifiedId) throws {
-        throw VerifiedIdClientError.TODO(message: "implement")
-    }
 }

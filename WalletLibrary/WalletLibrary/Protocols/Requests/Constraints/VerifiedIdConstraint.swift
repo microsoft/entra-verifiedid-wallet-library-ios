@@ -9,7 +9,4 @@
  */
 protocol VerifiedIdConstraint {
     func doesMatch(verifiedId: VerifiedId) -> Bool
-    
-    /// TODO: do we want a method that gives an explicit reason why it is not a match?
-    func doesMatch(verifiedId: VerifiedId) throws
 }
