@@ -26,10 +26,15 @@ struct VerifiedIdGroupConstraint: VerifiedIdConstraint {
     /// If operator is equal to ANY, one constraint in constraints list must match.
     /// If operator is equal to ALL, all constraints must match.
     func doesMatch(verifiedId: VerifiedId) -> Bool {
-        return false
-    }
-    
-    func doesMatch(verifiedId: VerifiedId) throws {
-        throw VerifiedIdClientError.TODO(message: "implement")
+        switch constraintOperator {
+        case .ANY:
+            return constraints.contains {
+                $0.doesMatch(verifiedId: verifiedId)
+            }
+        case .ALL:
+            return constraints.allSatisfy {
+                $0.doesMatch(verifiedId: verifiedId)
+            }
+        }
     }
 }
