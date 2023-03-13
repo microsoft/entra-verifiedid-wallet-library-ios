@@ -112,6 +112,8 @@
 		55DECC3329BFDB6200D5C802 /* VerifiedIdGroupConstraintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECC3229BFDB6200D5C802 /* VerifiedIdGroupConstraintTests.swift */; };
 		55DECC3529BFDB7600D5C802 /* VCTypeConstraintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECC3429BFDB7600D5C802 /* VCTypeConstraintTests.swift */; };
 		55DECC3829BFE14E00D5C802 /* MockConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECC3729BFE14E00D5C802 /* MockConstraint.swift */; };
+		55DECC3D29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECC3C29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift */; };
+		55DECC3F29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECC3E29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift */; };
 		55E2F06C299553300008010D /* PresentationRequest+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F056299553300008010D /* PresentationRequest+Mappable.swift */; };
 		55E2F06F299553B40008010D /* OpenIdRequestHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F06E299553B40008010D /* OpenIdRequestHandlerTests.swift */; };
 		55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E2F070299554110008010D /* LibraryConfiguration.swift */; };
@@ -414,6 +416,8 @@
 		55DECC3229BFDB6200D5C802 /* VerifiedIdGroupConstraintTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdGroupConstraintTests.swift; sourceTree = "<group>"; };
 		55DECC3429BFDB7600D5C802 /* VCTypeConstraintTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTypeConstraintTests.swift; sourceTree = "<group>"; };
 		55DECC3729BFE14E00D5C802 /* MockConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConstraint.swift; sourceTree = "<group>"; };
+		55DECC3C29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdPresentationRequestTests.swift; sourceTree = "<group>"; };
+		55DECC3E29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiableCredentialHelper.swift; sourceTree = "<group>"; };
 		55E2F056299553300008010D /* PresentationRequest+Mappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PresentationRequest+Mappable.swift"; sourceTree = "<group>"; };
 		55E2F06E299553B40008010D /* OpenIdRequestHandlerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIdRequestHandlerTests.swift; sourceTree = "<group>"; };
 		55E2F070299554110008010D /* LibraryConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryConfiguration.swift; sourceTree = "<group>"; };
@@ -689,14 +693,6 @@
 			path = VCSDK;
 			sourceTree = "<group>";
 		};
-		553CC09329A96217005A5FD6 /* RequestProtocols */ = {
-			isa = PBXGroup;
-			children = (
-				553CC09429A96235005A5FD6 /* Manifest */,
-			);
-			path = RequestProtocols;
-			sourceTree = "<group>";
-		};
 		553CC09429A96235005A5FD6 /* Manifest */ = {
 			isa = PBXGroup;
 			children = (
@@ -830,8 +826,9 @@
 			isa = PBXGroup;
 			children = (
 				55DECC3129BFDB4E00D5C802 /* Constraints */,
-				553CC09329A96217005A5FD6 /* RequestProtocols */,
 				55E2F06D299553B40008010D /* Handlers */,
+				553CC09429A96235005A5FD6 /* Manifest */,
+				55DECC3B29BFE20E00D5C802 /* OpenId */,
 				550A9193299402450014D030 /* Resolvers */,
 				559BD4E9299EEAA200BD61AC /* Requirements */,
 				55A81C062991BB2C002C259A /* RequestResolverFactoryTests.swift */,
@@ -847,6 +844,7 @@
 				553CC09729A96C29005A5FD6 /* VerifiedId */,
 				55E2F08229955E7B0008010D /* Utilities */,
 				55A81C0B2991BF73002C259A /* Requests */,
+				55DECC3E29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -919,6 +917,14 @@
 				55DECC3729BFE14E00D5C802 /* MockConstraint.swift */,
 			);
 			path = Constraints;
+			sourceTree = "<group>";
+		};
+		55DECC3B29BFE20E00D5C802 /* OpenId */ = {
+			isa = PBXGroup;
+			children = (
+				55DECC3C29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift */,
+			);
+			path = OpenId;
 			sourceTree = "<group>";
 		};
 		55E2F06D299553B40008010D /* Handlers */ = {
@@ -1532,6 +1538,7 @@
 				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */,
 				559BD4ED299EEAD100BD61AC /* IdTokenRequirementTests.swift in Sources */,
+				55DECC3D29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift in Sources */,
 				559BD455299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift in Sources */,
 				553CC0A029A98003005A5FD6 /* VerifiableCredentialTests.swift in Sources */,
 				55A81C132991C829002C259A /* MockHandler.swift in Sources */,
@@ -1574,6 +1581,7 @@
 				559BD30B2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift in Sources */,
 				55DECC3829BFE14E00D5C802 /* MockConstraint.swift in Sources */,
 				559BD4F5299EEC9500BD61AC /* MockVerifiedIdRequester.swift in Sources */,
+				55DECC3F29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
