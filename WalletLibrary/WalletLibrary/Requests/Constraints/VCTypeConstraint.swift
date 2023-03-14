@@ -3,6 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+/**
+ * A Verifiable Credential specific constraint that checks to see if the VC's type matches a value.
+ */
 struct VCTypeConstraint: VerifiedIdConstraint {
     
     let type: String

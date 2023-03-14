@@ -59,6 +59,6 @@ extension VCEntities.PresentationInputDescriptor: Mappable {
         }
         
         /// TODO: Is this an ANY or ALL operation?
-        return VerifiedIdGroupConstraint(constraints: typeConstraints, constraintOperator: .ANY)
+        return GroupConstraint(constraints: typeConstraints, constraintOperator: .ANY)
     }
 }

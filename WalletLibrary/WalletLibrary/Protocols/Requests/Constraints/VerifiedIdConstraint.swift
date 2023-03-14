@@ -4,8 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * A constraint on a requirement that defines a behavior of determining whether a VerifiedId matches
- * matches that constraint or not. 
+ * A constraint on a requirement that defines a behavior of determining whether a VerifiedId
+ * matches that constraint or not.
+ * TODO: add method that throws an error to get more information about why constraint was not met.
  */
 protocol VerifiedIdConstraint {
     func doesMatch(verifiedId: VerifiedId) -> Bool
