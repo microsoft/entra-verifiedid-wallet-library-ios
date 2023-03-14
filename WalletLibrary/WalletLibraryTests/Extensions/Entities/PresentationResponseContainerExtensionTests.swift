@@ -16,6 +16,8 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         case thirdExpectedInvalidRequirement
     }
     
+    private let mockVerifiableCredentialHelper = MockVerifiableCredentialHelper()
+    
     func testInit_WithInvalidOpenIdRawRequest_ThrowsError() throws {
         
         // Arrange
@@ -59,12 +61,114 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         }
     }
     
+    func testAddRequirement_WithNoIdInVerifiedIdRequirement_ThrowsError() async throws {
+        // Arrange
+        let mockPresentationRequest = createPresentationRequest()
+        var presentationResponse = try PresentationResponseContainer(rawRequest: mockPresentationRequest)
+        
+        let mockConstraint = MockConstraint(doesMatchResult: true)
+        let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                          required: false,
+                                                          types: ["mockType"],
+                                                          purpose: nil,
+                                                          issuanceOptions: [],
+                                                          id: nil,
+                                                          constraint: mockConstraint)
+        
+        // Act
+        XCTAssertThrowsError(try presentationResponse.add(requirement: verifiedIdRequirement)) { error in
+            // Assert
+            XCTAssert(error is PresentationResponseError)
+            XCTAssertEqual(error as? PresentationResponseError,
+                           PresentationResponseError.missingIdInVerifiedIdRequirement)
+        }
+    }
+    
+    func testAddRequirement_WithSelectedVerifiedIdTypeUnsupportedInVerifiedIdRequirement_AddsVCsToMap() async throws {
+        // Arrange
+        let mockPresentationRequest = createPresentationRequest()
+        var presentationResponse = try PresentationResponseContainer(rawRequest: mockPresentationRequest)
+        
+        let mockConstraint = MockConstraint(doesMatchResult: true)
+        let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                          required: false,
+                                                          types: ["mockType"],
+                                                          purpose: nil,
+                                                          issuanceOptions: [],
+                                                          id: "mockId",
+                                                          constraint: mockConstraint)
+        verifiedIdRequirement.selectedVerifiedId = MockVerifiedId(id: "mockId", issuedOn: Date())
+        
+        // Act
+        XCTAssertThrowsError(try presentationResponse.add(requirement: verifiedIdRequirement)) { error in
+            // Assert
+            XCTAssert(error is PresentationResponseError)
+            XCTAssertEqual(error as? PresentationResponseError,
+                           PresentationResponseError.unableToCastVerifableCredentialFromVerifiedId)
+        }
+    }
+    
     func testAddRequirement_WithVerifiedIdRequirement_AddsVCToMap() async throws {
-        // TODO
+        // Arrange
+        let mockPresentationRequest = createPresentationRequest()
+        var presentationResponse = try PresentationResponseContainer(rawRequest: mockPresentationRequest)
+        
+        let mockConstraint = MockConstraint(doesMatchResult: true)
+        let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                          required: false,
+                                                          types: ["mockType"],
+                                                          purpose: nil,
+                                                          issuanceOptions: [],
+                                                          id: "mockId",
+                                                          constraint: mockConstraint)
+        let vc = mockVerifiableCredentialHelper.createMockVerifiableCredential()
+        verifiedIdRequirement.selectedVerifiedId = vc
+        
+        // Act / Assert
+        XCTAssertNoThrow(try presentationResponse.add(requirement: verifiedIdRequirement))
+        XCTAssertEqual(presentationResponse.requestVCMap.count, 1)
+        XCTAssertEqual(try presentationResponse.requestVCMap.first?.vc.serialize(),
+                       try vc.raw.serialize())
+        XCTAssertEqual(presentationResponse.requestVCMap.first?.inputDescriptorId, verifiedIdRequirement.id)
     }
     
     func testAddRequirement_WithMultipleVerifiedIdRequirements_AddsVCsToMap() async throws {
-        // TODO
+        // Arrange
+        let mockPresentationRequest = createPresentationRequest()
+        var presentationResponse = try PresentationResponseContainer(rawRequest: mockPresentationRequest)
+        
+        let mockConstraint = MockConstraint(doesMatchResult: true)
+        let verifiedIdRequirement1 = VerifiedIdRequirement(encrypted: false,
+                                                          required: false,
+                                                          types: ["mockType1"],
+                                                          purpose: nil,
+                                                          issuanceOptions: [],
+                                                          id: "mockId1",
+                                                          constraint: mockConstraint)
+        let verifiedIdRequirement2 = VerifiedIdRequirement(encrypted: false,
+                                                           required: false,
+                                                           types: ["mockType2"],
+                                                           purpose: nil,
+                                                           issuanceOptions: [],
+                                                           id: "mockId2",
+                                                           constraint: mockConstraint)
+        let vc1 = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType1"])
+        let vc2 = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType2"])
+        verifiedIdRequirement1.selectedVerifiedId = vc1
+        verifiedIdRequirement2.selectedVerifiedId = vc2
+        let groupRequirement = GroupRequirement(required: true,
+                                                requirements: [verifiedIdRequirement1, verifiedIdRequirement2],
+                                                requirementOperator: .ALL)
+        
+        // Act / Assert
+        XCTAssertNoThrow(try presentationResponse.add(requirement: groupRequirement))
+        XCTAssertEqual(presentationResponse.requestVCMap.count, 2)
+        XCTAssertEqual(try presentationResponse.requestVCMap.first?.vc.serialize(),
+                       try vc1.raw.serialize())
+        XCTAssertEqual(presentationResponse.requestVCMap.first?.inputDescriptorId, verifiedIdRequirement1.id)
+        XCTAssertEqual(try presentationResponse.requestVCMap[1].vc.serialize(),
+                       try vc2.raw.serialize())
+        XCTAssertEqual(presentationResponse.requestVCMap[1].inputDescriptorId, verifiedIdRequirement2.id)
     }
     
     private func createPresentationRequest() -> PresentationRequest {
