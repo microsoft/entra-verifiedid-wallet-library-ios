@@ -23,7 +23,7 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
     private var responseContainer: IssuanceResponseContaining
     
-    init(content: VerifiedIdRequestContent,
+    init(content: IssuanceRequestContent,
          issuanceResponseContainer: IssuanceResponseContaining,
          verifiedIdRequester: VerifiedIdRequester,
          configuration: LibraryConfiguration) {

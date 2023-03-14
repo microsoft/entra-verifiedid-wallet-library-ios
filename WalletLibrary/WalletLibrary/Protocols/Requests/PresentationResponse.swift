@@ -4,8 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of a Raw Contract.
- * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
+ * An object that describes a raw presentation response and defines the behavior of adding a requirement to it.
+ * For example, a VCSDK.PresentationResponseContainer conforms to this protocol.
  */
-protocol RawManifest: Mappable where T == VerifiedIdRequestContent {}
-
+protocol PresentationResponse {
+    mutating func add(requirement: Requirement) throws
+}

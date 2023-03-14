@@ -19,17 +19,21 @@ struct OpenIdRequestHandler: RequestHandling {
     
     private let configuration: LibraryConfiguration
     
+    private let openIdResponder: OpenIdResponder
+    
     private let manifestResolver: ManifestResolver
     
-    private let verifiableCredentialRequester: VerifiedIdRequester
+    private let verifiedIdRequester: VerifiedIdRequester
     
     /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
     init(configuration: LibraryConfiguration,
+         openIdResponder: OpenIdResponder,
          manifestResolver: ManifestResolver,
          verifiableCredentialRequester: VerifiedIdRequester) {
         self.configuration = configuration
+        self.openIdResponder = openIdResponder
         self.manifestResolver = manifestResolver
-        self.verifiableCredentialRequester = verifiableCredentialRequester
+        self.verifiedIdRequester = verifiableCredentialRequester
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
@@ -45,10 +49,10 @@ struct OpenIdRequestHandler: RequestHandling {
             return try await handleIssuanceRequest(from: requestContent)
         }
         
-        return try handlePresentationRequest(from: requestContent)
+        return handlePresentationRequest(requestContent: requestContent, rawRequest: request)
     }
     
-    private func handleIssuanceRequest(from requestContent: VerifiedIdRequestContent) async throws -> any VerifiedIdIssuanceRequest {
+    private func handleIssuanceRequest(from requestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest {
         
         guard let verifiedIdRequirement = requestContent.requirement as? VerifiedIdRequirement else {
             throw OpenIdRequestHandlerError.unableToCastRequirementToVerifiedIdRequirement
@@ -69,11 +73,15 @@ struct OpenIdRequestHandler: RequestHandling {
         
         return ContractIssuanceRequest(content: issuanceRequestContent,
                                        issuanceResponseContainer: issuanceResponseContainer,
-                                       verifiedIdRequester: verifiableCredentialRequester,
+                                       verifiedIdRequester: verifiedIdRequester,
                                        configuration: configuration)
     }
     
-    private func handlePresentationRequest(from requestContent: VerifiedIdRequestContent) throws -> any VerifiedIdPresentationRequest {
-        return OpenIdPresentationRequest(content: requestContent, configuration: configuration)
+    private func handlePresentationRequest(requestContent: PresentationRequestContent,
+                                           rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest {
+        return OpenIdPresentationRequest(content: requestContent,
+                                         rawRequest: rawRequest,
+                                         openIdResponder: openIdResponder,
+                                         configuration: configuration)
     }
 }

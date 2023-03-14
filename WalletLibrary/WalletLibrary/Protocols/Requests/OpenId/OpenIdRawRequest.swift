@@ -3,17 +3,11 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
-
-struct MockRawManifest: RawManifest, Equatable {
+/**
+ * Representation of a Raw Open Id Request.
+ * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
+ */
+protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent {
     
-    let id: String
-    
-    init(id: String) {
-        self.id = id
-    }
-    
-    func map(using mapper: Mapping) throws -> IssuanceRequestContent {
-        throw VerifiedIdClientError.TODO(message: "implement")
-    }
+    var type: RequestType { get }
 }

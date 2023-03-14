@@ -4,12 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of a Raw Open Id Request.
+ * Representation of a Raw Contract.
  * Object that conforms to this protocol must be able to map to VerifiedIdRequestContent.
  */
-protocol OpenIdRawRequest: Mappable where T == VerifiedIdRequestContent {
-    
-    var type: RequestType { get }
-    
-    var raw: Data? { get }
-}
+protocol RawManifest: Mappable where T == IssuanceRequestContent {}
+

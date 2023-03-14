@@ -10,7 +10,7 @@ import VCEntities
  * TODO: Update Style to include VerifiedIdStyle and more requester style attributes.
  */
 extension VCEntities.IssuanceRequest: Mappable {
-    func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
+    func map(using mapper: Mapping) throws -> IssuanceRequestContent {
         
         let attestations = try getRequiredProperty(property: content.input.attestations,
                                                    propertyName: "attestations")
@@ -18,8 +18,8 @@ extension VCEntities.IssuanceRequest: Mappable {
         let rootOfTrust = try mapper.map(linkedDomainResult)
         let issuerStyle = Manifest2022IssuerStyle(name: content.display.card.issuedBy)
         
-        return VerifiedIdRequestContent(style: issuerStyle,
-                                        requirement: requirement,
-                                        rootOfTrust: rootOfTrust)
+        return IssuanceRequestContent(style: issuerStyle,
+                                      requirement: requirement,
+                                      rootOfTrust: rootOfTrust)
     }
 }

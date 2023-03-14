@@ -25,9 +25,9 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRequirement = MockRequirement(id: "mockRequirement324",
                                               mockValidateCallback: { throw ExpectedError.expectedToBeThrown })
         
-        let content = VerifiedIdRequestContent(style: mockStyle,
-                                               requirement: mockRequirement,
-                                               rootOfTrust: mockRootOfTrust)
+        let content = IssuanceRequestContent(style: mockStyle,
+                                             requirement: mockRequirement,
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -57,11 +57,11 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRequirement = GroupRequirement(required: true,
                                                requirements: [firstValidRequirement, invalidRequirement, secondValidRequirement],
                                                requirementOperator: .ALL)
-
         
-        let content = VerifiedIdRequestContent(style: mockStyle,
-                                               requirement: mockRequirement,
-                                               rootOfTrust: mockRootOfTrust)
+        
+        let content = IssuanceRequestContent(style: mockStyle,
+                                             requirement: mockRequirement,
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -85,11 +85,10 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer()
         
         let validRequirement = MockRequirement(id: "mockRequirement324")
-
         
-        let content = VerifiedIdRequestContent(style: mockStyle,
-                                               requirement: validRequirement,
-                                               rootOfTrust: mockRootOfTrust)
+        let content = IssuanceRequestContent(style: mockStyle,
+                                             requirement: validRequirement,
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -118,11 +117,10 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockRequirement = GroupRequirement(required: true,
                                                requirements: [firstValidRequirement, secondValidRequirement, thirdValidRequirement],
                                                requirementOperator: .ALL)
-
         
-        let content = VerifiedIdRequestContent(style: mockStyle,
-                                               requirement: mockRequirement,
-                                               rootOfTrust: mockRootOfTrust)
+        let content = IssuanceRequestContent(style: mockStyle,
+                                             requirement: mockRequirement,
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -151,10 +149,10 @@ class ContractIssuanceRequestTests: XCTestCase {
         }
         
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer(mockAddRequirementCallback: mockAddRequirementCallback)
-
-        let content = VerifiedIdRequestContent(style: mockStyle,
-                                               requirement: mockRequirement,
-                                               rootOfTrust: mockRootOfTrust)
+        
+        let content = IssuanceRequestContent(style: mockStyle,
+                                             requirement: mockRequirement,
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
@@ -187,10 +185,10 @@ class ContractIssuanceRequestTests: XCTestCase {
         }
         
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer(mockAddRequirementCallback: mockAddRequirementCallback)
-
-        let content = VerifiedIdRequestContent(style: mockStyle,
-                                               requirement: mockRequirement,
-                                               rootOfTrust: mockRootOfTrust)
+        
+        let content = IssuanceRequestContent(style: mockStyle,
+                                             requirement: mockRequirement,
+                                             rootOfTrust: mockRootOfTrust)
         
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,

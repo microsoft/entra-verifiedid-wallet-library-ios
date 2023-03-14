@@ -51,7 +51,9 @@ public class VerifiedIdClientBuilder {
     
     private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
         let issuanceService = IssuanceService()
+        let presentationService = PresentationService()
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
+                                                 openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,
                                                  verifiableCredentialRequester: issuanceService)
         requestHandlers.append(openIdHandler)

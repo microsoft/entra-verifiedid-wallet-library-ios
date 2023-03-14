@@ -15,12 +15,22 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     
     let rootOfTrust: RootOfTrust
     
+    private let rawRequest: any OpenIdRawRequest
+    
+    private let responder: OpenIdResponder
+    
     private let configuration: LibraryConfiguration
     
-    init(content: VerifiedIdRequestContent, configuration: LibraryConfiguration) {
+    init(content: PresentationRequestContent,
+         rawRequest: any OpenIdRawRequest,
+         openIdResponder: OpenIdResponder,
+         configuration: LibraryConfiguration) {
+        
         self.style = content.style
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
+        self.rawRequest = rawRequest
+        self.responder = openIdResponder
         self.configuration = configuration
     }
     

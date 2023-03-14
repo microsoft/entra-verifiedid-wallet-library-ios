@@ -16,7 +16,7 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
         self.type = type
     }
     
-    func map(using mapper: Mapping) throws -> VerifiedIdRequestContent {
+    func map(using mapper: Mapping) throws -> PresentationRequestContent {
         throw VerifiedIdClientError.TODO(message: "not implemented")
     }
 }
