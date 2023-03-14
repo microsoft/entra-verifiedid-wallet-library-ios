@@ -23,18 +23,17 @@ struct IssuanceRequestContent {
     mutating func addRequirement(from injectedIdToken: InjectedIdToken) {
         switch (requirement) {
         case var groupRequirement as GroupRequirement:
-            repopulateGroupRequirementIfInjectedIdTokenExists(injectedIdToken: injectedIdToken,
-                                                              groupRequirement: groupRequirement)
+            repopulate(groupRequirement: groupRequirement, from: injectedIdToken)
         case let idTokenRequirement as IdTokenRequirement:
-            addInjectedIdTokenHintToIdTokenRequirement(injectedIdToken: injectedIdToken,
-                                                       idTokenRequirement: idTokenRequirement)
+            add(injectedIdToken: injectedIdToken,
+                to: idTokenRequirement)
         default:
             return
         }
     }
     
-    private mutating func addInjectedIdTokenHintToIdTokenRequirement(injectedIdToken: InjectedIdToken,
-                                                                     idTokenRequirement: IdTokenRequirement) {
+    private mutating func add(injectedIdToken: InjectedIdToken,
+                              to idTokenRequirement: IdTokenRequirement) {
         if idTokenRequirement.configuration.absoluteString == Constants.IdTokenHintKey {
             idTokenRequirement.fulfill(with: injectedIdToken.rawToken)
             if let pinRequirement = injectedIdToken.pin {
@@ -45,8 +44,8 @@ struct IssuanceRequestContent {
         }
     }
     
-    private func repopulateGroupRequirementIfInjectedIdTokenExists(injectedIdToken: InjectedIdToken,
-                                                                   groupRequirement: GroupRequirement) {
+    private func repopulate(groupRequirement: GroupRequirement,
+                            from injectedIdToken: InjectedIdToken) {
         for requirement in groupRequirement.requirements {
             if let idTokenRequirement = requirement as? IdTokenRequirement {
                 idTokenRequirement.fulfill(with: injectedIdToken.rawToken)
