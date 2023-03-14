@@ -11,12 +11,7 @@ class IssuanceRequestContentTests: XCTestCase {
     func testAddInjectedIdToken_WithIdTokenRequirementAndNoPin_AddIdTokenToRequirement() async throws {
         
         // Arrange
-        let idTokenRequirement = IdTokenRequirement(encrypted: false,
-                                                    required: false,
-                                                    configuration: URL(string: "https://self-issued.me")!,
-                                                    clientId: "mockClientId",
-                                                    redirectUri: "mockRedirectUri",
-                                                    scope: nil)
+        let idTokenRequirement = createIdTokenRequirement()
         var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -34,12 +29,7 @@ class IssuanceRequestContentTests: XCTestCase {
     func testAddInjectedIdToken_WithIdTokenRequirementWithInvalidConfigurationValue_DoesNothing() async throws {
         
         // Arrange
-        let idTokenRequirement = IdTokenRequirement(encrypted: false,
-                                                    required: false,
-                                                    configuration: URL(string: "https://invalidConfiguration.me")!,
-                                                    clientId: "mockClientId",
-                                                    redirectUri: "mockRedirectUri",
-                                                    scope: nil)
+        let idTokenRequirement = createIdTokenRequirement(configuration: "https://invalidConfiguration.me")
         var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -56,12 +46,7 @@ class IssuanceRequestContentTests: XCTestCase {
     func testAddInjectedIdToken_WithIdTokenRequirementAndPin_CreatesGroupRequirement() async throws {
         
         // Arrange
-        let idTokenRequirement = IdTokenRequirement(encrypted: false,
-                                                    required: false,
-                                                    configuration: URL(string: "https://self-issued.me")!,
-                                                    clientId: "mockClientId",
-                                                    redirectUri: "mockRedirectUri",
-                                                    scope: nil)
+        let idTokenRequirement = createIdTokenRequirement()
         var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -89,12 +74,7 @@ class IssuanceRequestContentTests: XCTestCase {
         
         // Arrange
         let mockRequirement = MockRequirement(id: "mockRequirement")
-        let idTokenRequirement = IdTokenRequirement(encrypted: false,
-                                                    required: false,
-                                                    configuration: URL(string: "https://self-issued.me")!,
-                                                    clientId: "mockClientId",
-                                                    redirectUri: "mockRedirectUri",
-                                                    scope: nil)
+        let idTokenRequirement = createIdTokenRequirement()
         let groupRequirement = GroupRequirement(required: false,
                                                 requirements: [mockRequirement, idTokenRequirement],
                                                 requirementOperator: .ALL)
@@ -121,12 +101,7 @@ class IssuanceRequestContentTests: XCTestCase {
         
         // Arrange
         let mockRequirement = MockRequirement(id: "mockRequirement")
-        let idTokenRequirement = IdTokenRequirement(encrypted: false,
-                                                    required: false,
-                                                    configuration: URL(string: "https://self-issued.me")!,
-                                                    clientId: "mockClientId",
-                                                    redirectUri: "mockRedirectUri",
-                                                    scope: nil)
+        let idTokenRequirement = createIdTokenRequirement()
         let groupRequirement = GroupRequirement(required: false,
                                                 requirements: [mockRequirement, idTokenRequirement],
                                                 requirementOperator: .ALL)
@@ -153,5 +128,14 @@ class IssuanceRequestContentTests: XCTestCase {
                        injectedIdToken.rawToken)
         XCTAssertIdentical((issuanceRequestContent.requirement as? GroupRequirement)?.requirements[2] as AnyObject,
                            pinRequirement as AnyObject)
+    }
+    
+    private func createIdTokenRequirement(configuration: String = "https://self-issued.me") -> IdTokenRequirement {
+        return IdTokenRequirement(encrypted: false,
+                                  required: false,
+                                  configuration: URL(string: configuration)!,
+                                  clientId: "mockClientId",
+                                  redirectUri: "mockRedirectUri",
+                                  scope: nil)
     }
 }
