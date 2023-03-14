@@ -50,8 +50,8 @@ class PresentationDefinitionMappingTests: XCTestCase {
                                                                   purpose: nil,
                                                                   issuanceOptions: [],
                                                                   id: nil,
-                                                                  constraint: VerifiedIdGroupConstraint(constraints: [],
-                                                                                                        constraintOperator: .ALL))
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                              constraintOperator: .ALL))
         let inputDescriptor = PresentationInputDescriptor(id: nil,
                                                           schema: nil,
                                                           issuanceMetadata: nil,
@@ -89,26 +89,26 @@ class PresentationDefinitionMappingTests: XCTestCase {
                                                               purpose: nil,
                                                               issuanceOptions: [],
                                                               id: nil,
-                                                              constraint: VerifiedIdGroupConstraint(constraints: [],
-                                                                                                    constraintOperator: .ALL))
+                                                              constraint: GroupConstraint(constraints: [],
+                                                                                          constraintOperator: .ALL))
         let firstMockInputDescriptor = PresentationInputDescriptor(id: nil,
-                                                          schema: nil,
-                                                          issuanceMetadata: nil,
-                                                          name: nil,
-                                                          purpose: nil,
-                                                          constraints: nil)
+                                                                   schema: nil,
+                                                                   issuanceMetadata: nil,
+                                                                   name: nil,
+                                                                   purpose: nil,
+                                                                   constraints: nil)
         let secondMockInputDescriptor = PresentationInputDescriptor(id: nil,
-                                                          schema: nil,
-                                                          issuanceMetadata: nil,
-                                                          name: nil,
-                                                          purpose: nil,
-                                                          constraints: nil)
+                                                                    schema: nil,
+                                                                    issuanceMetadata: nil,
+                                                                    name: nil,
+                                                                    purpose: nil,
+                                                                    constraints: nil)
         let thirdMockInputDescriptor = PresentationInputDescriptor(id: nil,
-                                                          schema: nil,
-                                                          issuanceMetadata: nil,
-                                                          name: nil,
-                                                          purpose: nil,
-                                                          constraints: nil)
+                                                                   schema: nil,
+                                                                   issuanceMetadata: nil,
+                                                                   name: nil,
+                                                                   purpose: nil,
+                                                                   constraints: nil)
         let inputDescriptors = [firstMockInputDescriptor, secondMockInputDescriptor, thirdMockInputDescriptor]
         let presentationDefinition = PresentationDefinition(id: nil,
                                                             inputDescriptors: inputDescriptors,

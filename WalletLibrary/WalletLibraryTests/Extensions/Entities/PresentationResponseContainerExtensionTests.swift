@@ -97,7 +97,7 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
                                                           issuanceOptions: [],
                                                           id: "mockId",
                                                           constraint: mockConstraint)
-        verifiedIdRequirement.selectedVerifiedId = MockVerifiedId(id: "mockId", issuedOn: Date())
+        try verifiedIdRequirement.fulfill(with: MockVerifiedId(id: "mockId", issuedOn: Date()))
         
         // Act
         XCTAssertThrowsError(try presentationResponse.add(requirement: verifiedIdRequirement)) { error in
@@ -121,14 +121,14 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
                                                           issuanceOptions: [],
                                                           id: "mockId",
                                                           constraint: mockConstraint)
-        let vc = mockVerifiableCredentialHelper.createMockVerifiableCredential()
-        verifiedIdRequirement.selectedVerifiedId = vc
+        let mockVC = mockVerifiableCredentialHelper.createMockVerifiableCredential()
+        try verifiedIdRequirement.fulfill(with: mockVC)
         
         // Act / Assert
         XCTAssertNoThrow(try presentationResponse.add(requirement: verifiedIdRequirement))
         XCTAssertEqual(presentationResponse.requestVCMap.count, 1)
         XCTAssertEqual(try presentationResponse.requestVCMap.first?.vc.serialize(),
-                       try vc.raw.serialize())
+                       try mockVC.raw.serialize())
         XCTAssertEqual(presentationResponse.requestVCMap.first?.inputDescriptorId, verifiedIdRequirement.id)
     }
     
@@ -152,10 +152,10 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
                                                            issuanceOptions: [],
                                                            id: "mockId2",
                                                            constraint: mockConstraint)
-        let vc1 = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType1"])
-        let vc2 = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType2"])
-        verifiedIdRequirement1.selectedVerifiedId = vc1
-        verifiedIdRequirement2.selectedVerifiedId = vc2
+        let mockVC1 = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType1"])
+        let mockVC2 = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType2"])
+        try verifiedIdRequirement1.fulfill(with: mockVC1)
+        try verifiedIdRequirement2.fulfill(with: mockVC2)
         let groupRequirement = GroupRequirement(required: true,
                                                 requirements: [verifiedIdRequirement1, verifiedIdRequirement2],
                                                 requirementOperator: .ALL)
@@ -164,10 +164,10 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         XCTAssertNoThrow(try presentationResponse.add(requirement: groupRequirement))
         XCTAssertEqual(presentationResponse.requestVCMap.count, 2)
         XCTAssertEqual(try presentationResponse.requestVCMap.first?.vc.serialize(),
-                       try vc1.raw.serialize())
+                       try mockVC1.raw.serialize())
         XCTAssertEqual(presentationResponse.requestVCMap.first?.inputDescriptorId, verifiedIdRequirement1.id)
         XCTAssertEqual(try presentationResponse.requestVCMap[1].vc.serialize(),
-                       try vc2.raw.serialize())
+                       try mockVC2.raw.serialize())
         XCTAssertEqual(presentationResponse.requestVCMap[1].inputDescriptorId, verifiedIdRequirement2.id)
     }
     

@@ -128,7 +128,7 @@ class AttestationsDescriptorMappingTests: XCTestCase {
                                                                   purpose: nil,
                                                                   issuanceOptions: [],
                                                                   id: nil,
-                                                                  constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                  constraint: GroupConstraint(constraints: [],
                                                                                                         constraintOperator: .ALL))
         let mockPresentationDescriptor = PresentationDescriptor(claims: [],
                                                                 credentialType: "mock type")
@@ -236,7 +236,7 @@ class AttestationsDescriptorMappingTests: XCTestCase {
                                                                   purpose: nil,
                                                                   issuanceOptions: [],
                                                                   id: nil,
-                                                                  constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                  constraint: GroupConstraint(constraints: [],
                                                                                                         constraintOperator: .ALL))
         let expectedIdTokenRequirement = IdTokenRequirement(encrypted: false,
                                                                 required: true,
@@ -307,7 +307,7 @@ class AttestationsDescriptorMappingTests: XCTestCase {
                                                                   purpose: nil,
                                                                   issuanceOptions: [],
                                                                   id: nil,
-                                                                  constraint: VerifiedIdGroupConstraint(constraints: [],
+                                                                  constraint: GroupConstraint(constraints: [],
                                                                                                         constraintOperator: .ALL))
         let expectedIdTokenRequirement = IdTokenRequirement(encrypted: false,
                                                                 required: true,

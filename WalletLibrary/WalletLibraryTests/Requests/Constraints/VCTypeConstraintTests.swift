@@ -10,7 +10,7 @@ import VCToken
 
 class VCTypeConstraintTests: XCTestCase {
     
-    let vcHelper = MockVerifiableCredentialHelper()
+    let mockVerifiableCredentialHelper = MockVerifiableCredentialHelper()
     
     func testDoesMatch_WithUnsupportedVerifiedIdType_ReturnFalse() throws {
         // Arrange
@@ -27,7 +27,7 @@ class VCTypeConstraintTests: XCTestCase {
     func testDoesMatch_WhenVCContainsType_ReturnTrue() throws {
         // Arrange
         let constraint = VCTypeConstraint(type: "mockType")
-        let verifiableCredential = vcHelper.createMockVerifiableCredential(expectedTypes: ["mockType"])
+        let verifiableCredential = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType"])
         
         // Act
         let result = constraint.doesMatch(verifiedId: verifiableCredential)
@@ -39,7 +39,7 @@ class VCTypeConstraintTests: XCTestCase {
     func testDoesMatch_WhenVCContainsMultipleTypes_ReturnTrue() throws {
         // Arrange
         let constraint = VCTypeConstraint(type: "mockType")
-        let verifiableCredential = vcHelper.createMockVerifiableCredential(expectedTypes: ["mockType", "unmatchingType"])
+        let verifiableCredential = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType", "unmatchingType"])
         
         // Act
         let result = constraint.doesMatch(verifiedId: verifiableCredential)
@@ -51,7 +51,7 @@ class VCTypeConstraintTests: XCTestCase {
     func testDoesMatch_WhenVCDoesNotContainType_ReturnFalse() throws {
         // Arrange
         let constraint = VCTypeConstraint(type: "mockType")
-        let verifiableCredential = vcHelper.createMockVerifiableCredential(expectedTypes: ["unmatchingType"])
+        let verifiableCredential = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["unmatchingType"])
         
         // Act
         let result = constraint.doesMatch(verifiedId: verifiableCredential)

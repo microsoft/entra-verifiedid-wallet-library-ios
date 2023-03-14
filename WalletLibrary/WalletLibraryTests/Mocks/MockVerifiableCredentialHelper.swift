@@ -49,5 +49,4 @@ struct MockVerifiableCredentialHelper {
                         display: mockDisplayDescriptor,
                         input: mockContractInputDescriptor)
     }
-    
 }

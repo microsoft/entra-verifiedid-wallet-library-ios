@@ -8,18 +8,6 @@ import VCEntities
 import VCToken
 @testable import WalletLibrary
 
-struct MockOpenIdResponder: OpenIdResponder {
-    
-    let mockSend: ((WalletLibrary.PresentationResponse) async throws -> ())?
-    
-    init(mockSend: ((WalletLibrary.PresentationResponse) async throws -> ())? = nil) {
-        self.mockSend = mockSend
-    }
-    func send(response: WalletLibrary.PresentationResponse) async throws {
-        try await self.mockSend?(response)
-    }
-}
-
 class OpenIdPresentationRequestTests: XCTestCase {
     
     enum ExpectedError: Error, Equatable {
@@ -161,7 +149,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
                                                     issuanceOptions: [],
                                                     id: "mockId",
                                                     constraint: MockConstraint(doesMatchResult: true))
-        mockRequirement.selectedVerifiedId = MockVerifiableCredentialHelper().createMockVerifiableCredential()
+        let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
+        try mockRequirement.fulfill(with: mockVC)
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
@@ -207,7 +196,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
                                                     issuanceOptions: [],
                                                     id: "mockId",
                                                     constraint: MockConstraint(doesMatchResult: true))
-        mockRequirement.selectedVerifiedId = MockVerifiableCredentialHelper().createMockVerifiableCredential()
+        let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
+        try mockRequirement.fulfill(with: mockVC)
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
@@ -230,7 +220,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTAssert(true)
         case .failure(let error):
-            XCTFail(error.localizedDescription)
+            XCTFail(String(describing: error))
         }
     }
     

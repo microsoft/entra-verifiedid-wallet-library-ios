@@ -117,7 +117,7 @@ class PresentationDescriptorMappingTests: XCTestCase {
                                                    purpose: nil,
                                                    issuanceOptions: expectedIssuanceOptions ?? [],
                                                    id: nil,
-                                                   constraint: VerifiedIdGroupConstraint(constraints: [], constraintOperator: .ALL))
+                                                   constraint: GroupConstraint(constraints: [], constraintOperator: .ALL))
         return (input, expectedResult)
     }
 }

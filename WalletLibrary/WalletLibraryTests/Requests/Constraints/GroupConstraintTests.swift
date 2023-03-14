@@ -8,7 +8,7 @@ import VCEntities
 import VCToken
 @testable import WalletLibrary
 
-class VerifiedIdGroupConstraintTests: XCTestCase {
+class GroupConstraintTests: XCTestCase {
     
     func testDoesMatch_WithALLOperatorAndAllMatch_ReturnsTrue() throws {
         // Arrange
@@ -17,7 +17,7 @@ class VerifiedIdGroupConstraintTests: XCTestCase {
         let secondConstraint = MockConstraint(doesMatchResult: true)
         let thirdConstraint = MockConstraint(doesMatchResult: true)
         let constraints = [firstConstraint, secondConstraint, thirdConstraint]
-        let groupConstraint = VerifiedIdGroupConstraint(constraints: constraints,
+        let groupConstraint = GroupConstraint(constraints: constraints,
                                                         constraintOperator: .ALL)
         
         // Act / Assert
@@ -31,7 +31,7 @@ class VerifiedIdGroupConstraintTests: XCTestCase {
         let secondConstraint = MockConstraint(doesMatchResult: false)
         let thirdConstraint = MockConstraint(doesMatchResult: true)
         let constraints = [firstConstraint, secondConstraint, thirdConstraint]
-        let groupConstraint = VerifiedIdGroupConstraint(constraints: constraints,
+        let groupConstraint = GroupConstraint(constraints: constraints,
                                                         constraintOperator: .ALL)
         
         // Act / Assert
@@ -45,7 +45,7 @@ class VerifiedIdGroupConstraintTests: XCTestCase {
         let secondConstraint = MockConstraint(doesMatchResult: false)
         let thirdConstraint = MockConstraint(doesMatchResult: true)
         let constraints = [firstConstraint, secondConstraint, thirdConstraint]
-        let groupConstraint = VerifiedIdGroupConstraint(constraints: constraints,
+        let groupConstraint = GroupConstraint(constraints: constraints,
                                                         constraintOperator: .ANY)
         
         // Act / Assert
@@ -59,7 +59,7 @@ class VerifiedIdGroupConstraintTests: XCTestCase {
         let secondConstraint = MockConstraint(doesMatchResult: false)
         let thirdConstraint = MockConstraint(doesMatchResult: false)
         let constraints = [firstConstraint, secondConstraint, thirdConstraint]
-        let groupConstraint = VerifiedIdGroupConstraint(constraints: constraints,
+        let groupConstraint = GroupConstraint(constraints: constraints,
                                                         constraintOperator: .ANY)
         
         // Act / Assert
