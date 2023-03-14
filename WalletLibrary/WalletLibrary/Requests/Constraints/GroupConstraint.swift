@@ -11,7 +11,7 @@ enum GroupConstraintOperator {
 /**
  * A group of constraints.
  */
-struct VerifiedIdGroupConstraint: VerifiedIdConstraint {
+struct GroupConstraint: VerifiedIdConstraint {
     
     let constraints: [VerifiedIdConstraint]
 
