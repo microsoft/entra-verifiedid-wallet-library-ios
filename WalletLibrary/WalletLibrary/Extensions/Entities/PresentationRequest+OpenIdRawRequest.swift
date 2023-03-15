@@ -3,12 +3,14 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * An extension of the VCEntities.PresentationRequest class.
  */
-extension VCEntities.PresentationRequest: OpenIdRawRequest {
+extension PresentationRequest: OpenIdRawRequest {
     
     /// If prompt equals create, the request is an issuance request.
     private var promptValueForIssuance: String {

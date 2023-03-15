@@ -3,13 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * An extension of the VCEntities.IdTokenDescriptor class to be able
  * to map IdTokenDescriptor to IdTokenRequirement.
  */
-extension VCEntities.IdTokenDescriptor: Mappable {
+extension IdTokenDescriptor: Mappable {
     
     /// Map the id token descriptor to the id token requirement.
     func map(using mapper: Mapping) throws -> IdTokenRequirement {

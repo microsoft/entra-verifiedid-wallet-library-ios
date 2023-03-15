@@ -156,7 +156,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
                                                  requirement: mockRequirement,
                                                  rootOfTrust: mockRootOfTrust)
         
-        func mockSend(response: WalletLibrary.PresentationResponse) async throws {
+        func mockSend(response: WalletLibrary.RawPresentationResponse) async throws {
             throw ExpectedError.expectedToBeThrownInResponder
         }
         

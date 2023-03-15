@@ -3,8 +3,12 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
-import VCServices
+#if canImport(VCEntities)
+    import VCEntities
+#endif
+#if canImport(VCServices)
+    import VCServices
+#endif
 
 enum IssuanceServiceVCRequesterError: Error {
     case unableToCastIssuanceResponseContainerFromType(String)
@@ -28,7 +32,7 @@ extension IssuanceService: VerifiedIdRequester {
             self.send(response: issuanceResponseContainer)
         }()
         
-        let verifiableCredential = try VerifiableCredential(raw: rawVerifiableCredential,
+        let verifiableCredential = try VCVerifiedId(raw: rawVerifiableCredential,
                                                             from: issuanceResponseContainer.contract)
         return verifiableCredential
     }

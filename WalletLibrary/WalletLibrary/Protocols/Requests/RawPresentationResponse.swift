@@ -7,6 +7,6 @@
  * An object that describes a raw presentation response and defines the behavior of adding a requirement to it.
  * For example, a VCSDK.PresentationResponseContainer conforms to this protocol.
  */
-protocol PresentationResponse {
+protocol RawPresentationResponse {
     mutating func add(requirement: Requirement) throws
 }

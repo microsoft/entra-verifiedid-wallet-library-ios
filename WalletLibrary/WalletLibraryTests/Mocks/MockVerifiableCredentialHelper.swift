@@ -9,13 +9,13 @@ import VCToken
 
 struct MockVerifiableCredentialHelper {
     
-    func createMockVerifiableCredential(expectedTypes: [String] = []) -> WalletLibrary.VerifiableCredential {
+    func createMockVerifiableCredential(expectedTypes: [String] = []) -> VCVerifiedId {
         let raw = createVCEntitiesVC(expectedTypes: expectedTypes)
         let contract = createMockContract()
-        return try! VerifiableCredential(raw: raw, from: contract)
+        return try! VCVerifiedId(raw: raw, from: contract)
     }
     
-    func createVCEntitiesVC(expectedTypes: [String]) -> VCEntities.VerifiableCredential {
+    func createVCEntitiesVC(expectedTypes: [String]) -> VerifiableCredential {
         let claims = VCClaims(jti: "",
                               iss: "",
                               sub: "",
