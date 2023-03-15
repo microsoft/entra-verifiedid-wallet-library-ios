@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
     s.documentation_url= 'https://github.com/microsoft/entra-verifiedid-wallet-library-ios'
     s.source= {
       :git => 'https://github.com/microsoft/entra-verifiedid-wallet-library-ios.git',
+      :branch => "symorton/podSpec",
       :submodules => true,
       :tag => s.version
     }
@@ -121,10 +122,8 @@ Pod::Spec.new do |s|
 
     s.subspec 'VCServices' do |cs|
         cs.name = 'VCServices'
-        cs.preserve_paths = "#{vcsdkPath}/VCServices/**/*.swift"
-        cs.source_files= ["#{vcsdkPath}/VCServices/VCServices/**/*.swift",
-         "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld",
-         "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld/*.xcdatamodel"]
+        cs.preserve_paths = "#{vcsdkPath}/VCServices/**/*"
+        cs.source_files= "#{vcsdkPath}/VCServices/VCServices/**/*"
         cs.resources = [
             "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld",
             "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld/*.xcdatamodel"]
