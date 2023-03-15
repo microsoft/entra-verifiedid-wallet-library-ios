@@ -23,23 +23,6 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = '13.0'
     s.default_subspecs = 'Core'
 
-    #include "assumptions.h"
-#include "checkmem.h"
-#include "util.h"
-
-#include "field_impl.h"
-#include "scalar_impl.h"
-#include "group_impl.h"
-#include "ecmult_impl.h"
-#include "ecmult_const_impl.h"
-#include "ecmult_gen_impl.h"
-#include "ecdsa_impl.h"
-#include "eckey_impl.h"
-#include "hash_impl.h"
-#include "int128_impl.h"
-#include "scratch_impl.h"
-#include "selftest.h"
-
     s.subspec 'Secp256k1' do |cs|
         cs.library = 'c++'
         cs.public_header_files = ["#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/include/*"]
@@ -106,7 +89,6 @@ Pod::Spec.new do |s|
         cs.name = 'VCCrypto'
         cs.preserve_paths = "#{vcsdkPath}/VCCrypto/**/*.swift"
         cs.source_files= "#{vcsdkPath}/VCCrypto/VCCrypto/**/*.swift"
-      #   cs.platform = '13.0'
         cs.dependency 'WalletLibrary/Secp256k1'
     end 
 
@@ -125,7 +107,6 @@ Pod::Spec.new do |s|
         cs.dependency 'WalletLibrary/VCToken'
         cs.dependency 'WalletLibrary/VCCrypto'
         cs.dependency 'PromiseKit'
-        # cs.ios.deployment_target  = '13.0'
     end
 
     s.subspec 'VCNetworking' do |cs|
@@ -134,7 +115,6 @@ Pod::Spec.new do |s|
         cs.source_files= "#{vcsdkPath}/VCNetworking/VCNetworking/**/*.swift"
         cs.dependency 'WalletLibrary/VCEntities'
         cs.dependency 'PromiseKit'
-        # cs.ios.deployment_target  = '13.0'
     end
 
     s.subspec 'VCServices' do |cs|
@@ -148,7 +128,6 @@ Pod::Spec.new do |s|
         cs.dependency 'WalletLibrary/VCNetworking'
         cs.dependency 'WalletLibrary/VCEntities'
         cs.dependency 'PromiseKit'
-        # cs.ios.deployment_target  = '13.0'
     end
 
     s.subspec 'Core' do |cs|
@@ -158,6 +137,5 @@ Pod::Spec.new do |s|
         cs.dependency 'WalletLibrary/VCServices'
         cs.dependency 'WalletLibrary/VCEntities'
         cs.dependency 'PromiseKit'
-        # cs.ios.deployment_target  = '13.0'
     end
 end
