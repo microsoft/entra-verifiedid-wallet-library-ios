@@ -95,8 +95,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTFail()
         case .failure(let error):
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual((error as? PresentationResponseError),
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual((error as? PresentationResponseContainerError),
                            .unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
         }
     }
@@ -130,8 +130,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTFail()
         case .failure(let error):
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual((error as? PresentationResponseError),
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual((error as? PresentationResponseContainerError),
                            .unsupportedRequirementOfType("MockRequirement"))
         }
     }
