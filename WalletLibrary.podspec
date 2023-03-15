@@ -25,7 +25,6 @@ Pod::Spec.new do |s|
 
     s.subspec 'Secp256k1' do |cs|
         cs.library = 'c++'
-        cs.public_header_files = ["#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/include/*"]
         cs.compiler_flags = "-Wno-shorten-64-to-32", "-Wno-unused-function"
         cs.preserve_paths = "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/{include,src}/*.{c,h}"
         cs.source_files = ["#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/{include,src}/*.{c,h}"]
@@ -48,7 +47,6 @@ Pod::Spec.new do |s|
           "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/src/tests_exhaustive.c",
           "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/contrib/*.{c, h}"
        ]
-  
         cs.prefix_header_contents = '
   #define ECMULT_WINDOW_SIZE 15 
   #define LIBSECP256K1_CONFIG_H
@@ -77,15 +75,9 @@ Pod::Spec.new do |s|
   #define PACKAGE_VERSION "0.1"
   #define STDC_HEADERS 1
   #define VERSION "0.1"'
-          cs.xcconfig = {
-              'USE_HEADERMAP' => 'YES',
-              'HEADER_SEARCH_PATHS' => '${PODS_ROOT}/WalletLibrary/**',
-              'USER_HEADER_SEARCH_PATHS' => '${PODS_ROOT}/WalletLibrary/**'
-            }
-      end
+    end
 
-
-      s.subspec 'VCCrypto' do |cs|
+    s.subspec 'VCCrypto' do |cs|
         cs.name = 'VCCrypto'
         cs.preserve_paths = "#{vcsdkPath}/VCCrypto/**/*.swift"
         cs.source_files= "#{vcsdkPath}/VCCrypto/VCCrypto/**/*.swift"
