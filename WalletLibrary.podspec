@@ -23,6 +23,23 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = '13.0'
     s.default_subspecs = 'Core'
 
+    #include "assumptions.h"
+#include "checkmem.h"
+#include "util.h"
+
+#include "field_impl.h"
+#include "scalar_impl.h"
+#include "group_impl.h"
+#include "ecmult_impl.h"
+#include "ecmult_const_impl.h"
+#include "ecmult_gen_impl.h"
+#include "ecdsa_impl.h"
+#include "eckey_impl.h"
+#include "hash_impl.h"
+#include "int128_impl.h"
+#include "scratch_impl.h"
+#include "selftest.h"
+
     s.subspec 'Secp256k1' do |cs|
         cs.library = 'c++'
         cs.public_header_files = ["#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/include/*"]
