@@ -122,7 +122,7 @@ Pod::Spec.new do |s|
 
     s.subspec 'VCServices' do |cs|
         cs.name = 'VCServices'
-        cs.preserve_paths = "#{vcsdkPath}/VCServices/**/*"
+        cs.preserve_paths = "#{vcsdkPath}/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}"
         cs.source_files= "#{vcsdkPath}/VCServices/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}"
         cs.resources = [
             "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld",
