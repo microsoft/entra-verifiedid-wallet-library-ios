@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
     s.documentation_url= 'https://github.com/microsoft/entra-verifiedid-wallet-library-ios'
     s.source= {
       :git => 'https://github.com/microsoft/entra-verifiedid-wallet-library-ios.git',
-      :branch => "symorton/podSpec",
       :submodules => true,
       :tag => s.version
     }
