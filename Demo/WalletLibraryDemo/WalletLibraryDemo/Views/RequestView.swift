@@ -12,33 +12,36 @@ struct RequestView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        VStack {
-            if viewModel.isProgressViewShowing {
-                ProgressView()
-            }
-            else if let errorMessage = viewModel.errorMessage {
-                ErrorView(errorMessage: errorMessage)
-            }
-            else if viewModel.successMessage != nil || viewModel.issuedVerifiedId != nil {
-                SuccessView()
-            } else {
-                VStack {
-                    List(viewModel.requirements) { requirement in
-                        NavigationLink(destination: RequirementView(requirement: requirement)) {
-                            RequirementListViewCell(requirement: requirement)
-                        }
-                    }.listStyle(.inset)
-                    Spacer()
-                    Divider()
-                    Button {
-                        viewModel.complete()
-                    } label: {
-                        Text("Complete")
-                    }.disabled(!viewModel.isCompleteButtonEnabled)
-                    Spacer()
-                }.navigationTitle("Fulfill Requirements")
-                    .navigationBarTitleDisplayMode(.inline)
-            }
+        switch (viewModel.viewState) {
+        case .InProgress:
+            ProgressView()
+        case .GatheringRequirements:
+            requirementsView
+        case .IssuanceSuccess(with: let verifiedId):
+            VerifiedIdView(verifiedId: verifiedId)
+        case .Error(withMessage: let message):
+            ErrorView(errorMessage: message)
+        default:
+            Spacer()
         }
+    }
+    
+    var requirementsView: some View {
+        VStack {
+            List(viewModel.requirements) { requirement in
+                NavigationLink(destination: RequirementView(requirement: requirement)) {
+                    RequirementListViewCell(requirement: requirement)
+                }
+            }.listStyle(.inset)
+            Spacer()
+            Divider()
+            Button {
+                viewModel.complete()
+            } label: {
+                Text("Complete")
+            }.disabled(!viewModel.isCompleteButtonEnabled)
+            Spacer()
+        }.navigationTitle("Fulfill Requirements")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
