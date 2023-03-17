@@ -8,6 +8,7 @@ import WalletLibrary
 enum RequirementStateError: String, Error {
     case unsupportedRequirementType = "Unsupported Requirement Type"
     case invalidInputToFulfillRequirement = "Invalid Input to Fulfill Requirement"
+    case requirementIsNotOfTypeVerifiedIdRequirement = "Requirement cannot be fulfilled by Verified Id"
 }
 
 /// Requirement Status based on whether requirement is valid or missing.
@@ -46,6 +47,8 @@ class RequirementState: Identifiable, ObservableObject {
         case let idTokenRequirement as IdTokenRequirement:
             self.label = "Id Token for: \(idTokenRequirement.configuration)"
             try? addNewLabelIfValid(newLabel: "Valid Id Token Present")
+        case let verifiedIdRequirement as VerifiedIdRequirement:
+            self.label = "Verified Id Requirement for types: \(verifiedIdRequirement.types)"
         default:
             throw RequirementStateError.unsupportedRequirementType
         }
@@ -62,6 +65,16 @@ class RequirementState: Identifiable, ObservableObject {
         default:
             throw RequirementStateError.unsupportedRequirementType
         }
+    }
+    
+    func fulfill(with value: VerifiedId) throws {
+        
+        guard let verifiedIdRequirement = requirement as? VerifiedIdRequirement else {
+            throw RequirementStateError.requirementIsNotOfTypeVerifiedIdRequirement
+        }
+        
+        try verifiedIdRequirement.fulfill(with: value)
+        try addNewLabelIfValid(newLabel: "Verified Id Requirement Fulfilled.")
     }
     
     private func addNewLabelIfValid(newLabel: String) throws {
