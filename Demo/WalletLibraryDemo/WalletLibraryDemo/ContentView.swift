@@ -12,13 +12,15 @@ struct ContentView: View {
     
     @StateObject private var viewModel = SampleViewModel()
     
+    @State private var input: String = ""
+    
     var body: some View {
         NavigationView {
             VStack {
                 Text("Sample Request URL:")
                 TextField(
                     "OpenId Request URL",
-                    text: $viewModel.input,
+                    text: $input,
                     axis: .vertical
                 )
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
@@ -29,8 +31,23 @@ struct ContentView: View {
                 NavigationLink(destination: RequestView()) {
                     Text("Create Request")
                 }.navigationTitle("Verified Id Sample App")
+                Spacer()
+                Text("Issued Verified Ids")
+                    .bold()
+                List {
+                    ForEach(viewModel.issuedVerifiedIds, id: \.id) { verifiedId in
+                        NavigationLink {
+                            VerifiedIdView(verifiedId: verifiedId)
+                        } label: {
+                            Text(verifiedId.id)
+                        }
+                    }.onDelete { indexSet in
+                        viewModel.deleteVerifiedId(indexSet: indexSet)
+                    }
+                }
+                .listStyle(.inset)
             }.onDisappear {
-                viewModel.createRequest()
+                viewModel.createRequest(fromInput: input)
             }
         }
         .environmentObject(viewModel)
