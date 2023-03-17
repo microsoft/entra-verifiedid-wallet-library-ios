@@ -8,7 +8,7 @@
  */
 public struct VerifiedIdDecoder {
     
-    let jsonDecoder = JSONDecoder()
+    private let jsonDecoder = JSONDecoder()
     
     public init() {}
     
@@ -19,38 +19,4 @@ public struct VerifiedIdDecoder {
             return try jsonDecoder.decode(VerifiableCredential.self, from: encodedVerifiedId.raw)
         }
     }
-}
-
-enum VerifiedIdEncoderError: Error {
-    case unsupportedVerifiedIdType(String)
-}
-
-public struct VerifiedIdEncoder {
-    
-    let jsonEncoder = JSONEncoder()
-    
-    public init() {}
-    
-    public func encode(verifiedId: any VerifiedId) throws -> Data {
-        switch verifiedId {
-        case let vc as VerifiableCredential:
-            let rawVC = try jsonEncoder.encode(vc)
-            let encodedVerifiedId = EncodedVerifiedId(type: .VerifiableCredential,
-                                                      raw: rawVC)
-            return try jsonEncoder.encode(encodedVerifiedId)
-        default:
-            let type = String(describing: type(of: verifiedId))
-            throw VerifiedIdEncoderError.unsupportedVerifiedIdType(type)
-        }
-    }
-}
-
-struct EncodedVerifiedId: Codable {
-    let type: SupportedVerifiedIdType
-    
-    let raw: Data
-}
-
-enum SupportedVerifiedIdType: String, Codable {
-    case VerifiableCredential = "VerifiableCredential"
 }
