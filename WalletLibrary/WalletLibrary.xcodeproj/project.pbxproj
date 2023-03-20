@@ -25,8 +25,6 @@
 		550E3212298B1150004E7716 /* VerifiedIdRequestInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */; };
 		550E3214298B11A5004E7716 /* Requirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3213298B11A5004E7716 /* Requirement.swift */; };
 		550E3217298B1236004E7716 /* RequesterStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3216298B1236004E7716 /* RequesterStyle.swift */; };
-		552A75A429C4F19B005BFF3D /* VerifiedIdDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552A75A329C4F19B005BFF3D /* VerifiedIdDecoder.swift */; };
-		552A75BD29C52B0A005BFF3D /* VerifiedIdEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552A75BC29C52B0A005BFF3D /* VerifiedIdEncoder.swift */; };
 		552A75BF29C52DBB005BFF3D /* EncodedVerifiedId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552A75BE29C52DBB005BFF3D /* EncodedVerifiedId.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
@@ -340,8 +338,6 @@
 		550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequestInput.swift; sourceTree = "<group>"; };
 		550E3213298B11A5004E7716 /* Requirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requirement.swift; sourceTree = "<group>"; };
 		550E3216298B1236004E7716 /* RequesterStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterStyle.swift; sourceTree = "<group>"; };
-		552A75A329C4F19B005BFF3D /* VerifiedIdDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdDecoder.swift; sourceTree = "<group>"; };
-		552A75BC29C52B0A005BFF3D /* VerifiedIdEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdEncoder.swift; sourceTree = "<group>"; };
 		552A75BE29C52DBB005BFF3D /* EncodedVerifiedId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodedVerifiedId.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
@@ -1032,8 +1028,6 @@
 				552A75BE29C52DBB005BFF3D /* EncodedVerifiedId.swift */,
 				55E336D3293FA75300CD2ED7 /* VerifiedId.swift */,
 				55E336D5293FA78C00CD2ED7 /* VerifiedIdClaim.swift */,
-				552A75A329C4F19B005BFF3D /* VerifiedIdDecoder.swift */,
-				552A75BC29C52B0A005BFF3D /* VerifiedIdEncoder.swift */,
 			);
 			path = VerifiedId;
 			sourceTree = "<group>";
@@ -1525,7 +1519,6 @@
 				55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */,
 				55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */,
 				550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */,
-				552A75BD29C52B0A005BFF3D /* VerifiedIdEncoder.swift in Sources */,
 				55DECC3029BB8E5C00D5C802 /* VCTypeConstraint.swift in Sources */,
 				550A9192299400820014D030 /* OpenIdResponder.swift in Sources */,
 				5534E672294A19D5005D0765 /* IdTokenDescriptor+Mappable.swift in Sources */,
@@ -1542,7 +1535,6 @@
 				55E2F0882995743D0008010D /* LinkedDomainResult+Mappable.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 				55E2F07D2995561E0008010D /* OpenIdPresentationRequest.swift in Sources */,
-				552A75A429C4F19B005BFF3D /* VerifiedIdDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

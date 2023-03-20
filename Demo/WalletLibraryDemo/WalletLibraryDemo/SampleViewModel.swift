@@ -36,6 +36,7 @@ enum ViewState {
     /// Show a progress view when while doing internal logic.
     @Published var isProgressViewShowing: Bool = true
     
+    /// List of issued Verified Ids.
     @Published var issuedVerifiedIds: [VerifiedId] = []
     
     /// The Verified Id Client is used to create requests with a configuration set by the Builder.
@@ -44,7 +45,8 @@ enum ViewState {
     /// The current issuance or presentation request that is being processed.
     private var request: (any VerifiedIdRequest)? = nil
     
-    private let verifiedIdRepository = VerifiedIdRepository()
+    /// Repository in charge of storing/retrieving verified ids.
+    private var verifiedIdRepository = VerifiedIdRepository()
     
     /// TODO: enable deeplinking and the rest of the requirements.
     init() {
@@ -74,7 +76,7 @@ enum ViewState {
                 let input: VerifiedIdRequestInput = try createInput(fromInput: input)
                 
                 // VerifiedIdClient is used to create a request from an input
-                // such as, in the case, a VerifiedIdRequestURL.
+                // such as, in this case, a VerifiedIdRequestURL.
                 let request = try await client.createVerifiedIdRequest(from: input)
                 self.request = request
                 
@@ -122,6 +124,7 @@ enum ViewState {
         }
     }
     
+    /// Once the request is satisfied, complete the request.
     private func complete(issuanceRequest: any VerifiedIdIssuanceRequest) {
         Task {
             let result = await issuanceRequest.complete()
@@ -151,11 +154,11 @@ enum ViewState {
     func fulfill(requirementState: RequirementState, with value: String) throws {
         do {
             try requirementState.fulfill(with: value)
+            isCompleteButtonEnabled = request?.isSatisfied() ?? false
         } catch let error as RequirementStateError {
             showErrorMessage(from: error,
                              additionalInfo: "Value == \(value)")
         }
-        self.isCompleteButtonEnabled = request?.isSatisfied() ?? false
     }
     
     func fulfill(requirementState: RequirementState, with value: VerifiedId) throws {
@@ -169,7 +172,6 @@ enum ViewState {
     }
     
     private func showErrorMessage(from error: Error, additionalInfo: String? = nil) {
-        print(error)
         var errorMessage: String = error.localizedDescription
         if let error = error as? SampleViewModelError {
             errorMessage = error.rawValue
