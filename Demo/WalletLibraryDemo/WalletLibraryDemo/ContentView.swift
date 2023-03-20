@@ -32,20 +32,22 @@ struct ContentView: View {
                     Text("Create Request")
                 }.navigationTitle("Verified Id Sample App")
                 Spacer()
-                Text("Issued Verified Ids")
-                    .bold()
-                List {
-                    ForEach(viewModel.issuedVerifiedIds, id: \.id) { verifiedId in
-                        NavigationLink {
-                            VerifiedIdView(verifiedId: verifiedId)
-                        } label: {
-                            Text(verifiedId.id)
+                if !viewModel.issuedVerifiedIds.isEmpty {
+                    Text("Issued Verified Ids")
+                        .bold()
+                    List {
+                        ForEach(viewModel.issuedVerifiedIds, id: \.id) { verifiedId in
+                            NavigationLink {
+                                VerifiedIdView(verifiedId: verifiedId)
+                            } label: {
+                                Text(verifiedId.id)
+                            }
+                        }.onDelete { indexSet in
+                            viewModel.deleteVerifiedId(indexSet: indexSet)
                         }
-                    }.onDelete { indexSet in
-                        viewModel.deleteVerifiedId(indexSet: indexSet)
                     }
+                    .listStyle(.inset)
                 }
-                .listStyle(.inset)
             }.onDisappear {
                 viewModel.createRequest(fromInput: input)
             }
