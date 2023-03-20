@@ -49,6 +49,24 @@ class VerifiedIdRequirementTests: XCTestCase {
         }
     }
     
+    func testValidate_ForValidInput_DoesNotThrowError() async throws {
+        // Arrange
+        let mockVerifiedId = MockVerifiedId(id: "mock verified id", issuedOn: Date())
+        let mockConstraint = MockConstraint(doesMatchResult: true)
+        
+        let requirement = VerifiedIdRequirement(encrypted: false,
+                                                required: false,
+                                                types: ["mockType"],
+                                                purpose: nil,
+                                                issuanceOptions: [],
+                                                id: nil,
+                                                constraint: mockConstraint)
+        requirement.selectedVerifiedId = mockVerifiedId
+        
+        // Act
+        XCTAssertNoThrow(try requirement.validate())
+    }
+    
     func testGetMatches_WhenConstraintsDoNotMatchAnyVerifiedIds_ReturnsEmptyList() async throws {
         // Arrange
         let mockVerifiedId = MockVerifiedId(id: "mock verified id", issuedOn: Date())
