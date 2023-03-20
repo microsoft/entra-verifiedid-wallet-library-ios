@@ -16,7 +16,7 @@ struct UserInputView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    var requirement: RequirementState
+    let requirement: RequirementState
     
     var body: some View {
         VStack {

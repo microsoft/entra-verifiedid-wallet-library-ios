@@ -25,25 +25,10 @@ struct RequirementView: View {
         case is PinRequirement:
             UserInputView(requirement: requirement)
         case let verifiedIdRequirement as VerifiedIdRequirement:
-            let matches = verifiedIdRequirement.getMatches(verifiedIds: viewModel.issuedVerifiedIds)
-            List(matches, id: \.id) { match in
-                Button {
-                    fulfill(with: match)
-                } label: {
-                    Text(match.id)
-                }
-            }.listStyle(.inset)
+            VerifiedIdPickerView(requirement: requirement,
+                                 requirementMatches: viewModel.getVerifiedIdMatches(from: verifiedIdRequirement))
         default:
             Text("Do not support requirement.")
-        }
-    }
-    
-    private func fulfill(with value: VerifiedId) {
-        do {
-            try viewModel.fulfill(requirementState: requirement, with: value)
-            dismiss()
-        } catch {
-            isInvalidInput = true
         }
     }
 }
