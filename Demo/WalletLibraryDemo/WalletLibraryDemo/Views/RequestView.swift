@@ -13,7 +13,7 @@ struct RequestView: View {
     
     var body: some View {
         switch (viewModel.viewState) {
-        case .InProgress:
+        case .CreatingRequest:
             ProgressView()
         case .GatheringRequirements:
             requirementsView

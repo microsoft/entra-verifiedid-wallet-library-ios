@@ -15,7 +15,7 @@ enum SampleViewModelError: String, Error {
 
 enum ViewState {
     case Initialized
-    case InProgress
+    case CreatingRequest
     case GatheringRequirements
     case IssuanceSuccess(with: VerifiedId)
     case PresentationSuccess(with: String)
@@ -68,7 +68,7 @@ enum ViewState {
         
         Task {
             reset()
-            viewState = .InProgress
+            viewState = .CreatingRequest
             do {
                 
                 let input: VerifiedIdRequestInput = try createInput(fromInput: input)
