@@ -6,7 +6,7 @@
 import SwiftUI
 import WalletLibrary
 
-struct RequirementView: View {
+struct VerifiedIdRequirementView: View {
     
     @EnvironmentObject var viewModel: SampleViewModel
     
@@ -18,32 +18,24 @@ struct RequirementView: View {
     
     var requirement: RequirementState
     
+    var requirementMatches: [VerifiedId]
+    
     var body: some View {
-        switch (requirement.requirement) {
-        case is SelfAttestedClaimRequirement:
-            UserInputView(requirement: requirement)
-        case is PinRequirement:
-            UserInputView(requirement: requirement)
-        case let verifiedIdRequirement as VerifiedIdRequirement:
-            let matches = verifiedIdRequirement.getMatches(verifiedIds: viewModel.issuedVerifiedIds)
-            List(matches, id: \.id) { match in
-                Button {
-                    fulfill(with: match)
-                } label: {
-                    Text(match.id)
-                }
-            }.listStyle(.inset)
-        default:
-            Text("Do not support requirement.")
-        }
+        List(requirementMatches, id: \.id) { match in
+            Button {
+                fulfill(with: match)
+            } label: {
+                Text(match.id)
+            }
+        }.listStyle(.inset)
     }
     
     private func fulfill(with value: VerifiedId) {
         do {
             try viewModel.fulfill(requirementState: requirement, with: value)
-            dismiss()
         } catch {
-            isInvalidInput = true
+            viewModel.showErrorMessage(from: error)
         }
+        dismiss()
     }
 }
