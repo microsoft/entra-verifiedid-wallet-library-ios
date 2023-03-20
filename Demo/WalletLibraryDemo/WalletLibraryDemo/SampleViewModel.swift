@@ -14,7 +14,7 @@ enum SampleViewModelError: String, Error {
     case verifiedIdClientHasNotBeenInitialized = "Verified Id Client has not been initialized."
 }
 
-/// State to keep track of what views should be shown.
+/// State to keep track of what state the request is in.
 enum RequestState {
     case Initialized
     case CreatingRequest
@@ -64,6 +64,7 @@ enum RequestState {
         }
     }
     
+    /// Create request using Wallet Library and configure requirements to be shown.
     func createRequest(fromInput input: String) {
         
         guard let client = verifiedIdClient else {
@@ -116,6 +117,12 @@ enum RequestState {
         requirements.append(requirementState)
     }
     
+    /// The helper method `getMatches` can be used to filter a list of Verified Ids and returns only the ones that satisfy the requirement.
+    func getVerifiedIdMatches(from requirement: VerifiedIdRequirement) -> [VerifiedId] {
+        return requirement.getMatches(verifiedIds: issuedVerifiedIds)
+    }
+    
+    /// Once the request is satisfied, complete the request.
     func complete() {
         switch (request) {
         case let issuanceRequest as any VerifiedIdIssuanceRequest:
@@ -127,7 +134,6 @@ enum RequestState {
         }
     }
     
-    /// Once the request is satisfied, complete the request.
     private func complete(issuanceRequest: any VerifiedIdIssuanceRequest) {
         Task {
             let result = await issuanceRequest.complete()
@@ -154,6 +160,7 @@ enum RequestState {
         }
     }
     
+    /// Fulfill a requirement with a string value.
     func fulfill(requirementState: RequirementState, with value: String) throws {
         do {
             try requirementState.fulfill(with: value)
@@ -164,6 +171,7 @@ enum RequestState {
         }
     }
     
+    /// Fulfill a requirement with a Verified id value.
     func fulfill(requirementState: RequirementState, with value: VerifiedId) throws {
         do {
             try requirementState.fulfill(with: value)
@@ -174,8 +182,9 @@ enum RequestState {
         self.isCompleteButtonEnabled = request?.isSatisfied() ?? false
     }
     
+    /// If an error occurs during the flow, show the error message.
     func showErrorMessage(from error: Error, additionalInfo: String? = nil) {
-        var errorMessage: String = error.localizedDescription
+        var errorMessage = String(describing: error)
         if let error = error as? SampleViewModelError {
             errorMessage = error.rawValue
         } else if let error = error as? RequirementStateError {
@@ -188,6 +197,7 @@ enum RequestState {
         requestState = .Error(withMessage: errorMessage)
     }
     
+    /// Delete a verified id from list.
     func deleteVerifiedId(indexSet: IndexSet) {
         for index in indexSet {
             if issuedVerifiedIds.count > index {
@@ -198,6 +208,7 @@ enum RequestState {
         }
     }
     
+    /// Reset to start a new request.
     func reset() {
         requestState = .Initialized
         requirements = []
