@@ -86,7 +86,8 @@ class PresentationDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actual.purpose, expected.purpose)
         XCTAssertEqual(actual.issuanceOptions as? [VerifiedIdRequestURL], expected.issuanceOptions as? [VerifiedIdRequestURL])
         XCTAssert(actual.constraint is VCTypeConstraint)
-        XCTAssertEqual((actual.constraint as? VCTypeConstraint)?.type, expected.types.first)
+        XCTAssertEqual((actual.constraint as? VCTypeConstraint)?.type,
+                       (expected.constraint as? VCTypeConstraint)?.type)
         XCTAssertNil(actual.id)
     }
 
@@ -117,7 +118,7 @@ class PresentationDescriptorMappingTests: XCTestCase {
                                                    purpose: nil,
                                                    issuanceOptions: expectedIssuanceOptions ?? [],
                                                    id: nil,
-                                                   constraint: GroupConstraint(constraints: [], constraintOperator: .ALL))
+                                                   constraint: VCTypeConstraint(type: credentialType))
         return (input, expectedResult)
     }
 }
