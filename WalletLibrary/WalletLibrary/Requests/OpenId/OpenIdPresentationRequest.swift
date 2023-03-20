@@ -3,16 +3,20 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+import VCEntities
+
 /**
  * Presentation Requst that is Open Id specific.
- * TODO: we will need open id specific data to implement complete and cancel.
  */
 class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     
+    /// The look and feel of the requester.
     let style: RequesterStyle
     
+    /// The requirement needed to fulfill request.
     let requirement: Requirement
     
+    /// The root of trust results between the request and the source of the request.
     let rootOfTrust: RootOfTrust
     
     private let rawRequest: any OpenIdRawRequest
@@ -34,15 +38,30 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         self.configuration = configuration
     }
     
-    /// TODO: implement.
+    /// Whether or not the request is satisfied on client side.
     func isSatisfied() -> Bool {
-        return false
+        do {
+            try requirement.validate()
+            return true
+        } catch {
+            /// TODO: log error.
+            return false
+        }
     }
     
+    /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
     func complete() async -> Result<(), Error> {
-        return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
+        do {
+            var response = try PresentationResponseContainer(rawRequest: rawRequest)
+            try response.add(requirement: requirement)
+            try await responder.send(response: response)
+            return Result.success(())
+        } catch {
+            return Result.failure(error)
+        }
     }
     
+    /// Cancel the request with an optional message.
     func cancel(message: String?) -> Result<Void, Error> {
         return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
     }

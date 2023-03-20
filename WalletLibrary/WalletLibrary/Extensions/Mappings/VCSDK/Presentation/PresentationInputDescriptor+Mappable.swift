@@ -35,10 +35,30 @@ extension VCEntities.PresentationInputDescriptor: Mappable {
             return nil
         }
         
+        /// TODO: support presentation exchange constraints.
+        let constraint = getTypeConstraint(from: types)
+        
         return VerifiedIdRequirement(encrypted: false,
                                      required: true,
                                      types: types,
                                      purpose: purpose,
-                                     issuanceOptions: issuanceOptions ?? [])
+                                     issuanceOptions: issuanceOptions ?? [],
+                                     id: id,
+                                     constraint: constraint)
+    }
+    
+    private func getTypeConstraint(from requestedTypes: [String]) -> VerifiedIdConstraint {
+        
+        if requestedTypes.count == 1, let onlyType = requestedTypes.first {
+            return VCTypeConstraint(type: onlyType)
+        }
+        
+        var typeConstraints: [VCTypeConstraint] = []
+        for type in requestedTypes {
+            typeConstraints.append(VCTypeConstraint(type: type))
+        }
+        
+        /// TODO: Is this an ANY or ALL operation?
+        return GroupConstraint(constraints: typeConstraints, constraintOperator: .ANY)
     }
 }

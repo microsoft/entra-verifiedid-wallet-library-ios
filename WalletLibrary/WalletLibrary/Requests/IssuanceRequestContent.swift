@@ -16,7 +16,7 @@ struct IssuanceRequestContent {
     
     let style: RequesterStyle
     
-    var requirement: Requirement
+    private(set) var requirement: Requirement
     
     let rootOfTrust: RootOfTrust
     

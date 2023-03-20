@@ -22,10 +22,14 @@ extension VCEntities.PresentationDescriptor: Mappable {
             return nil
         }
         
+        let constraint = VCTypeConstraint(type: credentialType)
+        
         return VerifiedIdRequirement(encrypted: encrypted ?? false,
                                      required: presentationRequired ?? false,
                                      types: [credentialType],
                                      purpose: nil,
-                                     issuanceOptions: issuanceOptions ?? [])
+                                     issuanceOptions: issuanceOptions ?? [],
+                                     id: nil,
+                                     constraint: constraint)
     }
 }

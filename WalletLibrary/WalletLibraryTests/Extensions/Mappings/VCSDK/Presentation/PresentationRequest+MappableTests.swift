@@ -67,7 +67,10 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   required: false,
                                                                   types: [],
                                                                   purpose: nil,
-                                                                  issuanceOptions: [])
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
         let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: nil)
@@ -107,7 +110,10 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   required: false,
                                                                   types: [],
                                                                   purpose: nil,
-                                                                  issuanceOptions: [])
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
         let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: nil,
@@ -155,7 +161,10 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   required: false,
                                                                   types: [],
                                                                   purpose: nil,
-                                                                  issuanceOptions: [])
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
         let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: mockRequesterName,
@@ -203,7 +212,10 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   required: false,
                                                                   types: [],
                                                                   purpose: nil,
-                                                                  issuanceOptions: [])
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
         let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: mockRequesterName,
@@ -258,7 +270,10 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   required: false,
                                                                   types: [],
                                                                   purpose: nil,
-                                                                  issuanceOptions: [])
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                                        constraintOperator: .ALL))
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
         let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: mockRequesterName,

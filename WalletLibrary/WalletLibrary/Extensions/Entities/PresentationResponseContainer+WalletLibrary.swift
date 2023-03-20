@@ -8,7 +8,7 @@ import VCEntities
 enum PresentationResponseError: Error, Equatable {
     case unableToCastVCSDKPresentationRequestFromRawRequestOfType(String)
     case unsupportedRequirementOfType(String)
-    case unableToCastVerifableCredentialFromVerifiedIdOfType(String)
+    case unableToCastVerifableCredentialFromVerifiedId
     case missingIdInVerifiedIdRequirement
 }
 
@@ -48,6 +48,17 @@ extension VCEntities.PresentationResponseContainer: PresentationResponse {
     }
 
     private mutating func add(verifiedIdRequirement: VerifiedIdRequirement) throws {
-        throw VerifiedIdClientError.TODO(message: "Implement in next PR.")
+        
+        guard let requirementId = verifiedIdRequirement.id else {
+            throw PresentationResponseError.missingIdInVerifiedIdRequirement
+        }
+        
+        guard let verifiableCredential = verifiedIdRequirement.selectedVerifiedId as? VerifiableCredential else {
+            throw PresentationResponseError.unableToCastVerifableCredentialFromVerifiedId
+        }
+        
+        let mapping = RequestedVerifiableCredentialMapping(id: requirementId,
+                                                           verifiableCredential: verifiableCredential.raw)
+        self.requestVCMap.append(mapping)
     }
 }
