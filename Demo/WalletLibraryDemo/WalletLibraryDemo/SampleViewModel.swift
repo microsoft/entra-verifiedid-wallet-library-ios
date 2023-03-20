@@ -11,9 +11,11 @@ enum SampleViewModelError: String, Error {
     case unableToCreateRequest = "Unable to create request."
     case requestIsUndefined = "Verified Id Request is Undefined."
     case unsupportedRequirementType = "One of the requirement types is not supported."
+    case verifiedIdClientHasNotBeenInitialized = "Verified Id Client has not been initialized."
 }
 
-enum ViewState {
+/// State to keep track of what views should be shown.
+enum RequestState {
     case Initialized
     case CreatingRequest
     case GatheringRequirements
@@ -25,7 +27,8 @@ enum ViewState {
 
 @MainActor class SampleViewModel: ObservableObject {
     
-    @Published var viewState: ViewState
+    /// The state of the request.
+    @Published var requestState: RequestState
     
     /// The requirements to be gathered by the user.
     @Published var requirements: [RequirementState] = []
@@ -50,7 +53,7 @@ enum ViewState {
     
     /// TODO: enable deeplinking and the rest of the requirements.
     init() {
-        viewState = .Initialized
+        requestState = .Initialized
         do {
             let builder = VerifiedIdClientBuilder()
             issuedVerifiedIds = try verifiedIdRepository.getAllStoredVerifiedIds()
@@ -64,13 +67,13 @@ enum ViewState {
     func createRequest(fromInput input: String) {
         
         guard let client = verifiedIdClient else {
-            showErrorMessage(from: SampleViewModelError.unableToCreateRequest)
+            showErrorMessage(from: SampleViewModelError.verifiedIdClientHasNotBeenInitialized)
             return
         }
         
         Task {
             reset()
-            viewState = .CreatingRequest
+            requestState = .CreatingRequest
             do {
                 
                 let input: VerifiedIdRequestInput = try createInput(fromInput: input)
@@ -82,7 +85,7 @@ enum ViewState {
                 
                 try configureRequirements(requirement: request.requirement)
                 isCompleteButtonEnabled = request.isSatisfied()
-                viewState = .GatheringRequirements
+                requestState = .GatheringRequirements
             } catch {
                 showErrorMessage(from: error, additionalInfo: "Unable to create request.")
             }
@@ -132,7 +135,7 @@ enum ViewState {
             case .success(let verifiedId):
                 issuedVerifiedIds.append(verifiedId)
                 try verifiedIdRepository.save(verifiedId: verifiedId)
-                viewState = .IssuanceSuccess(with: verifiedId)
+                requestState = .IssuanceSuccess(with: verifiedId)
             case .failure(let error):
                 showErrorMessage(from: error)
             }
@@ -144,7 +147,7 @@ enum ViewState {
             let result = await presentationRequest.complete()
             switch (result) {
             case .success(_):
-                viewState = .PresentationSuccess(with: "Successful Presentation!")
+                requestState = .PresentationSuccess(with: "Successful Presentation!")
             case .failure(let error):
                 showErrorMessage(from: error)
             }
@@ -171,7 +174,7 @@ enum ViewState {
         self.isCompleteButtonEnabled = request?.isSatisfied() ?? false
     }
     
-    private func showErrorMessage(from error: Error, additionalInfo: String? = nil) {
+    func showErrorMessage(from error: Error, additionalInfo: String? = nil) {
         var errorMessage: String = error.localizedDescription
         if let error = error as? SampleViewModelError {
             errorMessage = error.rawValue
@@ -182,7 +185,7 @@ enum ViewState {
         if let additionalInfo = additionalInfo {
             errorMessage.append("\n\(additionalInfo)")
         }
-        viewState = .Error(withMessage: errorMessage)
+        requestState = .Error(withMessage: errorMessage)
     }
     
     func deleteVerifiedId(indexSet: IndexSet) {
@@ -196,7 +199,7 @@ enum ViewState {
     }
     
     func reset() {
-        viewState = .Initialized
+        requestState = .Initialized
         requirements = []
         request = nil
     }
