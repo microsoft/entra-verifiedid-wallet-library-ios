@@ -62,6 +62,7 @@ class VerifiedIdDecoderTests: XCTestCase {
         // Act
         let actualResult: VerifiableCredential = try decoder.decode(from: mockEncodedVerifiedIdData) as! VerifiableCredential
         
+        // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), try mockVC.raw.serialize())
         XCTAssertEqual(actualResult.contract, mockVC.contract)
         XCTAssertEqual(actualResult.expiresOn, mockVC.expiresOn)

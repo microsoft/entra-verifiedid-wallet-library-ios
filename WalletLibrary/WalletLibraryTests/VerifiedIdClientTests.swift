@@ -169,7 +169,7 @@ class VerifiedIdClientTests: XCTestCase {
                                       configuration: configuration)
         
         // Act
-        XCTAssertThrowsError(try client.encode(verifiedId: mockVerifiedId)) { error in
+        XCTAssertThrowsError(try client.encode(verifiedId: mockVerifiedId).get()) { error in
             // Assert
             XCTAssert(error is ExpectedError)
             XCTAssertEqual(error as? ExpectedError, .expectedToBeThrownInEncoder)
@@ -196,7 +196,7 @@ class VerifiedIdClientTests: XCTestCase {
                                       configuration: configuration)
         
         // Act
-        let result = try client.encode(verifiedId: mockVerifiedId)
+        let result = try client.encode(verifiedId: mockVerifiedId).get()
         
         // Assert
         XCTAssertEqual(result, expectedEncodingResult)
@@ -221,7 +221,7 @@ class VerifiedIdClientTests: XCTestCase {
                                       configuration: configuration)
         
         // Act
-        XCTAssertThrowsError(try client.decodeVerifiedId(from: mockData)) { error in
+        XCTAssertThrowsError(try client.decodeVerifiedId(from: mockData).get()) { error in
             // Assert
             XCTAssert(error is ExpectedError)
             XCTAssertEqual(error as? ExpectedError, .expectedToBeThrownInDecoder)
@@ -248,35 +248,9 @@ class VerifiedIdClientTests: XCTestCase {
                                       configuration: configuration)
         
         // Act
-        let result = try client.decodeVerifiedId(from: mockData)
+        let result = try client.decodeVerifiedId(from: mockData).get()
         
         // Assert
         XCTAssertEqual(result as? MockVerifiedId, expectedVerifiedId)
-    }
-}
-
-struct MockVerifiedIdEncoder: VerifiedIdEncoding {
-    
-    let mockEncode: ((VerifiedId) throws -> Data)
-    
-    init(mockEncode: @escaping ((VerifiedId) throws -> Data)) {
-        self.mockEncode = mockEncode
-    }
-    
-    func encode(verifiedId: VerifiedId) throws -> Data {
-        return try mockEncode(verifiedId)
-    }
-}
-
-struct MockVerifiedIdDecoder: VerifiedIdDecoding {
-
-    let mockDecode: ((Data) throws -> VerifiedId)
-    
-    init(mockDecode: @escaping ((Data) throws -> VerifiedId)) {
-        self.mockDecode = mockDecode
-    }
-    
-    func decode(from data: Data) throws -> VerifiedId {
-        return try mockDecode(data)
     }
 }

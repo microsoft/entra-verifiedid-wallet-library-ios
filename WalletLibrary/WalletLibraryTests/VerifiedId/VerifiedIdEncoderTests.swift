@@ -30,8 +30,8 @@ class VerifiedIdEncoderTests: XCTestCase {
         // Act
         let actualResult = try encoder.encode(verifiedId: mockVerifiedId)
         
+        // Assert
         let encodedVerifiedId = try JSONDecoder().decode(EncodedVerifiedId.self, from: actualResult)
-        
         XCTAssertEqual(encodedVerifiedId.raw, encodedMockVerifiedId)
         XCTAssertEqual(encodedVerifiedId.type, "MockVerifiedId")
     }
