@@ -19,10 +19,6 @@ public class VerifiedIdClient {
     
     let requestHandlerFactory: RequestHandlerFactory
     
-    let verifiedIdDecoder: VerifiedIdDecoder = VerifiedIdDecoder()
-    
-    let verifiedIdEncoder: VerifiedIdEncoder = VerifiedIdEncoder()
-    
     init(requestResolverFactory: RequestResolverFactory,
          requestHandlerFactory: RequestHandlerFactory,
          configuration: LibraryConfiguration) {
@@ -40,10 +36,10 @@ public class VerifiedIdClient {
     }
     
     public func encode(verifiedId: VerifiedId) throws -> Data {
-        return try verifiedIdEncoder.encode(verifiedId: verifiedId)
+        return try configuration.verifiedIdEncoder.encode(verifiedId: verifiedId)
     }
     
     public func decodeVerifiedId(from raw: Data) throws -> VerifiedId {
-        return try verifiedIdDecoder.decode(from: raw)
+        return try configuration.verifiedIdDecoder.decode(from: raw)
     }
 }

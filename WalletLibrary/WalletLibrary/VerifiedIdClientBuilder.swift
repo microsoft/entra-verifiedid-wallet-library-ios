@@ -26,7 +26,9 @@ public class VerifiedIdClientBuilder {
         let _ = VCServices.VerifiableCredentialSDK.initialize()
         
         let configuration = LibraryConfiguration(logger: logger,
-                                                 mapper: Mapper())
+                                                 mapper: Mapper(),
+                                                 verifiedIdDecoder: VerifiedIdDecoder(),
+                                                 verifiedIdEncoder: VerifiedIdEncoder())
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestHandlers(with: configuration)
