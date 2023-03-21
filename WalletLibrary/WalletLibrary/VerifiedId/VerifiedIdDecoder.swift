@@ -12,7 +12,7 @@ enum VerifiedIdDecoderError: Error {
 /**
  * The Verified Id Decoder 
  */
-struct VerifiedIdDecoder {
+struct VerifiedIdDecoder: VerifiedIdDecoding {
 
     private let jsonDecoder = JSONDecoder()
     

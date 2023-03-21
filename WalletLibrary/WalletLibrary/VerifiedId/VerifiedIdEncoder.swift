@@ -11,7 +11,7 @@ enum VerifiedIdEncoderError: Error {
 /**
  * The Verified Id Encoder.
  */
-struct VerifiedIdEncoder {
+struct VerifiedIdEncoder: VerifiedIdEncoding {
 
     private let jsonEncoder = JSONEncoder()
     
@@ -19,6 +19,10 @@ struct VerifiedIdEncoder {
 
     init() {
         self.supportedVerifiedIdTypes = [SupportedVerifiedIdType.VerifiableCredential.rawValue: VerifiableCredential.self]
+    }
+    
+    init(supportedVerifiedIdTypes: [String: VerifiedId.Type]) {
+        self.supportedVerifiedIdTypes = supportedVerifiedIdTypes
     }
 
     func encode(verifiedId: VerifiedId) throws -> Data {
@@ -30,11 +34,10 @@ struct VerifiedIdEncoder {
                     return try jsonEncoder.encode(encodedVerifiedId)
                 }
             }
-            
-            throw VerifiedIdEncoderError.unsupportedVerifiedIdType
-            
         } catch {
             throw VerifiedIdEncoderError.unableToEncodeVerifiedId
         }
+        
+        throw VerifiedIdEncoderError.unsupportedVerifiedIdType
     }
 }

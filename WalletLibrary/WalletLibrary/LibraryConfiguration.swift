@@ -12,9 +12,18 @@ class LibraryConfiguration {
     let logger: WalletLibraryLogger
 
     let mapper: Mapping
+    
+    let verifiedIdDecoder: VerifiedIdDecoding
+    
+    let verifiedIdEncoder: VerifiedIdEncoding
 
-    init(logger: WalletLibraryLogger, mapper: Mapping) {
+    init(logger: WalletLibraryLogger,
+         mapper: Mapping,
+         verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
+         verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder()) {
         self.logger = logger
         self.mapper = mapper
+        self.verifiedIdDecoder = verifiedIdDecoder
+        self.verifiedIdEncoder = verifiedIdEncoder
     }
 }
