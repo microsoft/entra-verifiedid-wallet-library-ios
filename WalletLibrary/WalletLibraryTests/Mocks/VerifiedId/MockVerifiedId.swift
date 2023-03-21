@@ -9,6 +9,8 @@ struct MockVerifiedId: VerifiedId, Equatable {
     
     var id: String
     
+    var double: Double?
+    
     var expiresOn: Date?
     
     var issuedOn: Date
