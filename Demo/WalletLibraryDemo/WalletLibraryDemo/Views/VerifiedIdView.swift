@@ -14,7 +14,7 @@ struct VerifiedIdView: View {
     
     var body: some View {
         VStack {
-            Text("\(verifiedId.id)")
+            Text("\(verifiedId.style.name)")
                 .multilineTextAlignment(.center)
             Spacer()
             Text("Issued on: \(verifiedId.issuedOn.formatted())")

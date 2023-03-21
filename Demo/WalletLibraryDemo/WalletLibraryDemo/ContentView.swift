@@ -33,6 +33,7 @@ struct ContentView: View {
                 }.navigationTitle("Verified Id Sample App")
                 Spacer()
                 if !viewModel.issuedVerifiedIds.isEmpty {
+                    Spacer()
                     Text("Issued Verified Ids")
                         .bold()
                     List {
@@ -40,7 +41,7 @@ struct ContentView: View {
                             NavigationLink {
                                 VerifiedIdView(verifiedId: verifiedId)
                             } label: {
-                                Text(verifiedId.id)
+                                Text(verifiedId.style.name)
                             }
                         }.onDelete { indexSet in
                             viewModel.deleteVerifiedId(indexSet: indexSet)

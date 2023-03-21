@@ -16,6 +16,8 @@ enum VerifiableCredentialError: Error {
  * This object conforms to the Mappable protocol and maps VC claims and display contract to a Verified Id.
  */
 struct VerifiableCredential: VerifiedId {
+    
+    public let style: VerifiedIdStyle
 
     public let id: String
     
@@ -50,6 +52,8 @@ struct VerifiableCredential: VerifiedId {
         } else {
             self.expiresOn = nil
         }
+        
+        self.style = Manifest2022VerifiedIdStyle(name: contract.display.card.title)
     }
     
     enum CodingKeys: String, CodingKey {

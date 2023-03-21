@@ -8,6 +8,8 @@
  */
 public protocol VerifiedId: Codable {
     
+    var style: VerifiedIdStyle { get }
+    
     /// the id of the verified id. For example, this value would equal the jti of a Verifiable Credential.
     var id: String { get }
     
@@ -18,5 +20,13 @@ public protocol VerifiedId: Codable {
     var issuedOn: Date { get }
     
     func getClaims() -> [VerifiedIdClaim]
+}
+
+public protocol VerifiedIdStyle {
+    var name: String { get }
+}
+
+public struct Manifest2022VerifiedIdStyle: VerifiedIdStyle {
+    public let name: String
 }
 

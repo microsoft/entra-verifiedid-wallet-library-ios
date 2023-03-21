@@ -21,7 +21,7 @@ public class VerifiedIdClientBuilder {
     }
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
-    public func build() throws -> VerifiedIdClient {
+    public func build() -> VerifiedIdClient {
         /// TODO: inject log consumer and access group identifier into vc sdk.
         let _ = VCServices.VerifiableCredentialSDK.initialize()
         
