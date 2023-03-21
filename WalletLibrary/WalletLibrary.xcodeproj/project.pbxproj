@@ -143,6 +143,7 @@
 		55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */; };
 		55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337B32948B4B000CD2ED7 /* PinRequirement.swift */; };
 		55E337BC2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */; };
+		55EA173C29C9F9260085E29E /* VerifiedIdEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA173B29C9F9260085E29E /* VerifiedIdEncoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -455,6 +456,7 @@
 		55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapperTests.swift; sourceTree = "<group>"; };
 		55E337B32948B4B000CD2ED7 /* PinRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinRequirement.swift; path = WalletLibrary/Requests/Requirements/PinRequirement.swift; sourceTree = SOURCE_ROOT; };
 		55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationService+OpenIdForVC.swift"; sourceTree = "<group>"; };
+		55EA173B29C9F9260085E29E /* VerifiedIdEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdEncoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1033,6 +1035,7 @@
 				55E336D3293FA75300CD2ED7 /* VerifiedId.swift */,
 				55E336D5293FA78C00CD2ED7 /* VerifiedIdClaim.swift */,
 				552A760D29C91814005BFF3D /* VerifiedIdDecoder.swift */,
+				55EA173B29C9F9260085E29E /* VerifiedIdEncoder.swift */,
 				552A760F29C918B5005BFF3D /* EncodedVerifiedId.swift */,
 			);
 			path = VerifiedId;
@@ -1516,6 +1519,7 @@
 				559BD3B2299B0A0400BD61AC /* AttestationsDescriptor+Mappable.swift in Sources */,
 				5534E64D294A0888005D0765 /* PresentationDescriptor+Mappable.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
+				55EA173C29C9F9260085E29E /* VerifiedIdEncoder.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */,
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
 				559BD485299D8DCC00BD61AC /* VerifiedIdRequester.swift in Sources */,
