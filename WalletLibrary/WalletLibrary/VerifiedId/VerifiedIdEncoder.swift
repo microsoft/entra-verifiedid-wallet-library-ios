@@ -9,7 +9,6 @@ enum VerifiedIdEncoderError: Error {
 
 /**
  * The Verified Id Encoder encodes a Verified Id, adds a type to an EncodedVerifiedId, and encodes again.
- * Post Private Preview: make supported id types injectable.
  */
 struct VerifiedIdEncoder: VerifiedIdEncoding {
 
