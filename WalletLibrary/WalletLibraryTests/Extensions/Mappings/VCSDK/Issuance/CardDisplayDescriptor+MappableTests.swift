@@ -26,7 +26,7 @@ class CardDisplayDescriptorMappingTests: XCTestCase {
                                                           cardDescription: cardDescription)
         
         // Act
-        let actualResult: Manifest2022VerifiedIdStyle = try mapper.map(cardDisplayDescriptor)
+        let actualResult = try mapper.map(cardDisplayDescriptor) as! Manifest2022VerifiedIdStyle
         
         // Assert
         XCTAssertEqual(actualResult.name, title)
@@ -52,7 +52,7 @@ class CardDisplayDescriptorMappingTests: XCTestCase {
                                                           cardDescription: cardDescription)
         
         // Act
-        let actualResult: Manifest2022VerifiedIdStyle = try mapper.map(cardDisplayDescriptor)
+        let actualResult = try mapper.map(cardDisplayDescriptor) as! Manifest2022VerifiedIdStyle
         
         // Assert
         XCTAssertEqual(actualResult.name, title)
@@ -78,7 +78,7 @@ class CardDisplayDescriptorMappingTests: XCTestCase {
                                                           cardDescription: cardDescription)
         
         // Act
-        let actualResult: Manifest2022VerifiedIdStyle = try mapper.map(cardDisplayDescriptor)
+        let actualResult = try mapper.map(cardDisplayDescriptor) as! Manifest2022VerifiedIdStyle
         
         // Assert
         XCTAssertEqual(actualResult.name, title)

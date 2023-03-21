@@ -9,7 +9,7 @@ import VCEntities
  * An extension of the VCEntities.CardDisplayDescriptor class.
  */
 extension CardDisplayDescriptor: Mappable {
-    func map(using mapper: Mapping) throws -> Manifest2022VerifiedIdStyle {
+    func map(using mapper: Mapping) throws -> any VerifiedIdStyle {
         
         var logoUrl: URL? = nil
         if let url = logo?.uri {
