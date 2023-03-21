@@ -8,5 +8,6 @@
  * TODO: Add more attributes from manifest.
  */
 struct Manifest2022IssuerStyle: RequesterStyle, Equatable {
-    var name: String
+    /// The name of the issuer.
+    let name: String
 }

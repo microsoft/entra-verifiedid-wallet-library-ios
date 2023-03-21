@@ -11,7 +11,9 @@ import VCEntities
  */
 class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
-    public let style: RequesterStyle
+    let style: RequesterStyle
+    
+    let verifiedIdStyle: VerifiedIdStyle
     
     public let requirement: Requirement
     
@@ -28,6 +30,7 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
          verifiedIdRequester: VerifiedIdRequester,
          configuration: LibraryConfiguration) {
         self.style = content.style
+        self.verifiedIdStyle = content.verifiedIdStyle
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.responseContainer = issuanceResponseContainer
