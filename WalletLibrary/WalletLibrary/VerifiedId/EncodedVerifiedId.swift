@@ -8,7 +8,7 @@ enum SupportedVerifiedIdType: String, Codable {
 }
 
 struct EncodedVerifiedId: Codable {
-    let type: SupportedVerifiedIdType
+    let type: String
 
     let raw: Data
 }

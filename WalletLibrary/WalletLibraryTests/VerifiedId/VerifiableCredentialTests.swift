@@ -29,7 +29,7 @@ class VerifiableCredentialTests: XCTestCase {
         XCTAssertEqual(actualResult.contract, mockContract)
         XCTAssertEqual(actualResult.expiresOn, Date(timeIntervalSince1970: 0))
         XCTAssertEqual(actualResult.issuedOn, Date(timeIntervalSince1970: 0))
-        XCTAssertEqual(actualResult.id, actualResult.id)
+        XCTAssertEqual(actualResult.id, mockVerifiableCredential.content.jti)
 
     }
     
@@ -72,7 +72,7 @@ class VerifiableCredentialTests: XCTestCase {
         XCTAssertEqual(actualResult.contract, mockContract)
         XCTAssertNil(actualResult.expiresOn)
         XCTAssertEqual(actualResult.issuedOn, Date(timeIntervalSince1970: 0))
-        XCTAssertEqual(actualResult.id, actualResult.id)
+        XCTAssertEqual(actualResult.id, mockVerifiableCredential.content.jti)
     }
     
     func testGetClaims_WithMissingCredentialSubjectInVC_ReturnsEmptyList() async throws {
