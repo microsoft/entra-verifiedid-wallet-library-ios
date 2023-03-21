@@ -12,12 +12,18 @@ VerifiedIdRequest <|-- VerifiedIdIssuanceRequest: implements
 VerifiedIdRequest <|-- VerifiedIdPresentationRequest: implements
 VerifiedIdClient ..> VerifiedIdRequestInput: uses
 VerifiedIdRequestInput <|-- URLRequestInput: implements
+RequesterStyle <|-- Manifest2022IssuerStyle: implements
+VerifiedIdPresentationRequest ..> OpenIdVerifierStyle: uses
+RequesterStyle <|-- OpenIdVerifierStyle: implements
+VerifiedIdIssuanceRequest ..> Manifest2022IssuerStyle: uses
 class VerifiedIdClientBuilder{
     +build() VerifiedIdClient
     +with(logConsumer) WalletLibraryLogConsumer
 }
 class VerifiedIdClient{
-    +createRequest(from: VerifiedIdRequestInput) VerifiedIdRequest
+    +createVerifiedIdRequest(from: VerifiedIdRequestInput) VerifiedIdRequest
+    +encode(verifiedId: VerifiedId) Result<<T>Data>
+    +decodeVerifiedId(from: Data) Result<<T>VerifiedId>
 }
 <<Interface>> VerifiedIdRequestInput
 class URLRequestInput{
@@ -28,6 +34,7 @@ class VerifiedIdRequest{
     +style: RequesterStyle
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
+    +isSatisfied() Result<<T>Bool>
     +complete() Result<<T>T>
     +cancel(message: String?) Result<<T>Void>
 }
@@ -37,6 +44,7 @@ class VerifiedIdIssuanceRequest{
     +verifiedIdStyle: VerifiedIdStyle
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
+    +isSatisfied() Result<<T>Bool>
     +complete() Result<<T>VerifiedId>
     +cancel(message: String?) Result<<T>Void>
 }
@@ -45,6 +53,7 @@ class VerifiedIdPresentationRequest{
     +style: RequesterStyle
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
+    +isSatisfied() Result<<T>Bool>
     +complete() Result<<T>Void>
     +cancel(message: String?) Result<<T>Void>
 }
@@ -55,6 +64,16 @@ class RootOfTrust{
 }
 <<Interface>> RequesterStyle
 class RequesterStyle{
+    +name: String
+}
+
+class Manifest2022IssuerStyle{
+    +name: String
+    +title: String
+    +consent: String
+}
+
+class OpenIdVerifierStyle{
     +name: String
 }
 ```
@@ -78,7 +97,7 @@ class Requirement {
 }
 class GroupRequirement {
     +required: Bool
-    +operator: RequirementOperator
+    +requirementOperator: RequirementOperator
     +requirements: [Requirement]
     +validate()
 }
@@ -89,13 +108,16 @@ class RequirementOperator {
 }
 class SelfAttestedRequirement {
     +required: Bool
-    +label: String
+    +claim: String
     +fulfill(with: String)
     +validate()
 }
 class VerifiedIdRequirement {
     +required: Bool
-    +getMatches(from: [VerifiedId]) [VerifiedId]
+    +purpose: String?
+    +types: [String]
+    +issuanceOptions: [VerifiedIdRequestInput]
+    +getMatches(verifiedIds: [VerifiedId]) [VerifiedId]
     +fulfill(with: VerifiedId)
     +validate()
 }
@@ -111,17 +133,17 @@ class IdTokenRequirement {
     +configuration: URL
     +clientId: String
     +redirectUri: String
-    +scope: String
-    +getNonce() String
+    +scope: String?
+    +getNonce() String?
     +fulfill(with: String)
     +validate()
 }
 class AccessTokenRequirement {
     +required: Bool
-    +configuration: URL
-    +clientId: String
-    +redirectUri: String
+    +configuration: String
+    +clientId: String?
     +scope: String
+    +resourceId: String
     +fulfill(with: String)
     +validate()
 }
@@ -132,23 +154,14 @@ A Verified Id is an abstract representation of a piece of verifiable information
 ```mermaid
 classDiagram
 VerifiedId ..> VerifiedIdClaim: uses
-VerifiedId ..> VerifiedIdType: uses
 VerifiedId ..> VerifiedIdStyle: uses
+VerifiedIdStyle <|-- Manifest2022VerifiedIdStyle: implements
 class VerifiedId {
     +id: String
-    +type: VerifiedIdType
     +style: VerifiedIdStyle
-    +claims: [VerifiedIdClaim]
     +expiresOn: Date
     +issuedOn: Date
-    -raw: String
-}
-
-<<enumeration>> VerifiedIdType
-class VerifiedIdType {
-    VerifiableCredential
-    MDL
-    Other
+    +getClaims() [VerifiedIdClaim]
 }
 
 <<interface>> VerifiedIdStyle
@@ -156,9 +169,18 @@ class VerifiedIdStyle {
     +name: String
 }
 
+class Manifest2022VerifiedIdStyle {
+    +name: String
+    +issuer: String
+    +backgroundColor: String
+    +textColor: String
+    +description: String
+    +logoUrl: URL
+    +logoAltText: String
+}
+
 class VerifiedIdClaim {
     +id: String
-    +label: String?
     +value: Any
 }
 ```
