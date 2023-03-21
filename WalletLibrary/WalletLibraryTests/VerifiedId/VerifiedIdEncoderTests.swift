@@ -21,24 +21,11 @@ class VerifiedIdEncoderTests: XCTestCase {
         }
     }
     
-    func testEncode_WithUnsupportedVerifiedIdType_ThrowsError() async throws {
-        // Arrange
-        let mockVerifiedId = MockVerifiedId(id: "mockVerifiedId", issuedOn: Date())
-        let encoder = VerifiedIdEncoder()
-
-        // Act
-        XCTAssertThrowsError(try encoder.encode(verifiedId: mockVerifiedId)) { error in
-            // Assert
-            XCTAssert(error is VerifiedIdEncoderError)
-            XCTAssertEqual(error as? VerifiedIdEncoderError, .unsupportedVerifiedIdType)
-        }
-    }
-    
     func testDecode_WithValidVerifiedId_ReturnsData() async throws {
         // Arrange
         let mockVerifiedId = MockVerifiedId(id: "mockVerifiedId", issuedOn: Date())
         let encodedMockVerifiedId = try JSONEncoder().encode(mockVerifiedId)
-        let encoder = VerifiedIdEncoder(supportedVerifiedIdTypes: ["MockVerifiedId": MockVerifiedId.self])
+        let encoder = VerifiedIdEncoder()
         
         // Act
         let actualResult = try encoder.encode(verifiedId: mockVerifiedId)

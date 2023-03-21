@@ -4,40 +4,24 @@
 *--------------------------------------------------------------------------------------------*/
 
 enum VerifiedIdEncoderError: Error {
-    case unsupportedVerifiedIdType
     case unableToEncodeVerifiedId
 }
 
 /**
- * The Verified Id Encoder.
+ * The Verified Id Encoder encodes a Verified Id, adds a type to an EncodedVerifiedId, and encodes again.
+ * Post Private Preview: make supported id types injectable.
  */
 struct VerifiedIdEncoder: VerifiedIdEncoding {
 
     private let jsonEncoder = JSONEncoder()
     
-    private let supportedVerifiedIdTypes: [String: VerifiedId.Type]
-
-    init() {
-        self.supportedVerifiedIdTypes = [SupportedVerifiedIdType.VerifiableCredential.rawValue: VerifiableCredential.self]
-    }
-    
-    init(supportedVerifiedIdTypes: [String: VerifiedId.Type]) {
-        self.supportedVerifiedIdTypes = supportedVerifiedIdTypes
-    }
-
     func encode(verifiedId: VerifiedId) throws -> Data {
         do {
             let rawVerifiedId = try jsonEncoder.encode(verifiedId)
-            for (key, value) in supportedVerifiedIdTypes {
-                if type(of: verifiedId) == value {
-                    let encodedVerifiedId = EncodedVerifiedId(type: key, raw: rawVerifiedId)
-                    return try jsonEncoder.encode(encodedVerifiedId)
-                }
-            }
+            let encodedVerifiedId = EncodedVerifiedId(type: String(describing: type(of: verifiedId)), raw: rawVerifiedId)
+            return try jsonEncoder.encode(encodedVerifiedId)
         } catch {
             throw VerifiedIdEncoderError.unableToEncodeVerifiedId
         }
-        
-        throw VerifiedIdEncoderError.unsupportedVerifiedIdType
     }
 }
