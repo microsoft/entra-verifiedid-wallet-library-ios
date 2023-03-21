@@ -4,11 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * A Verified Id Issuance Request contains the look and feel of the issuer and verified id,
+ * A Verified Id Presentation Request contains the look and feel of the verifier,
  * the requirement needed to fulfill the request, and the root of trust.
  */
-public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == VerifiedId {
-    
-    /// The look and feel of the Verified Id.
-    var verifiedIdStyle: VerifiedIdStyle { get }
-}
+public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }

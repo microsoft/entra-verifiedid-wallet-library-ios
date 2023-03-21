@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of the Verified Id Style configured by a Manifest implemented in 2022.
+ * The look and feel of the Verified Id configured by a Manifest implemented in 2022.
  */
 public struct Manifest2022VerifiedIdStyle: VerifiedIdStyle {
     

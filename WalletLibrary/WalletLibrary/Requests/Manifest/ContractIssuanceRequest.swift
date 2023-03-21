@@ -11,9 +11,9 @@ import VCEntities
  */
 class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
-    let style: RequesterStyle
+    public let style: RequesterStyle
     
-    let verifiedIdStyle: VerifiedIdStyle
+    public let verifiedIdStyle: VerifiedIdStyle
     
     public let requirement: Requirement
     

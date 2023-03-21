@@ -146,6 +146,7 @@
 		55EA17A829CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A729CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift */; };
 		55EA17AA29CA57320085E29E /* MockVerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */; };
 		55EA17AC29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17AB29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift */; };
+		55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17AD29CA693C0085E29E /* VerifiedIdPresentationRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -461,6 +462,7 @@
 		55EA17A729CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manifest2022VerifiedIdStyle.swift; sourceTree = "<group>"; };
 		55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdStyle.swift; sourceTree = "<group>"; };
 		55EA17AB29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardDisplayDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
+		55EA17AD29CA693C0085E29E /* VerifiedIdPresentationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdPresentationRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1165,6 +1167,7 @@
 				550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */,
 				55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */,
 				55EA17A329CA4F590085E29E /* VerifiedIdStyle.swift */,
+				55EA17AD29CA693C0085E29E /* VerifiedIdPresentationRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1504,6 +1507,7 @@
 				559BD4B3299EDFB400BD61AC /* VerifiableCredential.swift in Sources */,
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
 				553CC09029A955E6005A5FD6 /* PinDescriptor+Mappable.swift in Sources */,
+				55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */,
 				55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */,
 				550E3214298B11A5004E7716 /* Requirement.swift in Sources */,
 				559BD453299D3DD800BD61AC /* IssuanceRequest+Mappable.swift in Sources */,
