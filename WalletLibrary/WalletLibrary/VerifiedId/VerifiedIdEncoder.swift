@@ -8,7 +8,7 @@ enum VerifiedIdEncoderError: Error {
 }
 
 /**
- * The Verified Id Encoder encodes a Verified Id, adds a type to an EncodedVerifiedId, and encodes again.
+ * The Verified Id Encoder encodes a Verified Id, adds the type to the wrapped EncodedVerifiedId object, and encodes again.
  */
 struct VerifiedIdEncoder: VerifiedIdEncoding {
 

@@ -147,6 +147,8 @@
 		55EA177B29CA27E30085E29E /* VerifiedIdDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA177A29CA27E30085E29E /* VerifiedIdDecoding.swift */; };
 		55EA177D29CA27ED0085E29E /* VerifiedIdEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA177C29CA27ED0085E29E /* VerifiedIdEncoding.swift */; };
 		55EA177F29CA32020085E29E /* VerifiedIdEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA177E29CA32020085E29E /* VerifiedIdEncoderTests.swift */; };
+		55EA178129CA3EE50085E29E /* MockVerifiedIdDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA178029CA3EE50085E29E /* MockVerifiedIdDecoder.swift */; };
+		55EA178329CA3F0C0085E29E /* MockVerifiedIdEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA178229CA3F0C0085E29E /* MockVerifiedIdEncoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -463,6 +465,8 @@
 		55EA177A29CA27E30085E29E /* VerifiedIdDecoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdDecoding.swift; sourceTree = "<group>"; };
 		55EA177C29CA27ED0085E29E /* VerifiedIdEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdEncoding.swift; sourceTree = "<group>"; };
 		55EA177E29CA32020085E29E /* VerifiedIdEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdEncoderTests.swift; sourceTree = "<group>"; };
+		55EA178029CA3EE50085E29E /* MockVerifiedIdDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdDecoder.swift; sourceTree = "<group>"; };
+		55EA178229CA3F0C0085E29E /* MockVerifiedIdEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdEncoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -724,6 +728,8 @@
 			isa = PBXGroup;
 			children = (
 				553CC09829A96C38005A5FD6 /* MockVerifiedId.swift */,
+				55EA178029CA3EE50085E29E /* MockVerifiedIdDecoder.swift */,
+				55EA178229CA3F0C0085E29E /* MockVerifiedIdEncoder.swift */,
 			);
 			path = VerifiedId;
 			sourceTree = "<group>";
@@ -1575,6 +1581,7 @@
 				559BD4F3299EEAFD00BD61AC /* SelfAttestedClaimRequirementTests.swift in Sources */,
 				55E2F08429955E8A0008010D /* MockMapper.swift in Sources */,
 				55E2F06F299553B40008010D /* OpenIdRequestHandlerTests.swift in Sources */,
+				55EA178329CA3F0C0085E29E /* MockVerifiedIdEncoder.swift in Sources */,
 				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */,
 				559BD4ED299EEAD100BD61AC /* IdTokenRequirementTests.swift in Sources */,
@@ -1592,6 +1599,7 @@
 				55A81C102991C211002C259A /* MockResolver.swift in Sources */,
 				559BD4E5299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift in Sources */,
 				55A81C092991BB3A002C259A /* RequestHandlerFactoryTests.swift in Sources */,
+				55EA178129CA3EE50085E29E /* MockVerifiedIdDecoder.swift in Sources */,
 				559BD30D2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift in Sources */,
 				55DECBD029B922D200D5C802 /* MockPresentationResponder.swift in Sources */,
 				550A91952994025C0014D030 /* OpenIdURLRequestResolverTests.swift in Sources */,

@@ -9,8 +9,8 @@ enum VerifiedIdDecoderError: Error {
 }
 
 /**
- * The Verified Id Decoder decodes data, determines the type fo Verified Id the data is, and returns that VerifiedId.
- * Post Private Preview, make supported types injectable.
+ * The Verified Id Decoder decodes the data, determines what type of Verified Id the data represents, and returns that VerifiedId.
+ * Post Private Preview: make supported types injectable.
  */
 struct VerifiedIdDecoder: VerifiedIdDecoding {
 
