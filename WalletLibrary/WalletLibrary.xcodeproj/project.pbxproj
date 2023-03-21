@@ -144,6 +144,7 @@
 		55EA17A429CA4F590085E29E /* VerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A329CA4F590085E29E /* VerifiedIdStyle.swift */; };
 		55EA17A629CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A529CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift */; };
 		55EA17A829CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A729CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift */; };
+		55EA17AA29CA57320085E29E /* MockVerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -457,6 +458,7 @@
 		55EA17A329CA4F590085E29E /* VerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdStyle.swift; sourceTree = "<group>"; };
 		55EA17A529CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardDisplayDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		55EA17A729CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manifest2022VerifiedIdStyle.swift; sourceTree = "<group>"; };
+		55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -718,6 +720,7 @@
 			isa = PBXGroup;
 			children = (
 				553CC09829A96C38005A5FD6 /* MockVerifiedId.swift */,
+				55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */,
 			);
 			path = VerifiedId;
 			sourceTree = "<group>";
@@ -1561,6 +1564,7 @@
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */,
 				559BD4ED299EEAD100BD61AC /* IdTokenRequirementTests.swift in Sources */,
 				55DECC3D29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift in Sources */,
+				55EA17AA29CA57320085E29E /* MockVerifiedIdStyle.swift in Sources */,
 				55DECC4329C0CF5F00D5C802 /* MockOpenIdResponder.swift in Sources */,
 				559BD455299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift in Sources */,
 				553CC0A029A98003005A5FD6 /* VerifiableCredentialTests.swift in Sources */,
