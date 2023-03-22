@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * Errors thrown in Pin Descriptor Mappable extension.
@@ -16,7 +18,7 @@ enum PinDescriptorError: Error {
  * An extension of the VCEntities.PinDescriptor class to be able
  * to map PinDescriptor to PinRequirement.
  */
-extension VCEntities.PinDescriptor: Mappable {
+extension PinDescriptor: Mappable {
     
     func map(using mapper: Mapping) throws -> PinRequirement {
         

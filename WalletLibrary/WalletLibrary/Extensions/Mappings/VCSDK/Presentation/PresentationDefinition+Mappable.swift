@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * Errors thrown in Presentation Definition Mappable extension.
@@ -16,7 +18,7 @@ enum PresentationDefinitionMappingError: Error {
  * An extension of the VCEntities.PresentationDefinition class to be able
  * to map PresentationDefinition to a Requirement.
  */
-extension VCEntities.PresentationDefinition: Mappable {
+extension PresentationDefinition: Mappable {
     
     func map(using mapper: Mapping) throws -> Requirement {
         

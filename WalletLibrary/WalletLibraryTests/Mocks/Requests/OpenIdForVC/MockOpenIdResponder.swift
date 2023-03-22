@@ -7,12 +7,12 @@
 
 struct MockOpenIdResponder: OpenIdResponder {
     
-    let mockSend: ((PresentationResponse) async throws -> ())?
+    let mockSend: ((RawPresentationResponse) async throws -> ())?
     
-    init(mockSend: ((PresentationResponse) async throws -> ())? = nil) {
+    init(mockSend: ((RawPresentationResponse) async throws -> ())? = nil) {
         self.mockSend = mockSend
     }
-    func send(response: PresentationResponse) async throws {
+    func send(response: RawPresentationResponse) async throws {
         try await self.mockSend?(response)
     }
 }

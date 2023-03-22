@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCServices
+#if canImport(VCServices)
+    import VCServices
+#endif
 
 /**
  * An extension of the VCServices.IssuanceService class

@@ -3,13 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * An extension of the VCEntities.LinkedDomainResult class to be able
  * to map LinkedDomainResult to RootOfTrust.
  */
-extension VCEntities.LinkedDomainResult: Mappable {
+extension LinkedDomainResult: Mappable {
     
     func map(using mapper: Mapping) throws -> RootOfTrust {
         switch (self) {

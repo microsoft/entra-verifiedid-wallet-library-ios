@@ -3,13 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * An extension of the VCEntities.PresentationDescriptor class to be able
  * to map PresentationDescriptor to VerifiedIdRequirement.
  */
-extension VCEntities.PresentationDescriptor: Mappable {
+extension PresentationDescriptor: Mappable {
     
     func map(using mapper: Mapping) throws -> VerifiedIdRequirement {
         

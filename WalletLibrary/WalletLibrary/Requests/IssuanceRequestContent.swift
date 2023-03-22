@@ -24,7 +24,7 @@ struct IssuanceRequestContent {
     
     mutating func addRequirement(from injectedIdToken: InjectedIdToken) {
         switch (requirement) {
-        case var groupRequirement as GroupRequirement:
+        case let groupRequirement as GroupRequirement:
             repopulate(groupRequirement: groupRequirement, from: injectedIdToken)
         case let idTokenRequirement as IdTokenRequirement:
             add(injectedIdToken: injectedIdToken,

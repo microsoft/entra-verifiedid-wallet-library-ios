@@ -3,13 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * An extension of the VCEntities.IssuanceRequest class.
  * TODO: Update Style to include VerifiedIdStyle and more requester style attributes.
  */
-extension VCEntities.IssuanceRequest: Mappable {
+extension IssuanceRequest: Mappable {
     func map(using mapper: Mapping) throws -> IssuanceRequestContent {
         
         let attestations = try getRequiredProperty(property: content.input.attestations,
