@@ -3,9 +3,11 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
- * An extension of the VCEntities.IssuanceRequest class.
+ * An extension of the IssuanceRequest class.
  */
-extension VCEntities.IssuanceRequest: RawManifest { }
+extension IssuanceRequest: RawManifest { }

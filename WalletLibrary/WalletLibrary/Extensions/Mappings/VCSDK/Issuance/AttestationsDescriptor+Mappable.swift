@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 enum AttestationsDescriptorMappingError: Error {
     case noRequirementsPresent
@@ -13,7 +15,7 @@ enum AttestationsDescriptorMappingError: Error {
  * An extension of the VCEntities.AttestationsDescriptor class to be able
  * to map AttestationsDescriptor to Requirement.
  */
-extension VCEntities.AttestationsDescriptor: Mappable {
+extension AttestationsDescriptor: Mappable {
     
     func map(using mapper: Mapping) throws -> Requirement {
         

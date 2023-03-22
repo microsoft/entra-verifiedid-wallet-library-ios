@@ -7,5 +7,5 @@
 
 class MockPresentationResponder: OpenIdResponder {
     
-    func send(response: PresentationResponse) async throws { }
+    func send(response: RawPresentationResponse) async throws { }
 }

@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * Errors thrown in Presentation Input Descriptor Mappable extension.
@@ -16,7 +18,7 @@ enum PresentationInputDescriptorMappingError: Error {
  * An extension of the VCEntities.PresentationInputDescriptor class to be able
  * to map PresentationInputDescriptor to VerifiedIdRequirement.
  */
-extension VCEntities.PresentationInputDescriptor: Mappable {
+extension PresentationInputDescriptor: Mappable {
     
     func map(using mapper: Mapping) throws -> VerifiedIdRequirement {
         

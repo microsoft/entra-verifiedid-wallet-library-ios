@@ -26,9 +26,9 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try PresentationResponseContainer(rawRequest: mockRawRequest)) { error in
             // Assert
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual(error as? PresentationResponseError,
-                           PresentationResponseError.unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual(error as? PresentationResponseContainerError,
+                           PresentationResponseContainerError.unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
         }
     }
     
@@ -55,9 +55,56 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try presentationResponse.add(requirement: invalidRequirement)) { error in
             // Assert
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual(error as? PresentationResponseError,
-                           PresentationResponseError.unsupportedRequirementOfType("MockRequirement"))
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual(error as? PresentationResponseContainerError,
+                           PresentationResponseContainerError.unsupportedRequirementOfType("MockRequirement"))
+        }
+    }
+    
+    func testAddRequirement_WithNoIdInVerifiedIdRequirement_ThrowsError() async throws {
+        // Arrange
+        let mockPresentationRequest = createPresentationRequest()
+        var presentationResponse = try PresentationResponseContainer(rawRequest: mockPresentationRequest)
+        
+        let mockConstraint = MockConstraint(doesMatchResult: true)
+        let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                          required: false,
+                                                          types: ["mockType"],
+                                                          purpose: nil,
+                                                          issuanceOptions: [],
+                                                          id: nil,
+                                                          constraint: mockConstraint)
+        
+        // Act
+        XCTAssertThrowsError(try presentationResponse.add(requirement: verifiedIdRequirement)) { error in
+            // Assert
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual(error as? PresentationResponseContainerError,
+                           PresentationResponseContainerError.missingIdInVerifiedIdRequirement)
+        }
+    }
+    
+    func testAddRequirement_WithSelectedVerifiedIdTypeUnsupportedInVerifiedIdRequirement_AddsVCsToMap() async throws {
+        // Arrange
+        let mockPresentationRequest = createPresentationRequest()
+        var presentationResponse = try PresentationResponseContainer(rawRequest: mockPresentationRequest)
+        
+        let mockConstraint = MockConstraint(doesMatchResult: true)
+        let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                          required: false,
+                                                          types: ["mockType"],
+                                                          purpose: nil,
+                                                          issuanceOptions: [],
+                                                          id: "mockId",
+                                                          constraint: mockConstraint)
+        try verifiedIdRequirement.fulfill(with: MockVerifiedId(id: "mockId", issuedOn: Date()))
+        
+        // Act
+        XCTAssertThrowsError(try presentationResponse.add(requirement: verifiedIdRequirement)) { error in
+            // Assert
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual(error as? PresentationResponseContainerError,
+                           PresentationResponseContainerError.unableToCastVerifableCredentialFromVerifiedId)
         }
     }
     

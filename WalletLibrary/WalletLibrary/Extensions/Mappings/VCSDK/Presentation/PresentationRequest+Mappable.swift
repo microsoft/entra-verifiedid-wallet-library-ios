@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * Errors thrown in Presentation Request Mappable extension.
@@ -16,7 +18,7 @@ enum PresentationRequestMappingError: Error {
  * An extension of the VCEntities.PresentationRequest class to be able
  * to map PresentationRequest to VerifiedIdRequestContent.
  */
-extension VCEntities.PresentationRequest: Mappable {
+extension PresentationRequest: Mappable {
     
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
         
