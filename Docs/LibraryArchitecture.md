@@ -12,16 +12,16 @@ VerifiedIdRequest <|-- VerifiedIdIssuanceRequest: implements
 VerifiedIdRequest <|-- VerifiedIdPresentationRequest: implements
 VerifiedIdClient ..> VerifiedIdRequestInput: uses
 VerifiedIdRequestInput <|-- URLRequestInput: implements
-RequesterStyle <|-- Manifest2022IssuerStyle: implements
+RequesterStyle <|-- VerifiedIdManifestIssuerStyle: implements
 VerifiedIdPresentationRequest ..> OpenIdVerifierStyle: uses
 RequesterStyle <|-- OpenIdVerifierStyle: implements
-VerifiedIdIssuanceRequest ..> Manifest2022IssuerStyle: uses
+VerifiedIdIssuanceRequest ..> VerifiedIdManifestIssuerStyle: uses
 class VerifiedIdClientBuilder{
     +build() VerifiedIdClient
     +with(logConsumer) WalletLibraryLogConsumer
 }
 class VerifiedIdClient{
-    +createVerifiedIdRequest(from: VerifiedIdRequestInput) VerifiedIdRequest
+    +createVerifiedIdRequest(from: VerifiedIdRequestInput) Result<<T>VerifiedIdRequest>
     +encode(verifiedId: VerifiedId) Result<<T>Data>
     +decodeVerifiedId(from: Data) Result<<T>VerifiedId>
 }
@@ -34,7 +34,7 @@ class VerifiedIdRequest{
     +style: RequesterStyle
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
-    +isSatisfied() Result<<T>Bool>
+    +isSatisfied() Bool
     +complete() Result<<T>T>
     +cancel(message: String?) Result<<T>Void>
 }
@@ -44,7 +44,7 @@ class VerifiedIdIssuanceRequest{
     +verifiedIdStyle: VerifiedIdStyle
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
-    +isSatisfied() Result<<T>Bool>
+    +isSatisfied() Bool
     +complete() Result<<T>VerifiedId>
     +cancel(message: String?) Result<<T>Void>
 }
@@ -53,7 +53,7 @@ class VerifiedIdPresentationRequest{
     +style: RequesterStyle
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
-    +isSatisfied() Result<<T>Bool>
+    +isSatisfied() Bool
     +complete() Result<<T>Void>
     +cancel(message: String?) Result<<T>Void>
 }
@@ -67,10 +67,10 @@ class RequesterStyle{
     +name: String
 }
 
-class Manifest2022IssuerStyle{
+class VerifiedIdManifestIssuerStyle{
     +name: String
-    +title: String
-    +consent: String
+    +title: String?
+    +consent: String?
 }
 
 class OpenIdVerifierStyle{
@@ -93,13 +93,13 @@ Requirement <|-- AccessTokenRequirement: implements
 <<Interface>> Requirement
 class Requirement {
     +required: Bool
-    +validate()
+    +validate() Result<<T>Void>
 }
 class GroupRequirement {
     +required: Bool
     +requirementOperator: RequirementOperator
     +requirements: [Requirement]
-    +validate()
+    +validate() Result<<T>Void>
 }
 <<enumeration>> RequirementOperator
 class RequirementOperator {
@@ -109,8 +109,8 @@ class RequirementOperator {
 class SelfAttestedRequirement {
     +required: Bool
     +claim: String
-    +fulfill(with: String)
-    +validate()
+    +fulfill(with: String) Result<<T>Void>
+    +validate() Result<<T>Void>
 }
 class VerifiedIdRequirement {
     +required: Bool
@@ -118,15 +118,15 @@ class VerifiedIdRequirement {
     +types: [String]
     +issuanceOptions: [VerifiedIdRequestInput]
     +getMatches(verifiedIds: [VerifiedId]) [VerifiedId]
-    +fulfill(with: VerifiedId)
-    +validate()
+    +fulfill(with: VerifiedId) Result<<T>Void>
+    +validate() Result<<T>Void>
 }
 class PinRequirement {
     +required: Bool
     +length: Int
     +type: String
-    +fulfill(with: String)
-    +validate()
+    +fulfill(with: String) Result<<T>Void>
+    +validate() Result<<T>Void>
 }
 class IdTokenRequirement {
     +required: Bool
@@ -135,8 +135,8 @@ class IdTokenRequirement {
     +redirectUri: String
     +scope: String?
     +getNonce() String?
-    +fulfill(with: String)
-    +validate()
+    +fulfill(with: String) Result<<T>Void>
+    +validate() Result<<T>Void>
 }
 class AccessTokenRequirement {
     +required: Bool
@@ -144,8 +144,8 @@ class AccessTokenRequirement {
     +clientId: String?
     +scope: String
     +resourceId: String
-    +fulfill(with: String)
-    +validate()
+    +fulfill(with: String) Result<<T>Void>
+    +validate() Result<<T>Void>
 }
 ```
 
@@ -155,7 +155,7 @@ A Verified Id is an abstract representation of a piece of verifiable information
 classDiagram
 VerifiedId ..> VerifiedIdClaim: uses
 VerifiedId ..> VerifiedIdStyle: uses
-VerifiedIdStyle <|-- Manifest2022VerifiedIdStyle: implements
+VerifiedIdStyle <|-- BasicVerifiedIdStyle: implements
 class VerifiedId {
     +id: String
     +style: VerifiedIdStyle
@@ -169,14 +169,15 @@ class VerifiedIdStyle {
     +name: String
 }
 
-class Manifest2022VerifiedIdStyle {
+class BasicVerifiedIdStyle {
     +name: String
     +issuer: String
     +backgroundColor: String
     +textColor: String
     +description: String
-    +logoUrl: URL
-    +logoAltText: String
+    +logoUrl: URL?
+    +logoAltText: String?
+    +image: String?
 }
 
 class VerifiedIdClaim {
