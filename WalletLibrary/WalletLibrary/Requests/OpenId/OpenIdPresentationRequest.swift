@@ -12,10 +12,13 @@
  */
 class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     
+    /// The look and feel of the requester.
     let style: RequesterStyle
     
+    /// The requirement needed to fulfill request.
     let requirement: Requirement
     
+    /// The root of trust results between the request and the source of the request.
     let rootOfTrust: RootOfTrust
     
     private let rawRequest: any OpenIdRawRequest
@@ -37,6 +40,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         self.configuration = configuration
     }
     
+    /// Whether or not the request is satisfied on client side.
     func isSatisfied() -> Bool {
         do {
             try requirement.validate()
@@ -47,6 +51,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         }
     }
     
+    /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
     func complete() async -> Result<(), Error> {
         do {
             var response = try PresentationResponseContainer(rawRequest: rawRequest)
@@ -58,6 +63,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         }
     }
     
+    /// Cancel the request with an optional message.
     func cancel(message: String?) -> Result<Void, Error> {
         return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
     }
