@@ -1,14 +1,65 @@
-# Project
+# Microsoft Entra Wallet Library
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+> TODO: Add blurb about what this library is for.
 
-As the maintainer of this project, please make a few updates:
+## Quick Start
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+Add pod to PodFile.
+
+```ruby
+use_frameworks!
+
+target "YourApp" do
+  pod "WalletLibrary", "~> 0.0.1"
+end
+```
+
+### Using the Wallet Library
+Here is a quick example of how to use the library. For more in depth examples, check out the Demo app.
+ 
+```Swift
+
+/// Create a verifiedIdClient.
+let verifiedIdClient = try VerifiedIdClientBuilder().build()
+
+/// Create a VerifiedIdRequestInput using a OpenId Request Uri.
+let input = VerifiedIdRequestURL(url: URL(string: "openid-vc...")!)
+let request = try await verifiedIdClient.createVerifiedIdRequest(from: input)
+
+/// A request created from the method above could be an issuance or a presnetation request.
+switch(request) {
+    case let issuanceRequest as? VerifiedIdIssuanceRequest:
+        /// handle issuance request...
+    case let presentationRequest as? VerifiedIdPresentationRequest:
+        /// handle presentation request...
+}
+```
+
+At the time of publish, we support the following requirements for an issuance request:
+* GroupRequirement
+* SelfAttestedClaimRequirement
+* IdTokenRequirement
+* AccessTokenRequirement
+* VerifiedIdRequirement
+* PinRequirement
+
+We support the following requirements for a presentation request:
+* VerifiedIdRequirement
+
+To fulfill a requirement, cast it to the correct Requirement type and use fulfill method.
+```Swift
+let verifiedIdRequirement = presentationRequest.requirement as! VerifiedIdRequirement
+verifiedIdRequirement.fulfill(with: <Insert VerifiedId>)
+```
+
+Once all of the requirements are fulfilled, complete the request using the complete method.
+```Swift
+let result = await presentationRequest.complete()
+```
+## Documentation
+
+* [External Architecture](Docs/LibraryArchitecture.md)
+* [Microsoft Docs](https://learn.microsoft.com/en-us/azure/active-directory/verifiable-credentials/)
 
 ## Contributing
 
