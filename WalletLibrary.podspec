@@ -20,6 +20,7 @@ Pod::Spec.new do |s|
     s.swift_version = '5.0'
 
     s.ios.deployment_target = '13.0'
+    s.default_subspecs = 'Core', 'VCServices', 'VCNetworking', 'VCEntities', 'VCToken', 'VCCrypto', 'Secp256k1'
 
     s.subspec 'Secp256k1' do |cs|
         cs.library = 'c++'
