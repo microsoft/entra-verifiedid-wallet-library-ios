@@ -10,9 +10,10 @@ import VCToken
 
 class IssuanceRequestMappingTests: XCTestCase {
     
-    enum MockError: Error {
+    enum ExpectedError: Error {
         case expectedToBeUnableToMapAttestationsDescriptor
         case expectedToBeUnableToMapLinkedDomainResult
+        case expectedToBeUnableToMapCardDisplayDescriptor
     }
     
     func testMap_WithNilAttestations_ThrowsError() throws {
@@ -38,7 +39,7 @@ class IssuanceRequestMappingTests: XCTestCase {
 
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is AttestationsDescriptor {
-                throw MockError.expectedToBeUnableToMapAttestationsDescriptor
+                throw ExpectedError.expectedToBeUnableToMapAttestationsDescriptor
             }
 
             return nil
@@ -49,8 +50,8 @@ class IssuanceRequestMappingTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try mapper.map(issuanceRequest)) { error in
             // Assert
-            XCTAssert(error is MockError)
-            XCTAssertEqual(error as? MockError, .expectedToBeUnableToMapAttestationsDescriptor)
+            XCTAssert(error is ExpectedError)
+            XCTAssertEqual(error as? ExpectedError, .expectedToBeUnableToMapAttestationsDescriptor)
         }
     }
     
@@ -67,7 +68,7 @@ class IssuanceRequestMappingTests: XCTestCase {
             }
             
             if objectToBeMapped is LinkedDomainResult {
-                throw MockError.expectedToBeUnableToMapLinkedDomainResult
+                throw ExpectedError.expectedToBeUnableToMapLinkedDomainResult
             }
 
             return nil
@@ -78,12 +79,12 @@ class IssuanceRequestMappingTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try mapper.map(issuanceRequest)) { error in
             // Assert
-            XCTAssert(error is MockError)
-            XCTAssertEqual(error as? MockError, .expectedToBeUnableToMapLinkedDomainResult)
+            XCTAssert(error is ExpectedError)
+            XCTAssertEqual(error as? ExpectedError, .expectedToBeUnableToMapLinkedDomainResult)
         }
     }
     
-    func testMap_WithValidInput_ReturnsVerifiedIdRequestContent() throws {
+    func testMap_WhenCardDisplayDescriptorMappingThrowsError_ThrowsError() throws {
         // Arrange
         let mockRequirement = MockRequirement(id: "mock requirement")
         let mockRootOfTrust = RootOfTrust(verified: true, source: "mock source")
@@ -99,6 +100,45 @@ class IssuanceRequestMappingTests: XCTestCase {
             if objectToBeMapped is LinkedDomainResult {
                 return mockRootOfTrust
             }
+            
+            if objectToBeMapped is CardDisplayDescriptor {
+                throw ExpectedError.expectedToBeUnableToMapCardDisplayDescriptor
+            }
+
+            return nil
+        }
+
+        let mapper = MockMapper(mockResults: mockResults)
+
+        // Act
+        XCTAssertThrowsError(try mapper.map(issuanceRequest)) { error in
+            // Assert
+            XCTAssert(error is ExpectedError)
+            XCTAssertEqual(error as? ExpectedError, .expectedToBeUnableToMapCardDisplayDescriptor)
+        }
+    }
+    
+    func testMap_WithValidInput_ReturnsVerifiedIdRequestContent() throws {
+        // Arrange
+        let mockRequirement = MockRequirement(id: "mock requirement")
+        let mockRootOfTrust = RootOfTrust(verified: true, source: "mock source")
+        let mockVerifiedIdStyle = MockVerifiedIdStyle()
+        let attestations = AttestationsDescriptor(accessTokens: [])
+        let signedContract = createMockSignedContract(attestations: attestations)
+        let issuanceRequest = IssuanceRequest(from: signedContract, linkedDomainResult: .linkedDomainMissing)
+
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is AttestationsDescriptor {
+                return mockRequirement
+            }
+            
+            if objectToBeMapped is LinkedDomainResult {
+                return mockRootOfTrust
+            }
+            
+            if objectToBeMapped is CardDisplayDescriptor {
+                return mockVerifiedIdStyle
+            }
 
             return nil
         }
@@ -112,6 +152,7 @@ class IssuanceRequestMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.style.name, "mock issuer")
         XCTAssertEqual(actualResult.rootOfTrust, mockRootOfTrust)
         XCTAssertEqual(actualResult.requirement as? MockRequirement, mockRequirement)
+        XCTAssertEqual(actualResult.verifiedIdStyle as? MockVerifiedIdStyle, mockVerifiedIdStyle)
     }
     
     private func createMockSignedContract(attestations: AttestationsDescriptor? = nil) -> SignedContract {

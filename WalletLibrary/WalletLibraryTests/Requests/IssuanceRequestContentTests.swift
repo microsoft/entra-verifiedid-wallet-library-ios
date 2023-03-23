@@ -13,6 +13,7 @@ class IssuanceRequestContentTests: XCTestCase {
         // Arrange
         let idTokenRequirement = createIdTokenRequirement()
         var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
         let injectedIdToken = InjectedIdToken(rawToken: "mockRawToken", pin: nil)
@@ -31,6 +32,7 @@ class IssuanceRequestContentTests: XCTestCase {
         // Arrange
         let idTokenRequirement = createIdTokenRequirement(configuration: "https://invalidConfiguration.me")
         var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
         let injectedIdToken = InjectedIdToken(rawToken: "mockRawToken", pin: nil)
@@ -48,6 +50,7 @@ class IssuanceRequestContentTests: XCTestCase {
         // Arrange
         let idTokenRequirement = createIdTokenRequirement()
         var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
         let pinRequirement = PinRequirement(required: false,
@@ -79,6 +82,7 @@ class IssuanceRequestContentTests: XCTestCase {
                                                 requirements: [mockRequirement, idTokenRequirement],
                                                 requirementOperator: .ALL)
         var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: groupRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
         let injectedIdToken = InjectedIdToken(rawToken: "mockRawToken", pin: nil)
@@ -106,6 +110,7 @@ class IssuanceRequestContentTests: XCTestCase {
                                                 requirements: [mockRequirement, idTokenRequirement],
                                                 requirementOperator: .ALL)
         var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+                                                            verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: groupRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
         let pinRequirement = PinRequirement(required: false,

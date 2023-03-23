@@ -15,6 +15,8 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
     public let style: RequesterStyle
     
+    public let verifiedIdStyle: VerifiedIdStyle
+    
     public let requirement: Requirement
     
     public let rootOfTrust: RootOfTrust
@@ -30,6 +32,7 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
          verifiedIdRequester: VerifiedIdRequester,
          configuration: LibraryConfiguration) {
         self.style = content.style
+        self.verifiedIdStyle = content.verifiedIdStyle
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.responseContainer = issuanceResponseContainer

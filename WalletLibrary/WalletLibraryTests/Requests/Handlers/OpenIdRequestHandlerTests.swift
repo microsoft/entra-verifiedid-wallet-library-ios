@@ -328,6 +328,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedIssuanceRequirement = MockRequirement(id: "mockRequirement23535")
         let expectedIssuanceRootOfTrust = RootOfTrust(verified: true, source: "mock issuer source")
         let expectedIssuanceContent = IssuanceRequestContent(style: expectedIssuanceStyle,
+                                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                                              requirement: expectedIssuanceRequirement,
                                                              rootOfTrust: expectedIssuanceRootOfTrust)
         
@@ -390,6 +391,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedIssuanceRequirement = MockRequirement(id: "mockRequirement23535")
         let expectedIssuanceRootOfTrust = RootOfTrust(verified: true, source: "mock issuer source")
         let expectedIssuanceContent = IssuanceRequestContent(style: expectedIssuanceStyle,
+                                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                                              requirement: expectedIssuanceRequirement,
                                                              rootOfTrust: expectedIssuanceRootOfTrust)
         

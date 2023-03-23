@@ -4,10 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of Issuer Style configured by a Manifest implemented in 2022.
- * TODO: Add more attributes from manifest.
+ * The look and fee of the Verified Id.
  */
-struct Manifest2022IssuerStyle: RequesterStyle, Equatable {
-    /// The name of the issuer.
-    let name: String
+public protocol VerifiedIdStyle {
+    /// The name of the Verified Id.
+    var name: String { get }
 }

@@ -4,10 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of Issuer Style configured by a Manifest implemented in 2022.
- * TODO: Add more attributes from manifest.
+ * A Verified Id Issuance Request contains the look and feel of the issuer and verified id,
+ * the requirement needed to fulfill the request, and the root of trust.
  */
-struct Manifest2022IssuerStyle: RequesterStyle, Equatable {
-    /// The name of the issuer.
-    let name: String
+public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == VerifiedId {
+    
+    /// The look and feel of the Verified Id.
+    var verifiedIdStyle: VerifiedIdStyle { get }
 }

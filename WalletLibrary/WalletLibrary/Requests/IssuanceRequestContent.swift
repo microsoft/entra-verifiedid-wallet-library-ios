@@ -16,6 +16,8 @@ struct IssuanceRequestContent {
     
     let style: RequesterStyle
     
+    let verifiedIdStyle: VerifiedIdStyle
+    
     private(set) var requirement: Requirement
     
     let rootOfTrust: RootOfTrust
