@@ -22,7 +22,7 @@ class VerifiedIdDecoderTests: XCTestCase {
     
     func testDecode_WithInvalidRawVerifiedIdData_ThrowsError() async throws {
         // Arrange
-        let mockEncodedVerifiedId = EncodedVerifiedId(type: "VerifiableCredential",
+        let mockEncodedVerifiedId = EncodedVerifiedId(type: "VCVerifiedId",
                                                       raw: "mock raw data".data(using: .utf8)!)
         let mockEncodedVerifiedIdData = try JSONEncoder().encode(mockEncodedVerifiedId)
         let decoder = VerifiedIdDecoder()
@@ -54,13 +54,13 @@ class VerifiedIdDecoderTests: XCTestCase {
         // Arrange
         let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
         let encodedVerifiableCredential = try JSONEncoder().encode(mockVC)
-        let mockEncodedVerifiedId = EncodedVerifiedId(type: "VerifiableCredential",
+        let mockEncodedVerifiedId = EncodedVerifiedId(type: "VCVerifiedId",
                                                       raw: encodedVerifiableCredential)
         let mockEncodedVerifiedIdData = try JSONEncoder().encode(mockEncodedVerifiedId)
         let decoder = VerifiedIdDecoder()
         
         // Act
-        let actualResult: VerifiableCredential = try decoder.decode(from: mockEncodedVerifiedIdData) as! VerifiableCredential
+        let actualResult = try decoder.decode(from: mockEncodedVerifiedIdData) as! VCVerifiedId
         
         // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), try mockVC.raw.serialize())

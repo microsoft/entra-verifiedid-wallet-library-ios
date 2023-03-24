@@ -19,7 +19,7 @@ struct VerifiedIdDecoder: VerifiedIdDecoding {
     private let supportedVerifiedIdTypes: [VerifiedId.Type]
 
     init() {
-        self.supportedVerifiedIdTypes = [VerifiableCredential.self]
+        self.supportedVerifiedIdTypes = [VCVerifiedId.self]
     }
 
     func decode(from data: Data) throws -> any VerifiedId {
