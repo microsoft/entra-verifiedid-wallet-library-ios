@@ -19,11 +19,11 @@ extension CardDisplayDescriptor: Mappable {
         }
         
         return BasicVerifiedIdStyle(name: title,
-                                           issuer: issuedBy,
-                                           backgroundColor: backgroundColor,
-                                           textColor: textColor,
-                                           description: cardDescription,
-                                           logoUrl: logoUrl,
-                                           logoAltText: logo?.logoDescription)
+                                    issuer: issuedBy,
+                                    backgroundColor: backgroundColor,
+                                    textColor: textColor,
+                                    description: cardDescription,
+                                    logoUrl: logoUrl,
+                                    logoAltText: logo?.logoDescription)
     }
 }
