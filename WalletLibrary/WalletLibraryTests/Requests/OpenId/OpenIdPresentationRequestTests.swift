@@ -26,7 +26,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         
@@ -52,7 +54,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         
@@ -78,7 +82,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         
@@ -111,7 +117,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         
@@ -154,7 +162,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         func mockSend(response: RawPresentationResponse) async throws {
             throw ExpectedError.expectedToBeThrownInResponder
@@ -201,7 +211,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         

@@ -24,7 +24,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust)
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         requestState: "mock state",
+                                                         callbackUrl: URL(string: "https://test.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -91,7 +93,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust)
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         requestState: "mock state",
+                                                         callbackUrl: URL(string: "https://test.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -134,7 +138,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust)
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         requestState: "mock state",
+                                                         callbackUrl: URL(string: "https://test.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -177,7 +183,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust)
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         requestState: "mock state",
+                                                         callbackUrl: URL(string: "https://test.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -221,7 +229,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust)
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         requestState: "mock state",
+                                                         callbackUrl: URL(string: "https://test.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -269,7 +279,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
-                                                         rootOfTrust: expectedRootOfTrust)
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         requestState: "mock state",
+                                                         callbackUrl: URL(string: "https://test.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -322,7 +334,9 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
                                                                      requirement: expectedPresentationRequirement,
-                                                                     rootOfTrust: expectedPresentationRootOfTrust)
+                                                                     rootOfTrust: expectedPresentationRootOfTrust,
+                                                                     requestState: "mock state",
+                                                                     callbackUrl: URL(string: "https://test.com")!)
         
         let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
         let expectedIssuanceRequirement = MockRequirement(id: "mockRequirement23535")
@@ -385,6 +399,8 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
                                                                      requirement: expectedPresentationRequirement,
                                                                      rootOfTrust: expectedPresentationRootOfTrust,
+                                                                     requestState: "mock state",
+                                                                     callbackUrl: URL(string: "https://test.com")!,
                                                                      injectedIdToken: expectedInjectedIdToken)
         
         let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")

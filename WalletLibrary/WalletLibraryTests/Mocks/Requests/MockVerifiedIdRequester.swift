@@ -13,8 +13,12 @@ class MockVerifiedIdRequester: VerifiedIdRequester {
     
     let sendRequestCallback: ((String) throws -> VerifiedId)?
     
-    init(sendRequestCallback: ((String) throws -> VerifiedId)? = nil) {
+    let sendIssuanceResultCallback: ((String) throws -> Void)?
+    
+    init(sendRequestCallback: ((String) throws -> VerifiedId)? = nil,
+         sendIssuanceResultCallback: ((String) throws -> Void)? = nil) {
         self.sendRequestCallback = sendRequestCallback
+        self.sendIssuanceResultCallback = sendIssuanceResultCallback
     }
     
     func send<Request>(request: Request) async throws -> VerifiedId {
@@ -26,4 +30,7 @@ class MockVerifiedIdRequester: VerifiedIdRequester {
         throw MockVerifiedIdRequesterError.missingCallback
     }
     
+    func send<IssuanceResult>(result: IssuanceResult, to url: URL) async throws {
+        try sendIssuanceResultCallback?((result as? String) ?? "")
+    }
 }
