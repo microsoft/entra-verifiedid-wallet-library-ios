@@ -29,5 +29,5 @@ public protocol VerifiedIdRequest {
     func complete() async -> Result<T, Error>
 
     /// Cancel the request with an optional message.
-    func cancel(message: String?) -> Result<Void, Error>
+    func cancel(message: String?) async -> Result<Void, Error>
 }

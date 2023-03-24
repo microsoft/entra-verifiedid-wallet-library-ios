@@ -53,14 +53,37 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
         do {
             try self.responseContainer.add(requirement: requirement)
             let verifiedId = try await verifiedIdRequester.send(request: responseContainer)
+            let result = IssuanceCompletionResponse(wasSuccessful: true, withState: "TODO")
+            await send(successfulResult: result)
             return Result.success(verifiedId)
         } catch {
             return Result.failure(error)
         }
     }
     
-    public func cancel(message: String?) -> Result<Void, Error> {
-        return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
+    /// Send the result back to the original requester. If call fails, fail silently, and log result.
+    private func send(successfulResult: IssuanceCompletionResponse) async {
+        do {
+            try await verifiedIdRequester.send(result: successfulResult, to: URL(string: "TBD")!)
+        } catch {
+            configuration.logger.logError(message: "Unable to send issuance result back to requester with error: \(String(describing: error))")
+        }
+    }
+    
+    public func cancel(message: String?) async -> Result<Void, Error> {
+        do {
+            var errorDetails: IssuanceCompletionErrorDetails = .unspecifiedError
+            if let message = message,
+               let details = IssuanceCompletionErrorDetails(rawValue: message) {
+                errorDetails = details
+            }
+            
+            let result = IssuanceCompletionResponse(wasSuccessful: false, withState: "TODO", andDetails: errorDetails)
+            try await verifiedIdRequester.send(result: result, to: URL(string: "TBD")!)
+            return Result.success(())
+        } catch {
+            return Result.failure(error)
+        }
     }
     
     
