@@ -323,6 +323,8 @@ class OpenIdRequestHandlerTests: XCTestCase {
         // Arrange
         let issuanceOptionURL = URL(string: "https://test.com")!
         let expectedPresentationStyle = MockRequesterStyle(requester: "mock requester")
+        let mockState = "mock state"
+        let mockCallbackUrl = URL(string: "https://test.com")!
         let expectedPresentationRequirement = VerifiedIdRequirement(encrypted: false,
                                                                     required: true,
                                                                     types: [],
@@ -330,13 +332,13 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                                                     issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)],
                                                                     id: nil,
                                                                     constraint: GroupConstraint(constraints: [],
-                                                                                                          constraintOperator: .ALL))
+                                                                                                constraintOperator: .ALL))
         let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
         let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
                                                                      requirement: expectedPresentationRequirement,
                                                                      rootOfTrust: expectedPresentationRootOfTrust,
-                                                                     requestState: "mock state",
-                                                                     callbackUrl: URL(string: "https://test.com")!)
+                                                                     requestState: mockState,
+                                                                     callbackUrl: mockCallbackUrl)
         
         let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
         let expectedIssuanceRequirement = MockRequirement(id: "mockRequirement23535")
@@ -378,6 +380,8 @@ class OpenIdRequestHandlerTests: XCTestCase {
         XCTAssertEqual(actualRequest.style as? MockRequesterStyle, expectedIssuanceStyle)
         XCTAssertEqual(actualRequest.requirement as? MockRequirement, expectedIssuanceRequirement)
         XCTAssertEqual(actualRequest.rootOfTrust.source, expectedIssuanceRootOfTrust.source)
+        XCTAssertEqual((actualRequest as? ContractIssuanceRequest)?.requestState, mockState)
+        XCTAssertEqual((actualRequest as? ContractIssuanceRequest)?.issuanceResultCallbackUrl, mockCallbackUrl)
         XCTAssert(actualRequest.rootOfTrust.verified)
     }
     
@@ -385,6 +389,8 @@ class OpenIdRequestHandlerTests: XCTestCase {
         
         // Arrange
         let issuanceOptionURL = URL(string: "https://test.com")!
+        let mockState = "mock state"
+        let mockCallbackUrl = URL(string: "https://test.com")!
         let expectedPresentationStyle = MockRequesterStyle(requester: "mock requester")
         let expectedPresentationRequirement = VerifiedIdRequirement(encrypted: false,
                                                                     required: true,
@@ -399,8 +405,8 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
                                                                      requirement: expectedPresentationRequirement,
                                                                      rootOfTrust: expectedPresentationRootOfTrust,
-                                                                     requestState: "mock state",
-                                                                     callbackUrl: URL(string: "https://test.com")!,
+                                                                     requestState: mockState,
+                                                                     callbackUrl: mockCallbackUrl,
                                                                      injectedIdToken: expectedInjectedIdToken)
         
         let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
@@ -443,6 +449,8 @@ class OpenIdRequestHandlerTests: XCTestCase {
         XCTAssertEqual(actualRequest.style as? MockRequesterStyle, expectedIssuanceStyle)
         XCTAssertEqual(actualRequest.requirement as? MockRequirement, expectedIssuanceRequirement)
         XCTAssertEqual(actualRequest.rootOfTrust.source, expectedIssuanceRootOfTrust.source)
+        XCTAssertEqual((actualRequest as? ContractIssuanceRequest)?.requestState, mockState)
+        XCTAssertEqual((actualRequest as? ContractIssuanceRequest)?.issuanceResultCallbackUrl, mockCallbackUrl)
         XCTAssert(actualRequest.rootOfTrust.verified)
     }
     
