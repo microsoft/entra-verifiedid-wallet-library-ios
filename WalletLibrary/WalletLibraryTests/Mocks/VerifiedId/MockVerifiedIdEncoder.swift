@@ -5,17 +5,15 @@
 
 @testable import WalletLibrary
 
-struct MockVerifiedId: VerifiedId, Equatable {
+struct MockVerifiedIdEncoder: VerifiedIdEncoding {
     
-    var id: String
+    let mockEncode: ((VerifiedId) throws -> Data)
     
-    var double: Double?
+    init(mockEncode: @escaping ((VerifiedId) throws -> Data)) {
+        self.mockEncode = mockEncode
+    }
     
-    var expiresOn: Date?
-    
-    var issuedOn: Date
-    
-    func getClaims() -> [VerifiedIdClaim] {
-        return []
+    func encode(verifiedId: VerifiedId) throws -> Data {
+        return try mockEncode(verifiedId)
     }
 }

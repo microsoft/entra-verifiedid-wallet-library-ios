@@ -3,19 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
+/**
+ * The data model of encoded Verified Id.
+ */
+struct EncodedVerifiedId: Codable {
+    /// The specific type of the Verified Id (e.g. VerifiableCredential).
+    let type: String
 
-struct MockVerifiedId: VerifiedId, Equatable {
-    
-    var id: String
-    
-    var double: Double?
-    
-    var expiresOn: Date?
-    
-    var issuedOn: Date
-    
-    func getClaims() -> [VerifiedIdClaim] {
-        return []
-    }
+    /// The raw representation of the Verified Id.
+    let raw: Data
 }

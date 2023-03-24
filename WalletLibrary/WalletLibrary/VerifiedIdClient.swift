@@ -34,4 +34,22 @@ public class VerifiedIdClient {
         let handler = try requestHandlerFactory.getHandler(from: resolver)
         return try await handler.handleRequest(from: rawRequest)
     }
+    
+    public func encode(verifiedId: VerifiedId) throws -> Result<Data, Error> {
+        do {
+            let encodedVerifiedId = try configuration.verifiedIdEncoder.encode(verifiedId: verifiedId)
+            return Result.success(encodedVerifiedId)
+        } catch {
+            return Result.failure(error)
+        }
+    }
+    
+    public func decodeVerifiedId(from raw: Data) throws -> Result<VerifiedId, Error> {
+        do {
+            let verifiedId = try configuration.verifiedIdDecoder.decode(from: raw)
+            return Result.success(verifiedId)
+        } catch {
+            return Result.failure(error)
+        }
+    }
 }

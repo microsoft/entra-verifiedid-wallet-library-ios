@@ -3,19 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
-
-struct MockVerifiedId: VerifiedId, Equatable {
-    
-    var id: String
-    
-    var double: Double?
-    
-    var expiresOn: Date?
-    
-    var issuedOn: Date
-    
-    func getClaims() -> [VerifiedIdClaim] {
-        return []
-    }
+/**
+ * Defines the behavior of decoding a Verified Id.
+ */
+protocol VerifiedIdDecoding {
+    func decode(from data: Data) throws -> any VerifiedId
 }

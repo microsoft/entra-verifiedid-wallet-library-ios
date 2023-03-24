@@ -21,6 +21,9 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
     }
     
     func testBuild_WithOneLogConsumer_ReturnsVerifiedIdClient() throws {
@@ -39,6 +42,8 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssertEqual(actualResult.configuration.logger.consumers.count, 1)
         XCTAssert(actualResult.configuration.logger.consumers.contains { $0 is MockLogConsumer })
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
     }
     
     func testBuild_WithMultipleLogConsumers_ReturnsVerifiedIdClient() throws {
@@ -63,5 +68,7 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.logger.consumers.contains { $0 as? MockLogConsumer == firstLogConsumer })
         XCTAssert(actualResult.configuration.logger.consumers.contains { $0 as? MockLogConsumer == secondLogConsumer })
         XCTAssert(actualResult.configuration.logger.consumers.contains { $0 as? MockLogConsumer == thirdLogConsumer })
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
     }
 }
