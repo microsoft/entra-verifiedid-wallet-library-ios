@@ -19,7 +19,7 @@ class AccessTokenRequirementTests: XCTestCase {
                                                             scope: "")
         
         // Act
-        XCTAssertThrowsError(try accessTokenRequirement.validate()) { error in
+        XCTAssertThrowsError(try accessTokenRequirement.validate().get()) { error in
             // Assert
             XCTAssert(error is AccessTokenRequirementError)
             XCTAssertEqual(error as? AccessTokenRequirementError, .accessTokenRequirementHasNotBeenFulfilled)
@@ -38,7 +38,7 @@ class AccessTokenRequirementTests: XCTestCase {
         accessTokenRequirement.fulfill(with: "mock token")
         
         // Act / Assert
-        XCTAssertNoThrow(try accessTokenRequirement.validate())
+        XCTAssertNoThrow(try accessTokenRequirement.validate().get())
     }
     
     func testFulfill_WithAccessToken_SetsAccessToken() async throws {

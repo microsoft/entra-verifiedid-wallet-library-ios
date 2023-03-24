@@ -52,11 +52,13 @@ public class IdTokenRequirement: Requirement {
         self.scope = scope
     }
     
-    /// Throws error if requirement is not complete.
-    public func validate() throws {
+    /// Returns Failure Result if requirement is not fulfilled.
+    public func validate() -> Result<Void, Error> {
         if idToken == nil {
-            throw IdTokenRequirementError.idTokenRequirementHasNotBeenFulfilled
+            return Result.failure(IdTokenRequirementError.idTokenRequirementHasNotBeenFulfilled)
         }
+        
+        return Result.success(())
     }
     
     /// Fulfill requirement with a raw id token.

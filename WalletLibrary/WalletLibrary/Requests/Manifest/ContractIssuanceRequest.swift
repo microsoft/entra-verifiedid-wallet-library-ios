@@ -42,7 +42,7 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
     public func isSatisfied() -> Bool {
         do {
-            try requirement.validate()
+            try requirement.validate().get()
             return true
         } catch {
             return false

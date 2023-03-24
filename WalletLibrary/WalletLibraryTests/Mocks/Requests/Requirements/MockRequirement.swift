@@ -19,8 +19,13 @@ struct MockRequirement: Requirement, Equatable {
         self.mockValidateCallback = mockValidateCallback
     }
     
-    func validate() throws {
-        try mockValidateCallback?()
+    func validate() -> Result<Void, Error> {
+        do {
+            try mockValidateCallback?()
+            return Result.success(())
+        } catch {
+            return Result.failure(error)
+        }
     }
     
     static func == (lhs: MockRequirement, rhs: MockRequirement) -> Bool {

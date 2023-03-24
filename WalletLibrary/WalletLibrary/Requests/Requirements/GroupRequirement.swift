@@ -35,20 +35,22 @@ public class GroupRequirement: Requirement {
         self.requirementOperator = requirementOperator
     }
     
-    /// Throws error if requirement is not valid or incomplete.
-    public func validate() throws {
+    /// Returns Failure Result if requirement is not valid or not fulfilled.
+    public func validate() -> Result<Void, Error> {
         
         var errorsThrown: [Error] = []
         for requirement in requirements {
             do {
-                try requirement.validate()
+                try requirement.validate().get()
             } catch {
                 errorsThrown.append(error)
             }
         }
         
         if !errorsThrown.isEmpty {
-            throw GroupRequirementError.requirementsAreNotValid(errorsThrown)
+            return Result.failure(GroupRequirementError.requirementsAreNotValid(errorsThrown))
         }
+        
+        return Result.success(())
     }
 }
