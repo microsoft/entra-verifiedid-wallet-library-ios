@@ -54,9 +54,9 @@ struct OpenIdRequestHandler: RequestHandling {
         return handlePresentationRequest(requestContent: requestContent, rawRequest: request)
     }
     
-    private func handleIssuanceRequest(from requestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest {
+    private func handleIssuanceRequest(from presentationRequestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest {
         
-        guard let verifiedIdRequirement = requestContent.requirement as? VerifiedIdRequirement else {
+        guard let verifiedIdRequirement = presentationRequestContent.requirement as? VerifiedIdRequirement else {
             throw OpenIdRequestHandlerError.unableToCastRequirementToVerifiedIdRequirement
         }
         
@@ -69,7 +69,10 @@ struct OpenIdRequestHandler: RequestHandling {
         let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
         var issuanceRequestContent = try configuration.mapper.map(rawContract)
         
-        if let injectedIdToken = requestContent.injectedIdToken {
+        issuanceRequestContent.add(requestState: presentationRequestContent.requestState)
+        issuanceRequestContent.add(issuanceResultCallbackUrl: presentationRequestContent.callbackUrl)
+        
+        if let injectedIdToken = presentationRequestContent.injectedIdToken {
             issuanceRequestContent.addRequirement(from: injectedIdToken)
         }
         
