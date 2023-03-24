@@ -27,12 +27,12 @@ extension PresentationRequest: Mappable {
             throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
         }
         
-        guard let redirectUri = content.redirectURI,
-              let callbackUrl = URL(string: redirectUri) else {
+        let requestState = try self.getRequiredProperty(property: content.state, propertyName: "state")
+        let redirectUri = try self.getRequiredProperty(property: content.redirectURI, propertyName: "redirectUri")
+        
+        guard let callbackUrl = URL(string: redirectUri) else {
             throw PresentationRequestMappingError.callbackURLMalformed(content.redirectURI)
         }
-        
-        let requestState = try self.getRequiredProperty(property: content.state, propertyName: "state")
         
         let requirement = try mapper.map(presentationDefinition)
         let rootOfTrust = try mapper.map(linkedDomainResult)
