@@ -4,6 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import SwiftUI
+import WalletLibrary
 
 struct RequirementView: View {
     
@@ -18,37 +19,16 @@ struct RequirementView: View {
     var requirement: RequirementState
     
     var body: some View {
-        VStack {
-            if isInvalidInput {
-                Text("Invalid Input")
-                    .foregroundColor(.red)
-            }
-            Text(requirement.label)
-            TextField(
-                "",
-                text: $userInput
-            )
-            .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
-            .textInputAutocapitalization(.never)
-            .disableAutocorrection(true)
-            .textFieldStyle(.roundedBorder)
-            .frame(width: UIScreen.main.bounds.width - 20)
-            Button {
-                fulfill(with: userInput)
-            } label: {
-                Text("Add")
-            }
-        }.onDisappear {
-            isInvalidInput = false
-        }
-    }
-    
-    private func fulfill(with value: String) {
-        do {
-            try viewModel.fulfill(requirementState: requirement, with: value)
-            dismiss()
-        } catch {
-            isInvalidInput = true
+        switch (requirement.requirement) {
+        case is SelfAttestedClaimRequirement:
+            UserInputView(requirement: requirement)
+        case is PinRequirement:
+            UserInputView(requirement: requirement)
+        case let verifiedIdRequirement as VerifiedIdRequirement:
+            VerifiedIdPickerView(requirement: requirement,
+                                 requirementMatches: viewModel.getVerifiedIdMatches(from: verifiedIdRequirement))
+        default:
+            Text("Do not support requirement.")
         }
     }
 }
