@@ -71,7 +71,8 @@ class IssuanceResponseContainerExtensionTests: XCTestCase {
                                              configuration: URL(string: "https://configuration.com")!,
                                              clientId: "",
                                              redirectUri: "",
-                                             scope: "")
+                                             scope: "",
+                                             nonce: nil)
         requirement.fulfill(with: "mock token")
         
         // Act
@@ -97,7 +98,8 @@ class IssuanceResponseContainerExtensionTests: XCTestCase {
                                              configuration: URL(string: "https://self-issued.me")!,
                                              clientId: "",
                                              redirectUri: "",
-                                             scope: "")
+                                             scope: "",
+                                             nonce: nil)
         requirement.fulfill(with: "mock token")
         
         // Act
@@ -238,7 +240,8 @@ class IssuanceResponseContainerExtensionTests: XCTestCase {
                                                     configuration: URL(string: "https://configuration.com")!,
                                                     clientId: "",
                                                     redirectUri: "",
-                                                    scope: "")
+                                                    scope: "",
+                                                    nonce: nil)
         
         requirement.fulfill(with: "mock value")
         accessTokenRequirement.fulfill(with: "mock access token")

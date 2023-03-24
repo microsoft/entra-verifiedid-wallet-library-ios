@@ -16,7 +16,8 @@ class IdTokenRequirementTests: XCTestCase {
                                                     configuration: URL(string: "https://test.com")!,
                                                     clientId: "",
                                                     redirectUri: "",
-                                                    scope: "")
+                                                    scope: "",
+                                                    nonce: nil)
         
         // Act
         XCTAssertThrowsError(try idTokenRequirement.validate()) { error in
@@ -34,7 +35,8 @@ class IdTokenRequirementTests: XCTestCase {
                                                     configuration: URL(string: "https://test.com")!,
                                                     clientId: "",
                                                     redirectUri: "",
-                                                    scope: "")
+                                                    scope: "",
+                                                    nonce: nil)
         idTokenRequirement.fulfill(with: "mock token")
         
         // Act / Assert
@@ -49,7 +51,8 @@ class IdTokenRequirementTests: XCTestCase {
                                                     configuration: URL(string: "https://test.com")!,
                                                     clientId: "",
                                                     redirectUri: "",
-                                                    scope: "")
+                                                    scope: "",
+                                                    nonce: nil)
         let mockToken = "mock token"
         
         // Act

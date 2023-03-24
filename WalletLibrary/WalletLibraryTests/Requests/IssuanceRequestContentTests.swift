@@ -141,6 +141,7 @@ class IssuanceRequestContentTests: XCTestCase {
                                   configuration: URL(string: configuration)!,
                                   clientId: "mockClientId",
                                   redirectUri: "mockRedirectUri",
-                                  scope: nil)
+                                  scope: nil,
+                                  nonce: nil)
     }
 }

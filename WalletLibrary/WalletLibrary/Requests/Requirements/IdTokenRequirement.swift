@@ -33,7 +33,7 @@ public class IdTokenRequirement: Requirement {
     /// The nonce acts as an extra level of security and is used as an additional property
     /// within the id token request through an authentication library. The nonce will be placed within
     /// the id token retrieved and can be used for validation during an issuance request to an issuance service.
-    public internal(set) var nonce: String? = nil
+    public let nonce: String?
     
     /// The id token that fulfills the requirement.
     var idToken: String?
@@ -43,13 +43,15 @@ public class IdTokenRequirement: Requirement {
          configuration: URL,
          clientId: String,
          redirectUri: String,
-         scope: String?) {
+         scope: String?,
+         nonce: String?) {
         self.encrypted = encrypted
         self.required = required
         self.configuration = configuration
         self.clientId = clientId
         self.redirectUri = redirectUri
         self.scope = scope
+        self.nonce = nonce
     }
     
     /// Throws error if requirement is not complete.

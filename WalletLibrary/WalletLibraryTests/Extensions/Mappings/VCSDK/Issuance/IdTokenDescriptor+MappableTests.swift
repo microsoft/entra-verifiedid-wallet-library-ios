@@ -106,7 +106,8 @@ class IdTokenDescriptorMappingTests: XCTestCase {
                                                 configuration: URL(string: expectedConfiguration)!,
                                                 clientId: expectedClientId,
                                                 redirectUri: expectedRedirectUri,
-                                                scope: expectedScope)
+                                                scope: expectedScope,
+                                                nonce: nil)
         
         return (input, expectedResult)
     }

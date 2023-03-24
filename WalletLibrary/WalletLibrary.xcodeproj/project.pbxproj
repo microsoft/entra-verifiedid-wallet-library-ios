@@ -108,6 +108,8 @@
 		55BA2DD729CDFA4600BB8207 /* MockVerifiedIdDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA2DD529CDFA4600BB8207 /* MockVerifiedIdDecoder.swift */; };
 		55BA2DDA29CDFA6100BB8207 /* VerifiedIdDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA2DD829CDFA6100BB8207 /* VerifiedIdDecoderTests.swift */; };
 		55BA2DDB29CDFA6100BB8207 /* VerifiedIdEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA2DD929CDFA6100BB8207 /* VerifiedIdEncoderTests.swift */; };
+		55BA2E2229CE60D300BB8207 /* NonceComputer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA2E2129CE60D300BB8207 /* NonceComputer.swift */; };
+		55BA2E3929CE642A00BB8207 /* NonceComputerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA2E3829CE642A00BB8207 /* NonceComputerTests.swift */; };
 		55DECBD029B922D200D5C802 /* MockPresentationResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECBCF29B922D200D5C802 /* MockPresentationResponder.swift */; };
 		55DECBE729B92E3900D5C802 /* RawPresentationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECBE629B92E3900D5C802 /* RawPresentationResponse.swift */; };
 		55DECBE929B934B900D5C802 /* IssuanceRequestContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECBE829B934B900D5C802 /* IssuanceRequestContent.swift */; };
@@ -429,6 +431,8 @@
 		55BA2DD529CDFA4600BB8207 /* MockVerifiedIdDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdDecoder.swift; sourceTree = "<group>"; };
 		55BA2DD829CDFA6100BB8207 /* VerifiedIdDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdDecoderTests.swift; sourceTree = "<group>"; };
 		55BA2DD929CDFA6100BB8207 /* VerifiedIdEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdEncoderTests.swift; sourceTree = "<group>"; };
+		55BA2E2129CE60D300BB8207 /* NonceComputer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonceComputer.swift; sourceTree = "<group>"; };
+		55BA2E3829CE642A00BB8207 /* NonceComputerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonceComputerTests.swift; sourceTree = "<group>"; };
 		55DECBCF29B922D200D5C802 /* MockPresentationResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresentationResponder.swift; sourceTree = "<group>"; };
 		55DECBE629B92E3900D5C802 /* RawPresentationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawPresentationResponse.swift; sourceTree = "<group>"; };
 		55DECBE829B934B900D5C802 /* IssuanceRequestContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceRequestContent.swift; sourceTree = "<group>"; };
@@ -853,6 +857,7 @@
 				559BD4F0299EEAEA00BD61AC /* PinRequirementTests.swift */,
 				559BD4F2299EEAFD00BD61AC /* SelfAttestedClaimRequirementTests.swift */,
 				55DECC4029BFEDE400D5C802 /* VerifiedIdRequirementTests.swift */,
+				55BA2E3829CE642A00BB8207 /* NonceComputerTests.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -1062,6 +1067,7 @@
 				55E337B32948B4B000CD2ED7 /* PinRequirement.swift */,
 				55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */,
 				55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */,
+				55BA2E2129CE60D300BB8207 /* NonceComputer.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -1530,6 +1536,7 @@
 				55BA2DD229CDFA1A00BB8207 /* VerifiedIdEncoder.swift in Sources */,
 				55E2F07F29955A3B0008010D /* PresentationRequestContent.swift in Sources */,
 				55DECC2B29BB8C8C00D5C802 /* VerifiedIdConstraint.swift in Sources */,
+				55BA2E2229CE60D300BB8207 /* NonceComputer.swift in Sources */,
 				550A916F299310D40014D030 /* OpenIdRequestHandler.swift in Sources */,
 				55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */,
 				5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */,
@@ -1639,6 +1646,7 @@
 				550A919829940DCE0014D030 /* MockOpenIdforVCResolver.swift in Sources */,
 				55BA2DD729CDFA4600BB8207 /* MockVerifiedIdDecoder.swift in Sources */,
 				559BD459299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift in Sources */,
+				55BA2E3929CE642A00BB8207 /* NonceComputerTests.swift in Sources */,
 				559BD3092995ABE800BD61AC /* PresentationRequest+MappableTests.swift in Sources */,
 				550A91A0299412790014D030 /* MockOpenIdRawRequest.swift in Sources */,
 				55DECC3329BFDB6200D5C802 /* GroupConstraintTests.swift in Sources */,

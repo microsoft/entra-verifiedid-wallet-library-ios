@@ -6,6 +6,9 @@
 #if canImport(VCEntities)
     import VCEntities
 #endif
+#if canImport(VCServices)
+    import VCServices
+#endif
 
 /**
  * An extension of the VCEntities.IdTokenDescriptor class to be able
@@ -21,6 +24,12 @@ extension IdTokenDescriptor: Mappable {
                                                in: String(describing: IdTokenDescriptor.self))
         }
         
+        var nonce: String? = nil
+        /// TODO: split up the logic of getting DID from mapping.
+        if let did = try? VerifiableCredentialSDK.identifierService.fetchMasterIdentifier().did {
+            nonce = NonceComputer().createNonce(from: did)
+        }
+        
         let redirectUri = try getRequiredProperty(property: redirectURI, propertyName: "redirectURI")
 
         return IdTokenRequirement(encrypted: encrypted ?? false,
@@ -28,6 +37,7 @@ extension IdTokenDescriptor: Mappable {
                                   configuration: configuration,
                                   clientId: clientID,
                                   redirectUri: redirectUri,
-                                  scope: scope)
+                                  scope: scope,
+                                  nonce: nonce)
     }
 }
