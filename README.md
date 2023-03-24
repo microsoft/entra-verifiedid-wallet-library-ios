@@ -1,11 +1,12 @@
 # Microsoft Entra Wallet Library
 
-> TODO: Add blurb about what this library is for.
+## Introduction
+The Microsoft Entra Wallet Library for iOS gives your app the ability to begin using the Microsoft Identity platform by supporting the issuance and presentation of Verified Ids in accordance with OpenID Connect, Presentation Exchange, Verifiable Credentials, and more up and coming industry standards.
 
-## Quick Start
+---
+## Installation
 
-Add pod to PodFile.
-
+You can use cocoapods to install the Wallet Library by adding it to your Podfile:
 ```ruby
 use_frameworks!
 
@@ -13,25 +14,29 @@ target "YourApp" do
   pod "WalletLibrary", "~> 0.0.1"
 end
 ```
+> note: use_frameworks! is required for this cocoapod.
+---
+## Quick Start
 
-### Using the Wallet Library
-Here is a quick example of how to use the library. For more in depth examples, check out the Demo app.
+Here is a simple example of how to use the library. For more in-depth examples, check out the sample app.
  
 ```Swift
 
 /// Create a verifiedIdClient.
-let verifiedIdClient = try VerifiedIdClientBuilder().build()
+let verifiedIdClient = VerifiedIdClientBuilder().build()
 
 /// Create a VerifiedIdRequestInput using a OpenId Request Uri.
 let input = VerifiedIdRequestURL(url: URL(string: "openid-vc...")!)
-let request = try await verifiedIdClient.createVerifiedIdRequest(from: input)
+let result = await verifiedIdClient.createVerifiedIdRequest(from: input)
 
-/// A request created from the method above could be an issuance or a presnetation request.
-switch(request) {
-    case let issuanceRequest as? VerifiedIdIssuanceRequest:
-        /// handle issuance request...
-    case let presentationRequest as? VerifiedIdPresentationRequest:
-        /// handle presentation request...
+/// Every external method's return value is wrapped in a Result object to ensure proper error handling.
+switch (result) {
+case .success(let request):
+    /// A request created from the method above could be an issuance or a presentation request. In this example, it is a presentation request, so we can cast it to a VerifiedIdPresentationRequest.
+    let presentationRequest = presentationRequest as? VerifiedIdPresentationRequest
+case .failure(let error):
+    /// If an error occurs, its value can be accessed here.
+    print(error)
 }
 ```
 
@@ -52,10 +57,26 @@ let verifiedIdRequirement = presentationRequest.requirement as! VerifiedIdRequir
 verifiedIdRequirement.fulfill(with: <Insert VerifiedId>)
 ```
 
-Once all of the requirements are fulfilled, complete the request using the complete method.
+You can also validate a requirement to ensure the requirement has been fulfilled.
+```Swift
+let validationResult = verifiedIdRequirement.validate()
+```
+
+Once all of the requirements are fulfilled, you can double check that the request has been satisfied by calling the isSatisfied method on the request object. 
+```Swift
+let isSatisfied = await presentationRequest.isSatisfied()
+```
+
+Then, complete the request using the complete method. For a presentation, if the request is successful, it will Void wrapped in a Result. If the request failed, it will return an error wrapped in a Result.
 ```Swift
 let result = await presentationRequest.complete()
 ```
+---
+## VerifiedId
+A Verified Id is a verifiable piece of information that contains claims about an entity. 
+
+### Style
+Issuers have the ability to customize the style of a Verified Id. We support `BasicVerifiedIdStyle` which contains basic traits like name, issuer, background color, text color, and logo that can be used to represent the look and feel of a Verified Id.
 ## Documentation
 
 * [External Architecture](Docs/LibraryArchitecture.md)
