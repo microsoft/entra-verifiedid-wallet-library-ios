@@ -32,8 +32,9 @@ let result = await verifiedIdClient.createVerifiedIdRequest(from: input)
 /// Every external method's return value is wrapped in a Result object to ensure proper error handling.
 switch (result) {
 case .success(let request):
-    /// A request created from the method above could be an issuance or a presentation request. In this example, it is a presentation request, so we can cast it to a VerifiedIdPresentationRequest.
-    let presentationRequest = presentationRequest as? VerifiedIdPresentationRequest
+    /// A request created from the method above could be an issuance or a presentation request. 
+    /// In this example, it is a presentation request, so we can cast it to a VerifiedIdPresentationRequest.
+    let presentationRequest = rquest as? VerifiedIdPresentationRequest
 case .failure(let error):
     /// If an error occurs, its value can be accessed here.
     print(error)
@@ -51,13 +52,13 @@ At the time of publish, we support the following requirements for an issuance re
 We support the following requirements for a presentation request:
 * VerifiedIdRequirement
 
-To fulfill a requirement, cast it to the correct Requirement type and use fulfill method.
+To fulfill a requirement, cast it to the correct Requirement type and use the `fulfill` method.
 ```Swift
 let verifiedIdRequirement = presentationRequest.requirement as! VerifiedIdRequirement
 verifiedIdRequirement.fulfill(with: <Insert VerifiedId>)
 ```
 
-VerifiedIdRequirement contains a helper function `getMatches()` that will filter all of the VerifiedId that satisfies the constraints on the VerifiedIdRequirement from a list of VerifiedIds.
+VerifiedIdRequirement contains a helper function `getMatches` that will filter all of the VerifiedId that satisfies the constraints on the VerifiedIdRequirement from a list of VerifiedIds.
 ```Swift
 let matchingVerifiedIds = verifiedIdRequirement.getMatches(verifiedIds: <List Of VerifiedIds>)
 ```
@@ -67,12 +68,12 @@ You can also validate a requirement to ensure the requirement has been fulfilled
 let validationResult = verifiedIdRequirement.validate()
 ```
 
-Once all of the requirements are fulfilled, you can double check that the request has been satisfied by calling the isSatisfied method on the request object. 
+Once all of the requirements are fulfilled, you can double check that the request has been satisfied by calling the `isSatisfied` method on the request object. 
 ```Swift
 let isSatisfied = await presentationRequest.isSatisfied()
 ```
 
-Then, complete the request using the complete method. For a presentation, if the request is successful, it will Void wrapped in a Result. If the request failed, it will return an error wrapped in a Result.
+Then, complete the request using the complete method.
 ```Swift
 let result = await presentationRequest.complete()
 ```
