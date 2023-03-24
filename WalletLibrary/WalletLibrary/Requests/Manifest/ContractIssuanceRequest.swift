@@ -87,6 +87,9 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
         }
     }
     
+    /// Send the issuance result back to the original requester.
+    /// TODO: Add support for injecting cancel message into callback. Right now "user canceled"
+    /// will be the message sent back.
     public func cancel(message: String?) async -> Result<Void, Error> {
         do {
             
