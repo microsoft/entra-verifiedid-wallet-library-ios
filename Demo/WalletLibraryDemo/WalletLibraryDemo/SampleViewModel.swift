@@ -11,16 +11,27 @@ enum SampleViewModelError: String, Error {
     case unableToCreateRequest = "Unable to create request."
     case requestIsUndefined = "Verified Id Request is Undefined."
     case unsupportedRequirementType = "One of the requirement types is not supported."
+    case verifiedIdClientHasNotBeenInitialized = "Verified Id Client has not been initialized."
+}
+
+/// State to keep track of what state the request is in.
+enum RequestState {
+    case Initialized
+    case CreatingRequest
+    case GatheringRequirements
+    case IssuanceSuccess(with: VerifiedId)
+    case PresentationSuccess(with: String)
+    case Error(withMessage: String)
 }
 
 
 @MainActor class SampleViewModel: ObservableObject {
     
+    /// The state of the request.
+    @Published var requestState: RequestState
+    
     /// The requirements to be gathered by the user.
     @Published var requirements: [RequirementState] = []
-    
-    /// The input string to kick off the flow (e.g. openid request url).
-    @Published var input: String = ""
     
     /// If all requirements are satisfied, complete button is enabled.
     @Published var isCompleteButtonEnabled: Bool = false
@@ -28,14 +39,8 @@ enum SampleViewModelError: String, Error {
     /// Show a progress view when while doing internal logic.
     @Published var isProgressViewShowing: Bool = true
     
-    /// if not nil, error message to be displayed.
-    @Published var errorMessage: String? = nil
-    
-    /// If not nil, success message to be displayed.
-    @Published var successMessage: String? = nil
-    
-    /// If not nil, show issued verified id.
-    @Published var issuedVerifiedId: VerifiedId? = nil
+    /// List of issued Verified Ids.
+    @Published var issuedVerifiedIds: [VerifiedId] = []
     
     /// The Verified Id Client is used to create requests with a configuration set by the Builder.
     private let verifiedIdClient: VerifiedIdClient?
@@ -43,10 +48,15 @@ enum SampleViewModelError: String, Error {
     /// The current issuance or presentation request that is being processed.
     private var request: (any VerifiedIdRequest)? = nil
     
+    /// Repository in charge of storing/retrieving verified ids.
+    private var verifiedIdRepository = VerifiedIdRepository()
+    
     /// TODO: enable deeplinking and the rest of the requirements.
     init() {
+        requestState = .Initialized
         do {
             let builder = VerifiedIdClientBuilder()
+            issuedVerifiedIds = try verifiedIdRepository.getAllStoredVerifiedIds()
             verifiedIdClient = try builder.build()
         } catch {
             verifiedIdClient = nil
@@ -54,46 +64,41 @@ enum SampleViewModelError: String, Error {
         }
     }
     
-    func createRequest() {
-        Task {
-            reset()
-            isProgressViewShowing = true
-            do {
-                let input = try createInput()
-                self.request = try await verifiedIdClient?.createVerifiedIdRequest(from: input).get()
-                
-                if let request = request {
-                    try configureRequirements(requirement: request.requirement)
-                    isCompleteButtonEnabled = request.isSatisfied()
-                } else {
-                    showErrorMessage(from: SampleViewModelError.unableToCreateRequest)
-                }
-                
-            } catch {
-                showErrorMessage(from: error, additionalInfo: "Unable to create request.")
-            }
-            isProgressViewShowing = false
-        }
-    }
-    
-    private func configureRequirements(requirement: Requirement) throws {
+    /// Create request using Wallet Library and configure requirements to be shown.
+    func createRequest(fromInput input: String) {
         
-        if let groupRequirement = requirement as? GroupRequirement {
-            for req in groupRequirement.requirements {
-                try configureRequirements(requirement: req)
-            }
+        guard let client = verifiedIdClient else {
+            showErrorMessage(from: SampleViewModelError.verifiedIdClientHasNotBeenInitialized)
             return
         }
         
-        do {
-            let requirementState = try RequirementState(requirement: requirement)
-            requirements.append(requirementState)
-        } catch {
-            throw SampleViewModelError.unsupportedRequirementType
+        Task {
+            reset()
+            requestState = .CreatingRequest
+            do {
+                
+                let input: VerifiedIdRequestInput = try createInput(fromInput: input)
+                
+                // VerifiedIdClient is used to create a request from an input
+                // such as, in this case, a VerifiedIdRequestURL.
+                let result = await client.createVerifiedIdRequest(from: input)
+                
+                switch result {
+                case .success(let request):
+                    self.request = request
+                    try configureRequirements(requirement: request.requirement)
+                    isCompleteButtonEnabled = request.isSatisfied()
+                    requestState = .GatheringRequirements
+                case .failure(let error):
+                    showErrorMessage(from: error, additionalInfo: "Unable to create request.")
+                }
+            } catch {
+                showErrorMessage(from: error, additionalInfo: "Unable to create request.")
+            }
         }
     }
     
-    private func createInput() throws -> VerifiedIdRequestInput {
+    private func createInput(fromInput input: String) throws -> VerifiedIdRequestInput {
         
         guard let openidUrl = URL(string: input) else {
             throw SampleViewModelError.unableToCreateInput
@@ -102,6 +107,27 @@ enum SampleViewModelError: String, Error {
         return VerifiedIdRequestURL(url: openidUrl)
     }
     
+    // Associate each requirement with a RequirementState for views.
+    private func configureRequirements(requirement: Requirement) throws {
+        
+        // If a request has more than one requirement, they will be contained in a GroupRequirement.
+        if let groupRequirement = requirement as? GroupRequirement {
+            for req in groupRequirement.requirements {
+                try configureRequirements(requirement: req)
+            }
+            return
+        }
+        
+        let requirementState = try RequirementState(requirement: requirement)
+        requirements.append(requirementState)
+    }
+    
+    /// The helper method `getMatches` can be used to filter a list of Verified Ids and returns only the ones that satisfy the requirement.
+    func getVerifiedIdMatches(from requirement: VerifiedIdRequirement) -> [VerifiedId] {
+        return requirement.getMatches(verifiedIds: issuedVerifiedIds)
+    }
+    
+    /// Once the request is satisfied, complete the request.
     func complete() {
         switch (request) {
         case let issuanceRequest as any VerifiedIdIssuanceRequest:
@@ -118,7 +144,9 @@ enum SampleViewModelError: String, Error {
             let result = await issuanceRequest.complete()
             switch (result) {
             case .success(let verifiedId):
-                showSuccessfulFlow(with: verifiedId)
+                issuedVerifiedIds.append(verifiedId)
+                try verifiedIdRepository.save(verifiedId: verifiedId)
+                requestState = .IssuanceSuccess(with: verifiedId)
             case .failure(let error):
                 showErrorMessage(from: error)
             }
@@ -130,50 +158,64 @@ enum SampleViewModelError: String, Error {
             let result = await presentationRequest.complete()
             switch (result) {
             case .success(_):
-                showSuccessfulFlow()
+                requestState = .PresentationSuccess(with: "Successful Presentation!")
             case .failure(let error):
                 showErrorMessage(from: error)
             }
         }
     }
     
+    /// Fulfill a requirement with a string value.
     func fulfill(requirementState: RequirementState, with value: String) throws {
         do {
             try requirementState.fulfill(with: value)
-        } catch RequirementStateError.invalidInputToFulfillRequirement {
-            showErrorMessage(from: RequirementStateError.invalidInputToFulfillRequirement, additionalInfo: "Value == \(value)")
+            isCompleteButtonEnabled = request?.isSatisfied() ?? false
+        } catch let error as RequirementStateError {
+            showErrorMessage(from: error,
+                             additionalInfo: "Value == \(value)")
+        }
+    }
+    
+    /// Fulfill a requirement with a Verified id value.
+    func fulfill(requirementState: RequirementState, with value: VerifiedId) throws {
+        do {
+            try requirementState.fulfill(with: value)
+        } catch let error as RequirementStateError {
+            showErrorMessage(from: error,
+                             additionalInfo: "Value == \(value)")
         }
         self.isCompleteButtonEnabled = request?.isSatisfied() ?? false
     }
     
-    private func showErrorMessage(from error: Error, additionalInfo: String? = nil) {
-        print(error)
+    /// If an error occurs during the flow, show the error message.
+    func showErrorMessage(from error: Error, additionalInfo: String? = nil) {
+        var errorMessage = String(describing: error)
         if let error = error as? SampleViewModelError {
             errorMessage = error.rawValue
         } else if let error = error as? RequirementStateError {
             errorMessage = error.rawValue
-        } else {
-            errorMessage = error.localizedDescription
         }
         
         if let additionalInfo = additionalInfo {
-            errorMessage?.append("\n\(additionalInfo)")
+            errorMessage.append("\n\(additionalInfo)")
+        }
+        requestState = .Error(withMessage: errorMessage)
+    }
+    
+    /// Delete a verified id from list.
+    func deleteVerifiedId(indexSet: IndexSet) {
+        for index in indexSet {
+            if issuedVerifiedIds.count > index {
+                let verifiedId = issuedVerifiedIds[index]
+                issuedVerifiedIds.remove(at: index)
+                try? verifiedIdRepository.delete(verifiedId: verifiedId)
+            }
         }
     }
     
-    private func showSuccessfulFlow(with verifiedId: VerifiedId? = nil) {
-        
-        if let verifiedId = verifiedId {
-            issuedVerifiedId = verifiedId
-        } else {
-            successMessage = "Presentation Successful!"
-        }
-    }
-    
+    /// Reset to start a new request.
     func reset() {
-        errorMessage = nil
-        successMessage = nil
-        issuedVerifiedId = nil
+        requestState = .Initialized
         requirements = []
         request = nil
     }
