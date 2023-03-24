@@ -8,13 +8,13 @@ The Microsoft Entra Wallet Library for iOS gives your app the ability to begin u
 
 You can use cocoapods to install the Wallet Library by adding it to your Podfile:
 ```ruby
-use_frameworks!
 
 target "YourApp" do
+  use_frameworks!
   pod "WalletLibrary", "~> 0.0.1"
 end
 ```
-> note: use_frameworks! is required for this cocoapod.
+> note: use_frameworks! is required for this Pod.
 ---
 ## Quick Start
 
@@ -57,6 +57,11 @@ let verifiedIdRequirement = presentationRequest.requirement as! VerifiedIdRequir
 verifiedIdRequirement.fulfill(with: <Insert VerifiedId>)
 ```
 
+VerifiedIdRequirement contains a helper function `getMatches()` that will filter all of the VerifiedId that satisfies the constraints on the VerifiedIdRequirement from a list of VerifiedIds.
+```Swift
+let matchingVerifiedIds = verifiedIdRequirement.getMatches(verifiedIds: <List Of VerifiedIds>)
+```
+
 You can also validate a requirement to ensure the requirement has been fulfilled.
 ```Swift
 let validationResult = verifiedIdRequirement.validate()
@@ -77,6 +82,18 @@ A Verified Id is a verifiable piece of information that contains claims about an
 
 ### Style
 Issuers have the ability to customize the style of a Verified Id. We support `BasicVerifiedIdStyle` which contains basic traits like name, issuer, background color, text color, and logo that can be used to represent the look and feel of a Verified Id.
+
+### Storing VerifiedIds
+It is the responsibility of the app developer to store the VerifiedIds. We have included helper functions to encode/decode VerifiedIds to easily store the VerifiedIds in a database as a primitive type.
+
+```Swift
+/// Encode a VerifiedId into Data.
+let encodedVerifiedId = verifiedIdClient.encode(verifiedId: <Insert VerifiedId>)
+
+/// Decode a VerifiedId from Data.
+let verifiedId = verifiedIdClient.decode(from: encodedVerifiedId)
+```
+
 ## Documentation
 
 * [External Architecture](Docs/LibraryArchitecture.md)
