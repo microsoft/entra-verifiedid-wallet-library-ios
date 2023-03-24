@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * Issuance Request that is Contract specific.
@@ -12,6 +14,8 @@ import VCEntities
 class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     
     public let style: RequesterStyle
+    
+    public let verifiedIdStyle: VerifiedIdStyle
     
     public let requirement: Requirement
     
@@ -28,6 +32,7 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
          verifiedIdRequester: VerifiedIdRequester,
          configuration: LibraryConfiguration) {
         self.style = content.style
+        self.verifiedIdStyle = content.verifiedIdStyle
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.responseContainer = issuanceResponseContainer

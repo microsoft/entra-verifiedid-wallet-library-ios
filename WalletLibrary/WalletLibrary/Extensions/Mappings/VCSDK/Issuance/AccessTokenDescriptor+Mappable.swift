@@ -3,13 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * An extension of the VCEntities.AccessTokenDescriptor class to be able
  * to map AccessTokenDescriptor to AccessTokenRequirement.
  */
-extension VCEntities.AccessTokenDescriptor: Mappable {
+extension AccessTokenDescriptor: Mappable {
     
     /// Map the access token descriptor to access token requirement.
     func map(using mapper: Mapping) throws -> AccessTokenRequirement {

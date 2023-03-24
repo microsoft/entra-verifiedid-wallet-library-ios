@@ -3,11 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
- * An extension of the IssuanceRequest class.
+ * A Verified Id Presentation Request contains the look and feel of the verifier,
+ * the requirement needed to fulfill the request, and the root of trust.
  */
-extension IssuanceRequest: RawManifest { }
+public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }

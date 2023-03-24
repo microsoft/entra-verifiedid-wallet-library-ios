@@ -3,11 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
- * An extension of the IssuanceRequest class.
+ * An object that describes a raw presentation response and defines the behavior of adding a requirement to it.
+ * For example, a VCSDK.PresentationResponseContainer conforms to this protocol.
  */
-extension IssuanceRequest: RawManifest { }
+protocol RawPresentationResponse {
+    mutating func add(requirement: Requirement) throws
+}

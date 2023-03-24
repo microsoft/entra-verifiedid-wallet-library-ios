@@ -26,6 +26,7 @@ class ContractIssuanceRequestTests: XCTestCase {
                                               mockValidateCallback: { throw ExpectedError.expectedToBeThrown })
         
         let content = IssuanceRequestContent(style: mockStyle,
+                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
@@ -60,6 +61,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         
         
         let content = IssuanceRequestContent(style: mockStyle,
+                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
@@ -87,6 +89,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let validRequirement = MockRequirement(id: "mockRequirement324")
         
         let content = IssuanceRequestContent(style: mockStyle,
+                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                              requirement: validRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
@@ -119,6 +122,7 @@ class ContractIssuanceRequestTests: XCTestCase {
                                                requirementOperator: .ALL)
         
         let content = IssuanceRequestContent(style: mockStyle,
+                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
@@ -151,6 +155,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer(mockAddRequirementCallback: mockAddRequirementCallback)
         
         let content = IssuanceRequestContent(style: mockStyle,
+                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
@@ -187,6 +192,7 @@ class ContractIssuanceRequestTests: XCTestCase {
         let mockIssuanceResponseContainer = MockIssuanceResponseContainer(mockAddRequirementCallback: mockAddRequirementCallback)
         
         let content = IssuanceRequestContent(style: mockStyle,
+                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         

@@ -4,9 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * An object that describes a raw presentation response and defines the behavior of adding a requirement to it.
- * For example, a VCSDK.PresentationResponseContainer conforms to this protocol.
+ * A Verified Id Issuance Request contains the look and feel of the issuer and verified id,
+ * the requirement needed to fulfill the request, and the root of trust.
  */
-protocol PresentationResponse {
-    mutating func add(requirement: Requirement) throws
+public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == VerifiedId {
+    
+    /// The look and feel of the Verified Id.
+    var verifiedIdStyle: VerifiedIdStyle { get }
 }

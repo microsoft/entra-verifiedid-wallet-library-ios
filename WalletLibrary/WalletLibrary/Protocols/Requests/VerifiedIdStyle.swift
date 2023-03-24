@@ -3,11 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
- * An extension of the IssuanceRequest class.
+ * The look and fee of the Verified Id.
  */
-extension IssuanceRequest: RawManifest { }
+public protocol VerifiedIdStyle {
+    /// The name of the Verified Id.
+    var name: String { get }
+}

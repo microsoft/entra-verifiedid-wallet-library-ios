@@ -5,14 +5,11 @@
 
 @testable import WalletLibrary
 
-struct MockOpenIdResponder: OpenIdResponder {
+struct MockVerifiedIdStyle: VerifiedIdStyle, Equatable {
     
-    let mockSend: ((RawPresentationResponse) async throws -> ())?
+    let name: String
     
-    init(mockSend: ((RawPresentationResponse) async throws -> ())? = nil) {
-        self.mockSend = mockSend
-    }
-    func send(response: RawPresentationResponse) async throws {
-        try await self.mockSend?(response)
+    init(name: String = "mockName") {
+        self.name = name
     }
 }
