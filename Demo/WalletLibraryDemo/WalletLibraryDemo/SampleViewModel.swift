@@ -60,7 +60,7 @@ enum SampleViewModelError: String, Error {
             isProgressViewShowing = true
             do {
                 let input = try createInput()
-                self.request = try await verifiedIdClient?.createVerifiedIdRequest(from: input)
+                self.request = try await verifiedIdClient?.createVerifiedIdRequest(from: input).get()
                 
                 if let request = request {
                     try configureRequirements(requirement: request.requirement)
