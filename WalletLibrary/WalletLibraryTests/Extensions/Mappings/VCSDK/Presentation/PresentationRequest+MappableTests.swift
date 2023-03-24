@@ -94,10 +94,9 @@ class PresentationRequestMappingTests: XCTestCase {
         
         let mockMapper = MockMapper(mockResults: mockResults)
         
-        // Assert
+        // Act / Assert
         XCTAssertThrowsError(try mockMapper.map(presentationRequest)) { error in
             // Assert
-            print(error)
             XCTAssert(error is ExpectedError)
             XCTAssertEqual(error as? ExpectedError, .expectedToBeThrown)
         }
@@ -113,7 +112,7 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   issuanceOptions: [],
                                                                   id: nil,
                                                                   constraint: GroupConstraint(constraints: [],
-                                                                                                        constraintOperator: .ALL))
+                                                                                              constraintOperator: .ALL))
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
         let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: nil,
@@ -150,7 +149,159 @@ class PresentationRequestMappingTests: XCTestCase {
         XCTAssertIdentical(actualResult.requirement as AnyObject, expectedVerifiedIdRequirement as AnyObject)
         XCTAssertEqual(actualResult.rootOfTrust, expectedRootOfTrust)
         XCTAssertEqual(actualResult.style as? OpenIdVerifierStyle, expectedStyle)
+        XCTAssertEqual(actualResult.callbackUrl.absoluteString, "https://test.com")
+        XCTAssertEqual(actualResult.requestState, "mockState")
         XCTAssertNil(actualResult.injectedIdToken)
+    }
+    
+    func testMap_WithNoCallbackUrlPresent_ThrowError() throws {
+        // Arrange
+        let expectedStyle = OpenIdVerifierStyle(name: "")
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                                  required: false,
+                                                                  types: [],
+                                                                  purpose: nil,
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                              constraintOperator: .ALL))
+        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
+        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+        let mockRegistration = RegistrationClaims(clientName: nil,
+                                                  clientPurpose: nil,
+                                                  logoURI: nil,
+                                                  subjectIdentifierTypesSupported: nil,
+                                                  vpFormats: nil)
+        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims,
+                                                   registration: mockRegistration,
+                                                   callbackUrl: nil)
+        
+        let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
+        let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
+        let presentationRequest = PresentationRequest(from: token,
+                                                      linkedDomainResult: linkedDomainResult)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            
+            if objectToBeMapped is PresentationDefinition {
+                return expectedVerifiedIdRequirement
+            }
+            
+            if objectToBeMapped is LinkedDomainResult {
+                return expectedRootOfTrust
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
+        
+        // Act / Assert
+        XCTAssertThrowsError(try mockMapper.map(presentationRequest)) { error in
+            // Assert
+            XCTAssert(error is MappingError)
+            XCTAssertEqual(error as? MappingError, .PropertyNotPresent(property: "redirectUri", in: "PresentationRequest"))
+        }
+    }
+    
+    func testMap_WithCallbackMalformed_ThrowError() throws {
+        // Arrange
+        let expectedStyle = OpenIdVerifierStyle(name: "")
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                                  required: false,
+                                                                  types: [],
+                                                                  purpose: nil,
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                              constraintOperator: .ALL))
+        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
+        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+        let mockRegistration = RegistrationClaims(clientName: nil,
+                                                  clientPurpose: nil,
+                                                  logoURI: nil,
+                                                  subjectIdentifierTypesSupported: nil,
+                                                  vpFormats: nil)
+        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims,
+                                                   registration: mockRegistration,
+                                                   callbackUrl: "//|\\")
+        
+        let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
+        let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
+        let presentationRequest = PresentationRequest(from: token,
+                                                      linkedDomainResult: linkedDomainResult)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            
+            if objectToBeMapped is PresentationDefinition {
+                return expectedVerifiedIdRequirement
+            }
+            
+            if objectToBeMapped is LinkedDomainResult {
+                return expectedRootOfTrust
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
+        
+        // Act / Assert
+        XCTAssertThrowsError(try mockMapper.map(presentationRequest)) { error in
+            // Assert
+            XCTAssert(error is PresentationRequestMappingError)
+            XCTAssertEqual(error as? PresentationRequestMappingError, .callbackURLMalformed("//|\\"))
+        }
+    }
+    
+    func testMap_WithNoStatePresent_ThrowError() throws {
+        // Arrange
+        let expectedStyle = OpenIdVerifierStyle(name: "")
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                                  required: false,
+                                                                  types: [],
+                                                                  purpose: nil,
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                              constraintOperator: .ALL))
+        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
+        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+        let mockRegistration = RegistrationClaims(clientName: nil,
+                                                  clientPurpose: nil,
+                                                  logoURI: nil,
+                                                  subjectIdentifierTypesSupported: nil,
+                                                  vpFormats: nil)
+        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims,
+                                                   registration: mockRegistration,
+                                                   state: nil)
+        
+        let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
+        let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
+        let presentationRequest = PresentationRequest(from: token,
+                                                      linkedDomainResult: linkedDomainResult)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            
+            if objectToBeMapped is PresentationDefinition {
+                return expectedVerifiedIdRequirement
+            }
+            
+            if objectToBeMapped is LinkedDomainResult {
+                return expectedRootOfTrust
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
+        
+        // Act / Assert
+        XCTAssertThrowsError(try mockMapper.map(presentationRequest)) { error in
+            // Assert
+            XCTAssert(error is MappingError)
+            XCTAssertEqual(error as? MappingError, .PropertyNotPresent(property: "state", in: "PresentationRequest"))
+        }
     }
     
     func testMap_WithClientNamePresent_ReturnVerifiedIdRequestContent() throws {
@@ -201,6 +352,8 @@ class PresentationRequestMappingTests: XCTestCase {
         XCTAssertIdentical(actualResult.requirement as AnyObject, expectedVerifiedIdRequirement as AnyObject)
         XCTAssertEqual(actualResult.rootOfTrust, expectedRootOfTrust)
         XCTAssertEqual(actualResult.style as? OpenIdVerifierStyle, expectedStyle)
+        XCTAssertEqual(actualResult.callbackUrl.absoluteString, "https://test.com")
+        XCTAssertEqual(actualResult.requestState, "mockState")
         XCTAssertNil(actualResult.injectedIdToken)
     }
     
@@ -254,6 +407,8 @@ class PresentationRequestMappingTests: XCTestCase {
         XCTAssertIdentical(actualResult.requirement as AnyObject, expectedVerifiedIdRequirement as AnyObject)
         XCTAssertEqual(actualResult.rootOfTrust, expectedRootOfTrust)
         XCTAssertEqual(actualResult.style as? OpenIdVerifierStyle, expectedStyle)
+        XCTAssertEqual(actualResult.callbackUrl.absoluteString, "https://test.com")
+        XCTAssertEqual(actualResult.requestState, "mockState")
         XCTAssertEqual(actualResult.injectedIdToken?.rawToken, "mock idToken hint")
         XCTAssertNil(actualResult.injectedIdToken?.pin)
     }
@@ -323,14 +478,16 @@ class PresentationRequestMappingTests: XCTestCase {
         XCTAssertIdentical(actualResult.requirement as AnyObject, expectedVerifiedIdRequirement as AnyObject)
         XCTAssertEqual(actualResult.rootOfTrust, expectedRootOfTrust)
         XCTAssertEqual(actualResult.style as? OpenIdVerifierStyle, expectedStyle)
+        XCTAssertEqual(actualResult.callbackUrl.absoluteString, "https://test.com")
+        XCTAssertEqual(actualResult.requestState, "mockState")
         XCTAssertEqual(actualResult.injectedIdToken?.rawToken, "mock idToken hint")
         XCTAssertIdentical(actualResult.injectedIdToken?.pin as AnyObject, expectedPinRequirement as AnyObject)
     }
     
     private func createPresentationRequestToken(requestedClaims: RequestedClaims? = nil,
                                                 registration: RegistrationClaims? = nil,
-                                                state: String = "mockState",
-                                                callbackUrl: String = "https://test.com",
+                                                state: String? = "mockState",
+                                                callbackUrl: String? = "https://test.com",
                                                 idTokenHint: String? = nil,
                                                 pin: PinDescriptor? = nil) -> PresentationRequestToken {
         let presentationRequestTokenClaims = PresentationRequestClaims(jti: nil,
