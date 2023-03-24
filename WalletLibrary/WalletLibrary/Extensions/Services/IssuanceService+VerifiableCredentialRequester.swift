@@ -12,6 +12,7 @@
 
 enum IssuanceServiceVCRequesterError: Error {
     case unableToCastIssuanceResponseContainerFromType(String)
+    case unableToCastIssuanceCompletionResponseFromType(String)
 }
 /**
  * An extension of the VCServices.IssuanceService class
@@ -35,5 +36,17 @@ extension IssuanceService: VerifiedIdRequester {
         let verifiableCredential = try VCVerifiedId(raw: rawVerifiableCredential,
                                                             from: issuanceResponseContainer.contract)
         return verifiableCredential
+    }
+    
+    func send<IssuanceResult>(result: IssuanceResult, to url: URL) async throws -> Void {
+        
+        guard let issuanceCompletionResponse = result as? IssuanceCompletionResponse else {
+            let resultType = String(describing: result.self)
+            throw IssuanceServiceVCRequesterError.unableToCastIssuanceCompletionResponseFromType(resultType)
+        }
+        
+        _ = try await AsyncWrapper().wrap { () in
+            self.sendCompletionResponse(for: issuanceCompletionResponse, to: url.absoluteString)
+        }()
     }
 }
