@@ -18,7 +18,7 @@ extension IssuanceRequest: Mappable {
                                                    propertyName: "attestations")
         let requirement = try mapper.map(attestations)
         let rootOfTrust = try mapper.map(linkedDomainResult)
-        let issuerStyle = Manifest2022IssuerStyle(name: content.display.card.issuedBy)
+        let issuerStyle = VerifiedIdManifestIssuerStyle(name: content.display.card.issuedBy)
         let verifiedIdStyle = try mapper.map(content.display.card)
         
         return IssuanceRequestContent(style: issuerStyle,
