@@ -5,7 +5,6 @@
 
 enum VerifiedIdClientError: Error {
     case TODO(message: String)
-    case protocolNotSupported
 }
 
 /**
@@ -28,11 +27,16 @@ public class VerifiedIdClient {
     }
     
     /// Creates either an issuance or presentation request from the input.
-    public func createVerifiedIdRequest(from input: VerifiedIdRequestInput) async throws -> any VerifiedIdRequest {
-        let resolver = try requestResolverFactory.getResolver(from: input)
-        let rawRequest = try await resolver.resolve(input: input)
-        let handler = try requestHandlerFactory.getHandler(from: resolver)
-        return try await handler.handleRequest(from: rawRequest)
+    public func createVerifiedIdRequest(from input: VerifiedIdRequestInput) async throws -> Result<any VerifiedIdRequest, Error> {
+        do {
+            let resolver = try requestResolverFactory.getResolver(from: input)
+            let rawRequest = try await resolver.resolve(input: input)
+            let handler = try requestHandlerFactory.getHandler(from: resolver)
+            let request = try await handler.handleRequest(from: rawRequest)
+            return Result.success(request)
+        } catch {
+            return Result.failure(error)
+        }
     }
     
     public func encode(verifiedId: VerifiedId) throws -> Result<Data, Error> {
