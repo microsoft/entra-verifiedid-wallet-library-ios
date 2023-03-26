@@ -20,7 +20,7 @@ class VerifiedIdRequirementTests: XCTestCase {
                                                 constraint: mockConstraint)
         
         // Act
-        XCTAssertThrowsError(try requirement.validate()) { error in
+        XCTAssertThrowsError(try requirement.validate().get()) { error in
             // Assert
             XCTAssert(error is VerifiedIdRequirementError)
             XCTAssertEqual(error as? VerifiedIdRequirementError, .requirementHasNotBeenFulfilled)
@@ -42,7 +42,7 @@ class VerifiedIdRequirementTests: XCTestCase {
         requirement.selectedVerifiedId = mockVerifiedId
         
         // Act
-        XCTAssertThrowsError(try requirement.validate()) { error in
+        XCTAssertThrowsError(try requirement.validate().get()) { error in
             // Assert
             XCTAssert(error is VerifiedIdRequirementError)
             XCTAssertEqual(error as? VerifiedIdRequirementError, .verifiedIdDoesNotMeetConstraints)
@@ -64,7 +64,7 @@ class VerifiedIdRequirementTests: XCTestCase {
         requirement.selectedVerifiedId = mockVerifiedId
         
         // Act
-        XCTAssertNoThrow(try requirement.validate())
+        XCTAssertNoThrow(try requirement.validate().get())
     }
     
     func testGetMatches_WhenConstraintsDoNotMatchAnyVerifiedIds_ReturnsEmptyList() async throws {
@@ -144,7 +144,7 @@ class VerifiedIdRequirementTests: XCTestCase {
                                                 constraint: mockConstraint)
         
         // Act
-        XCTAssertThrowsError(try requirement.fulfill(with: mockVerifiedId)) { error in
+        XCTAssertThrowsError(try requirement.fulfill(with: mockVerifiedId).get()) { error in
             // Assert
             XCTAssert(error is VerifiedIdRequirementError)
             XCTAssertEqual(error as? VerifiedIdRequirementError, .verifiedIdDoesNotMeetConstraints)
@@ -165,7 +165,7 @@ class VerifiedIdRequirementTests: XCTestCase {
                                                 constraint: mockConstraint)
         
         // Act / Assert
-        XCTAssertNoThrow(try requirement.fulfill(with: mockVerifiedId))
+        XCTAssertNoThrow(try requirement.fulfill(with: mockVerifiedId).get())
         XCTAssertEqual(requirement.selectedVerifiedId as? MockVerifiedId, mockVerifiedId)
     }
 }

@@ -11,5 +11,5 @@ public protocol Requirement {
     var required: Bool { get }
     
     /// Validate the requirement, and throw if there is something invalid.
-    func validate() throws
+    func validate() -> Result<Void, Error>
 }

@@ -6,7 +6,7 @@
 /**
  * The look and feel of the Verified Id configured by a Manifest implemented in 2022.
  */
-public struct Manifest2022VerifiedIdStyle: VerifiedIdStyle {
+public struct BasicVerifiedIdStyle: VerifiedIdStyle {
     
     /// The name of the Verified Id.
     public let name: String

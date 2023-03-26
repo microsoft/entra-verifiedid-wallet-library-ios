@@ -77,7 +77,7 @@
 		559BD455299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD454299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift */; };
 		559BD457299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD456299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift */; };
 		559BD459299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD458299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift */; };
-		559BD45B299D587200BD61AC /* Manifest2022IssuerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD45A299D587200BD61AC /* Manifest2022IssuerStyle.swift */; };
+		559BD45B299D587200BD61AC /* VerifiedIdManifestIssuerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD45A299D587200BD61AC /* VerifiedIdManifestIssuerStyle.swift */; };
 		559BD485299D8DCC00BD61AC /* VerifiedIdRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD484299D8DCC00BD61AC /* VerifiedIdRequester.swift */; };
 		559BD49C299D913F00BD61AC /* IssuanceResponseContainer+WalletLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD49B299D913F00BD61AC /* IssuanceResponseContainer+WalletLibrary.swift */; };
 		559BD4B3299EDFB400BD61AC /* VerifiableCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */; };
@@ -151,7 +151,7 @@
 		55EA178D29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */; };
 		55EA17A429CA4F590085E29E /* VerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A329CA4F590085E29E /* VerifiedIdStyle.swift */; };
 		55EA17A629CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A529CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift */; };
-		55EA17A829CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A729CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift */; };
+		55EA17A829CA531F0085E29E /* BasicVerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A729CA531F0085E29E /* BasicVerifiedIdStyle.swift */; };
 		55EA17AA29CA57320085E29E /* MockVerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */; };
 		55EA17AC29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17AB29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift */; };
 		55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17AD29CA693C0085E29E /* VerifiedIdPresentationRequest.swift */; };
@@ -398,7 +398,7 @@
 		559BD454299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceRequest+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD456299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttestationsDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD458299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelfIssuedClaimsDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
-		559BD45A299D587200BD61AC /* Manifest2022IssuerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manifest2022IssuerStyle.swift; sourceTree = "<group>"; };
+		559BD45A299D587200BD61AC /* VerifiedIdManifestIssuerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdManifestIssuerStyle.swift; sourceTree = "<group>"; };
 		559BD484299D8DCC00BD61AC /* VerifiedIdRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequester.swift; sourceTree = "<group>"; };
 		559BD49B299D913F00BD61AC /* IssuanceResponseContainer+WalletLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssuanceResponseContainer+WalletLibrary.swift"; sourceTree = "<group>"; };
 		559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiableCredential.swift; sourceTree = "<group>"; };
@@ -475,7 +475,7 @@
 		55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdIssuanceRequest.swift; sourceTree = "<group>"; };
 		55EA17A329CA4F590085E29E /* VerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdStyle.swift; sourceTree = "<group>"; };
 		55EA17A529CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardDisplayDescriptor+Mappable.swift"; sourceTree = "<group>"; };
-		55EA17A729CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manifest2022VerifiedIdStyle.swift; sourceTree = "<group>"; };
+		55EA17A729CA531F0085E29E /* BasicVerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicVerifiedIdStyle.swift; sourceTree = "<group>"; };
 		55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdStyle.swift; sourceTree = "<group>"; };
 		55EA17AB29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardDisplayDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		55EA17AD29CA693C0085E29E /* VerifiedIdPresentationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdPresentationRequest.swift; sourceTree = "<group>"; };
@@ -771,8 +771,8 @@
 			isa = PBXGroup;
 			children = (
 				559BD3AA299ADEFF00BD61AC /* ContractIssuanceRequest.swift */,
-				559BD45A299D587200BD61AC /* Manifest2022IssuerStyle.swift */,
-				55EA17A729CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift */,
+				559BD45A299D587200BD61AC /* VerifiedIdManifestIssuerStyle.swift */,
+				55EA17A729CA531F0085E29E /* BasicVerifiedIdStyle.swift */,
 			);
 			path = Manifest;
 			sourceTree = "<group>";
@@ -1556,12 +1556,12 @@
 				559BD3A6299AD9BD00BD61AC /* ManifestResolver.swift in Sources */,
 				55BA2DCD29CDF9E000BB8207 /* VerifiedIdEncoding.swift in Sources */,
 				55EA17A629CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift in Sources */,
-				55EA17A829CA531F0085E29E /* Manifest2022VerifiedIdStyle.swift in Sources */,
+				55EA17A829CA531F0085E29E /* BasicVerifiedIdStyle.swift in Sources */,
 				55BA2DD129CDFA1A00BB8207 /* VerifiedIdDecoder.swift in Sources */,
 				550A9170299310D40014D030 /* OpenIdURLRequestResolver.swift in Sources */,
 				5534E669294A0C3F005D0765 /* Mapper.swift in Sources */,
 				550E320A298B0EA4004E7716 /* VerifiedIdClient.swift in Sources */,
-				559BD45B299D587200BD61AC /* Manifest2022IssuerStyle.swift in Sources */,
+				559BD45B299D587200BD61AC /* VerifiedIdManifestIssuerStyle.swift in Sources */,
 				55DECBEB29B954F500D5C802 /* PresentationResponseContainer+WalletLibrary.swift in Sources */,
 				559BD3AD299AE6C000BD61AC /* IssuanceRequest+RawManifest.swift in Sources */,
 				559BD3B2299B0A0400BD61AC /* AttestationsDescriptor+Mappable.swift in Sources */,

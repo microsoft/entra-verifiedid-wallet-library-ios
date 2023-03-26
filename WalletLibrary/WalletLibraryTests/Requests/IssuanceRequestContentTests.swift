@@ -12,7 +12,7 @@ class IssuanceRequestContentTests: XCTestCase {
         
         // Arrange
         let idTokenRequirement = createIdTokenRequirement()
-        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+        var issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
                                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -31,7 +31,7 @@ class IssuanceRequestContentTests: XCTestCase {
         
         // Arrange
         let idTokenRequirement = createIdTokenRequirement(configuration: "https://invalidConfiguration.me")
-        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+        var issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
                                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -49,7 +49,7 @@ class IssuanceRequestContentTests: XCTestCase {
         
         // Arrange
         let idTokenRequirement = createIdTokenRequirement()
-        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+        var issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
                                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: idTokenRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -81,7 +81,7 @@ class IssuanceRequestContentTests: XCTestCase {
         let groupRequirement = GroupRequirement(required: false,
                                                 requirements: [mockRequirement, idTokenRequirement],
                                                 requirementOperator: .ALL)
-        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+        var issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
                                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: groupRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -109,7 +109,7 @@ class IssuanceRequestContentTests: XCTestCase {
         let groupRequirement = GroupRequirement(required: false,
                                                 requirements: [mockRequirement, idTokenRequirement],
                                                 requirementOperator: .ALL)
-        var issuanceRequestContent = IssuanceRequestContent(style: Manifest2022IssuerStyle(name: "mockIssuerName"),
+        var issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
                                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: groupRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))

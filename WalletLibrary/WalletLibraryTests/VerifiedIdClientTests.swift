@@ -32,7 +32,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await client.createVerifiedIdRequest(from: mockInput)
+            let _ = try await client.createVerifiedIdRequest(from: mockInput).get()
             XCTFail("Should have thrown.")
         } catch {
             // Assert
@@ -60,7 +60,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await client.createVerifiedIdRequest(from: mockInput)
+            let _ = try await client.createVerifiedIdRequest(from: mockInput).get()
             XCTFail("Should have thrown.")
         } catch {
             // Assert
@@ -88,7 +88,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await client.createVerifiedIdRequest(from: mockInput)
+            let _ = try await client.createVerifiedIdRequest(from: mockInput).get()
             XCTFail("Should have thrown.")
         } catch {
             // Assert
@@ -116,7 +116,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await client.createVerifiedIdRequest(from: mockInput)
+            let _ = try await client.createVerifiedIdRequest(from: mockInput).get()
             XCTFail("Should have thrown.")
         } catch {
             // Assert
@@ -145,7 +145,7 @@ class VerifiedIdClientTests: XCTestCase {
                                       configuration: configuration)
         
         // Act
-        let actualResult = try await client.createVerifiedIdRequest(from: mockInput)
+        let actualResult = try await client.createVerifiedIdRequest(from: mockInput).get()
         
         XCTAssertIdentical(actualResult as AnyObject, expectedRequest as AnyObject)
     }

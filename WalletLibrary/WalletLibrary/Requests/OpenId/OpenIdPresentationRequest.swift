@@ -43,7 +43,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     /// Whether or not the request is satisfied on client side.
     func isSatisfied() -> Bool {
         do {
-            try requirement.validate()
+            try requirement.validate().get()
             return true
         } catch {
             /// TODO: log error.

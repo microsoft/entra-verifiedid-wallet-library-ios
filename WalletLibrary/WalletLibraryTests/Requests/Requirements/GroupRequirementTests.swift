@@ -23,7 +23,7 @@ class GroupRequirementTests: XCTestCase {
                                                 requirementOperator: .ALL)
         
         // Act
-        XCTAssertThrowsError(try groupRequirement.validate()) { error in
+        XCTAssertThrowsError(try groupRequirement.validate().get()) { error in
             // Assert
             XCTAssert(error is GroupRequirementError)
             
@@ -50,7 +50,7 @@ class GroupRequirementTests: XCTestCase {
                                                 requirementOperator: .ALL)
         
         // Act
-        XCTAssertThrowsError(try groupRequirement.validate()) { error in
+        XCTAssertThrowsError(try groupRequirement.validate().get()) { error in
             // Assert
             XCTAssert(error is GroupRequirementError)
             
@@ -80,6 +80,6 @@ class GroupRequirementTests: XCTestCase {
                                                 requirementOperator: .ALL)
         
         // Act / Assert
-        XCTAssertNoThrow(try groupRequirement.validate())
+        XCTAssertNoThrow(try groupRequirement.validate().get())
     }
 }

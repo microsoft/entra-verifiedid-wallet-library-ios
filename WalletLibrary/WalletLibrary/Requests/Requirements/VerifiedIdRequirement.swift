@@ -53,16 +53,18 @@ public class VerifiedIdRequirement: Requirement {
         self.constraint = constraint
     }
     
-    /// Validate the requirement to determine if
-    public func validate() throws {
+    /// Returns Failure Result is requirement constraint is not met.
+    public func validate() -> Result<Void, Error> {
         
         guard let selectedVerifiedId = self.selectedVerifiedId else {
-            throw VerifiedIdRequirementError.requirementHasNotBeenFulfilled
+            return Result.failure(VerifiedIdRequirementError.requirementHasNotBeenFulfilled)
         }
         
         guard constraint.doesMatch(verifiedId: selectedVerifiedId) else {
-            throw VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints
+            return Result.failure(VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints)
         }
+        
+        return Result.success(())
     }
     
     /// Given a list of Verified Ids, return a filtered list of Verified Ids that satisfy the requirement.
@@ -72,15 +74,16 @@ public class VerifiedIdRequirement: Requirement {
         }
     }
     
-    /// Fulfill the requirement with a VerifiedId. Throws if Verified Id does not satisfy the requirement.
+    /// Fulfill the requirement with a VerifiedId. Returns Failure Result if Verified Id does not satisfy the requirement.
     /// TODO: it might be beneficial to use a doesMatch method on Constraint that throws a specific error as to why
     /// the Verified Id does not satisfy the requirement.
-    public func fulfill(with verifiedId: VerifiedId) throws {
+    public func fulfill(with verifiedId: VerifiedId) -> Result<Void, Error> {
         
         guard constraint.doesMatch(verifiedId: verifiedId) else {
-            throw VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints
+            return Result.failure(VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints)
         }
         
         self.selectedVerifiedId = verifiedId
+        return Result.success(())
     }
 }

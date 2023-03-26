@@ -17,7 +17,7 @@ class PinRequirementTests: XCTestCase {
                                             salt: nil)
         
         // Act
-        XCTAssertThrowsError(try pinRequirement.validate()) { error in
+        XCTAssertThrowsError(try pinRequirement.validate().get()) { error in
             // Assert
             XCTAssert(error is PinRequirementError)
             XCTAssertEqual(error as? PinRequirementError, .pinRequirementHasNotBeenFulfilled)
@@ -34,7 +34,7 @@ class PinRequirementTests: XCTestCase {
         pinRequirement.fulfill(with: "mock pin")
         
         // Act / Assert
-        XCTAssertNoThrow(try pinRequirement.validate())
+        XCTAssertNoThrow(try pinRequirement.validate().get())
     }
     
     func testFulfill_WithPin_SetsAccessToken() async throws {
