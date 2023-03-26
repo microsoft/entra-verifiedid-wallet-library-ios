@@ -16,7 +16,7 @@ class SelfAttestedClaimRequirementTests: XCTestCase {
                                                        claim: "")
         
         // Act
-        XCTAssertThrowsError(try requirement.validate()) { error in
+        XCTAssertThrowsError(try requirement.validate().get()) { error in
             // Assert
             XCTAssert(error is SelfAttestedClaimRequirementError)
             XCTAssertEqual(error as? SelfAttestedClaimRequirementError, .selfAttestedClaimRequirementHasNotBeenFulfilled)
@@ -32,7 +32,7 @@ class SelfAttestedClaimRequirementTests: XCTestCase {
         requirement.fulfill(with: "mock value")
         
         // Act / Assert
-        XCTAssertNoThrow(try requirement.validate())
+        XCTAssertNoThrow(try requirement.validate().get())
     }
     
     func testFulfill_WithValue_SetsSelfAttestedClaimRequirement() async throws {

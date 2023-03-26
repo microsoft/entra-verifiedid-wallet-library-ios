@@ -37,11 +37,13 @@ public class PinRequirement: Requirement {
         self.salt = salt
     }
     
-    /// Throws error if requirement is not complete.
-    public func validate() throws {
+    /// Returns Failure Result if requirement is not fulfilled.
+    public func validate() -> Result<Void, Error> {
         if pin == nil {
-            throw PinRequirementError.pinRequirementHasNotBeenFulfilled
+            return Result.failure(PinRequirementError.pinRequirementHasNotBeenFulfilled)
         }
+        
+        return Result.success(())
     }
     
     /// Fulfill requirement with a pin.

@@ -7,7 +7,7 @@
  * Representation of Issuer Style configured by a Manifest implemented in 2022.
  * TODO: Add more attributes from manifest.
  */
-struct Manifest2022IssuerStyle: RequesterStyle, Equatable {
+struct VerifiedIdManifestIssuerStyle: RequesterStyle, Equatable {
     /// The name of the issuer.
     let name: String
 }

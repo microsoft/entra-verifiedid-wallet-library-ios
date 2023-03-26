@@ -18,12 +18,12 @@ extension CardDisplayDescriptor: Mappable {
             logoUrl = URL(string: url)
         }
         
-        return Manifest2022VerifiedIdStyle(name: title,
-                                           issuer: issuedBy,
-                                           backgroundColor: backgroundColor,
-                                           textColor: textColor,
-                                           description: cardDescription,
-                                           logoUrl: logoUrl,
-                                           logoAltText: logo?.logoDescription)
+        return BasicVerifiedIdStyle(name: title,
+                                    issuer: issuedBy,
+                                    backgroundColor: backgroundColor,
+                                    textColor: textColor,
+                                    description: cardDescription,
+                                    logoUrl: logoUrl,
+                                    logoAltText: logo?.logoDescription)
     }
 }

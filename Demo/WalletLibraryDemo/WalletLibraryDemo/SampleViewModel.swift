@@ -81,12 +81,17 @@ enum RequestState {
                 
                 // VerifiedIdClient is used to create a request from an input
                 // such as, in this case, a VerifiedIdRequestURL.
-                let request = try await client.createVerifiedIdRequest(from: input)
-                self.request = request
+                let result = await client.createVerifiedIdRequest(from: input)
                 
-                try configureRequirements(requirement: request.requirement)
-                isCompleteButtonEnabled = request.isSatisfied()
-                requestState = .GatheringRequirements
+                switch result {
+                case .success(let request):
+                    self.request = request
+                    try configureRequirements(requirement: request.requirement)
+                    isCompleteButtonEnabled = request.isSatisfied()
+                    requestState = .GatheringRequirements
+                case .failure(let error):
+                    showErrorMessage(from: error, additionalInfo: "Unable to create request.")
+                }
             } catch {
                 showErrorMessage(from: error, additionalInfo: "Unable to create request.")
             }
