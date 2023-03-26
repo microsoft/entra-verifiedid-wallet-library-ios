@@ -219,6 +219,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         // Arrange
         let issuanceOptionURL = URL(string: "https://test.com")!
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
+        let mockState = "mock state"
         let expectedRequirement = VerifiedIdRequirement(encrypted: false,
                                                         required: true,
                                                         types: [],
@@ -230,7 +231,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         let expectedContent = PresentationRequestContent(style: expectedStyle,
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
-                                                         requestState: "mock state",
+                                                         requestState: mockState,
                                                          callbackUrl: URL(string: "https://test.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
@@ -245,13 +246,22 @@ class OpenIdRequestHandlerTests: XCTestCase {
             throw ExpectedError.expectedToBeUnableToResolveContract
         }
         
+        var wasSendIssuanceResultCallbackCalled: Bool = false
+        func sendIssuanceResult(response: IssuanceCompletionResponse) throws -> Void {
+            XCTAssertEqual(response.code, "issuance_failed")
+            XCTAssertEqual(response.details, IssuanceCompletionErrorDetails.fetchContractError.rawValue)
+            XCTAssertEqual(response.state, mockState)
+            wasSendIssuanceResultCallbackCalled = true
+        }
+        
+        let mockVCRequester = MockVerifiedIdRequester(sendIssuanceResultCallback: sendIssuanceResult)
         let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestHandler(configuration: configuration,
                                            openIdResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                           verifiableCredentialRequester: mockVCRequester)
         
         // Act
         do {
@@ -259,6 +269,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
+            XCTAssert(wasSendIssuanceResultCallbackCalled)
             XCTAssert(error is ExpectedError)
             XCTAssertEqual(error as? ExpectedError, ExpectedError.expectedToBeUnableToResolveContract)
         }

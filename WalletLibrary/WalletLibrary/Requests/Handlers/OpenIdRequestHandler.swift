@@ -64,22 +64,49 @@ struct OpenIdRequestHandler: RequestHandling {
             throw OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest
         }
         
-        let rawContract = try await manifestResolver.resolve(with: issuanceOption.url)
-        
-        let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
-        var issuanceRequestContent = try configuration.mapper.map(rawContract)
-        
-        issuanceRequestContent.add(requestState: presentationRequestContent.requestState)
-        issuanceRequestContent.add(issuanceResultCallbackUrl: presentationRequestContent.callbackUrl)
-        
-        if let injectedIdToken = presentationRequestContent.injectedIdToken {
-            issuanceRequestContent.addRequirement(from: injectedIdToken)
+        var rawContract: any RawManifest
+        do {
+            rawContract = try await manifestResolver.resolve(with: issuanceOption.url)
+        } catch {
+            await sendManifestResolutionErrorResult(callbackUrl: presentationRequestContent.callbackUrl,
+                                                    state: presentationRequestContent.requestState)
+            throw error
         }
+        
+        let issuanceRequestContent = try createIssuanceRequestContent(rawContract: rawContract,
+                                                                      requestContent: presentationRequestContent)
+        let issuanceResponseContainer = try IssuanceResponseContainer(from: rawContract, input: issuanceOption)
         
         return ContractIssuanceRequest(content: issuanceRequestContent,
                                        issuanceResponseContainer: issuanceResponseContainer,
                                        verifiedIdRequester: verifiedIdRequester,
                                        configuration: configuration)
+    }
+    
+    private func createIssuanceRequestContent(rawContract: any RawManifest,
+                                              requestContent: PresentationRequestContent) throws -> IssuanceRequestContent {
+        
+        var issuanceRequestContent = try configuration.mapper.map(rawContract)
+        
+        issuanceRequestContent.add(requestState: requestContent.requestState)
+        issuanceRequestContent.add(issuanceResultCallbackUrl: requestContent.callbackUrl)
+        
+        if let injectedIdToken = requestContent.injectedIdToken {
+            issuanceRequestContent.addRequirement(from: injectedIdToken)
+        }
+        
+        return issuanceRequestContent
+    }
+    
+    private func sendManifestResolutionErrorResult(callbackUrl: URL, state: String) async {
+        do {
+            let issuanceErrorResult = IssuanceCompletionResponse(wasSuccessful: false,
+                                                                 withState: state,
+                                                                 andDetails: .fetchContractError)
+            try await self.verifiedIdRequester.send(result: issuanceErrorResult, to: callbackUrl)
+        } catch {
+            configuration.logger.logError(message: "Unable to send Issuance Result to callback. Error: \(String(describing: error))")
+        }
     }
     
     private func handlePresentationRequest(requestContent: PresentationRequestContent,
