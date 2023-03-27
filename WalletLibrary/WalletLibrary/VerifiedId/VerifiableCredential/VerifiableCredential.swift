@@ -18,7 +18,7 @@ enum VerifiableCredentialError: Error {
  * This object conforms to the Mappable protocol and maps VC claims and display contract to a Verified Id.
  */
 struct VCVerifiedId: VerifiedId {
-    
+
     public let id: String
     
     public let style: VerifiedIdStyle
@@ -33,8 +33,7 @@ struct VCVerifiedId: VerifiedId {
     
     let contract: Contract
     
-    init(raw: VerifiableCredential,
-         from contract: Contract) throws {
+    init(raw: VerifiableCredential, from contract: Contract) throws {
         
         guard let issuedOn = raw.content.iat else {
             throw VerifiableCredentialError.missingIssuedOnValueInVerifiableCredential
