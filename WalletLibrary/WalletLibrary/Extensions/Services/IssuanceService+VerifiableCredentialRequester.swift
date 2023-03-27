@@ -34,7 +34,7 @@ extension IssuanceService: VerifiedIdRequester {
         }()
         
         let verifiableCredential = try VCVerifiedId(raw: rawVerifiableCredential,
-                                                            from: issuanceResponseContainer.contract)
+                                                    from: issuanceResponseContainer.contract)
         return verifiableCredential
     }
     
