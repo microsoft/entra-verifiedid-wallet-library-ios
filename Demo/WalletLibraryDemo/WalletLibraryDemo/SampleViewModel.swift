@@ -51,9 +51,6 @@ enum RequestState {
     /// Repository in charge of storing/retrieving verified ids.
     private let verifiedIdRepository: VerifiedIdRepository
     
-    /// Repository in charge of storing/retrieving verified ids.
-    private var verifiedIdRepository = VerifiedIdRepository()
-    
     /// TODO: enable deeplinking and the rest of the requirements.
     init() {
         requestState = .Initialized
@@ -78,12 +75,17 @@ enum RequestState {
                 
                 // VerifiedIdClient is used to create a request from an input
                 // such as, in this case, a VerifiedIdRequestURL.
-                let request = try await verifiedIdClient.createVerifiedIdRequest(from: input)
-                self.request = request
+                let result = await verifiedIdClient.createVerifiedIdRequest(from: input)
                 
-                try configureRequirements(requirement: request.requirement)
-                isCompleteButtonEnabled = request.isSatisfied()
-                requestState = .GatheringRequirements
+                switch result {
+                case .success(let request):
+                    self.request = request
+                    try configureRequirements(requirement: request.requirement)
+                    isCompleteButtonEnabled = request.isSatisfied()
+                    requestState = .GatheringRequirements
+                case .failure(let error):
+                    showErrorMessage(from: error, additionalInfo: "Unable to create request.")
+                }
             } catch {
                 showErrorMessage(from: error, additionalInfo: "Unable to create request.")
             }
