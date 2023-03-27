@@ -60,12 +60,4 @@ public class VerifiedIdClient {
             return Result.failure(error)
         }
     }
-    
-    public func encode(verifiedId: VerifiedId) throws -> Data {
-        return try verifiedIdEncoder.encode(verifiedId: verifiedId)
-    }
-    
-    public func decodeVerifiedId(from raw: Data) throws -> VerifiedId {
-        return try verifiedIdDecoder.decode(from: raw)
-    }
 }
