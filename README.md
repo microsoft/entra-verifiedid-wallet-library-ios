@@ -1,7 +1,7 @@
 # Microsoft Entra Wallet Library
 
 ## Introduction
-The Microsoft Entra Wallet Library for iOS gives your app the ability to begin using the Microsoft Identity platform by supporting the issuance and presentation of Verified Ids in accordance with OpenID Connect, Presentation Exchange, Verifiable Credentials, and more up and coming industry standards.
+The Microsoft Entra Wallet Library for iOS gives your app the ability to begin using the Microsoft Entra Verified Id platform by supporting the issuance and presentation of Verified Ids in accordance with OpenID Connect, Presentation Exchange, Verifiable Credentials, and more up and coming industry standards.
 
 ---
 ## Installation
@@ -26,7 +26,7 @@ Here is a simple example of how to use the library. For more in-depth examples, 
 let verifiedIdClient = VerifiedIdClientBuilder().build()
 
 /// Create a VerifiedIdRequestInput using a OpenId Request Uri.
-let input = VerifiedIdRequestURL(url: URL(string: "openid-vc...")!)
+let input = VerifiedIdRequestURL(url: URL(string: "openid-vc://...")!)
 let result = await verifiedIdClient.createVerifiedIdRequest(from: input)
 
 /// Every external method's return value is wrapped in a Result object to ensure proper error handling.
@@ -34,7 +34,7 @@ switch (result) {
 case .success(let request):
     /// A request created from the method above could be an issuance or a presentation request. 
     /// In this example, it is a presentation request, so we can cast it to a VerifiedIdPresentationRequest.
-    let presentationRequest = rquest as? VerifiedIdPresentationRequest
+    let presentationRequest = request as? VerifiedIdPresentationRequest
 case .failure(let error):
     /// If an error occurs, its value can be accessed here.
     print(error)
@@ -73,7 +73,9 @@ Once all of the requirements are fulfilled, you can double check that the reques
 let isSatisfied = await presentationRequest.isSatisfied()
 ```
 
-Then, complete the request using the complete method.
+Then, complete the request using the complete method. 
+- The `complete` method on a `VerifiedIdIssuanceRequest` returns a successful result that contains the issued `VerifiedId`, or if an error occurs, returns a failure result with the error. 
+- The `complete` method on a `VerifiedIdPresentationRequest` returns an empty successful result or if an error occurs, returns a failure result with the error. 
 ```Swift
 let result = await presentationRequest.complete()
 ```
