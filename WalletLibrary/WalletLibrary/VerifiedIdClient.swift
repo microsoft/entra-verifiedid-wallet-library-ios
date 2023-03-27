@@ -18,10 +18,6 @@ public class VerifiedIdClient {
     
     let requestHandlerFactory: RequestHandlerFactory
     
-    let verifiedIdDecoder: VerifiedIdDecoder = VerifiedIdDecoder()
-    
-    let verifiedIdEncoder: VerifiedIdEncoder = VerifiedIdEncoder()
-    
     init(requestResolverFactory: RequestResolverFactory,
          requestHandlerFactory: RequestHandlerFactory,
          configuration: LibraryConfiguration) {

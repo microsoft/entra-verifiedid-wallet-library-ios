@@ -22,11 +22,3 @@ public protocol VerifiedId: Codable {
     func getClaims() -> [VerifiedIdClaim]
 }
 
-public protocol VerifiedIdStyle {
-    var name: String { get }
-}
-
-public struct Manifest2022VerifiedIdStyle: VerifiedIdStyle {
-    public let name: String
-}
-
