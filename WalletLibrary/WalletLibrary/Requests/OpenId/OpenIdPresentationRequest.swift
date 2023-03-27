@@ -7,6 +7,10 @@
     import VCEntities
 #endif
 
+enum VerifiedIdPresentationRequestError: Error {
+    case cancelPresentationRequestIsUnsupported
+}
+
 /**
  * Presentation Requst that is Open Id specific.
  */
@@ -64,7 +68,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     }
     
     /// Cancel the request with an optional message.
-    func cancel(message: String?) -> Result<Void, Error> {
-        return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
+    func cancel(message: String?) async -> Result<Void, Error> {
+        return Result.failure(VerifiedIdPresentationRequestError.cancelPresentationRequestIsUnsupported)
     }
 }

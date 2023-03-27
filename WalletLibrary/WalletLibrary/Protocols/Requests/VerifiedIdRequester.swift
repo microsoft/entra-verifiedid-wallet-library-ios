@@ -11,4 +11,6 @@ protocol VerifiedIdRequester {
     
     /// Given generic request, requests a raw Verified Id from an issuer.
     func send<Request>(request: Request) async throws -> VerifiedId
+    
+    func send<IssuanceResult>(result: IssuanceResult, to url: URL) async throws -> Void
 }

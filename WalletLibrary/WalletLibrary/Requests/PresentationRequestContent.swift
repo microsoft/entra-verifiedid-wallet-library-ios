@@ -15,15 +15,23 @@ struct PresentationRequestContent {
     
     let rootOfTrust: RootOfTrust
     
+    let requestState: String
+    
+    let callbackUrl: URL
+    
     let injectedIdToken: InjectedIdToken?
     
     init(style: RequesterStyle,
          requirement: Requirement,
          rootOfTrust: RootOfTrust,
+         requestState: String,
+         callbackUrl: URL,
          injectedIdToken: InjectedIdToken? = nil) {
         self.style = style
         self.requirement = requirement
         self.rootOfTrust = rootOfTrust
+        self.requestState = requestState
+        self.callbackUrl = callbackUrl
         self.injectedIdToken = injectedIdToken
     }
 }

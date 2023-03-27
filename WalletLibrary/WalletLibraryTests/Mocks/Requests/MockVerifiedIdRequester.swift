@@ -4,6 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 @testable import WalletLibrary
+import VCEntities
 
 class MockVerifiedIdRequester: VerifiedIdRequester {
     
@@ -13,8 +14,12 @@ class MockVerifiedIdRequester: VerifiedIdRequester {
     
     let sendRequestCallback: ((String) throws -> VerifiedId)?
     
-    init(sendRequestCallback: ((String) throws -> VerifiedId)? = nil) {
+    let sendIssuanceResultCallback: ((IssuanceCompletionResponse) throws -> Void)?
+    
+    init(sendRequestCallback: ((String) throws -> VerifiedId)? = nil,
+         sendIssuanceResultCallback: ((IssuanceCompletionResponse) throws -> Void)? = nil) {
         self.sendRequestCallback = sendRequestCallback
+        self.sendIssuanceResultCallback = sendIssuanceResultCallback
     }
     
     func send<Request>(request: Request) async throws -> VerifiedId {
@@ -26,4 +31,7 @@ class MockVerifiedIdRequester: VerifiedIdRequester {
         throw MockVerifiedIdRequesterError.missingCallback
     }
     
+    func send<IssuanceResult>(result: IssuanceResult, to url: URL) async throws {
+        try sendIssuanceResultCallback?(result as! IssuanceCompletionResponse)
+    }
 }

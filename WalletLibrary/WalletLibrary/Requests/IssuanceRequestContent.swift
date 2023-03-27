@@ -20,7 +20,19 @@ struct IssuanceRequestContent {
     
     private(set) var requirement: Requirement
     
+    private(set) var requestState: String?
+    
+    private(set) var issuanceResultCallbackUrl: URL?
+    
     let rootOfTrust: RootOfTrust
+    
+    mutating func add(requestState: String) {
+        self.requestState = requestState
+    }
+    
+    mutating func add(issuanceResultCallbackUrl: URL) {
+        self.issuanceResultCallbackUrl = issuanceResultCallbackUrl
+    }
     
     mutating func addRequirement(from injectedIdToken: InjectedIdToken) {
         switch (requirement) {
