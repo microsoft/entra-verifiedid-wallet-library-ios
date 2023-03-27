@@ -4,12 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * An object that describes a necessary piece of information to be included within a Request.
+ * Representation of Issuer Style configured by a Manifest implemented in 2022.
+ * TODO: Add more attributes from manifest.
  */
-public protocol Requirement {
-    /// Whether or not the requirement is required to fulfill request.
-    var required: Bool { get }
-    
-    /// Validate the requirement, and throw if there is something invalid.
-    func validate() -> Result<Void, Error>
+struct VerifiedIdManifestIssuerStyle: RequesterStyle, Equatable {
+    /// The name of the issuer.
+    let name: String
 }

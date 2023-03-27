@@ -4,9 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Representation of Issuer Style configured by a Manifest implemented in 2022.
- * TODO: Add more attributes from manifest.
+ * Defines the behavior of encoding a Verified Id.
  */
-struct Manifest2022IssuerStyle: RequesterStyle, Equatable {
-    var name: String
+protocol VerifiedIdEncoding {
+    func encode(verifiedId: VerifiedId) throws -> Data
 }

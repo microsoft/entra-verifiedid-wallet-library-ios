@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 enum VerifiableCredentialError: Error {
     case missingIssuedOnValueInVerifiableCredential
@@ -15,9 +17,7 @@ enum VerifiableCredentialError: Error {
  * Verifiable Credential object contains the raw VC, and the contract that created the Verifiable Credential.
  * This object conforms to the Mappable protocol and maps VC claims and display contract to a Verified Id.
  */
-struct VerifiableCredential: VerifiedId {
-    
-    public let style: VerifiedIdStyle
+struct VCVerifiedId: VerifiedId {
 
     public let id: String
     
@@ -27,11 +27,11 @@ struct VerifiableCredential: VerifiedId {
     
     let types: [String]
     
-    let raw: VCEntities.VerifiableCredential
+    let raw: VerifiableCredential
     
     let contract: Contract
     
-    init(raw: VCEntities.VerifiableCredential, from contract: Contract) throws {
+    init(raw: VerifiableCredential, from contract: Contract) throws {
         
         guard let issuedOn = raw.content.iat else {
             throw VerifiableCredentialError.missingIssuedOnValueInVerifiableCredential
@@ -63,7 +63,7 @@ struct VerifiableCredential: VerifiedId {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let rawToken = try values.decode(String.self, forKey: .raw)
-        guard let raw = VCEntities.VerifiableCredential(from: rawToken) else {
+        guard let raw = VerifiableCredential(from: rawToken) else {
             throw VerifiableCredentialError.unableToDecodeRawVerifiableCredentialToken
         }
         let contract = try values.decode(Contract.self, forKey: .contract)

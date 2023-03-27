@@ -26,9 +26,9 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try PresentationResponseContainer(rawRequest: mockRawRequest)) { error in
             // Assert
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual(error as? PresentationResponseError,
-                           PresentationResponseError.unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual(error as? PresentationResponseContainerError,
+                           PresentationResponseContainerError.unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
         }
     }
     
@@ -55,9 +55,9 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try presentationResponse.add(requirement: invalidRequirement)) { error in
             // Assert
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual(error as? PresentationResponseError,
-                           PresentationResponseError.unsupportedRequirementOfType("MockRequirement"))
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual(error as? PresentationResponseContainerError,
+                           PresentationResponseContainerError.unsupportedRequirementOfType("MockRequirement"))
         }
     }
     
@@ -78,9 +78,9 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try presentationResponse.add(requirement: verifiedIdRequirement)) { error in
             // Assert
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual(error as? PresentationResponseError,
-                           PresentationResponseError.missingIdInVerifiedIdRequirement)
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual(error as? PresentationResponseContainerError,
+                           PresentationResponseContainerError.missingIdInVerifiedIdRequirement)
         }
     }
     
@@ -102,9 +102,9 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try presentationResponse.add(requirement: verifiedIdRequirement)) { error in
             // Assert
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual(error as? PresentationResponseError,
-                           PresentationResponseError.unableToCastVerifableCredentialFromVerifiedId)
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual(error as? PresentationResponseContainerError,
+                           PresentationResponseContainerError.unableToCastVerifableCredentialFromVerifiedId)
         }
     }
     

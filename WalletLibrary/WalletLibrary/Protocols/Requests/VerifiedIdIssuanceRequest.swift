@@ -4,12 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * An object that describes a necessary piece of information to be included within a Request.
+ * A Verified Id Issuance Request contains the look and feel of the issuer and verified id,
+ * the requirement needed to fulfill the request, and the root of trust.
  */
-public protocol Requirement {
-    /// Whether or not the requirement is required to fulfill request.
-    var required: Bool { get }
+public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == VerifiedId {
     
-    /// Validate the requirement, and throw if there is something invalid.
-    func validate() -> Result<Void, Error>
+    /// The look and feel of the Verified Id.
+    var verifiedIdStyle: VerifiedIdStyle { get }
 }

@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 enum IssuanceResponseContainerError: Error, Equatable {
     case unableToCastVCSDKIssuanceRequestFromRawManifestOfType(String)
@@ -15,7 +17,7 @@ enum IssuanceResponseContainerError: Error, Equatable {
  * An extension of the VCEntities.IssuanceResponseContainer class
  * to convert Requirements to mappings in IssuanceResponseContainer.
  */
-extension VCEntities.IssuanceResponseContainer: IssuanceResponseContaining {
+extension IssuanceResponseContainer: IssuanceResponseContaining {
     
     struct Constants {
         static let IdTokenHintKey = "https://self-issued.me"

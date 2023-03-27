@@ -11,6 +11,8 @@ class VerifiedIdClientTests: XCTestCase {
     enum ExpectedError: Error {
         case expectedToBeThrownInResolver
         case expectedToBeThrownInHandler
+        case expectedToBeThrownInDecoder
+        case expectedToBeThrownInEncoder
     }
     
     func testCreateRequest_WhenResolverFactoryThrows_ThrowError() async throws {
@@ -21,7 +23,8 @@ class VerifiedIdClientTests: XCTestCase {
         let mockInput = MockInput(mockData: "")
         
         let handlerFactory = RequestHandlerFactory(requestHandlers: [])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper())
         
         let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
                                       requestHandlerFactory: handlerFactory,
@@ -29,7 +32,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await client.createVerifiedIdRequest(from: mockInput)
+            let _ = try await client.createVerifiedIdRequest(from: mockInput).get()
             XCTFail("Should have thrown.")
         } catch {
             // Assert
@@ -57,7 +60,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await client.createVerifiedIdRequest(from: mockInput)
+            let _ = try await client.createVerifiedIdRequest(from: mockInput).get()
             XCTFail("Should have thrown.")
         } catch {
             // Assert
@@ -85,7 +88,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await client.createVerifiedIdRequest(from: mockInput)
+            let _ = try await client.createVerifiedIdRequest(from: mockInput).get()
             XCTFail("Should have thrown.")
         } catch {
             // Assert
@@ -113,7 +116,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await client.createVerifiedIdRequest(from: mockInput)
+            let _ = try await client.createVerifiedIdRequest(from: mockInput).get()
             XCTFail("Should have thrown.")
         } catch {
             // Assert
@@ -142,8 +145,112 @@ class VerifiedIdClientTests: XCTestCase {
                                       configuration: configuration)
         
         // Act
-        let actualResult = try await client.createVerifiedIdRequest(from: mockInput)
+        let actualResult = try await client.createVerifiedIdRequest(from: mockInput).get()
         
         XCTAssertIdentical(actualResult as AnyObject, expectedRequest as AnyObject)
+    }
+    
+    func testEncode_WithEncoderErrorThrown_ThrowsError() async throws {
+        // Arrange
+        let resolverFactory = RequestResolverFactory(resolvers: [])
+        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let mockVerifiedId = MockVerifiedId(id: "mock", issuedOn: Date())
+        
+        func mockEncode(verifiedId: VerifiedId) throws -> Data {
+            throw ExpectedError.expectedToBeThrownInEncoder
+        }
+        
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 verifiedIdEncoder: MockVerifiedIdEncoder(mockEncode: mockEncode))
+        
+        let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
+                                      requestHandlerFactory: handlerFactory,
+                                      configuration: configuration)
+        
+        // Act
+        XCTAssertThrowsError(try client.encode(verifiedId: mockVerifiedId).get()) { error in
+            // Assert
+            XCTAssert(error is ExpectedError)
+            XCTAssertEqual(error as? ExpectedError, .expectedToBeThrownInEncoder)
+        }
+    }
+    
+    func testEncode_WithNoErrorsThrown_ReturnsData() async throws {
+        // Arrange
+        let resolverFactory = RequestResolverFactory(resolvers: [])
+        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let mockVerifiedId = MockVerifiedId(id: "mock", issuedOn: Date())
+        let expectedEncodingResult = "mock encoding result".data(using: .utf8)!
+        
+        func mockEncode(verifiedId: VerifiedId) throws -> Data {
+            return expectedEncodingResult
+        }
+        
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 verifiedIdEncoder: MockVerifiedIdEncoder(mockEncode: mockEncode))
+        
+        let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
+                                      requestHandlerFactory: handlerFactory,
+                                      configuration: configuration)
+        
+        // Act
+        let result = try client.encode(verifiedId: mockVerifiedId).get()
+        
+        // Assert
+        XCTAssertEqual(result, expectedEncodingResult)
+    }
+    
+    func testDecode_WithDecoderErrorThrown_ThrowsError() async throws {
+        // Arrange
+        let resolverFactory = RequestResolverFactory(resolvers: [])
+        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let mockData = "mockInputData".data(using: .utf8)!
+        
+        func mockDecode(data: Data) throws -> VerifiedId {
+            throw ExpectedError.expectedToBeThrownInDecoder
+        }
+        
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 verifiedIdDecoder: MockVerifiedIdDecoder(mockDecode: mockDecode))
+        
+        let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
+                                      requestHandlerFactory: handlerFactory,
+                                      configuration: configuration)
+        
+        // Act
+        XCTAssertThrowsError(try client.decodeVerifiedId(from: mockData).get()) { error in
+            // Assert
+            XCTAssert(error is ExpectedError)
+            XCTAssertEqual(error as? ExpectedError, .expectedToBeThrownInDecoder)
+        }
+    }
+    
+    func testDecode_WithNoErrorsThrown_ReturnsVerifiedId() async throws {
+        // Arrange
+        let resolverFactory = RequestResolverFactory(resolvers: [])
+        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let expectedVerifiedId = MockVerifiedId(id: "mock", issuedOn: Date())
+        let mockData = "mock encoding result".data(using: .utf8)!
+        
+        func mockDecode(data: Data) throws -> VerifiedId {
+            return expectedVerifiedId
+        }
+        
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 verifiedIdDecoder: MockVerifiedIdDecoder(mockDecode: mockDecode))
+        
+        let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
+                                      requestHandlerFactory: handlerFactory,
+                                      configuration: configuration)
+        
+        // Act
+        let result = try client.decodeVerifiedId(from: mockData).get()
+        
+        // Assert
+        XCTAssertEqual(result as? MockVerifiedId, expectedVerifiedId)
     }
 }

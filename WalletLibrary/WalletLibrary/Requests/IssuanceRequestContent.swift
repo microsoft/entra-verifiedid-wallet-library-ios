@@ -16,13 +16,27 @@ struct IssuanceRequestContent {
     
     let style: RequesterStyle
     
+    let verifiedIdStyle: VerifiedIdStyle
+    
     private(set) var requirement: Requirement
+    
+    private(set) var requestState: String?
+    
+    private(set) var issuanceResultCallbackUrl: URL?
     
     let rootOfTrust: RootOfTrust
     
+    mutating func add(requestState: String) {
+        self.requestState = requestState
+    }
+    
+    mutating func add(issuanceResultCallbackUrl: URL) {
+        self.issuanceResultCallbackUrl = issuanceResultCallbackUrl
+    }
+    
     mutating func addRequirement(from injectedIdToken: InjectedIdToken) {
         switch (requirement) {
-        case var groupRequirement as GroupRequirement:
+        case let groupRequirement as GroupRequirement:
             repopulate(groupRequirement: groupRequirement, from: injectedIdToken)
         case let idTokenRequirement as IdTokenRequirement:
             add(injectedIdToken: injectedIdToken,

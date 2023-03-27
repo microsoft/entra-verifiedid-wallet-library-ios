@@ -4,8 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Protocol that handles a Verified Id Request that contains the look and feel of the requester,
- * the requirement needed to fulfill request, and the root of trust.
+ * A Verified Id Request contains the look and feel of the requester,
+ * the requirement needed to fulfill the request, the root of trust.
+ *
+ * The Request also defines the behavior of completing or canceling the request
+ * and checking whether the requirement on the request is satisfied.
  */
 public protocol VerifiedIdRequest {
     associatedtype T
@@ -26,16 +29,5 @@ public protocol VerifiedIdRequest {
     func complete() async -> Result<T, Error>
 
     /// Cancel the request with an optional message.
-    func cancel(message: String?) -> Result<Void, Error>
+    func cancel(message: String?) async -> Result<Void, Error>
 }
-
-/**
- * Internal Protocol that represents an Issuance Request.
- * TODO: add VerifiedId Style
- */
-public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == VerifiedId { }
-
-/**
- * Internal Protocol that represents a Presentation Request.
- */
-public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }

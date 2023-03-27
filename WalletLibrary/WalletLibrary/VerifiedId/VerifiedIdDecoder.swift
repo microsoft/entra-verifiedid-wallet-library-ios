@@ -6,28 +6,28 @@
 enum VerifiedIdDecoderError: Error {
     case unsupportedVerifiedIdType
     case unableToDecodeVerifiedId
-    case unableToDecodeVerifiedIdRawData
 }
 
 /**
- * The Verified Id Decoder 
+ * The Verified Id Decoder decodes the data, determines what type of Verified Id the data represents, and returns that VerifiedId.
+ * Post Private Preview: make supported types injectable.
  */
-struct VerifiedIdDecoder {
+struct VerifiedIdDecoder: VerifiedIdDecoding {
 
     private let jsonDecoder = JSONDecoder()
     
-    private let supportedVerifiedIdTypes: [String: VerifiedId.Type]
+    private let supportedVerifiedIdTypes: [VerifiedId.Type]
 
     init() {
-        self.supportedVerifiedIdTypes = [SupportedVerifiedIdType.VerifiableCredential.rawValue: VerifiableCredential.self]
+        self.supportedVerifiedIdTypes = [VCVerifiedId.self]
     }
 
     func decode(from data: Data) throws -> any VerifiedId {
         do {
             let encodedVerifiedId = try jsonDecoder.decode(EncodedVerifiedId.self, from: data)
-            for (key,value) in supportedVerifiedIdTypes {
-                if key == encodedVerifiedId.type {
-                    return try jsonDecoder.decode(value, from: encodedVerifiedId.raw)
+            for type in supportedVerifiedIdTypes {
+                if String(describing: type) == encodedVerifiedId.type {
+                    return try jsonDecoder.decode(type, from: encodedVerifiedId.raw)
                 }
             }
         } catch {

@@ -19,7 +19,7 @@ class IdTokenRequirementTests: XCTestCase {
                                                     scope: "")
         
         // Act
-        XCTAssertThrowsError(try idTokenRequirement.validate()) { error in
+        XCTAssertThrowsError(try idTokenRequirement.validate().get()) { error in
             // Assert
             XCTAssert(error is IdTokenRequirementError)
             XCTAssertEqual(error as? IdTokenRequirementError, .idTokenRequirementHasNotBeenFulfilled)
@@ -38,7 +38,7 @@ class IdTokenRequirementTests: XCTestCase {
         idTokenRequirement.fulfill(with: "mock token")
         
         // Act / Assert
-        XCTAssertNoThrow(try idTokenRequirement.validate())
+        XCTAssertNoThrow(try idTokenRequirement.validate().get())
     }
     
     func testFulfill_WithIdToken_SetsAccessToken() async throws {

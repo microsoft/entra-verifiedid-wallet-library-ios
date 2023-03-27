@@ -3,11 +3,16 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
-import VCServices
+#if canImport(VCEntities)
+    import VCEntities
+#endif
+#if canImport(VCServices)
+    import VCServices
+#endif
 
 enum IssuanceServiceVCRequesterError: Error {
     case unableToCastIssuanceResponseContainerFromType(String)
+    case unableToCastIssuanceCompletionResponseFromType(String)
 }
 /**
  * An extension of the VCServices.IssuanceService class
@@ -28,8 +33,20 @@ extension IssuanceService: VerifiedIdRequester {
             self.send(response: issuanceResponseContainer)
         }()
         
-        let verifiableCredential = try VerifiableCredential(raw: rawVerifiableCredential,
+        let verifiableCredential = try VCVerifiedId(raw: rawVerifiableCredential,
                                                             from: issuanceResponseContainer.contract)
         return verifiableCredential
+    }
+    
+    func send<IssuanceResult>(result: IssuanceResult, to url: URL) async throws -> Void {
+        
+        guard let issuanceCompletionResponse = result as? IssuanceCompletionResponse else {
+            let resultType = String(describing: result.self)
+            throw IssuanceServiceVCRequesterError.unableToCastIssuanceCompletionResponseFromType(resultType)
+        }
+        
+        _ = try await AsyncWrapper().wrap { () in
+            self.sendCompletionResponse(for: issuanceCompletionResponse, to: url.absoluteString)
+        }()
     }
 }

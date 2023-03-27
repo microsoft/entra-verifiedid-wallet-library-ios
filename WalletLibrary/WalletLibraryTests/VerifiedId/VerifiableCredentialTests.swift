@@ -22,7 +22,7 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        let actualResult = try WalletLibrary.VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)
+        let actualResult = try WalletLibrary.VCVerifiedId(raw: mockVerifiableCredential, from: mockContract)
         
         // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), try mockVerifiableCredential.serialize())
@@ -39,7 +39,7 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        XCTAssertThrowsError(try VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)) { error in
+        XCTAssertThrowsError(try VCVerifiedId(raw: mockVerifiableCredential, from: mockContract)) { error in
             // Assert
             XCTAssert(error is VerifiableCredentialError)
             XCTAssertEqual(error as? VerifiableCredentialError, .missingJtiInVerifiableCredential)
@@ -52,7 +52,7 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        XCTAssertThrowsError(try VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)) { error in
+        XCTAssertThrowsError(try VCVerifiedId(raw: mockVerifiableCredential, from: mockContract)) { error in
             // Assert
             XCTAssert(error is VerifiableCredentialError)
             XCTAssertEqual(error as? VerifiableCredentialError, .missingIssuedOnValueInVerifiableCredential)
@@ -65,7 +65,7 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        let actualResult = try WalletLibrary.VerifiableCredential(raw: mockVerifiableCredential, from: mockContract)
+        let actualResult = try WalletLibrary.VCVerifiedId(raw: mockVerifiableCredential, from: mockContract)
         
         // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), try mockVerifiableCredential.serialize())
@@ -79,9 +79,9 @@ class VerifiableCredentialTests: XCTestCase {
         // Arrange
         let mockVerifiableCredential = createVCEntitiesVC()
         let mockContract = createMockSignedContract()
-        let verifiableCredential = try VerifiableCredential(raw: mockVerifiableCredential,
-                                                            from: mockContract)
-
+        let verifiableCredential = try VCVerifiedId(raw: mockVerifiableCredential,
+                                                    from: mockContract)
+        
         // Act
         let actualResult = verifiableCredential.getClaims()
         
@@ -98,9 +98,9 @@ class VerifiableCredentialTests: XCTestCase {
         let mockVCClaimDictionary = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
         let mockVerifiableCredential = createVCEntitiesVC(expectedClaims: mockVCClaimDictionary)
         let mockContract = createMockSignedContract()
-        let verifiableCredential = try VerifiableCredential(raw: mockVerifiableCredential,
-                                                            from: mockContract)
-
+        let verifiableCredential = try VCVerifiedId(raw: mockVerifiableCredential,
+                                                    from: mockContract)
+        
         // Act
         let actualResult = verifiableCredential.getClaims()
         
@@ -123,9 +123,9 @@ class VerifiableCredentialTests: XCTestCase {
                                                          label: "MockLabel1")
         let expectedClaimLabels = ["vc.credentialSubject.mockKey1": expectedClaimLabel1]
         let mockContract = createMockSignedContract(claims: expectedClaimLabels)
-        let verifiableCredential = try VerifiableCredential(raw: mockVerifiableCredential,
-                                                            from: mockContract)
-
+        let verifiableCredential = try VCVerifiedId(raw: mockVerifiableCredential,
+                                                    from: mockContract)
+        
         // Act
         let actualResult = verifiableCredential.getClaims()
         
@@ -147,10 +147,10 @@ class VerifiableCredentialTests: XCTestCase {
         let expectedClaimLabel1 = ClaimDisplayDescriptor(type: "String", label: "MockLabel1")
         let expectedClaimLabels = ["vc.credentialSubject.mockKey1": expectedClaimLabel1]
         let mockContract = createMockSignedContract(claims: expectedClaimLabels)
-
-        let verifiableCredential = try VerifiableCredential(raw: mockVerifiableCredential,
-                                                            from: mockContract)
-
+        
+        let verifiableCredential = try VCVerifiedId(raw: mockVerifiableCredential,
+                                                    from: mockContract)
+        
         // Act
         let actualResult = verifiableCredential.getClaims()
         
@@ -172,7 +172,7 @@ class VerifiableCredentialTests: XCTestCase {
         let encodedMockVC = try encoder.encode(mockVC)
         
         // Act
-        XCTAssertThrowsError(try decoder.decode(VerifiableCredential.self, from: encodedMockVC)) { error in
+        XCTAssertThrowsError(try decoder.decode(VCVerifiedId.self, from: encodedMockVC)) { error in
             // Assert
             XCTAssert(error is VerifiableCredentialError)
             XCTAssertEqual(error as? VerifiableCredentialError, .unableToDecodeRawVerifiableCredentialToken)
@@ -189,7 +189,7 @@ class VerifiableCredentialTests: XCTestCase {
         let encodedMockVC = try encoder.encode(mockVC)
         
         // Act
-        let actualResult = try decoder.decode(VerifiableCredential.self, from: encodedMockVC)
+        let actualResult = try decoder.decode(VCVerifiedId.self, from: encodedMockVC)
         
         // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), expectedSerializedVC)

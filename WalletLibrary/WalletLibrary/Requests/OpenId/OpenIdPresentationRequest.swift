@@ -3,7 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
+
+enum VerifiedIdPresentationRequestError: Error {
+    case cancelPresentationRequestIsUnsupported
+}
 
 /**
  * Presentation Requst that is Open Id specific.
@@ -41,7 +47,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     /// Whether or not the request is satisfied on client side.
     func isSatisfied() -> Bool {
         do {
-            try requirement.validate()
+            try requirement.validate().get()
             return true
         } catch {
             /// TODO: log error.
@@ -62,7 +68,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     }
     
     /// Cancel the request with an optional message.
-    func cancel(message: String?) -> Result<Void, Error> {
-        return Result.failure(VerifiedIdClientError.TODO(message: "implement"))
+    func cancel(message: String?) async -> Result<Void, Error> {
+        return Result.failure(VerifiedIdPresentationRequestError.cancelPresentationRequestIsUnsupported)
     }
 }

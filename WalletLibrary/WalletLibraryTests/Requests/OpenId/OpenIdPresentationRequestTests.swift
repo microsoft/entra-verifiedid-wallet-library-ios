@@ -26,7 +26,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         
@@ -52,7 +54,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         
@@ -78,7 +82,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         
@@ -95,8 +101,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTFail()
         case .failure(let error):
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual((error as? PresentationResponseError),
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual((error as? PresentationResponseContainerError),
                            .unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
         }
     }
@@ -111,7 +117,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         
@@ -130,8 +138,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTFail()
         case .failure(let error):
-            XCTAssert(error is PresentationResponseError)
-            XCTAssertEqual((error as? PresentationResponseError),
+            XCTAssert(error is PresentationResponseContainerError)
+            XCTAssertEqual((error as? PresentationResponseContainerError),
                            .unsupportedRequirementOfType("MockRequirement"))
         }
     }
@@ -154,9 +162,11 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
-        func mockSend(response: WalletLibrary.PresentationResponse) async throws {
+        func mockSend(response: RawPresentationResponse) async throws {
             throw ExpectedError.expectedToBeThrownInResponder
         }
         
@@ -201,7 +211,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust)
+                                                 rootOfTrust: mockRootOfTrust,
+                                                 requestState: "mock state",
+                                                 callbackUrl: URL(string: "https://test.com")!)
         
         let mockResponder = MockOpenIdResponder()
         

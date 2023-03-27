@@ -8,12 +8,6 @@ import XCTest
 
 class VerifiedIdDecoderTests: XCTestCase {
     
-    struct MockEncodedVerifiedId: Codable {
-        let raw: Data
-        
-        let type: String
-    }
-    
     func testDecode_WithInvalidRawInputData_ThrowsError() async throws {
         // Arrange
         let decoder = VerifiedIdDecoder()
@@ -28,8 +22,8 @@ class VerifiedIdDecoderTests: XCTestCase {
     
     func testDecode_WithInvalidRawVerifiedIdData_ThrowsError() async throws {
         // Arrange
-        let mockEncodedVerifiedId = MockEncodedVerifiedId(raw: "mock raw data".data(using: .utf8)!,
-                                                          type: SupportedVerifiedIdType.VerifiableCredential.rawValue)
+        let mockEncodedVerifiedId = EncodedVerifiedId(type: "VCVerifiedId",
+                                                      raw: "mock raw data".data(using: .utf8)!)
         let mockEncodedVerifiedIdData = try JSONEncoder().encode(mockEncodedVerifiedId)
         let decoder = VerifiedIdDecoder()
 
@@ -43,8 +37,8 @@ class VerifiedIdDecoderTests: XCTestCase {
     
     func testDecode_WithUnsupportedVerifedIdType_ThrowsError() async throws {
         // Arrange
-        let mockEncodedVerifiedId = MockEncodedVerifiedId(raw: "mock raw data".data(using: .utf8)!,
-                                                          type: "unsupportedVerifiedIdType")
+        let mockEncodedVerifiedId = EncodedVerifiedId(type: "unsupportedVerifiedIdType",
+                                                      raw: "mock raw data".data(using: .utf8)!)
         let mockEncodedVerifiedIdData = try JSONEncoder().encode(mockEncodedVerifiedId)
         let decoder = VerifiedIdDecoder()
 
@@ -60,14 +54,15 @@ class VerifiedIdDecoderTests: XCTestCase {
         // Arrange
         let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
         let encodedVerifiableCredential = try JSONEncoder().encode(mockVC)
-        let mockEncodedVerifiedId = MockEncodedVerifiedId(raw: encodedVerifiableCredential,
-                                                          type: SupportedVerifiedIdType.VerifiableCredential.rawValue)
+        let mockEncodedVerifiedId = EncodedVerifiedId(type: "VCVerifiedId",
+                                                      raw: encodedVerifiableCredential)
         let mockEncodedVerifiedIdData = try JSONEncoder().encode(mockEncodedVerifiedId)
         let decoder = VerifiedIdDecoder()
         
         // Act
-        let actualResult: VerifiableCredential = try decoder.decode(from: mockEncodedVerifiedIdData) as! VerifiableCredential
+        let actualResult = try decoder.decode(from: mockEncodedVerifiedIdData) as! VCVerifiedId
         
+        // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), try mockVC.raw.serialize())
         XCTAssertEqual(actualResult.contract, mockVC.contract)
         XCTAssertEqual(actualResult.expiresOn, mockVC.expiresOn)

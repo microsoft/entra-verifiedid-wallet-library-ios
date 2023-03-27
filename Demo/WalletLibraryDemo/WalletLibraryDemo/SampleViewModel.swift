@@ -51,6 +51,9 @@ enum RequestState {
     /// Repository in charge of storing/retrieving verified ids.
     private let verifiedIdRepository: VerifiedIdRepository
     
+    /// Repository in charge of storing/retrieving verified ids.
+    private var verifiedIdRepository = VerifiedIdRepository()
+    
     /// TODO: enable deeplinking and the rest of the requirements.
     init() {
         requestState = .Initialized

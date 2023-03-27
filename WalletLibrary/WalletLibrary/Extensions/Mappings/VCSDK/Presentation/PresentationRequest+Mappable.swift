@@ -3,25 +3,35 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * Errors thrown in Presentation Request Mappable extension.
  */
-enum PresentationRequestMappingError: Error {
+enum PresentationRequestMappingError: Error, Equatable {
     case presentationDefinitionMissingInRequest
+    case callbackURLMalformed(String?)
 }
 
 /**
  * An extension of the VCEntities.PresentationRequest class to be able
  * to map PresentationRequest to VerifiedIdRequestContent.
  */
-extension VCEntities.PresentationRequest: Mappable {
+extension PresentationRequest: Mappable {
     
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
         
         guard let presentationDefinition = content.claims?.vpToken?.presentationDefinition else {
             throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
+        }
+        
+        let requestState = try self.getRequiredProperty(property: content.state, propertyName: "state")
+        let redirectUri = try self.getRequiredProperty(property: content.redirectURI, propertyName: "redirectUri")
+        
+        guard let callbackUrl = URL(string: redirectUri) else {
+            throw PresentationRequestMappingError.callbackURLMalformed(content.redirectURI)
         }
         
         let requirement = try mapper.map(presentationDefinition)
@@ -34,6 +44,8 @@ extension VCEntities.PresentationRequest: Mappable {
         let content = PresentationRequestContent(style: requesterStyle,
                                                  requirement: requirement,
                                                  rootOfTrust: rootOfTrust,
+                                                 requestState: requestState,
+                                                 callbackUrl: callbackUrl,
                                                  injectedIdToken: injectedIdToken)
         
         return content

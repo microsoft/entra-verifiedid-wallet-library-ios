@@ -4,12 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * An object that describes a necessary piece of information to be included within a Request.
+ * A Verified Id Presentation Request contains the look and feel of the verifier,
+ * the requirement needed to fulfill the request, and the root of trust.
  */
-public protocol Requirement {
-    /// Whether or not the requirement is required to fulfill request.
-    var required: Bool { get }
-    
-    /// Validate the requirement, and throw if there is something invalid.
-    func validate() -> Result<Void, Error>
-}
+public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }

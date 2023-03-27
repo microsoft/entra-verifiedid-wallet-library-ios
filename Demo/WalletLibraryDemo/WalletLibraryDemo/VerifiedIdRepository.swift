@@ -17,7 +17,7 @@ struct VerifiedIdRepository {
     }
     
     func save(verifiedId: VerifiedId) throws {
-        let rawVerifiedId = try verifiedIdClient.encode(verifiedId: verifiedId)
+        let rawVerifiedId = try verifiedIdClient.encode(verifiedId: verifiedId).get()
         let viewContext = store.viewContext
         let newVerifiedId = RawVerifiedId(context: viewContext)
         newVerifiedId.raw = rawVerifiedId
@@ -51,7 +51,7 @@ struct VerifiedIdRepository {
         var verifiedIds: [VerifiedId] = []
         for result in results {
             let rawValue = result.value(forKey: "raw") as! Data
-            if let verifiedId = try? verifiedIdClient.decodeVerifiedId(from: rawValue) {
+            if let verifiedId = try? verifiedIdClient.decodeVerifiedId(from: rawValue).get() {
                 verifiedIds.append(verifiedId)
             }
         }

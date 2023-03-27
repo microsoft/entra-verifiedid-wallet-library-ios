@@ -4,12 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * An object that describes a necessary piece of information to be included within a Request.
+ * The look and fee of the Verified Id.
  */
-public protocol Requirement {
-    /// Whether or not the requirement is required to fulfill request.
-    var required: Bool { get }
-    
-    /// Validate the requirement, and throw if there is something invalid.
-    func validate() -> Result<Void, Error>
+public protocol VerifiedIdStyle {
+    /// The name of the Verified Id.
+    var name: String { get }
 }

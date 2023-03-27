@@ -11,7 +11,7 @@ struct VCTypeConstraint: VerifiedIdConstraint {
     let type: String
 
     func doesMatch(verifiedId: VerifiedId) -> Bool {
-        guard let verifiableCredential = verifiedId as? VerifiableCredential else {
+        guard let verifiableCredential = verifiedId as? VCVerifiedId else {
             return false
         }
         

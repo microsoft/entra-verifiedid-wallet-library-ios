@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCServices
+#if canImport(VCServices)
+    import VCServices
+#endif
 
 /**
  * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
@@ -15,7 +17,7 @@ public class VerifiedIdClientBuilder {
     private var requestResolvers: [any RequestResolving] = []
     
     private var requestHandlers: [any RequestHandling] = []
-
+    
     public init() {
         logger = WalletLibraryLogger()
     }
@@ -23,10 +25,12 @@ public class VerifiedIdClientBuilder {
     /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
         /// TODO: inject log consumer and access group identifier into vc sdk.
-        let _ = VCServices.VerifiableCredentialSDK.initialize()
+        let _ = VerifiableCredentialSDK.initialize()
         
         let configuration = LibraryConfiguration(logger: logger,
-                                                 mapper: Mapper())
+                                                 mapper: Mapper(),
+                                                 verifiedIdDecoder: VerifiedIdDecoder(),
+                                                 verifiedIdEncoder: VerifiedIdEncoder())
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestHandlers(with: configuration)

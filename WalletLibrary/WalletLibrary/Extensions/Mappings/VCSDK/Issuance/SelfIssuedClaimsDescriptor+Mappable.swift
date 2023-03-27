@@ -3,13 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * An extension of the VCEntities.SelfIssuedClaimsDescriptor class to be able
  * to map SelfIssuedClaimsDescriptor to Requirement.
  */
-extension VCEntities.SelfIssuedClaimsDescriptor: Mappable {
+extension SelfIssuedClaimsDescriptor: Mappable {
     
     func map(using mapper: Mapping) throws -> Requirement? {
         

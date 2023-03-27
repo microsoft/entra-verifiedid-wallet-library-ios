@@ -30,10 +30,13 @@ public class SelfAttestedClaimRequirement: Requirement {
         self.claim = claim
     }
     
-    public func validate() throws {
+    /// Returns Failure Result if requirement is not fulfilled.
+    public func validate() -> Result<Void, Error> {
         if value == nil {
-            throw SelfAttestedClaimRequirementError.selfAttestedClaimRequirementHasNotBeenFulfilled
+            return Result.failure(SelfAttestedClaimRequirementError.selfAttestedClaimRequirementHasNotBeenFulfilled)
         }
+        
+        return Result.success(())
     }
     
     /// Fulfill requirement with a self-attested value.

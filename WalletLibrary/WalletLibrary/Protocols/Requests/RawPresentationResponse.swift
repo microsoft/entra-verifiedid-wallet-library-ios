@@ -4,12 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * An object that describes a necessary piece of information to be included within a Request.
+ * An object that describes a raw presentation response and defines the behavior of adding a requirement to it.
+ * For example, a VCSDK.PresentationResponseContainer conforms to this protocol.
  */
-public protocol Requirement {
-    /// Whether or not the requirement is required to fulfill request.
-    var required: Bool { get }
-    
-    /// Validate the requirement, and throw if there is something invalid.
-    func validate() -> Result<Void, Error>
+protocol RawPresentationResponse {
+    mutating func add(requirement: Requirement) throws
 }

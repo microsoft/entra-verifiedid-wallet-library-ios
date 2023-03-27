@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
+#if canImport(VCEntities)
+    import VCEntities
+#endif
 
 /**
  * Protocol is used as a wrapper to wrap the VC SDK send presentation response method.
@@ -11,5 +13,5 @@ import VCEntities
 protocol OpenIdResponder {
     /// Sends the presentation response and if successful, returns void,
     /// If unsuccessful, throws an error.
-    func send(response: PresentationResponse) async throws -> Void
+    func send(response: RawPresentationResponse) async throws -> Void
 }
