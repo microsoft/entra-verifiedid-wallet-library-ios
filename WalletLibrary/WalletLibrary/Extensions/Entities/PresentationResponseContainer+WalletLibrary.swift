@@ -43,7 +43,7 @@ extension PresentationResponseContainer: RawPresentationResponse {
     }
 
     private mutating func add(groupRequirement: GroupRequirement) throws {
-        try groupRequirement.validate()
+        try groupRequirement.validate().get()
         for requirement in groupRequirement.requirements {
             try add(requirement: requirement)
         }

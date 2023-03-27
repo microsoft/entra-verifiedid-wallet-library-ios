@@ -59,14 +59,14 @@ extension IssuanceResponseContainer: IssuanceResponseContaining {
     }
     
     private mutating func add(groupRequirement: GroupRequirement) throws {
-        try groupRequirement.validate()
+        try groupRequirement.validate().get()
         for requirement in groupRequirement.requirements {
             try add(requirement: requirement)
         }
     }
     
     private mutating func add(idTokenRequirement: IdTokenRequirement) throws {
-        try idTokenRequirement.validate()
+        try idTokenRequirement.validate().get()
         
         if idTokenRequirement.configuration.absoluteString == Constants.IdTokenHintKey {
             self.issuanceIdToken = idTokenRequirement.idToken
@@ -76,7 +76,7 @@ extension IssuanceResponseContainer: IssuanceResponseContaining {
     }
     
     private mutating func add(accessTokenRequirement: AccessTokenRequirement) throws {
-        try accessTokenRequirement.validate()
+        try accessTokenRequirement.validate().get()
         self.requestedAccessTokenMap[accessTokenRequirement.configuration] = accessTokenRequirement.accessToken
     }
     
@@ -85,12 +85,12 @@ extension IssuanceResponseContainer: IssuanceResponseContaining {
     }
     
     private mutating func add(selfAttestedRequirement: SelfAttestedClaimRequirement) throws {
-        try selfAttestedRequirement.validate()
+        try selfAttestedRequirement.validate().get()
         self.requestedSelfAttestedClaimMap[selfAttestedRequirement.claim] = selfAttestedRequirement.value
     }
     
     private mutating func add(pinRequirement: PinRequirement) throws {
-        try pinRequirement.validate()
+        try pinRequirement.validate().get()
         if let pin = pinRequirement.pin {
             self.issuancePin = IssuancePin(from: pin, withSalt: pinRequirement.salt)
         }

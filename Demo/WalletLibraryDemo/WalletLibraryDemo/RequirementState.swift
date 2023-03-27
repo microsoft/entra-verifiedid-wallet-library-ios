@@ -73,13 +73,13 @@ class RequirementState: Identifiable, ObservableObject {
             throw RequirementStateError.requirementIsNotOfTypeVerifiedIdRequirement
         }
         
-        try verifiedIdRequirement.fulfill(with: value)
+        let _ = verifiedIdRequirement.fulfill(with: value)
         try addNewLabelIfValid(newLabel: "Verified Id Requirement Fulfilled.")
     }
     
     private func addNewLabelIfValid(newLabel: String) throws {
         do {
-            try requirement.validate()
+            try requirement.validate().get()
             label = newLabel
             status = .valid
         } catch {
