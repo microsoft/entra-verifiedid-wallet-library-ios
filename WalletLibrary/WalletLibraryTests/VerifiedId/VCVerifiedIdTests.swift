@@ -8,7 +8,7 @@ import VCEntities
 import VCToken
 @testable import WalletLibrary
 
-class VerifiableCredentialTests: XCTestCase {
+class VCVerifiedIdTests: XCTestCase {
     
     struct MockVerifiableCredential: Codable {
         let raw: String
@@ -22,7 +22,7 @@ class VerifiableCredentialTests: XCTestCase {
         let mockContract = createMockSignedContract()
 
         // Act
-        let actualResult = try WalletLibrary.VCVerifiedId(raw: mockVerifiableCredential, from: mockContract)
+        let actualResult = try VCVerifiedId(raw: mockVerifiableCredential, from: mockContract)
         
         // Assert
         XCTAssertEqual(try actualResult.raw.serialize(), try mockVerifiableCredential.serialize())
@@ -30,7 +30,7 @@ class VerifiableCredentialTests: XCTestCase {
         XCTAssertEqual(actualResult.expiresOn, Date(timeIntervalSince1970: 0))
         XCTAssertEqual(actualResult.issuedOn, Date(timeIntervalSince1970: 0))
         XCTAssertEqual(actualResult.id, mockVerifiableCredential.content.jti)
-
+        XCTAssert(actualResult.style is BasicVerifiedIdStyle)
     }
     
     func testInit_WithMissingJtiOnVC_ThrowsError() async throws {
@@ -73,6 +73,7 @@ class VerifiableCredentialTests: XCTestCase {
         XCTAssertNil(actualResult.expiresOn)
         XCTAssertEqual(actualResult.issuedOn, Date(timeIntervalSince1970: 0))
         XCTAssertEqual(actualResult.id, mockVerifiableCredential.content.jti)
+        XCTAssert(actualResult.style is BasicVerifiedIdStyle)
     }
     
     func testGetClaims_WithMissingCredentialSubjectInVC_ReturnsEmptyList() async throws {
