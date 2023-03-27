@@ -33,7 +33,8 @@ struct VCVerifiedId: VerifiedId {
     
     let contract: Contract
     
-    init(raw: VerifiableCredential, from contract: Contract) throws {
+    init(raw: VerifiableCredential,
+         from contract: Contract) throws {
         
         guard let issuedOn = raw.content.iat else {
             throw VerifiableCredentialError.missingIssuedOnValueInVerifiableCredential
@@ -55,13 +56,7 @@ struct VCVerifiedId: VerifiedId {
             self.expiresOn = nil
         }
         
-        self.style = BasicVerifiedIdStyle(name: "",
-                                          issuer: "",
-                                          backgroundColor: "",
-                                          textColor: "",
-                                          description: "",
-                                          logoUrl: nil,
-                                          logoAltText: nil)
+        self.style = try Mapper().map(contract.display.card)
     }
     
     enum CodingKeys: String, CodingKey {
