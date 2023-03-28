@@ -40,37 +40,31 @@ enum RequestState {
     @Published var isProgressViewShowing: Bool = true
     
     /// List of issued Verified Ids.
-    @Published var issuedVerifiedIds: [VerifiedId] = []
+    @Published var issuedVerifiedIds: [VerifiedId]
     
     /// The Verified Id Client is used to create requests with a configuration set by the Builder.
-    private let verifiedIdClient: VerifiedIdClient?
+    private let verifiedIdClient: VerifiedIdClient
     
     /// The current issuance or presentation request that is being processed.
-    private var request: (any VerifiedIdRequest)? = nil
+    var request: (any VerifiedIdRequest)? = nil
     
     /// Repository in charge of storing/retrieving verified ids.
-    private var verifiedIdRepository = VerifiedIdRepository()
+    private let verifiedIdRepository: VerifiedIdRepository
     
     /// TODO: enable deeplinking and the rest of the requirements.
     init() {
         requestState = .Initialized
-        do {
-            let builder = VerifiedIdClientBuilder()
-            issuedVerifiedIds = try verifiedIdRepository.getAllStoredVerifiedIds()
-            verifiedIdClient = try builder.build()
-        } catch {
-            verifiedIdClient = nil
-            showErrorMessage(from: error)
-        }
+        
+        // The VerifiedId is configured and built by the VerifiedIdClientBuilder.
+        let builder = VerifiedIdClientBuilder()
+        verifiedIdClient = builder.build()
+        
+        verifiedIdRepository = VerifiedIdRepository(verifiedIdClient: verifiedIdClient)
+        issuedVerifiedIds = verifiedIdRepository.getAllStoredVerifiedIds()
     }
     
     /// Create request using Wallet Library and configure requirements to be shown.
     func createRequest(fromInput input: String) {
-        
-        guard let client = verifiedIdClient else {
-            showErrorMessage(from: SampleViewModelError.verifiedIdClientHasNotBeenInitialized)
-            return
-        }
         
         Task {
             reset()
@@ -81,7 +75,7 @@ enum RequestState {
                 
                 // VerifiedIdClient is used to create a request from an input
                 // such as, in this case, a VerifiedIdRequestURL.
-                let result = await client.createVerifiedIdRequest(from: input)
+                let result = await verifiedIdClient.createVerifiedIdRequest(from: input)
                 
                 switch result {
                 case .success(let request):

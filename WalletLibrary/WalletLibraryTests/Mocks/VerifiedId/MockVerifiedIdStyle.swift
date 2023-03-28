@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockVerifiedIdStyle: VerifiedIdStyle, Equatable {
+struct MockVerifiedIdStyle: VerifiedIdStyle,  Codable, Equatable {
     
     let name: String
     

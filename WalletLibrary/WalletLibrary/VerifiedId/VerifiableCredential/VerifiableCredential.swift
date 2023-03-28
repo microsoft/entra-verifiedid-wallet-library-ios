@@ -21,6 +21,8 @@ struct VCVerifiedId: VerifiedId {
 
     public let id: String
     
+    public let style: VerifiedIdStyle
+    
     public let expiresOn: Date?
     
     public let issuedOn: Date
@@ -52,6 +54,8 @@ struct VCVerifiedId: VerifiedId {
         } else {
             self.expiresOn = nil
         }
+        
+        self.style = try Mapper().map(contract.display.card)
     }
     
     enum CodingKeys: String, CodingKey {

@@ -11,6 +11,11 @@ struct RequirementListView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+            Text("Request from \(viewModel.request?.style.name ?? "")")
+                .bold()
+            Spacer()
+            Divider()
             List(viewModel.requirements) { requirement in
                 NavigationLink(destination: RequirementView(requirement: requirement)) {
                     RequirementListViewCell(requirement: requirement)

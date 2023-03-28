@@ -14,16 +14,28 @@ struct VerifiedIdView: View {
     
     var body: some View {
         VStack {
+            Text("Abstract Values")
+                .multilineTextAlignment(.center)
+                .bold()
             Text("\(verifiedId.id)")
                 .multilineTextAlignment(.center)
-            Spacer()
             Text("Issued on: \(verifiedId.issuedOn.formatted())")
                 .multilineTextAlignment(.center)
-            Spacer()
             if let expiresOn = verifiedId.expiresOn {
                 Text("Expires on: \(expiresOn.formatted())")
                     .multilineTextAlignment(.center)
+            }
+            if let basicStyle = verifiedId.style as? BasicVerifiedIdStyle {
+                Divider()
+                Text("Verified Id Basic Style")
+                    .multilineTextAlignment(.center)
+                    .bold()
+                Text("Issuer: \(basicStyle.issuer)")
+                Text("Description: \(basicStyle.description)")
+                Text("Background Color: \(basicStyle.backgroundColor)")
+                Text("Text Color: \(basicStyle.textColor)")
                 Spacer()
+                Divider()
             }
             Text("Claims:")
             let claims = verifiedId.getClaims()
@@ -34,7 +46,7 @@ struct VerifiedIdView: View {
                     Text(String(describing: claims[index].value))
                 }
             }.listStyle(.inset)
-        }.navigationTitle("Verified Id")
+        }.navigationTitle(verifiedId.style.name)
             .navigationBarTitleDisplayMode(.inline)
     }
 }

@@ -10,10 +10,6 @@ struct RequirementView: View {
     
     @EnvironmentObject var viewModel: SampleViewModel
     
-    @State private var userInput: String = ""
-    
-    @State private var isInvalidInput: Bool = false
-    
     @Environment(\.dismiss) var dismiss
     
     var requirement: RequirementState

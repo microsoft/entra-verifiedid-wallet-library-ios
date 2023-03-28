@@ -21,7 +21,7 @@ struct VerifiedIdPickerView: View {
             Button {
                 fulfill(with: match)
             } label: {
-                Text(match.id)
+                Text(match.style.name)
             }
         }.listStyle(.inset)
     }

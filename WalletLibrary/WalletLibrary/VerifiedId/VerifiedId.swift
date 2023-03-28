@@ -8,6 +8,8 @@
  */
 public protocol VerifiedId: Codable {
     
+    var style: VerifiedIdStyle { get }
+    
     /// the id of the verified id. For example, this value would equal the jti of a Verifiable Credential.
     var id: String { get }
     
