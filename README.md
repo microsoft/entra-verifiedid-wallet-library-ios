@@ -51,8 +51,8 @@ case .failure(let error):
 At the time of publish, we support the following requirements on a request:
 | Requirement                  	| Description 	| Supported on Type of Request 	|
 |------------------------------	|-------------	|------------------------------	|
-| GroupRequirement             	| A verifier/issuer could request multiple requirements. A GroupRequirement contains a list of requirements to support this use case.        	| Issuance/Presentation        	|
-| VerifiedIdRequirement        	| A verifier will require one or more Verified Ids to complete a presentation flow. An issuer can also request Verified Ids.        	| Issuance/Presentation        	|
+| GroupRequirement             	| A verifier/issuer could request multiple requirements. If more than one requirement is requested, a GroupRequirement contains a list of the requirements.        	| Issuance/Presentation        	|
+| VerifiedIdRequirement        	| A verifier/issuer can request a VerifiedId. See below for helper methods to fulfill the requirement.       	| Issuance/Presentation        	|
 | SelfAttestedClaimRequirement 	| An issuer might require a self-attested claim that is simply a string value.        	| Issuance                     	|
 | PinRequirement               	| An issuer might require a pin from user.         	| Issuance                     	|
 | AccessTokenRequirement       	| An issuer might request an Access Token. An Access Token must be retrieved using an external library.        	| Issuance                     	|
