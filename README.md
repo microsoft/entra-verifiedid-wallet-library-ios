@@ -49,7 +49,7 @@ case .failure(let error):
 ```
 
 At the time of publish, we support the following requirements on a request:
-| Requirement                  	| Description 	| Supported on Type of Request 	|
+| Requirement                  	| Description 	| Supported on Request 	|
 |------------------------------	|-------------	|------------------------------	|
 | GroupRequirement             	| A verifier/issuer could request multiple requirements. If more than one requirement is requested, a GroupRequirement contains a list of the requirements.        	| Issuance/Presentation        	|
 | VerifiedIdRequirement        	| A verifier/issuer can request a VerifiedId. See below for helper methods to fulfill the requirement.       	| Issuance/Presentation        	|
