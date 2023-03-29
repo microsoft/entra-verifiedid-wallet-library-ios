@@ -113,7 +113,6 @@ let verifiedId = verifiedIdClient.decode(from: encodedVerifiedId)
 5. Switch Target to WalletLibraryDemo.
 6. Run the Sample App on a simulator.
 
-
 ## Documentation
 
 * [External Architecture](Docs/LibraryArchitecture.md)
@@ -148,4 +147,3 @@ Any use of third-party trademarks or logos are subject to those third-party's po
 [badge-license]: https://img.shields.io/cocoapods/l/WalletLibrary
 [badge-azure-pipline]: https://decentralized-identity.visualstudio.com/Core/_apis/build/status/iOS%20Wallet%20Library
 [badge-privatepreview]: https://img.shields.io/badge/status-Private%20Preview-red.svg
-
