@@ -158,7 +158,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
                                                     id: "mockId",
                                                     constraint: MockConstraint(doesMatchResult: true))
         let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
-        try mockRequirement.fulfill(with: mockVC)
+        try mockRequirement.fulfill(with: mockVC).get()
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,
@@ -207,7 +207,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
                                                     id: "mockId",
                                                     constraint: MockConstraint(doesMatchResult: true))
         let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
-        try mockRequirement.fulfill(with: mockVC)
+        try mockRequirement.fulfill(with: mockVC).get()
         
         let content = PresentationRequestContent(style: mockStyle,
                                                  requirement: mockRequirement,

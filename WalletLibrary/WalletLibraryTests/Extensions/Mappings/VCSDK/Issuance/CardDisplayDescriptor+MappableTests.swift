@@ -34,8 +34,7 @@ class CardDisplayDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.backgroundColor, backgroundColor)
         XCTAssertEqual(actualResult.textColor, textColor)
         XCTAssertEqual(actualResult.description, cardDescription)
-        XCTAssertNil(actualResult.logoUrl)
-        XCTAssertNil(actualResult.logoAltText)
+        XCTAssertNil(actualResult.logo)
     }
     
     func testMap_WithNilLogoDescription_ReturnsVerifiedIdStyle() throws {
@@ -60,8 +59,8 @@ class CardDisplayDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.backgroundColor, backgroundColor)
         XCTAssertEqual(actualResult.textColor, textColor)
         XCTAssertEqual(actualResult.description, cardDescription)
-        XCTAssertEqual(actualResult.logoUrl?.absoluteString, logo.uri)
-        XCTAssertNil(actualResult.logoAltText)
+        XCTAssertEqual(actualResult.logo?.url?.absoluteString, logo.uri)
+        XCTAssertNil(actualResult.logo?.altText)
     }
     
     func testMap_WithLogoAltText_ReturnsVerifiedIdStyle() throws {
@@ -86,7 +85,7 @@ class CardDisplayDescriptorMappingTests: XCTestCase {
         XCTAssertEqual(actualResult.backgroundColor, backgroundColor)
         XCTAssertEqual(actualResult.textColor, textColor)
         XCTAssertEqual(actualResult.description, cardDescription)
-        XCTAssertEqual(actualResult.logoUrl?.absoluteString, logo.uri)
-        XCTAssertEqual(actualResult.logoAltText, logo.logoDescription)
+        XCTAssertEqual(actualResult.logo?.url?.absoluteString, logo.uri)
+        XCTAssertEqual(actualResult.logo?.altText, logo.logoDescription)
     }
 }

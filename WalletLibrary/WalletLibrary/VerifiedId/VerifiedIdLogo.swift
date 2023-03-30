@@ -4,12 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Requester Style that is Open Id specific.
+ * Holds information describing a logo.
  */
-public struct OpenIdVerifierStyle: RequesterStyle, Equatable {
-    /// The name of the verifier.
-    public let name: String
+public struct VerifiedIdLogo: Equatable {
+    /// Optional url that can be used to fetch a logo for the Verified Id.
+    public let url: URL?
     
-    /// The logo of the verifier.
-    public let logo: VerifiedIdLogo?
+    /// Optional alt text for the Verified Id logo.
+    public let altText: String?
 }

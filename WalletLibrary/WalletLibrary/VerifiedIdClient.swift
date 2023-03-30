@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum VerifiedIdClientError: Error {
-    case TODO(message: String)
-}
-
 /**
  * Verified Id Client is used to create requests and is configured using the VerifiedIdClientBuilder.
  */

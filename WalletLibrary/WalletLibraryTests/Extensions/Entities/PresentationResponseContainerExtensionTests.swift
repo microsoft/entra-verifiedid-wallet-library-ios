@@ -97,7 +97,7 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
                                                           issuanceOptions: [],
                                                           id: "mockId",
                                                           constraint: mockConstraint)
-        try verifiedIdRequirement.fulfill(with: MockVerifiedId(id: "mockId", issuedOn: Date()))
+        try verifiedIdRequirement.fulfill(with: MockVerifiedId(id: "mockId", issuedOn: Date())).get()
         
         // Act
         XCTAssertThrowsError(try presentationResponse.add(requirement: verifiedIdRequirement)) { error in
@@ -122,7 +122,7 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
                                                           id: "mockId",
                                                           constraint: mockConstraint)
         let mockVC = mockVerifiableCredentialHelper.createMockVerifiableCredential()
-        try verifiedIdRequirement.fulfill(with: mockVC)
+        try verifiedIdRequirement.fulfill(with: mockVC).get()
         
         // Act / Assert
         XCTAssertNoThrow(try presentationResponse.add(requirement: verifiedIdRequirement))
@@ -154,8 +154,8 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
                                                            constraint: mockConstraint)
         let mockVC1 = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType1"])
         let mockVC2 = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType2"])
-        try verifiedIdRequirement1.fulfill(with: mockVC1)
-        try verifiedIdRequirement2.fulfill(with: mockVC2)
+        try verifiedIdRequirement1.fulfill(with: mockVC1).get()
+        try verifiedIdRequirement2.fulfill(with: mockVC2).get()
         let groupRequirement = GroupRequirement(required: true,
                                                 requirements: [verifiedIdRequirement1, verifiedIdRequirement2],
                                                 requirementOperator: .ALL)

@@ -7,6 +7,10 @@
 
 struct MockRawManifest: RawManifest, Equatable {
     
+    enum MockRawManifesetError: Error {
+        case mappingNotSupported
+    }
+    
     let id: String
     
     init(id: String) {
@@ -14,6 +18,6 @@ struct MockRawManifest: RawManifest, Equatable {
     }
     
     func map(using mapper: Mapping) throws -> IssuanceRequestContent {
-        throw VerifiedIdClientError.TODO(message: "implement")
+        throw MockRawManifesetError.mappingNotSupported
     }
 }

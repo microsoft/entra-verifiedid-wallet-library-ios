@@ -13,9 +13,10 @@
 extension CardDisplayDescriptor: Mappable {
     func map(using mapper: Mapping) throws -> any VerifiedIdStyle {
         
-        var logoUrl: URL? = nil
-        if let url = logo?.uri {
-            logoUrl = URL(string: url)
+        var logo: VerifiedIdLogo? = nil
+        if let logoUri = self.logo?.uri,
+           let url = URL(string: logoUri) {
+            logo = VerifiedIdLogo(url: url, altText: self.logo?.logoDescription)
         }
         
         return BasicVerifiedIdStyle(name: title,
@@ -23,7 +24,6 @@ extension CardDisplayDescriptor: Mappable {
                                     backgroundColor: backgroundColor,
                                     textColor: textColor,
                                     description: cardDescription,
-                                    logoUrl: logoUrl,
-                                    logoAltText: logo?.logoDescription)
+                                    logo: logo)
     }
 }

@@ -14,7 +14,6 @@ enum VerifiedIdIssuanceRequestError: Error {
 
 /**
  * Issuance Request that is Contract specific.
- * TODO: add VerifiedIdStyle property.
  */
 class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     

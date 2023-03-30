@@ -9,7 +9,6 @@
 
 /**
  * An extension of the VCEntities.IssuanceRequest class.
- * TODO: Update Style to include VerifiedIdStyle and more requester style attributes.
  */
 extension IssuanceRequest: Mappable {
     func map(using mapper: Mapping) throws -> IssuanceRequestContent {
@@ -18,7 +17,13 @@ extension IssuanceRequest: Mappable {
                                                    propertyName: "attestations")
         let requirement = try mapper.map(attestations)
         let rootOfTrust = try mapper.map(linkedDomainResult)
-        let issuerStyle = VerifiedIdManifestIssuerStyle(name: content.display.card.issuedBy)
+        
+        let issuerName = content.display.card.issuedBy
+        let requestTitle = content.display.consent.title
+        let requestInstruction = content.display.consent.instructions
+        let issuerStyle = VerifiedIdManifestIssuerStyle(name: issuerName,
+                                                        requestTitle: requestTitle,
+                                                        requestInstructions: requestInstruction)
         let verifiedIdStyle = try mapper.map(content.display.card)
         
         return IssuanceRequestContent(style: issuerStyle,
