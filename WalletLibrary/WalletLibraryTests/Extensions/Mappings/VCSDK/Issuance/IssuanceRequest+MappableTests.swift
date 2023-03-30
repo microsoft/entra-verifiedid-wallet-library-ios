@@ -150,6 +150,10 @@ class IssuanceRequestMappingTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(actualResult.style.name, "mock issuer")
+        XCTAssert(actualResult.style is VerifiedIdManifestIssuerStyle)
+        XCTAssertEqual((actualResult.style as? VerifiedIdManifestIssuerStyle)?.requestTitle, "mock title")
+        XCTAssertEqual((actualResult.style as? VerifiedIdManifestIssuerStyle)?.requestInstructions, "mock purpose")
+        XCTAssertEqual(actualResult.style.name, "mock issuer")
         XCTAssertEqual(actualResult.rootOfTrust, mockRootOfTrust)
         XCTAssertEqual(actualResult.requirement as? MockRequirement, mockRequirement)
         XCTAssertEqual(actualResult.verifiedIdStyle as? MockVerifiedIdStyle, mockVerifiedIdStyle)
@@ -162,7 +166,7 @@ class IssuanceRequestMappingTests: XCTestCase {
                                                     textColor: "mock text color",
                                                     logo: nil,
                                                     cardDescription: "mock description")
-        let mockConsentDisplay = ConsentDisplayDescriptor(title: nil,
+        let mockConsentDisplay = ConsentDisplayDescriptor(title: "mock title",
                                                           instructions: "mock purpose")
         let mockDisplayDescriptor = DisplayDescriptor(id: nil,
                                                       locale: nil,

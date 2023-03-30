@@ -69,8 +69,8 @@ class RequesterStyle{
 
 class VerifiedIdManifestIssuerStyle{
     +name: String
-    +title: String?
-    +consent: String?
+    +requestTitle: String?
+    +requestInstructions: String?
 }
 
 class OpenIdVerifierStyle{

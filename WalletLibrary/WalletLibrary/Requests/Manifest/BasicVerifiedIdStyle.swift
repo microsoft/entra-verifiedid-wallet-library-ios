@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The look and feel of the Verified Id configured by a Manifest implemented in 2022.
+ * The basic look and feel of a Verified Id.
  */
 public struct BasicVerifiedIdStyle: VerifiedIdStyle {
     

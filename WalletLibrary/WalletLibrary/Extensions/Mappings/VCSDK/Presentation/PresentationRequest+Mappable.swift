@@ -44,7 +44,6 @@ extension PresentationRequest: Mappable {
         if let logoUri = content.registration?.logoURI,
            let logoURL = URL(string: logoUri) {
             logo = VerifiedIdLogo(url: logoURL, altText: nil)
-            
         }
 
         let requesterStyle = OpenIdVerifierStyle(name: clientName, logo: logo)
