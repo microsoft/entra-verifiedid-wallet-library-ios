@@ -8,7 +8,7 @@
 #endif
 
 /**
- * Protocol for consumers of the library to use to inject logging into the library.
+ *  A VC Log Consumer that can be injected into the VC SDK and route to Wallet Library Logger.
  */
 struct WalletLibraryVCSDKLogConsumer: VCLogConsumer {
     
