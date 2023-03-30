@@ -104,7 +104,7 @@ class PresentationRequestMappingTests: XCTestCase {
     
     func testMap_WithNoClientNamePresent_ReturnVerifiedIdRequestContent() throws {
         // Arrange
-        let expectedStyle = OpenIdVerifierStyle(name: "")
+        let expectedStyle = OpenIdVerifierStyle(name: "", logo: nil)
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                                   required: false,
                                                                   types: [],
@@ -156,7 +156,6 @@ class PresentationRequestMappingTests: XCTestCase {
     
     func testMap_WithNoCallbackUrlPresent_ThrowError() throws {
         // Arrange
-        let expectedStyle = OpenIdVerifierStyle(name: "")
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                                   required: false,
                                                                   types: [],
@@ -206,7 +205,6 @@ class PresentationRequestMappingTests: XCTestCase {
     
     func testMap_WithCallbackMalformed_ThrowError() throws {
         // Arrange
-        let expectedStyle = OpenIdVerifierStyle(name: "")
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                                   required: false,
                                                                   types: [],
@@ -256,7 +254,6 @@ class PresentationRequestMappingTests: XCTestCase {
     
     func testMap_WithNoStatePresent_ThrowError() throws {
         // Arrange
-        let expectedStyle = OpenIdVerifierStyle(name: "")
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                                   required: false,
                                                                   types: [],
@@ -307,7 +304,7 @@ class PresentationRequestMappingTests: XCTestCase {
     func testMap_WithClientNamePresent_ReturnVerifiedIdRequestContent() throws {
         // Arrange
         let mockRequesterName = "mockRequesterName235"
-        let expectedStyle = OpenIdVerifierStyle(name: mockRequesterName)
+        let expectedStyle = OpenIdVerifierStyle(name: mockRequesterName, logo: nil)
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                                   required: false,
                                                                   types: [],
@@ -357,10 +354,64 @@ class PresentationRequestMappingTests: XCTestCase {
         XCTAssertNil(actualResult.injectedIdToken)
     }
     
+    func testMap_WithLogoPresent_ReturnVerifiedIdRequestContent() throws {
+        // Arrange
+        let mockRequesterName = "mockRequesterName235"
+        let mockLogo = VerifiedIdLogo(url: URL(string: "https://test.com"), altText: nil)
+        let expectedStyle = OpenIdVerifierStyle(name: mockRequesterName, logo: mockLogo)
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                                  required: false,
+                                                                  types: [],
+                                                                  purpose: nil,
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                              constraintOperator: .ALL))
+        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
+        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+        let mockRegistration = RegistrationClaims(clientName: mockRequesterName,
+                                                  clientPurpose: nil,
+                                                  logoURI: "https://test.com",
+                                                  subjectIdentifierTypesSupported: nil,
+                                                  vpFormats: nil)
+        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: mockRegistration)
+        
+        let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
+        let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
+        let presentationRequest = PresentationRequest(from: token,
+                                                      linkedDomainResult: linkedDomainResult)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            
+            if objectToBeMapped is PresentationDefinition {
+                return expectedVerifiedIdRequirement
+            }
+            
+            if objectToBeMapped is LinkedDomainResult {
+                return expectedRootOfTrust
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
+        
+        // Act
+        let actualResult = try mockMapper.map(presentationRequest)
+        
+        // Act
+        XCTAssertIdentical(actualResult.requirement as AnyObject, expectedVerifiedIdRequirement as AnyObject)
+        XCTAssertEqual(actualResult.rootOfTrust, expectedRootOfTrust)
+        XCTAssertEqual(actualResult.style as? OpenIdVerifierStyle, expectedStyle)
+        XCTAssertEqual(actualResult.callbackUrl.absoluteString, "https://test.com")
+        XCTAssertEqual(actualResult.requestState, "mockState")
+        XCTAssertNil(actualResult.injectedIdToken)
+    }
+    
     func testMap_WithIdTokenHintWithoutPin_ReturnVerifiedIdRequestContentWithInjectedIdToken() throws {
         // Arrange
         let mockRequesterName = "mockRequesterName235"
-        let expectedStyle = OpenIdVerifierStyle(name: mockRequesterName)
+        let expectedStyle = OpenIdVerifierStyle(name: mockRequesterName, logo: nil)
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                                   required: false,
                                                                   types: [],
@@ -420,7 +471,7 @@ class PresentationRequestMappingTests: XCTestCase {
                                                     length: 4,
                                                     type: "mock pin type",
                                                     salt: "mock salt")
-        let expectedStyle = OpenIdVerifierStyle(name: mockRequesterName)
+        let expectedStyle = OpenIdVerifierStyle(name: mockRequesterName, logo: nil)
         let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                                   required: false,
                                                                   types: [],
