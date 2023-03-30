@@ -32,9 +32,9 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "552E5099293E6AB200868F47"
-            BuildableName = "WalletLibraryTests.xctest"
-            BlueprintName = "WalletLibraryTests"
+            BlueprintIdentifier = "552E5091293E6AB200868F47"
+            BuildableName = "WalletLibrary.framework"
+            BlueprintName = "WalletLibrary"
             ReferencedContainer = "container:WalletLibrary.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
