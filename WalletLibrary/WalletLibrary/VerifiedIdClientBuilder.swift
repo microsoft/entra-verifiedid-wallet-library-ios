@@ -24,8 +24,9 @@ public class VerifiedIdClientBuilder {
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
-        /// TODO: inject log consumer and access group identifier into vc sdk.
-        let _ = VerifiableCredentialSDK.initialize()
+        /// TODO: access group identifier into vc sdk.
+        let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
+        let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer)
         
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),

@@ -81,11 +81,11 @@ struct WalletLibraryLogger {
             line: line)
     }
     
-    private func log(_ traceLevel: TraceLevel,
-                     message: String,
-                     functionName: String,
-                     file: String,
-                     line: Int) {
+    func log(_ traceLevel: TraceLevel,
+             message: String,
+             functionName: String,
+             file: String,
+             line: Int) {
         consumers.forEach { logger in
             logger.log(traceLevel,
                        message: message,
