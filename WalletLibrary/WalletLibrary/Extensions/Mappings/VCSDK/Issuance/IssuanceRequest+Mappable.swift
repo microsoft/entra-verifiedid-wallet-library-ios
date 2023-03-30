@@ -9,7 +9,6 @@
 
 /**
  * An extension of the VCEntities.IssuanceRequest class.
- * TODO: Update Style to include VerifiedIdStyle and more requester style attributes.
  */
 extension IssuanceRequest: Mappable {
     func map(using mapper: Mapping) throws -> IssuanceRequestContent {

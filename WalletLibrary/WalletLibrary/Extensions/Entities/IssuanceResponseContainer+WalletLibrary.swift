@@ -11,6 +11,7 @@ enum IssuanceResponseContainerError: Error, Equatable {
     case unableToCastVCSDKIssuanceRequestFromRawManifestOfType(String)
     case unableToCastVerifiedIdRequestURLFromInputOfType(String)
     case unsupportedRequirementOfType(String)
+    case verifiedIdRequirementsOnIssuanceRequestsAreUnsupported
 }
 
 /**
@@ -81,7 +82,8 @@ extension IssuanceResponseContainer: IssuanceResponseContaining {
     }
     
     private mutating func add(verifiedIdRequirement: VerifiedIdRequirement) throws {
-        throw VerifiedIdClientError.TODO(message: "implement")
+        /// TODO: support VerifiedIdRequirements on issuance requests.
+        throw IssuanceResponseContainerError.verifiedIdRequirementsOnIssuanceRequestsAreUnsupported
     }
     
     private mutating func add(selfAttestedRequirement: SelfAttestedClaimRequirement) throws {
