@@ -145,5 +145,5 @@ Any use of third-party trademarks or logos are subject to those third-party's po
 [badge-languages]: https://img.shields.io/badge/languages-Swift-blue.svg
 [badge-platforms]: https://img.shields.io/badge/platforms-iOS-lightgrey.svg
 [badge-license]: https://img.shields.io/cocoapods/l/WalletLibrary
-[badge-azure-pipline]: https://decentralized-identity.visualstudio.com/Core/_apis/build/status/iOS%20Wallet%20Library
+[badge-azure-pipline]: https://decentralized-identity.visualstudio.com/Core/_apis/build/status/iOS%20Wallet%20Library?branchName=dev
 [badge-privatepreview]: https://img.shields.io/badge/status-Private%20Preview-red.svg
