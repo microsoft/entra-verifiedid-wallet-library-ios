@@ -13,7 +13,7 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         let builder = VerifiedIdClientBuilder()
         
         // Act
-        let actualResult = try builder.build()
+        let actualResult = builder.build()
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
@@ -33,7 +33,7 @@ class VerifiedIdClientBuilderTests: XCTestCase {
             .with(logConsumer: mockLogConsumer)
         
         // Act
-        let actualResult = try builder.build()
+        let actualResult = builder.build()
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
@@ -57,7 +57,7 @@ class VerifiedIdClientBuilderTests: XCTestCase {
             .with(logConsumer: thirdLogConsumer)
         
         // Act
-        let actualResult = try builder.build()
+        let actualResult = builder.build()
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)

@@ -7,6 +7,10 @@
 
 struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     
+    enum MockOpenIdRawRequestError: Error {
+        case mappingNotSupported
+    }
+    
     var type: RequestType
     
     var raw: Data?
@@ -17,6 +21,6 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     }
     
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
-        throw VerifiedIdClientError.TODO(message: "not implemented")
+        throw MockOpenIdRawRequestError.mappingNotSupported
     }
 }

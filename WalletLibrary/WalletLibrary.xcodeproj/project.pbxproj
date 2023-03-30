@@ -725,8 +725,8 @@
 		5534E67E294A3943005D0765 /* VCSDK */ = {
 			isa = PBXGroup;
 			children = (
-				559BD450299D3D4C00BD61AC /* Presentation */,
 				559BD44F299D3D4100BD61AC /* Issuance */,
+				559BD450299D3D4C00BD61AC /* Presentation */,
 				559BD30A2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift */,
 			);
 			path = VCSDK;
@@ -1079,6 +1079,7 @@
 				55E336D5293FA78C00CD2ED7 /* VerifiedIdClaim.swift */,
 				55BA2DCE29CDFA1A00BB8207 /* VerifiedIdDecoder.swift */,
 				55BA2DCF29CDFA1A00BB8207 /* VerifiedIdEncoder.swift */,
+				5524A5BF29D6225500C5F18D /* VerifiedIdLogo.swift */,
 			);
 			path = VerifiedId;
 			sourceTree = "<group>";
@@ -1576,6 +1577,7 @@
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */,
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
+				5524A5C029D6225500C5F18D /* VerifiedIdLogo.swift in Sources */,
 				559BD485299D8DCC00BD61AC /* VerifiedIdRequester.swift in Sources */,
 				55EA178D29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift in Sources */,
 				55E2F086299573C30008010D /* OpenIdVerifierStyle.swift in Sources */,

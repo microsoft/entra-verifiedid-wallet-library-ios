@@ -6,7 +6,6 @@
 /**
  * Contents in a Verified Id Issuance Request.
  * This object is used to map protocol specific requests to common request object.
- * TODO: add VerifiedIdStyle to Issuance Content.
  */
 struct IssuanceRequestContent {
     

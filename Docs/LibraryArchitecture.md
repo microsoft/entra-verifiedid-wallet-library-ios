@@ -69,12 +69,13 @@ class RequesterStyle{
 
 class VerifiedIdManifestIssuerStyle{
     +name: String
-    +title: String?
-    +consent: String?
+    +requestTitle: String?
+    +requestInstructions: String?
 }
 
 class OpenIdVerifierStyle{
     +name: String
+    +logo: VerifiedIdLogo?
 }
 ```
 
@@ -155,6 +156,7 @@ A Verified Id is an abstract representation of a piece of verifiable information
 classDiagram
 VerifiedId ..> VerifiedIdClaim: uses
 VerifiedId ..> VerifiedIdStyle: uses
+BasicVerifiedIdStyle ..> VerifiedIdLogo: uses
 VerifiedIdStyle <|-- BasicVerifiedIdStyle: implements
 class VerifiedId {
     +id: String
@@ -175,9 +177,12 @@ class BasicVerifiedIdStyle {
     +backgroundColor: String
     +textColor: String
     +description: String
-    +logoUrl: URL?
-    +logoAltText: String?
-    +image: String?
+    +logo: VerifiedIdLogo?
+}
+
+class VerifiedIdLogo {
+    +url: URL?
+    +altText: String?
 }
 
 class VerifiedIdClaim {
