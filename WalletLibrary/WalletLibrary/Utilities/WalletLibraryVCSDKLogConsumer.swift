@@ -12,7 +12,7 @@
  */
 struct WalletLibraryVCSDKLogConsumer: VCLogConsumer {
     
-    let logger: WalletLibraryLogger
+    private let logger: WalletLibraryLogger
     
     init(logger: WalletLibraryLogger) {
         self.logger = logger
