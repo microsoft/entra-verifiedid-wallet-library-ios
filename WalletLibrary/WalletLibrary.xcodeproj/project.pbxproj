@@ -26,6 +26,7 @@
 		550E3214298B11A5004E7716 /* Requirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3213298B11A5004E7716 /* Requirement.swift */; };
 		550E3217298B1236004E7716 /* RequesterStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3216298B1236004E7716 /* RequesterStyle.swift */; };
 		5524A53D29D2370E00C5F18D /* VerifiedIdDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA2DD829CDFA6100BB8207 /* VerifiedIdDecoderTests.swift */; };
+		5524A5C029D6225500C5F18D /* VerifiedIdLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524A5BF29D6225500C5F18D /* VerifiedIdLogo.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -351,6 +352,7 @@
 		550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequestInput.swift; sourceTree = "<group>"; };
 		550E3213298B11A5004E7716 /* Requirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requirement.swift; sourceTree = "<group>"; };
 		550E3216298B1236004E7716 /* RequesterStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterStyle.swift; sourceTree = "<group>"; };
+		5524A5BF29D6225500C5F18D /* VerifiedIdLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdLogo.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1075,6 +1077,7 @@
 				55E336D5293FA78C00CD2ED7 /* VerifiedIdClaim.swift */,
 				55BA2DCE29CDFA1A00BB8207 /* VerifiedIdDecoder.swift */,
 				55BA2DCF29CDFA1A00BB8207 /* VerifiedIdEncoder.swift */,
+				5524A5BF29D6225500C5F18D /* VerifiedIdLogo.swift */,
 			);
 			path = VerifiedId;
 			sourceTree = "<group>";
@@ -1569,6 +1572,7 @@
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */,
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
+				5524A5C029D6225500C5F18D /* VerifiedIdLogo.swift in Sources */,
 				559BD485299D8DCC00BD61AC /* VerifiedIdRequester.swift in Sources */,
 				55EA178D29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift in Sources */,
 				55E2F086299573C30008010D /* OpenIdVerifierStyle.swift in Sources */,
