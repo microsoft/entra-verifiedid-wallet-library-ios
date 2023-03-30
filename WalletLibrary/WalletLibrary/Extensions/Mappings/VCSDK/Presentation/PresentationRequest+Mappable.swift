@@ -39,7 +39,15 @@ extension PresentationRequest: Mappable {
         let injectedIdToken = try createInjectedIdTokenIfExists(using: mapper)
         
         let clientName = content.registration?.clientName ?? ""
-        let requesterStyle = OpenIdVerifierStyle(name: clientName)
+        
+        var logo: VerifiedIdLogo? = nil
+        if let logoUri = content.registration?.logoURI,
+           let logoURL = URL(string: logoUri) {
+            logo = VerifiedIdLogo(url: logoURL, altText: nil)
+            
+        }
+
+        let requesterStyle = OpenIdVerifierStyle(name: clientName, logo: logo)
         
         let content = PresentationRequestContent(style: requesterStyle,
                                                  requirement: requirement,

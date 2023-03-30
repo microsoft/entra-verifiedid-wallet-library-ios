@@ -23,9 +23,6 @@ public struct BasicVerifiedIdStyle: VerifiedIdStyle {
     /// The description of the Verified Id.
     public let description: String
     
-    /// Optional url that can be used to fetch a logo for the Verified Id.
-    public let logoUrl: URL?
-    
-    /// Optional alt text for the Verified Id logo.
-    public let logoAltText: String?
+    /// Optional logo for the Verified Id.
+    public let logo: VerifiedIdLogo?
 }
