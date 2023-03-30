@@ -6,6 +6,10 @@
 /**
  * Requester Style that is Open Id specific.
  */
-struct OpenIdVerifierStyle: RequesterStyle, Equatable {
-    let name: String
+public struct OpenIdVerifierStyle: RequesterStyle, Equatable {
+    /// The name of the verifier.
+    public let name: String
+    
+    /// The logo of the verifier.
+    public let logo: VerifiedIdLogo?
 }
