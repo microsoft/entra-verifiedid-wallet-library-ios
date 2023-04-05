@@ -144,9 +144,9 @@ Use of Microsoft trademarks or logos in modified versions of this project must n
 Any use of third-party trademarks or logos are subject to those third-party's policies.
 
 [badge-pod-version]: https://img.shields.io/cocoapods/v/WalletLibrary
-[badge-packagemanagers-supported]: https://img.shields.io/badge/supports-CocoaPods-green.svg
+[badge-packagemanagers-supported]: https://img.shields.io/badge/supports-CocoaPods-yellow.svg
 [badge-languages]: https://img.shields.io/badge/languages-Swift-blue.svg
 [badge-platforms]: https://img.shields.io/badge/platforms-iOS-lightgrey.svg
-[badge-license]: https://img.shields.io/cocoapods/l/WalletLibrary
+[badge-license]: https://img.shields.io/github/license/microsoft/entra-verifiedid-wallet-library-android
 [badge-azure-pipline]: https://decentralized-identity.visualstudio.com/Core/_apis/build/status/iOS%20Wallet%20Library?branchName=dev
 [badge-privatepreview]: https://img.shields.io/badge/status-Private%20Preview-red.svg
