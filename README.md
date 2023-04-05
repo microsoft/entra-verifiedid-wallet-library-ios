@@ -34,7 +34,7 @@ let verifiedIdClient = VerifiedIdClientBuilder().build()
 
 /// Create a VerifiedIdRequestInput using a OpenId Request Uri.
 let input = VerifiedIdRequestURL(url: URL(string: "openid-vc://...")!)
-let result = await verifiedIdClient.createVerifiedIdRequest(from: input)
+let result = await verifiedIdClient.createRequest(from: input)
 
 /// Every external method's return value is wrapped in a Result object to ensure proper error handling.
 switch (result) {
