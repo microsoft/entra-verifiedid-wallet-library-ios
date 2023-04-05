@@ -23,7 +23,7 @@ public class VerifiedIdClient {
     }
     
     /// Creates either an issuance or presentation request from the input.
-    public func createVerifiedIdRequest(from input: VerifiedIdRequestInput) async -> Result<any VerifiedIdRequest, Error> {
+    public func createRequest(from input: VerifiedIdRequestInput) async -> Result<any VerifiedIdRequest, Error> {
         do {
             let resolver = try requestResolverFactory.getResolver(from: input)
             let rawRequest = try await resolver.resolve(input: input)
@@ -35,6 +35,7 @@ public class VerifiedIdClient {
         }
     }
     
+    /// Encode a VerifiedId into Data.
     public func encode(verifiedId: VerifiedId) -> Result<Data, Error> {
         do {
             let encodedVerifiedId = try configuration.verifiedIdEncoder.encode(verifiedId: verifiedId)
@@ -44,6 +45,7 @@ public class VerifiedIdClient {
         }
     }
     
+    /// Decode raw Data and return a VerifiedId.
     public func decodeVerifiedId(from raw: Data) -> Result<VerifiedId, Error> {
         do {
             let verifiedId = try configuration.verifiedIdDecoder.decode(from: raw)

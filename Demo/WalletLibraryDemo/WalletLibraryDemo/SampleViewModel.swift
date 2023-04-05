@@ -75,7 +75,7 @@ enum RequestState {
                 
                 // VerifiedIdClient is used to create a request from an input
                 // such as, in this case, a VerifiedIdRequestURL.
-                let result = await verifiedIdClient.createVerifiedIdRequest(from: input)
+                let result = await verifiedIdClient.createRequest(from: input)
                 
                 switch result {
                 case .success(let request):

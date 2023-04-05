@@ -23,8 +23,11 @@ public class GroupRequirement: Requirement {
     /// If the requirement is required or not.
     public let required: Bool
     
+    /// The requirements contained within the group.
     internal(set) public var requirements: [Requirement]
     
+    /// If operator is equal to ANY, one of the requirements must be fulfilled.
+    /// If operator is equal to ALL, all requirements must be fulfilled.
     public let requirementOperator: GroupRequirementOperator
     
     init(required: Bool,

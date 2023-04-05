@@ -34,7 +34,7 @@ let verifiedIdClient = VerifiedIdClientBuilder().build()
 
 /// Create a VerifiedIdRequestInput using a OpenId Request Uri.
 let input = VerifiedIdRequestURL(url: URL(string: "openid-vc://...")!)
-let result = await verifiedIdClient.createVerifiedIdRequest(from: input)
+let result = await verifiedIdClient.createRequest(from: input)
 
 /// Every external method's return value is wrapped in a Result object to ensure proper error handling.
 switch (result) {
@@ -107,8 +107,11 @@ let verifiedId = verifiedIdClient.decode(from: encodedVerifiedId)
 ## Sample App
 1. Clone the repository.
 2. Open a terminal window and go to the location where you cloned the repository.
-3. Type in: git submodule update --init –recursive
-   a. This step is important as it will initialize the submodules used in the library.
+3. Type in: 
+```
+git submodule update --init –recursive
+```
+> This step is important as it will initialize the submodules used in the library.
 4. Open the Wallet Library workspace in Xcode. (WalletLibrary.xcworkspace)
 5. Switch Target to WalletLibraryDemo.
 6. Run the Sample App on a simulator.
@@ -150,9 +153,9 @@ Use of Microsoft trademarks or logos in modified versions of this project must n
 Any use of third-party trademarks or logos are subject to those third-party's policies.
 
 [badge-pod-version]: https://img.shields.io/cocoapods/v/WalletLibrary
-[badge-packagemanagers-supported]: https://img.shields.io/badge/supports-CocoaPods-green.svg
+[badge-packagemanagers-supported]: https://img.shields.io/badge/supports-CocoaPods-yellow.svg
 [badge-languages]: https://img.shields.io/badge/languages-Swift-blue.svg
 [badge-platforms]: https://img.shields.io/badge/platforms-iOS-lightgrey.svg
-[badge-license]: https://img.shields.io/cocoapods/l/WalletLibrary
+[badge-license]: https://img.shields.io/github/license/microsoft/entra-verifiedid-wallet-library-ios
 [badge-azure-pipline]: https://decentralized-identity.visualstudio.com/Core/_apis/build/status/iOS%20Wallet%20Library?branchName=dev
 [badge-privatepreview]: https://img.shields.io/badge/status-Private%20Preview-red.svg
