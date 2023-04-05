@@ -8,9 +8,9 @@
  */
 public struct VerifiedIdClaim {
     
-    /// id of the claim. This id can be used as a label to display the claims.
+    /// The id of the claim. This id can be used as a label to display the claims.
     public let id: String
     
-    /// the value of the claim.
+    /// The value of the claim.
     public let value: Any
 }
