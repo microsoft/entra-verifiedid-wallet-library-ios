@@ -21,7 +21,7 @@ class VerifiedIdClientBuilder{
     +with(logConsumer) WalletLibraryLogConsumer
 }
 class VerifiedIdClient{
-    +createVerifiedIdRequest(from: VerifiedIdRequestInput) Result<<T>VerifiedIdRequest>
+    +createRequest(from: VerifiedIdRequestInput) Result<<T>VerifiedIdRequest>
     +encode(verifiedId: VerifiedId) Result<<T>Data>
     +decodeVerifiedId(from: Data) Result<<T>VerifiedId>
 }

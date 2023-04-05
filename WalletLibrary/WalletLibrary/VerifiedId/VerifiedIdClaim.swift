@@ -8,7 +8,7 @@
  */
 public struct VerifiedIdClaim {
     
-    /// id of the claim. For example, within a VC, it is the key value of credentialSubject.
+    /// id of the claim. This id can be used as a label to display the claims.
     public let id: String
     
     /// the value of the claim.

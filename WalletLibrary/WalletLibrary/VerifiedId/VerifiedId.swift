@@ -8,17 +8,19 @@
  */
 public protocol VerifiedId: Codable {
     
+    /// The look and feel of the Verified Id that can be used to display the Verified Id.
     var style: VerifiedIdStyle { get }
     
-    /// the id of the verified id. For example, this value would equal the jti of a Verifiable Credential.
+    /// The id of the verified id. For example, this value would equal the jti of a Verifiable Credential.
     var id: String { get }
     
-    /// date the verified id expires.
+    /// The date the Verified id expires.
     var expiresOn: Date? { get }
     
-    /// date the verified id was issued.
+    /// The date the Verified Id was issued.
     var issuedOn: Date { get }
     
+    /// Get the claims contained within the Verified Id that includes an id of the claim that can be used as a label.
     func getClaims() -> [VerifiedIdClaim]
 }
 
