@@ -113,6 +113,15 @@ let verifiedId = verifiedIdClient.decode(from: encodedVerifiedId)
 5. Switch Target to WalletLibraryDemo.
 6. Run the Sample App on a simulator.
 
+## Log Injection
+You can inject your own log consumer into the Wallet Library by creating a class that conforms to the [Wallet Library Log Consumer Protocol](./WalletLibrary/WalletLibrary/Utilities/WalletLibraryLogConsumer.swift) and injecting it into the `VerifiedIdClientBuilder`.
+
+```Swift
+let client = VerifiedIdClientBuilder()
+    .with(logConsumer: <Your Log Consumer>)
+    .build()
+```
+
 ## Documentation
 
 * [External Architecture](Docs/LibraryArchitecture.md)
