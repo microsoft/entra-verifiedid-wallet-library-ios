@@ -107,8 +107,11 @@ let verifiedId = verifiedIdClient.decode(from: encodedVerifiedId)
 ## Sample App
 1. Clone the repository.
 2. Open a terminal window and go to the location where you cloned the repository.
-3. Type in: git submodule update --init –recursive
-   a. This step is important as it will initialize the submodules used in the library.
+3. Type in: 
+```
+git submodule update --init –recursive
+```
+> This step is important as it will initialize the submodules used in the library.
 4. Open the Wallet Library workspace in Xcode. (WalletLibrary.xcworkspace)
 5. Switch Target to WalletLibraryDemo.
 6. Run the Sample App on a simulator.
