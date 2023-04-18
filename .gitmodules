@@ -1,3 +1,9 @@
-[submodule "WalletLibrary/Submodules/VerifiableCredential-SDK-iOS"]
-	path = WalletLibrary/Submodules/VerifiableCredential-SDK-iOS
-	url = https://github.com/microsoft/VerifiableCredential-SDK-iOS
+[submodule "WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/Submodules/PromiseKit"]
+	path = WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/Submodules/PromiseKit
+	url = https://github.com/mxcl/PromiseKit.git
+[submodule "WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/Submodules/Secp256k1/bitcoin-core/secp256k1"]
+	path = WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/Submodules/Secp256k1/bitcoin-core/secp256k1
+	url = https://github.com/bitcoin-core/secp256k1.git
+[submodule "WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/Submodules/Foundation"]
+	path = WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/Submodules/Foundation
+	url = https://github.com/PromiseKit/Foundation.git

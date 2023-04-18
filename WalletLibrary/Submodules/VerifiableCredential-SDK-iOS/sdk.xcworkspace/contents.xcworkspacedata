@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "container:"
+      name = "Submodules">
+      <FileRef
+         location = "group:Submodules/Secp256k1/Secp256k1.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Submodules/PromiseKit/PromiseKit.xcodeproj">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:VCServices/VCServices.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:VCNetworking/VCNetworking.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:VCEntities/VCEntities.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:VCToken/VCToken.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:VCCrypto/VCCrypto.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:VCSamples/VCSamples.xcodeproj">
+   </FileRef>
+</Workspace>
