@@ -4,8 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCEntities
-import VCToken
 @testable import WalletLibrary
 
 class VCVerifiedIdTests: XCTestCase {
@@ -223,7 +221,7 @@ class VCVerifiedIdTests: XCTestCase {
     private func createVCEntitiesVC(expectedJti: String? = "1234",
                                     expectedIat: Double? = 0,
                                     expectedExp: Double? = 0,
-                                    expectedClaims: [String: String] = [:]) -> VCEntities.VerifiableCredential {
+                                    expectedClaims: [String: String] = [:]) -> VerifiableCredential {
         let claims = VCClaims(jti: expectedJti,
                               iss: "",
                               sub: "",
@@ -232,7 +230,7 @@ class VCVerifiedIdTests: XCTestCase {
                               vc: VerifiableCredentialDescriptor(context: [],
                                                                  type: [],
                                                                  credentialSubject: expectedClaims))
-        return VCEntities.VerifiableCredential(headers: Header(), content: claims)!
+        return VerifiableCredential(headers: Header(), content: claims)!
     }
     
     private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) -> Bool {

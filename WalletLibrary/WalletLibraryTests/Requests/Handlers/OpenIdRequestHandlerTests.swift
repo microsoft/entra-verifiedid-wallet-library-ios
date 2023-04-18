@@ -4,8 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCEntities
-import VCToken
 @testable import WalletLibrary
 
 class OpenIdRequestHandlerTests: XCTestCase {
