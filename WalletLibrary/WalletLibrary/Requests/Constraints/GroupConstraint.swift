@@ -8,6 +8,11 @@ enum GroupConstraintOperator {
     case ALL
 }
 
+enum GroupConstraintError: Error {
+    case atleastOneConstraintDoesNotMatch(errors: [Error])
+    case noConstraintsMatch(errors: [Error])
+}
+
 /**
  * A group of constraints.
  */
@@ -34,6 +39,29 @@ struct GroupConstraint: VerifiedIdConstraint {
         case .ALL:
             return constraints.allSatisfy {
                 $0.doesMatch(verifiedId: verifiedId)
+            }
+        }
+    }
+    
+    func matches(verifiedId: VerifiedId) throws {
+        
+        var errorsThrown: [Error] = []
+        for constraint in constraints {
+            do {
+                try constraint.matches(verifiedId: verifiedId)
+            } catch {
+                errorsThrown.append(error)
+            }
+        }
+        
+        switch constraintOperator {
+        case .ANY:
+            if errorsThrown.count == constraints.count {
+                throw GroupConstraintError.noConstraintsMatch(errors: errorsThrown)
+            }
+        case .ALL:
+            if !errorsThrown.isEmpty {
+                throw GroupConstraintError.atleastOneConstraintDoesNotMatch(errors: errorsThrown)
             }
         }
     }
