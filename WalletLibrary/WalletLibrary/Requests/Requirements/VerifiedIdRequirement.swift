@@ -4,7 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 enum VerifiedIdRequirementError: Error {
-    case verifiedIdDoesNotMeetConstraints
     case requirementHasNotBeenFulfilled
 }
 
