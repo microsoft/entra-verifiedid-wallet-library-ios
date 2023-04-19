@@ -44,8 +44,8 @@ class VerifiedIdRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try requirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is VerifiedIdRequirementError)
-            XCTAssertEqual(error as? VerifiedIdRequirementError, .verifiedIdDoesNotMeetConstraints)
+            XCTAssert(error is MockConstraint.MockConstraintError)
+            XCTAssertEqual(error as? MockConstraint.MockConstraintError, .expectedToThrow)
         }
     }
     
@@ -146,8 +146,8 @@ class VerifiedIdRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try requirement.fulfill(with: mockVerifiedId).get()) { error in
             // Assert
-            XCTAssert(error is VerifiedIdRequirementError)
-            XCTAssertEqual(error as? VerifiedIdRequirementError, .verifiedIdDoesNotMeetConstraints)
+            XCTAssert(error is MockConstraint.MockConstraintError)
+            XCTAssertEqual(error as? MockConstraint.MockConstraintError, .expectedToThrow)
         }
     }
     
