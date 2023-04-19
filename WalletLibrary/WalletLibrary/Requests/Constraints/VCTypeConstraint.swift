@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+enum VCTypeConstraintError: Error, Equatable {
+    case verifiedIdDoesNotHaveSpecifiedType(String)
+}
+
 /**
  * A Verifiable Credential specific constraint that checks to see if the VC's type matches a value.
  */
@@ -16,5 +20,11 @@ struct VCTypeConstraint: VerifiedIdConstraint {
         }
         
         return verifiableCredential.types.contains(where: { $0 == type })
+    }
+    
+    func matches(verifiedId: VerifiedId) throws {
+        guard doesMatch(verifiedId: verifiedId) else {
+            throw VCTypeConstraintError.verifiedIdDoesNotHaveSpecifiedType(type)
+        }
     }
 }
