@@ -18,7 +18,7 @@ class GroupConstraintTests: XCTestCase {
         let thirdConstraint = MockConstraint(doesMatchResult: true)
         let constraints = [firstConstraint, secondConstraint, thirdConstraint]
         let groupConstraint = GroupConstraint(constraints: constraints,
-                                                        constraintOperator: .ALL)
+                                              constraintOperator: .ALL)
         
         // Act / Assert
         XCTAssert(groupConstraint.doesMatch(verifiedId: mockVerifiedId))
@@ -32,7 +32,7 @@ class GroupConstraintTests: XCTestCase {
         let thirdConstraint = MockConstraint(doesMatchResult: true)
         let constraints = [firstConstraint, secondConstraint, thirdConstraint]
         let groupConstraint = GroupConstraint(constraints: constraints,
-                                                        constraintOperator: .ALL)
+                                              constraintOperator: .ALL)
         
         // Act / Assert
         XCTAssertFalse(groupConstraint.doesMatch(verifiedId: mockVerifiedId))
@@ -46,7 +46,7 @@ class GroupConstraintTests: XCTestCase {
         let thirdConstraint = MockConstraint(doesMatchResult: true)
         let constraints = [firstConstraint, secondConstraint, thirdConstraint]
         let groupConstraint = GroupConstraint(constraints: constraints,
-                                                        constraintOperator: .ANY)
+                                              constraintOperator: .ANY)
         
         // Act / Assert
         XCTAssert(groupConstraint.doesMatch(verifiedId: mockVerifiedId))
@@ -60,9 +60,87 @@ class GroupConstraintTests: XCTestCase {
         let thirdConstraint = MockConstraint(doesMatchResult: false)
         let constraints = [firstConstraint, secondConstraint, thirdConstraint]
         let groupConstraint = GroupConstraint(constraints: constraints,
-                                                        constraintOperator: .ANY)
+                                              constraintOperator: .ANY)
         
         // Act / Assert
         XCTAssertFalse(groupConstraint.doesMatch(verifiedId: mockVerifiedId))
+    }
+    
+    func testMatches_WithALLOperatorAndAllMatch_DoesNotThrow() throws {
+        // Arrange
+        let mockVerifiedId = MockVerifiedId(id: "mock verified id", issuedOn: Date())
+        let firstConstraint = MockConstraint(doesMatchResult: true)
+        let secondConstraint = MockConstraint(doesMatchResult: true)
+        let thirdConstraint = MockConstraint(doesMatchResult: true)
+        let constraints = [firstConstraint, secondConstraint, thirdConstraint]
+        let groupConstraint = GroupConstraint(constraints: constraints,
+                                              constraintOperator: .ALL)
+        
+        // Act / Assert
+        XCTAssertNoThrow(try groupConstraint.matches(verifiedId: mockVerifiedId))
+    }
+    
+    func testMatches_WithALLOperatorAndOneDoesNotMatch_ThrowsError() throws {
+        // Arrange
+        let mockVerifiedId = MockVerifiedId(id: "mock verified id", issuedOn: Date())
+        let firstConstraint = MockConstraint(doesMatchResult: true)
+        let secondConstraint = MockConstraint(doesMatchResult: false)
+        let thirdConstraint = MockConstraint(doesMatchResult: true)
+        let constraints = [firstConstraint, secondConstraint, thirdConstraint]
+        let groupConstraint = GroupConstraint(constraints: constraints,
+                                              constraintOperator: .ALL)
+        
+        // Act
+        XCTAssertThrowsError(try groupConstraint.matches(verifiedId: mockVerifiedId)) { error in
+            // Assert
+            XCTAssert(error is GroupConstraintError)
+            switch (error as? GroupConstraintError) {
+            case .atleastOneConstraintDoesNotMatch(errors: let errors):
+                for err in errors {
+                    XCTAssertEqual(err as? MockConstraint.MockConstraintError, .expectedToThrow)
+                }
+            default:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testMatches_WithANYOperatorAndOneMatches_DoesNotThrow() throws {
+        // Arrange
+        let mockVerifiedId = MockVerifiedId(id: "mock verified id", issuedOn: Date())
+        let firstConstraint = MockConstraint(doesMatchResult: false)
+        let secondConstraint = MockConstraint(doesMatchResult: false)
+        let thirdConstraint = MockConstraint(doesMatchResult: true)
+        let constraints = [firstConstraint, secondConstraint, thirdConstraint]
+        let groupConstraint = GroupConstraint(constraints: constraints,
+                                              constraintOperator: .ANY)
+        
+        // Act / Assert
+        XCTAssertNoThrow(try groupConstraint.matches(verifiedId: mockVerifiedId))
+    }
+    
+    func testMatches_WithANYOperatorAndNoneMatch_ThrowsError() throws {
+        // Arrange
+        let mockVerifiedId = MockVerifiedId(id: "mock verified id", issuedOn: Date())
+        let firstConstraint = MockConstraint(doesMatchResult: false)
+        let secondConstraint = MockConstraint(doesMatchResult: false)
+        let thirdConstraint = MockConstraint(doesMatchResult: false)
+        let constraints = [firstConstraint, secondConstraint, thirdConstraint]
+        let groupConstraint = GroupConstraint(constraints: constraints,
+                                              constraintOperator: .ANY)
+        
+        // Act
+        XCTAssertThrowsError(try groupConstraint.matches(verifiedId: mockVerifiedId)) { error in
+            // Assert
+            XCTAssert(error is GroupConstraintError)
+            switch (error as? GroupConstraintError) {
+            case .noConstraintsMatch(errors: let errors):
+                for err in errors {
+                    XCTAssertEqual(err as? MockConstraint.MockConstraintError, .expectedToThrow)
+                }
+            default:
+                XCTFail()
+            }
+        }
     }
 }
