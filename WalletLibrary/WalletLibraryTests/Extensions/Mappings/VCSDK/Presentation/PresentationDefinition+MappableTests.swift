@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCEntities
 @testable import WalletLibrary
 
 class PresentationDefinitionMappingTests: XCTestCase {

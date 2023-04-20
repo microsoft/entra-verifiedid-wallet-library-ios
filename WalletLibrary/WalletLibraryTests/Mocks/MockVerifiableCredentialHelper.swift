@@ -3,8 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCEntities
-import VCToken
 @testable import WalletLibrary
 
 struct MockVerifiableCredentialHelper {
@@ -24,7 +22,7 @@ struct MockVerifiableCredentialHelper {
                               vc: VerifiableCredentialDescriptor(context: [],
                                                                  type: expectedTypes,
                                                                  credentialSubject: [:]))
-        return VCEntities.VerifiableCredential(headers: Header(), content: claims)!
+        return VerifiableCredential(headers: Header(), content: claims)!
     }
 
     func createMockContract() -> Contract {
