@@ -7,13 +7,31 @@
 
 struct MockConstraint: VerifiedIdConstraint {
     
+    enum MockConstraintError: Error {
+        case expectedToThrow
+    }
+    
     let doesMatchResult: Bool
     
-    init(doesMatchResult: Bool) {
+    let matchesError: Error?
+    
+    init(doesMatchResult: Bool, matchesError: Error? = nil) {
         self.doesMatchResult = doesMatchResult
+        /// If does not match, always throw something.
+        if !doesMatchResult {
+            self.matchesError = matchesError ?? MockConstraintError.expectedToThrow
+        } else {
+            self.matchesError = nil
+        }
     }
     
     func doesMatch(verifiedId: WalletLibrary.VerifiedId) -> Bool {
         return doesMatchResult
+    }
+    
+    func matches(verifiedId: WalletLibrary.VerifiedId) throws {
+        if let matchesError = matchesError {
+            throw matchesError
+        }
     }
 }

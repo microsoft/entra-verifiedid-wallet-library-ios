@@ -59,4 +59,26 @@ class VCTypeConstraintTests: XCTestCase {
         // Assert
         XCTAssertFalse(result)
     }
+    
+    func testMatches_WhenVCDoesNotContainType_ThrowsError() throws {
+        // Arrange
+        let constraint = VCTypeConstraint(type: "mockType")
+        let verifiableCredential = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["unmatchingType"])
+        
+        // Act
+        XCTAssertThrowsError(try constraint.matches(verifiedId: verifiableCredential)) { error in
+            // Assert
+            XCTAssert(error is VCTypeConstraintError)
+            XCTAssertEqual(error as? VCTypeConstraintError, .verifiedIdDoesNotHaveSpecifiedType("mockType"))
+        }
+    }
+    
+    func testMatches_WhenVCDoesContainType_DoesNotThrow() throws {
+        // Arrange
+        let constraint = VCTypeConstraint(type: "mockType")
+        let verifiableCredential = mockVerifiableCredentialHelper.createMockVerifiableCredential(expectedTypes: ["mockType"])
+        
+        // Act / Assert
+        XCTAssertNoThrow(try constraint.matches(verifiedId: verifiableCredential))
+    }
 }

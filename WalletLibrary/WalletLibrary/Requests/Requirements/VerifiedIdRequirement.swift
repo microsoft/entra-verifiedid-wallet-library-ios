@@ -4,7 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 enum VerifiedIdRequirementError: Error {
-    case verifiedIdDoesNotMeetConstraints
     case requirementHasNotBeenFulfilled
 }
 
@@ -60,8 +59,10 @@ public class VerifiedIdRequirement: Requirement {
             return Result.failure(VerifiedIdRequirementError.requirementHasNotBeenFulfilled)
         }
         
-        guard constraint.doesMatch(verifiedId: selectedVerifiedId) else {
-            return Result.failure(VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints)
+        do {
+            try constraint.matches(verifiedId: selectedVerifiedId)
+        } catch {
+            return Result.failure(error)
         }
         
         return Result.success(())
@@ -79,8 +80,10 @@ public class VerifiedIdRequirement: Requirement {
     /// the Verified Id does not satisfy the requirement.
     public func fulfill(with verifiedId: VerifiedId) -> Result<Void, Error> {
         
-        guard constraint.doesMatch(verifiedId: verifiedId) else {
-            return Result.failure(VerifiedIdRequirementError.verifiedIdDoesNotMeetConstraints)
+        do {
+            try constraint.matches(verifiedId: verifiedId)
+        } catch {
+            return Result.failure(error)
         }
         
         self.selectedVerifiedId = verifiedId
