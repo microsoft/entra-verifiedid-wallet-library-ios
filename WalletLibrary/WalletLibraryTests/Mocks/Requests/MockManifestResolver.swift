@@ -4,7 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 @testable import WalletLibrary
-import VCEntities
 
 class MockManifestResolver: ManifestResolver {
     
