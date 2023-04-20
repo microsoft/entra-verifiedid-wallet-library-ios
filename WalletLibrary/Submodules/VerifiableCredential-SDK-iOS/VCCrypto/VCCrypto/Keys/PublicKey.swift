@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 /// Public Key protocol for verification of signatures.
-public protocol PublicKey {
+protocol PublicKey {
     
     /// algorithm identifier.
     var algorithm: String { get }

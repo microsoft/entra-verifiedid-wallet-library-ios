@@ -6,7 +6,7 @@
 import Foundation
 
 extension Data {
-    public init?(base64URLEncoded base64URLString: String) {
+    init?(base64URLEncoded base64URLString: String) {
         let paddingLength = 4 - base64URLString.count % 4
         let padding = (paddingLength < 4) ? String(repeating: "=", count: paddingLength) : ""
         let base64EncodedString = base64URLString
@@ -16,7 +16,7 @@ extension Data {
         self.init(base64Encoded: base64EncodedString)
     }
     
-    public func base64URLEncodedString() -> String {
+    func base64URLEncodedString() -> String {
         return self.base64EncodedString()
             .replacingOccurrences(of: "+", with: "-")
             .replacingOccurrences(of: "/", with: "_")

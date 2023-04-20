@@ -4,33 +4,33 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Operations that are involved in key management.
-public struct KeyManagementOperations: KeyManagementOperating {
+struct KeyManagementOperations: KeyManagementOperating {
 
     private let secretStore: SecretStoring
     
     private let sdkConfiguration: VCSDKConfigurable
     
-    public init(sdkConfiguration: VCSDKConfigurable) {
+    init(sdkConfiguration: VCSDKConfigurable) {
         self.init(secretStore: KeychainSecretStore(), sdkConfiguration: sdkConfiguration)
     }
     
-    public init(secretStore: SecretStoring, sdkConfiguration: VCSDKConfigurable) {
+    init(secretStore: SecretStoring, sdkConfiguration: VCSDKConfigurable) {
         self.secretStore = secretStore
         self.sdkConfiguration = sdkConfiguration
     }
     
-    public func generateKey() throws -> VCCryptoSecret {
+    func generateKey() throws -> VCCryptoSecret {
         let accessGroup = sdkConfiguration.accessGroupIdentifier
         let key = try Random32BytesSecret(withStore: secretStore, inAccessGroup: accessGroup)
         return key
     }
     
-    public func retrieveKeyFromStorage(withId id: UUID) -> VCCryptoSecret {
+    func retrieveKeyFromStorage(withId id: UUID) -> VCCryptoSecret {
         let accessGroup = sdkConfiguration.accessGroupIdentifier
         return Random32BytesSecret(withStore: secretStore, andId: id, inAccessGroup: accessGroup)
     }
     
-    public func save(key: Data, withId id: UUID) throws {
+    func save(key: Data, withId id: UUID) throws {
 
         // Take a copy of the key to let the store dispose of it
         var data = Data()
@@ -46,7 +46,7 @@ public struct KeyManagementOperations: KeyManagementOperating {
                                    value: &data)
     }
 
-    public func deleteKey(withId id: UUID) throws {
+    func deleteKey(withId id: UUID) throws {
 
         let itemTypeCode = Random32BytesSecret.itemTypeCode
         let accessGroup = sdkConfiguration.accessGroupIdentifier
@@ -63,7 +63,7 @@ public struct KeyManagementOperations: KeyManagementOperating {
         }
     }
 
-    public func getKey(withId id: UUID) throws -> Data {
+    func getKey(withId id: UUID) throws -> Data {
 
         return try secretStore.getSecret(id: id,
                                          itemTypeCode: Random32BytesSecret.itemTypeCode,

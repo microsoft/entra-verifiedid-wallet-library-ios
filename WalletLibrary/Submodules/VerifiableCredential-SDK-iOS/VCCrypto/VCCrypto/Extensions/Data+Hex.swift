@@ -6,7 +6,7 @@
 import Foundation
 
 extension Data {
-    public init(hexString: String) {
+    init(hexString: String) {
         var byteArray = [UInt8]()
         for i in 0..<hexString.count/2 {
             let index = i * 2
@@ -16,7 +16,7 @@ extension Data {
         self.init(byteArray)
     }
     
-    public func toHexString() -> String {
+    func toHexString() -> String {
         let hexArray = self.map{ (byte) -> String in String(format: "%02hhx", byte) }
         return hexArray.joined()
     }

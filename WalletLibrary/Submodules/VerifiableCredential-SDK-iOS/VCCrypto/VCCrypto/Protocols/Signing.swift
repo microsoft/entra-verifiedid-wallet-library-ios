@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Protocol that specifies operations of a signing algorithm.
-public protocol Signing {
+protocol Signing {
     
     /// Sign a message and return signature.
     func sign(message: Data, withSecret secret: VCCryptoSecret) throws -> Data

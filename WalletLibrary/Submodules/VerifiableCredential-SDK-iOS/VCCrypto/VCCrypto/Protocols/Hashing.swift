@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Cryptopgraphic Operations needed for verification.
-public protocol Hashing {
+protocol Hashing {
     
     /// Sign a message using a specific secret, and return the signature.
     func hash(data: Data) -> Data

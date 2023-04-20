@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Cryptopgraphic Operations needed for verification.
-public protocol CryptoOperating {
+protocol CryptoOperating {
     
     /// Sign a message using a specific secret, and return the signature.
     func sign(message: Data, usingSecret secret: VCCryptoSecret, algorithm: String) throws -> Data

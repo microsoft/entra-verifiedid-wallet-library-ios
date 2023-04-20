@@ -5,7 +5,7 @@
 
 import Foundation
 
-public enum SecretStoringError: Error {
+enum SecretStoringError: Error {
     case itemNotFound
     case invalidItemInStore
     case itemAlreadyInStore
@@ -16,7 +16,7 @@ public enum SecretStoringError: Error {
 }
 
 // public until Identifier Creation is implemented.
-public protocol SecretStoring {
+protocol SecretStoring {
     
     func getSecret(id: UUID, itemTypeCode: String, accessGroup: String?) throws -> Data
     func saveSecret(id: UUID, itemTypeCode: String, accessGroup: String?, value: inout Data) throws

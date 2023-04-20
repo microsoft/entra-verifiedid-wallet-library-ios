@@ -12,7 +12,7 @@ final class Random32BytesSecret: Secret {
     }
 
     static var itemTypeCode: String = "r32B"
-    public var id: UUID
+    var id: UUID
     private let store: SecretStoring
     let accessGroup: String?
     

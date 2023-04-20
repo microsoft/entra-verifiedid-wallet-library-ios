@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public enum CryptoOperationsError: Error {
+enum CryptoOperationsError: Error {
     case invalidPublicKey
     case signingAlgorithmNotSupported
     case signingAlgorithmDoesNotSupportGetPublicKey
@@ -12,11 +12,11 @@ public enum CryptoOperationsError: Error {
 }
 
 /// Operations that are involved in verification cryptographic operations..
-public struct CryptoOperations: CryptoOperating {
+struct CryptoOperations: CryptoOperating {
     
     private let signingAlgorithms: [String: SigningAlgorithm]
     
-    public init(signingAlgorithms: [String: SigningAlgorithm] = [:]) {
+    init(signingAlgorithms: [String: SigningAlgorithm] = [:]) {
         var supportedAlgorithms = SupportedSigningAlgorithms().algorithms()
         
         /// Merge injected algorithms with support algorithms.
@@ -27,7 +27,7 @@ public struct CryptoOperations: CryptoOperating {
     }
     
     /// Only supports Secp256k1 signing.
-    public func sign(message: Data,
+    func sign(message: Data,
                      usingSecret secret: VCCryptoSecret,
                      algorithm: String = SupportedCurve.Secp256k1.rawValue) throws -> Data {
         
@@ -43,7 +43,7 @@ public struct CryptoOperations: CryptoOperating {
     }
     
     /// Only support Secp256k1 public key retrieval.
-    public func getPublicKey(fromSecret secret: VCCryptoSecret,
+    func getPublicKey(fromSecret secret: VCCryptoSecret,
                              algorithm: String = SupportedCurve.Secp256k1.rawValue) throws -> PublicKey {
         
         guard let signingAlgo = signingAlgorithms[algorithm.uppercased()] else {
@@ -58,7 +58,7 @@ public struct CryptoOperations: CryptoOperating {
     }
     
     /// Verify signature for the message using the public key if public key algorithm is supported.
-    public func verify(signature: Data,
+    func verify(signature: Data,
                        forMessage message: Data,
                        usingPublicKey publicKey: PublicKey) throws -> Bool {
         

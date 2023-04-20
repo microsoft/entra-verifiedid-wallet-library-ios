@@ -3,12 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-
 /// TODO: deprecate entity for JWK
-public struct ECPublicJwk: Codable, Equatable {
+struct ECPublicJwk: Codable, Equatable {
     public let keyType: String
     public let keyId: String?
     public let use: String?

@@ -5,13 +5,13 @@
 
 import Foundation
 
-public class ED25519PublicKey: PublicKey {
+class ED25519PublicKey: PublicKey {
    
-    public let algorithm = SupportedCurve.ED25519.rawValue
+    let algorithm = SupportedCurve.ED25519.rawValue
     
-    public let uncompressedValue: Data
+    let uncompressedValue: Data
     
-    public init?(x: Data) {
+    init?(x: Data) {
         guard x.count == 32 else { return nil }
         self.uncompressedValue = x
     }
