@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Operations that involve managing keys.
-public protocol KeyManagementOperating {
+protocol KeyManagementOperating {
     
     /// Generate a new key and return the secret.
     func generateKey() throws -> VCCryptoSecret

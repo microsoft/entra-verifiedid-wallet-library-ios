@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct DomainLinkageCredentialContent: Codable {
+struct DomainLinkageCredentialContent: Codable {
     let context: [String]
     let issuer: String
     let issuanceDate: String

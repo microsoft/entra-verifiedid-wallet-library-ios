@@ -3,6 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct PinClaims: Codable, Equatable {
+struct PinClaims: Codable, Equatable {
     let value: String
 }

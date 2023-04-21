@@ -7,11 +7,11 @@
     import VCToken
 #endif
 
-public protocol PresentationResponseFormatting {
+protocol PresentationResponseFormatting {
     func format(response: PresentationResponseContainer, usingIdentifier identifier: Identifier) throws -> PresentationResponse
 }
 
-public class PresentationResponseFormatter: PresentationResponseFormatting {
+class PresentationResponseFormatter: PresentationResponseFormatting {
     
     private struct Constants {
         static let CredentialEncoding = "base64Url"
@@ -26,14 +26,14 @@ public class PresentationResponseFormatter: PresentationResponseFormatting {
     let sdkLog: VCSDKLog
     let headerFormatter = JwsHeaderFormatter()
     
-    public init(signer: TokenSigning = Secp256k1Signer(),
+    init(signer: TokenSigning = Secp256k1Signer(),
                 sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
         self.signer = signer
         self.vpFormatter = VerifiablePresentationFormatter(signer: signer)
         self.sdkLog = sdkLog
     }
     
-    public func format(response: PresentationResponseContainer, usingIdentifier identifier: Identifier) throws -> PresentationResponse {
+    func format(response: PresentationResponseContainer, usingIdentifier identifier: Identifier) throws -> PresentationResponse {
         
         guard let signingKey = identifier.didDocumentKeys.first else {
             throw FormatterError.noSigningKeyFound

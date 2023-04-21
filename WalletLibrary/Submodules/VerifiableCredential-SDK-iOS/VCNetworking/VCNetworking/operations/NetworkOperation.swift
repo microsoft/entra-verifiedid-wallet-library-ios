@@ -11,7 +11,7 @@ import PromiseKit
 
 internal protocol InternalNetworkOperation: NetworkOperation & InternalOperation {}
 
-public protocol NetworkOperation {
+protocol NetworkOperation {
     associatedtype ResponseBody
     
     mutating func fire() -> Promise<ResponseBody>
@@ -49,7 +49,7 @@ extension InternalNetworkOperation {
         return VCSDKLog.sharedInstance
     }
     
-    public mutating func fire() -> Promise<ResponseBody> {
+    mutating func fire() -> Promise<ResponseBody> {
         
         if let cv = correlationVector {
             let incrementedValue = cv.update()

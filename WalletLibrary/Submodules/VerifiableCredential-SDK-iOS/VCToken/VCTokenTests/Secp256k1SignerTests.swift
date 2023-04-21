@@ -3,11 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import VCToken
 import XCTest
-import VCCrypto
+@testable import WalletLibrary
 
-class Secp256k1Tests: XCTestCase {
+class Secp256k1SignerTests: XCTestCase {
     
     private var testToken: JwsToken<MockClaims>!
     private var expectedResult: Data!

@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import Foundation
 import CommonCrypto
@@ -13,17 +13,17 @@ enum AesError : Error {
     case cryptoError(operation:CCOperation, status:CCCryptorStatus)
 }
 
-public struct Aes {
-    
+struct Aes {
+
     // AES processes inputs in blocks of 128 bits (16 bytes)
     internal let blockSize = size_t(16)
 
     private let keyWrapAlg = CCWrappingAlgorithm(kCCWRAPAES)
-    
-    public init() {}
-    
-    public func wrap(key: VCCryptoSecret, with kek: VCCryptoSecret) throws -> Data {
 
+    init() {}
+
+    func wrap(key: VCCryptoSecret, with kek: VCCryptoSecret) throws -> Data {
+    
         // Look for an early out
         guard key is Secret, kek is Secret else {
             throw AesError.invalidSecret
@@ -59,8 +59,8 @@ public struct Aes {
         })
         return wrapped
     }
-    
-    public func unwrap(wrapped: Data, using kek: VCCryptoSecret) throws -> VCCryptoSecret {
+
+    func unwrap(wrapped: Data, using kek: VCCryptoSecret) throws -> VCCryptoSecret {
 
         // Look for an early out
         guard kek is Secret else {
@@ -102,22 +102,22 @@ public struct Aes {
         return EphemeralSecret(with: unwrapped)
     }
 
-    public func encrypt(data: Data, with key: VCCryptoSecret, iv: Data) throws -> Data {
-
+    func encrypt(data: Data, with key: VCCryptoSecret, iv: Data) throws -> Data {
+        
         // If the input isn't perfectly aligned to the AES block size, then padding is required
         let options = data.count % blockSize == 0 ? CCOptions(0) : CCOptions(kCCOptionPKCS7Padding)
         return try self.apply(operation: CCOperation(kCCEncrypt), withOptions: options, to: data, using: key, iv: iv)
     }
-    
-    public func decrypt(data: Data, with key: VCCryptoSecret, iv: Data) throws -> Data {
+
+    func decrypt(data: Data, with key: VCCryptoSecret, iv: Data) throws -> Data {
         return try self.apply(operation: CCOperation(kCCDecrypt), withOptions: CCOptions(kCCOptionPKCS7Padding), to: data, using: key, iv: iv)
     }
 
     private func apply(operation: CCOperation, withOptions options: CCOptions, to data: Data, using key: VCCryptoSecret, iv: Data) throws -> Data {
-
+        
         // Look for an early out
         guard key is Secret else { throw AesError.invalidSecret }
-
+        
         // Allocate the output buffer
         var outputSize = size_t(data.count)
         let modulo = data.count % blockSize
@@ -128,7 +128,7 @@ public struct Aes {
         
         try (key as! Secret).withUnsafeBytes { (keyPtr: UnsafeRawBufferPointer) in
             let keyBytes = keyPtr.bindMemory(to: UInt8.self)
-
+            
             try iv.withUnsafeBytes { (ivPtr: UnsafeRawBufferPointer) in
                 let ivBytes = ivPtr.bindMemory(to: UInt8.self)
                 

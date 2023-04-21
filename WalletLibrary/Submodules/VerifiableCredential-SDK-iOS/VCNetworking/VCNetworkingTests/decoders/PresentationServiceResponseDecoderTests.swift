@@ -4,9 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCEntities
-
-@testable import VCNetworking
+@testable import WalletLibrary
 
 class PresentationServiceResponseDecoderTests: XCTestCase {
     

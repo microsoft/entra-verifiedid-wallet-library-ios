@@ -7,29 +7,29 @@
     import VCToken
 #endif
 
-public struct PresentationRequest {
+struct PresentationRequest {
     
-    public let token: PresentationRequestToken
+    let token: PresentationRequestToken
     
-    public let content: PresentationRequestClaims
+    let content: PresentationRequestClaims
     
-    public let linkedDomainResult: LinkedDomainResult
+    let linkedDomainResult: LinkedDomainResult
     
-    public init(from token: PresentationRequestToken, linkedDomainResult: LinkedDomainResult) {
+    init(from token: PresentationRequestToken, linkedDomainResult: LinkedDomainResult) {
         self.token = token
         self.content = token.content
         self.linkedDomainResult = linkedDomainResult
     }
     
-    public func getPinRequiredLength() -> Int? {
+    func getPinRequiredLength() -> Int? {
         return token.content.pin?.length
     }
     
-    public func containsRequiredClaims() -> Bool {
+    func containsRequiredClaims() -> Bool {
         return token.content.idTokenHint != nil
     }
     
-    public func getPinSalt() -> String? {
+    func getPinSalt() -> String? {
         return token.content.pin?.salt
     }
 }

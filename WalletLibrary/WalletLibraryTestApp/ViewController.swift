@@ -3,17 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCCrypto
+import UIKit
 
-struct MockVCCryptoSecret: VCCryptoSecret {
-    
-    var accessGroup: String? = nil
-    
-    func isValidKey() throws { }
-    
-    func migrateKey(fromAccessGroup oldAccessGroup: String?) throws { }
-    
-    var id: UUID = UUID()
+class ViewController: UIViewController {
 
-    func withUnsafeBytes(_ body: (UnsafeRawBufferPointer) throws -> Void) throws { }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+
+
 }
+

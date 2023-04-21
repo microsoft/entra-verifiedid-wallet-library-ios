@@ -4,12 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Property of Requested Claims in an OIDC request that describes the verifiable presentation token requested.
-public struct RequestedVPToken: Codable, Equatable {
+struct RequestedVPToken: Codable, Equatable {
     
     /// Description of the vp token requested.
-    public let presentationDefinition: PresentationDefinition?
+    let presentationDefinition: PresentationDefinition?
     
-    public init(presentationDefinition: PresentationDefinition?) {
+    init(presentationDefinition: PresentationDefinition?) {
         self.presentationDefinition = presentationDefinition
     }
 

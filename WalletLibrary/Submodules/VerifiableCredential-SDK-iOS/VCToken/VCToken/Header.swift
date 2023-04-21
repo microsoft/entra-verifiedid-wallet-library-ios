@@ -3,24 +3,24 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct Header: Codable {
-    public let type: String?
-    public let algorithm: String?
-    public let encryptionMethod: String?
-    public let jsonWebKey: String?
-    public let keyId: String?
-    public let contentType: String?
-    public let pbes2SaltInput: String?
-    public let pbes2Count: UInt?
-
-    public init(type: String? = nil,
-                algorithm: String? = nil,
-                encryptionMethod: String? = nil,
-                jsonWebKey: String? = nil,
-                keyId: String? = nil,
-                contentType: String? = nil,
-                pbes2SaltInput: String? = nil,
-                pbes2Count: UInt? = nil) {
+struct Header: Codable {
+    let type: String?
+    let algorithm: String?
+    let encryptionMethod: String?
+    let jsonWebKey: String?
+    let keyId: String?
+    let contentType: String?
+    let pbes2SaltInput: String?
+    let pbes2Count: UInt?
+    
+    init(type: String? = nil,
+         algorithm: String? = nil,
+         encryptionMethod: String? = nil,
+         jsonWebKey: String? = nil,
+         keyId: String? = nil,
+         contentType: String? = nil,
+         pbes2SaltInput: String? = nil,
+         pbes2Count: UInt? = nil) {
         self.type = type
         self.algorithm = algorithm
         self.encryptionMethod = encryptionMethod
@@ -31,7 +31,7 @@ public struct Header: Codable {
         self.pbes2Count = pbes2Count
     }
 
-    public enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case type = "typ"
         case algorithm = "alg"
         case jsonWebKey = "jwk"
@@ -44,7 +44,7 @@ public struct Header: Codable {
 
     // Note: implementing decode and encode to work around a compiler issue causing a EXC_BAD_ACCESS.
     // See: https://bugs.swift.org/browse/SR-7090
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         type = try values.decodeIfPresent(String.self, forKey: .type)
         algorithm = try values.decodeIfPresent(String.self, forKey: .algorithm)
@@ -56,7 +56,7 @@ public struct Header: Codable {
         pbes2Count = try values.decodeIfPresent(UInt.self, forKey: .pbes2Count)
     }
 
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(type, forKey: .type)
         try container.encodeIfPresent(algorithm, forKey: .algorithm)

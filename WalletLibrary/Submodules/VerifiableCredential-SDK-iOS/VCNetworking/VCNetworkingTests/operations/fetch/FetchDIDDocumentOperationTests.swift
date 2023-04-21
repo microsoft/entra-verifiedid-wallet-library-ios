@@ -5,9 +5,7 @@
 
 import XCTest
 import PromiseKit
-import VCEntities
-
-@testable import VCNetworking
+@testable import WalletLibrary
 
 class FetchDIDDocumentOperationTests: XCTestCase {
     private var fetchOperation: FetchDIDDocumentOperation!

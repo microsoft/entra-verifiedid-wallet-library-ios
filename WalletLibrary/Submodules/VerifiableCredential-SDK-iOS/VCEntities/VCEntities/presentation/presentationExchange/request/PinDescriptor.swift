@@ -3,15 +3,15 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct PinDescriptor: Codable, Equatable {
-    public let type: String?
-    public let length: Int
-    public let hash: String
-    public let salt: String?
-    public let iterations: Int?
-    public let alg: String?
+struct PinDescriptor: Codable, Equatable {
+    let type: String?
+    let length: Int
+    let hash: String
+    let salt: String?
+    let iterations: Int?
+    let alg: String?
     
-    public init(type: String?,
+    init(type: String?,
                 length: Int,
                 hash: String,
                 salt: String?,

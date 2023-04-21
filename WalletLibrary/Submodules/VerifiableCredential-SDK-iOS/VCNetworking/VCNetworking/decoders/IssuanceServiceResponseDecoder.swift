@@ -9,11 +9,11 @@ import Foundation
     import VCEntities
 #endif
 
-public struct IssuanceServiceResponseDecoder: Decoding {
+struct IssuanceServiceResponseDecoder: Decoding {
     
-    let jsonDecoder = JSONDecoder()
+    private let jsonDecoder = JSONDecoder()
     
-    public func decode(data: Data) throws -> VerifiableCredential {
+    func decode(data: Data) throws -> VerifiableCredential {
         let response = try jsonDecoder.decode(IssuanceServiceResponse.self, from: data)
         
         guard let token = VerifiableCredential(from: response.vc) else {

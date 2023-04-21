@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-@testable import VCCrypto
+@testable import WalletLibrary
 
 class Secp256k1PublicKeyTests: XCTestCase {
     

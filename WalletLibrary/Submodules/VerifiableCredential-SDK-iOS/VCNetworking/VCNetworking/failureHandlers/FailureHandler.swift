@@ -5,6 +5,6 @@
 
 import Foundation
 
-public protocol FailureHandler {
+protocol FailureHandler {
     func onFailure(data: Data, response: HTTPURLResponse) throws -> NetworkingError
 }

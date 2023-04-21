@@ -3,19 +3,19 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct AllowedAlgorithms: Codable, Equatable {
+struct AllowedAlgorithms: Codable, Equatable {
 
-    public let algorithms: [String]?
+    let algorithms: [String]?
 
     enum CodingKeys: String, CodingKey {
         case algorithms = "alg"
     }
     
-    public init(algorithms: [String]? = nil) {
+    init(algorithms: [String]? = nil) {
         self.algorithms = algorithms
     }
 }
 
-public enum SupportedAlgorithms: String {
+enum SupportedAlgorithms: String {
     case es256k = "ES256K"
 }

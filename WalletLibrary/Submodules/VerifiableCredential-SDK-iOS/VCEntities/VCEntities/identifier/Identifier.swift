@@ -7,21 +7,21 @@
     import VCCrypto
 #endif
 
-public struct Identifier {
-    public let longFormDid: String
-    public let didDocumentKeys: [KeyContainer]
-    public let updateKey: KeyContainer
-    public let recoveryKey: KeyContainer
-    public let alias: String
+struct Identifier {
+    let longFormDid: String
+    let didDocumentKeys: [KeyContainer]
+    let updateKey: KeyContainer
+    let recoveryKey: KeyContainer
+    let alias: String
 
-    public var did: String
+    var did: String
     {
         get {
             return longFormDid
         }
     }
 
-    public init(longFormDid: String,
+    init(longFormDid: String,
                 didDocumentKeys: [KeyContainer],
                 updateKey: KeyContainer,
                 recoveryKey: KeyContainer,

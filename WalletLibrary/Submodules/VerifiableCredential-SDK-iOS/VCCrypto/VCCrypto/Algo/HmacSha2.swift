@@ -12,12 +12,12 @@ enum HmacSha2Error: Error {
     case invalidAlgorithm
 }
 
-public struct HmacSha2 {
+struct HmacSha2 {
 
     private let macSize: Int
     private let algorithm: UInt32
     
-    public init(algorithm: UInt32) throws {
+    init(algorithm: UInt32) throws {
         switch (algorithm) {
         case UInt32(kCCHmacAlgSHA256):
             self.macSize = Int(CC_SHA256_DIGEST_LENGTH)
@@ -36,7 +36,7 @@ public struct HmacSha2 {
     ///   - message: The message to authenticate
     ///   - secret: The secret used for authentication
     /// - Returns: The authentication code for the message
-    public func authenticate(message: Data, with secret: VCCryptoSecret) throws -> Data {
+    func authenticate(message: Data, with secret: VCCryptoSecret) throws -> Data {
 
         // Look for an early out
         guard message.count > 0 else { throw HmacSha2Error.invalidMessage }
@@ -63,7 +63,7 @@ public struct HmacSha2 {
     ///   - message: The message
     ///   - secret: The secret used
     /// - Returns: True if the authentication code is valid
-    public func validate(_ mac: Data, authenticating message: Data, with secret: VCCryptoSecret) throws -> Bool {
+    func validate(_ mac: Data, authenticating message: Data, with secret: VCCryptoSecret) throws -> Bool {
         
         let authentication = try self.authenticate(message: message, with: secret)
         return mac == authentication

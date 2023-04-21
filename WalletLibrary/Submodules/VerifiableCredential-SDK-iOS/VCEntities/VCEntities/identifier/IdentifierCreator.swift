@@ -14,18 +14,18 @@ enum IdentifierCreaterError: Error {
     case unableToCasePublicKeyToECPublicKey
 }
 
-public struct IdentifierCreator {
+struct IdentifierCreator {
     
     let keyManagementOperations: KeyManagementOperating
     let cryptoOperations: CryptoOperating
     let identifierFormatter: IdentifierFormatting
     let aliasComputer = AliasComputer()
     
-    public init() {
+    init() {
         self.init(keyManagementOperations: KeyManagementOperations(sdkConfiguration: VCSDKConfiguration.sharedInstance))
     }
     
-    public init(keyManagementOperations: KeyManagementOperating) {
+    init(keyManagementOperations: KeyManagementOperating) {
         self.init(keyManagementOperations: keyManagementOperations, identifierFormatter: IdentifierFormatter())
     }
     
@@ -35,7 +35,7 @@ public struct IdentifierCreator {
         self.identifierFormatter = identifierFormatter
     }
     
-    public func create(forId id: String, andRelyingParty rp: String) throws -> Identifier {
+    func create(forId id: String, andRelyingParty rp: String) throws -> Identifier {
         
         let alias = aliasComputer.compute(forId: id, andRelyingParty: rp)
         

@@ -7,22 +7,22 @@
     import VCToken
 #endif
 
-public struct IssuanceResponseContainer: ResponseContaining {
-    public let contract: Contract
-    public let contractUri: String
+struct IssuanceResponseContainer: ResponseContaining {
+    let contract: Contract
+    let contractUri: String
     let expiryInSeconds: Int
-    public let audienceUrl: String
-    public let audienceDid: String
-    public var issuancePin: IssuancePin? = nil
-    public var issuanceIdToken: String? = nil
-    public var requestedIdTokenMap: RequestedIdTokenMap = [:]
-    public var requestedAccessTokenMap: RequestedAccessTokenMap = [:]
-    public var requestedSelfAttestedClaimMap: RequestedSelfAttestedClaimMap = [:]
-    public var requestVCMap: RequestedVerifiableCredentialMap = []
+    let audienceUrl: String
+    let audienceDid: String
+    var issuancePin: IssuancePin? = nil
+    var issuanceIdToken: String? = nil
+    var requestedIdTokenMap: RequestedIdTokenMap = [:]
+    var requestedAccessTokenMap: RequestedAccessTokenMap = [:]
+    var requestedSelfAttestedClaimMap: RequestedSelfAttestedClaimMap = [:]
+    var requestVCMap: RequestedVerifiableCredentialMap = []
     
-    public init(from contract: Contract,
-                contractUri: String,
-                expiryInSeconds exp: Int = 3000) throws {
+    init(from contract: Contract,
+         contractUri: String,
+         expiryInSeconds exp: Int = 3000) throws {
         self.contract = contract
         self.contractUri = contractUri
         self.expiryInSeconds = exp
@@ -32,4 +32,4 @@ public struct IssuanceResponseContainer: ResponseContaining {
     }
 }
 
-public typealias IssuanceResponse = JwsToken<IssuanceResponseClaims>
+typealias IssuanceResponse = JwsToken<IssuanceResponseClaims>

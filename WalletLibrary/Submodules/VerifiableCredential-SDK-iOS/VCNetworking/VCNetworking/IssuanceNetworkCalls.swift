@@ -9,24 +9,24 @@ import PromiseKit
     import VCEntities
 #endif
 
-public protocol IssuanceNetworking {
+protocol IssuanceNetworking {
     func getRequest(withUrl url: String) -> Promise<SignedContract>
     func sendResponse(usingUrl url: String, withBody body: IssuanceResponse) -> Promise<VerifiableCredential>
     func sendCompletionResponse(usingUrl url: String, withBody nody: IssuanceCompletionResponse) -> Promise<String?>
 }
 
-public class IssuanceNetworkCalls: IssuanceNetworking {
+class IssuanceNetworkCalls: IssuanceNetworking {
 
     private let urlSession: URLSession
     private let correlationVector: CorrelationHeader?
     
-    public init(correlationVector: CorrelationHeader? = nil,
+    init(correlationVector: CorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) {
         self.correlationVector = correlationVector
         self.urlSession = urlSession
     }
     
-    public func getRequest(withUrl url: String) -> Promise<SignedContract> {
+    func getRequest(withUrl url: String) -> Promise<SignedContract> {
         do {
             var operation = try FetchContractOperation(withUrl: url,
                                                        andCorrelationVector: correlationVector,
@@ -39,7 +39,7 @@ public class IssuanceNetworkCalls: IssuanceNetworking {
         }
     }
     
-    public func sendResponse(usingUrl url: String, withBody body: IssuanceResponse) -> Promise<VerifiableCredential> {
+    func sendResponse(usingUrl url: String, withBody body: IssuanceResponse) -> Promise<VerifiableCredential> {
         do {
             var operation = try PostIssuanceResponseOperation(usingUrl: url,
                                                               withBody: body,
@@ -53,7 +53,7 @@ public class IssuanceNetworkCalls: IssuanceNetworking {
         }
     }
     
-    public func sendCompletionResponse(usingUrl url: String,
+    func sendCompletionResponse(usingUrl url: String,
                                        withBody body: IssuanceCompletionResponse) -> Promise<String?> {
         do {
             var operation = try PostIssuanceCompletionResponseOperation(usingUrl: url,

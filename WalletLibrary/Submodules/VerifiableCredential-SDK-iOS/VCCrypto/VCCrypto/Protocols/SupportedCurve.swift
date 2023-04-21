@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Supported curve algorithms used for signing/verification
-public enum SupportedCurve: String {
+enum SupportedCurve: String {
     case ED25519 = "ED25519"
     case Secp256k1 = "SECP256K1"
 }

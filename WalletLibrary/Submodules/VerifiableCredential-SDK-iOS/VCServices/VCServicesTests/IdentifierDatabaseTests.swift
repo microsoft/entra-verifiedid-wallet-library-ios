@@ -4,10 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCCrypto
-import VCEntities
-
-@testable import VCServices
+@testable import WalletLibrary
 
 class IdentifierDatabaseTests: XCTestCase {
     

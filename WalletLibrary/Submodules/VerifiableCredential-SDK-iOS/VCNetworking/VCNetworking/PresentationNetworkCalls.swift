@@ -9,23 +9,23 @@ import PromiseKit
     import VCEntities
 #endif
 
-public protocol PresentationNetworking {
+protocol PresentationNetworking {
     func getRequest(withUrl url: String) -> Promise<PresentationRequestToken>
     func sendResponse(usingUrl url: String, withBody body: PresentationResponse) -> Promise<String?>
 }
 
-public class PresentationNetworkCalls: PresentationNetworking {
+class PresentationNetworkCalls: PresentationNetworking {
 
     private let urlSession: URLSession
     private let correlationVector: CorrelationHeader?
     
-    public init(correlationVector: CorrelationHeader? = nil,
+    init(correlationVector: CorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) {
         self.correlationVector = correlationVector
         self.urlSession = urlSession
     }
     
-    public func getRequest(withUrl url: String) -> Promise<PresentationRequestToken> {
+    func getRequest(withUrl url: String) -> Promise<PresentationRequestToken> {
         do {
             var operation = try FetchPresentationRequestOperation(withUrl: url,
                                                                   andCorrelationVector: correlationVector,
@@ -38,7 +38,7 @@ public class PresentationNetworkCalls: PresentationNetworking {
         }
     }
     
-    public func sendResponse(usingUrl url: String, withBody body: PresentationResponse) -> Promise<String?> {
+    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) -> Promise<String?> {
         do {
             var operation = try PostPresentationResponseOperation(usingUrl: url,
                                                                   withBody: body,

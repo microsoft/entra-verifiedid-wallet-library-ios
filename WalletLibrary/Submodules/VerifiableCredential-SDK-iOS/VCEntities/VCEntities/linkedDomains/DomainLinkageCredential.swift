@@ -7,7 +7,7 @@
     import VCToken
 #endif
 
-public struct DomainLinkageCredentialClaims: Claims {
+struct DomainLinkageCredentialClaims: Claims {
     let subject: String
     let issuer: String
     let notValidBefore: Double
@@ -21,4 +21,4 @@ public struct DomainLinkageCredentialClaims: Claims {
     }
 }
 
-public typealias DomainLinkageCredential = JwsToken<DomainLinkageCredentialClaims>
+typealias DomainLinkageCredential = JwsToken<DomainLinkageCredentialClaims>

@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Error buckets for what went wrong with issuance.
-public enum IssuanceCompletionErrorDetails: String {
+enum IssuanceCompletionErrorDetails: String {
     case userCanceled = "user_canceled"
     case fetchContractError = "fetch_contract_error"
     case linkedDomainError = "linked_domain_error"
@@ -13,7 +13,7 @@ public enum IssuanceCompletionErrorDetails: String {
 }
 
 /// The data object that the Client will send back after a successful issuance.
-public struct IssuanceCompletionResponse: Codable, Equatable {
+struct IssuanceCompletionResponse: Codable, Equatable {
     
     struct IssuanceCompletionCode {
         static let IssuanceSuccessful = "issuance_successful"
@@ -21,15 +21,15 @@ public struct IssuanceCompletionResponse: Codable, Equatable {
     }
     
     /// If the issuance  succeeded or failed.
-    public let code: String
+    let code: String
     
     /// The state from the original request
-    public let state: String
+    let state: String
     
     /// Any details to be included in the response.
-    public let details: String?
+    let details: String?
     
-    public init(wasSuccessful: Bool,
+    init(wasSuccessful: Bool,
                 withState state: String,
                 andDetails details: IssuanceCompletionErrorDetails? = nil) {
         

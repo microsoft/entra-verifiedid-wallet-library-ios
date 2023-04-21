@@ -1,5 +1,5 @@
 import XCTest
-@testable import VCCrypto
+@testable import WalletLibrary
 
 class EdDSATests: XCTestCase {
     

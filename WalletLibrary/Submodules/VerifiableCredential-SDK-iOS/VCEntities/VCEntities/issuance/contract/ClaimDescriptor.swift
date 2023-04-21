@@ -3,11 +3,11 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct ClaimDescriptor: Codable, Equatable {
+struct ClaimDescriptor: Codable, Equatable {
     
-    public let claim: String
-    public let claimRequired: Bool?
-    public let indexed: Bool?
+    let claim: String
+    let claimRequired: Bool?
+    let indexed: Bool?
 
     enum CodingKeys: String, CodingKey {
         case claim
@@ -15,7 +15,7 @@ public struct ClaimDescriptor: Codable, Equatable {
         case indexed
     }
     
-    public init(claim: String,
+    init(claim: String,
                 claimRequired: Bool? = nil,
                 indexed: Bool? = nil) {
         self.claim = claim

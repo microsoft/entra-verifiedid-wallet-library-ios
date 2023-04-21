@@ -5,8 +5,8 @@
 
 import Foundation
 
-public struct BasicServiceResponseDecoder: Decoding {
-    public func decode(data: Data) throws -> String? {
+struct BasicServiceResponseDecoder: Decoding {
+    func decode(data: Data) throws -> String? {
         return nil
     }
 }

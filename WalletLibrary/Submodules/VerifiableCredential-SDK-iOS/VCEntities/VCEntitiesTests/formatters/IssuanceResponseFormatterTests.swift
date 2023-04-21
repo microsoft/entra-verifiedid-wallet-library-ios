@@ -4,9 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCCrypto
-
-@testable import VCEntities
+@testable import WalletLibrary
 
 class IssuanceResponseFormatterTests: XCTestCase {
     

@@ -4,13 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCEntities
-
-@testable import VCNetworking
+@testable import WalletLibrary
 
 class IssuanceResponseEncoderTests: XCTestCase {
     
-    let expectedToken = IssuanceResponse(from: TestData.issuanceResponse.rawValue)!
+    let expectedToken = IssuanceResponse(from: VCNetworkingTestData.issuanceResponse.rawValue)!
     let encoder = IssuanceResponseEncoder()
     
     func testEncoding() throws {

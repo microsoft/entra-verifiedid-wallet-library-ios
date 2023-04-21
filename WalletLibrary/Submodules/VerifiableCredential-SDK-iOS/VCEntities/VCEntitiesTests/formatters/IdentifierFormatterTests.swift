@@ -4,9 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCToken
-
-@testable import VCEntities
+@testable import WalletLibrary
 
 class IdentifierFormatterTests: XCTestCase {
     

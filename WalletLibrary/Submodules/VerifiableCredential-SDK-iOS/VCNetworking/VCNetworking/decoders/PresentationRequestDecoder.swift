@@ -9,9 +9,9 @@ import Foundation
     import VCEntities
 #endif
 
-public struct PresentationRequestDecoder: Decoding {
+struct PresentationRequestDecoder: Decoding {
     
-    public func decode(data: Data) throws -> PresentationRequestToken {
+    func decode(data: Data) throws -> PresentationRequestToken {
         
         guard let token = PresentationRequestToken(from: data) else {
             throw DecodingError.unableToDecodeToken

@@ -11,20 +11,20 @@
     import VCCrypto
 #endif
 
-public enum IdentifierServiceError: Error {
+enum IdentifierServiceError: Error {
     case keyNotFoundInKeyStore(innerError: Error)
     case keyStoreError(message: String)
     case noKeysSavedForIdentifier
 }
 
-public class IdentifierService {
+class IdentifierService {
     
     private let identifierDB: IdentifierDatabase
     private let identifierCreator: IdentifierCreator
     private let sdkLog: VCSDKLog
     private let aliasComputer = AliasComputer()
     
-    public convenience init() {
+    convenience init() {
         let keyManagementOperations = KeyManagementOperations(sdkConfiguration: VCSDKConfiguration.sharedInstance)
         self.init(database: IdentifierDatabase(keyManagementOperations: keyManagementOperations),
                   creator: IdentifierCreator(keyManagementOperations: keyManagementOperations),
@@ -39,7 +39,7 @@ public class IdentifierService {
         self.sdkLog = sdkLog
     }
     
-    public func fetchMasterIdentifier() throws -> Identifier {
+    func fetchMasterIdentifier() throws -> Identifier {
         return try identifierDB.fetchMasterIdentifier()
     }
     
@@ -78,11 +78,11 @@ public class IdentifierService {
         return identifier
     }
     
-    public func fetchIdentifiersForExport() throws -> [Identifier] {
+    func fetchIdentifiersForExport() throws -> [Identifier] {
         return try identifierDB.fetchAllIdentifiers()
     }
     
-    public func replaceIdentifiers(with identifiers:[Identifier]) throws {
+    func replaceIdentifiers(with identifiers:[Identifier]) throws {
         
         try identifierDB.removeAllIdentifiers()
         try identifiers.forEach { identifier in

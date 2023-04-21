@@ -8,18 +8,18 @@
  *
  * @see [Presentation Exchange Spec](https://identity.foundation/presentation-exchange/#presentation-definition)
  */
-public struct PresentationDefinition: Codable, Equatable {
+struct PresentationDefinition: Codable, Equatable {
     
     /// Unique identifier of a presentation definition.
-    public let id: String?
+    let id: String?
     
     /// Describes the information a Verifier requires of a Holder
-    public let inputDescriptors: [PresentationInputDescriptor]?
+    let inputDescriptors: [PresentationInputDescriptor]?
     
     /// Describes how a Holder can obtain requested information if they do not have it already.
-    public let issuance: [String]?
+    let issuance: [String]?
     
-    public init(id: String?,
+    init(id: String?,
                 inputDescriptors: [PresentationInputDescriptor]?,
                 issuance: [String]?) {
         self.id = id

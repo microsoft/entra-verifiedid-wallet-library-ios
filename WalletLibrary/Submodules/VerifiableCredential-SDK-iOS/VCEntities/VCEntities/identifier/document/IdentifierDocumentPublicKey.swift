@@ -7,14 +7,14 @@
     import VCToken
 #endif
 
-public struct IdentifierDocumentPublicKey: Codable, Equatable {
+struct IdentifierDocumentPublicKey: Codable, Equatable {
     let id: String?
     let type: String
     let controller: String?
     let publicKeyJwk: ECPublicJwk
     let purposes: [String]?
     
-    public init(id: String?,
+    init(id: String?,
                 type: String,
                 controller: String?,
                 publicKeyJwk: ECPublicJwk,

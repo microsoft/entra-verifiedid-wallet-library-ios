@@ -4,9 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import PromiseKit
-import VCEntities
-
-@testable import VCServices
+@testable import WalletLibrary
 
 enum MockExchangeResponseFormatterError: Error {
     case doNotWantToResolveRealObject
@@ -24,7 +22,7 @@ class MockExchangeRequestFormatter: ExchangeRequestFormatting {
     func format(request: ExchangeRequestContainer) throws -> ExchangeRequest {
         Self.wasFormatCalled = true
         if (shouldSucceed) {
-            return ExchangeRequest(from: TestData.exchangeRequest.rawValue)!
+            return ExchangeRequest(from: VCServicesTestData.exchangeRequest.rawValue)!
         } else {
             throw MockExchangeResponseFormatterError.doNotWantToResolveRealObject
         }

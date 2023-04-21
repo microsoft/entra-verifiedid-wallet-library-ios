@@ -10,16 +10,16 @@ enum JwkError: Error {
 }
 
 /// Runtime container for JSON Web Keys, in which key material is Base64URLEncoded
-public struct JWK: Codable, Equatable {
+struct JWK: Codable, Equatable {
     
-    public let keyType: String
-    public let keyId: String?
-    public let key: Data?
-    public let curve: String?
-    public let use: String?
-    public let x: Data?
-    public let y: Data?
-    public let d: Data?
+    let keyType: String
+    let keyId: String?
+    let key: Data?
+    let curve: String?
+    let use: String?
+    let x: Data?
+    let y: Data?
+    let d: Data?
     
     enum CodingKeys: String, CodingKey {
         case keyType = "kty"
@@ -29,7 +29,7 @@ public struct JWK: Codable, Equatable {
         case use, x, y, d
     }
 
-    public init(keyType: String,
+    init(keyType: String,
                 keyId: String? = nil,
                 key: Data? = nil,
                 curve: String? = nil,
@@ -47,7 +47,7 @@ public struct JWK: Codable, Equatable {
         self.d = d
     }
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
         func parseKeyIfPresent(_ key: KeyedDecodingContainer<JWK.CodingKeys>.Key) throws -> Data? {
@@ -70,7 +70,7 @@ public struct JWK: Codable, Equatable {
         d = try parseKeyIfPresent(.d)
     }
     
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.keyType, forKey: .keyType)
         try container.encodeIfPresent(self.keyId, forKey: .keyId)

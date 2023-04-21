@@ -6,14 +6,14 @@
 import Foundation
 import CommonCrypto
 
-public struct Sha512: Hashing {
+struct Sha512: Hashing {
     
-    public init() {}
+    init() {}
     
     /// Hash a message
     /// - Parameter data: The data to hash
     /// - Returns: The Sha512 hash of the data
-    public func hash(data: Data) -> Data {
+    func hash(data: Data) -> Data {
         var result : [UInt8] = [UInt8](repeating: 0, count:Int(CC_SHA512_DIGEST_LENGTH))
         
         data.withUnsafeBytes { (dataPtr) in

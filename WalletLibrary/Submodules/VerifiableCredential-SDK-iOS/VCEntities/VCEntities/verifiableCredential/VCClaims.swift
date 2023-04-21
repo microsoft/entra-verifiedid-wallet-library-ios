@@ -12,15 +12,15 @@
  *
  * @see [Verifiable Credential Spec](https://www.w3.org/TR/vc-data-model/)
  */
-public struct VCClaims: Claims {
-    public let jti: String?
-    public let iss: String?
-    public let sub: String?
-    public let iat: Double?
-    public let exp: Double?
-    public let vc: VerifiableCredentialDescriptor?
+struct VCClaims: Claims {
+    let jti: String?
+    let iss: String?
+    let sub: String?
+    let iat: Double?
+    let exp: Double?
+    let vc: VerifiableCredentialDescriptor?
     
-    public init(jti: String?,
+    init(jti: String?,
                 iss: String?,
                 sub: String?,
                 iat: Double?,
@@ -36,4 +36,4 @@ public struct VCClaims: Claims {
 }
 
 /// JWSToken representation of a Verifiable Credential.
-public typealias VerifiableCredential = JwsToken<VCClaims>
+typealias VerifiableCredential = JwsToken<VCClaims>

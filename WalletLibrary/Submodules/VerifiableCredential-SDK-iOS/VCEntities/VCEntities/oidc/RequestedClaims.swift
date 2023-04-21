@@ -4,12 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Claims that are being requested in an OpenID Connect Request.
-public struct RequestedClaims: Codable, Equatable {
+struct RequestedClaims: Codable, Equatable {
     
     /// Request Verifiable Presentation Tokens.
-    public let vpToken: RequestedVPToken?
+    let vpToken: RequestedVPToken?
     
-    public init(vpToken: RequestedVPToken?) {
+    init(vpToken: RequestedVPToken?) {
         self.vpToken = vpToken
     }
 

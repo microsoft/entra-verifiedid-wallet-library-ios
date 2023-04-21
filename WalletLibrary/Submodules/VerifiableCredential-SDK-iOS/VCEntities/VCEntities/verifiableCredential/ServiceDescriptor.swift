@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct ServiceDescriptor: Codable {
-    public let id: String
-    public let type: String
+struct ServiceDescriptor: Codable {
+    let id: String
+    let type: String
 }

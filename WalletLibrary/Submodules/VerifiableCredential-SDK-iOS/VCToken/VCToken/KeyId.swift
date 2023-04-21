@@ -7,19 +7,19 @@
     import VCCrypto
 #endif
 
-public struct KeyId: VCCryptoSecret {
+struct KeyId: VCCryptoSecret {
     
-    public let id: UUID
+    let id: UUID
     
-    public let accessGroup: String? = nil
+    let accessGroup: String? = nil
     
-    public init(id: UUID) {
+    init(id: UUID) {
         self.id = id
     }
     
-    public func isValidKey() throws { }
+    func isValidKey() throws { }
     
-    public func migrateKey(fromAccessGroup oldAccessGroup: String?) throws { }
+    func migrateKey(fromAccessGroup oldAccessGroup: String?) throws { }
 
-    public func withUnsafeBytes(_ body: (UnsafeRawBufferPointer) throws -> Void) throws { }
+    func withUnsafeBytes(_ body: (UnsafeRawBufferPointer) throws -> Void) throws { }
 }

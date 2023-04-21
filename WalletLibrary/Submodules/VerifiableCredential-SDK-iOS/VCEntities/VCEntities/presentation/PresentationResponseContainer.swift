@@ -9,27 +9,27 @@ enum PresentationResponseError: Error {
     case noNonceInRequest
 }
 
-public struct PresentationResponseContainer: ResponseContaining {
+struct PresentationResponseContainer: ResponseContaining {
     
     let request: PresentationRequest?
     
     let expiryInSeconds: Int
     
-    public let audienceUrl: String
+    let audienceUrl: String
     
-    public let audienceDid: String
+    let audienceDid: String
     
-    public let nonce: String
+    let nonce: String
     
     let presentationDefinitionId: String?
     
-    public var requestedIdTokenMap: RequestedIdTokenMap = [:]
+    var requestedIdTokenMap: RequestedIdTokenMap = [:]
     
-    public var requestedSelfAttestedClaimMap: RequestedSelfAttestedClaimMap = [:]
+    var requestedSelfAttestedClaimMap: RequestedSelfAttestedClaimMap = [:]
     
-    public var requestVCMap: RequestedVerifiableCredentialMap = []
+    var requestVCMap: RequestedVerifiableCredentialMap = []
     
-    public init(from presentationRequest: PresentationRequest, expiryInSeconds exp: Int = 3000) throws {
+    init(from presentationRequest: PresentationRequest, expiryInSeconds exp: Int = 3000) throws {
         
         guard let audience = presentationRequest.content.redirectURI else {
             throw PresentationResponseError.noAudienceInRequest
@@ -51,7 +51,7 @@ public struct PresentationResponseContainer: ResponseContaining {
         self.expiryInSeconds = exp
     }
     
-    public init(audienceUrl: String,
+    init(audienceUrl: String,
                 audienceDid: String,
                 nonce: String,
                 expiryInSeconds: Int,

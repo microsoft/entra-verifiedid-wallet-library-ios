@@ -7,7 +7,7 @@
     import VCCrypto
 #endif
 
-public protocol TokenSigning {
+protocol TokenSigning {
      
     func sign<T>(token: JwsToken<T>, withSecret secret: VCCryptoSecret) throws -> Signature
     

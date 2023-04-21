@@ -3,17 +3,17 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct VCSDKLog {
+struct VCSDKLog {
     
-    public static var sharedInstance = VCSDKLog()
+    static var sharedInstance = VCSDKLog()
     
     private var consumers: [VCLogConsumer] = []
     
-    public mutating func add(consumer: VCLogConsumer) {
+    mutating func add(consumer: VCLogConsumer) {
         consumers.append(consumer)
     }
     
-    public func logVerbose(message: String,
+    func logVerbose(message: String,
                            functionName: String = #function,
                            file: String = #file,
                            line: Int = #line) {
@@ -24,7 +24,7 @@ public struct VCSDKLog {
             line: line)
     }
     
-    public func logDebug(message: String,
+    func logDebug(message: String,
                          functionName: String = #function,
                          file: String = #file,
                          line: Int = #line) {
@@ -35,7 +35,7 @@ public struct VCSDKLog {
             line: line)
     }
     
-    public func logInfo(message: String,
+    func logInfo(message: String,
                         functionName: String = #function,
                         file: String = #file,
                         line: Int = #line) {
@@ -46,7 +46,7 @@ public struct VCSDKLog {
             line: line)
     }
     
-    public func logWarning(message: String,
+    func logWarning(message: String,
                            functionName: String = #function,
                            file: String = #file,
                            line: Int = #line) {
@@ -57,7 +57,7 @@ public struct VCSDKLog {
             line: line)
     }
     
-    public func logError(message: String,
+    func logError(message: String,
                          functionName: String = #function,
                          file: String = #file,
                          line: Int = #line) {
@@ -68,7 +68,7 @@ public struct VCSDKLog {
             line: line)
     }
     
-    public func logFailure(message: String,
+    func logFailure(message: String,
                            functionName: String = #function,
                            file: String = #file,
                            line: Int = #line) {
@@ -93,7 +93,7 @@ public struct VCSDKLog {
         }
     }
     
-    public func event(name: String, properties: [String: String]? = nil, measurements: [String: NSNumber]? = nil) {
+    func event(name: String, properties: [String: String]? = nil, measurements: [String: NSNumber]? = nil) {
         consumers.forEach { logger in
             logger.event(name: name, properties: properties, measurements: measurements)
         }

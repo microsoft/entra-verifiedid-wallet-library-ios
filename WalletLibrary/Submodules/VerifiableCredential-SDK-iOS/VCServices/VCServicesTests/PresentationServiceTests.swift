@@ -4,9 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCEntities
-
-@testable import VCServices
+@testable import WalletLibrary
 
 class PresentationServiceTests: XCTestCase {
     

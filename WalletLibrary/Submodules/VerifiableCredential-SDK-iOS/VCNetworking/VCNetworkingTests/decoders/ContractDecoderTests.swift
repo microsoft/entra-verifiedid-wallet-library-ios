@@ -4,10 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCEntities
-import VCToken
-
-@testable import VCNetworking
+@testable import WalletLibrary
 
 class ContractDecoderTests: XCTestCase {
     

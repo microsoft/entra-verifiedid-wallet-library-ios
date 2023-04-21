@@ -5,7 +5,7 @@
 /**
  * Protocol for adding Correlation Headers to network calls.
  */
-public protocol CorrelationHeader {
+protocol CorrelationHeader {
     
     /// the name of the header (i.e. ms-cv)
     var name: String { get }

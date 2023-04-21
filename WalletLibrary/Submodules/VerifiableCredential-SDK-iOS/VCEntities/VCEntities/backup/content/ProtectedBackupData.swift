@@ -6,6 +6,6 @@
 /// A ProtectedBackup holds a UnprotectedBackupData in some shape or form.
 /// The details are defined by implementations of this protocol.
 /// e.g. a JWE Token encrypted by a password.
-public protocol ProtectedBackupData {
+protocol ProtectedBackupData {
     func serialize() -> String
 }

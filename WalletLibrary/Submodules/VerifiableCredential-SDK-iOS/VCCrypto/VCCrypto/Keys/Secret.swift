@@ -7,7 +7,7 @@ import Foundation
 
 internal protocol Secret: VCCryptoSecret & InternalSecret {}
 
-public protocol VCCryptoSecret {
+protocol VCCryptoSecret {
     
     /// The secret id
     var id:UUID { get }
@@ -20,7 +20,7 @@ public protocol VCCryptoSecret {
     func migrateKey(fromAccessGroup currentAccessGroup: String?) throws
 }
 
-protocol InternalSecret  {
+protocol InternalSecret {
     
     /// Invokes the closure passed as a param with a buffer pointer to the raw bytes of the secret. 
     func withUnsafeBytes(_ body: (UnsafeRawBufferPointer) throws -> Void) throws

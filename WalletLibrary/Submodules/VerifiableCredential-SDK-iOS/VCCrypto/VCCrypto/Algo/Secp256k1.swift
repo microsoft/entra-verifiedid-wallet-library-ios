@@ -21,12 +21,12 @@ enum Secp256k1Error: Error {
 }
 
 /// Signing/Verifying curve algorithm.
-public struct Secp256k1: Signing {
+struct Secp256k1: Signing {
     
-    public init() {}
+    init() {}
     
     /// Sign a message message hash
-    public func sign(message: Data, withSecret secret: VCCryptoSecret) throws -> Data {
+    func sign(message: Data, withSecret secret: VCCryptoSecret) throws -> Data {
         
         // Validate params
         guard secret is Secret else { throw Secp256k1Error.invalidSecret }
@@ -72,7 +72,7 @@ public struct Secp256k1: Signing {
     }
     
     /// Validate a signature using secp256k1 curve.
-    public func isValidSignature(signature: Data,
+    func isValidSignature(signature: Data,
                           forMessage message: Data,
                           usingPublicKey publicKey: PublicKey) throws -> Bool {
         // Validate params
@@ -122,13 +122,13 @@ public struct Secp256k1: Signing {
     }
     
     /// Create public key from secret using secp256k1 curve
-    public func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey {
+    func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey {
         let (_, publicKey) = try self.createKeyPair(forSecret: secret)
         return publicKey
     }
     
     /// Create a key pair from a secret
-    public func createKeyPair(forSecret secret: VCCryptoSecret) throws -> (EphemeralSecret, Secp256k1PublicKey) {
+    func createKeyPair(forSecret secret: VCCryptoSecret) throws -> (EphemeralSecret, Secp256k1PublicKey) {
         // Validate params
         guard secret is Secret else { throw Secp256k1Error.invalidSecret }
         
@@ -140,7 +140,7 @@ public struct Secp256k1: Signing {
     }
     
     /// Create a public key from a private key
-    public func createPublicKey(forPrivateKey privateKey: EphemeralSecret) throws -> Secp256k1PublicKey {
+    func createPublicKey(forPrivateKey privateKey: EphemeralSecret) throws -> Secp256k1PublicKey {
         
         // Create the context and public key data structure
         let context = secp256k1_context_create(UInt32(SECP256K1_CONTEXT_SIGN))!

@@ -8,38 +8,38 @@
 #endif
 
 /// OIDC Claims that represent a Verifiable Credential Presentation Request.
-public struct PresentationRequestClaims: OIDCClaims, Equatable {
+struct PresentationRequestClaims: OIDCClaims, Equatable {
     
-    public let jti: String?
+    let jti: String?
     
-    public let clientID: String?
+    let clientID: String?
     
-    public let redirectURI: String?
+    let redirectURI: String?
     
-    public let responseType: String?
+    let responseType: String?
     
-    public let responseMode: String?
+    let responseMode: String?
     
-    public let claims: RequestedClaims?
+    let claims: RequestedClaims?
     
-    public let state: String?
+    let state: String?
     
-    public let nonce: String?
+    let nonce: String?
     
-    public let scope: String?
+    let scope: String?
     
     /// flag to determine if presentation request can go into issuance flow
-    public let prompt: String?
+    let prompt: String?
     
-    public let registration: RegistrationClaims?
+    let registration: RegistrationClaims?
     
-    public let idTokenHint: String?
+    let idTokenHint: String?
     
-    public let iat: Double?
+    let iat: Double?
     
-    public let exp: Double?
+    let exp: Double?
     
-    public let pin: PinDescriptor?
+    let pin: PinDescriptor?
     
     enum CodingKeys: String, CodingKey {
         case clientID = "client_id"
@@ -50,7 +50,7 @@ public struct PresentationRequestClaims: OIDCClaims, Equatable {
         case state, nonce, prompt, registration, iat, exp, scope, claims, jti, pin
     }
     
-    public init(jti: String?,
+    init(jti: String?,
                 clientID: String?,
                 redirectURI: String?,
                 responseMode: String?,
@@ -84,4 +84,4 @@ public struct PresentationRequestClaims: OIDCClaims, Equatable {
 }
 
 /// JWT representation of a Presentation Request.
-public typealias PresentationRequestToken = JwsToken<PresentationRequestClaims>
+typealias PresentationRequestToken = JwsToken<PresentationRequestClaims>

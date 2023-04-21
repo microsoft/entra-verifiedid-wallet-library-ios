@@ -9,7 +9,7 @@ enum DecodingError: Error {
     case unableToDecodeToken
 }
 
-public protocol Decoding {
+protocol Decoding {
     associatedtype ResponseBody
     
     func decode(data: Data) throws -> ResponseBody

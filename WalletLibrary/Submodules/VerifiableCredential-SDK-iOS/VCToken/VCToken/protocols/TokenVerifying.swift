@@ -7,7 +7,7 @@
     import VCCrypto
 #endif
 
-public protocol TokenVerifying {
+protocol TokenVerifying {
     
     func verify<T>(token: JwsToken<T>, usingPublicKey key: JWK) throws -> Bool
 }

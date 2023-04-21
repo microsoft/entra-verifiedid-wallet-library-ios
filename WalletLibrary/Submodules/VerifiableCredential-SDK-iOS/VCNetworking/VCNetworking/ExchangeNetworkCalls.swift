@@ -9,22 +9,22 @@ import PromiseKit
     import VCEntities
 #endif
 
-public protocol ExchangeNetworking {
+protocol ExchangeNetworking {
     func sendRequest(usingUrl url: String, withBody body: ExchangeRequest) -> Promise<VerifiableCredential>
 }
 
-public class ExchangeNetworkCalls: ExchangeNetworking {
+class ExchangeNetworkCalls: ExchangeNetworking {
     
     private let urlSession: URLSession
     private let correlationVector: CorrelationHeader?
     
-    public init(correlationVector: CorrelationHeader? = nil,
+    init(correlationVector: CorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) {
         self.correlationVector = correlationVector
         self.urlSession = urlSession
     }
     
-    public func sendRequest(usingUrl url: String, withBody body: ExchangeRequest) -> Promise<VerifiableCredential> {
+    func sendRequest(usingUrl url: String, withBody body: ExchangeRequest) -> Promise<VerifiableCredential> {
         do {
             var operation = try PostExchangeRequestOperation(usingUrl: url,
                                                              withBody: body,

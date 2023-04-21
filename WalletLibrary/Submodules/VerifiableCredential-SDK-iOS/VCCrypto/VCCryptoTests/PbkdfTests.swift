@@ -6,7 +6,7 @@
 import XCTest
 import Foundation
 
-@testable import VCCrypto
+@testable import WalletLibrary
 
 class PbkdfTests : XCTestCase {
 

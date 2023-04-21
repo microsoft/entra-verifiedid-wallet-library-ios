@@ -3,10 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct IssuanceServiceResponse: Codable {
-    public let vc: String
+struct IssuanceServiceResponse: Codable {
+    let vc: String
     
-    public init(vc: String) {
+    init(vc: String) {
         self.vc = vc
     }
 }

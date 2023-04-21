@@ -1,21 +1,21 @@
 import Foundation
 
-public struct JSONCodingKeys: CodingKey {
-    public var stringValue: String
+struct JSONCodingKeys: CodingKey {
+    var stringValue: String
     
-    public init(stringValue: String) {
+    init(stringValue: String) {
         self.stringValue = stringValue
     }
     
-    public var intValue: Int?
+    var intValue: Int?
     
-    public init?(intValue: Int) {
+    init?(intValue: Int) {
         self.init(stringValue: "\(intValue)")
         self.intValue = intValue
     }
 }
 
-public extension KeyedDecodingContainer {
+extension KeyedDecodingContainer {
     
     func decode(_ type: Dictionary<String, Any>.Type, forKey key: K) throws -> Dictionary<String, Any> {
         let container = try self.nestedContainer(keyedBy: JSONCodingKeys.self, forKey: key)
@@ -42,7 +42,7 @@ public extension KeyedDecodingContainer {
     }
 }
 
-public extension KeyedEncodingContainerProtocol where Key == JSONCodingKeys {
+extension KeyedEncodingContainerProtocol where Key == JSONCodingKeys {
     mutating func encode(_ value: Dictionary<String, Any>) throws {
         try value.forEach({ (key, value) in
             let key = JSONCodingKeys(stringValue: key)
@@ -66,7 +66,7 @@ public extension KeyedEncodingContainerProtocol where Key == JSONCodingKeys {
     }
 }
 
-public extension KeyedEncodingContainerProtocol {
+extension KeyedEncodingContainerProtocol {
     mutating func encode(_ value: Dictionary<String, Any>?, forKey key: Key) throws {
         if value != nil {
             var container = self.nestedContainer(keyedBy: JSONCodingKeys.self, forKey: key)

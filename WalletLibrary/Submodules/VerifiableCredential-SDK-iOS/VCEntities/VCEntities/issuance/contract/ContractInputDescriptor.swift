@@ -3,14 +3,14 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct ContractInputDescriptor: Codable, Equatable {
+struct ContractInputDescriptor: Codable, Equatable {
     
-    public let id: String?
-    public let credentialIssuer: String
-    public let issuer: String
-    public let attestations: AttestationsDescriptor?
+    let id: String?
+    let credentialIssuer: String
+    let issuer: String
+    let attestations: AttestationsDescriptor?
     
-    public init(id: String? = nil,
+    init(id: String? = nil,
                 credentialIssuer: String,
                 issuer: String,
                 attestations: AttestationsDescriptor? = nil) {

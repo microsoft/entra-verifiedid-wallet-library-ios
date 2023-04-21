@@ -3,10 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct VerifiableCredentialDescriptor: Codable {
+struct VerifiableCredentialDescriptor: Codable {
     let context: [String]?
-    public let type: [String]?
-    public let credentialSubject: Dictionary<String, Any>?
+    let type: [String]?
+    let credentialSubject: Dictionary<String, Any>?
     let credentialStatus: ServiceDescriptor?
     let exchangeService: ServiceDescriptor?
     let revokeService: ServiceDescriptor?
@@ -16,7 +16,7 @@ public struct VerifiableCredentialDescriptor: Codable {
         case type, credentialSubject, credentialStatus, exchangeService, revokeService
     }
     
-    public init(context: [String]?,
+    init(context: [String]?,
                 type: [String]?,
                 credentialSubject: Dictionary<String, Any>?,
                 exchangeService: ServiceDescriptor? = nil) {
@@ -28,7 +28,7 @@ public struct VerifiableCredentialDescriptor: Codable {
         self.revokeService = nil
     }
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         context = try values.decode([String].self, forKey: .context)
         type = try values.decode([String].self, forKey: .type)
@@ -38,7 +38,7 @@ public struct VerifiableCredentialDescriptor: Codable {
         credentialSubject = try values.decode(Dictionary<String, Any>.self, forKey: .credentialSubject)
     }
     
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(context, forKey: .context)
         try container.encode(type, forKey: .type)

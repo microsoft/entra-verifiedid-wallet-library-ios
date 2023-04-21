@@ -5,7 +5,7 @@
 
 import XCTest
 
-@testable import VCNetworking
+@testable import WalletLibrary
 
 class StringTests: XCTestCase {
     

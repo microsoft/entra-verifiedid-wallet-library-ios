@@ -3,10 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct IdentifierDocumentServiceEndpoint: Codable, Equatable {
-    public let origins: [String]?
+struct IdentifierDocumentServiceEndpoint: Codable, Equatable {
+    let origins: [String]?
     
-    public init(origins: [String]?) {
+    init(origins: [String]?) {
         self.origins = origins
     }
 }

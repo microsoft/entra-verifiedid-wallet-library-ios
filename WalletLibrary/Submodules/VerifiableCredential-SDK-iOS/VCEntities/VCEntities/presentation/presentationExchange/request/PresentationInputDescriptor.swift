@@ -8,27 +8,27 @@
  *
  * @see [Presentation Exchange Spec](https://identity.foundation/presentation-exchange/#term:input-descriptor-object)
  */
-public struct PresentationInputDescriptor: Codable, Equatable {
+struct PresentationInputDescriptor: Codable, Equatable {
 
     /// Unique id of the input descriptor in the presentation definition.
-    public let id: String?
+    let id: String?
     
     /// Describes the credentail type of the vc requested.
-    public let schema: [InputDescriptorSchema]?
+    let schema: [InputDescriptorSchema]?
     
     /// If present, information describing how to get credential.
-    public let issuanceMetadata: [IssuanceMetadata]?
+    let issuanceMetadata: [IssuanceMetadata]?
     
     /// If present, its value SHOULD be a human-friendly name that describes what the target schema represents.
-    public let name: String?
+    let name: String?
     
     /// If present, its value MUST be a string that describes the purpose for which the Claim's data is being requested.
-    public let purpose: String?
+    let purpose: String?
     
     /// Describes constraints that the Holder must satisfy in response for presentation definition.
-    public let constraints: PresentationExchangeConstraints?
+    let constraints: PresentationExchangeConstraints?
     
-    public init(id: String?,
+    init(id: String?,
                 schema: [InputDescriptorSchema]?,
                 issuanceMetadata: [IssuanceMetadata]?,
                 name: String?,

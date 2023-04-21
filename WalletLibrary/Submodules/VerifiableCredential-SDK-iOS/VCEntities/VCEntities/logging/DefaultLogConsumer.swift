@@ -3,11 +3,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-public struct DefaultVCLogConsumer: VCLogConsumer {
+struct DefaultVCLogConsumer: VCLogConsumer {
     
-    public init() {}
+    init() {}
     
-    public func log(_ traceLevel: VCTraceLevel,
+    func log(_ traceLevel: VCTraceLevel,
                     message: String,
                     functionName: String = #function,
                     file: String = #file,
@@ -15,7 +15,7 @@ public struct DefaultVCLogConsumer: VCLogConsumer {
         print("\(traceLevel): \(message) \nAt: \(functionName), \(file), \(line)")
     }
     
-    public func event(name: String, properties: [String : String]?, measurements: [String: NSNumber]? = nil) {
+    func event(name: String, properties: [String : String]?, measurements: [String: NSNumber]? = nil) {
         print("\(name): with properties: \(String(describing: properties))")
     }
 }

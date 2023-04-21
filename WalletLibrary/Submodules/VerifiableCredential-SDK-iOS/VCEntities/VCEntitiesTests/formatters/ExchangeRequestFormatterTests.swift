@@ -4,10 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCCrypto
-import VCToken
-
-@testable import VCEntities
+@testable import WalletLibrary
 
 class ExchangeRequestFormatterTests: XCTestCase {
     

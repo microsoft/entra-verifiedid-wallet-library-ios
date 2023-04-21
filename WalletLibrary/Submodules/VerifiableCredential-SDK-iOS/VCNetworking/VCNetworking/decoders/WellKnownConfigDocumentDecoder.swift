@@ -9,12 +9,12 @@ import Foundation
     import VCEntities
 #endif
 
-public struct WellKnownConfigDocumentDecoder: Decoding {
+struct WellKnownConfigDocumentDecoder: Decoding {
     typealias Decodable = WellKnownConfigDocument
     
-    let decoder = JSONDecoder()
+    private let decoder = JSONDecoder()
     
-    public func decode(data: Data) throws -> WellKnownConfigDocument {
+    func decode(data: Data) throws -> WellKnownConfigDocument {
         return try decoder.decode(WellKnownConfigDocument.self, from: data)
     }
 }
