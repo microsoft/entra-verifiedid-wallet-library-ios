@@ -20,7 +20,7 @@ class ExchangeServiceTests: XCTestCase {
         let formatter = MockExchangeRequestFormatter(shouldSucceed: true)
         service = ExchangeService(formatter: formatter, apiCalls: MockExchangeApiCalls())
         
-        let keyContainer = KeyContainer(keyReference: MockVCCryptoSecret(id: UUID()), keyId: "keyId234")
+        let keyContainer = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "keyId234")
         self.mockIdentifier = Identifier(longFormDid: "longform", didDocumentKeys: [keyContainer], updateKey: keyContainer, recoveryKey: keyContainer, alias: "testAlias")
         
         try identifierDB.saveIdentifier(identifier: mockIdentifier)
