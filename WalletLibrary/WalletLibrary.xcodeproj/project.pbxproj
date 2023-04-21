@@ -370,6 +370,9 @@
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
 		5552D9A929F2F1B900B40302 /* Secp256k1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5552D9AA29F2F1FE00B40302 /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D9A329F2F19D00B40302 /* PMKFoundation.framework */; };
+		5552D9C129F2F2A500B40302 /* NSURLSession+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 5552D9AD29F2F29400B40302 /* NSURLSession+AnyPromise.h */; };
+		5552D9C529F2F2DB00B40302 /* NSURLSession+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D9B229F2F29400B40302 /* NSURLSession+Promise.swift */; };
+		5552D9C629F2F2E100B40302 /* NSURLSession+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5552D9B329F2F29400B40302 /* NSURLSession+AnyPromise.m */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */; };
 		559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */; };
@@ -930,6 +933,9 @@
 		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
 		5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
+		5552D9AD29F2F29400B40302 /* NSURLSession+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+AnyPromise.h"; sourceTree = "<group>"; };
+		5552D9B229F2F29400B40302 /* NSURLSession+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Promise.swift"; sourceTree = "<group>"; };
+		5552D9B329F2F29400B40302 /* NSURLSession+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+AnyPromise.m"; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+MappableTests.swift"; sourceTree = "<group>"; };
@@ -1654,6 +1660,7 @@
 		5552D40B29EF4A8100B40302 /* VCNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				5552D9AC29F2F29400B40302 /* Sources */,
 				5552D40C29EF4A8100B40302 /* NetworkingError.swift */,
 				5552D40D29EF4A8100B40302 /* util */,
 				5552D40F29EF4A8100B40302 /* ExchangeNetworkCalls.swift */,
@@ -2274,6 +2281,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5552D9AC29F2F29400B40302 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				5552D9AD29F2F29400B40302 /* NSURLSession+AnyPromise.h */,
+				5552D9B229F2F29400B40302 /* NSURLSession+Promise.swift */,
+				5552D9B329F2F29400B40302 /* NSURLSession+AnyPromise.m */,
+			);
+			name = Sources;
+			path = "Submodules/VerifiableCredential-SDK-iOS/Submodules/Foundation/Sources";
+			sourceTree = SOURCE_ROOT;
+		};
 		559BD3A4299AD9A200BD61AC /* Manifest */ = {
 			isa = PBXGroup;
 			children = (
@@ -2675,6 +2693,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */,
+				5552D9C129F2F2A500B40302 /* NSURLSession+AnyPromise.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2947,6 +2966,7 @@
 				5552D4BF29EF4AC300B40302 /* HmacSha2AesCbc.swift in Sources */,
 				5552D3F629EF48ED00B40302 /* ProtectedBackupData.swift in Sources */,
 				5552D4CA29EF4AC300B40302 /* ED25519PublicKey.swift in Sources */,
+				5552D9C529F2F2DB00B40302 /* NSURLSession+Promise.swift in Sources */,
 				5552D3FF29EF490000B40302 /* PresentationSubmission.swift in Sources */,
 				5552D3F829EF48ED00B40302 /* Microsoft2020UnprotectedBackup.swift in Sources */,
 				5552D28729EF340500B40302 /* PairwiseService.swift in Sources */,
@@ -3061,6 +3081,7 @@
 				5552D4B929EF4AC300B40302 /* HmacSha512.swift in Sources */,
 				5552D3AE29EF485100B40302 /* DiscoveryServiceResponse.swift in Sources */,
 				5552D4C329EF4AC300B40302 /* Sha512.swift in Sources */,
+				5552D9C629F2F2E100B40302 /* NSURLSession+AnyPromise.m in Sources */,
 				5552D3BE29EF488200B40302 /* VerifiablePresentationFormatter.swift in Sources */,
 				5552D3E829EF48E200B40302 /* UnprotectedBackup.swift in Sources */,
 				5552D3AB29EF484700B40302 /* DomainLinkageCredentialContent.swift in Sources */,
