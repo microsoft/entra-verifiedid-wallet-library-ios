@@ -21,8 +21,8 @@ struct IssuanceResponseContainer: ResponseContaining {
     var requestVCMap: RequestedVerifiableCredentialMap = []
     
     init(from contract: Contract,
-                contractUri: String,
-                expiryInSeconds exp: Int = 3000) throws {
+         contractUri: String,
+         expiryInSeconds exp: Int = 3000) throws {
         self.contract = contract
         self.contractUri = contractUri
         self.expiryInSeconds = exp

@@ -7,7 +7,7 @@ import Foundation
 
 class DifWordList {
     
-    let words: [String]
+    private let words: [String]
     
     init?() throws {
 

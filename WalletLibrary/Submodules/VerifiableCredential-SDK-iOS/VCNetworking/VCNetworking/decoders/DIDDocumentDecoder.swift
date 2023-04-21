@@ -11,7 +11,7 @@ import Foundation
 
 struct DIDDocumentDecoder: Decoding {
     
-    let decoder = JSONDecoder()
+    private let decoder = JSONDecoder()
     
     func decode(data: Data) throws -> IdentifierDocument {
         return try decoder.decode(DiscoveryServiceResponse.self, from: data).didDocument

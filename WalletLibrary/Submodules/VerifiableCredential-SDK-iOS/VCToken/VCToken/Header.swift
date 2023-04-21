@@ -12,15 +12,15 @@ struct Header: Codable {
     let contentType: String?
     let pbes2SaltInput: String?
     let pbes2Count: UInt?
-
+    
     init(type: String? = nil,
-                algorithm: String? = nil,
-                encryptionMethod: String? = nil,
-                jsonWebKey: String? = nil,
-                keyId: String? = nil,
-                contentType: String? = nil,
-                pbes2SaltInput: String? = nil,
-                pbes2Count: UInt? = nil) {
+         algorithm: String? = nil,
+         encryptionMethod: String? = nil,
+         jsonWebKey: String? = nil,
+         keyId: String? = nil,
+         contentType: String? = nil,
+         pbes2SaltInput: String? = nil,
+         pbes2Count: UInt? = nil) {
         self.type = type
         self.algorithm = algorithm
         self.encryptionMethod = encryptionMethod

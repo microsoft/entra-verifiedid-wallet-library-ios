@@ -12,7 +12,7 @@ import Foundation
 struct WellKnownConfigDocumentDecoder: Decoding {
     typealias Decodable = WellKnownConfigDocument
     
-    let decoder = JSONDecoder()
+    private let decoder = JSONDecoder()
     
     func decode(data: Data) throws -> WellKnownConfigDocument {
         return try decoder.decode(WellKnownConfigDocument.self, from: data)

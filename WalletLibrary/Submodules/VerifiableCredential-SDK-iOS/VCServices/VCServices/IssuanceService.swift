@@ -23,20 +23,20 @@ class IssuanceService {
     
     let formatter: IssuanceResponseFormatting
     let apiCalls: IssuanceNetworking
-    let discoveryApiCalls: DiscoveryNetworking
-    let requestValidator: IssuanceRequestValidating
-    let identifierService: IdentifierService
-    let pairwiseService: PairwiseService
-    let linkedDomainService: LinkedDomainService
-    let sdkLog: VCSDKLog
+    private let discoveryApiCalls: DiscoveryNetworking
+    private let requestValidator: IssuanceRequestValidating
+    private let identifierService: IdentifierService
+    private let pairwiseService: PairwiseService
+    private let linkedDomainService: LinkedDomainService
+    private let sdkLog: VCSDKLog
     
     convenience init(correlationVector: CorrelationHeader? = nil,
-                            urlSession: URLSession = URLSession.shared) {
+                     urlSession: URLSession = URLSession.shared) {
         self.init(formatter: IssuanceResponseFormatter(),
                   apiCalls: IssuanceNetworkCalls(correlationVector: correlationVector,
                                                  urlSession: urlSession),
                   discoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
-                                                                        urlSession: urlSession),
+                                                             urlSession: urlSession),
                   requestValidator: IssuanceRequestValidator(),
                   identifierService: IdentifierService(),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,

@@ -20,10 +20,10 @@ struct JwsToken<T: Claims> {
     var signature: Signature?
     
     init?(headers: Header,
-                 content: T,
-                 protectedMessage: String? = nil,
-                 signature: Data? = nil,
-                 rawValue: String? = nil) {
+          content: T,
+          protectedMessage: String? = nil,
+          signature: Data? = nil,
+          rawValue: String? = nil) {
         
         self.headers = headers
         self.content = content

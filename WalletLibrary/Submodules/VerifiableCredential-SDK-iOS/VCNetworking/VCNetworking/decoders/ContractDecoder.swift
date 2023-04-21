@@ -12,7 +12,7 @@ import Foundation
 struct ContractDecoder: Decoding {
     typealias Decodable = SignedContract
     
-    let decoder = JSONDecoder()
+    private let decoder = JSONDecoder()
     
     func decode(data: Data) throws -> SignedContract {
         

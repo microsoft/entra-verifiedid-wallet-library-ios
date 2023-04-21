@@ -16,7 +16,7 @@ class PostIssuanceCompletionResponseOperation: InternalPostNetworkOperation {
     typealias ResponseBody = String?
     
     let decoder = BasicServiceResponseDecoder()
-    let encoder = IssuanceCompletionResponseEncoder()
+    private let encoder = IssuanceCompletionResponseEncoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
     var correlationVector: CorrelationHeader?

@@ -11,7 +11,7 @@ import Foundation
 
 struct IssuanceServiceResponseDecoder: Decoding {
     
-    let jsonDecoder = JSONDecoder()
+    private let jsonDecoder = JSONDecoder()
     
     func decode(data: Data) throws -> VerifiableCredential {
         let response = try jsonDecoder.decode(IssuanceServiceResponse.self, from: data)

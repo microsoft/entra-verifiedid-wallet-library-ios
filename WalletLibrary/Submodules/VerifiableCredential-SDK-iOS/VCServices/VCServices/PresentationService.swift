@@ -29,12 +29,12 @@ class PresentationService {
     
     let formatter: PresentationResponseFormatting
     let presentationApiCalls: PresentationNetworking
-    let didDocumentDiscoveryApiCalls: DiscoveryNetworking
-    let requestValidator: RequestValidating
-    let linkedDomainService: LinkedDomainService
-    let identifierService: IdentifierService
-    let pairwiseService: PairwiseService
-    let sdkLog: VCSDKLog
+    private let didDocumentDiscoveryApiCalls: DiscoveryNetworking
+    private let requestValidator: RequestValidating
+    private let linkedDomainService: LinkedDomainService
+    private let identifierService: IdentifierService
+    private let pairwiseService: PairwiseService
+    private let sdkLog: VCSDKLog
     
     convenience init(correlationVector: CorrelationHeader? = nil,
                             urlSession: URLSession = URLSession.shared) {
