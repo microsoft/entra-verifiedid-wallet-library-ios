@@ -273,6 +273,32 @@
 		5552D5BF29F1FB4C00B40302 /* PMKFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5552D5B329F1FB4C00B40302 /* PMKFoundation.h */; };
 		5552D5C029F1FB4C00B40302 /* Process+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D5B429F1FB4C00B40302 /* Process+Promise.swift */; };
 		5552D5C129F1FB4C00B40302 /* NSTask+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5552D5B529F1FB4C00B40302 /* NSTask+AnyPromise.m */; };
+		5552D78529F2E02100B40302 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D78429F2E02100B40302 /* AppDelegate.swift */; };
+		5552D78729F2E02100B40302 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D78629F2E02100B40302 /* SceneDelegate.swift */; };
+		5552D78929F2E02100B40302 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D78829F2E02100B40302 /* ViewController.swift */; };
+		5552D78C29F2E02100B40302 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5552D78A29F2E02100B40302 /* Main.storyboard */; };
+		5552D78E29F2E02500B40302 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5552D78D29F2E02500B40302 /* Assets.xcassets */; };
+		5552D79129F2E02500B40302 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5552D78F29F2E02500B40302 /* LaunchScreen.storyboard */; };
+		5552D7C329F2E0A900B40302 /* Sha256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7AD29F2E0A900B40302 /* Sha256Tests.swift */; };
+		5552D7C429F2E0A900B40302 /* Utf8TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7AF29F2E0A900B40302 /* Utf8TestData.swift */; };
+		5552D7C529F2E0A900B40302 /* VCSDKConfigurationMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B029F2E0A900B40302 /* VCSDKConfigurationMock.swift */; };
+		5552D7C629F2E0A900B40302 /* HashingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B129F2E0A900B40302 /* HashingMock.swift */; };
+		5552D7C729F2E0A900B40302 /* SecretStoreMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B229F2E0A900B40302 /* SecretStoreMock.swift */; };
+		5552D7C829F2E0A900B40302 /* SecretMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B329F2E0A900B40302 /* SecretMock.swift */; };
+		5552D7C929F2E0AA00B40302 /* SigningMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B429F2E0A900B40302 /* SigningMock.swift */; };
+		5552D7CA29F2E0AA00B40302 /* PublicKeyMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B529F2E0A900B40302 /* PublicKeyMock.swift */; };
+		5552D7CB29F2E0AA00B40302 /* KeyManagementOperationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B629F2E0A900B40302 /* KeyManagementOperationsTests.swift */; };
+		5552D7CC29F2E0AA00B40302 /* Sha512Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B729F2E0A900B40302 /* Sha512Tests.swift */; };
+		5552D7CD29F2E0AA00B40302 /* AesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B829F2E0A900B40302 /* AesTests.swift */; };
+		5552D7CE29F2E0AA00B40302 /* CryptoOperationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B929F2E0A900B40302 /* CryptoOperationsTests.swift */; };
+		5552D7CF29F2E0AA00B40302 /* Secp256k1PublicKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7BA29F2E0A900B40302 /* Secp256k1PublicKeyTests.swift */; };
+		5552D7D029F2E0AA00B40302 /* ES256kTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7BB29F2E0A900B40302 /* ES256kTests.swift */; };
+		5552D7D129F2E0AA00B40302 /* PbkdfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7BC29F2E0A900B40302 /* PbkdfTests.swift */; };
+		5552D7D229F2E0AA00B40302 /* KeychainSecretStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7BD29F2E0A900B40302 /* KeychainSecretStoreTests.swift */; };
+		5552D7D329F2E0AA00B40302 /* EdDSATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7BE29F2E0A900B40302 /* EdDSATests.swift */; };
+		5552D7D429F2E0AA00B40302 /* Random32BytesSecretTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7BF29F2E0A900B40302 /* Random32BytesSecretTests.swift */; };
+		5552D7D529F2E0AA00B40302 /* HmacSha512Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7C029F2E0A900B40302 /* HmacSha512Tests.swift */; };
+		5552D7D729F2E0AA00B40302 /* Secp256k1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7C229F2E0A900B40302 /* Secp256k1Tests.swift */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */; };
 		559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */; };
@@ -381,6 +407,13 @@
 			remoteGlobalIDString = 552E5091293E6AB200868F47;
 			remoteInfo = WalletLibrary;
 		};
+		5552D7A929F2E05500B40302 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 552E5089293E6AB100868F47 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5552D78129F2E02100B40302;
+			remoteInfo = WalletLibraryTestApp;
+		};
 		55E33678293E7B5F00CD2ED7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 55E3366F293E7B5F00CD2ED7 /* PromiseKit.xcodeproj */;
@@ -479,27 +512,6 @@
 			remoteGlobalIDString = 55ADE26024F5406000D9990E;
 			remoteInfo = VCTokenTests;
 		};
-		55E336F9293FCE8200CD2ED7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 552E5229293E71D700868F47 /* VCCrypto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 92CDE7AA24DC78DD00F95B5D;
-			remoteInfo = VCCrypto;
-		};
-		55E336FB293FCE8200CD2ED7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 552E5229293E71D700868F47 /* VCCrypto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 92CDE7B324DC78DD00F95B5D;
-			remoteInfo = VCCryptoTests;
-		};
-		55E336FD293FCE8200CD2ED7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 552E5229293E71D700868F47 /* VCCrypto.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 92CDE7ED24DE1C6100F95B5D;
-			remoteInfo = VCCryptoTestApp;
-		};
 		55E33703293FCE9C00CD2ED7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 552E5237293E71D700868F47 /* VCNetworking.xcodeproj */;
@@ -560,7 +572,6 @@
 		552E50BD293E71D600868F47 /* VCEntities.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCEntities.xcodeproj; path = VCEntities/VCEntities.xcodeproj; sourceTree = "<group>"; };
 		552E51AE293E71D700868F47 /* VCServices.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCServices.xcodeproj; path = VCServices/VCServices.xcodeproj; sourceTree = "<group>"; };
 		552E51D8293E71D700868F47 /* VCToken.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCToken.xcodeproj; path = VCToken/VCToken.xcodeproj; sourceTree = "<group>"; };
-		552E5229293E71D700868F47 /* VCCrypto.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCCrypto.xcodeproj; path = VCCrypto/VCCrypto.xcodeproj; sourceTree = "<group>"; };
 		552E5237293E71D700868F47 /* VCNetworking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VCNetworking.xcodeproj; path = VCNetworking/VCNetworking.xcodeproj; sourceTree = "<group>"; };
 		5534E5B42948FEB5005D0765 /* RootOfTrust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootOfTrust.swift; sourceTree = "<group>"; };
 		5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDescriptor+Mappable.swift"; sourceTree = "<group>"; };
@@ -801,6 +812,34 @@
 		5552D5B329F1FB4C00B40302 /* PMKFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMKFoundation.h; sourceTree = "<group>"; };
 		5552D5B429F1FB4C00B40302 /* Process+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Process+Promise.swift"; sourceTree = "<group>"; };
 		5552D5B529F1FB4C00B40302 /* NSTask+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTask+AnyPromise.m"; sourceTree = "<group>"; };
+		5552D78229F2E02100B40302 /* WalletLibraryTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalletLibraryTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5552D78429F2E02100B40302 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5552D78629F2E02100B40302 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5552D78829F2E02100B40302 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5552D78B29F2E02100B40302 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5552D78D29F2E02500B40302 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5552D79029F2E02500B40302 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5552D79229F2E02500B40302 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5552D7AD29F2E0A900B40302 /* Sha256Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sha256Tests.swift; sourceTree = "<group>"; };
+		5552D7AF29F2E0A900B40302 /* Utf8TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utf8TestData.swift; sourceTree = "<group>"; };
+		5552D7B029F2E0A900B40302 /* VCSDKConfigurationMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCSDKConfigurationMock.swift; sourceTree = "<group>"; };
+		5552D7B129F2E0A900B40302 /* HashingMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashingMock.swift; sourceTree = "<group>"; };
+		5552D7B229F2E0A900B40302 /* SecretStoreMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretStoreMock.swift; sourceTree = "<group>"; };
+		5552D7B329F2E0A900B40302 /* SecretMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretMock.swift; sourceTree = "<group>"; };
+		5552D7B429F2E0A900B40302 /* SigningMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SigningMock.swift; sourceTree = "<group>"; };
+		5552D7B529F2E0A900B40302 /* PublicKeyMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKeyMock.swift; sourceTree = "<group>"; };
+		5552D7B629F2E0A900B40302 /* KeyManagementOperationsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyManagementOperationsTests.swift; sourceTree = "<group>"; };
+		5552D7B729F2E0A900B40302 /* Sha512Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sha512Tests.swift; sourceTree = "<group>"; };
+		5552D7B829F2E0A900B40302 /* AesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AesTests.swift; sourceTree = "<group>"; };
+		5552D7B929F2E0A900B40302 /* CryptoOperationsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoOperationsTests.swift; sourceTree = "<group>"; };
+		5552D7BA29F2E0A900B40302 /* Secp256k1PublicKeyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secp256k1PublicKeyTests.swift; sourceTree = "<group>"; };
+		5552D7BB29F2E0A900B40302 /* ES256kTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ES256kTests.swift; sourceTree = "<group>"; };
+		5552D7BC29F2E0A900B40302 /* PbkdfTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PbkdfTests.swift; sourceTree = "<group>"; };
+		5552D7BD29F2E0A900B40302 /* KeychainSecretStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainSecretStoreTests.swift; sourceTree = "<group>"; };
+		5552D7BE29F2E0A900B40302 /* EdDSATests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdDSATests.swift; sourceTree = "<group>"; };
+		5552D7BF29F2E0A900B40302 /* Random32BytesSecretTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random32BytesSecretTests.swift; sourceTree = "<group>"; };
+		5552D7C029F2E0A900B40302 /* HmacSha512Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HmacSha512Tests.swift; sourceTree = "<group>"; };
+		5552D7C229F2E0A900B40302 /* Secp256k1Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secp256k1Tests.swift; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+MappableTests.swift"; sourceTree = "<group>"; };
@@ -922,6 +961,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5552D77F29F2E02100B40302 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1000,6 +1046,7 @@
 				552E50AA293E6B6B00868F47 /* Submodules */,
 				552E5094293E6AB200868F47 /* WalletLibrary */,
 				552E509E293E6AB200868F47 /* WalletLibraryTests */,
+				5552D78329F2E02100B40302 /* WalletLibraryTestApp */,
 				552E5093293E6AB200868F47 /* Products */,
 				552E544A293E736C00868F47 /* Frameworks */,
 			);
@@ -1010,6 +1057,7 @@
 			children = (
 				552E5092293E6AB200868F47 /* WalletLibrary.framework */,
 				552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */,
+				5552D78229F2E02100B40302 /* WalletLibraryTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1033,6 +1081,7 @@
 		552E509E293E6AB200868F47 /* WalletLibraryTests */ = {
 			isa = PBXGroup;
 			children = (
+				5552D7AB29F2E07A00B40302 /* VCSDKTests */,
 				55A81C0A2991BF6C002C259A /* Mocks */,
 				5534E67C294A392F005D0765 /* Extensions */,
 				55A81BF02991BB13002C259A /* Requests */,
@@ -1056,7 +1105,6 @@
 			isa = PBXGroup;
 			children = (
 				552E5237293E71D700868F47 /* VCNetworking.xcodeproj */,
-				552E5229293E71D700868F47 /* VCCrypto.xcodeproj */,
 				552E50BD293E71D600868F47 /* VCEntities.xcodeproj */,
 				552E51AE293E71D700868F47 /* VCServices.xcodeproj */,
 				552E51D8293E71D700868F47 /* VCToken.xcodeproj */,
@@ -1803,6 +1851,64 @@
 			path = "Submodules/VerifiableCredential-SDK-iOS/Submodules/Foundation/Sources";
 			sourceTree = "<group>";
 		};
+		5552D78329F2E02100B40302 /* WalletLibraryTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				5552D78429F2E02100B40302 /* AppDelegate.swift */,
+				5552D78629F2E02100B40302 /* SceneDelegate.swift */,
+				5552D78829F2E02100B40302 /* ViewController.swift */,
+				5552D78A29F2E02100B40302 /* Main.storyboard */,
+				5552D78D29F2E02500B40302 /* Assets.xcassets */,
+				5552D78F29F2E02500B40302 /* LaunchScreen.storyboard */,
+				5552D79229F2E02500B40302 /* Info.plist */,
+			);
+			path = WalletLibraryTestApp;
+			sourceTree = "<group>";
+		};
+		5552D7AB29F2E07A00B40302 /* VCSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				5552D7AC29F2E0A900B40302 /* VCCryptoTests */,
+			);
+			path = VCSDKTests;
+			sourceTree = "<group>";
+		};
+		5552D7AC29F2E0A900B40302 /* VCCryptoTests */ = {
+			isa = PBXGroup;
+			children = (
+				5552D7AD29F2E0A900B40302 /* Sha256Tests.swift */,
+				5552D7AE29F2E0A900B40302 /* Mocks */,
+				5552D7B629F2E0A900B40302 /* KeyManagementOperationsTests.swift */,
+				5552D7B729F2E0A900B40302 /* Sha512Tests.swift */,
+				5552D7B829F2E0A900B40302 /* AesTests.swift */,
+				5552D7B929F2E0A900B40302 /* CryptoOperationsTests.swift */,
+				5552D7BA29F2E0A900B40302 /* Secp256k1PublicKeyTests.swift */,
+				5552D7BB29F2E0A900B40302 /* ES256kTests.swift */,
+				5552D7BC29F2E0A900B40302 /* PbkdfTests.swift */,
+				5552D7BD29F2E0A900B40302 /* KeychainSecretStoreTests.swift */,
+				5552D7BE29F2E0A900B40302 /* EdDSATests.swift */,
+				5552D7BF29F2E0A900B40302 /* Random32BytesSecretTests.swift */,
+				5552D7C029F2E0A900B40302 /* HmacSha512Tests.swift */,
+				5552D7C229F2E0A900B40302 /* Secp256k1Tests.swift */,
+			);
+			name = VCCryptoTests;
+			path = "Submodules/VerifiableCredential-SDK-iOS/VCCrypto/VCCryptoTests";
+			sourceTree = SOURCE_ROOT;
+		};
+		5552D7AE29F2E0A900B40302 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				5552D7AF29F2E0A900B40302 /* Utf8TestData.swift */,
+				5552D7B029F2E0A900B40302 /* VCSDKConfigurationMock.swift */,
+				5552D7B129F2E0A900B40302 /* HashingMock.swift */,
+				5552D7B229F2E0A900B40302 /* SecretStoreMock.swift */,
+				5552D7B329F2E0A900B40302 /* SecretMock.swift */,
+				5552D7B429F2E0A900B40302 /* SigningMock.swift */,
+				5552D7B529F2E0A900B40302 /* PublicKeyMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		559BD3A4299AD9A200BD61AC /* Manifest */ = {
 			isa = PBXGroup;
 			children = (
@@ -2145,16 +2251,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		55E336F4293FCE8200CD2ED7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				55E336FA293FCE8200CD2ED7 /* VCCrypto.framework */,
-				55E336FC293FCE8200CD2ED7 /* VCCryptoTests.xctest */,
-				55E336FE293FCE8200CD2ED7 /* VCCryptoTestApp.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		55E336FF293FCE9C00CD2ED7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2313,11 +2409,29 @@
 			);
 			dependencies = (
 				552E509D293E6AB200868F47 /* PBXTargetDependency */,
+				5552D7AA29F2E05500B40302 /* PBXTargetDependency */,
 			);
 			name = WalletLibraryTests;
 			productName = WalletLibraryTests;
 			productReference = 552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5552D78129F2E02100B40302 /* WalletLibraryTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5552D7A829F2E02500B40302 /* Build configuration list for PBXNativeTarget "WalletLibraryTestApp" */;
+			buildPhases = (
+				5552D77E29F2E02100B40302 /* Sources */,
+				5552D77F29F2E02100B40302 /* Frameworks */,
+				5552D78029F2E02100B40302 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WalletLibraryTestApp;
+			productName = WalletLibraryTestApp;
+			productReference = 5552D78229F2E02100B40302 /* WalletLibraryTestApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -2326,7 +2440,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					552E5091293E6AB200868F47 = {
@@ -2335,6 +2449,10 @@
 					};
 					552E5099293E6AB200868F47 = {
 						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 5552D78129F2E02100B40302;
+					};
+					5552D78129F2E02100B40302 = {
+						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
@@ -2359,10 +2477,6 @@
 					ProjectRef = 55E33685293E7B7D00CD2ED7 /* Secp256k1.xcodeproj */;
 				},
 				{
-					ProductGroup = 55E336F4293FCE8200CD2ED7 /* Products */;
-					ProjectRef = 552E5229293E71D700868F47 /* VCCrypto.xcodeproj */;
-				},
-				{
 					ProductGroup = 55E336D9293FCE4200CD2ED7 /* Products */;
 					ProjectRef = 552E50BD293E71D600868F47 /* VCEntities.xcodeproj */;
 				},
@@ -2383,6 +2497,7 @@
 			targets = (
 				552E5091293E6AB200868F47 /* WalletLibrary */,
 				552E5099293E6AB200868F47 /* WalletLibraryTests */,
+				5552D78129F2E02100B40302 /* WalletLibraryTestApp */,
 			);
 		};
 /* End PBXProject section */
@@ -2486,27 +2601,6 @@
 			remoteRef = 55E336F2293FCE5E00CD2ED7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		55E336FA293FCE8200CD2ED7 /* VCCrypto.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = VCCrypto.framework;
-			remoteRef = 55E336F9293FCE8200CD2ED7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		55E336FC293FCE8200CD2ED7 /* VCCryptoTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = VCCryptoTests.xctest;
-			remoteRef = 55E336FB293FCE8200CD2ED7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		55E336FE293FCE8200CD2ED7 /* VCCryptoTestApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = VCCryptoTestApp.app;
-			remoteRef = 55E336FD293FCE8200CD2ED7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		55E33704293FCE9C00CD2ED7 /* VCNetworking.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2536,6 +2630,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5552D78029F2E02100B40302 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5552D79129F2E02500B40302 /* LaunchScreen.storyboard in Resources */,
+				5552D78E29F2E02500B40302 /* Assets.xcassets in Resources */,
+				5552D78C29F2E02100B40302 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2853,10 +2957,12 @@
 				55E2F06F299553B40008010D /* OpenIdRequestHandlerTests.swift in Sources */,
 				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */,
+				5552D7D129F2E0AA00B40302 /* PbkdfTests.swift in Sources */,
 				559BD4ED299EEAD100BD61AC /* IdTokenRequirementTests.swift in Sources */,
 				55DECC3D29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift in Sources */,
 				55EA17AA29CA57320085E29E /* MockVerifiedIdStyle.swift in Sources */,
 				55DECC4329C0CF5F00D5C802 /* MockOpenIdResponder.swift in Sources */,
+				5552D7D329F2E0AA00B40302 /* EdDSATests.swift in Sources */,
 				559BD455299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift in Sources */,
 				553CC0A029A98003005A5FD6 /* VCVerifiedIdTests.swift in Sources */,
 				55A81C132991C829002C259A /* MockHandler.swift in Sources */,
@@ -2868,6 +2974,7 @@
 				55DECBEF29BA2BEE00D5C802 /* IssuanceRequestContentTests.swift in Sources */,
 				559BD4EF299EEADF00BD61AC /* AccessTokenRequirementTests.swift in Sources */,
 				55A81C102991C211002C259A /* MockResolver.swift in Sources */,
+				5552D7CC29F2E0AA00B40302 /* Sha512Tests.swift in Sources */,
 				559BD4E5299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift in Sources */,
 				55A81C092991BB3A002C259A /* RequestHandlerFactoryTests.swift in Sources */,
 				559BD30D2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift in Sources */,
@@ -2882,10 +2989,16 @@
 				559BD3AF299AF42C00BD61AC /* MockManifestResolver.swift in Sources */,
 				553CC09929A96C38005A5FD6 /* MockVerifiedId.swift in Sources */,
 				55DECC4129BFEDE400D5C802 /* VerifiedIdRequirementTests.swift in Sources */,
+				5552D7D729F2E0AA00B40302 /* Secp256k1Tests.swift in Sources */,
 				559BD4F8299EED5700BD61AC /* MockRawManifest.swift in Sources */,
+				5552D7CA29F2E0AA00B40302 /* PublicKeyMock.swift in Sources */,
 				550A919829940DCE0014D030 /* MockOpenIdforVCResolver.swift in Sources */,
+				5552D7D029F2E0AA00B40302 /* ES256kTests.swift in Sources */,
+				5552D7C329F2E0A900B40302 /* Sha256Tests.swift in Sources */,
+				5552D7C429F2E0A900B40302 /* Utf8TestData.swift in Sources */,
 				55BA2DD729CDFA4600BB8207 /* MockVerifiedIdDecoder.swift in Sources */,
 				559BD459299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift in Sources */,
+				5552D7CD29F2E0AA00B40302 /* AesTests.swift in Sources */,
 				559BD3092995ABE800BD61AC /* PresentationRequest+MappableTests.swift in Sources */,
 				550A91A0299412790014D030 /* MockOpenIdRawRequest.swift in Sources */,
 				55DECC3329BFDB6200D5C802 /* GroupConstraintTests.swift in Sources */,
@@ -2893,13 +3006,24 @@
 				559BD30F2996C1C500BD61AC /* MockLogConsumer.swift in Sources */,
 				55E2F076299555280008010D /* MockRequirement.swift in Sources */,
 				553CC09229A957A3005A5FD6 /* PinDescriptor+MappableTests.swift in Sources */,
+				5552D7CF29F2E0AA00B40302 /* Secp256k1PublicKeyTests.swift in Sources */,
 				55DECC3529BFDB7600D5C802 /* VCTypeConstraintTests.swift in Sources */,
+				5552D7C929F2E0AA00B40302 /* SigningMock.swift in Sources */,
 				553CC09629A96249005A5FD6 /* ContractIssuanceRequestTests.swift in Sources */,
+				5552D7CE29F2E0AA00B40302 /* CryptoOperationsTests.swift in Sources */,
 				5534E68C294A8B8F005D0765 /* AccessTokenDescriptor+MappableTests.swift in Sources */,
+				5552D7C829F2E0A900B40302 /* SecretMock.swift in Sources */,
+				5552D7D429F2E0AA00B40302 /* Random32BytesSecretTests.swift in Sources */,
+				5552D7C529F2E0A900B40302 /* VCSDKConfigurationMock.swift in Sources */,
 				55E2F077299555280008010D /* MockRequesterStyle.swift in Sources */,
+				5552D7CB29F2E0AA00B40302 /* KeyManagementOperationsTests.swift in Sources */,
+				5552D7D529F2E0AA00B40302 /* HmacSha512Tests.swift in Sources */,
+				5552D7D229F2E0AA00B40302 /* KeychainSecretStoreTests.swift in Sources */,
 				552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */,
 				559BD457299D3E6000BD61AC /* AttestationsDescriptor+MappableTests.swift in Sources */,
 				5534E688294A5F16005D0765 /* IdTokenDescriptor+MappableTests.swift in Sources */,
+				5552D7C729F2E0A900B40302 /* SecretStoreMock.swift in Sources */,
+				5552D7C629F2E0A900B40302 /* HashingMock.swift in Sources */,
 				559BD3112996D3CE00BD61AC /* MockVerifiedIdRequest.swift in Sources */,
 				550A913D29930D970014D030 /* MockRawRequest.swift in Sources */,
 				55EA17AC29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift in Sources */,
@@ -2907,6 +3031,16 @@
 				55DECC3829BFE14E00D5C802 /* MockConstraint.swift in Sources */,
 				559BD4F5299EEC9500BD61AC /* MockVerifiedIdRequester.swift in Sources */,
 				55DECC3F29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5552D77E29F2E02100B40302 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5552D78929F2E02100B40302 /* ViewController.swift in Sources */,
+				5552D78529F2E02100B40302 /* AppDelegate.swift in Sources */,
+				5552D78729F2E02100B40302 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2918,7 +3052,31 @@
 			target = 552E5091293E6AB200868F47 /* WalletLibrary */;
 			targetProxy = 552E509C293E6AB200868F47 /* PBXContainerItemProxy */;
 		};
+		5552D7AA29F2E05500B40302 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5552D78129F2E02100B40302 /* WalletLibraryTestApp */;
+			targetProxy = 5552D7A929F2E05500B40302 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5552D78A29F2E02100B40302 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5552D78B29F2E02100B40302 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5552D78F29F2E02500B40302 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5552D79029F2E02500B40302 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		552E50A2293E6AB200868F47 /* Debug */ = {
@@ -3129,6 +3287,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WalletLibraryTestApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WalletLibraryTestApp";
 			};
 			name = Debug;
 		};
@@ -3150,6 +3309,68 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WalletLibraryTestApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WalletLibraryTestApp";
+			};
+			name = Release;
+		};
+		5552D79329F2E02500B40302 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WalletLibraryTestApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.entra.verifiedid.WalletLibraryTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5552D79429F2E02500B40302 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WalletLibraryTestApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.entra.verifiedid.WalletLibraryTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -3179,6 +3400,15 @@
 			buildConfigurations = (
 				552E50A8293E6AB200868F47 /* Debug */,
 				552E50A9293E6AB200868F47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5552D7A829F2E02500B40302 /* Build configuration list for PBXNativeTarget "WalletLibraryTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5552D79329F2E02500B40302 /* Debug */,
+				5552D79429F2E02500B40302 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
