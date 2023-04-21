@@ -19,7 +19,7 @@ open class WalletMetadata: Codable {
         self.seed = seed
     }
 
-    required init(from decoder:Decoder) throws {
+    public required init(from decoder:Decoder) throws {
         
         let container = try decoder.container(keyedBy: Self.CodingKeys)
         let string = try container.decode(String.self, forKey: .seed)
@@ -29,7 +29,7 @@ open class WalletMetadata: Codable {
         self.seed = jwk.key!
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         
         // Wrap the seed value in a JWK and encode to a string
         let jwk = JWK(keyType: "oct", key: self.seed)
