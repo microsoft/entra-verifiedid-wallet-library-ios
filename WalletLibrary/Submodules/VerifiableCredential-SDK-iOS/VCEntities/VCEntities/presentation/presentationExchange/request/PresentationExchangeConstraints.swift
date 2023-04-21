@@ -8,16 +8,16 @@
  *
  * @see [Presentation Exchange Spec](https://identity.foundation/presentation-exchange/#input-descriptor-object)
  */
-public struct PresentationExchangeConstraints: Codable, Equatable {
+struct PresentationExchangeConstraints: Codable, Equatable {
 
     /// A list of fields that must be adhered to to fulfill presentation request.
-    public let fields: [PresentationExchangeField]?
+    let fields: [PresentationExchangeField]?
     
     enum CodingKeys: String, CodingKey {
         case fields
     }
     
-    public init(fields: [PresentationExchangeField]? = nil) {
+    init(fields: [PresentationExchangeField]? = nil) {
         self.fields = fields
     }
 }

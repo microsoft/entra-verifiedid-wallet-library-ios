@@ -3,13 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct IssuanceMetadata: Codable, Equatable {
+struct IssuanceMetadata: Codable, Equatable {
     
-    public let contract: String?
+    let contract: String?
     
-    public let issuerDid: String?
+    let issuerDid: String?
     
-    public init(contract: String?, issuerDid: String?) {
+    init(contract: String?, issuerDid: String?) {
         self.contract = contract
         self.issuerDid = issuerDid
     }

@@ -7,21 +7,21 @@
     import VCCrypto
 #endif
 
-public struct VCSDKConfiguration: VCSDKConfigurable {
+struct VCSDKConfiguration: VCSDKConfigurable {
     
-    public static var sharedInstance = VCSDKConfiguration()
+    static var sharedInstance = VCSDKConfiguration()
     
-    public private(set) var accessGroupIdentifier: String?
+    private(set) var accessGroupIdentifier: String?
     
-    public private(set) var discoveryUrl: String = "https://discover.did.msidentity.com/v1.0/identifiers"
+    private(set) var discoveryUrl: String = "https://discover.did.msidentity.com/v1.0/identifiers"
     
     private init() {}
     
-    public mutating func setAccessGroupIdentifier(with id: String) {
+    mutating func setAccessGroupIdentifier(with id: String) {
         self.accessGroupIdentifier = id
     }
     
-    public mutating func setDiscoveryUrl(with url: String) {
+    mutating func setDiscoveryUrl(with url: String) {
         self.discoveryUrl = url
     }
 }

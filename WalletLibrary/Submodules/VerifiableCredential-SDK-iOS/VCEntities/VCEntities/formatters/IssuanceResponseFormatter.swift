@@ -7,25 +7,25 @@
     import VCToken
 #endif
 
-public protocol IssuanceResponseFormatting {
+protocol IssuanceResponseFormatting {
     func format(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier) throws -> IssuanceResponse
 }
 
-public class IssuanceResponseFormatter: IssuanceResponseFormatting {
+class IssuanceResponseFormatter: IssuanceResponseFormatting {
     
     private let signer: TokenSigning
     private let sdkLog: VCSDKLog
     private let headerFormatter = JwsHeaderFormatter()
     private let vpFormatter: IssuanceVPFormatter
     
-    public init(signer: TokenSigning = Secp256k1Signer(),
+    init(signer: TokenSigning = Secp256k1Signer(),
                 sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
         self.signer = signer
         self.vpFormatter = IssuanceVPFormatter(signer: signer)
         self.sdkLog = sdkLog
     }
     
-    public func format(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier) throws -> IssuanceResponse {
+    func format(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier) throws -> IssuanceResponse {
         
         guard let signingKey = identifier.didDocumentKeys.first else {
             throw FormatterError.noSigningKeyFound

@@ -7,13 +7,13 @@
     import VCToken
 #endif
 
-public struct AttestationResponseDescriptor: Codable {
-    public let accessTokens: RequestedAccessTokenMap?
-    public let idTokens: RequestedIdTokenMap?
-    public let presentations: [String: String]?
-    public let selfIssued: RequestedSelfAttestedClaimMap?
+struct AttestationResponseDescriptor: Codable {
+    let accessTokens: RequestedAccessTokenMap?
+    let idTokens: RequestedIdTokenMap?
+    let presentations: [String: String]?
+    let selfIssued: RequestedSelfAttestedClaimMap?
     
-    public init(accessTokens: RequestedAccessTokenMap? = nil,
+    init(accessTokens: RequestedAccessTokenMap? = nil,
                 idTokens: RequestedIdTokenMap? = nil,
                 presentations: [String: String]? = nil,
                 selfIssued: RequestedSelfAttestedClaimMap? = nil) {

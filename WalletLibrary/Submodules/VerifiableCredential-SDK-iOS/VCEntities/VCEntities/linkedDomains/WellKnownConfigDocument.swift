@@ -11,23 +11,23 @@ enum WellKnownConfigDocumentError: Error {
     case unableToParseLinkedDidToken
 }
 
-public struct WellKnownConfigDocument: Codable {
+struct WellKnownConfigDocument: Codable {
     let context: String
-    public let linkedDids: [DomainLinkageCredential]
+    let linkedDids: [DomainLinkageCredential]
     
     enum CodingKeys: String, CodingKey {
         case context = "@context"
         case linkedDids = "linked_dids"
     }
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.context = try values.decode(String.self, forKey: .context)
         let encodedTokens: [String] = try values.decode([String].self, forKey: .linkedDids)
         self.linkedDids = try encodedTokens.map { try Self.getCredential(from: $0) }
     }
     
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(context, forKey: .context)
         let encodedTokens = try self.linkedDids.map { try $0.serialize() }

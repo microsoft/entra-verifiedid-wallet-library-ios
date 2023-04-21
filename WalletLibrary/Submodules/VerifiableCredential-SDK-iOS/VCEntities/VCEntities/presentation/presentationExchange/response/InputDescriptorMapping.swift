@@ -8,24 +8,24 @@
  *
  * @see [Presentation Exchange Spec](https://identity.foundation/presentation-exchange/#presentation-submission)
  */
-public struct InputDescriptorMapping: Codable {
+struct InputDescriptorMapping: Codable {
     
     /// The value of this property MUST be a string that matches the id property of the Input Descriptor
     /// in the Presentation Definition that this Presentation Submission is related to.
-    public let id: String
+    let id: String
     
     /// The value of this property MUST be a string that matches one of the Claim Format Designation.
     /// This denotes the data format of the Claim. (ex. jwt_vc).
-    public let format: String
+    let format: String
     
     /// The value of this property MUST be a JSONPath string expression.
     /// The path property indicates the Claim submitted in relation to the identified Input Descriptor,
     /// when executed against the top-level of the object the Presentation Submission is embedded within.
-    public let path: String
+    let path: String
     
     /// indicate the presence of a multi-Claim envelope format.
     /// This means the Claim indicated is to be decoded separately from its parent enclosure.
-    public let pathNested: NestedInputDescriptorMapping?
+    let pathNested: NestedInputDescriptorMapping?
     
     enum CodingKeys: String, CodingKey {
         case pathNested = "path_nested"

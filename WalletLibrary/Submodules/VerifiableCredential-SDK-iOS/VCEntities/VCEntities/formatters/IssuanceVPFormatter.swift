@@ -17,7 +17,7 @@ class IssuanceVPFormatter {
     let signer: TokenSigning
     let headerFormatter = JwsHeaderFormatter()
     
-    public init(signer: TokenSigning) {
+    init(signer: TokenSigning) {
         self.signer = signer
     }
     

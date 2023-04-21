@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct Microsoft2020IdentifierBackup : Codable {
+struct Microsoft2020IdentifierBackup : Codable {
     
     private struct Constants {
         /// For compatability with the Android backup data model:
@@ -14,21 +14,21 @@ public struct Microsoft2020IdentifierBackup : Codable {
     
     private var entries = [RawIdentity]()
     
-    public init() { }
+    init() { }
 
-    public init(from decoder:Decoder) throws
+    init(from decoder:Decoder) throws
     {
         let container = try decoder.singleValueContainer()
         self.entries = try container.decode([RawIdentity].self)
     }
     
-    public func encode(to encoder: Encoder) throws
+    func encode(to encoder: Encoder) throws
     {
         var container = encoder.singleValueContainer()
         try container.encode(self.entries)
     }
 
-    public mutating func setMain(_ identifier:Identifier) throws {
+    mutating func setMain(_ identifier:Identifier) throws {
         
         // Try and convert
         var entry = try RawIdentity(identifier: identifier)
@@ -41,13 +41,13 @@ public struct Microsoft2020IdentifierBackup : Codable {
         entries.insert(entry, at: 0)
     }
     
-    public mutating func add(_ identifier:Identifier) throws {
+    mutating func add(_ identifier:Identifier) throws {
         
         let entry = try RawIdentity(identifier: identifier)
         entries.append(entry)
     }
 
-    public func all() throws -> [Identifier]
+    func all() throws -> [Identifier]
     {
         // Look for the main identifier
         var main: Identifier? = nil

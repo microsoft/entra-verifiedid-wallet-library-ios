@@ -5,7 +5,7 @@
 
 import Foundation
 
-public enum Microsoft2020BackupError : Error {
+enum Microsoft2020BackupError : Error {
     case undecodableCredential(source:String)
 }
 
@@ -15,18 +15,18 @@ open class Microsoft2020UnprotectedBackup : UnprotectedBackup {
         static let OnTheWireBackupType = "MicrosoftWallet2020"
     }
 
-    public var type = Constants.OnTheWireBackupType
-    public var identifiers = Microsoft2020IdentifierBackup()
-    public var vcs = [String:String]()
-    public var vcsMetaInf = [String:VcMetadata]()
+    var type = Constants.OnTheWireBackupType
+    var identifiers = Microsoft2020IdentifierBackup()
+    var vcs = [String:String]()
+    var vcsMetaInf = [String:VcMetadata]()
 
-    public var metaInf: WalletMetadata?
+    var metaInf: WalletMetadata?
 
-    public init(metaInf: WalletMetadata? = nil) {
+    init(metaInf: WalletMetadata? = nil) {
         self.metaInf = metaInf
     }
     
-    public func add(credential: VerifiableCredential, metadata:VcMetadata) {
+    func add(credential: VerifiableCredential, metadata:VcMetadata) {
         
         if let id = credential.content.jti {
             self.vcs[id] = credential.rawValue
@@ -34,7 +34,7 @@ open class Microsoft2020UnprotectedBackup : UnprotectedBackup {
         }
     }
 
-    public func forEachCredential(completionHandler: @escaping (VerifiableCredential, VcMetadata?) throws -> Void) rethrows {
+    func forEachCredential(completionHandler: @escaping (VerifiableCredential, VcMetadata?) throws -> Void) rethrows {
         
         try self.vcs.forEach { (key, value) in
             guard let credential = VerifiableCredential(from: value) else {

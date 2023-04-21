@@ -20,21 +20,21 @@ enum DomainLinkageCredentialValidatorError: Error, Equatable {
     case doNotMatch(linkedDomainCredentialKeyId: String?, identifierDocumentDid: String)
 }
 
-public protocol DomainLinkageCredentialValidating {
+protocol DomainLinkageCredentialValidating {
     func validate(credential: DomainLinkageCredential,
                          usingDocument document: IdentifierDocument,
                          andSourceDomainUrl url: String) throws
 }
 
-public struct DomainLinkageCredentialValidator: DomainLinkageCredentialValidating {
+struct DomainLinkageCredentialValidator: DomainLinkageCredentialValidating {
     
     private let verifier: TokenVerifying
     
-    public init(verifier: TokenVerifying = TokenVerifier()) {
+    init(verifier: TokenVerifying = TokenVerifier()) {
         self.verifier = verifier
     }
     
-    public func validate(credential: DomainLinkageCredential,
+    func validate(credential: DomainLinkageCredential,
                          usingDocument document: IdentifierDocument,
                          andSourceDomainUrl url: String) throws {
         

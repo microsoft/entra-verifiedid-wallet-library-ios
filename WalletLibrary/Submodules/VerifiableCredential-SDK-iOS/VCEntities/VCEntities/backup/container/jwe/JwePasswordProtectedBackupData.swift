@@ -8,7 +8,7 @@ import Foundation
 struct JwePasswordProtectedBackupData : ProtectedBackupData {
     let content: String
 
-    public func serialize() -> String {
+    func serialize() -> String {
         content
     }
 }

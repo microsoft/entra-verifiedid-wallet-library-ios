@@ -23,19 +23,19 @@ enum PresentationRequestValidatorError: Error {
     case tokenExpired
 }
 
-public protocol RequestValidating {
+protocol RequestValidating {
     func validate(request: PresentationRequestToken, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws
 }
 
-public struct PresentationRequestValidator: RequestValidating {
+struct PresentationRequestValidator: RequestValidating {
     
     private let verifier: TokenVerifying
     
-    public init(verifier: TokenVerifying = TokenVerifier()) {
+    init(verifier: TokenVerifying = TokenVerifier()) {
         self.verifier = verifier
     }
     
-    public func validate(request: PresentationRequestToken, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws {
+    func validate(request: PresentationRequestToken, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws {
         try validate(expiration: request.content.exp)
         try validate(request.content.scope, equals: VCEntitiesConstants.SCOPE, throws: PresentationRequestValidatorError.invalidScopeValue)
         try validate(request.content.responseMode, equals: VCEntitiesConstants.RESPONSE_MODE, throws: PresentationRequestValidatorError.invalidResponseModeValue)

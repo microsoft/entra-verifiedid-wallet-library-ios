@@ -13,19 +13,19 @@ enum IssuanceRequestValidatorError: Error, Equatable {
     case keyIdInTokenHeaderMalformed
 }
 
-public protocol IssuanceRequestValidating {
+protocol IssuanceRequestValidating {
     func validate(request: SignedContract, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws
 }
 
-public struct IssuanceRequestValidator: IssuanceRequestValidating {
+struct IssuanceRequestValidator: IssuanceRequestValidating {
     
     private let verifier: TokenVerifying
     
-    public init(verifier: TokenVerifying = TokenVerifier()) {
+    init(verifier: TokenVerifying = TokenVerifier()) {
         self.verifier = verifier
     }
     
-    public func validate(request: SignedContract, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws {
+    func validate(request: SignedContract, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws {
         
         guard let kid = request.headers.keyId else
         {

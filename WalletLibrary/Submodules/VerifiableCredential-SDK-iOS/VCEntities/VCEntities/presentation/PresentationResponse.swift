@@ -12,13 +12,13 @@ enum PresentationResponseDecodingError: Error {
     case unableToDecodeVpToken
 }
 
-public struct PresentationResponse: Codable {
+struct PresentationResponse: Codable {
     
-    public let idToken: PresentationResponseToken
+    let idToken: PresentationResponseToken
     
-    public let vpToken: VerifiablePresentation?
+    let vpToken: VerifiablePresentation?
     
-    public let state: String?
+    let state: String?
     
     enum CodingKeys: String, CodingKey {
         case idToken = "id_token"
@@ -26,7 +26,7 @@ public struct PresentationResponse: Codable {
         case state
     }
     
-    public init(idToken: PresentationResponseToken,
+    init(idToken: PresentationResponseToken,
                 vpToken: VerifiablePresentation?,
                 state: String?) {
         self.idToken = idToken
@@ -34,7 +34,7 @@ public struct PresentationResponse: Codable {
         self.state = state
     }
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         if let idTokenSerialized = try values.decodeIfPresent(String.self, forKey: .idToken),
            let token = JwsToken<PresentationResponseClaims>(from: idTokenSerialized) {
@@ -51,7 +51,7 @@ public struct PresentationResponse: Codable {
         state = try values.decodeIfPresent(String.self, forKey: .state)
     }
     
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         let jwsEncoder = JwsEncoder()
         try container.encodeIfPresent(jwsEncoder.encode(idToken), forKey: .idToken)

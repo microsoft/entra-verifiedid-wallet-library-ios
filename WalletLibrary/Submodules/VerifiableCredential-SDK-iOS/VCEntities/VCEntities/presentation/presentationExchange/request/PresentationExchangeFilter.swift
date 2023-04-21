@@ -8,24 +8,24 @@
  *
  * @see [Presentation Exchange Spec](https://identity.foundation/presentation-exchange/#input-descriptor-object)
  */
-public struct PresentationExchangeFilter: Codable, Equatable {
+struct PresentationExchangeFilter: Codable, Equatable {
     
     /// type of value (ex. String)
-    public let type: String?
+    let type: String?
     
     /// JSON Schema descriptor
-    public let pattern: NSRegularExpression?
+    let pattern: NSRegularExpression?
     
     private enum CodingKeys: String, CodingKey {
         case type, pattern
     }
     
-    public init(type: String? = nil, pattern: NSRegularExpression? = nil) {
+    init(type: String? = nil, pattern: NSRegularExpression? = nil) {
         self.type = type
         self.pattern = pattern
     }
     
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         type = try values.decodeIfPresent(String.self, forKey: .type)
         if let pattern = try values.decodeIfPresent(String.self, forKey: .pattern) {
@@ -35,7 +35,7 @@ public struct PresentationExchangeFilter: Codable, Equatable {
         }
     }
     
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(type, forKey: .type)
         try container.encodeIfPresent(pattern?.pattern, forKey: .pattern)

@@ -7,13 +7,13 @@
     import VCToken
 #endif
 
-public struct Contract: Claims, Equatable {
+struct Contract: Claims, Equatable {
     
-    public let id: String
-    public let display: DisplayDescriptor
-    public let input: ContractInputDescriptor
+    let id: String
+    let display: DisplayDescriptor
+    let input: ContractInputDescriptor
     
-    public init(id: String,
+    init(id: String,
                 display: DisplayDescriptor,
                 input: ContractInputDescriptor) {
         self.id = id
@@ -23,4 +23,4 @@ public struct Contract: Claims, Equatable {
     
 }
 
-public typealias SignedContract = JwsToken<Contract>
+typealias SignedContract = JwsToken<Contract>

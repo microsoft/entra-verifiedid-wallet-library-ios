@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-public protocol VCLogConsumer
+protocol VCLogConsumer
 {
     /**
      Logs a trace with calling function name, line, file.

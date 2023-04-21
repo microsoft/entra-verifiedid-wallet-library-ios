@@ -7,10 +7,10 @@
  * Contents of Verifiable Presentation Response Description, a property within a OIDC Presentation Response
  * which describes how to parse the VP Token.
  */
-public struct VPTokenResponseDescription: Codable {
+struct VPTokenResponseDescription: Codable {
     
     /// The presentation submission that describes what is being presented.
-    public let presentationSubmission: PresentationSubmission?
+    let presentationSubmission: PresentationSubmission?
     
     enum CodingKeys: String, CodingKey {
         case presentationSubmission = "presentation_submission"

@@ -6,12 +6,12 @@
 import Foundation
 
 /// A ProtectedBackup holds a UnprotectedBackupData in some shape or form. The details are defined by implementations of this protocol. e.g. a JWE Token encrypted by a password.
-public struct UnprotectedBackupData {
+struct UnprotectedBackupData {
     
-    public let type: String
-    public let encoded: Data
+    let type: String
+    let encoded: Data
 
-    public init(type: String, encoded: Data) {
+    init(type: String, encoded: Data) {
         self.type = type
         self.encoded = encoded
     }
