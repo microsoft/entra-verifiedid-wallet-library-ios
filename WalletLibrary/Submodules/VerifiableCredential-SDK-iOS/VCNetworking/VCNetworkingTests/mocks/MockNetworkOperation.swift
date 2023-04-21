@@ -4,8 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import Foundation
-import VCEntities
-@testable import VCNetworking
+@testable import WalletLibrary
 
 final class MockNetworkOperation: InternalNetworkOperation {
     

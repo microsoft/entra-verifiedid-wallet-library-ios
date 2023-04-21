@@ -5,15 +5,13 @@
 
 import XCTest
 import PromiseKit
-import VCEntities
-
-@testable import VCNetworking
+@testable import WalletLibrary
 
 class PostExchangeRequestOperationTests: XCTestCase {
     private var postOperation: PostExchangeRequestOperation!
     private let expectedUrl = "https://testcontract.com/4235"
     private let expectedHttpResponse = "testPresentationResponse29384"
-    private let expectedRequestBody = ExchangeRequest(from: TestData.exchangeRequest.rawValue)!
+    private let expectedRequestBody = ExchangeRequest(from: VCNetworkingTestData.exchangeRequest.rawValue)!
     private let encoder = ExchangeRequestEncoder()
     private var expectedEncodedBody: Data!
 
