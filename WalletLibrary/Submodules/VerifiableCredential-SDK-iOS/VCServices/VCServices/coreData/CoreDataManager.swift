@@ -16,7 +16,7 @@ enum CoreDataManagerError: Error {
 }
 
 /// Temporary Until Deterministic Keys are implemented.
-public class CoreDataManager {
+class CoreDataManager {
     
     private struct Constants {
         static let bundleId = "com.microsoft.VCUseCase"
@@ -26,7 +26,7 @@ public class CoreDataManager {
         static let sqliteDescription = "sqlite"
     }
     
-    public static let sharedInstance = CoreDataManager()
+    static let sharedInstance = CoreDataManager()
     
     private var persistentContainer: NSPersistentContainer?
     
@@ -39,7 +39,7 @@ public class CoreDataManager {
         loadPersistentContainer(sdkLog: sdkLog)
     }
     
-    public func saveIdentifier(longformDid: String,
+    func saveIdentifier(longformDid: String,
                                signingKeyId: UUID,
                                recoveryKeyId: UUID,
                                updateKeyId: UUID,
@@ -66,7 +66,7 @@ public class CoreDataManager {
         try persistentContainer.viewContext.save()
     }
     
-    public func fetchIdentifiers() throws -> [IdentifierModel] {
+    func fetchIdentifiers() throws -> [IdentifierModel] {
         guard let persistentContainer = persistentContainer else {
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
@@ -75,7 +75,7 @@ public class CoreDataManager {
         return try persistentContainer.viewContext.fetch(fetchRequest)
     }
     
-    public func deleteAllIdentifiers() throws {
+    func deleteAllIdentifiers() throws {
         guard let persistentContainer = persistentContainer else {
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
@@ -90,7 +90,7 @@ public class CoreDataManager {
         try persistentContainer.viewContext.save()
     }
     
-    public func deleteIdentifer(_ model:IdentifierModel) {
+    func deleteIdentifer(_ model:IdentifierModel) {
         persistentContainer?.viewContext.delete(model)
     }
     

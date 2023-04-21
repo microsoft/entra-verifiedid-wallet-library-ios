@@ -8,20 +8,20 @@
 #endif
 
 /// status of a successful initialization
-public enum VCSDKInitStatus
+enum VCSDKInitStatus
 {
     case success
 }
 
 /// Class used to Initialize the SDK.
-public class VerifiableCredentialSDK {
+class VerifiableCredentialSDK {
     
-    public static let identifierService = IdentifierService()
+    static let identifierService = IdentifierService()
     
     /// Initialized the SDK.
     /// Returns:  Result<VCSDKInitStatus>, if successfully initialized the SDK.
     ///        Result<Error>, if there was an error, and unable to initialize SDK.
-    public static func initialize(logConsumer: VCLogConsumer = DefaultVCLogConsumer(),
+    static func initialize(logConsumer: VCLogConsumer = DefaultVCLogConsumer(),
                                   accessGroupIdentifier: String? = nil,
                                   discoveryUrl: String? = nil) -> Result<VCSDKInitStatus, Error> {
 

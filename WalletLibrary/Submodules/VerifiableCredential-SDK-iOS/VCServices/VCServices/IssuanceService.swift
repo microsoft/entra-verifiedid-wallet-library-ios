@@ -19,7 +19,7 @@ enum IssuanceServiceError: Error {
     case unableToFetchIdentifier
 }
 
-public class IssuanceService {
+class IssuanceService {
     
     let formatter: IssuanceResponseFormatting
     let apiCalls: IssuanceNetworking
@@ -30,7 +30,7 @@ public class IssuanceService {
     let linkedDomainService: LinkedDomainService
     let sdkLog: VCSDKLog
     
-    public convenience init(correlationVector: CorrelationHeader? = nil,
+    convenience init(correlationVector: CorrelationHeader? = nil,
                             urlSession: URLSession = URLSession.shared) {
         self.init(formatter: IssuanceResponseFormatter(),
                   apiCalls: IssuanceNetworkCalls(correlationVector: correlationVector,
@@ -64,7 +64,7 @@ public class IssuanceService {
         self.sdkLog = sdkLog
     }
     
-    public func getRequest(usingUrl url: String) -> Promise<IssuanceRequest> {
+    func getRequest(usingUrl url: String) -> Promise<IssuanceRequest> {
         return logTime(name: "Issuance getRequest") {
             firstly {
                 self.apiCalls.getRequest(withUrl: url)
@@ -87,7 +87,7 @@ public class IssuanceService {
         }
     }
     
-    public func send(response: IssuanceResponseContainer, isPairwise: Bool = false) -> Promise<VerifiableCredential> {
+    func send(response: IssuanceResponseContainer, isPairwise: Bool = false) -> Promise<VerifiableCredential> {
         return logTime(name: "Issuance sendResponse") {
             firstly {
                 /// turn off pairwise until we have a better solution.
@@ -100,7 +100,7 @@ public class IssuanceService {
         }
     }
     
-    public func sendCompletionResponse(for response: IssuanceCompletionResponse, to url: String) -> Promise<String?> {
+    func sendCompletionResponse(for response: IssuanceCompletionResponse, to url: String) -> Promise<String?> {
         return logTime(name: "Issuance sendCompletionResponse") {
             self.apiCalls.sendCompletionResponse(usingUrl: url, withBody: response)
         }

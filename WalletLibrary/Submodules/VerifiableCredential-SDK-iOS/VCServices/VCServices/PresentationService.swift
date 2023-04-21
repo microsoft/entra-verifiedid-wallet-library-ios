@@ -25,7 +25,7 @@ enum PresentationServiceError: Error {
     case noIssuerIdentifierInRequest
 }
 
-public class PresentationService {
+class PresentationService {
     
     let formatter: PresentationResponseFormatting
     let presentationApiCalls: PresentationNetworking
@@ -36,7 +36,7 @@ public class PresentationService {
     let pairwiseService: PairwiseService
     let sdkLog: VCSDKLog
     
-    public convenience init(correlationVector: CorrelationHeader? = nil,
+    convenience init(correlationVector: CorrelationHeader? = nil,
                             urlSession: URLSession = URLSession.shared) {
         self.init(formatter: PresentationResponseFormatter(),
                   presentationApiCalls: PresentationNetworkCalls(correlationVector: correlationVector,
@@ -70,7 +70,7 @@ public class PresentationService {
         self.sdkLog = sdkLog
     }
     
-    public func getRequest(usingUrl urlStr: String) -> Promise<PresentationRequest> {
+    func getRequest(usingUrl urlStr: String) -> Promise<PresentationRequest> {
         return logTime(name: "Presentation getRequest") {
             firstly {
                 self.getRequestUriPromise(from: urlStr)
@@ -82,7 +82,7 @@ public class PresentationService {
         }
     }
     
-    public func send(response: PresentationResponseContainer, isPairwise: Bool = false) -> Promise<String?> {
+    func send(response: PresentationResponseContainer, isPairwise: Bool = false) -> Promise<String?> {
         return logTime(name: "Presentation sendResponse") {
             firstly {
                 /// turn off pairwise until we have a better solution.
