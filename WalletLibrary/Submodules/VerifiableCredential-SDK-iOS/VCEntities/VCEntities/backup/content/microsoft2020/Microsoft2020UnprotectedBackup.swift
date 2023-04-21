@@ -9,7 +9,7 @@ enum Microsoft2020BackupError : Error {
     case undecodableCredential(source:String)
 }
 
-open class Microsoft2020UnprotectedBackup : UnprotectedBackup {
+class Microsoft2020UnprotectedBackup : UnprotectedBackup {
 
     private struct Constants {
         static let OnTheWireBackupType = "MicrosoftWallet2020"

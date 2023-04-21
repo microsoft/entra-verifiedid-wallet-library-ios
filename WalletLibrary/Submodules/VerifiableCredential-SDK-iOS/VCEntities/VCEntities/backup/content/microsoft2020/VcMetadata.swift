@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-open class VcMetadata : Codable {
+class VcMetadata: Codable {
 
     var displayContract: DisplayDescriptor?
     var type: String
