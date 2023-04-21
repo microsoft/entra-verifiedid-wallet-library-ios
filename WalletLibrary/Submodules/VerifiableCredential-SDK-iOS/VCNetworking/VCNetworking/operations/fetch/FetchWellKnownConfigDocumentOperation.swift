@@ -18,7 +18,7 @@ class FetchWellKnownConfigDocumentOperation: InternalNetworkOperation {
     var urlRequest: URLRequest
     var correlationVector: CorrelationHeader?
     
-    public init(withUrl urlStr: String,
+    init(withUrl urlStr: String,
                 andCorrelationVector cv: CorrelationHeader? = nil,
                 session: URLSession = URLSession.shared) throws {
         

@@ -9,11 +9,11 @@ import Foundation
     import VCEntities
 #endif
 
-public class PostIssuanceResponseOperation: InternalPostNetworkOperation {
+class PostIssuanceResponseOperation: InternalPostNetworkOperation {
 
     typealias Encoder = IssuanceResponseEncoder
-    public typealias RequestBody = IssuanceResponse
-    public typealias ResponseBody = VerifiableCredential
+    typealias RequestBody = IssuanceResponse
+    typealias ResponseBody = VerifiableCredential
     
     let decoder = IssuanceServiceResponseDecoder()
     let encoder = IssuanceResponseEncoder()
@@ -21,7 +21,7 @@ public class PostIssuanceResponseOperation: InternalPostNetworkOperation {
     var urlRequest: URLRequest
     var correlationVector: CorrelationHeader?
     
-    public init(usingUrl urlStr: String,
+    init(usingUrl urlStr: String,
                 withBody body: IssuanceResponse,
                 andCorrelationVector cv: CorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) throws {

@@ -25,7 +25,7 @@ class PostPresentationResponseOperation: InternalPostNetworkOperation {
     var urlRequest: URLRequest
     var correlationVector: CorrelationHeader?
     
-    public init(usingUrl urlStr: String,
+    init(usingUrl urlStr: String,
                 withBody body: PresentationResponse,
                 andCorrelationVector cv: CorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) throws {

@@ -5,6 +5,6 @@
 
 import Foundation
 
-public protocol SuccessHandler {
+protocol SuccessHandler {
     func onSuccess<Decoder: Decoding>(data: Data, decodeWith decoder: Decoder) throws -> Decoder.ResponseBody
 }

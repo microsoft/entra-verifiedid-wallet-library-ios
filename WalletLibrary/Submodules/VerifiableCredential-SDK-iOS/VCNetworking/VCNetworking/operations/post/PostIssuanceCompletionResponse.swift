@@ -9,11 +9,11 @@ import Foundation
     import VCEntities
 #endif
 
-public class PostIssuanceCompletionResponseOperation: InternalPostNetworkOperation {
+class PostIssuanceCompletionResponseOperation: InternalPostNetworkOperation {
     
     typealias Encoder = IssuanceCompletionResponseEncoder
-    public typealias RequestBody = IssuanceCompletionResponse
-    public typealias ResponseBody = String?
+    typealias RequestBody = IssuanceCompletionResponse
+    typealias ResponseBody = String?
     
     let decoder = BasicServiceResponseDecoder()
     let encoder = IssuanceCompletionResponseEncoder()
@@ -21,7 +21,7 @@ public class PostIssuanceCompletionResponseOperation: InternalPostNetworkOperati
     var urlRequest: URLRequest
     var correlationVector: CorrelationHeader?
     
-    public init(usingUrl urlStr: String,
+    init(usingUrl urlStr: String,
                 withBody body: IssuanceCompletionResponse,
                 andCorrelationVector cv: CorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) throws {

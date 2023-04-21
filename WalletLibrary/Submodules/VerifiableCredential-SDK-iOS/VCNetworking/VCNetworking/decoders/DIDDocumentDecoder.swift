@@ -9,11 +9,11 @@ import Foundation
     import VCEntities
 #endif
 
-public struct DIDDocumentDecoder: Decoding {
+struct DIDDocumentDecoder: Decoding {
     
     let decoder = JSONDecoder()
     
-    public func decode(data: Data) throws -> IdentifierDocument {
+    func decode(data: Data) throws -> IdentifierDocument {
         return try decoder.decode(DiscoveryServiceResponse.self, from: data).didDocument
     }
 }

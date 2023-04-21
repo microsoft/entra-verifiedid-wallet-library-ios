@@ -9,12 +9,12 @@ import Foundation
     import VCEntities
 #endif
 
-public struct ContractDecoder: Decoding {
+struct ContractDecoder: Decoding {
     typealias Decodable = SignedContract
     
     let decoder = JSONDecoder()
     
-    public func decode(data: Data) throws -> SignedContract {
+    func decode(data: Data) throws -> SignedContract {
         
         let response = try decoder.decode(ContractServiceResponse.self, from: data)
         

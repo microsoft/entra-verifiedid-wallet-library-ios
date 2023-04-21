@@ -9,22 +9,22 @@ import PromiseKit
     import VCEntities
 #endif
 
-public protocol DiscoveryNetworking {
+protocol DiscoveryNetworking {
     func getDocument(from identifier: String) -> Promise<IdentifierDocument>
 }
 
-public class DIDDocumentNetworkCalls: DiscoveryNetworking {
+class DIDDocumentNetworkCalls: DiscoveryNetworking {
     
     private let urlSession: URLSession
     private let correlationVector: CorrelationHeader?
     
-    public init(correlationVector: CorrelationHeader? = nil,
+    init(correlationVector: CorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) {
         self.urlSession = urlSession
         self.correlationVector = correlationVector
     }
     
-    public func getDocument(from identifier: String) -> Promise<IdentifierDocument> {
+    func getDocument(from identifier: String) -> Promise<IdentifierDocument> {
         
         do {
             var operation = try FetchDIDDocumentOperation(withIdentifier: identifier,
