@@ -14,16 +14,16 @@ enum AesError : Error {
 }
 
 struct Aes {
-    
+
     // AES processes inputs in blocks of 128 bits (16 bytes)
     internal let blockSize = size_t(16)
-    
+
     private let keyWrapAlg = CCWrappingAlgorithm(kCCWRAPAES)
-    
+
     init() {}
-    
+
     func wrap(key: VCCryptoSecret, with kek: VCCryptoSecret) throws -> Data {
-        
+    
         // Look for an early out
         guard key is Secret, kek is Secret else {
             throw AesError.invalidSecret
@@ -59,14 +59,14 @@ struct Aes {
         })
         return wrapped
     }
-    
+
     func unwrap(wrapped: Data, using kek: VCCryptoSecret) throws -> VCCryptoSecret {
-        
+
         // Look for an early out
         guard kek is Secret else {
             throw AesError.invalidSecret
         }
-        
+
         var unwrappedSize = CCSymmetricUnwrappedSize(keyWrapAlg, wrapped.count)
         var unwrapped = Data(repeating: 0, count: unwrappedSize)
         defer {
@@ -75,7 +75,7 @@ struct Aes {
                 return
             }
         }
-        
+
         try unwrapped.withUnsafeMutableBytes { (unwrappedPtr: UnsafeMutableRawBufferPointer) in
             let unwrappedBytes = unwrappedPtr.bindMemory(to: UInt8.self)
             
@@ -101,18 +101,18 @@ struct Aes {
         }
         return EphemeralSecret(with: unwrapped)
     }
-    
+
     func encrypt(data: Data, with key: VCCryptoSecret, iv: Data) throws -> Data {
         
         // If the input isn't perfectly aligned to the AES block size, then padding is required
         let options = data.count % blockSize == 0 ? CCOptions(0) : CCOptions(kCCOptionPKCS7Padding)
         return try self.apply(operation: CCOperation(kCCEncrypt), withOptions: options, to: data, using: key, iv: iv)
     }
-    
+
     func decrypt(data: Data, with key: VCCryptoSecret, iv: Data) throws -> Data {
         return try self.apply(operation: CCOperation(kCCDecrypt), withOptions: CCOptions(kCCOptionPKCS7Padding), to: data, using: key, iv: iv)
     }
-    
+
     private func apply(operation: CCOperation, withOptions options: CCOptions, to data: Data, using key: VCCryptoSecret, iv: Data) throws -> Data {
         
         // Look for an early out

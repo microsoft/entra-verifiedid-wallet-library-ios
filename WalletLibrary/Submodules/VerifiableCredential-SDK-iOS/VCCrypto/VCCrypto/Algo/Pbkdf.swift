@@ -6,17 +6,17 @@
 import Foundation
 import CommonCrypto
 
-enum PbkdfError : Error {
+enum PbkdfError: Error {
     case keyDerivationError
     case invalidAlgorithmNameError(name:String)
 }
 
 struct Pbkdf {
-    
+
     init() { }
-    
+
     func derive(from password: String, withSaltInput p2s: Data, forAlgorithm algorithm: String, rounds: UInt32) throws -> VCCryptoSecret {
-        
+
         // Determine the algorithm, and key size
         let size: size_t, pseudoRandomAlgorithm: CCPseudoRandomAlgorithm
         switch (algorithm) {
@@ -32,7 +32,7 @@ struct Pbkdf {
         default:
             throw PbkdfError.invalidAlgorithmNameError(name:algorithm)
         }
-        
+
         // Construct the salt, c.f. https://datatracker.ietf.org/doc/html/rfc7517#appendix-C.4
         guard var salt = algorithm.data(using: .utf8) else {
             throw PbkdfError.invalidAlgorithmNameError(name:algorithm)
@@ -50,10 +50,10 @@ struct Pbkdf {
         }
         try derived.withUnsafeMutableBytes { (derivedPtr: UnsafeMutableRawBufferPointer) in
             let derivedBytes = derivedPtr.bindMemory(to: UInt8.self)
-            
+
             try salt.withUnsafeBytes { (saltPtr: UnsafeRawBufferPointer) in
                 let saltBytes = saltPtr.bindMemory(to: UInt8.self)
-                
+
                 let status = CCKeyDerivationPBKDF(CCPBKDFAlgorithm(kCCPBKDF2),
                                                   password,
                                                   password.utf8.count,

@@ -8,7 +8,7 @@ import CommonCrypto
 
 @available(*, deprecated, message: "Superceded by HmacSha2")
 struct HmacSha512 {
-    
+
     init() { }
     
     /// Authenticate a message
@@ -20,7 +20,7 @@ struct HmacSha512 {
         let hmac = try HmacSha2(algorithm: UInt32(kCCHmacAlgSHA512))
         return try hmac.authenticate(message: message, with: secret)
     }
-    
+
     /// Verify that the authentication code is valid
     /// - Parameters:
     ///   - mac: The authentication code
