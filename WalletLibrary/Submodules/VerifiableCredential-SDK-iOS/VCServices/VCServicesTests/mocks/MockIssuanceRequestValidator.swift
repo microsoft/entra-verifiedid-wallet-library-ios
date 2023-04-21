@@ -4,9 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import PromiseKit
-import VCEntities
-
-@testable import VCServices
+@testable import WalletLibrary
 
 enum MockIssuanceRequestValidatorError: Error {
     case isNotValid

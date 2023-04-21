@@ -4,9 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import PromiseKit
-import VCEntities
-
-@testable import VCServices
+@testable import WalletLibrary
 
 enum MockDomainLinkageCredentialValidatorError: Error {
     case isNotValid

@@ -3,11 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCNetworking
-import VCEntities
 import PromiseKit
-
-@testable import VCServices
+@testable import WalletLibrary
 
 enum MockWellKnownConfigDocumentNetworkingError: Error {
     case doNotWantToResolveRealObject
@@ -27,7 +24,7 @@ class MockWellKnownConfigDocumentApiCalls: WellKnownConfigDocumentNetworking {
         Self.wasGetCalled = true
         return Promise { seal in
             if self.resolveSuccessfully {
-                let encodedTestWellKnownConfig = TestData.wellKnownConfig.rawValue.data(using: .ascii)!
+                let encodedTestWellKnownConfig = VCServicesTestData.wellKnownConfig.rawValue.data(using: .ascii)!
                 do {
                     let testWellKnownConfig = try JSONDecoder().decode(WellKnownConfigDocument.self,
                                                                    from: encodedTestWellKnownConfig)
