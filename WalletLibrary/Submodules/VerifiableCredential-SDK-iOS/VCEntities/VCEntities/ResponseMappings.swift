@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public typealias RequestedIdTokenMap = [String:String]
-public typealias RequestedAccessTokenMap = [String: String]
-public typealias RequestedSelfAttestedClaimMap = [String: String]
-public typealias RequestedVerifiableCredentialMap = [RequestedVerifiableCredentialMapping]
+typealias RequestedIdTokenMap = [String:String]
+typealias RequestedAccessTokenMap = [String: String]
+typealias RequestedSelfAttestedClaimMap = [String: String]
+typealias RequestedVerifiableCredentialMap = [RequestedVerifiableCredentialMapping]

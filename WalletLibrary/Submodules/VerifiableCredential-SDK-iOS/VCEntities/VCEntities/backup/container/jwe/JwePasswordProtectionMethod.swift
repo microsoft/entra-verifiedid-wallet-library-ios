@@ -15,7 +15,7 @@ enum JwePasswordProtectionError : Error {
     case invalidContentType
 }
 
-public struct JwePasswordProtectionMethod : BackupProtectionMethod {
+struct JwePasswordProtectionMethod : BackupProtectionMethod {
     
     private struct Constants {
         static let Algorithm = "PBES2-HS512+A256KW"
@@ -26,11 +26,11 @@ public struct JwePasswordProtectionMethod : BackupProtectionMethod {
     
     let password: String
     
-    public init(password: String) {
+    init(password: String) {
         self.password = password
     }
 
-    public func wrap(unprotectedBackupData: UnprotectedBackupData) throws -> ProtectedBackupData {
+    func wrap(unprotectedBackupData: UnprotectedBackupData) throws -> ProtectedBackupData {
 
         // Generate a salt
         let salt = try EphemeralSecret(size: Constants.SaltLength)
@@ -54,7 +54,7 @@ public struct JwePasswordProtectionMethod : BackupProtectionMethod {
         return try JwePasswordProtectedBackupData(content: JweEncoder().encode(token))
     }
     
-    public func unwrap(protectedBackupData: ProtectedBackupData) throws -> UnprotectedBackupData {
+    func unwrap(protectedBackupData: ProtectedBackupData) throws -> UnprotectedBackupData {
         
         // Decode
         let token = try JweDecoder().decode(token: protectedBackupData.serialize())

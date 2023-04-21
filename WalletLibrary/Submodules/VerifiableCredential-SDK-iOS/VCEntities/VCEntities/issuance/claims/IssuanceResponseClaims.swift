@@ -7,31 +7,31 @@
     import VCToken
 #endif
 
-public struct IssuanceResponseClaims: OIDCClaims {
+struct IssuanceResponseClaims: OIDCClaims {
     
-    public let issuer: String = VCEntitiesConstants.SELF_ISSUED
+    let issuer: String = VCEntitiesConstants.SELF_ISSUED
         
-    public let publicKeyThumbprint: String
+    let publicKeyThumbprint: String
     
-    public let audience: String
+    let audience: String
     
-    public let did: String
+    let did: String
     
-    public let publicJwk: ECPublicJwk?
+    let publicJwk: ECPublicJwk?
     
-    public let contract: String
+    let contract: String
     
-    public let jti: String
+    let jti: String
     
-    public let attestations: AttestationResponseDescriptor?
+    let attestations: AttestationResponseDescriptor?
     
-    public let pin: String?
+    let pin: String?
     
-    public let iat: Double?
+    let iat: Double?
     
-    public let exp: Double?
+    let exp: Double?
     
-    public init(publicKeyThumbprint: String = "",
+    init(publicKeyThumbprint: String = "",
                 audience: String = "",
                 did: String = "",
                 publicJwk: ECPublicJwk? = nil,

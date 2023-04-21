@@ -3,14 +3,14 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct AttestationsDescriptor: Codable, Equatable {
+struct AttestationsDescriptor: Codable, Equatable {
     
-    public let selfIssued: SelfIssuedClaimsDescriptor?
-    public let presentations: [PresentationDescriptor]?
-    public let idTokens: [IdTokenDescriptor]?
-    public let accessTokens: [AccessTokenDescriptor]?
+    let selfIssued: SelfIssuedClaimsDescriptor?
+    let presentations: [PresentationDescriptor]?
+    let idTokens: [IdTokenDescriptor]?
+    let accessTokens: [AccessTokenDescriptor]?
     
-    public init(selfIssued: SelfIssuedClaimsDescriptor? = nil,
+    init(selfIssued: SelfIssuedClaimsDescriptor? = nil,
                 presentations: [PresentationDescriptor]? = nil,
                 idTokens: [IdTokenDescriptor]? = nil,
                 accessTokens: [AccessTokenDescriptor]? = nil) {

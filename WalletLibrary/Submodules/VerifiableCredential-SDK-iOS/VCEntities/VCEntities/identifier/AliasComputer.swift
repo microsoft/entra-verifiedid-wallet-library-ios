@@ -7,16 +7,16 @@
     import VCCrypto
 #endif
 
-public struct AliasComputer {
+struct AliasComputer {
     
     let hashingAlg = Sha256()
     let pattern = "[^A-Za-z0-9]+"
     
-    public init() {}
+    init() {}
     
     // TODO: temporarily computing alias by hashing id of VC and rp DID until
     // deterministic key generation is implemented
-    public func compute(forId id: String, andRelyingParty rp: String) -> String {
+    func compute(forId id: String, andRelyingParty rp: String) -> String {
         let message = (id + rp).data(using: .ascii)
         let hashedMessage = hashingAlg.hash(data: message!)
         let base64EncodedAlias = hashedMessage.base64EncodedString().prefix(10)

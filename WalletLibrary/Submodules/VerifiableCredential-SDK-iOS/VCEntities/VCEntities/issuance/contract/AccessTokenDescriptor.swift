@@ -3,17 +3,17 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct AccessTokenDescriptor: Codable, Equatable {
+struct AccessTokenDescriptor: Codable, Equatable {
     
-    public let id: String?
-    public let encrypted: Bool?
-    public let claims: [ClaimDescriptor]?
-    public let required: Bool?
-    public let configuration: String?
-    public let resourceId: String?
-    public let oboScope: String?
+    let id: String?
+    let encrypted: Bool?
+    let claims: [ClaimDescriptor]?
+    let required: Bool?
+    let configuration: String?
+    let resourceId: String?
+    let oboScope: String?
     
-    public init(id: String? = nil,
+    init(id: String? = nil,
                 encrypted: Bool? = nil,
                 claims: [ClaimDescriptor]? = nil,
                 required: Bool? = nil,

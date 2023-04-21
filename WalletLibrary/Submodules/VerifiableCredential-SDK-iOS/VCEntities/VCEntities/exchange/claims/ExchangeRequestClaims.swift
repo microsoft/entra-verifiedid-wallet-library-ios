@@ -7,29 +7,29 @@
     import VCToken
 #endif
 
-public struct ExchangeRequestClaims: OIDCClaims {
+struct ExchangeRequestClaims: OIDCClaims {
     
-    public let issuer: String = VCEntitiesConstants.SELF_ISSUED
+    let issuer: String = VCEntitiesConstants.SELF_ISSUED
         
-    public let publicKeyThumbprint: String
+    let publicKeyThumbprint: String
     
-    public let audience: String
+    let audience: String
     
-    public let did: String
+    let did: String
     
-    public let publicJwk: ECPublicJwk?
+    let publicJwk: ECPublicJwk?
     
-    public let jti: String
+    let jti: String
     
-    public let iat: Double?
+    let iat: Double?
     
-    public let exp: Double?
+    let exp: Double?
     
-    public let exchangeableVc: String
+    let exchangeableVc: String
     
-    public let recipientDid: String
+    let recipientDid: String
     
-    public init(publicKeyThumbprint: String = "",
+    init(publicKeyThumbprint: String = "",
                 audience: String = "",
                 did: String = "",
                 publicJwk: ECPublicJwk? = nil,
@@ -60,4 +60,4 @@ public struct ExchangeRequestClaims: OIDCClaims {
     }
 }
 
-public typealias ExchangeRequest = JwsToken<ExchangeRequestClaims>
+typealias ExchangeRequest = JwsToken<ExchangeRequestClaims>

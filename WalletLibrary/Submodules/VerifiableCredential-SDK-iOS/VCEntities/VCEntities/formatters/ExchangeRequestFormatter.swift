@@ -7,23 +7,23 @@
     import VCToken
 #endif
 
-public protocol ExchangeRequestFormatting {
+protocol ExchangeRequestFormatting {
     func format(request: ExchangeRequestContainer) throws -> ExchangeRequest
 }
 
-public class ExchangeRequestFormatter: ExchangeRequestFormatting {
+class ExchangeRequestFormatter: ExchangeRequestFormatting {
     
     let signer: TokenSigning
     let sdkLog: VCSDKLog
     let headerFormatter = JwsHeaderFormatter()
     
-    public init(signer: TokenSigning = Secp256k1Signer(),
+    init(signer: TokenSigning = Secp256k1Signer(),
                 sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
         self.signer = signer
         self.sdkLog = sdkLog
     }
     
-    public func format(request: ExchangeRequestContainer) throws -> ExchangeRequest {
+    func format(request: ExchangeRequestContainer) throws -> ExchangeRequest {
         
         guard let signingKey = request.currentOwnerIdentifier.didDocumentKeys.first else {
             throw FormatterError.noSigningKeyFound

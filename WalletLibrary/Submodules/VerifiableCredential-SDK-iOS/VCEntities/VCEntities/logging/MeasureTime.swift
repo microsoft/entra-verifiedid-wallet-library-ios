@@ -10,7 +10,7 @@ struct MetricConstants {
     static let Duration = "duration_ms"
 }
 
-public func logTime<R>(name: String,
+func logTime<R>(name: String,
                     _ block: @escaping () -> Promise<R>) -> Promise<R> {
     
     let startTimeInSeconds = CFAbsoluteTimeGetCurrent()
@@ -26,7 +26,7 @@ public func logTime<R>(name: String,
     return result
 }
 
-public func logNetworkTime(name: String,
+func logNetworkTime(name: String,
                     correlationVector: CorrelationHeader? = nil,
                     _ block: @escaping () -> Promise<(data: Data, response: URLResponse)>) -> Promise<(data: Data, response: URLResponse)> {
     

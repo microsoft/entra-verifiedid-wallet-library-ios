@@ -7,7 +7,7 @@ enum ExchangeRequestError: Error {
     case noAudienceFound
 }
 
-public struct ExchangeRequestContainer {
+struct ExchangeRequestContainer {
     
     let exchangeableVerifiableCredential: VerifiableCredential
     
@@ -15,9 +15,9 @@ public struct ExchangeRequestContainer {
     
     let currentOwnerIdentifier: Identifier
     
-    public let audience: String
+    let audience: String
     
-    public init(exchangeableVerifiableCredential: VerifiableCredential,
+    init(exchangeableVerifiableCredential: VerifiableCredential,
                 newOwnerDid: String,
                 currentOwnerIdentifier: Identifier) throws {
         

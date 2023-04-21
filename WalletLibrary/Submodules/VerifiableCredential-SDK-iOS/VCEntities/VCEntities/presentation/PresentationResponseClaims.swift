@@ -7,23 +7,23 @@
     import VCToken
 #endif
 
-public struct PresentationResponseClaims: OIDCClaims {
+struct PresentationResponseClaims: OIDCClaims {
     
-    public let issuer: String = VCEntitiesConstants.SELF_ISSUED_V2
+    let issuer: String = VCEntitiesConstants.SELF_ISSUED_V2
         
-    public let subject: String
+    let subject: String
     
-    public let audience: String
+    let audience: String
     
-    public let vpTokenDescription: VPTokenResponseDescription?
+    let vpTokenDescription: VPTokenResponseDescription?
     
-    public let nonce: String?
+    let nonce: String?
     
-    public let iat: Double?
+    let iat: Double?
     
-    public let exp: Double?
+    let exp: Double?
     
-    public init(subject: String = "",
+    init(subject: String = "",
                 audience: String = "",
                 vpTokenDescription: VPTokenResponseDescription? = nil,
                 nonce: String? = "",
@@ -46,4 +46,4 @@ public struct PresentationResponseClaims: OIDCClaims {
     }
 }
 
-public typealias PresentationResponseToken = JwsToken<PresentationResponseClaims>
+typealias PresentationResponseToken = JwsToken<PresentationResponseClaims>

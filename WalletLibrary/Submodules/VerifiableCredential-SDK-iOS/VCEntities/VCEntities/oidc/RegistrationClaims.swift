@@ -8,24 +8,24 @@
  *
  * @see [OpenID Spec](https://openid.net/specs/openid-connect-registration-1_0.html)
  */
-public struct RegistrationClaims: Codable, Equatable {
+struct RegistrationClaims: Codable, Equatable {
     
     /// The name of the requester.
-    public let clientName: String?
+    let clientName: String?
     
     /// The purpose of the request.
-    public let clientPurpose: String?
+    let clientPurpose: String?
     
     /// Optional logo uri of the requester.
-    public let logoURI: String?
+    let logoURI: String?
     
     /// The identifier types supported to use to respond to request (ex. did).
-    public let subjectIdentifierTypesSupported: [String]?
+    let subjectIdentifierTypesSupported: [String]?
     
     /// The supported Verfiable Presentation Formats and Algorithms to respond to request.
-    public let vpFormats: SupportedVerifiablePresentationFormats?
+    let vpFormats: SupportedVerifiablePresentationFormats?
     
-    public init(clientName: String?,
+    init(clientName: String?,
                 clientPurpose: String?,
                 logoURI: String?,
                 subjectIdentifierTypesSupported: [String]?,

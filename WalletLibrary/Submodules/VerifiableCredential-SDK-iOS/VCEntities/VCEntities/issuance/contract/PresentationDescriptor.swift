@@ -3,14 +3,14 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public struct PresentationDescriptor: Codable, Equatable {
+struct PresentationDescriptor: Codable, Equatable {
     
-    public let encrypted: Bool?
-    public let claims: [ClaimDescriptor]
-    public let presentationRequired: Bool?
-    public let credentialType: String
-    public let issuers: [IssuerDescriptor]?
-    public let contracts: [String]?
+    let encrypted: Bool?
+    let claims: [ClaimDescriptor]
+    let presentationRequired: Bool?
+    let credentialType: String
+    let issuers: [IssuerDescriptor]?
+    let contracts: [String]?
 
     enum CodingKeys: String, CodingKey {
         case encrypted, claims
@@ -18,7 +18,7 @@ public struct PresentationDescriptor: Codable, Equatable {
         case credentialType, issuers, contracts
     }
     
-    public init(encrypted: Bool? = nil,
+    init(encrypted: Bool? = nil,
                 claims: [ClaimDescriptor],
                 presentationRequired: Bool? = nil,
                 credentialType: String,

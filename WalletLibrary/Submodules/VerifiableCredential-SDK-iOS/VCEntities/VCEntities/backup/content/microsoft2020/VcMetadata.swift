@@ -5,10 +5,10 @@
 
 open class VcMetadata : Codable {
 
-    public var displayContract: DisplayDescriptor?
-    public var type: String
+    var displayContract: DisplayDescriptor?
+    var type: String
     
-    public init(as type:String) {
+    init(as type:String) {
         self.type = type
     }
 }

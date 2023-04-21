@@ -7,22 +7,22 @@
     import VCToken
 #endif
 
-public struct VerifiablePresentationClaims: OIDCClaims {
-    public let vpId: String
+struct VerifiablePresentationClaims: OIDCClaims {
+    let vpId: String
     
-    public let verifiablePresentation: VerifiablePresentationDescriptor
+    let verifiablePresentation: VerifiablePresentationDescriptor
     
-    public let issuerOfVp: String
+    let issuerOfVp: String
     
-    public let audience: String
+    let audience: String
     
-    public let iat: Double
+    let iat: Double
     
-    public let nbf: Double
+    let nbf: Double
     
-    public let exp: Double
+    let exp: Double
     
-    public let nonce: String?
+    let nonce: String?
     
     enum CodingKeys: String, CodingKey {
         case issuerOfVp = "iss"
@@ -32,7 +32,7 @@ public struct VerifiablePresentationClaims: OIDCClaims {
         case iat, exp, nonce, nbf
     }
     
-    public init(vpId: String = "",
+    init(vpId: String = "",
                 verifiablePresentation: VerifiablePresentationDescriptor?,
                 issuerOfVp: String = "",
                 audience: String = "",
@@ -51,4 +51,4 @@ public struct VerifiablePresentationClaims: OIDCClaims {
     }
 }
 
-public typealias VerifiablePresentation = JwsToken<VerifiablePresentationClaims>
+typealias VerifiablePresentation = JwsToken<VerifiablePresentationClaims>
