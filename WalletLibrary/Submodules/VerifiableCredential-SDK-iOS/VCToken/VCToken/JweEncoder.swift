@@ -5,17 +5,17 @@
 
 import Foundation
 
-public enum JweFormat {
+enum JweFormat {
     case compact
 }
 
-public class JweEncoder {
+class JweEncoder {
 
     private let json = JSONEncoder()
     
-    public init() {}
+    init() {}
     
-    public func encode(_ token: JweToken, format: JweFormat = JweFormat.compact) throws -> String {
+    func encode(_ token: JweToken, format: JweFormat = JweFormat.compact) throws -> String {
         switch format {
         case .compact:
             return try encodeUsingCompactFormat(token: token)

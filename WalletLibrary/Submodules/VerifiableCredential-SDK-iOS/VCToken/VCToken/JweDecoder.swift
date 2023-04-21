@@ -10,13 +10,13 @@ enum JweDecoderError: Error {
     case unableToInitializeJweToken
 }
 
-public class JweDecoder {
+class JweDecoder {
     
     private let json = JSONDecoder()
     
-    public init() {}
+    init() {}
     
-    public func decode(token: String) throws -> JweToken {
+    func decode(token: String) throws -> JweToken {
 
         let components = token.components(separatedBy: ".")
         guard components.count == 5 else {

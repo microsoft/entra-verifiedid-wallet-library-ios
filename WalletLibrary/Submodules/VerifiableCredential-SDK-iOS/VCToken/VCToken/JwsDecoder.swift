@@ -10,13 +10,13 @@ enum JwsDecoderError: Error {
     case unableToInitializeJwsToken
 }
 
-public class JwsDecoder {
+class JwsDecoder {
     
     private let decoder = JSONDecoder()
     
-    public init() {}
+    init() {}
     
-    public func decode<T>(_ type: T.Type, token: String) throws -> JwsToken<T> {
+    func decode<T>(_ type: T.Type, token: String) throws -> JwsToken<T> {
 
         let splitStringifiedData = token.components(separatedBy: ".")
         

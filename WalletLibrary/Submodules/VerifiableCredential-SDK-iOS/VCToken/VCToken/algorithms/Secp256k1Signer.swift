@@ -12,15 +12,15 @@ enum Secp256k1SignerError: Error {
 }
 
 /// TODO: refactor class to be a generic signer.
-public struct Secp256k1Signer: TokenSigning {
+struct Secp256k1Signer: TokenSigning {
     
     private let cryptoOperations: CryptoOperating
     
-    public init(cryptoOperations: CryptoOperating = CryptoOperations()) {
+    init(cryptoOperations: CryptoOperating = CryptoOperations()) {
         self.cryptoOperations = cryptoOperations
     }
 
-    public func sign<T>(token: JwsToken<T>, withSecret secret: VCCryptoSecret) throws -> Signature {
+    func sign<T>(token: JwsToken<T>, withSecret secret: VCCryptoSecret) throws -> Signature {
         
         let encodedMessage = token.protectedMessage
 
@@ -33,7 +33,7 @@ public struct Secp256k1Signer: TokenSigning {
                                          algorithm: SupportedCurve.Secp256k1.rawValue)
     }
     
-    public func getPublicJwk(from secret: VCCryptoSecret, withKeyId keyId: String) throws -> ECPublicJwk {
+    func getPublicJwk(from secret: VCCryptoSecret, withKeyId keyId: String) throws -> ECPublicJwk {
         
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: secret,
                                                           algorithm: SupportedCurve.Secp256k1.rawValue)

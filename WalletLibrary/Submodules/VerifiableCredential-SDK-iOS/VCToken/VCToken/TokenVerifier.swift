@@ -13,15 +13,15 @@ enum TokenVerifierError: Error, Equatable {
     case unsupportedAlgorithmFoundInJWK(algorithm: String?)
 }
 
-public struct TokenVerifier: TokenVerifying {
+struct TokenVerifier: TokenVerifying {
     
     private let cryptoOperations: CryptoOperating
     
-    public init(cryptoOperations: CryptoOperating = CryptoOperations()) {
+    init(cryptoOperations: CryptoOperating = CryptoOperations()) {
         self.cryptoOperations = cryptoOperations
     }
     
-    public func verify<T>(token: JwsToken<T>, usingPublicKey key: JWK) throws -> Bool {
+    func verify<T>(token: JwsToken<T>, usingPublicKey key: JWK) throws -> Bool {
         
         guard let signature = token.signature else {
             return false

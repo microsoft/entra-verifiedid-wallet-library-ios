@@ -5,14 +5,14 @@
 
 /// TODO: deprecate entity for JWK
 struct ECPublicJwk: Codable, Equatable {
-    public let keyType: String
-    public let keyId: String?
-    public let use: String?
-    public let keyOperations: [String]?
-    public let algorithm: String?
-    public let curve: String
-    public let x: String
-    public let y: String?
+    let keyType: String
+    let keyId: String?
+    let use: String?
+    let keyOperations: [String]?
+    let algorithm: String?
+    let curve: String
+    let x: String
+    let y: String?
     
     enum CodingKeys: String, CodingKey {
         case keyType = "kty"
@@ -23,7 +23,7 @@ struct ECPublicJwk: Codable, Equatable {
         case use, x, y
     }
     
-    public init(x: String, y: String, keyId: String) {
+    init(x: String, y: String, keyId: String) {
         self.keyType = "EC"
         self.keyId = keyId
         self.use = "sig"
@@ -34,13 +34,13 @@ struct ECPublicJwk: Codable, Equatable {
         self.y = y
     }
     
-    public init(withPublicKey key: Secp256k1PublicKey, withKeyId kid: String) {
+    init(withPublicKey key: Secp256k1PublicKey, withKeyId kid: String) {
         let x = key.x.base64URLEncodedString()
         let y = key.y.base64URLEncodedString()
         self.init(x: x, y: y, keyId: kid)
     }
     
-    public func toJWK() -> JWK
+    func toJWK() -> JWK
     {
         var encodedY: Data? = nil
         if let y = y {
@@ -67,7 +67,7 @@ struct ECPublicJwk: Codable, Equatable {
         return encodedJwk
     }
     
-    public func getThumbprint() throws -> String {
+    func getThumbprint() throws -> String {
         
         let hashAlgorithm = Sha256()
         

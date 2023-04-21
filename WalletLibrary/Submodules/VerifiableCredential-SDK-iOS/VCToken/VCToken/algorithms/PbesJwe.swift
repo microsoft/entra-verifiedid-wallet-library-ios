@@ -17,7 +17,7 @@ enum PbesJweError: Error {
 }
 
 /// Implementation of password-based encryption scheme for JSON Web Encryption
-public struct PbesJwe {
+struct PbesJwe {
 
     private struct Constants {
         static let InitializationVectorByteSize = 16
@@ -26,9 +26,9 @@ public struct PbesJwe {
     private let aes = Aes()
     private let pbkdf = Pbkdf()
 
-    public init() {}
+    init() {}
 
-    public func encrypt(_ plainText: Data, with password: String, using headers: Header) throws -> JweToken {
+    func encrypt(_ plainText: Data, with password: String, using headers: Header) throws -> JweToken {
 
         // Generate a content-encryption key
         guard let method = headers.encryptionMethod else {
@@ -66,7 +66,7 @@ public struct PbesJwe {
         return token
     }
 
-    public func decrypt(_ token: JweToken, with password: String) throws -> Data {
+    func decrypt(_ token: JweToken, with password: String) throws -> Data {
 
         // Derive the key-encrypting key from the password
         guard let alg = token.headers.algorithm else {

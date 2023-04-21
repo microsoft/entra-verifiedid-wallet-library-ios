@@ -7,19 +7,19 @@
     import VCCrypto
 #endif
 
-public enum JwsTokenError: Error {
+enum JwsTokenError: Error {
     case unsupportedAlgorithm(name: String?)
 }
 
-public struct JwsToken<T: Claims> {
+struct JwsToken<T: Claims> {
     
-    public let headers: Header
-    public let content: T
-    public let protectedMessage: String
-    public var rawValue: String?
+    let headers: Header
+    let content: T
+    let protectedMessage: String
+    var rawValue: String?
     var signature: Signature?
     
-    public init?(headers: Header,
+    init?(headers: Header,
                  content: T,
                  protectedMessage: String? = nil,
                  signature: Data? = nil,
@@ -41,7 +41,7 @@ public struct JwsToken<T: Claims> {
         }
     }
     
-    public init?(from encodedToken: String) {
+    init?(from encodedToken: String) {
         let decoder = JwsDecoder()
         do {
             self = try decoder.decode(T.self, token: encodedToken)
@@ -51,28 +51,28 @@ public struct JwsToken<T: Claims> {
         }
     }
     
-    public init?(from encodedToken: Data) {
+    init?(from encodedToken: Data) {
         guard let stringifiedToken = String(data: encodedToken, encoding: .utf8) else {
             return nil
         }
         self.init(from: stringifiedToken)
     }
     
-    public func serialize() throws -> String {
+    func serialize() throws -> String {
         let encoder = JwsEncoder()
         return try encoder.encode(self)
     }
     
-    public mutating func sign(using signer: TokenSigning, withSecret secret: VCCryptoSecret) throws {
+    mutating func sign(using signer: TokenSigning, withSecret secret: VCCryptoSecret) throws {
         self.signature = try signer.sign(token: self, withSecret: secret)
     }
     
-    public func verify(using verifier: TokenVerifying, withPublicKey key: JWK) throws -> Bool {
+    func verify(using verifier: TokenVerifying, withPublicKey key: JWK) throws -> Bool {
         return try verifier.verify(token: self, usingPublicKey: key)
     }
     
     /// Temporary: TODO: remove support for ECPublicJwk data model for JWK.
-    public func verify(using verifier: TokenVerifying, withPublicKey key: ECPublicJwk) throws -> Bool {
+    func verify(using verifier: TokenVerifying, withPublicKey key: ECPublicJwk) throws -> Bool {
         return try verify(using: verifier, withPublicKey: key.toJWK())
     }
     
@@ -84,4 +84,4 @@ public struct JwsToken<T: Claims> {
     }
 }
 
-public typealias Signature = Data
+typealias Signature = Data
