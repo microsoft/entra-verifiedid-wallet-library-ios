@@ -6,7 +6,7 @@
 import Foundation
 
 import XCTest
-@testable import VCCrypto
+@testable import WalletLibrary
 
 class KeyManagementOperationsTests: XCTestCase {
     

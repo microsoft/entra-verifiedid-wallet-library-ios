@@ -5,7 +5,7 @@
 
 
 import Foundation
-@testable import VCCrypto
+@testable import WalletLibrary
 
 final class VCSDKConfigurationMock: VCSDKConfigurable {
     var accessGroupIdentifier: String?

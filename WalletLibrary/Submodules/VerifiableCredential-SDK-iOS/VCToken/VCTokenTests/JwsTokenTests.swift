@@ -3,8 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import VCToken
-import VCCrypto
+@testable import WalletLibrary
+import WalletLibrary
 import XCTest
 
 class JwsTokenTests: XCTestCase {

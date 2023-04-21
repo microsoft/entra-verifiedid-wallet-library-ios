@@ -4,9 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCCrypto
+import WalletLibrary
 
-@testable import VCToken
+@testable import WalletLibrary
 
 class ECPublicJwkTests: XCTestCase {
     
