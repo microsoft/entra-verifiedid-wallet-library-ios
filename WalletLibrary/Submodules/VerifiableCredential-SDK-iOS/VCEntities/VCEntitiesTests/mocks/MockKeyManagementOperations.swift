@@ -3,10 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCCrypto
-import VCToken
-
-@testable import VCEntities
+@testable import WalletLibrary
 
 struct MockKeyManagementOperations: KeyManagementOperating {
     static let itemTypeCode = "r32b"

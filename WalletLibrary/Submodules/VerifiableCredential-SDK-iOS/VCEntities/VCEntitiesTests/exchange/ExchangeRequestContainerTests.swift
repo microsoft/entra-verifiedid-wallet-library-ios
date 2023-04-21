@@ -5,7 +5,7 @@
 
 import XCTest
 
-@testable import VCEntities
+@testable import WalletLibrary
 
 class ExchangeRequestContainerTests: XCTestCase {
     

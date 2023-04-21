@@ -3,8 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import Foundation
-import VCCrypto
+@testable import WalletLibrary
 
 struct MockCryptoSecret: VCCryptoSecret {
     

@@ -4,10 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCToken
-import VCCrypto
-
-@testable import VCEntities
+@testable import WalletLibrary
 
 class PresentationResponseFormatterTests: XCTestCase {
     
