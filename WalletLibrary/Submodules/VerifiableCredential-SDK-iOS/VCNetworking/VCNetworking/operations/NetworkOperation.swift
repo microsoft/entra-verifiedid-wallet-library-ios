@@ -52,7 +52,7 @@ extension InternalNetworkOperation {
     mutating func fire() -> Promise<ResponseBody> {
         
         // Adds library version header to all network calls.
-        urlRequest.setValue(WalletLibraryVersion.Version, forHTTPHeaderField: Constants.WALLET_LIBRARY_HEADER)
+        urlRequest.setValue(WalletLibraryVersion.Version, forHTTPHeaderField: "iOS/\(Constants.WALLET_LIBRARY_HEADER)")
         
         if let cv = correlationVector {
             let incrementedValue = cv.update()
