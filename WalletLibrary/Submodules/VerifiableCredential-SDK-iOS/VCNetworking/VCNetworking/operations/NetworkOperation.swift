@@ -51,6 +51,9 @@ extension InternalNetworkOperation {
     
     mutating func fire() -> Promise<ResponseBody> {
         
+        // Adds library version header to all network calls.
+        urlRequest.setValue(WalletLibraryVersion.Version, forHTTPHeaderField: Constants.WALLET_LIBRARY_HEADER)
+        
         if let cv = correlationVector {
             let incrementedValue = cv.update()
             urlRequest.setValue(incrementedValue, forHTTPHeaderField: cv.name)
