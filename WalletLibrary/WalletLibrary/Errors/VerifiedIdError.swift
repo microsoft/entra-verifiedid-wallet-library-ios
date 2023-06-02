@@ -32,4 +32,9 @@ public class VerifiedIdError: LocalizedError, CustomStringConvertible, Encodable
             return self.description
         }
     }
+    
+    /// Helper function to wrap error in a VerifiedIdResult.
+    func result<T>() -> VerifiedIdResult<T> {
+        return VerifiedIdResult(error: self)
+    }
 }
