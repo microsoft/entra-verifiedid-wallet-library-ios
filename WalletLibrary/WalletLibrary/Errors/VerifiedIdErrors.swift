@@ -37,6 +37,11 @@ enum VerifiedIdErrors {
             return UnspecifiedVerifiedIdError(error: error)
         }
     }
+    
+    /// Helper function to wrap error in a VerifiedIdResult.
+    func result<T>() -> VerifiedIdResult<T> {
+        return error.result()
+    }
 }
 
 // MARK: Common Errors

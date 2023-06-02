@@ -31,9 +31,9 @@ public class VerifiedIdClient {
             let request = try await handler.handleRequest(from: rawRequest)
             return Result.success(request)
         } catch let error as VerifiedIdError {
-            return Result.failure(error)
+            return error.result()
         } catch {
-            return Result.failure(VerifiedIdErrors.UnspecifiedError(error: error).error)
+            return VerifiedIdErrors.UnspecifiedError(error: error).result()
         }
     }
     
@@ -43,7 +43,7 @@ public class VerifiedIdClient {
             let encodedVerifiedId = try configuration.verifiedIdEncoder.encode(verifiedId: verifiedId)
             return Result.success(encodedVerifiedId)
         } catch {
-            return Result.failure(VerifiedIdErrors.UnspecifiedError(error: error).error)
+            return VerifiedIdErrors.UnspecifiedError(error: error).result()
         }
     }
     
@@ -53,7 +53,7 @@ public class VerifiedIdClient {
             let verifiedId = try configuration.verifiedIdDecoder.decode(from: raw)
             return Result.success(verifiedId)
         } catch {
-            return Result.failure(VerifiedIdErrors.UnspecifiedError(error: error).error)
+            return VerifiedIdErrors.UnspecifiedError(error: error).result()
         }
     }
 }

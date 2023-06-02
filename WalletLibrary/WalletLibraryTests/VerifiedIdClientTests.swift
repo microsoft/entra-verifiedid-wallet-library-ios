@@ -243,8 +243,12 @@ class VerifiedIdClientTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try client.decodeVerifiedId(from: mockData).get()) { error in
             // Assert
-            XCTAssert(error is ExpectedError)
-            XCTAssertEqual(error as? ExpectedError, .expectedToBeThrownInDecoder)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
+                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
+            let innerError = (error as! UnspecifiedVerifiedIdError).error
+            XCTAssert(innerError is ExpectedError)
+            XCTAssertEqual(innerError as? ExpectedError, .expectedToBeThrownInDecoder)
         }
     }
     
