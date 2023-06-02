@@ -22,8 +22,10 @@ class VerifiedIdRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try requirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is VerifiedIdRequirementError)
-            XCTAssertEqual(error as? VerifiedIdRequirementError, .requirementHasNotBeenFulfilled)
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertEqual((error as? RequirementNotMetError)?.code, VerifiedIdErrors.ErrorCode.RequirementNotMet)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Verified Id has not been set.")
+            XCTAssertNil((error as! RequirementNotMetError).errors)
         }
     }
     
@@ -44,8 +46,10 @@ class VerifiedIdRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try requirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is MockConstraint.MockConstraintError)
-            XCTAssertEqual(error as? MockConstraint.MockConstraintError, .expectedToThrow)
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertEqual((error as? RequirementNotMetError)?.errors?.first as? MockConstraint.MockConstraintError, .expectedToThrow)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Verified Id Constraints do not match.")
+            XCTAssertEqual((error as? RequirementNotMetError)?.code, VerifiedIdErrors.ErrorCode.RequirementNotMet)
         }
     }
     
@@ -146,8 +150,10 @@ class VerifiedIdRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try requirement.fulfill(with: mockVerifiedId).get()) { error in
             // Assert
-            XCTAssert(error is MockConstraint.MockConstraintError)
-            XCTAssertEqual(error as? MockConstraint.MockConstraintError, .expectedToThrow)
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertEqual((error as? RequirementNotMetError)?.errors?.first as? MockConstraint.MockConstraintError, .expectedToThrow)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Verified Id Constraints do not match.")
+            XCTAssertEqual((error as? RequirementNotMetError)?.code, VerifiedIdErrors.ErrorCode.RequirementNotMet)
         }
     }
     

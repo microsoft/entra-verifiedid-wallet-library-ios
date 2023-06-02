@@ -25,15 +25,12 @@ class GroupRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try groupRequirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is GroupRequirementError)
-            
-            switch (error as? GroupRequirementError) {
-            case .requirementsAreNotValid(let errors):
-                XCTAssertEqual(errors.count, 1)
-                XCTAssertEqual(errors.first as? MockError, MockError.expectedInvalidRequirement)
-            default:
-                XCTFail("Error thrown was not group requirement error.")
-            }
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertEqual((error as? RequirementNotMetError)?.code, VerifiedIdErrors.ErrorCode.RequirementNotMet)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Group Requirement is not valid.")
+            let errors = (error as! RequirementNotMetError).errors!
+            XCTAssertEqual(errors.count, 1)
+            XCTAssertEqual((errors.first as? MockVerifiedIdError)?.error as? MockError, MockError.expectedInvalidRequirement)
         }
     }
     
@@ -52,19 +49,15 @@ class GroupRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try groupRequirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is GroupRequirementError)
-            
-            switch (error as? GroupRequirementError) {
-            case .requirementsAreNotValid(let errors):
-                XCTAssertEqual(errors.count, 4)
-                XCTAssertEqual(errors.first as? MockError, MockError.expectedInvalidRequirement)
-                XCTAssertEqual(errors[1] as? MockError, MockError.secondExpectedInvalidRequirement)
-                XCTAssertEqual(errors[2] as? MockError, MockError.thirdExpectedInvalidRequirement)
-                XCTAssertEqual(errors[3] as? MockError, MockError.expectedInvalidRequirement)
-
-            default:
-                XCTFail("Error thrown was not group requirement error.")
-            }
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertEqual((error as? RequirementNotMetError)?.code, VerifiedIdErrors.ErrorCode.RequirementNotMet)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Group Requirement is not valid.")
+            let errors = (error as! RequirementNotMetError).errors!
+            XCTAssertEqual(errors.count, 4)
+            XCTAssertEqual((errors.first as? MockVerifiedIdError)?.error as? MockError, MockError.expectedInvalidRequirement)
+            XCTAssertEqual((errors[1] as? MockVerifiedIdError)?.error as? MockError, MockError.secondExpectedInvalidRequirement)
+            XCTAssertEqual((errors[2] as? MockVerifiedIdError)?.error as? MockError, MockError.thirdExpectedInvalidRequirement)
+            XCTAssertEqual((errors[3] as? MockVerifiedIdError)?.error as? MockError, MockError.expectedInvalidRequirement)
         }
     }
     

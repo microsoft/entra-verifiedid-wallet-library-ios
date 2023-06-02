@@ -21,8 +21,10 @@ class IdTokenRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try idTokenRequirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is IdTokenRequirementError)
-            XCTAssertEqual(error as? IdTokenRequirementError, .idTokenRequirementHasNotBeenFulfilled)
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertEqual((error as? RequirementNotMetError)?.code, VerifiedIdErrors.ErrorCode.RequirementNotMet)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Id Token has not been set.")
+            XCTAssertNil((error as! RequirementNotMetError).errors)
         }
     }
     
