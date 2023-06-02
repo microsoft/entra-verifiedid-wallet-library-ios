@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum IdTokenRequirementError: Error {
-    case idTokenRequirementHasNotBeenFulfilled
-}
-
 /**
  * Information to describe an id token required for a Verified Id issuance flow.
  */
@@ -53,9 +49,9 @@ public class IdTokenRequirement: Requirement {
     }
     
     /// Returns Failure Result if requirement is not fulfilled.
-    public func validate() -> Result<Void, Error> {
+    public func validate() -> VerifiedIdResult<Void> {
         if idToken == nil {
-            return Result.failure(IdTokenRequirementError.idTokenRequirementHasNotBeenFulfilled)
+            return VerifiedIdErrors.RequirementNotMet(message: "Id Token has not been set.").result()
         }
         
         return Result.success(())
