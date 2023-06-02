@@ -23,25 +23,28 @@ public class VerifiedIdClient {
     }
     
     /// Creates either an issuance or presentation request from the input.
-    public func createRequest(from input: VerifiedIdRequestInput) async -> Result<any VerifiedIdRequest, Error> {
+    public func createRequest(from input: VerifiedIdRequestInput) async -> VerifiedIdResult<any VerifiedIdRequest> {
         do {
             let resolver = try requestResolverFactory.getResolver(from: input)
             let rawRequest = try await resolver.resolve(input: input)
             let handler = try requestHandlerFactory.getHandler(from: resolver)
             let request = try await handler.handleRequest(from: rawRequest)
             return Result.success(request)
-        } catch {
+        } catch let error as VerifiedIdError {
             return Result.failure(error)
+        } catch {
+            print(error)
+            return Result.failure(VerifiedIdErrors.UnspecifiedError(error: error).error)
         }
     }
     
     /// Encode a VerifiedId into Data.
-    public func encode(verifiedId: VerifiedId) -> Result<Data, Error> {
+    public func encode(verifiedId: VerifiedId) -> VerifiedIdResult<Data> {
         do {
             let encodedVerifiedId = try configuration.verifiedIdEncoder.encode(verifiedId: verifiedId)
             return Result.success(encodedVerifiedId)
         } catch {
-            return Result.failure(error)
+            return Result.failure(VerifiedIdErrors.UnspecifiedError(error: error).error)
         }
     }
     

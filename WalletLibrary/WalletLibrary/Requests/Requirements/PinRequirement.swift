@@ -36,7 +36,7 @@ public class PinRequirement: Requirement {
     /// Returns Failure Result if requirement is not fulfilled.
     public func validate() -> Result<Void, Error> {
         if pin == nil {
-            return Result.failure(VerifiedIdCommonError.RequirementNotMet(message: "Pin has not been set.").value)
+            return Result.failure(VerifiedIdErrors.RequirementNotMet(message: "Pin has not been set.").error)
         }
         
         return Result.success(())
