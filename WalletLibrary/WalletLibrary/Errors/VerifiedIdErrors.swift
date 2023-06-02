@@ -16,14 +16,14 @@ enum VerifiedIdErrors {
     
     /// Common Errors in Alphabetical Order.
     case NetworkingError(message: String, correlationId: String, statusCode: String? = nil, innerError: Error? = nil)
-    case RequirementNotMet(message: String)
+    case RequirementNotMet(message: String, errors: [Error]? = nil)
     case UnspecifiedError(error: Error)
     
     /// Mapping of the common error to value with given properties.
     var error: VerifiedIdError {
         switch self {
-        case .RequirementNotMet(let message):
-            return RequirementNotMetError(message: message, code: ErrorCode.RequirementNotMet)
+        case .RequirementNotMet(let message, let errors):
+            return RequirementNotMetError(message: message, errors: errors)
         case .NetworkingError(message: let message,
                               correlationId: let correlationId,
                               statusCode: let statusCode,
@@ -47,14 +47,33 @@ enum VerifiedIdErrors {
 // MARK: Common Errors
 
 /// Thrown when a requirement such as VerifiedIdRequirement is not properly met.
-class RequirementNotMetError: VerifiedIdError { }
+class RequirementNotMetError: VerifiedIdError {
+    
+    let errors: [Error]?
+    
+    fileprivate init(message: String, errors: [Error]? = nil) {
+        self.errors = errors
+        super.init(message: message,
+                   code: VerifiedIdErrors.ErrorCode.RequirementNotMet)
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case message, code, correlationId, errors
+    }
+    
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(String(describing: errors), forKey: .errors)
+        try super.encode(to: encoder)
+    }
+}
 
 /// Wraps any error that is not caught by another VerifiedIdError before being returned outside library.
 class UnspecifiedVerifiedIdError: VerifiedIdError {
     
     let error: Error
     
-    init(error: Error) {
+    fileprivate init(error: Error) {
         self.error = error
         super.init(message: "Unspecified Error",
                    code: VerifiedIdErrors.ErrorCode.UnspecifiedError)
@@ -78,12 +97,12 @@ class VerifiedIdNetworkingError: VerifiedIdError {
     let innerError: Error?
     let retryable: Bool
     
-    init(message: String,
-         code: String,
-         correlationId: String? = nil,
-         statusCode: String? = nil,
-         innerError: Error? = nil,
-         retryable: Bool = false) {
+    fileprivate init(message: String,
+                     code: String,
+                     correlationId: String? = nil,
+                     statusCode: String? = nil,
+                     innerError: Error? = nil,
+                     retryable: Bool = false) {
         self.statusCode = statusCode
         self.innerError = innerError
         self.retryable = retryable
