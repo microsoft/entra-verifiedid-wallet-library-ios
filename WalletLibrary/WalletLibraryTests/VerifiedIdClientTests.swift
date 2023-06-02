@@ -36,8 +36,12 @@ class VerifiedIdClientTests: XCTestCase {
             XCTFail("Should have thrown.")
         } catch {
             // Assert
-            XCTAssert(error is RequestResolverFactoryError)
-            XCTAssertEqual(error as? RequestResolverFactoryError, .UnsupportedInput)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
+                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
+            let innerError = (error as! UnspecifiedVerifiedIdError).error
+            XCTAssert(innerError is RequestResolverFactoryError)
+            XCTAssertEqual(innerError as? RequestResolverFactoryError, .UnsupportedInput)
         }
     }
     
@@ -64,8 +68,12 @@ class VerifiedIdClientTests: XCTestCase {
             XCTFail("Should have thrown.")
         } catch {
             // Assert
-            XCTAssert(error is ExpectedError)
-            XCTAssertEqual(error as? ExpectedError, .expectedToBeThrownInResolver)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
+                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
+            let innerError = (error as! UnspecifiedVerifiedIdError).error
+            XCTAssert(innerError is ExpectedError)
+            XCTAssertEqual(innerError as? ExpectedError, .expectedToBeThrownInResolver)
         }
     }
     
@@ -92,8 +100,12 @@ class VerifiedIdClientTests: XCTestCase {
             XCTFail("Should have thrown.")
         } catch {
             // Assert
-            XCTAssert(error is RequestHandlerFactoryError)
-            XCTAssertEqual(error as? RequestHandlerFactoryError, .UnsupportedResolver)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
+                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
+            let innerError = (error as! UnspecifiedVerifiedIdError).error
+            XCTAssert(innerError is RequestHandlerFactoryError)
+            XCTAssertEqual(innerError as? RequestHandlerFactoryError, .UnsupportedResolver)
         }
     }
     
@@ -120,8 +132,12 @@ class VerifiedIdClientTests: XCTestCase {
             XCTFail("Should have thrown.")
         } catch {
             // Assert
-            XCTAssert(error is ExpectedError)
-            XCTAssertEqual(error as? ExpectedError, .expectedToBeThrownInHandler)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
+                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
+            let innerError = (error as! UnspecifiedVerifiedIdError).error
+            XCTAssert(innerError is ExpectedError)
+            XCTAssertEqual(innerError as? ExpectedError, .expectedToBeThrownInHandler)
         }
     }
     
@@ -171,8 +187,12 @@ class VerifiedIdClientTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try client.encode(verifiedId: mockVerifiedId).get()) { error in
             // Assert
-            XCTAssert(error is ExpectedError)
-            XCTAssertEqual(error as? ExpectedError, .expectedToBeThrownInEncoder)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
+                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
+            let innerError = (error as! UnspecifiedVerifiedIdError).error
+            XCTAssert(innerError is ExpectedError)
+            XCTAssertEqual(innerError as? ExpectedError, .expectedToBeThrownInEncoder)
         }
     }
     

@@ -22,7 +22,7 @@ class PinRequirementTests: XCTestCase {
             XCTAssert(error is RequirementNotMetError)
             XCTAssertNil((error as? RequirementNotMetError)?.correlationId)
             XCTAssertEqual((error as? RequirementNotMetError)?.code,
-                           VerifiedIdCommonError.ErrorCode.RequirementNotMet)
+                           VerifiedIdErrors.ErrorCode.RequirementNotMet)
             XCTAssertEqual((error as? RequirementNotMetError)?.message, "Pin has not been set.")
         }
     }
