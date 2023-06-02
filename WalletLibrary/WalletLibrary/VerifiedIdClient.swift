@@ -33,7 +33,6 @@ public class VerifiedIdClient {
         } catch let error as VerifiedIdError {
             return Result.failure(error)
         } catch {
-            print(error)
             return Result.failure(VerifiedIdErrors.UnspecifiedError(error: error).error)
         }
     }
@@ -49,12 +48,12 @@ public class VerifiedIdClient {
     }
     
     /// Decode raw Data and return a VerifiedId.
-    public func decodeVerifiedId(from raw: Data) -> Result<VerifiedId, Error> {
+    public func decodeVerifiedId(from raw: Data) -> VerifiedIdResult<VerifiedId> {
         do {
             let verifiedId = try configuration.verifiedIdDecoder.decode(from: raw)
             return Result.success(verifiedId)
         } catch {
-            return Result.failure(error)
+            return Result.failure(VerifiedIdErrors.UnspecifiedError(error: error).error)
         }
     }
 }
