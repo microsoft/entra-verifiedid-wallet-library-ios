@@ -19,12 +19,12 @@ struct MockRequirement: Requirement, Equatable {
         self.mockValidateCallback = mockValidateCallback
     }
     
-    func validate() -> Result<Void, Error> {
+    func validate() -> VerifiedIdResult<Void> {
         do {
             try mockValidateCallback?()
             return Result.success(())
         } catch {
-            return Result.failure(error)
+            return MockVerifiedIdError(error: error).result()
         }
     }
     
