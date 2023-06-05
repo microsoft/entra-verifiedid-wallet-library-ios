@@ -9,12 +9,15 @@ enum VerifiedIdErrors {
     
     /// Common Error Codes.
     struct ErrorCode {
+        static let MalformedInputError = "malformed_input_error"
         static let NetworkingError = "networking_error"
         static let RequirementNotMet = "requirement_not_met"
         static let UnspecifiedError = "unspecified_error"
+        static let UserCanceled = "user_canceled"
     }
     
     /// Common Errors in Alphabetical Order.
+    case MalformedInput(error: Error)
     case NetworkingError(message: String, correlationId: String, statusCode: String? = nil, innerError: Error? = nil)
     case RequirementNotMet(message: String, errors: [Error]? = nil)
     case UnspecifiedError(error: Error)
@@ -22,8 +25,8 @@ enum VerifiedIdErrors {
     /// Mapping of the common error to value with given properties.
     var error: VerifiedIdError {
         switch self {
-        case .RequirementNotMet(let message, let errors):
-            return RequirementNotMetError(message: message, errors: errors)
+        case .MalformedInput(error: let error):
+            return MalformedInputError(error: error)
         case .NetworkingError(message: let message,
                               correlationId: let correlationId,
                               statusCode: let statusCode,
@@ -33,6 +36,8 @@ enum VerifiedIdErrors {
                                              correlationId: correlationId,
                                              statusCode: statusCode,
                                              innerError: error)
+        case .RequirementNotMet(let message, let errors):
+            return RequirementNotMetError(message: message, errors: errors)
         case .UnspecifiedError(error: let error):
             return UnspecifiedVerifiedIdError(error: error)
         }
@@ -77,6 +82,28 @@ class UnspecifiedVerifiedIdError: VerifiedIdError {
         self.error = error
         super.init(message: "Unspecified Error",
                    code: VerifiedIdErrors.ErrorCode.UnspecifiedError)
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case message, code, correlationId, error
+    }
+    
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(String(describing: error), forKey: .error)
+        try super.encode(to: encoder)
+    }
+}
+
+/// Thrown when an input such as Data in decoding method is not properly formed.
+class MalformedInputError: VerifiedIdError {
+    
+    let error: Error
+    
+    fileprivate init(error: Error) {
+        self.error = error
+        super.init(message: "Malformed Input.",
+                   code: VerifiedIdErrors.ErrorCode.MalformedInputError)
     }
     
     private enum CodingKeys: String, CodingKey {

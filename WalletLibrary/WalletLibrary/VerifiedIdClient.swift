@@ -33,24 +33,22 @@ public class VerifiedIdClient {
     }
     
     /// Encode a VerifiedId into Data.
-    /// TODO: create a VerifiedIdError for encoding.
     public func encode(verifiedId: VerifiedId) -> VerifiedIdResult<Data> {
         do {
             let encodedVerifiedId = try configuration.verifiedIdEncoder.encode(verifiedId: verifiedId)
             return VerifiedIdResult.success(encodedVerifiedId)
         } catch {
-            return VerifiedIdErrors.UnspecifiedError(error: error).result()
+            return VerifiedIdErrors.MalformedInput(error: error).result()
         }
     }
     
     /// Decode raw Data and return a VerifiedId.
-    /// TODO: create a VerifiedIdError for decoding.
     public func decodeVerifiedId(from raw: Data) -> VerifiedIdResult<VerifiedId> {
         do {
             let verifiedId = try configuration.verifiedIdDecoder.decode(from: raw)
             return VerifiedIdResult.success(verifiedId)
         } catch {
-            return VerifiedIdErrors.UnspecifiedError(error: error).result()
+            return VerifiedIdErrors.MalformedInput(error: error).result()
         }
     }
 }
