@@ -19,8 +19,11 @@ class PinRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try pinRequirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is PinRequirementError)
-            XCTAssertEqual(error as? PinRequirementError, .pinRequirementHasNotBeenFulfilled)
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertNil((error as? RequirementNotMetError)?.correlationId)
+            XCTAssertEqual((error as? RequirementNotMetError)?.code,
+                           VerifiedIdErrors.ErrorCode.RequirementNotMet)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Pin has not been set.")
         }
     }
     

@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum PinRequirementError: Error {
-    case pinRequirementHasNotBeenFulfilled
-}
-
 /**
  * Information to describe a pin that is required.
  */
@@ -38,9 +34,10 @@ public class PinRequirement: Requirement {
     }
     
     /// Returns Failure Result if requirement is not fulfilled.
+    /// TODO: change Result type to VerifiedIdResult.
     public func validate() -> Result<Void, Error> {
         if pin == nil {
-            return Result.failure(PinRequirementError.pinRequirementHasNotBeenFulfilled)
+            return Result.failure(VerifiedIdErrors.RequirementNotMet(message: "Pin has not been set.").error)
         }
         
         return Result.success(())
