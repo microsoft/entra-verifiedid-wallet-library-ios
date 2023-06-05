@@ -51,6 +51,28 @@ enum VerifiedIdErrors {
 
 // MARK: Common Errors
 
+/// Thrown when an input such as Data in decoding method is not properly formed.
+class MalformedInputError: VerifiedIdError {
+    
+    let error: Error
+    
+    fileprivate init(error: Error) {
+        self.error = error
+        super.init(message: "Malformed Input.",
+                   code: VerifiedIdErrors.ErrorCode.MalformedInputError)
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case message, code, correlationId, error
+    }
+    
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(String(describing: error), forKey: .error)
+        try super.encode(to: encoder)
+    }
+}
+
 /// Thrown when a requirement such as VerifiedIdRequirement is not properly met.
 class RequirementNotMetError: VerifiedIdError {
     
@@ -82,28 +104,6 @@ class UnspecifiedVerifiedIdError: VerifiedIdError {
         self.error = error
         super.init(message: "Unspecified Error",
                    code: VerifiedIdErrors.ErrorCode.UnspecifiedError)
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case message, code, correlationId, error
-    }
-    
-    public override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(String(describing: error), forKey: .error)
-        try super.encode(to: encoder)
-    }
-}
-
-/// Thrown when an input such as Data in decoding method is not properly formed.
-class MalformedInputError: VerifiedIdError {
-    
-    let error: Error
-    
-    fileprivate init(error: Error) {
-        self.error = error
-        super.init(message: "Malformed Input.",
-                   code: VerifiedIdErrors.ErrorCode.MalformedInputError)
     }
     
     private enum CodingKeys: String, CodingKey {
