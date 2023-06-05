@@ -5,7 +5,7 @@
 
 public typealias VerifiedIdResult<T> = Result<T, VerifiedIdError>
 
-public extension VerifiedIdResult where Failure == VerifiedIdError {
+extension VerifiedIdResult where Failure == VerifiedIdError {
         
         init(value: Success) {
             self = .success(value)
