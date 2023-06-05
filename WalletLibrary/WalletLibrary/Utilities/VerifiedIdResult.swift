@@ -20,3 +20,16 @@ public extension VerifiedIdResult where Failure == VerifiedIdError {
             return error
         }
 }
+
+extension VerifiedIdResult {
+    static func getResult<T>(callback: @escaping () async throws -> T) async -> VerifiedIdResult<T> {
+        do {
+            let result = try await callback()
+            return VerifiedIdResult.success(result)
+        } catch let error as VerifiedIdError {
+            return error.result()
+        } catch {
+            return VerifiedIdErrors.UnspecifiedError(error: error).result()
+        }
+    }
+}

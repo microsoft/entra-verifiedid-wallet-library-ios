@@ -26,8 +26,8 @@ public protocol VerifiedIdRequest {
     func isSatisfied() -> Bool
 
     /// Completes the request and returns a generic object if successful.
-    func complete() async -> Result<T, Error>
+    func complete() async -> VerifiedIdResult<T>
 
     /// Cancel the request with an optional message.
-    func cancel(message: String?) async -> Result<Void, Error>
+    func cancel(message: String?) async -> VerifiedIdResult<Void>
 }
