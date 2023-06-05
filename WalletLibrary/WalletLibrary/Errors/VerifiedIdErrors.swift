@@ -17,16 +17,16 @@ enum VerifiedIdErrors {
     }
     
     /// Common Errors in Alphabetical Order.
-    case MalformedInput(error: Error)
+    case MalformedInput(error: Error, correlationId: String? = nil)
     case NetworkingError(message: String, correlationId: String, statusCode: String? = nil, innerError: Error? = nil)
-    case RequirementNotMet(message: String, errors: [Error]? = nil)
-    case UnspecifiedError(error: Error)
+    case RequirementNotMet(message: String, errors: [Error]? = nil, correlationId: String? = nil)
+    case UnspecifiedError(error: Error, correlationId: String? = nil)
     
     /// Mapping of the common error to value with given properties.
     var error: VerifiedIdError {
         switch self {
-        case .MalformedInput(error: let error):
-            return MalformedInputError(error: error)
+        case .MalformedInput(let error, let correlationId):
+            return MalformedInputError(error: error, correlationId: correlationId)
         case .NetworkingError(message: let message,
                               correlationId: let correlationId,
                               statusCode: let statusCode,
@@ -36,10 +36,10 @@ enum VerifiedIdErrors {
                                              correlationId: correlationId,
                                              statusCode: statusCode,
                                              innerError: error)
-        case .RequirementNotMet(let message, let errors):
-            return RequirementNotMetError(message: message, errors: errors)
-        case .UnspecifiedError(error: let error):
-            return UnspecifiedVerifiedIdError(error: error)
+        case .RequirementNotMet(let message, let errors, let correlationId):
+            return RequirementNotMetError(message: message, errors: errors, correlationId: correlationId)
+        case .UnspecifiedError(error: let error, let correlationId):
+            return UnspecifiedVerifiedIdError(error: error, correlationId: correlationId)
         }
     }
     
@@ -56,10 +56,11 @@ class MalformedInputError: VerifiedIdError {
     
     let error: Error
     
-    fileprivate init(error: Error) {
+    fileprivate init(error: Error, correlationId: String?) {
         self.error = error
         super.init(message: "Malformed Input.",
-                   code: VerifiedIdErrors.ErrorCode.MalformedInputError)
+                   code: VerifiedIdErrors.ErrorCode.MalformedInputError,
+                   correlationId: correlationId)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -78,10 +79,11 @@ class RequirementNotMetError: VerifiedIdError {
     
     let errors: [Error]?
     
-    fileprivate init(message: String, errors: [Error]? = nil) {
+    fileprivate init(message: String, errors: [Error]? = nil, correlationId: String?) {
         self.errors = errors
         super.init(message: message,
-                   code: VerifiedIdErrors.ErrorCode.RequirementNotMet)
+                   code: VerifiedIdErrors.ErrorCode.RequirementNotMet,
+                   correlationId: correlationId)
     }
     
     private enum CodingKeys: String, CodingKey {
