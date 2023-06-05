@@ -2245,7 +2245,6 @@
 				5552D87D29F2E58000B40302 /* MockWellKnownConfigDocumentApiCalls.swift */,
 				5552D87F29F2E58000B40302 /* MockDomainLinkageCredentialValidator.swift */,
 				5552D88029F2E58000B40302 /* MockPresentationResponseFormatter.swift */,
-				55A4BB402A2AA057006836AB /* MockVerifiedIdError.swift */,
 			);
 			path = mocks;
 			sourceTree = "<group>";
@@ -2443,6 +2442,7 @@
 				55E2F08229955E7B0008010D /* Utilities */,
 				55A81C0B2991BF73002C259A /* Requests */,
 				55DECC3E29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift */,
+				55A4BB402A2AA057006836AB /* MockVerifiedIdError.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
