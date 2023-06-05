@@ -100,10 +100,11 @@ class UnspecifiedVerifiedIdError: VerifiedIdError {
     
     let error: Error
     
-    fileprivate init(error: Error) {
+    init(error: Error, correlationId: String?) {
         self.error = error
-        super.init(message: "Unspecified Error",
-                   code: VerifiedIdErrors.ErrorCode.UnspecifiedError)
+        super.init(message: "Unspecified Error.",
+                   code: VerifiedIdErrors.ErrorCode.UnspecifiedError,
+                   correlationId: correlationId)
     }
     
     private enum CodingKeys: String, CodingKey {
