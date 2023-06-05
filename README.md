@@ -52,7 +52,7 @@ At the time of publish, we support the following requirements on a request:
 | Requirement                  	| Description 	| Supported on Request 	|
 |------------------------------	|-------------	|------------------------------	|
 | GroupRequirement             	| A verifier/issuer could request multiple requirements. If more than one requirement is requested, a GroupRequirement contains a list of the requirements.        	| Issuance/Presentation        	|
-| VerifiedIdRequirement        	| A verifier/issuer can request a VerifiedId. See below for helper methods to fulfill the requirement.       	| Issuance/Presentation        	|
+| VerifiedIdRequirement        	| A verifier/issuer can request a VerifiedId. See below for helper methods to fulfill the requirement.       	| Presentation (Issuance coming end of June)        	|
 | SelfAttestedClaimRequirement 	| An issuer might require a self-attested claim that is simply a string value.        	| Issuance                     	|
 | PinRequirement               	| An issuer might require a pin from user.         	| Issuance                     	|
 | AccessTokenRequirement       	| An issuer might request an Access Token. An Access Token must be retrieved using an external library.        	| Issuance                     	|
@@ -77,7 +77,7 @@ let validationResult = verifiedIdRequirement.validate()
 
 Once all of the requirements are fulfilled, you can double check that the request has been satisfied by calling the `isSatisfied` method on the request object. 
 ```Swift
-let isSatisfied = await presentationRequest.isSatisfied()
+let isSatisfied = presentationRequest.isSatisfied()
 ```
 
 Then, complete the request using the complete method. 

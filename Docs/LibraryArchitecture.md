@@ -22,8 +22,8 @@ class VerifiedIdClientBuilder{
 }
 class VerifiedIdClient{
     +createRequest(from: VerifiedIdRequestInput) Result<<T>VerifiedIdRequest>
-    +encode(verifiedId: VerifiedId) Result<<T>Data>
-    +decodeVerifiedId(from: Data) Result<<T>VerifiedId>
+    +encode(verifiedId: VerifiedId) VerifiedIdResult<<T>Data>
+    +decodeVerifiedId(from: Data) VerifiedIdResult<<T>VerifiedId>
 }
 <<Interface>> VerifiedIdRequestInput
 class URLRequestInput{
@@ -35,8 +35,8 @@ class VerifiedIdRequest{
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
     +isSatisfied() Bool
-    +complete() Result<<T>T>
-    +cancel(message: String?) Result<<T>Void>
+    +complete() VerifiedIdResult<<T>T>
+    +cancel(message: String?) VerifiedIdResult<<T>Void>
 }
 <<Interface>> VerifiedIdIssuanceRequest
 class VerifiedIdIssuanceRequest{
@@ -45,8 +45,8 @@ class VerifiedIdIssuanceRequest{
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
     +isSatisfied() Bool
-    +complete() Result<<T>VerifiedId>
-    +cancel(message: String?) Result<<T>Void>
+    +complete() VerifiedIdResult<<T>VerifiedId>
+    +cancel(message: String?) VerifiedIdResult<<T>Void>
 }
 <<Interface>> VerifiedIdPresentationRequest
 class VerifiedIdPresentationRequest{
@@ -54,8 +54,8 @@ class VerifiedIdPresentationRequest{
     +requirement: Requirement
     +rootOfTrust: RootOfTrust
     +isSatisfied() Bool
-    +complete() Result<<T>Void>
-    +cancel(message: String?) Result<<T>Void>
+    +complete() VerifiedIdResult<<T>Void>
+    +cancel(message: String?) VerifiedIdResult<<T>Void>
 }
 
 class RootOfTrust{
@@ -94,13 +94,13 @@ Requirement <|-- AccessTokenRequirement: implements
 <<Interface>> Requirement
 class Requirement {
     +required: Bool
-    +validate() Result<<T>Void>
+    +validate() VerifiedIdResult<<T>Void>
 }
 class GroupRequirement {
     +required: Bool
     +requirementOperator: RequirementOperator
     +requirements: [Requirement]
-    +validate() Result<<T>Void>
+    +validate() VerifiedIdResult<<T>Void>
 }
 <<enumeration>> RequirementOperator
 class RequirementOperator {
@@ -110,8 +110,8 @@ class RequirementOperator {
 class SelfAttestedRequirement {
     +required: Bool
     +claim: String
-    +fulfill(with: String) Result<<T>Void>
-    +validate() Result<<T>Void>
+    +fulfill(with: String) VerifiedIdResult<<T>Void>
+    +validate() VerifiedIdResult<<T>Void>
 }
 class VerifiedIdRequirement {
     +required: Bool
@@ -119,15 +119,15 @@ class VerifiedIdRequirement {
     +types: [String]
     +issuanceOptions: [VerifiedIdRequestInput]
     +getMatches(verifiedIds: [VerifiedId]) [VerifiedId]
-    +fulfill(with: VerifiedId) Result<<T>Void>
-    +validate() Result<<T>Void>
+    +fulfill(with: VerifiedId) VerifiedIdResult<<T>Void>
+    +validate() VerifiedIdResult<<T>Void>
 }
 class PinRequirement {
     +required: Bool
     +length: Int
     +type: String
-    +fulfill(with: String) Result<<T>Void>
-    +validate() Result<<T>Void>
+    +fulfill(with: String) VerifiedIdResult<<T>Void>
+    +validate() VerifiedIdResult<<T>Void>
 }
 class IdTokenRequirement {
     +required: Bool
@@ -136,8 +136,8 @@ class IdTokenRequirement {
     +redirectUri: String
     +scope: String?
     +getNonce() String?
-    +fulfill(with: String) Result<<T>Void>
-    +validate() Result<<T>Void>
+    +fulfill(with: String) VerifiedIdResult<<T>Void>
+    +validate() VerifiedIdResult<<T>Void>
 }
 class AccessTokenRequirement {
     +required: Bool
@@ -145,8 +145,8 @@ class AccessTokenRequirement {
     +clientId: String?
     +scope: String
     +resourceId: String
-    +fulfill(with: String) Result<<T>Void>
-    +validate() Result<<T>Void>
+    +fulfill(with: String) VerifiedIdResult<<T>Void>
+    +validate() VerifiedIdResult<<T>Void>
 }
 ```
 
