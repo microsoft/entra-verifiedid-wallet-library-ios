@@ -50,6 +50,7 @@
 		553CC09B29A96ECD005A5FD6 /* MockIssuanceResponseContaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553CC09A29A96ECD005A5FD6 /* MockIssuanceResponseContaining.swift */; };
 		553CC09D29A97181005A5FD6 /* IssuanceResponseContaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553CC09C29A97181005A5FD6 /* IssuanceResponseContaining.swift */; };
 		553CC0A029A98003005A5FD6 /* VCVerifiedIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553CC09F29A98003005A5FD6 /* VCVerifiedIdTests.swift */; };
+		555089272A2E63E600186885 /* WalletLibraryVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5550891D2A2E63E600186885 /* WalletLibraryVersion.swift */; };
 		5552D28129EF33E900B40302 /* VerifiableCredentialSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27D29EF335600B40302 /* VerifiableCredentialSDK.swift */; };
 		5552D28229EF33EC00B40302 /* IssuanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27F29EF335600B40302 /* IssuanceService.swift */; };
 		5552D28329EF33EF00B40302 /* PresentationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D28029EF335600B40302 /* PresentationService.swift */; };
@@ -613,6 +614,7 @@
 		553CC09A29A96ECD005A5FD6 /* MockIssuanceResponseContaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIssuanceResponseContaining.swift; sourceTree = "<group>"; };
 		553CC09C29A97181005A5FD6 /* IssuanceResponseContaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceResponseContaining.swift; sourceTree = "<group>"; };
 		553CC09F29A98003005A5FD6 /* VCVerifiedIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCVerifiedIdTests.swift; sourceTree = "<group>"; };
+		5550891D2A2E63E600186885 /* WalletLibraryVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletLibraryVersion.swift; sourceTree = "<group>"; };
 		5552D26F29EF335500B40302 /* IdentifierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierService.swift; sourceTree = "<group>"; };
 		5552D27029EF335500B40302 /* VCUseCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VCUseCase.h; sourceTree = "<group>"; };
 		5552D27229EF335500B40302 /* difwordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = difwordlist.txt; sourceTree = "<group>"; };
@@ -1172,6 +1174,7 @@
 				55E2F070299554110008010D /* LibraryConfiguration.swift */,
 				550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */,
 				550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */,
+				5550891D2A2E63E600186885 /* WalletLibraryVersion.swift */,
 				552E5095293E6AB200868F47 /* WalletLibrary.h */,
 			);
 			path = WalletLibrary;
@@ -3066,6 +3069,7 @@
 				55EA17A829CA531F0085E29E /* BasicVerifiedIdStyle.swift in Sources */,
 				5552D3C529EF489E00B40302 /* IdentifierDocumentSuffixDescriptor.swift in Sources */,
 				5552D44929EF4A8100B40302 /* PostPresentationResponseOperation.swift in Sources */,
+				555089272A2E63E600186885 /* WalletLibraryVersion.swift in Sources */,
 				55BA2DD129CDFA1A00BB8207 /* VerifiedIdDecoder.swift in Sources */,
 				5552D4D429EF4AC300B40302 /* SupportedHashAlgorithm.swift in Sources */,
 				5552D4C429EF4AC300B40302 /* Data+Hex.swift in Sources */,
