@@ -18,4 +18,7 @@ struct Constants {
     
     // Header value for tracing user agent in network calls.
     static let USER_AGENT = "User-Agent"
+    
+    /// Header key for wallet library version.
+    static let WALLET_LIBRARY_HEADER = "x-ms-entra-verifiedid-wallet-library"
 }
