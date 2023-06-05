@@ -16,14 +16,14 @@ enum VerifiedIdErrors {
     
     /// Common Errors in Alphabetical Order.
     case NetworkingError(message: String, correlationId: String, statusCode: String? = nil, innerError: Error? = nil)
-    case RequirementNotMet(message: String)
-    case UnspecifiedError(error: Error)
+    case RequirementNotMet(message: String, correlationId: String? = nil)
+    case UnspecifiedError(error: Error, correlationId: String? = nil)
     
     /// Mapping of the common error to value with given properties.
     var error: VerifiedIdError {
         switch self {
-        case .RequirementNotMet(let message):
-            return RequirementNotMetError(message: message, code: ErrorCode.RequirementNotMet)
+        case .RequirementNotMet(let message, let correlationId):
+            return RequirementNotMetError(message: message, code: ErrorCode.RequirementNotMet, correlationId: correlationId)
         case .NetworkingError(message: let message,
                               correlationId: let correlationId,
                               statusCode: let statusCode,
@@ -33,8 +33,8 @@ enum VerifiedIdErrors {
                                              correlationId: correlationId,
                                              statusCode: statusCode,
                                              innerError: error)
-        case .UnspecifiedError(error: let error):
-            return UnspecifiedVerifiedIdError(error: error)
+        case .UnspecifiedError(let error, let correlationId):
+            return UnspecifiedVerifiedIdError(error: error, correlationId: correlationId)
         }
     }
     
@@ -54,10 +54,11 @@ class UnspecifiedVerifiedIdError: VerifiedIdError {
     
     let error: Error
     
-    init(error: Error) {
+    init(error: Error, correlationId: String?) {
         self.error = error
-        super.init(message: "Unspecified Error",
-                   code: VerifiedIdErrors.ErrorCode.UnspecifiedError)
+        super.init(message: "Unspecified Error.",
+                   code: VerifiedIdErrors.ErrorCode.UnspecifiedError,
+                   correlationId: correlationId)
     }
     
     private enum CodingKeys: String, CodingKey {
