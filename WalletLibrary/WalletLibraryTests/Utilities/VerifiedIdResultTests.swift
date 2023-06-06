@@ -22,7 +22,6 @@ class VerifiedIdResultTests: XCTestCase {
         // Act
         let actualResult = await VerifiedIdResult<String>.getResult(callback: callback)
         
-        
         //Assert
         XCTAssertEqual(try actualResult.get(), expectedResultValue)
     }
@@ -36,7 +35,6 @@ class VerifiedIdResultTests: XCTestCase {
         
         // Act
         let actualResult = await VerifiedIdResult<Void>.getResult(callback: callback)
-        
         
         //Assert
         XCTAssert(actualResult.verifiedIdError is MockVerifiedIdError)
@@ -52,7 +50,6 @@ class VerifiedIdResultTests: XCTestCase {
         
         // Act
         let actualResult = await VerifiedIdResult<Void>.getResult(callback: callback)
-        
         
         //Assert
         XCTAssert(actualResult.verifiedIdError is UnspecifiedVerifiedIdError)
