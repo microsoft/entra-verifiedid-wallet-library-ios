@@ -17,9 +17,9 @@ protocol PresentationNetworking {
 class PresentationNetworkCalls: PresentationNetworking {
 
     private let urlSession: URLSession
-    private let correlationVector: CorrelationHeader?
+    private let correlationVector: VerifiedIdCorrelationHeader?
     
-    init(correlationVector: CorrelationHeader? = nil,
+    init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) {
         self.correlationVector = correlationVector
         self.urlSession = urlSession

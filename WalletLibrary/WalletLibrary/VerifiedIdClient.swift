@@ -25,6 +25,9 @@ public class VerifiedIdClient {
     /// Creates either an issuance or presentation request from the input.
     public func createRequest(from input: VerifiedIdRequestInput) async -> VerifiedIdResult<any VerifiedIdRequest> {
         do {
+            // Reset the correlation header before each flow begins.
+            self.configuration.correlationHeader?.reset()
+            
             let resolver = try requestResolverFactory.getResolver(from: input)
             let rawRequest = try await resolver.resolve(input: input)
             let handler = try requestHandlerFactory.getHandler(from: resolver)

@@ -27,7 +27,7 @@ protocol InternalOperation {
     var retryHandler: RetryHandler { get }
     var urlSession: URLSession { get }
     var urlRequest: URLRequest { get set }
-    var correlationVector: CorrelationHeader? { get set }
+    var correlationVector: VerifiedIdCorrelationHeader? { get set }
     var sdkLog: VCSDKLog { get }
 }
 
@@ -55,8 +55,8 @@ extension InternalNetworkOperation {
         urlRequest.setValue(WalletLibraryVersion.Version, forHTTPHeaderField: "iOS/\(Constants.WALLET_LIBRARY_HEADER)")
         
         if let cv = correlationVector {
-            let incrementedValue = cv.update()
-            urlRequest.setValue(incrementedValue, forHTTPHeaderField: cv.name)
+            cv.update()
+            urlRequest.setValue(cv.value, forHTTPHeaderField: cv.name)
             
             sdkLog.logInfo(message: "Correlation Vector for \(String(describing: self)): \(cv.value)")
         }

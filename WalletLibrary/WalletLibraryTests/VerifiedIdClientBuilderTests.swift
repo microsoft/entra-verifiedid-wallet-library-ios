@@ -71,4 +71,28 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
     }
+    
+    func testBuild_WithCorrelationHeaderInjected_ReturnsVerifiedIdClient() throws {
+        // Arrange
+        let name = "expected header name"
+        let value = "expected header value"
+        let mockCorrelationHeader = MockCorrelationHeader(name: name, value: value)
+        
+        // Act
+        let builder = VerifiedIdClientBuilder()
+            .with(verifiedIdCorrelationHeader: mockCorrelationHeader)
+        let actualResult = builder.build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertEqual(actualResult.configuration.correlationHeader?.name, name)
+        XCTAssertEqual(actualResult.configuration.correlationHeader?.value, value)
+    }
 }

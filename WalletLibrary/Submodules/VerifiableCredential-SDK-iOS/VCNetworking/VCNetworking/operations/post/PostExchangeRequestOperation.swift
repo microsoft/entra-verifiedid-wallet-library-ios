@@ -18,11 +18,11 @@ class PostExchangeRequestOperation: InternalPostNetworkOperation {
     let encoder = ExchangeRequestEncoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
-    var correlationVector: CorrelationHeader?
+    var correlationVector: VerifiedIdCorrelationHeader?
     
     init(usingUrl urlStr: String,
                 withBody body: ExchangeRequest,
-                andCorrelationVector cv: CorrelationHeader? = nil,
+                andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) throws {
         
         guard let url = URL(unsafeString: urlStr) else {

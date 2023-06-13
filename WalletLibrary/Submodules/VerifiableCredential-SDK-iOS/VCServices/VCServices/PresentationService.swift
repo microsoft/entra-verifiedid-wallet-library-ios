@@ -36,7 +36,7 @@ class PresentationService {
     private let pairwiseService: PairwiseService
     private let sdkLog: VCSDKLog
     
-    convenience init(correlationVector: CorrelationHeader? = nil,
+    convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                             urlSession: URLSession = URLSession.shared) {
         self.init(formatter: PresentationResponseFormatter(),
                   presentationApiCalls: PresentationNetworkCalls(correlationVector: correlationVector,

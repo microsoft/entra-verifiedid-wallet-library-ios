@@ -30,7 +30,7 @@ class IssuanceService {
     private let linkedDomainService: LinkedDomainService
     private let sdkLog: VCSDKLog
     
-    convenience init(correlationVector: CorrelationHeader? = nil,
+    convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                      urlSession: URLSession = URLSession.shared) {
         self.init(formatter: IssuanceResponseFormatter(),
                   apiCalls: IssuanceNetworkCalls(correlationVector: correlationVector,

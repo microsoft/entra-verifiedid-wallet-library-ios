@@ -19,7 +19,7 @@ class LinkedDomainService {
     private let wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking
     private let validator: DomainLinkageCredentialValidating
     
-    convenience init(correlationVector: CorrelationHeader? = nil,
+    convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                             urlSession: URLSession = URLSession.shared) {
         self.init(didDocumentDiscoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
                                                                         urlSession: urlSession),

@@ -16,10 +16,10 @@ class FetchWellKnownConfigDocumentOperation: InternalNetworkOperation {
     let decoder = WellKnownConfigDocumentDecoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
-    var correlationVector: CorrelationHeader?
+    var correlationVector: VerifiedIdCorrelationHeader?
     
     init(withUrl urlStr: String,
-                andCorrelationVector cv: CorrelationHeader? = nil,
+                andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
                 session: URLSession = URLSession.shared) throws {
         
         /// If endpoint doesn't end with / add one.
