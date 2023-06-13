@@ -25,8 +25,8 @@ class FetchPresentationRequestOperation: InternalNetworkOperation {
     var correlationVector: VerifiedIdCorrelationHeader?
     
     init(withUrl urlStr: String,
-                andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
-                session: URLSession = URLSession.shared) throws {
+         andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
+         session: URLSession = URLSession.shared) throws {
         
         guard let url = URL(unsafeString: urlStr) else {
             throw NetworkingError.invalidUrl(withUrl: urlStr)

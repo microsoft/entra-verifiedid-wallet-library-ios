@@ -19,7 +19,7 @@ class DIDDocumentNetworkCalls: DiscoveryNetworking {
     private let correlationVector: VerifiedIdCorrelationHeader?
     
     init(correlationVector: VerifiedIdCorrelationHeader? = nil,
-                urlSession: URLSession = URLSession.shared) {
+         urlSession: URLSession = URLSession.shared) {
         self.urlSession = urlSession
         self.correlationVector = correlationVector
     }

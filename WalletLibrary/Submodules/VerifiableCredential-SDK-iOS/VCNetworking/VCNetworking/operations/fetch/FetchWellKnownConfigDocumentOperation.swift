@@ -19,8 +19,8 @@ class FetchWellKnownConfigDocumentOperation: InternalNetworkOperation {
     var correlationVector: VerifiedIdCorrelationHeader?
     
     init(withUrl urlStr: String,
-                andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
-                session: URLSession = URLSession.shared) throws {
+         andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
+         session: URLSession = URLSession.shared) throws {
         
         /// If endpoint doesn't end with / add one.
         guard let baseUrl = URL(unsafeString: urlStr),
