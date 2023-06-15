@@ -187,10 +187,10 @@ class VerifiedIdClientTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try client.encode(verifiedId: mockVerifiedId).get()) { error in
             // Assert
-            XCTAssert(error is UnspecifiedVerifiedIdError)
-            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
-                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
-            let innerError = (error as! UnspecifiedVerifiedIdError).error
+            XCTAssert(error is MalformedInputError)
+            XCTAssertEqual((error as? MalformedInputError)?.code,
+                           VerifiedIdErrors.ErrorCode.MalformedInputError)
+            let innerError = (error as! MalformedInputError).error
             XCTAssert(innerError is ExpectedError)
             XCTAssertEqual(innerError as? ExpectedError, .expectedToBeThrownInEncoder)
         }
@@ -243,10 +243,10 @@ class VerifiedIdClientTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try client.decodeVerifiedId(from: mockData).get()) { error in
             // Assert
-            XCTAssert(error is UnspecifiedVerifiedIdError)
-            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
-                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
-            let innerError = (error as! UnspecifiedVerifiedIdError).error
+            XCTAssert(error is MalformedInputError)
+            XCTAssertEqual((error as? MalformedInputError)?.code,
+                           VerifiedIdErrors.ErrorCode.MalformedInputError)
+            let innerError = (error as! MalformedInputError).error
             XCTAssert(innerError is ExpectedError)
             XCTAssertEqual(innerError as? ExpectedError, .expectedToBeThrownInDecoder)
         }

@@ -59,33 +59,38 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
         }
     }
     
-    public func complete() async -> Result<VerifiedId, Error> {
-        do {
-            try self.responseContainer.add(requirement: requirement)
-            let verifiedId = try await verifiedIdRequester.send(request: responseContainer)
-            
-            await sendResultIfCallbackAndStateExist(wasIssuanceSuccessful: true)
-            
-            return Result.success(verifiedId)
-        } catch {
-            await sendResultIfCallbackAndStateExist(wasIssuanceSuccessful: false,
-                                                    withErrorDetails: .issuanceServiceError)
-            return Result.failure(error)
+    public func complete() async -> VerifiedIdResult<VerifiedId> {
+        
+        let result = await VerifiedIdResult<VerifiedId>.getResult {
+            try self.responseContainer.add(requirement: self.requirement)
+            return try await self.verifiedIdRequester.send(request: self.responseContainer)
         }
+        
+        await sendResultIfCallbackAndStateExist(result: result)
+        return result
     }
     
     /// Send the result back to the original requester. If call fails, fail silently, and log result.
-    private func sendResultIfCallbackAndStateExist(wasIssuanceSuccessful: Bool,
-                                                   withErrorDetails details: IssuanceCompletionErrorDetails? = nil) async {
+    private func sendResultIfCallbackAndStateExist(result: VerifiedIdResult<VerifiedId>) async {
         do {
             guard let requestState = requestState,
                   let issuanceResultCallbackUrl = issuanceResultCallbackUrl else {
                 return
             }
             
+            var wasIssuanceSuccessful: Bool
+            var errorDetails: IssuanceCompletionErrorDetails? = nil
+            switch result {
+            case .success(_):
+                wasIssuanceSuccessful = true
+            case .failure(_):
+                wasIssuanceSuccessful = false
+                errorDetails = .issuanceServiceError
+            }
+            
             let result = IssuanceCompletionResponse(wasSuccessful: wasIssuanceSuccessful,
                                                     withState: requestState,
-                                                    andDetails: details)
+                                                    andDetails: errorDetails)
             
             try await verifiedIdRequester.send(result: result, to: issuanceResultCallbackUrl)
         } catch {
@@ -96,27 +101,20 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     /// Send the issuance result back to the original requester.
     /// TODO: Add support for injecting cancel message into callback. Right now "user canceled"
     /// will be the message sent back.
-    public func cancel(message: String? = nil) async -> Result<Void, Error> {
-        do {
-            
-            guard let requestState = requestState else {
+    public func cancel(message: String? = nil) async -> VerifiedIdResult<Void> {
+        return await VerifiedIdResult<Void>.getResult {
+            guard let requestState = self.requestState else {
                 throw VerifiedIdIssuanceRequestError.missingRequestStateForIssuanceResultCallback
             }
             
-            guard let issuanceResultCallbackUrl = issuanceResultCallbackUrl else {
+            guard let issuanceResultCallbackUrl = self.issuanceResultCallbackUrl else {
                 throw VerifiedIdIssuanceRequestError.missingCallbackURLForIssuanceResultCallback
             }
             
             let result = IssuanceCompletionResponse(wasSuccessful: false,
                                                     withState: requestState,
                                                     andDetails: IssuanceCompletionErrorDetails.userCanceled)
-            try await verifiedIdRequester.send(result: result, to: issuanceResultCallbackUrl)
-            return Result.success(())
-        } catch {
-            return Result.failure(error)
+            try await self.verifiedIdRequester.send(result: result, to: issuanceResultCallbackUrl)
         }
     }
-    
-    
 }
-

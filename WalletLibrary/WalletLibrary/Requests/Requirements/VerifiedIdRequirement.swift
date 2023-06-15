@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum VerifiedIdRequirementError: Error {
-    case requirementHasNotBeenFulfilled
-}
-
 /**
  * Information to describe Verified IDs required.
  */
@@ -53,19 +49,19 @@ public class VerifiedIdRequirement: Requirement {
     }
     
     /// Returns Failure Result is requirement constraint is not met.
-    public func validate() -> Result<Void, Error> {
+    public func validate() -> VerifiedIdResult<Void> {
         
         guard let selectedVerifiedId = self.selectedVerifiedId else {
-            return Result.failure(VerifiedIdRequirementError.requirementHasNotBeenFulfilled)
+            return VerifiedIdErrors.RequirementNotMet(message: "Verified Id has not been set.").result()
         }
         
         do {
             try constraint.matches(verifiedId: selectedVerifiedId)
         } catch {
-            return Result.failure(error)
+            return VerifiedIdErrors.RequirementNotMet(message: "Verified Id Constraints do not match.", errors: [error]).result()
         }
         
-        return Result.success(())
+        return VerifiedIdResult.success(())
     }
     
     /// Given a list of Verified Ids, return a filtered list of Verified Ids that satisfy the requirement.
@@ -76,17 +72,15 @@ public class VerifiedIdRequirement: Requirement {
     }
     
     /// Fulfill the requirement with a VerifiedId. Returns Failure Result if Verified Id does not satisfy the requirement.
-    /// TODO: it might be beneficial to use a doesMatch method on Constraint that throws a specific error as to why
-    /// the Verified Id does not satisfy the requirement.
-    public func fulfill(with verifiedId: VerifiedId) -> Result<Void, Error> {
+    public func fulfill(with verifiedId: VerifiedId) -> VerifiedIdResult<Void> {
         
         do {
             try constraint.matches(verifiedId: verifiedId)
         } catch {
-            return Result.failure(error)
+            return VerifiedIdErrors.RequirementNotMet(message: "Verified Id Constraints do not match.", errors: [error]).result()
         }
         
         self.selectedVerifiedId = verifiedId
-        return Result.success(())
+        return VerifiedIdResult.success(())
     }
 }

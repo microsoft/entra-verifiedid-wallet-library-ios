@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum AccessTokenRequirementError: Error {
-    case accessTokenRequirementHasNotBeenFulfilled
-}
-
 /**
  * Information to describe an access token required for a Verified Id issuance flow.
  */
@@ -48,12 +44,12 @@ public class AccessTokenRequirement: Requirement {
     }
     
     /// Returns Failure Result if requirement is not fulfilled.
-    public func validate() -> Result<Void, Error> {
+    public func validate() -> VerifiedIdResult<Void> {
         if accessToken == nil {
-            return Result.failure(AccessTokenRequirementError.accessTokenRequirementHasNotBeenFulfilled)
+            return VerifiedIdErrors.RequirementNotMet(message: "Access Token has not been set.").result()
         }
         
-        return Result.success(())
+        return VerifiedIdResult.success(())
     }
     
     /// Fulfill requirement with a raw access token.

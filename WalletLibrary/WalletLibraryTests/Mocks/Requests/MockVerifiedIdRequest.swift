@@ -25,11 +25,11 @@ class MockVerifiedIdRequest: VerifiedIdRequest {
         return false
     }
     
-    func complete() async -> Result<Void, Error> {
+    func complete() async -> VerifiedIdResult<Void> {
         return Result.success(Void())
     }
     
-    func cancel(message: String?) -> Result<Void, Error> {
+    func cancel(message: String?) -> VerifiedIdResult<Void> {
         return Result.success(Void())
     }
 }
