@@ -24,6 +24,7 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertNil(builder.keychainAccessGroupIdentifier)
     }
     
     func testBuild_WithOneLogConsumer_ReturnsVerifiedIdClient() throws {
@@ -44,6 +45,7 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.logger.consumers.contains { $0 is MockLogConsumer })
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertNil(builder.keychainAccessGroupIdentifier)
     }
     
     func testBuild_WithMultipleLogConsumers_ReturnsVerifiedIdClient() throws {
@@ -70,5 +72,27 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.logger.consumers.contains { $0 as? MockLogConsumer == thirdLogConsumer })
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertNil(builder.keychainAccessGroupIdentifier)
+    }
+    
+    func testWithKeyChainIdentifier_WithValueInjected_ReturnsVerifiedIdClient() throws {
+        // Arrange
+        let expectedKeychainAccessGroupIdentifier = "expected keychain access group identifier"
+        
+        // Act
+        let builder = VerifiedIdClientBuilder()
+            .with(keychainAccessGroupIdentifier: expectedKeychainAccessGroupIdentifier)
+        let actualResult = builder.build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertEqual(builder.keychainAccessGroupIdentifier, expectedKeychainAccessGroupIdentifier)
     }
 }
