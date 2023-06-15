@@ -52,6 +52,8 @@
 		553CC0A029A98003005A5FD6 /* VCVerifiedIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553CC09F29A98003005A5FD6 /* VCVerifiedIdTests.swift */; };
 		555089272A2E63E600186885 /* WalletLibraryVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5550891D2A2E63E600186885 /* WalletLibraryVersion.swift */; };
 		55508A1B2A38F88E00186885 /* MockCorrelationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508A1A2A38F88E00186885 /* MockCorrelationHeader.swift */; };
+		55508A542A3B954100186885 /* MockVerifiedIdError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508A4A2A3B954100186885 /* MockVerifiedIdError.swift */; };
+		55508A572A3B95E500186885 /* VerifiedIdErrorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508A562A3B95E500186885 /* VerifiedIdErrorsTests.swift */; };
 		5552D28129EF33E900B40302 /* VerifiableCredentialSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27D29EF335600B40302 /* VerifiableCredentialSDK.swift */; };
 		5552D28229EF33EC00B40302 /* IssuanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27F29EF335600B40302 /* IssuanceService.swift */; };
 		5552D28329EF33EF00B40302 /* PresentationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D28029EF335600B40302 /* PresentationService.swift */; };
@@ -616,6 +618,8 @@
 		553CC09F29A98003005A5FD6 /* VCVerifiedIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCVerifiedIdTests.swift; sourceTree = "<group>"; };
 		5550891D2A2E63E600186885 /* WalletLibraryVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletLibraryVersion.swift; sourceTree = "<group>"; };
 		55508A1A2A38F88E00186885 /* MockCorrelationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCorrelationHeader.swift; sourceTree = "<group>"; };
+		55508A4A2A3B954100186885 /* MockVerifiedIdError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdError.swift; sourceTree = "<group>"; };
+		55508A562A3B95E500186885 /* VerifiedIdErrorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdErrorsTests.swift; sourceTree = "<group>"; };
 		5552D26F29EF335500B40302 /* IdentifierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierService.swift; sourceTree = "<group>"; };
 		5552D27029EF335500B40302 /* VCUseCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VCUseCase.h; sourceTree = "<group>"; };
 		5552D27229EF335500B40302 /* difwordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = difwordlist.txt; sourceTree = "<group>"; };
@@ -1185,6 +1189,7 @@
 			children = (
 				5552D7AB29F2E07A00B40302 /* VCSDKTests */,
 				55A81C0A2991BF6C002C259A /* Mocks */,
+				55508A552A3B95CA00186885 /* Errors */,
 				5534E67C294A392F005D0765 /* Extensions */,
 				55A81BF02991BB13002C259A /* Requests */,
 				55E3376929478C3300CD2ED7 /* Utilities */,
@@ -1301,6 +1306,14 @@
 				55BA2DD929CDFA6100BB8207 /* VerifiedIdEncoderTests.swift */,
 			);
 			path = VerifiedId;
+			sourceTree = "<group>";
+		};
+		55508A552A3B95CA00186885 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				55508A562A3B95E500186885 /* VerifiedIdErrorsTests.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 		5552D26E29EF335500B40302 /* VCServices */ = {
@@ -2440,6 +2453,7 @@
 				55E2F08229955E7B0008010D /* Utilities */,
 				55A81C0B2991BF73002C259A /* Requests */,
 				55DECC3E29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift */,
+				55508A4A2A3B954100186885 /* MockVerifiedIdError.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -3258,6 +3272,7 @@
 				5552D85D29F2E43900B40302 /* PostIssuanceResponseOperationTests.swift in Sources */,
 				559BD4EB299EEAC400BD61AC /* GroupRequirementTests.swift in Sources */,
 				55A81C072991BB2C002C259A /* RequestResolverFactoryTests.swift in Sources */,
+				55508A542A3B954100186885 /* MockVerifiedIdError.swift in Sources */,
 				5552D81829F2E25900B40302 /* MockOIDCClaims.swift in Sources */,
 				553CC09B29A96ECD005A5FD6 /* MockIssuanceResponseContaining.swift in Sources */,
 				5552D89229F2E58000B40302 /* MockPresentationRequestValidator.swift in Sources */,
@@ -3328,6 +3343,7 @@
 				55E2F076299555280008010D /* MockRequirement.swift in Sources */,
 				553CC09229A957A3005A5FD6 /* PinDescriptor+MappableTests.swift in Sources */,
 				5552D7CF29F2E0AA00B40302 /* Secp256k1PublicKeyTests.swift in Sources */,
+				55508A572A3B95E500186885 /* VerifiedIdErrorsTests.swift in Sources */,
 				5552D82029F2E25900B40302 /* JSONCodingKeysTests.swift in Sources */,
 				5552D7E829F2E1AF00B40302 /* MockAlgorithm.swift in Sources */,
 				55DECC3529BFDB7600D5C802 /* VCTypeConstraintTests.swift in Sources */,
