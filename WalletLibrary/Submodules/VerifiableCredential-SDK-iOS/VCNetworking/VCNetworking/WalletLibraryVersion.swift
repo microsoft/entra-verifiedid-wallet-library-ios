@@ -7,9 +7,9 @@
  * The Current Wallet Library Version.
  */
 struct WalletLibraryVersion {
-    static let High = 0
+    static let High = 1
     static let Low = 0
-    static let Patch = "1-beta.2"
+    static let Patch = 0
     
     static let Version = "\(High).\(Low).\(Patch)"
 }
