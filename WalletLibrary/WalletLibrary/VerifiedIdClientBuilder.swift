@@ -11,6 +11,8 @@
  * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
  */
 public class VerifiedIdClientBuilder {
+
+    var keychainAccessGroupIdentifier: String?
     
     private var correlationHeader: VerifiedIdCorrelationHeader?
     
@@ -26,9 +28,10 @@ public class VerifiedIdClientBuilder {
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
-        /// TODO: access group identifier into vc sdk.
+
         let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
-        let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer)
+        let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
+                                                   accessGroupIdentifier: keychainAccessGroupIdentifier)
         
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
@@ -55,6 +58,12 @@ public class VerifiedIdClientBuilder {
     /// Optional method to add a custom Correlation Header to the VerifiedIdClient.
     public func with(verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader) -> VerifiedIdClientBuilder {
         self.correlationHeader = verifiedIdCorrelationHeader
+        return self
+    }
+    
+    /// Optional method to use the given value to specify what Keychain Access Group keys should be stored in.
+    public func with(keychainAccessGroupIdentifier: String) -> VerifiedIdClientBuilder {
+        self.keychainAccessGroupIdentifier = keychainAccessGroupIdentifier
         return self
     }
     
