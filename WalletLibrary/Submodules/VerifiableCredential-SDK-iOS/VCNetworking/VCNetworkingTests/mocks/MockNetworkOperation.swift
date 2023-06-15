@@ -17,7 +17,7 @@ final class MockNetworkOperation: InternalNetworkOperation {
     let retryHandler: RetryHandler = NoRetry()
     let urlSession: URLSession
     var urlRequest: URLRequest
-    var correlationVector: CorrelationHeader? = nil
+    var correlationVector: VerifiedIdCorrelationHeader? = nil
     
     let mockUrl = "mockurl.com"
     

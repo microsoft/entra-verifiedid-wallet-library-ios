@@ -11,6 +11,10 @@
  * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
  */
 public class VerifiedIdClientBuilder {
+
+    var keychainAccessGroupIdentifier: String?
+    
+    private var correlationHeader: VerifiedIdCorrelationHeader?
     
     private var logger: WalletLibraryLogger
     
@@ -24,12 +28,14 @@ public class VerifiedIdClientBuilder {
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
-        /// TODO: access group identifier into vc sdk.
+
         let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
-        let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer)
+        let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
+                                                   accessGroupIdentifier: keychainAccessGroupIdentifier)
         
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
+                                                 correlationHeader: correlationHeader,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder())
         
@@ -49,14 +55,27 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    /// Optional method to add a custom Correlation Header to the VerifiedIdClient.
+    public func with(verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader) -> VerifiedIdClientBuilder {
+        self.correlationHeader = verifiedIdCorrelationHeader
+        return self
+    }
+    
+    /// Optional method to use the given value to specify what Keychain Access Group keys should be stored in.
+    public func with(keychainAccessGroupIdentifier: String) -> VerifiedIdClientBuilder {
+        self.keychainAccessGroupIdentifier = keychainAccessGroupIdentifier
+        return self
+    }
+    
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
-        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(), configuration: configuration)
+        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(),
+                                                         configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
     
     private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
-        let issuanceService = IssuanceService()
-        let presentationService = PresentationService()
+        let issuanceService = IssuanceService(correlationVector: correlationHeader)
+        let presentationService = PresentationService(correlationVector: correlationHeader)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,

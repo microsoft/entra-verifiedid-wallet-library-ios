@@ -22,11 +22,11 @@ class FetchPresentationRequestOperation: InternalNetworkOperation {
     let decoder: PresentationRequestDecoder = PresentationRequestDecoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
-    var correlationVector: CorrelationHeader?
+    var correlationVector: VerifiedIdCorrelationHeader?
     
     init(withUrl urlStr: String,
-                andCorrelationVector cv: CorrelationHeader? = nil,
-                session: URLSession = URLSession.shared) throws {
+         andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
+         session: URLSession = URLSession.shared) throws {
         
         guard let url = URL(unsafeString: urlStr) else {
             throw NetworkingError.invalidUrl(withUrl: urlStr)
