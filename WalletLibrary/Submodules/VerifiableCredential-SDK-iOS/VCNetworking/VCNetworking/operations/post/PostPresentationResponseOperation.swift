@@ -23,12 +23,12 @@ class PostPresentationResponseOperation: InternalPostNetworkOperation {
     let encoder = PresentationResponseEncoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
-    var correlationVector: CorrelationHeader?
+    var correlationVector: VerifiedIdCorrelationHeader?
     
     init(usingUrl urlStr: String,
-                withBody body: PresentationResponse,
-                andCorrelationVector cv: CorrelationHeader? = nil,
-                urlSession: URLSession = URLSession.shared) throws {
+         withBody body: PresentationResponse,
+         andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
+         urlSession: URLSession = URLSession.shared) throws {
         
         guard let url = URL(unsafeString: urlStr) else {
             throw NetworkingError.invalidUrl(withUrl: urlStr)

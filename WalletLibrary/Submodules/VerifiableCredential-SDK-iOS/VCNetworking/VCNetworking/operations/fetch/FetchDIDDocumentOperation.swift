@@ -16,10 +16,10 @@ class FetchDIDDocumentOperation: InternalNetworkOperation {
     let decoder = DIDDocumentDecoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
-    var correlationVector: CorrelationHeader?
+    var correlationVector: VerifiedIdCorrelationHeader?
     
     init(withIdentifier identifier: String,
-         andCorrelationVector correlationVector: CorrelationHeader? = nil,
+         andCorrelationVector correlationVector: VerifiedIdCorrelationHeader? = nil,
          session: URLSession = URLSession()) throws {
         
         guard var urlComponents = URLComponents(string: VCSDKConfiguration.sharedInstance.discoveryUrl) else {

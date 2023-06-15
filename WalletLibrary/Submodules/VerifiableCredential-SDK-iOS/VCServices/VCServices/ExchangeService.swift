@@ -18,7 +18,7 @@ class ExchangeService {
     private let formatter: ExchangeRequestFormatting
     private let apiCalls: ExchangeNetworking
     
-    convenience init(correlationVector: CorrelationHeader? = nil,
+    convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                      urlSession: URLSession = URLSession.shared) {
         self.init(formatter: ExchangeRequestFormatter(),
                   apiCalls: ExchangeNetworkCalls(correlationVector: correlationVector,

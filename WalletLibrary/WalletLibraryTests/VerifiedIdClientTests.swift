@@ -166,6 +166,36 @@ class VerifiedIdClientTests: XCTestCase {
         XCTAssertIdentical(actualResult as AnyObject, expectedRequest as AnyObject)
     }
     
+    func testCreateRequest_WithCorrelationHeader_ResetsCorrelationHeader() async throws {
+        // Arrange
+        let resolver = MockResolver(canResolveUsingInput: true,
+                                    canResolveUsingHandler: { _ in true },
+                                    mockResolve: {_ in MockRawRequest(raw: "")})
+        let resolverFactory = RequestResolverFactory(resolvers: [resolver])
+        
+        let mockInput = MockInput(mockData: "")
+        
+        let expectedRequest = MockVerifiedIdRequest()
+        
+        let mockHandler = MockHandler(mockHandleRequest: { return expectedRequest })
+        let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
+        let mockCorrelationHeader = MockCorrelationHeader()
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 correlationHeader: mockCorrelationHeader)
+        
+        let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
+                                      requestHandlerFactory: handlerFactory,
+                                      configuration: configuration)
+        
+        // Act
+        let actualResult = try await client.createRequest(from: mockInput).get()
+        
+        // Assert
+        XCTAssert(mockCorrelationHeader.wasResetCalled)
+        XCTAssertIdentical(actualResult as AnyObject, expectedRequest as AnyObject)
+    }
+    
     func testEncode_WithEncoderErrorThrown_ThrowsError() async throws {
         // Arrange
         let resolverFactory = RequestResolverFactory(resolvers: [])
