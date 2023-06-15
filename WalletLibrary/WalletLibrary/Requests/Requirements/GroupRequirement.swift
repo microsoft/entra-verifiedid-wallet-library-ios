@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum GroupRequirementError: Error {
-    case requirementsAreNotValid([Error])
-}
-
 /**
  * This value specifies if all requirements are needed in the list or just one.
  */
@@ -39,7 +35,7 @@ public class GroupRequirement: Requirement {
     }
     
     /// Returns Failure Result if requirement is not valid or not fulfilled.
-    public func validate() -> Result<Void, Error> {
+    public func validate() -> VerifiedIdResult<Void> {
         
         var errorsThrown: [Error] = []
         for requirement in requirements {
@@ -51,9 +47,10 @@ public class GroupRequirement: Requirement {
         }
         
         if !errorsThrown.isEmpty {
-            return Result.failure(GroupRequirementError.requirementsAreNotValid(errorsThrown))
+            return VerifiedIdErrors.RequirementNotMet(message: "Group Requirement is not valid.",
+                                                      errors: errorsThrown).result()
         }
         
-        return Result.success(())
+        return VerifiedIdResult.success(())
     }
 }

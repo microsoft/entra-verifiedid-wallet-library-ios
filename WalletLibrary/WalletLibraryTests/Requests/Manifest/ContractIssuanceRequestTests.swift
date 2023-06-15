@@ -282,8 +282,8 @@ class ContractIssuanceRequestTests: XCTestCase {
             XCTFail("Should have thrown an error.")
         case .failure(let error):
             XCTAssert(wasSendIssuanceResultCallbackCalled)
-            XCTAssert(error is ExpectedError)
-            XCTAssertEqual(error as? ExpectedError, .expectedToBeThrown)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? ExpectedError, .expectedToBeThrown)
         }
     }
     
@@ -328,8 +328,8 @@ class ContractIssuanceRequestTests: XCTestCase {
             XCTFail("Should have thrown an error.")
         case .failure(let error):
             XCTAssertFalse(wasSendIssuanceResultCallbackCalled)
-            XCTAssert(error is ExpectedError)
-            XCTAssertEqual(error as? ExpectedError, .expectedToBeThrown)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? ExpectedError, .expectedToBeThrown)
         }
     }
     
@@ -374,8 +374,9 @@ class ContractIssuanceRequestTests: XCTestCase {
             XCTFail("Should have failed")
         case .failure(let error):
             XCTAssertFalse(wasSendIssuanceResultCallbackCalled)
-            XCTAssert(error is VerifiedIdIssuanceRequestError)
-            XCTAssertEqual(error as? VerifiedIdIssuanceRequestError, .missingRequestStateForIssuanceResultCallback)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? VerifiedIdIssuanceRequestError,
+                           .missingRequestStateForIssuanceResultCallback)
         }
     }
     
@@ -420,8 +421,9 @@ class ContractIssuanceRequestTests: XCTestCase {
             XCTFail("Should have failed")
         case .failure(let error):
             XCTAssertFalse(wasSendIssuanceResultCallbackCalled)
-            XCTAssert(error is VerifiedIdIssuanceRequestError)
-            XCTAssertEqual(error as? VerifiedIdIssuanceRequestError, .missingCallbackURLForIssuanceResultCallback)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? VerifiedIdIssuanceRequestError,
+                           .missingCallbackURLForIssuanceResultCallback)
         }
     }
     

@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum SelfAttestedClaimRequirementError: Error {
-    case selfAttestedClaimRequirementHasNotBeenFulfilled
-}
-
 /**
  * Information to describe a self attested claim required for a Verified Id issuance flow.
  */
@@ -31,12 +27,12 @@ public class SelfAttestedClaimRequirement: Requirement {
     }
     
     /// Returns Failure Result if requirement is not fulfilled.
-    public func validate() -> Result<Void, Error> {
+    public func validate() -> VerifiedIdResult<Void> {
         if value == nil {
-            return Result.failure(SelfAttestedClaimRequirementError.selfAttestedClaimRequirementHasNotBeenFulfilled)
+            return VerifiedIdErrors.RequirementNotMet(message: "Self Attested Claim has not been set.").result()
         }
         
-        return Result.success(())
+        return VerifiedIdResult.success(())
     }
     
     /// Fulfill requirement with a self-attested value.

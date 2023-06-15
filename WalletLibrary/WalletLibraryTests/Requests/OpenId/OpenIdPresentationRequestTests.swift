@@ -99,8 +99,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTFail()
         case .failure(let error):
-            XCTAssert(error is PresentationResponseContainerError)
-            XCTAssertEqual((error as? PresentationResponseContainerError),
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? PresentationResponseContainerError,
                            .unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
         }
     }
@@ -136,8 +136,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTFail()
         case .failure(let error):
-            XCTAssert(error is PresentationResponseContainerError)
-            XCTAssertEqual((error as? PresentationResponseContainerError),
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? PresentationResponseContainerError,
                            .unsupportedRequirementOfType("MockRequirement"))
         }
     }
@@ -185,9 +185,9 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTFail()
         case .failure(let error):
-            print(error)
-            XCTAssert(error is ExpectedError)
-            XCTAssertEqual((error as? ExpectedError), .expectedToBeThrownInResponder)
+            XCTAssert(error is UnspecifiedVerifiedIdError)
+            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? ExpectedError,
+                           .expectedToBeThrownInResponder)
         }
     }
     

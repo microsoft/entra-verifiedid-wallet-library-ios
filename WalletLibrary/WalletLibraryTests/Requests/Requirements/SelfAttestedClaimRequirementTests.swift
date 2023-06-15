@@ -18,8 +18,10 @@ class SelfAttestedClaimRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try requirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is SelfAttestedClaimRequirementError)
-            XCTAssertEqual(error as? SelfAttestedClaimRequirementError, .selfAttestedClaimRequirementHasNotBeenFulfilled)
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertEqual((error as? RequirementNotMetError)?.code, VerifiedIdErrors.ErrorCode.RequirementNotMet)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Self Attested Claim has not been set.")
+            XCTAssertNil((error as! RequirementNotMetError).errors)
         }
     }
     

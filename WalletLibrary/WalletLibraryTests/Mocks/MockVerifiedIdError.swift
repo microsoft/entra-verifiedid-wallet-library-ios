@@ -3,13 +3,16 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/**
- * An object that describes a necessary piece of information to be included within a Request.
- */
-public protocol Requirement {
-    /// Whether or not the requirement is required to fulfill request.
-    var required: Bool { get }
+@testable import WalletLibrary
+
+class MockVerifiedIdError: VerifiedIdError {
     
-    /// Validate the requirement, and throw if there is something invalid.
-    func validate() -> VerifiedIdResult<Void>
+    let error: Error?
+    
+    init(error: Error? = nil) {
+        self.error = error
+        super.init(message: "mock error", code: "")
+    }
+    
 }
+

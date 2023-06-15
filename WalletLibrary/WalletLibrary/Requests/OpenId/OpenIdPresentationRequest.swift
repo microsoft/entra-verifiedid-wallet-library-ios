@@ -56,19 +56,16 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     }
     
     /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
-    func complete() async -> Result<(), Error> {
-        do {
-            var response = try PresentationResponseContainer(rawRequest: rawRequest)
-            try response.add(requirement: requirement)
-            try await responder.send(response: response)
-            return Result.success(())
-        } catch {
-            return Result.failure(error)
+    func complete() async -> VerifiedIdResult<Void> {
+        return await VerifiedIdResult<Void>.getResult {
+            var response = try PresentationResponseContainer(rawRequest: self.rawRequest)
+            try response.add(requirement: self.requirement)
+            try await self.responder.send(response: response)
         }
     }
     
     /// Cancel the request with an optional message.
-    func cancel(message: String?) async -> Result<Void, Error> {
-        return Result.failure(VerifiedIdPresentationRequestError.cancelPresentationRequestIsUnsupported)
+    func cancel(message: String?) async -> VerifiedIdResult<Void> {
+        return VerifiedIdError(message: message ?? "User Canceled.", code: VerifiedIdErrors.ErrorCode.UserCanceled).result()
     }
 }

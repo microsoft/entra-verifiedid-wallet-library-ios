@@ -21,8 +21,11 @@ class AccessTokenRequirementTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try accessTokenRequirement.validate().get()) { error in
             // Assert
-            XCTAssert(error is AccessTokenRequirementError)
-            XCTAssertEqual(error as? AccessTokenRequirementError, .accessTokenRequirementHasNotBeenFulfilled)
+            // Assert
+            XCTAssert(error is RequirementNotMetError)
+            XCTAssertEqual((error as? RequirementNotMetError)?.code, VerifiedIdErrors.ErrorCode.RequirementNotMet)
+            XCTAssertEqual((error as? RequirementNotMetError)?.message, "Access Token has not been set.")
+            XCTAssertNil((error as! RequirementNotMetError).errors)
         }
     }
     
