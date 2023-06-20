@@ -5,7 +5,7 @@
 
 import XCTest
 
-@testable import VCToken
+@testable import WalletLibrary
 
 class JwsEncoderTests: XCTestCase {
     

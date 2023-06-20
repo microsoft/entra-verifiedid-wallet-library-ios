@@ -5,7 +5,7 @@
 
 import XCTest
 
-@testable import VCServices
+@testable import WalletLibrary
 
 class DifWordListTests: XCTestCase {
     

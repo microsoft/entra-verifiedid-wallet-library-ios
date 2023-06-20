@@ -4,10 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import PromiseKit
-import VCEntities
-import VCToken
-
-@testable import VCServices
+@testable import WalletLibrary
 
 enum MockPresentationResponseFormatterError: Error {
     case doNotWantToResolveRealObject

@@ -4,9 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import PromiseKit
-import VCEntities
-
-@testable import VCServices
+@testable import WalletLibrary
 
 enum MockIssuanceResponseFormatterError: Error {
     case doNotWantToResolveRealObject
@@ -24,7 +22,7 @@ class MockIssuanceResponseFormatter: IssuanceResponseFormatting {
     func format(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier) throws -> IssuanceResponse {
         Self.wasFormatCalled = true
         if (shouldSucceed) {
-            return IssuanceResponse(from: TestData.issuanceResponse.rawValue)!
+            return IssuanceResponse(from: VCServicesTestData.issuanceResponse.rawValue)!
         } else {
             throw MockIssuanceResponseFormatterError.doNotWantToResolveRealObject
         }

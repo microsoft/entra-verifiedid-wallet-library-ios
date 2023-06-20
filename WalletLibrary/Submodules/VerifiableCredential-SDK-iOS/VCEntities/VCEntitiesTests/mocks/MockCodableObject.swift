@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import VCEntities
+@testable import WalletLibrary
 
 struct MockCodableObject: Codable {
     let test: Dictionary<String, Any>

@@ -5,9 +5,7 @@
 
 import XCTest
 import PromiseKit
-import VCEntities
-
-@testable import VCNetworking
+@testable import WalletLibrary
 
 class PostIssuanceResponseOperationTests: XCTestCase {
     private var postOperation: PostIssuanceResponseOperation!

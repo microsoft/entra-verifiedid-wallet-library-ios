@@ -3,8 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import VCToken
-import VCCrypto
+@testable import WalletLibrary
 
 class MockCryptoOperations: CryptoOperating {
     

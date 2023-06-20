@@ -4,13 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import VCEntities
-
-@testable import VCNetworking
+@testable import WalletLibrary
 
 class ExchangeRequestEncoderTests: XCTestCase {
     
-    let expectedToken = ExchangeRequest(from: TestData.exchangeRequest.rawValue)!
+    let expectedToken = ExchangeRequest(from: VCNetworkingTestData.exchangeRequest.rawValue)!
     let encoder = ExchangeRequestEncoder()
     
     func testEncoding() throws {

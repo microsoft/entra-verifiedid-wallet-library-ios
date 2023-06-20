@@ -5,7 +5,7 @@
 
 
 import Foundation
-@testable import VCCrypto
+@testable import WalletLibrary
 
 enum SecretStoreMockError: Error {
     case noKeyFound

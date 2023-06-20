@@ -54,13 +54,6 @@
 		55508A542A3B954100186885 /* MockVerifiedIdError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508A4A2A3B954100186885 /* MockVerifiedIdError.swift */; };
 		55508A572A3B95E500186885 /* VerifiedIdErrorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508A562A3B95E500186885 /* VerifiedIdErrorsTests.swift */; };
 		55508A6F2A3BCB5100186885 /* WalletLibraryVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508A6E2A3BCB5000186885 /* WalletLibraryVersion.swift */; };
-		55508AE52A42120400186885 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508AD32A4211F500186885 /* ViewController.swift */; };
-		55508AE62A42120400186885 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 55508AD42A4211F500186885 /* Assets.xcassets */; };
-		55508AE72A42120400186885 /* LaunchScreen.storyboard in Sources */ = {isa = PBXBuildFile; fileRef = 55508AD52A4211F500186885 /* LaunchScreen.storyboard */; };
-		55508AE82A42120400186885 /* Main.storyboard in Sources */ = {isa = PBXBuildFile; fileRef = 55508AD72A4211F500186885 /* Main.storyboard */; };
-		55508AE92A42120400186885 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508AD92A4211F500186885 /* AppDelegate.swift */; };
-		55508AEA2A42120400186885 /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 55508ADA2A4211F500186885 /* Info.plist */; };
-		55508AEB2A42120400186885 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508ADB2A4211F500186885 /* SceneDelegate.swift */; };
 		5552D28129EF33E900B40302 /* VerifiableCredentialSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27D29EF335600B40302 /* VerifiableCredentialSDK.swift */; };
 		5552D28229EF33EC00B40302 /* IssuanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27F29EF335600B40302 /* IssuanceService.swift */; };
 		5552D28329EF33EF00B40302 /* PresentationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D28029EF335600B40302 /* PresentationService.swift */; };
@@ -269,6 +262,12 @@
 		5552D4D329EF4AC300B40302 /* SupportedCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D4B229EF4AC300B40302 /* SupportedCurve.swift */; };
 		5552D4D429EF4AC300B40302 /* SupportedHashAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D4B329EF4AC300B40302 /* SupportedHashAlgorithm.swift */; };
 		5552D4D529EF4AC300B40302 /* KeyManagementOperating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D4B429EF4AC300B40302 /* KeyManagementOperating.swift */; };
+		5552D78529F2E02100B40302 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D78429F2E02100B40302 /* AppDelegate.swift */; };
+		5552D78729F2E02100B40302 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D78629F2E02100B40302 /* SceneDelegate.swift */; };
+		5552D78929F2E02100B40302 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D78829F2E02100B40302 /* ViewController.swift */; };
+		5552D78C29F2E02100B40302 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5552D78A29F2E02100B40302 /* Main.storyboard */; };
+		5552D78E29F2E02500B40302 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5552D78D29F2E02500B40302 /* Assets.xcassets */; };
+		5552D79129F2E02500B40302 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5552D78F29F2E02500B40302 /* LaunchScreen.storyboard */; };
 		5552D7C329F2E0A900B40302 /* Sha256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7AD29F2E0A900B40302 /* Sha256Tests.swift */; };
 		5552D7C429F2E0A900B40302 /* Utf8TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7AF29F2E0A900B40302 /* Utf8TestData.swift */; };
 		5552D7C529F2E0A900B40302 /* VCSDKConfigurationMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D7B029F2E0A900B40302 /* VCSDKConfigurationMock.swift */; };
@@ -621,13 +620,6 @@
 		55508A4A2A3B954100186885 /* MockVerifiedIdError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdError.swift; sourceTree = "<group>"; };
 		55508A562A3B95E500186885 /* VerifiedIdErrorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdErrorsTests.swift; sourceTree = "<group>"; };
 		55508A6E2A3BCB5000186885 /* WalletLibraryVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletLibraryVersion.swift; path = "Submodules/VerifiableCredential-SDK-iOS/VCNetworking/VCNetworking/WalletLibraryVersion.swift"; sourceTree = SOURCE_ROOT; };
-		55508AD32A4211F500186885 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		55508AD42A4211F500186885 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		55508AD62A4211F500186885 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		55508AD82A4211F500186885 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		55508AD92A4211F500186885 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		55508ADA2A4211F500186885 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		55508ADB2A4211F500186885 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5552D26F29EF335500B40302 /* IdentifierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierService.swift; sourceTree = "<group>"; };
 		5552D27029EF335500B40302 /* VCUseCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VCUseCase.h; sourceTree = "<group>"; };
 		5552D27229EF335500B40302 /* difwordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = difwordlist.txt; sourceTree = "<group>"; };
@@ -839,6 +831,13 @@
 		5552D4B329EF4AC300B40302 /* SupportedHashAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportedHashAlgorithm.swift; sourceTree = "<group>"; };
 		5552D4B429EF4AC300B40302 /* KeyManagementOperating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyManagementOperating.swift; sourceTree = "<group>"; };
 		5552D78229F2E02100B40302 /* WalletLibraryTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalletLibraryTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5552D78429F2E02100B40302 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5552D78629F2E02100B40302 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5552D78829F2E02100B40302 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5552D78B29F2E02100B40302 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5552D78D29F2E02500B40302 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5552D79029F2E02500B40302 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5552D79229F2E02500B40302 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5552D7AD29F2E0A900B40302 /* Sha256Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sha256Tests.swift; sourceTree = "<group>"; };
 		5552D7AF29F2E0A900B40302 /* Utf8TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utf8TestData.swift; sourceTree = "<group>"; };
 		5552D7B029F2E0A900B40302 /* VCSDKConfigurationMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCSDKConfigurationMock.swift; sourceTree = "<group>"; };
@@ -1151,7 +1150,7 @@
 				5552D26E29EF335500B40302 /* VCServices */,
 				552E5094293E6AB200868F47 /* WalletLibrary */,
 				552E509E293E6AB200868F47 /* WalletLibraryTests */,
-				55508AD22A4211F500186885 /* WalletLibraryTestApp */,
+				5552D78329F2E02100B40302 /* WalletLibraryTestApp */,
 				552E5093293E6AB200868F47 /* Products */,
 				552E544A293E736C00868F47 /* Frameworks */,
 			);
@@ -1314,20 +1313,6 @@
 				55508A562A3B95E500186885 /* VerifiedIdErrorsTests.swift */,
 			);
 			path = Errors;
-			sourceTree = "<group>";
-		};
-		55508AD22A4211F500186885 /* WalletLibraryTestApp */ = {
-			isa = PBXGroup;
-			children = (
-				55508AD32A4211F500186885 /* ViewController.swift */,
-				55508AD42A4211F500186885 /* Assets.xcassets */,
-				55508AD52A4211F500186885 /* LaunchScreen.storyboard */,
-				55508AD72A4211F500186885 /* Main.storyboard */,
-				55508AD92A4211F500186885 /* AppDelegate.swift */,
-				55508ADA2A4211F500186885 /* Info.plist */,
-				55508ADB2A4211F500186885 /* SceneDelegate.swift */,
-			);
-			path = WalletLibraryTestApp;
 			sourceTree = "<group>";
 		};
 		5552D26E29EF335500B40302 /* VCServices */ = {
@@ -1931,6 +1916,20 @@
 				5552D4B429EF4AC300B40302 /* KeyManagementOperating.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		5552D78329F2E02100B40302 /* WalletLibraryTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				5552D78429F2E02100B40302 /* AppDelegate.swift */,
+				5552D78629F2E02100B40302 /* SceneDelegate.swift */,
+				5552D78829F2E02100B40302 /* ViewController.swift */,
+				5552D78A29F2E02100B40302 /* Main.storyboard */,
+				5552D78D29F2E02500B40302 /* Assets.xcassets */,
+				5552D78F29F2E02500B40302 /* LaunchScreen.storyboard */,
+				5552D79229F2E02500B40302 /* Info.plist */,
+			);
+			path = WalletLibraryTestApp;
 			sourceTree = "<group>";
 		};
 		5552D7AB29F2E07A00B40302 /* VCSDKTests */ = {
@@ -2931,6 +2930,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5552D79129F2E02500B40302 /* LaunchScreen.storyboard in Resources */,
+				5552D78E29F2E02500B40302 /* Assets.xcassets in Resources */,
+				5552D78C29F2E02100B40302 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3411,13 +3413,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55508AE52A42120400186885 /* ViewController.swift in Sources */,
-				55508AE62A42120400186885 /* Assets.xcassets in Sources */,
-				55508AE72A42120400186885 /* LaunchScreen.storyboard in Sources */,
-				55508AE82A42120400186885 /* Main.storyboard in Sources */,
-				55508AE92A42120400186885 /* AppDelegate.swift in Sources */,
-				55508AEA2A42120400186885 /* Info.plist in Sources */,
-				55508AEB2A42120400186885 /* SceneDelegate.swift in Sources */,
+				5552D78929F2E02100B40302 /* ViewController.swift in Sources */,
+				5552D78529F2E02100B40302 /* AppDelegate.swift in Sources */,
+				5552D78729F2E02100B40302 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3437,20 +3435,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		55508AD52A4211F500186885 /* LaunchScreen.storyboard */ = {
+		5552D78A29F2E02100B40302 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				55508AD62A4211F500186885 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		55508AD72A4211F500186885 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				55508AD82A4211F500186885 /* Base */,
+				5552D78B29F2E02100B40302 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5552D78F29F2E02500B40302 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5552D79029F2E02500B40302 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

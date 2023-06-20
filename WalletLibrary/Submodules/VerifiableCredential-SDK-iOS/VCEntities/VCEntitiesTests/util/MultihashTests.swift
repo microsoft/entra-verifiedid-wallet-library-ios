@@ -4,10 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-
-import VCCrypto
-
-@testable import VCEntities
+@testable import WalletLibrary
 
 class MultihashTests: XCTestCase {
 

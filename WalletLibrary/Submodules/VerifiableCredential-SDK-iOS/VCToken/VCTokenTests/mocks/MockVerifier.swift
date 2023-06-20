@@ -3,8 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import VCToken
-import VCCrypto
+@testable import WalletLibrary
+import WalletLibrary
 
 class MockVerifier: TokenVerifying {
     func verify<T>(token: JwsToken<T>, usingPublicKey key: JWK) throws -> Bool where T : Claims {

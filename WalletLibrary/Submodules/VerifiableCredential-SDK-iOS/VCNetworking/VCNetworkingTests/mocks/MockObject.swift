@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 import Foundation
-@testable import VCNetworking
+@testable import WalletLibrary
 
 struct MockObject: Codable, Equatable {
     let id: String

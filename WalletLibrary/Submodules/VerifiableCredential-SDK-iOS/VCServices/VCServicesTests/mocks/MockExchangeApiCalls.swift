@@ -3,11 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import VCNetworking
-import VCEntities
 import PromiseKit
-
-@testable import VCServices
+@testable import WalletLibrary
 
 enum MockExchangeNetworkingError: Error {
     case doNotWantToResolveRealObject
