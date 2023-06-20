@@ -16,9 +16,9 @@ public protocol ExchangeNetworking {
 public class ExchangeNetworkCalls: ExchangeNetworking {
     
     private let urlSession: URLSession
-    private let correlationVector: CorrelationHeader?
+    private let correlationVector: VerifiedIdCorrelationHeader?
     
-    public init(correlationVector: CorrelationHeader? = nil,
+    public init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) {
         self.correlationVector = correlationVector
         self.urlSession = urlSession

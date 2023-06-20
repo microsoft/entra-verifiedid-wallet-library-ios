@@ -19,11 +19,11 @@ public class PostIssuanceCompletionResponseOperation: InternalPostNetworkOperati
     let encoder = IssuanceCompletionResponseEncoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
-    var correlationVector: CorrelationHeader?
+    var correlationVector: VerifiedIdCorrelationHeader?
     
     public init(usingUrl urlStr: String,
                 withBody body: IssuanceCompletionResponse,
-                andCorrelationVector cv: CorrelationHeader? = nil,
+                andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
                 urlSession: URLSession = URLSession.shared) throws {
         
         guard let url = URL(unsafeString: urlStr) else {

@@ -19,7 +19,7 @@ class PairwiseService {
     private let exchangeService: ExchangeService
     private let identifierService: IdentifierService
     
-    convenience init(correlationVector: CorrelationHeader? = nil,
+    convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                      urlSession: URLSession = URLSession.shared) {
         self.init(exchangeService: ExchangeService(correlationVector: correlationVector,
                                                    urlSession: urlSession),

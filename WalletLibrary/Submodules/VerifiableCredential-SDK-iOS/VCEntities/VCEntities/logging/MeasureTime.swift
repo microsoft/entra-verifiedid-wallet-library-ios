@@ -27,7 +27,7 @@ public func logTime<R>(name: String,
 }
 
 public func logNetworkTime(name: String,
-                    correlationVector: CorrelationHeader? = nil,
+                    correlationVector: VerifiedIdCorrelationHeader? = nil,
                     _ block: @escaping () -> Promise<(data: Data, response: URLResponse)>) -> Promise<(data: Data, response: URLResponse)> {
     
     let startTimeInSeconds = CFAbsoluteTimeGetCurrent()
