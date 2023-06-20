@@ -5,13 +5,9 @@
 
 import PromiseKit
 
-#if canImport(VCNetworking)
-    import VCNetworking
-#endif
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
+enum LinkedDomainServiceError: String, Error {
+    case UndefinedResolver = "Root of Trust Resolver is undefined."
+}
 
 class LinkedDomainService {
     
@@ -19,26 +15,61 @@ class LinkedDomainService {
     private let wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking
     private let validator: DomainLinkageCredentialValidating
     
+    private let rootOfTrustResolver: RootOfTrustResolver?
+    
     public convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
+                            rootOfTrustResolver: RootOfTrustResolver? = nil,
                             urlSession: URLSession = URLSession.shared) {
         self.init(didDocumentDiscoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
                                                                         urlSession: urlSession),
                   wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworkCalls(correlationVector: correlationVector,
                                                                                  urlSession: urlSession),
-                  domainLinkageValidator: DomainLinkageCredentialValidator())
+                  domainLinkageValidator: DomainLinkageCredentialValidator(),
+                  rootOfTrustResolver: rootOfTrustResolver)
     }
     
     init(didDocumentDiscoveryApiCalls: DiscoveryNetworking,
          wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking,
-         domainLinkageValidator: DomainLinkageCredentialValidating) {
+         domainLinkageValidator: DomainLinkageCredentialValidating,
+         rootOfTrustResolver: RootOfTrustResolver? = nil) {
         self.didDocumentDiscoveryApiCalls = didDocumentDiscoveryApiCalls
         self.wellKnownDocumentApiCalls = wellKnownDocumentApiCalls
         self.validator = domainLinkageValidator
+        self.rootOfTrustResolver = rootOfTrustResolver
     }
     
+    /// Validate Linked Domain using injected Resolver. If error is thrown, validate using well-known configuration path.
     func validateLinkedDomain(from relyingPartyDid: String) -> Promise<LinkedDomainResult> {
+        return validateLinkedDomainUsingResolver(did: relyingPartyDid)
+            .recover { error in
+                return self.validateLinkedDomainUsingWellknownDocument(did: relyingPartyDid)
+            }
+    }
+    
+    private func validateLinkedDomainUsingResolver(did: String) -> Promise<LinkedDomainResult> {
+        
+        guard let rootOfTrustResolver = rootOfTrustResolver else {
+            VCSDKLog.sharedInstance.logInfo(message: "DID Verification Resolver is undefined, fetching Linked Domain Status from well-known DID configuration.")
+            return Promise<LinkedDomainResult>(error: LinkedDomainServiceError.UndefinedResolver)
+        }
+        
+        /// Return a Promise instead of using built-in async functionality to fix async compatibility.
+        return Promise { seal in
+            Task {
+                do {
+                    let result = try await rootOfTrustResolver.resolve(did: did)
+                    seal.fulfill(result)
+                } catch {
+                    VCSDKLog.sharedInstance.logInfo(message: "DID Verification Resolver failed, fetching Linked Domain Status from well-known DID configuration.")
+                    seal.reject(error)
+                }
+            }
+        }
+    }
+    
+    private func validateLinkedDomainUsingWellknownDocument(did: String) -> Promise<LinkedDomainResult> {
         return firstly {
-            getDidDocument(from: relyingPartyDid)
+            getDidDocument(from: did)
         }.then { identifierDocument in
             self.validateDomain(from: identifierDocument)
         }
