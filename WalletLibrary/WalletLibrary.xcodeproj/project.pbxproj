@@ -374,6 +374,18 @@
 		5552D9A629F2F1B600B40302 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D99229F2F19100B40302 /* PromiseKit.framework */; };
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
 		5552D9A929F2F1B900B40302 /* Secp256k1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5554AB832A4A0DBE0088EC15 /* NSURLSession+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 5554AB6E2A4A0DBD0088EC15 /* NSURLSession+AnyPromise.h */; };
+		5554AB842A4A0DBE0088EC15 /* NSNotificationCenter+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB6F2A4A0DBD0088EC15 /* NSNotificationCenter+Promise.swift */; };
+		5554AB852A4A0DBE0088EC15 /* NSNotificationCenter+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB702A4A0DBD0088EC15 /* NSNotificationCenter+AnyPromise.m */; };
+		5554AB862A4A0DBE0088EC15 /* afterlife.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB712A4A0DBD0088EC15 /* afterlife.swift */; };
+		5554AB872A4A0DBE0088EC15 /* NSTask+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 5554AB722A4A0DBD0088EC15 /* NSTask+AnyPromise.h */; };
+		5554AB882A4A0DBE0088EC15 /* NSURLSession+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB732A4A0DBD0088EC15 /* NSURLSession+Promise.swift */; };
+		5554AB892A4A0DBE0088EC15 /* NSURLSession+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB742A4A0DBD0088EC15 /* NSURLSession+AnyPromise.m */; };
+		5554AB8A2A4A0DBE0088EC15 /* NSObject+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB752A4A0DBD0088EC15 /* NSObject+Promise.swift */; };
+		5554AB8B2A4A0DBE0088EC15 /* NSNotificationCenter+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 5554AB762A4A0DBD0088EC15 /* NSNotificationCenter+AnyPromise.h */; };
+		5554AB8C2A4A0DBE0088EC15 /* PMKFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5554AB772A4A0DBD0088EC15 /* PMKFoundation.h */; };
+		5554AB8D2A4A0DBE0088EC15 /* Process+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB782A4A0DBD0088EC15 /* Process+Promise.swift */; };
+		5554AB8E2A4A0DBE0088EC15 /* NSTask+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB792A4A0DBD0088EC15 /* NSTask+AnyPromise.m */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */; };
 		559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */; };
@@ -942,6 +954,18 @@
 		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
 		5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
+		5554AB6E2A4A0DBD0088EC15 /* NSURLSession+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+AnyPromise.h"; sourceTree = "<group>"; };
+		5554AB6F2A4A0DBD0088EC15 /* NSNotificationCenter+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotificationCenter+Promise.swift"; sourceTree = "<group>"; };
+		5554AB702A4A0DBD0088EC15 /* NSNotificationCenter+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+AnyPromise.m"; sourceTree = "<group>"; };
+		5554AB712A4A0DBD0088EC15 /* afterlife.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = afterlife.swift; sourceTree = "<group>"; };
+		5554AB722A4A0DBD0088EC15 /* NSTask+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTask+AnyPromise.h"; sourceTree = "<group>"; };
+		5554AB732A4A0DBD0088EC15 /* NSURLSession+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Promise.swift"; sourceTree = "<group>"; };
+		5554AB742A4A0DBD0088EC15 /* NSURLSession+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+AnyPromise.m"; sourceTree = "<group>"; };
+		5554AB752A4A0DBD0088EC15 /* NSObject+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Promise.swift"; sourceTree = "<group>"; };
+		5554AB762A4A0DBD0088EC15 /* NSNotificationCenter+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+AnyPromise.h"; sourceTree = "<group>"; };
+		5554AB772A4A0DBD0088EC15 /* PMKFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMKFoundation.h; sourceTree = "<group>"; };
+		5554AB782A4A0DBD0088EC15 /* Process+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Process+Promise.swift"; sourceTree = "<group>"; };
+		5554AB792A4A0DBD0088EC15 /* NSTask+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTask+AnyPromise.m"; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+MappableTests.swift"; sourceTree = "<group>"; };
@@ -1695,6 +1719,7 @@
 		5552D40B29EF4A8100B40302 /* VCNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				5554AB6D2A4A0DBD0088EC15 /* Sources */,
 				5552D40C29EF4A8100B40302 /* NetworkingError.swift */,
 				5552D40D29EF4A8100B40302 /* util */,
 				5552D40F29EF4A8100B40302 /* ExchangeNetworkCalls.swift */,
@@ -2314,6 +2339,26 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5554AB6D2A4A0DBD0088EC15 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				5554AB6E2A4A0DBD0088EC15 /* NSURLSession+AnyPromise.h */,
+				5554AB6F2A4A0DBD0088EC15 /* NSNotificationCenter+Promise.swift */,
+				5554AB702A4A0DBD0088EC15 /* NSNotificationCenter+AnyPromise.m */,
+				5554AB712A4A0DBD0088EC15 /* afterlife.swift */,
+				5554AB722A4A0DBD0088EC15 /* NSTask+AnyPromise.h */,
+				5554AB732A4A0DBD0088EC15 /* NSURLSession+Promise.swift */,
+				5554AB742A4A0DBD0088EC15 /* NSURLSession+AnyPromise.m */,
+				5554AB752A4A0DBD0088EC15 /* NSObject+Promise.swift */,
+				5554AB762A4A0DBD0088EC15 /* NSNotificationCenter+AnyPromise.h */,
+				5554AB772A4A0DBD0088EC15 /* PMKFoundation.h */,
+				5554AB782A4A0DBD0088EC15 /* Process+Promise.swift */,
+				5554AB792A4A0DBD0088EC15 /* NSTask+AnyPromise.m */,
+			);
+			name = Sources;
+			path = "Submodules/VerifiableCredential-SDK-iOS/Submodules/Foundation/Sources";
+			sourceTree = SOURCE_ROOT;
+		};
 		559BD3A4299AD9A200BD61AC /* Manifest */ = {
 			isa = PBXGroup;
 			children = (
@@ -2729,6 +2774,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */,
+				5554AB832A4A0DBE0088EC15 /* NSURLSession+AnyPromise.h in Headers */,
+				5554AB8B2A4A0DBE0088EC15 /* NSNotificationCenter+AnyPromise.h in Headers */,
+				5554AB8C2A4A0DBE0088EC15 /* PMKFoundation.h in Headers */,
+				5554AB872A4A0DBE0088EC15 /* NSTask+AnyPromise.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2963,6 +3012,7 @@
 				5552D4D329EF4AC300B40302 /* SupportedCurve.swift in Sources */,
 				5552D3F029EF48E200B40302 /* VCTraceLevel.swift in Sources */,
 				5552D45529EF4A8100B40302 /* SimpleFailureHandler.swift in Sources */,
+				5554AB842A4A0DBE0088EC15 /* NSNotificationCenter+Promise.swift in Sources */,
 				5552D3A829EF483900B40302 /* ResponseContaining.swift in Sources */,
 				55DECC2E29BB8DA800D5C802 /* GroupConstraint.swift in Sources */,
 				5552D4D029EF4AC300B40302 /* VCSDKConfigurable.swift in Sources */,
@@ -2972,6 +3022,7 @@
 				5552D3A229EF482100B40302 /* VerifiablePresentationClaims.swift in Sources */,
 				559BD3A8299ADE9C00BD61AC /* RawManifest.swift in Sources */,
 				5552D3C029EF488B00B40302 /* AliasComputer.swift in Sources */,
+				5554AB862A4A0DBE0088EC15 /* afterlife.swift in Sources */,
 				5552D40229EF490000B40302 /* InputDescriptorMapping.swift in Sources */,
 				5552D48729EF4AAB00B40302 /* JwsEncoder.swift in Sources */,
 				5552D3DB29EF48B200B40302 /* ContractServiceResponse.swift in Sources */,
@@ -2988,6 +3039,7 @@
 				5552D4CB29EF4AC300B40302 /* Secret.swift in Sources */,
 				5552D3AC29EF484A00B40302 /* LinkedDomainResult.swift in Sources */,
 				5552D40829EF490A00B40302 /* PresentationExchangeFilter.swift in Sources */,
+				5554AB8E2A4A0DBE0088EC15 /* NSTask+AnyPromise.m in Sources */,
 				550A916F299310D40014D030 /* OpenIdRequestHandler.swift in Sources */,
 				5552D4BD29EF4AC300B40302 /* Pbkdf.swift in Sources */,
 				5552D46329EF4A8100B40302 /* Decoding.swift in Sources */,
@@ -3029,6 +3081,7 @@
 				5534E66E294A0F8F005D0765 /* Mapping.swift in Sources */,
 				5552D4CF29EF4AC300B40302 /* Signing.swift in Sources */,
 				5552D3D229EF48B200B40302 /* ClaimDescriptor.swift in Sources */,
+				5554AB8A2A4A0DBE0088EC15 /* NSObject+Promise.swift in Sources */,
 				5552D47E29EF4AAB00B40302 /* Claims.swift in Sources */,
 				5552D3F929EF48ED00B40302 /* WalletMetadata.swift in Sources */,
 				55DECBE729B92E3900D5C802 /* RawPresentationResponse.swift in Sources */,
@@ -3126,6 +3179,7 @@
 				5552D28D29EF347B00B40302 /* ExchangeService.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				5552D44D29EF4A8100B40302 /* PostExchangeRequestOperation.swift in Sources */,
+				5554AB852A4A0DBE0088EC15 /* NSNotificationCenter+AnyPromise.m in Sources */,
 				55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */,
 				5552D48129EF4AAB00B40302 /* VCTokenError.swift in Sources */,
 				5552D3FD29EF48F700B40302 /* JwePasswordProtectionMethod.swift in Sources */,
@@ -3137,6 +3191,7 @@
 				55A4BB172A27A436006836AB /* VerifiedIdError.swift in Sources */,
 				5552D3FC29EF48F700B40302 /* JwePasswordProtectedBackupData.swift in Sources */,
 				5552D3BB29EF487B00B40302 /* IssuanceVPFormatter.swift in Sources */,
+				5554AB892A4A0DBE0088EC15 /* NSURLSession+AnyPromise.m in Sources */,
 				5552D3F429EF48ED00B40302 /* Microsoft2020IdentifierBackup.swift in Sources */,
 				559BD485299D8DCC00BD61AC /* VerifiedIdRequester.swift in Sources */,
 				5552D45929EF4A8100B40302 /* Encoding.swift in Sources */,
@@ -3201,6 +3256,7 @@
 				5552D48A29EF4AAB00B40302 /* JwsDecoder.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
 				55BA2DD329CDFA1A00BB8207 /* EncodedVerifiedId.swift in Sources */,
+				5554AB8D2A4A0DBE0088EC15 /* Process+Promise.swift in Sources */,
 				5552D28B29EF343700B40302 /* IdentifierDatabase.swift in Sources */,
 				5552D3D029EF48B200B40302 /* ContractInputDescriptor.swift in Sources */,
 				5552D45729EF4A8100B40302 /* ExchangeRequestEncoder.swift in Sources */,
@@ -3230,6 +3286,7 @@
 				55E2F0882995743D0008010D /* LinkedDomainResult+Mappable.swift in Sources */,
 				5552D3A129EF481F00B40302 /* VerifiablePresentationDescriptor.swift in Sources */,
 				5552D3DD29EF48B200B40302 /* IssuerDescriptor.swift in Sources */,
+				5554AB882A4A0DBE0088EC15 /* NSURLSession+Promise.swift in Sources */,
 				5552D4BC29EF4AC300B40302 /* EdDSA.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 				5552D44B29EF4A8100B40302 /* PostIssuanceResponseOperation.swift in Sources */,
