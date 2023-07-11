@@ -373,7 +373,6 @@
 		5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27B29EF335600B40302 /* DifWordList.swift */; };
 		5552D9A629F2F1B600B40302 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D99229F2F19100B40302 /* PromiseKit.framework */; };
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
-		5552D9A929F2F1B900B40302 /* Secp256k1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5554AB832A4A0DBE0088EC15 /* NSURLSession+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 5554AB6E2A4A0DBD0088EC15 /* NSURLSession+AnyPromise.h */; };
 		5554AB842A4A0DBE0088EC15 /* NSNotificationCenter+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB6F2A4A0DBD0088EC15 /* NSNotificationCenter+Promise.swift */; };
 		5554AB852A4A0DBE0088EC15 /* NSNotificationCenter+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5554AB702A4A0DBD0088EC15 /* NSNotificationCenter+AnyPromise.m */; };
@@ -569,20 +568,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		5552D5A829F1F8CB00B40302 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5552D9A929F2F1B900B40302 /* Secp256k1.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		550A913C29930D970014D030 /* MockRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRawRequest.swift; sourceTree = "<group>"; };
 		550A9157299310D40014D030 /* OpenIdRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIdRequestHandler.swift; sourceTree = "<group>"; };
@@ -602,6 +587,7 @@
 		550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequestInput.swift; sourceTree = "<group>"; };
 		550E3213298B11A5004E7716 /* Requirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requirement.swift; sourceTree = "<group>"; };
 		550E3216298B1236004E7716 /* RequesterStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterStyle.swift; sourceTree = "<group>"; };
+		550F5C1D2A5DD0D800A9060A /* Identifier 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Identifier 2.0.xcdatamodel"; sourceTree = "<group>"; };
 		5524A59E29D5FDA500C5F18D /* WalletLibraryVCSDKLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryVCSDKLogConsumer.swift; sourceTree = "<group>"; };
 		5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryVCSDKLogConsumerTests.swift; sourceTree = "<group>"; };
 		5524A5F629D634BC00C5F18D /* VerifiedIdLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdLogo.swift; sourceTree = "<group>"; };
@@ -2792,7 +2778,6 @@
 				552E508E293E6AB200868F47 /* Sources */,
 				552E508F293E6AB200868F47 /* Frameworks */,
 				552E5090293E6AB200868F47 /* Resources */,
-				5552D5A829F1F8CB00B40302 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3854,9 +3839,10 @@
 		5552D27629EF335500B40302 /* VerifiableCredentialDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				550F5C1D2A5DD0D800A9060A /* Identifier 2.0.xcdatamodel */,
 				5552D27729EF335500B40302 /* Identifier.xcdatamodel */,
 			);
-			currentVersion = 5552D27729EF335500B40302 /* Identifier.xcdatamodel */;
+			currentVersion = 550F5C1D2A5DD0D800A9060A /* Identifier 2.0.xcdatamodel */;
 			path = VerifiableCredentialDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
