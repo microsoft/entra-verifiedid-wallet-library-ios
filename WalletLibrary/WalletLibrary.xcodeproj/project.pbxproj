@@ -17,6 +17,7 @@
 		550A919B29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A919A29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift */; };
 		550A919E29940ED70014D030 /* OpenIdRawRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A919D29940ED70014D030 /* OpenIdRawRequest.swift */; };
 		550A91A0299412790014D030 /* MockOpenIdRawRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A919F299412790014D030 /* MockOpenIdRawRequest.swift */; };
+		550BEEDB2A5EF578003AA32C /* VerifiableCredentialDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 550BEECF2A5EF578003AA32C /* VerifiableCredentialDataModel.xcdatamodeld */; };
 		550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */; };
 		550E320A298B0EA4004E7716 /* VerifiedIdClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */; };
 		550E320C298B0F30004E7716 /* WalletLibraryLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */; };
@@ -63,7 +64,6 @@
 		5552D28729EF340500B40302 /* PairwiseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27329EF335500B40302 /* PairwiseService.swift */; };
 		5552D28829EF340900B40302 /* difwordlist.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5552D27229EF335500B40302 /* difwordlist.txt */; };
 		5552D28929EF343000B40302 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27529EF335500B40302 /* CoreDataManager.swift */; };
-		5552D28A29EF343400B40302 /* VerifiableCredentialDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27629EF335500B40302 /* VerifiableCredentialDataModel.xcdatamodeld */; };
 		5552D28B29EF343700B40302 /* IdentifierDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27829EF335500B40302 /* IdentifierDatabase.swift */; };
 		5552D28D29EF347B00B40302 /* ExchangeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D28C29EF347B00B40302 /* ExchangeService.swift */; };
 		5552D39E29EF481100B40302 /* ResponseMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D30029EF47EC00B40302 /* ResponseMappings.swift */; };
@@ -371,7 +371,6 @@
 		5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27B29EF335600B40302 /* DifWordList.swift */; };
 		5552D9A629F2F1B600B40302 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D99229F2F19100B40302 /* PromiseKit.framework */; };
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
-		5552D9A929F2F1B900B40302 /* Secp256k1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5552D9C129F2F2A500B40302 /* NSURLSession+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 5552D9AD29F2F29400B40302 /* NSURLSession+AnyPromise.h */; };
 		5552D9C529F2F2DB00B40302 /* NSURLSession+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D9B229F2F29400B40302 /* NSURLSession+Promise.swift */; };
 		5552D9C629F2F2E100B40302 /* NSURLSession+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5552D9B329F2F29400B40302 /* NSURLSession+AnyPromise.m */; };
@@ -558,20 +557,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		5552D5A829F1F8CB00B40302 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5552D9A929F2F1B900B40302 /* Secp256k1.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		550A913C29930D970014D030 /* MockRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRawRequest.swift; sourceTree = "<group>"; };
 		550A9157299310D40014D030 /* OpenIdRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIdRequestHandler.swift; sourceTree = "<group>"; };
@@ -583,6 +568,8 @@
 		550A919A29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationRequest+OpenIdRawRequest.swift"; sourceTree = "<group>"; };
 		550A919D29940ED70014D030 /* OpenIdRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdRawRequest.swift; sourceTree = "<group>"; };
 		550A919F299412790014D030 /* MockOpenIdRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOpenIdRawRequest.swift; sourceTree = "<group>"; };
+		550BEED02A5EF578003AA32C /* Identifier 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Identifier 2.0.xcdatamodel"; sourceTree = "<group>"; };
+		550BEED12A5EF578003AA32C /* Identifier.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Identifier.xcdatamodel; sourceTree = "<group>"; };
 		550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientBuilder.swift; sourceTree = "<group>"; };
 		550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdClient.swift; sourceTree = "<group>"; };
 		550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletLibraryLogConsumer.swift; sourceTree = "<group>"; };
@@ -625,7 +612,6 @@
 		5552D27229EF335500B40302 /* difwordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = difwordlist.txt; sourceTree = "<group>"; };
 		5552D27329EF335500B40302 /* PairwiseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairwiseService.swift; sourceTree = "<group>"; };
 		5552D27529EF335500B40302 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		5552D27729EF335500B40302 /* Identifier.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Identifier.xcdatamodel; sourceTree = "<group>"; };
 		5552D27829EF335500B40302 /* IdentifierDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierDatabase.swift; sourceTree = "<group>"; };
 		5552D27929EF335500B40302 /* LinkedDomainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedDomainService.swift; sourceTree = "<group>"; };
 		5552D27A29EF335600B40302 /* ServicesConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesConstants.swift; sourceTree = "<group>"; };
@@ -1346,8 +1332,8 @@
 		5552D27429EF335500B40302 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
+				550BEECF2A5EF578003AA32C /* VerifiableCredentialDataModel.xcdatamodeld */,
 				5552D27529EF335500B40302 /* CoreDataManager.swift */,
-				5552D27629EF335500B40302 /* VerifiableCredentialDataModel.xcdatamodeld */,
 				5552D27829EF335500B40302 /* IdentifierDatabase.swift */,
 			);
 			path = coreData;
@@ -2740,7 +2726,6 @@
 				552E508E293E6AB200868F47 /* Sources */,
 				552E508F293E6AB200868F47 /* Frameworks */,
 				552E5090293E6AB200868F47 /* Resources */,
-				5552D5A829F1F8CB00B40302 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3188,7 +3173,6 @@
 				55E2F08A299576350008010D /* PresentationDefinition+Mappable.swift in Sources */,
 				5552D39F29EF481600B40302 /* ExchangeRequestClaims.swift in Sources */,
 				5552D44129EF4A8100B40302 /* ExchangeNetworkCalls.swift in Sources */,
-				5552D28A29EF343400B40302 /* VerifiableCredentialDataModel.xcdatamodeld in Sources */,
 				553CC09D29A97181005A5FD6 /* IssuanceResponseContaining.swift in Sources */,
 				55DECBE929B934B900D5C802 /* IssuanceRequestContent.swift in Sources */,
 				5552D46129EF4A8100B40302 /* IssuanceServiceResponseDecoder.swift in Sources */,
@@ -3236,6 +3220,7 @@
 				5552D44529EF4A8100B40302 /* NoRetry.swift in Sources */,
 				5552D3F129EF48E200B40302 /* PresentationResponse.swift in Sources */,
 				55E2F07D2995561E0008010D /* OpenIdPresentationRequest.swift in Sources */,
+				550BEEDB2A5EF578003AA32C /* VerifiableCredentialDataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3791,12 +3776,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		5552D27629EF335500B40302 /* VerifiableCredentialDataModel.xcdatamodeld */ = {
+		550BEECF2A5EF578003AA32C /* VerifiableCredentialDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				5552D27729EF335500B40302 /* Identifier.xcdatamodel */,
+				550BEED02A5EF578003AA32C /* Identifier 2.0.xcdatamodel */,
+				550BEED12A5EF578003AA32C /* Identifier.xcdatamodel */,
 			);
-			currentVersion = 5552D27729EF335500B40302 /* Identifier.xcdatamodel */;
+			currentVersion = 550BEED02A5EF578003AA32C /* Identifier 2.0.xcdatamodel */;
 			path = VerifiableCredentialDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
