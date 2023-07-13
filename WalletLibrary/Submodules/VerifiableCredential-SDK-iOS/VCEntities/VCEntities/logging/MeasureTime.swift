@@ -11,7 +11,7 @@ struct MetricConstants {
 }
 
 func logTime<R>(name: String,
-                    _ block: @escaping () -> Promise<R>) -> Promise<R> {
+                _ block: @escaping () -> Promise<R>) -> Promise<R> {
     
     let startTimeInSeconds = CFAbsoluteTimeGetCurrent()
     let result = block().get { body in
@@ -22,6 +22,20 @@ func logTime<R>(name: String,
                                       properties: [MetricConstants.Name: name],
                                       measurements: [MetricConstants.Duration: NSNumber(value: elapsedTimeInMilliseconds)])
     }
+    
+    return result
+}
+
+func logTime<R>(name: String,
+                _ block: @escaping () async throws -> R) async throws -> R {
+    
+    let startTimeInSeconds = CFAbsoluteTimeGetCurrent()
+    let result = try await block()
+    let elapsedTimeInMilliseconds = (CFAbsoluteTimeGetCurrent() - startTimeInSeconds) * 1000
+    
+    VCSDKLog.sharedInstance.event(name: "DIDPerformanceMetrics",
+                                  properties: [MetricConstants.Name: name],
+                                  measurements: [MetricConstants.Duration: NSNumber(value: elapsedTimeInMilliseconds)])
     
     return result
 }
