@@ -18,14 +18,12 @@ class PresentationServiceTests: XCTestCase {
     override func setUpWithError() throws {
         let formatter = PresentationResponseFormatter()
         let identifierService = IdentifierService()
-        let pairwiseService = PairwiseService()
         service = PresentationService(formatter: formatter,
                                       presentationApiCalls: MockPresentationApiCalls(),
                                       didDocumentDiscoveryApiCalls: MockDiscoveryApiCalls(),
                                       requestValidator: MockPresentationRequestValidator(),
                                       linkedDomainService: LinkedDomainService(),
-                                      identifierService: identifierService,
-                                      pairwiseService: pairwiseService)
+                                      identifierService: identifierService)
         
         let token = PresentationRequestToken(from: TestData.presentationRequest.rawValue)!
         self.presentationRequest = PresentationRequest(from: token, linkedDomainResult: .linkedDomainVerified(domainUrl: "test.com"))
@@ -45,155 +43,131 @@ class PresentationServiceTests: XCTestCase {
         try CoreDataManager.sharedInstance.deleteAllIdentifiers()
     }
     
-    func testPublicInit() {
+    func testInit() {
         let service = IssuanceService()
         XCTAssertNotNil(service.formatter)
         XCTAssertNotNil(service.apiCalls)
     }
     
-    func testGetRequest() throws {
-        let expec = self.expectation(description: "Fire")
-        service.getRequest(usingUrl: expectedUrl).done {
-            request in
-            print(request)
+    func testGetRequest() async throws {
+        do {
+            // Act
+            let _ = try await service.getRequest(usingUrl: expectedUrl)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
-            print(error)
+        } catch {
+            // Assert
             XCTAssert(MockPresentationApiCalls.wasGetCalled)
             XCTAssert(error is MockPresentationNetworkingError)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 5)
     }
     
-    func testGetRequestMalformedUri() throws {
-        let expec = self.expectation(description: "Fire")
+    func testGetRequestMalformedUri() async throws {
+        // Arrange
         let malformedUrl = "//|\\"
-        service.getRequest(usingUrl: malformedUrl).done {
-            request in
-            print(request)
+        
+        do {
+            // Act
+            let _ = try await service.getRequest(usingUrl: malformedUrl)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
+        } catch {
+            // Assert
             XCTAssert(error is PresentationServiceError)
             XCTAssertEqual(error as? PresentationServiceError, .inputStringNotUri)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 5)
     }
     
-    func testGetRequestNoQueryParameters() throws {
-        let expec = self.expectation(description: "Fire")
+    func testGetRequestNoQueryParameters() async throws {
+        // Arrange
         let malformedUrl = "https://test.com"
-        service.getRequest(usingUrl: malformedUrl).done {
-            request in
-            print(request)
+        
+        do {
+            // Act
+            let _ = try await service.getRequest(usingUrl: malformedUrl)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
+        } catch {
+            // Assert
             XCTAssert(error is PresentationServiceError)
             XCTAssertEqual(error as? PresentationServiceError, .noQueryParametersOnUri)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 5)
     }
     
-    func testGetRequestNoValueOnRequestUri() throws {
-        let expec = self.expectation(description: "Fire")
+    func testGetRequestNoValueOnRequestUri() async throws {
+        // Arrange
         let malformedUrl = "https://test.com?request_uri"
-        service.getRequest(usingUrl: malformedUrl).done {
-            request in
-            print(request)
+        
+        do {
+            // Act
+            let _ = try await service.getRequest(usingUrl: malformedUrl)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
-            print(error)
+        } catch {
+            // Assert
             XCTAssert(error is PresentationServiceError)
             XCTAssertEqual(error as? PresentationServiceError, .noValueForRequestUriQueryParameter)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 5)
     }
     
-    func testGetRequestNoRequestUri() throws {
-        let expec = self.expectation(description: "Fire")
+    func testGetRequestNoRequestUri() async throws {
+        // Arrange
         let malformedUrl = "https://test.com?testparam=33423"
-        service.getRequest(usingUrl: malformedUrl).done {
-            request in
-            print(request)
+        
+        do {
+            // Act
+            let _ = try await service.getRequest(usingUrl: malformedUrl)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
+        } catch {
+            // Assert
             XCTAssert(error is PresentationServiceError)
             XCTAssertEqual(error as? PresentationServiceError, .noRequestUriQueryParameter)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 5)
     }
     
-    func testSendResponse() throws {
-        let expec = self.expectation(description: "Fire")
-        
+    func testSendResponse() async throws {
+        // Arrange
         let formatter = MockPresentationResponseFormatter(shouldSucceed: true)
-        let pairwiseService = PairwiseService()
         let identifierService = IdentifierService()
         let service = PresentationService(formatter: formatter,
                                           presentationApiCalls: MockPresentationApiCalls(),
                                           didDocumentDiscoveryApiCalls: MockDiscoveryApiCalls(),
                                           requestValidator: MockPresentationRequestValidator(),
                                           linkedDomainService: LinkedDomainService(),
-                                          identifierService: identifierService,
-                                          pairwiseService: pairwiseService)
+                                          identifierService: identifierService)
         
         let response = try PresentationResponseContainer(from: self.presentationRequest)
-        service.send(response: response).done {
-            response in
+        
+        do {
+            // Act
+            try await service.send(response: response)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
-            print(error)
+        } catch {
+            // Assert
             XCTAssert(MockPresentationResponseFormatter.wasFormatCalled)
             XCTAssert(MockPresentationApiCalls.wasPostCalled)
             XCTAssert(error is MockPresentationNetworkingError)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 20)
     }
     
-    func testSendResponseFailedToFormat() throws {
-        let expec = self.expectation(description: "Fire")
-        
+    func testSendResponseFailedToFormat() async throws {
+        // Arrange
         let formatter = MockPresentationResponseFormatter(shouldSucceed: false)
         let identifierService = IdentifierService()
-        let pairwiseService = PairwiseService()
         let service = PresentationService(formatter: formatter,
                                           presentationApiCalls: MockPresentationApiCalls(),
                                           didDocumentDiscoveryApiCalls: MockDiscoveryApiCalls(),
                                           requestValidator: MockPresentationRequestValidator(),
                                           linkedDomainService: LinkedDomainService(),
-                                          identifierService: identifierService,
-                                          pairwiseService: pairwiseService)
+                                          identifierService: identifierService)
         
         let response = try PresentationResponseContainer(from: self.presentationRequest)
-        service.send(response: response).done {
-            response in
+        
+        do {
+            // Act
+            try await service.send(response: response)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
-            print(error)
+        } catch {
+            // Assert
             XCTAssert(MockPresentationResponseFormatter.wasFormatCalled)
             XCTAssertFalse(MockPresentationApiCalls.wasPostCalled)
             XCTAssert(error is MockIssuanceResponseFormatterError)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 20)
     }
 }
