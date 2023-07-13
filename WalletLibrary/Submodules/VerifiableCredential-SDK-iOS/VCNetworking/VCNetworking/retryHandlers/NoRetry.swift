@@ -8,7 +8,7 @@ import PromiseKit
 
 final class NoRetry: RetryHandler {
 
-    func onRetry<ResponseBody>(closure : @escaping () -> Promise<ResponseBody>) -> Promise<ResponseBody> {
-        return closure()
+    func onRetry<ResponseBody>(closure: @escaping () async throws -> ResponseBody) async throws -> ResponseBody {
+        return try await closure()
     }
 }
