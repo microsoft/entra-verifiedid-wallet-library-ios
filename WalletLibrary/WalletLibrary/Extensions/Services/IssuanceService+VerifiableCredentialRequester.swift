@@ -3,13 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-#if canImport(VCServices)
-    import VCServices
-#endif
-
 enum IssuanceServiceVCRequesterError: Error {
     case unableToCastIssuanceResponseContainerFromType(String)
     case unableToCastIssuanceCompletionResponseFromType(String)
@@ -29,9 +22,7 @@ extension IssuanceService: VerifiedIdRequester {
             throw IssuanceServiceVCRequesterError.unableToCastIssuanceResponseContainerFromType(requestType)
         }
         
-        let rawVerifiableCredential = try await AsyncWrapper().wrap { () in
-            self.send(response: issuanceResponseContainer)
-        }()
+        let rawVerifiableCredential = try await send(response: issuanceResponseContainer)
         
         let verifiableCredential = try VCVerifiedId(raw: rawVerifiableCredential,
                                                     from: issuanceResponseContainer.contract)
@@ -45,8 +36,6 @@ extension IssuanceService: VerifiedIdRequester {
             throw IssuanceServiceVCRequesterError.unableToCastIssuanceCompletionResponseFromType(resultType)
         }
         
-        _ = try await AsyncWrapper().wrap { () in
-            self.sendCompletionResponse(for: issuanceCompletionResponse, to: url.absoluteString)
-        }()
+        _ = try await sendCompletionResponse(for: issuanceCompletionResponse, to: url.absoluteString)
     }
 }
