@@ -3,13 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-#if canImport(VCServices)
-    import VCServices
-#endif
-
 enum PresentationServiceExtensionError: Error {
     case unableToCastOpenIdForVCResponseToPresentationResponseContainer
 }
@@ -21,9 +14,7 @@ extension PresentationService: OpenIdForVCResolver, OpenIdResponder {
     
     /// Fetches and validates the presentation request.
     func getRequest(url: String) async throws -> any OpenIdRawRequest {
-        return try await AsyncWrapper().wrap { () in
-            self.getRequest(usingUrl: url)
-        }()
+        return try await self.getRequest(usingUrl: url)
     }
     
     /// Sends the presentation response container and if successful, returns void,
@@ -34,8 +25,6 @@ extension PresentationService: OpenIdForVCResolver, OpenIdResponder {
             throw PresentationServiceExtensionError.unableToCastOpenIdForVCResponseToPresentationResponseContainer
         }
         
-        let _ = try await AsyncWrapper().wrap { () in
-            self.send(response: presentationResponseContainer)
-        }()
+        try await self.send(response: presentationResponseContainer)
     }
 }

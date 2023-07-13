@@ -3,20 +3,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
-import PromiseKit
-#if canImport(VCNetworking)
-    import VCNetworking
-#endif
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 enum IssuanceServiceError: Error {
     case noKeyIdInRequestHeader
     case unableToCastToPresentationResponseContainer
     case unableToFetchIdentifier
+    case noPublicKeysInIdentifierDocument
 }
 
 class IssuanceService {
@@ -26,7 +17,6 @@ class IssuanceService {
     private let discoveryApiCalls: DiscoveryNetworking
     private let requestValidator: IssuanceRequestValidating
     private let identifierService: IdentifierService
-    private let pairwiseService: PairwiseService
     private let linkedDomainService: LinkedDomainService
     private let sdkLog: VCSDKLog
     
@@ -41,8 +31,6 @@ class IssuanceService {
                   identifierService: IdentifierService(),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
                                                            urlSession: urlSession),
-                  pairwiseService: PairwiseService(correlationVector: correlationVector,
-                                                   urlSession: urlSession),
                   sdkLog: VCSDKLog.sharedInstance)
     }
     
@@ -52,139 +40,70 @@ class IssuanceService {
          requestValidator: IssuanceRequestValidating,
          identifierService: IdentifierService,
          linkedDomainService: LinkedDomainService,
-         pairwiseService: PairwiseService,
          sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
         self.formatter = formatter
         self.apiCalls = apiCalls
         self.discoveryApiCalls = discoveryApiCalls
         self.requestValidator = requestValidator
         self.identifierService = identifierService
-        self.pairwiseService = pairwiseService
         self.linkedDomainService = linkedDomainService
         self.sdkLog = sdkLog
     }
     
-    func getRequest(usingUrl url: String) -> Promise<IssuanceRequest> {
-        return logTime(name: "Issuance getRequest") {
-            firstly {
-                self.apiCalls.getRequest(withUrl: url)
-            }.then { signedContract in
-                self.validateRequest(signedContract)
-            }.then { signedContract in
-                self.formIssuanceRequest(from: signedContract)
-            }
+    func getRequest(usingUrl url: String) async throws -> IssuanceRequest {
+        return try await logTime(name: "Issuance getRequest") {
+            let signedContract = try await AsyncWrapper().wrap { self.apiCalls.getRequest(withUrl: url) }()
+            try await self.validateRequest(signedContract)
+            return try await self.formIssuanceRequest(from: signedContract)
         }
     }
     
-    private func formIssuanceRequest(from signedContract: SignedContract) -> Promise<IssuanceRequest> {
+    private func formIssuanceRequest(from signedContract: SignedContract) async throws -> IssuanceRequest {
+        let linkedDomainResult = try await AsyncWrapper().wrap { self.linkedDomainService.validateLinkedDomain(from: signedContract.content.input.issuer) }()
+        return IssuanceRequest(from: signedContract, linkedDomainResult: linkedDomainResult)
+    }
+    
+    func send(response: IssuanceResponseContainer) async throws -> VerifiableCredential {
+        return try await logTime(name: "Issuance sendResponse") {
+            let signedToken = try self.formatIssuanceResponse(response: response)
+            return try await AsyncWrapper().wrap { self.apiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken) }()
+        }
+    }
+    
+    func sendCompletionResponse(for response: IssuanceCompletionResponse, to url: String) async throws -> String? {
+        return try await logTime(name: "Issuance sendCompletionResponse") {
+            try await AsyncWrapper().wrap { self.apiCalls.sendCompletionResponse(usingUrl: url, withBody: response) }()
+        }
+    }
+    
+    private func validateRequest(_ request: SignedContract) async throws {
+        let did = try getDIDFromHeader(request: request)
+        let document = try await AsyncWrapper().wrap { self.discoveryApiCalls.getDocument(from: did) }()
         
-        return firstly {
-            linkedDomainService.validateLinkedDomain(from: signedContract.content.input.issuer)
-        }.then { linkedDomainResult in
-            Promise { seal in
-                seal.fulfill(IssuanceRequest(from: signedContract, linkedDomainResult: linkedDomainResult))
-            }
+        guard let publicKeys = document.verificationMethod else
+        {
+            throw IssuanceServiceError.noPublicKeysInIdentifierDocument
         }
-    }
-    
-    func send(response: IssuanceResponseContainer, isPairwise: Bool = false) -> Promise<VerifiableCredential> {
-        return logTime(name: "Issuance sendResponse") {
-            firstly {
-                /// turn off pairwise until we have a better solution.
-                self.exchangeVCsIfPairwise(response: response, isPairwise: false)
-            }.then { response in
-                self.formatIssuanceResponse(response: response)
-            }.then { signedToken in
-                self.apiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken)
-            }
-        }
-    }
-    
-    func sendCompletionResponse(for response: IssuanceCompletionResponse, to url: String) -> Promise<String?> {
-        return logTime(name: "Issuance sendCompletionResponse") {
-            self.apiCalls.sendCompletionResponse(usingUrl: url, withBody: response)
-        }
-    }
-    
-    private func validateRequest(_ request: SignedContract) -> Promise<SignedContract> {
-        return firstly {
-            self.getDIDFromHeader(request: request)
-        }.then { did in
-            self.discoveryApiCalls.getDocument(from: did)
-        }.then { document in
-            self.wrapValidationInPromise(request: request, usingKeys: document.verificationMethod)
-        }
-    }
-    
-    private func getDIDFromHeader(request: SignedContract) -> Promise<String> {
-        return Promise { seal in
             
-            guard let kid = request.headers.keyId?.split(separator: ServicesConstants.FRAGMENT_SEPARATOR),
-                  let did = kid.first else {
-                
-                seal.reject(IssuanceServiceError.noKeyIdInRequestHeader)
-                return
-            }
-            
-            seal.fulfill(String(did))
-        }
+        try requestValidator.validate(request: request, usingKeys: publicKeys)
     }
     
-    private func wrapValidationInPromise(request: SignedContract, usingKeys keys: [IdentifierDocumentPublicKey]?) -> Promise<SignedContract> {
+    private func getDIDFromHeader(request: SignedContract) throws -> String {
         
-        guard let publicKeys = keys else {
-            return Promise { seal in
-                seal.reject(PresentationServiceError.noPublicKeysInIdentifierDocument)
-            }
+        guard let kid = request.headers.keyId?.split(separator: ServicesConstants.FRAGMENT_SEPARATOR),
+              let did = kid.first else {
+            
+            throw IssuanceServiceError.noKeyIdInRequestHeader
         }
         
-        return Promise { seal in
-            do {
-                try self.requestValidator.validate(request: request, usingKeys: publicKeys)
-                seal.fulfill(request)
-            } catch {
-                seal.reject(error)
-            }
-        }
+        return String(did)
     }
     
-    private func exchangeVCsIfPairwise(response: IssuanceResponseContainer, isPairwise: Bool) -> Promise<IssuanceResponseContainer> {
-        if isPairwise {
-            return firstly {
-                pairwiseService.createPairwiseResponse(response: response)
-            }.then { response in
-                self.castToIssuanceResponse(from: response)
-            }
-        } else {
-            return Promise { seal in
-                seal.fulfill(response)
-            }
-        }
-    }
-    
-    private func formatIssuanceResponse(response: IssuanceResponseContainer) -> Promise<IssuanceResponse> {
-        return Promise { seal in
-            do {
-                /// fetch or create master identifier
-                let identifier = try identifierService.fetchOrCreateMasterIdentifier()
-                sdkLog.logVerbose(message: "Signing Issuance Response with Identifier")
-                
-                seal.fulfill(try self.formatter.format(response: response, usingIdentifier: identifier))
-            } catch {
-                seal.reject(error)
-            }
-        }
-    }
-    
-    private func castToIssuanceResponse(from response: ResponseContaining) -> Promise<IssuanceResponseContainer> {
-        return Promise<IssuanceResponseContainer> { seal in
-            
-            guard let presentationResponse = response as? IssuanceResponseContainer else {
-                seal.reject(IssuanceServiceError.unableToCastToPresentationResponseContainer)
-                return
-            }
-            
-            seal.fulfill(presentationResponse)
-        }
+    private func formatIssuanceResponse(response: IssuanceResponseContainer) throws -> IssuanceResponse {
+        /// fetch or create master identifier
+        let identifier = try identifierService.fetchOrCreateMasterIdentifier()
+        sdkLog.logVerbose(message: "Signing Issuance Response with Identifier")
+        
+        return try self.formatter.format(response: response, usingIdentifier: identifier)
     }
 }

@@ -22,8 +22,7 @@ class IssuanceServiceTests: XCTestCase {
                                   discoveryApiCalls: MockDiscoveryApiCalls(),
                                   requestValidator: MockIssuanceRequestValidator(),
                                   identifierService: IdentifierService(),
-                                  linkedDomainService: LinkedDomainService(),
-                                  pairwiseService: PairwiseService())
+                                  linkedDomainService: LinkedDomainService())
         
         let encodedContract = TestData.aiContract.rawValue.data(using: .utf8)!
         self.contract = try JSONDecoder().decode(Contract.self, from: encodedContract)
@@ -44,90 +43,79 @@ class IssuanceServiceTests: XCTestCase {
     }
     
     func testPublicInit() {
+        // Act
         let service = IssuanceService()
+        
+        // Assert
         XCTAssertNotNil(service.formatter)
         XCTAssertNotNil(service.apiCalls)
     }
 
-    func testGetRequest() throws {
-        let expec = self.expectation(description: "Fire")
-        service.getRequest(usingUrl: expectedUrl).done {
-            request in
-            print(request)
+    func testGetRequest() async throws {
+        do {
+            // Act
+            let request = try await service.getRequest(usingUrl: expectedUrl)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
+        } catch {
+            // Assert
             XCTAssert(MockIssuanceApiCalls.wasGetCalled)
             XCTAssert(error is MockIssuanceNetworkingError)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 5)
     }
     
-    func testSendResponse() throws {
-        let expec = self.expectation(description: "Fire")
+    func testSendResponse() async throws {
+        // Arrange
         let response = try IssuanceResponseContainer(from: contract, contractUri: expectedUrl)
-        service.send(response: response).done {
-            response in
-            print(response)
+        
+        do {
+            // Act
+            let _ = try await service.send(response: response)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
-            print(error)
+        } catch {
+            // Assert
             XCTAssert(MockIssuanceResponseFormatter.wasFormatCalled)
             XCTAssert(MockIssuanceApiCalls.wasPostResponseCalled)
             XCTAssert(error is MockIssuanceNetworkingError)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 20)
     }
     
-    func testSendResponseFailedToFormat() throws {
-        let expec = self.expectation(description: "Fire")
-        
+    func testSendResponseFailedToFormat() async throws {
+        // Arrange
         let formatter = MockIssuanceResponseFormatter(shouldSucceed: false)
         let service = IssuanceService(formatter: formatter,
                                       apiCalls: MockIssuanceApiCalls(),
                                       discoveryApiCalls: MockDiscoveryApiCalls(),
                                       requestValidator: MockIssuanceRequestValidator(),
                                       identifierService: IdentifierService(),
-                                      linkedDomainService: LinkedDomainService(),
-                                      pairwiseService: PairwiseService())
+                                      linkedDomainService: LinkedDomainService())
         
-        let response = try IssuanceResponseContainer(from: contract, contractUri: expectedUrl)
-        service.send(response: response).done {
-            response in
-            print(response)
+        do {
+            // Act
+            let response = try IssuanceResponseContainer(from: contract, contractUri: expectedUrl)
+            let _ = try await service.send(response: response)
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
+        } catch {
+            // Assert
             XCTAssert(MockIssuanceResponseFormatter.wasFormatCalled)
             XCTAssertFalse(MockIssuanceApiCalls.wasPostResponseCalled)
             XCTAssert(error is MockIssuanceResponseFormatterError)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 20)
     }
     
-    func testSendCompletionResponse() throws {
-        let expec = self.expectation(description: "Fire")
+    func testSendCompletionResponse() async throws {
+        // Arrange
         let response = IssuanceCompletionResponse(wasSuccessful: false,
                                                   withState: "testState",
                                                   andDetails: IssuanceCompletionErrorDetails.issuanceServiceError)
-        service.sendCompletionResponse(for: response, to: "test.com").done {
-            response in
+        
+        do {
+            // Act
+            let _ = try await service.sendCompletionResponse(for: response, to: "test.com")
             XCTFail()
-            expec.fulfill()
-        }.catch { error in
-            print(error)
+        } catch {
+            // Assert
             XCTAssert(MockIssuanceApiCalls.wasPostCompletionResponseCalled)
             XCTAssert(error is MockIssuanceNetworkingError)
-            expec.fulfill()
         }
-        
-        wait(for: [expec], timeout: 20)
     }
 }
