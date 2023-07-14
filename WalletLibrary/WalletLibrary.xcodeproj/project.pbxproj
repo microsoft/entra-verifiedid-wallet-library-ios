@@ -1657,21 +1657,20 @@
 		5552D40B29EF4A8100B40302 /* VCNetworking */ = {
 			isa = PBXGroup;
 			children = (
-				5552D9AC29F2F29400B40302 /* Sources */,
-				5552D40C29EF4A8100B40302 /* NetworkingError.swift */,
-				5552D40D29EF4A8100B40302 /* util */,
-				5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */,
-				5552D41129EF4A8100B40302 /* successHandlers */,
-				5552D41429EF4A8100B40302 /* retryHandlers */,
-				5552D41729EF4A8100B40302 /* IssuanceNetworkCalls.swift */,
-				5552D41829EF4A8100B40302 /* operations */,
+				5552D43329EF4A8100B40302 /* decoders */,
+				5552D42C29EF4A8100B40302 /* encoders */,
 				5552D42529EF4A8100B40302 /* extensions */,
 				5552D42829EF4A8100B40302 /* failureHandlers */,
-				5552D42B29EF4A8100B40302 /* NetworkingConstants.swift */,
-				5552D42C29EF4A8100B40302 /* encoders */,
-				5552D43229EF4A8100B40302 /* PresentationNetworkCalls.swift */,
-				5552D43329EF4A8100B40302 /* decoders */,
+				5552D41829EF4A8100B40302 /* operations */,
+				5552D41429EF4A8100B40302 /* retryHandlers */,
+				5552D41129EF4A8100B40302 /* successHandlers */,
+				5552D9AC29F2F29400B40302 /* Sources */,
+				5552D40D29EF4A8100B40302 /* util */,
 				5552D43C29EF4A8100B40302 /* DIDDocumentNetworkCalls.swift */,
+				5552D41729EF4A8100B40302 /* IssuanceNetworkCalls.swift */,
+				5552D43229EF4A8100B40302 /* PresentationNetworkCalls.swift */,
+				5552D40C29EF4A8100B40302 /* NetworkingError.swift */,
+				5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */,
 			);
 			name = VCNetworking;
 			path = "Submodules/VerifiableCredential-SDK-iOS/VCNetworking/VCNetworking";
@@ -1680,6 +1679,7 @@
 		5552D40D29EF4A8100B40302 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				5552D42B29EF4A8100B40302 /* NetworkingConstants.swift */,
 				5552D40E29EF4A8100B40302 /* HelperNetworkFunctions.swift */,
 			);
 			path = util;
