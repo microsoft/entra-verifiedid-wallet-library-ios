@@ -32,10 +32,6 @@ class LinkedDomainService {
     }
     
     func validateLinkedDomain(from identifierDocument: IdentifierDocument) async throws -> LinkedDomainResult {
-        return try await validateDomain(from: identifierDocument)
-    }
-    
-    private func validateDomain(from identifierDocument: IdentifierDocument) async throws -> LinkedDomainResult {
         
         guard let service = identifierDocument.service,
               let domainUrl = getLinkedDomainUrl(from: service) else {
@@ -54,7 +50,7 @@ class LinkedDomainService {
         }
     }
     
-    // only looking for the well-known document in the first entry for now.
+    // TODO: Only looking for the well-known document in the first entry for now.
     private func getLinkedDomainUrl(from endpoints: [IdentifierDocumentServiceEndpointDescriptor]) -> String? {
         return endpoints.filter {
             $0.type == ServicesConstants.LINKED_DOMAINS_SERVICE_ENDPOINT_TYPE
