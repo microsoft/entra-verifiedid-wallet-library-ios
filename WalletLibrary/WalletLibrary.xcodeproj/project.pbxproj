@@ -175,7 +175,6 @@
 		5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D37A29EF47EC00B40302 /* PresentationExchangeConstraints.swift */; };
 		5552D43F29EF4A8100B40302 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D40C29EF4A8100B40302 /* NetworkingError.swift */; };
 		5552D44029EF4A8100B40302 /* HelperNetworkFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D40E29EF4A8100B40302 /* HelperNetworkFunctions.swift */; };
-		5552D44129EF4A8100B40302 /* ExchangeNetworkCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D40F29EF4A8100B40302 /* ExchangeNetworkCalls.swift */; };
 		5552D44229EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */; };
 		5552D44329EF4A8100B40302 /* SimpleSuccessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41229EF4A8100B40302 /* SimpleSuccessHandler.swift */; };
 		5552D44429EF4A8100B40302 /* SuccessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41329EF4A8100B40302 /* SuccessHandler.swift */; };
@@ -737,7 +736,6 @@
 		5552D38729EF47EC00B40302 /* DefaultLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLogConsumer.swift; sourceTree = "<group>"; };
 		5552D40C29EF4A8100B40302 /* NetworkingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		5552D40E29EF4A8100B40302 /* HelperNetworkFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperNetworkFunctions.swift; sourceTree = "<group>"; };
-		5552D40F29EF4A8100B40302 /* ExchangeNetworkCalls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeNetworkCalls.swift; sourceTree = "<group>"; };
 		5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WellKnownConfigDocumentNetworkCalls.swift; sourceTree = "<group>"; };
 		5552D41229EF4A8100B40302 /* SimpleSuccessHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSuccessHandler.swift; sourceTree = "<group>"; };
 		5552D41329EF4A8100B40302 /* SuccessHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessHandler.swift; sourceTree = "<group>"; };
@@ -1670,7 +1668,6 @@
 				5552D9AC29F2F29400B40302 /* Sources */,
 				5552D40C29EF4A8100B40302 /* NetworkingError.swift */,
 				5552D40D29EF4A8100B40302 /* util */,
-				5552D40F29EF4A8100B40302 /* ExchangeNetworkCalls.swift */,
 				5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */,
 				5552D41129EF4A8100B40302 /* successHandlers */,
 				5552D41429EF4A8100B40302 /* retryHandlers */,
@@ -3168,7 +3165,6 @@
 				5552D3E329EF48C700B40302 /* ServiceDescriptor.swift in Sources */,
 				55E2F08A299576350008010D /* PresentationDefinition+Mappable.swift in Sources */,
 				5552D39F29EF481600B40302 /* ExchangeRequestClaims.swift in Sources */,
-				5552D44129EF4A8100B40302 /* ExchangeNetworkCalls.swift in Sources */,
 				5552D28A29EF343400B40302 /* VerifiableCredentialDataModel.xcdatamodeld in Sources */,
 				553CC09D29A97181005A5FD6 /* IssuanceResponseContaining.swift in Sources */,
 				55DECBE929B934B900D5C802 /* IssuanceRequestContent.swift in Sources */,
