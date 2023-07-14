@@ -67,9 +67,7 @@ class PresentationService {
     func send(response: PresentationResponseContainer) async throws {
         try await logTime(name: "Presentation sendResponse") {
             let signedToken = try self.formatPresentationResponse(response: response)
-            let _ = try await AsyncWrapper().wrap {
-                self.presentationApiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken)
-            }()
+            try await self.presentationApiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken)
         }
     }
     
@@ -104,7 +102,7 @@ class PresentationService {
     }
     
     private func fetchValidatedRequest(usingUrl url: String) async throws -> PresentationRequestToken {
-        let request = try await AsyncWrapper().wrap { self.presentationApiCalls.getRequest(withUrl: url) }()
+        let request = try await self.presentationApiCalls.getRequest(withUrl: url)
         try await validateRequest(request)
         return request
     }
