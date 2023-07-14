@@ -392,7 +392,6 @@
 		559BD4F3299EEAFD00BD61AC /* SelfAttestedClaimRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4F2299EEAFD00BD61AC /* SelfAttestedClaimRequirementTests.swift */; };
 		559BD4F5299EEC9500BD61AC /* MockVerifiedIdRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4F4299EEC9500BD61AC /* MockVerifiedIdRequester.swift */; };
 		559BD4F8299EED5700BD61AC /* MockRawManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4F7299EED5700BD61AC /* MockRawManifest.swift */; };
-		55A0D5ED2A61F36B00BC178E /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D99229F2F19100B40302 /* PromiseKit.framework */; };
 		55A4BB172A27A436006836AB /* VerifiedIdError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB162A27A436006836AB /* VerifiedIdError.swift */; };
 		55A4BB332A29383A006836AB /* VerifiedIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB322A29383A006836AB /* VerifiedIdResult.swift */; };
 		55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */; };
@@ -448,9 +447,7 @@
 		55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */; };
 		55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */; };
 		55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */; };
-		55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337642943749600CD2ED7 /* AsyncWrapper.swift */; };
 		55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376729437E3500CD2ED7 /* OpenIdForVCResolver.swift */; };
-		55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */; };
 		55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337B32948B4B000CD2ED7 /* PinRequirement.swift */; };
 		55E337BC2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */; };
 		55EA178D29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */; };
@@ -483,62 +480,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 92B9684D25240F2100F64AB0;
 			remoteInfo = Secp256k1;
-		};
-		5552D99129F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63B0AC571D595E1B00FA21D9;
-			remoteInfo = PromiseKit;
-		};
-		5552D99329F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 631751A81D59766500A9DDDC;
-			remoteInfo = "PMKA+Tests";
-		};
-		5552D99529F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6314113C1D59795700E24B9E;
-			remoteInfo = PMKBridgeTests;
-		};
-		5552D99729F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 630019221D596292003B4E30;
-			remoteInfo = PMKCoreTests;
-		};
-		5552D99929F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 633027EA203CC0060037E136;
-			remoteInfo = PMKDeprecatedTests;
-		};
-		5552D99B29F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C0244E622047A6CB00ACB4AC;
-			remoteInfo = "PMKJSA+Tests";
-		};
-		5552D9A229F2F19D00B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63C7FFA71D5BEE09003BAE60;
-			remoteInfo = PMKFoundation;
-		};
-		5552D9A429F2F19D00B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63C7FFF21D5C020D003BAE60;
-			remoteInfo = PMKNSTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -896,8 +837,6 @@
 		5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierDatabaseTests.swift; sourceTree = "<group>"; };
 		5552D88729F2E58000B40302 /* PresentationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationServiceTests.swift; sourceTree = "<group>"; };
 		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
-		5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
-		5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+MappableTests.swift"; sourceTree = "<group>"; };
@@ -988,9 +927,7 @@
 		55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequirement.swift; sourceTree = "<group>"; };
 		55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenRequirement.swift; sourceTree = "<group>"; };
 		55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttestedClaimRequirement.swift; sourceTree = "<group>"; };
-		55E337642943749600CD2ED7 /* AsyncWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapper.swift; sourceTree = "<group>"; };
 		55E3376729437E3500CD2ED7 /* OpenIdForVCResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdForVCResolver.swift; sourceTree = "<group>"; };
-		55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapperTests.swift; sourceTree = "<group>"; };
 		55E337B32948B4B000CD2ED7 /* PinRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinRequirement.swift; path = WalletLibrary/Requests/Requirements/PinRequirement.swift; sourceTree = SOURCE_ROOT; };
 		55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationService+OpenIdForVC.swift"; sourceTree = "<group>"; };
 		55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdIssuanceRequest.swift; sourceTree = "<group>"; };
@@ -1008,7 +945,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */,
-				55A0D5ED2A61F36B00BC178E /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2195,8 +2131,6 @@
 		5552D8A529F2F09E00B40302 /* Submodules */ = {
 			isa = PBXGroup;
 			children = (
-				5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */,
-				5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */,
 				5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */,
 			);
 			name = Submodules;
@@ -2207,28 +2141,6 @@
 			isa = PBXGroup;
 			children = (
 				5552D98729F2F17F00B40302 /* Secp256k1.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		5552D98929F2F19100B40302 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5552D99229F2F19100B40302 /* PromiseKit.framework */,
-				5552D99429F2F19100B40302 /* PMKA+Tests.xctest */,
-				5552D99629F2F19100B40302 /* PMKBridgeTests.xctest */,
-				5552D99829F2F19100B40302 /* PMKCoreTests.xctest */,
-				5552D99A29F2F19100B40302 /* PMKDeprecatedTests.xctest */,
-				5552D99C29F2F19100B40302 /* PMKJSA+Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		5552D99E29F2F19D00B40302 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5552D9A329F2F19D00B40302 /* PMKFoundation.framework */,
-				5552D9A529F2F19D00B40302 /* PMKNSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2569,7 +2481,6 @@
 		55E337632943747E00CD2ED7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				55E337642943749600CD2ED7 /* AsyncWrapper.swift */,
 				5534E668294A0C3F005D0765 /* Mapper.swift */,
 				550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */,
 				550E320D298B0FAC004E7716 /* WalletLibraryLogger.swift */,
@@ -2592,7 +2503,6 @@
 		55E3376929478C3300CD2ED7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */,
 				5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */,
 				5524A60D29D635A700C5F18D /* WalletLibraryLoggerTests.swift */,
 			);
@@ -2742,14 +2652,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 5552D99E29F2F19D00B40302 /* Products */;
-					ProjectRef = 5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */;
-				},
-				{
-					ProductGroup = 5552D98929F2F19100B40302 /* Products */;
-					ProjectRef = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-				},
-				{
 					ProductGroup = 5552D98329F2F17F00B40302 /* Products */;
 					ProjectRef = 5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */;
 				},
@@ -2769,62 +2671,6 @@
 			fileType = wrapper.framework;
 			path = Secp256k1.framework;
 			remoteRef = 5552D98629F2F17F00B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99229F2F19100B40302 /* PromiseKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PromiseKit.framework;
-			remoteRef = 5552D99129F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99429F2F19100B40302 /* PMKA+Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "PMKA+Tests.xctest";
-			remoteRef = 5552D99329F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99629F2F19100B40302 /* PMKBridgeTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKBridgeTests.xctest;
-			remoteRef = 5552D99529F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99829F2F19100B40302 /* PMKCoreTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKCoreTests.xctest;
-			remoteRef = 5552D99729F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99A29F2F19100B40302 /* PMKDeprecatedTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKDeprecatedTests.xctest;
-			remoteRef = 5552D99929F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99C29F2F19100B40302 /* PMKJSA+Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "PMKJSA+Tests.xctest";
-			remoteRef = 5552D99B29F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D9A329F2F19D00B40302 /* PMKFoundation.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PMKFoundation.framework;
-			remoteRef = 5552D9A229F2F19D00B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D9A529F2F19D00B40302 /* PMKNSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKNSTests.xctest;
-			remoteRef = 5552D9A429F2F19D00B40302 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2958,7 +2804,6 @@
 				5552D4B829EF4AC300B40302 /* Aes.swift in Sources */,
 				55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */,
 				5552D3F329EF48E200B40302 /* PresentationResponseContainer.swift in Sources */,
-				55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */,
 				5552D3D129EF48B200B40302 /* IssuanceServiceResponse.swift in Sources */,
 				5552D3FE29EF490000B40302 /* PresentationInputDescriptorMapping.swift in Sources */,
 				5552D39E29EF481100B40302 /* ResponseMappings.swift in Sources */,
@@ -3162,7 +3007,6 @@
 				55E2F06F299553B40008010D /* OpenIdRequestHandlerTests.swift in Sources */,
 				5552D7EE29F2E1AF00B40302 /* ClaimsTest.swift in Sources */,
 				5552D7F129F2E1AF00B40302 /* ECPublicJwkTests.swift in Sources */,
-				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */,
 				5552D7D129F2E0AA00B40302 /* PbkdfTests.swift in Sources */,
 				559BD4ED299EEAD100BD61AC /* IdTokenRequirementTests.swift in Sources */,
