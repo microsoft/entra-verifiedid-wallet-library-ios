@@ -3,7 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
 @testable import WalletLibrary
 
 enum MockWellKnownConfigDocumentNetworkingError: Error {
@@ -20,20 +19,21 @@ class MockWellKnownConfigDocumentApiCalls: WellKnownConfigDocumentNetworking {
         self.resolveSuccessfully = resolveSuccessfully
     }
     
-    func getDocument(fromUrl domainUrl: String) -> Promise<WellKnownConfigDocument> {
+    func getDocument(fromUrl domainUrl: String) async throws -> WellKnownConfigDocument {
+        
         Self.wasGetCalled = true
-        return Promise { seal in
-            if self.resolveSuccessfully {
+        
+        if self.resolveSuccessfully {
+            do {
                 let encodedTestWellKnownConfig = VCServicesTestData.wellKnownConfig.rawValue.data(using: .ascii)!
-                do {
-                    let testWellKnownConfig = try JSONDecoder().decode(WellKnownConfigDocument.self,
+                let testWellKnownConfig = try JSONDecoder().decode(WellKnownConfigDocument.self,
                                                                    from: encodedTestWellKnownConfig)
-                    seal.fulfill(testWellKnownConfig)
-                }
-                seal.reject(MockWellKnownConfigDocumentNetworkingError.unableToParseTestData)
-            } else {
-                seal.reject(MockWellKnownConfigDocumentNetworkingError.doNotWantToResolveRealObject)
+                return testWellKnownConfig
+            } catch {
+                throw MockWellKnownConfigDocumentNetworkingError.unableToParseTestData
             }
+        } else {
+            throw MockWellKnownConfigDocumentNetworkingError.doNotWantToResolveRealObject
         }
     }
 }

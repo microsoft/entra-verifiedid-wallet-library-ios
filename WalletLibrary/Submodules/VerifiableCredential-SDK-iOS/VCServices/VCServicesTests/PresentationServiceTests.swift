@@ -22,7 +22,7 @@ class PresentationServiceTests: XCTestCase {
                                       presentationApiCalls: MockPresentationApiCalls(),
                                       didDocumentDiscoveryApiCalls: MockDiscoveryApiCalls(),
                                       requestValidator: MockPresentationRequestValidator(),
-                                      linkedDomainService: LinkedDomainService(),
+                                      linkedDomainService: LinkedDomainService(urlSession: URLSession.shared),
                                       identifierService: identifierService)
         
         let token = PresentationRequestToken(from: TestData.presentationRequest.rawValue)!
@@ -44,7 +44,7 @@ class PresentationServiceTests: XCTestCase {
     }
     
     func testInit() {
-        let service = IssuanceService()
+        let service = IssuanceService(urlSession: URLSession.shared)
         XCTAssertNotNil(service.formatter)
         XCTAssertNotNil(service.apiCalls)
     }
@@ -129,7 +129,7 @@ class PresentationServiceTests: XCTestCase {
                                           presentationApiCalls: MockPresentationApiCalls(),
                                           didDocumentDiscoveryApiCalls: MockDiscoveryApiCalls(),
                                           requestValidator: MockPresentationRequestValidator(),
-                                          linkedDomainService: LinkedDomainService(),
+                                          linkedDomainService: LinkedDomainService(urlSession: URLSession.shared),
                                           identifierService: identifierService)
         
         let response = try PresentationResponseContainer(from: self.presentationRequest)
@@ -154,7 +154,7 @@ class PresentationServiceTests: XCTestCase {
                                           presentationApiCalls: MockPresentationApiCalls(),
                                           didDocumentDiscoveryApiCalls: MockDiscoveryApiCalls(),
                                           requestValidator: MockPresentationRequestValidator(),
-                                          linkedDomainService: LinkedDomainService(),
+                                          linkedDomainService: LinkedDomainService(urlSession: URLSession.shared),
                                           identifierService: identifierService)
         
         let response = try PresentationResponseContainer(from: self.presentationRequest)

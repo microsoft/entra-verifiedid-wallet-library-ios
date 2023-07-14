@@ -3,12 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 internal protocol InternalNetworkOperation: NetworkOperation & InternalOperation {}
 
 protocol NetworkOperation {

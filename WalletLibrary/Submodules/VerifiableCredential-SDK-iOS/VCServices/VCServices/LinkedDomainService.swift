@@ -3,23 +3,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
-
-#if canImport(VCNetworking)
-    import VCNetworking
-#endif
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 class LinkedDomainService {
     
     private let wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking
     private let validator: DomainLinkageCredentialValidating
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
-                     urlSession: URLSession = URLSession.shared) {
+                     urlSession: URLSession) {
         self.init(wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworkCalls(correlationVector: correlationVector,
                                                                                  urlSession: urlSession),
                   domainLinkageValidator: DomainLinkageCredentialValidator())
@@ -39,9 +29,7 @@ class LinkedDomainService {
         }
         
         do {
-            let wellKnownConfigDocument = try await AsyncWrapper().wrap {
-                self.wellKnownDocumentApiCalls.getDocument(fromUrl: domainUrl)
-            }()
+            let wellKnownConfigDocument = try await wellKnownDocumentApiCalls.getDocument(fromUrl: domainUrl)
             return validateDomainLinkageCredentials(from: wellKnownConfigDocument,
                                                     using: identifierDocument,
                                                     andSourceUrl: domainUrl)

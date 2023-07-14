@@ -3,13 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import Foundation
-import PromiseKit
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 class FetchWellKnownConfigDocumentOperation: InternalNetworkOperation {
     typealias ResponseBody = WellKnownConfigDocument
     
@@ -20,7 +13,7 @@ class FetchWellKnownConfigDocumentOperation: InternalNetworkOperation {
     
     init(withUrl urlStr: String,
          andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
-         session: URLSession = URLSession.shared) throws {
+         session: URLSession) throws {
         
         /// If endpoint doesn't end with / add one.
         guard let baseUrl = URL(unsafeString: urlStr),

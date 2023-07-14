@@ -5,7 +5,6 @@
 
 import Foundation
 import XCTest
-import PromiseKit
 
 @testable import WalletLibrary
 
@@ -21,36 +20,27 @@ class NetworkOperationTests: XCTestCase {
         self.serializedExpectedResponse = String(data: encodedResponse, encoding: .utf8)!
     }
     
-    func testSuccessfulFetchOperation() throws {
+    func testSuccessfulFetchOperation() async throws {
+        // Arrange
         try UrlProtocolMock.createMockResponse(httpResponse: self.expectedHttpResponse, url: expectedUrl, statusCode: 200)
-        let expec = self.expectation(description: "Fire")
         
-        self.mockNetworkOperation.fire().done { response in
-            print(response)
-            expec.fulfill()
-        }.catch { error in
-            print(error)
-            XCTFail()
-        }
+        // Act
+        let response = try await self.mockNetworkOperation.fire()
         
-        wait(for: [expec], timeout: 5)
+        // Assert
+        XCTAssertEqual(response, expectedHttpResponse)
     }
     
-    func testFailedFetchOperationBadRequestBody() throws {
+    func testFailedFetchOperationBadRequestBody() async throws {
+        // Arrange
         try UrlProtocolMock.createMockResponse(httpResponse: self.expectedHttpResponse, url: expectedUrl, statusCode: 400)
-        let expec = self.expectation(description: "Fire")
-
-        self.mockNetworkOperation.fire().done { response in
-            print(response)
-            expec.fulfill()
-            XCTFail()
-        }.catch { error in
-            print(error)
-            XCTAssertEqual(error as! NetworkingError, NetworkingError.badRequest(withBody: self.serializedExpectedResponse, statusCode: 400))
-            expec.fulfill()
-        }
         
-        wait(for: [expec], timeout: 10)
+        do {
+            // Act
+            let response = try await self.mockNetworkOperation.fire()
+        } catch {
+            // Assert
+            XCTAssertEqual(error as! NetworkingError, NetworkingError.badRequest(withBody: self.serializedExpectedResponse, statusCode: 400))
+        }
     }
-    
 }

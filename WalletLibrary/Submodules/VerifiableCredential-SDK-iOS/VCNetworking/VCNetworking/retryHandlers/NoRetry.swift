@@ -3,9 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import Foundation
-import PromiseKit
-
 final class NoRetry: RetryHandler {
 
     func onRetry<ResponseBody>(closure: @escaping () async throws -> ResponseBody) async throws -> ResponseBody {

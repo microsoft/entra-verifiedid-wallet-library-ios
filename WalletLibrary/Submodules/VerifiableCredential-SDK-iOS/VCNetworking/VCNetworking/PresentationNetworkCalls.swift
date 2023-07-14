@@ -20,18 +20,18 @@ class PresentationNetworkCalls: PresentationNetworking {
     }
     
     func getRequest(withUrl url: String) async throws -> PresentationRequestToken {
-        var operation = try FetchPresentationRequestOperation(withUrl: url,
+        let operation = try FetchPresentationRequestOperation(withUrl: url,
                                                               andCorrelationVector: correlationVector,
                                                               session: urlSession)
-        return try await AsyncWrapper().wrap { operation.fire() }()
+        return try await operation.fire()
     }
     
     func sendResponse(usingUrl url: String, withBody body: PresentationResponse) async throws {
-        var operation = try PostPresentationResponseOperation(usingUrl: url,
+        let operation = try PostPresentationResponseOperation(usingUrl: url,
                                                               withBody: body,
                                                               andCorrelationVector: correlationVector,
                                                               urlSession: urlSession)
-        let _ = try await AsyncWrapper().wrap { operation.fire() }()
+        let _ = try await operation.fire()
     }
 }
 

@@ -3,12 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 protocol DiscoveryNetworking {
     func getDocument(from identifier: String) async throws -> IdentifierDocument
 }
@@ -19,16 +13,16 @@ class DIDDocumentNetworkCalls: DiscoveryNetworking {
     private let correlationVector: VerifiedIdCorrelationHeader?
     
     init(correlationVector: VerifiedIdCorrelationHeader? = nil,
-         urlSession: URLSession = URLSession.shared) {
+         urlSession: URLSession) {
         self.urlSession = urlSession
         self.correlationVector = correlationVector
     }
     
     func getDocument(from identifier: String) async throws -> IdentifierDocument {
-        var operation = try FetchDIDDocumentOperation(withIdentifier: identifier,
+        let operation = try FetchDIDDocumentOperation(withIdentifier: identifier,
                                                       andCorrelationVector: correlationVector,
                                                       session: self.urlSession)
-        return try await AsyncWrapper().wrap { operation.fire() }()
+        return try await operation.fire()
     }
 }
 

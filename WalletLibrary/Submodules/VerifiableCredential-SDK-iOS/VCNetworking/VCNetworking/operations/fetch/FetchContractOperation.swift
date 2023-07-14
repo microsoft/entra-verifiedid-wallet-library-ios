@@ -3,13 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import Foundation
-import PromiseKit
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 class FetchContractOperation: InternalNetworkOperation {
     typealias ResponseBody = SignedContract
     
@@ -20,7 +13,7 @@ class FetchContractOperation: InternalNetworkOperation {
     
     init(withUrl urlStr: String,
          andCorrelationVector correlationVector: VerifiedIdCorrelationHeader? = nil,
-         session: URLSession = URLSession.shared) throws {
+         session: URLSession) throws {
         
         guard let url = URL(unsafeString: urlStr) else {
             throw NetworkingError.invalidUrl(withUrl: urlStr)
