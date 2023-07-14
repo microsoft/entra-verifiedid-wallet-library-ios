@@ -52,7 +52,7 @@ class IssuanceService {
     
     func getRequest(usingUrl url: String) async throws -> IssuanceRequest {
         return try await logTime(name: "Issuance getRequest") {
-            let signedContract = try await AsyncWrapper().wrap { self.apiCalls.getRequest(withUrl: url) }()
+            let signedContract = try await self.apiCalls.getRequest(withUrl: url)
             try await self.validateRequest(signedContract)
             return try await self.formIssuanceRequest(from: signedContract)
         }
@@ -66,13 +66,13 @@ class IssuanceService {
     func send(response: IssuanceResponseContainer) async throws -> VerifiableCredential {
         return try await logTime(name: "Issuance sendResponse") {
             let signedToken = try self.formatIssuanceResponse(response: response)
-            return try await AsyncWrapper().wrap { self.apiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken) }()
+            return try await self.apiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken)
         }
     }
     
-    func sendCompletionResponse(for response: IssuanceCompletionResponse, to url: String) async throws -> String? {
-        return try await logTime(name: "Issuance sendCompletionResponse") {
-            try await AsyncWrapper().wrap { self.apiCalls.sendCompletionResponse(usingUrl: url, withBody: response) }()
+    func sendCompletionResponse(for response: IssuanceCompletionResponse, to url: String) async throws {
+        try await logTime(name: "Issuance sendCompletionResponse") {
+            try await self.apiCalls.sendCompletionResponse(usingUrl: url, withBody: response)
         }
     }
     
