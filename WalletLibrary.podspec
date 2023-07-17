@@ -112,9 +112,9 @@ Pod::Spec.new do |s|
         cs.preserve_paths = "#{vcsdkPath}/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}"
         cs.source_files= "#{vcsdkPath}/VCServices/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}"
         cs.resources = [
-            "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld",
-            "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld/*.xcdatamodel"]
-        cs.preserve_paths = "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld"
+            "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld",
+            "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld/*.xcdatamodel"]
+        cs.preserve_paths = "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld"
         cs.dependency 'WalletLibrary/VCNetworking'
         cs.dependency 'WalletLibrary/VCEntities'
     end
