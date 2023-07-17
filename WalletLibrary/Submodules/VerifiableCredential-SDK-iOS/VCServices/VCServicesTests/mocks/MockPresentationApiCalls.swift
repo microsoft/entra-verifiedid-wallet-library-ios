@@ -3,7 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
 @testable import WalletLibrary
 
 enum MockPresentationNetworkingError: Error {
@@ -15,18 +14,14 @@ class MockPresentationApiCalls: PresentationNetworking {
     static var wasGetCalled = false
     static var wasPostCalled = false
     
-    func getRequest(withUrl url: String) -> Promise<PresentationRequestToken> {
+    func getRequest(withUrl url: String) async throws -> PresentationRequestToken {
         Self.wasGetCalled = true
-        return Promise { seal in
-            seal.reject(MockPresentationNetworkingError.doNotWantToResolveRealObject)
-        }
+        throw MockPresentationNetworkingError.doNotWantToResolveRealObject
     }
     
-    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) -> Promise<String?> {
+    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) async throws {
         Self.wasPostCalled = true
-        return Promise { seal in
-            seal.reject(MockPresentationNetworkingError.doNotWantToResolveRealObject)
-        }
+        throw MockPresentationNetworkingError.doNotWantToResolveRealObject
     }
 }
 

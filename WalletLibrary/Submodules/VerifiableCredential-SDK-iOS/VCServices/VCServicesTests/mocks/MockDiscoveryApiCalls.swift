@@ -3,7 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
 @testable import WalletLibrary
 
 enum MockDiscoveryNetworkingError: Error {
@@ -25,14 +24,12 @@ class MockDiscoveryApiCalls: DiscoveryNetworking {
         self.identifierDocument = document
     }
     
-    func getDocument(from identifier: String) -> Promise<IdentifierDocument> {
+    func getDocument(from identifier: String) async throws -> IdentifierDocument {
         Self.wasGetCalled = true
-        return Promise { seal in
-            if self.resolveSuccessfully {
-                seal.fulfill(identifierDocument)
-            } else {
-                seal.reject(MockDiscoveryNetworkingError.doNotWantToResolveRealObject)
-            }
+        if self.resolveSuccessfully {
+            return identifierDocument
+        } else {
+            throw MockDiscoveryNetworkingError.doNotWantToResolveRealObject
         }
     }
 }

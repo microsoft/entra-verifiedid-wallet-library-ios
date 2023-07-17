@@ -3,15 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 protocol PresentationNetworking {
-    func getRequest(withUrl url: String) -> Promise<PresentationRequestToken>
-    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) -> Promise<String?>
+    func getRequest(withUrl url: String) async throws -> PresentationRequestToken
+    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) async throws
 }
 
 class PresentationNetworkCalls: PresentationNetworking {
@@ -25,31 +19,19 @@ class PresentationNetworkCalls: PresentationNetworking {
         self.urlSession = urlSession
     }
     
-    func getRequest(withUrl url: String) -> Promise<PresentationRequestToken> {
-        do {
-            var operation = try FetchPresentationRequestOperation(withUrl: url,
-                                                                  andCorrelationVector: correlationVector,
-                                                                  session: urlSession)
-            return operation.fire()
-        } catch {
-            return Promise { seal in
-                seal.reject(error)
-            }
-        }
+    func getRequest(withUrl url: String) async throws -> PresentationRequestToken {
+        var operation = try FetchPresentationRequestOperation(withUrl: url,
+                                                              andCorrelationVector: correlationVector,
+                                                              session: urlSession)
+        return try await AsyncWrapper().wrap { operation.fire() }()
     }
     
-    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) -> Promise<String?> {
-        do {
-            var operation = try PostPresentationResponseOperation(usingUrl: url,
-                                                                  withBody: body,
-                                                                  andCorrelationVector: correlationVector,
-                                                                  urlSession: urlSession)
-            return operation.fire()
-        } catch {
-            return Promise { seal in
-                seal.reject(error)
-            }
-        }
+    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) async throws {
+        var operation = try PostPresentationResponseOperation(usingUrl: url,
+                                                              withBody: body,
+                                                              andCorrelationVector: correlationVector,
+                                                              urlSession: urlSession)
+        let _ = try await AsyncWrapper().wrap { operation.fire() }()
     }
 }
 

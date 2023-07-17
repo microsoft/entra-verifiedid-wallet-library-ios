@@ -52,40 +52,36 @@ class IssuanceService {
     
     func getRequest(usingUrl url: String) async throws -> IssuanceRequest {
         return try await logTime(name: "Issuance getRequest") {
-            let signedContract = try await AsyncWrapper().wrap { self.apiCalls.getRequest(withUrl: url) }()
-            try await self.validateRequest(signedContract)
-            return try await self.formIssuanceRequest(from: signedContract)
+            let signedContract = try await self.apiCalls.getRequest(withUrl: url)
+            let document = try await self.getIdentifierDocument(from: signedContract)
+            
+            guard let publicKeys = document.verificationMethod else
+            {
+                throw IssuanceServiceError.noPublicKeysInIdentifierDocument
+            }
+            
+            try self.requestValidator.validate(request: signedContract, usingKeys: publicKeys)
+            let linkedDomainResult = try await self.linkedDomainService.validateLinkedDomain(from: document)
+            return IssuanceRequest(from: signedContract, linkedDomainResult: linkedDomainResult)
         }
-    }
-    
-    private func formIssuanceRequest(from signedContract: SignedContract) async throws -> IssuanceRequest {
-        let linkedDomainResult = try await AsyncWrapper().wrap { self.linkedDomainService.validateLinkedDomain(from: signedContract.content.input.issuer) }()
-        return IssuanceRequest(from: signedContract, linkedDomainResult: linkedDomainResult)
     }
     
     func send(response: IssuanceResponseContainer) async throws -> VerifiableCredential {
         return try await logTime(name: "Issuance sendResponse") {
             let signedToken = try self.formatIssuanceResponse(response: response)
-            return try await AsyncWrapper().wrap { self.apiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken) }()
+            return try await self.apiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken)
         }
     }
     
-    func sendCompletionResponse(for response: IssuanceCompletionResponse, to url: String) async throws -> String? {
-        return try await logTime(name: "Issuance sendCompletionResponse") {
-            try await AsyncWrapper().wrap { self.apiCalls.sendCompletionResponse(usingUrl: url, withBody: response) }()
+    func sendCompletionResponse(for response: IssuanceCompletionResponse, to url: String) async throws {
+        try await logTime(name: "Issuance sendCompletionResponse") {
+            try await self.apiCalls.sendCompletionResponse(usingUrl: url, withBody: response)
         }
     }
     
-    private func validateRequest(_ request: SignedContract) async throws {
+    private func getIdentifierDocument(from request: SignedContract) async throws -> IdentifierDocument {
         let did = try getDIDFromHeader(request: request)
-        let document = try await AsyncWrapper().wrap { self.discoveryApiCalls.getDocument(from: did) }()
-        
-        guard let publicKeys = document.verificationMethod else
-        {
-            throw IssuanceServiceError.noPublicKeysInIdentifierDocument
-        }
-            
-        try requestValidator.validate(request: request, usingKeys: publicKeys)
+        return try await discoveryApiCalls.getDocument(from: did)
     }
     
     private func getDIDFromHeader(request: SignedContract) throws -> String {

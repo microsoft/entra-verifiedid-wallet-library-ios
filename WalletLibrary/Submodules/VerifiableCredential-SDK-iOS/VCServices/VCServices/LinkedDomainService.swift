@@ -15,58 +15,42 @@ import PromiseKit
 
 class LinkedDomainService {
     
-    private let didDocumentDiscoveryApiCalls: DiscoveryNetworking
     private let wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking
     private let validator: DomainLinkageCredentialValidating
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                      urlSession: URLSession = URLSession.shared) {
-        self.init(didDocumentDiscoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
-                                                                        urlSession: urlSession),
-                  wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworkCalls(correlationVector: correlationVector,
+        self.init(wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworkCalls(correlationVector: correlationVector,
                                                                                  urlSession: urlSession),
                   domainLinkageValidator: DomainLinkageCredentialValidator())
     }
     
-    init(didDocumentDiscoveryApiCalls: DiscoveryNetworking,
-         wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking,
+    init(wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking,
          domainLinkageValidator: DomainLinkageCredentialValidating) {
-        self.didDocumentDiscoveryApiCalls = didDocumentDiscoveryApiCalls
         self.wellKnownDocumentApiCalls = wellKnownDocumentApiCalls
         self.validator = domainLinkageValidator
     }
     
-    func validateLinkedDomain(from relyingPartyDid: String) -> Promise<LinkedDomainResult> {
-        return firstly {
-            getDidDocument(from: relyingPartyDid)
-        }.then { identifierDocument in
-            self.validateDomain(from: identifierDocument)
-        }
-    }
-    
-    private func validateDomain(from identifierDocument: IdentifierDocument) -> Promise<LinkedDomainResult> {
+    func validateLinkedDomain(from identifierDocument: IdentifierDocument) async throws -> LinkedDomainResult {
         
         guard let service = identifierDocument.service,
-              let domainUrl = self.getLinkedDomainUrl(from: service) else {
-            return wrapResultInPromise(.linkedDomainMissing)
+              let domainUrl = getLinkedDomainUrl(from: service) else {
+            return .linkedDomainMissing
         }
         
-        return firstly {
-            wellKnownDocumentApiCalls.getDocument(fromUrl: domainUrl)
-        }.then { wellKnownConfigDocument in
-            self.validateDomainLinkageCredentials(from: wellKnownConfigDocument,
-                                                  using: identifierDocument,
-                                                  andSourceUrl: domainUrl)
-        }.recover { error in
-            self.wrapResultInPromise(.linkedDomainUnverified(domainUrl: domainUrl))
+        do {
+            let wellKnownConfigDocument = try await AsyncWrapper().wrap {
+                self.wellKnownDocumentApiCalls.getDocument(fromUrl: domainUrl)
+            }()
+            return validateDomainLinkageCredentials(from: wellKnownConfigDocument,
+                                                    using: identifierDocument,
+                                                    andSourceUrl: domainUrl)
+        } catch {
+            return .linkedDomainUnverified(domainUrl: domainUrl)
         }
     }
     
-    private func getDidDocument(from relyingPartyDid: String) -> Promise<IdentifierDocument> {
-        return didDocumentDiscoveryApiCalls.getDocument(from: relyingPartyDid)
-    }
-    
-    // only looking for the well-known document in the first entry for now.
+    // TODO: Only looking for the well-known document in the first entry for now.
     private func getLinkedDomainUrl(from endpoints: [IdentifierDocumentServiceEndpointDescriptor]) -> String? {
         return endpoints.filter {
             $0.type == ServicesConstants.LINKED_DOMAINS_SERVICE_ENDPOINT_TYPE
@@ -75,7 +59,7 @@ class LinkedDomainService {
     
     private func validateDomainLinkageCredentials(from wellKnownConfigDoc: WellKnownConfigDocument,
                                                   using identifierDocument: IdentifierDocument,
-                                                  andSourceUrl url: String) -> Promise<LinkedDomainResult> {
+                                                  andSourceUrl url: String) -> LinkedDomainResult {
         
         var result = LinkedDomainResult.linkedDomainUnverified(domainUrl: url)
         wellKnownConfigDoc.linkedDids.forEach { credential in
@@ -87,12 +71,6 @@ class LinkedDomainService {
             } catch { }
         }
         
-        return wrapResultInPromise(result)
-    }
-    
-    private func wrapResultInPromise(_ result: LinkedDomainResult) -> Promise<LinkedDomainResult> {
-        return Promise { seal in
-            seal.fulfill(result)
-        }
+        return result
     }
 }

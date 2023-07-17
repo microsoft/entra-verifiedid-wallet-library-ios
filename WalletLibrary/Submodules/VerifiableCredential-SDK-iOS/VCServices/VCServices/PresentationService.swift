@@ -59,17 +59,25 @@ class PresentationService {
     func getRequest(usingUrl urlStr: String) async throws -> PresentationRequest {
         return try await logTime(name: "Presentation getRequest") {
             let requestUri = try self.getRequestUri(from: urlStr)
-            let request = try await self.fetchValidatedRequest(usingUrl: requestUri)
-            return try await self.formPresentationRequest(from: request)
+            let request = try await self.presentationApiCalls.getRequest(withUrl: requestUri)
+            
+            let document = try await self.getIdentifierDocument(from: request)
+            
+            guard let publicKeys = document.verificationMethod else
+            {
+                throw PresentationServiceError.noPublicKeysInIdentifierDocument
+            }
+            
+            try self.requestValidator.validate(request: request, usingKeys: publicKeys)
+            let result = try await self.linkedDomainService.validateLinkedDomain(from: document)
+            return PresentationRequest(from: request, linkedDomainResult: result)
         }
     }
     
     func send(response: PresentationResponseContainer) async throws {
         try await logTime(name: "Presentation sendResponse") {
             let signedToken = try self.formatPresentationResponse(response: response)
-            let _ = try await AsyncWrapper().wrap {
-                self.presentationApiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken)
-            }()
+            try await self.presentationApiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken)
         }
     }
     
@@ -89,35 +97,9 @@ class PresentationService {
         throw PresentationServiceError.noRequestUriQueryParameter
     }
     
-    private func formPresentationRequest(from token: PresentationRequestToken) async throws -> PresentationRequest {
-        let result = try await validateLinkedDomainOfRequest(token)
-        return PresentationRequest(from: token, linkedDomainResult: result)
-    }
-    
-    private func validateLinkedDomainOfRequest(_ token: PresentationRequestToken) async throws -> LinkedDomainResult {
-        
-        guard let issuer = token.content.clientID else {
-            throw PresentationServiceError.noIssuerIdentifierInRequest
-        }
-        
-        return try await AsyncWrapper().wrap { self.linkedDomainService.validateLinkedDomain(from: issuer) }()
-    }
-    
-    private func fetchValidatedRequest(usingUrl url: String) async throws -> PresentationRequestToken {
-        let request = try await AsyncWrapper().wrap { self.presentationApiCalls.getRequest(withUrl: url) }()
-        try await validateRequest(request)
-        return request
-    }
-    
-    private func validateRequest(_ request: PresentationRequestToken) async throws {
-        let did = try getDIDFromHeader(request: request)
-        let document = try await AsyncWrapper().wrap { self.didDocumentDiscoveryApiCalls.getDocument(from: did) }()
-        
-        guard let publicKeys = document.verificationMethod else {
-            throw PresentationServiceError.noPublicKeysInIdentifierDocument
-        }
-        
-        try self.requestValidator.validate(request: request, usingKeys: publicKeys)
+    private func getIdentifierDocument(from token: PresentationRequestToken) async throws -> IdentifierDocument {
+        let did = try getDIDFromHeader(request: token)
+        return try await didDocumentDiscoveryApiCalls.getDocument(from: did)
     }
     
     private func getDIDFromHeader(request: PresentationRequestToken) throws -> String {

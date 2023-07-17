@@ -3,7 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
 @testable import WalletLibrary
 
 enum MockIssuanceNetworkingError: Error {
@@ -16,25 +15,18 @@ class MockIssuanceApiCalls: IssuanceNetworking {
     static var wasPostResponseCalled = false
     static var wasPostCompletionResponseCalled = false
     
-    func getRequest(withUrl url: String) -> Promise<SignedContract> {
+    func getRequest(withUrl url: String) async throws -> SignedContract {
         Self.wasGetCalled = true
-        return Promise { seal in
-            seal.reject(MockIssuanceNetworkingError.doNotWantToResolveRealObject)
-        }
+        throw MockIssuanceNetworkingError.doNotWantToResolveRealObject
     }
     
-    func sendResponse(usingUrl url: String, withBody body: IssuanceResponse) -> Promise<VerifiableCredential> {
+    func sendResponse(usingUrl url: String, withBody body: IssuanceResponse) async throws -> VerifiableCredential {
         Self.wasPostResponseCalled = true
-        return Promise { seal in
-            seal.reject(MockIssuanceNetworkingError.doNotWantToResolveRealObject)
-        }
+        throw MockIssuanceNetworkingError.doNotWantToResolveRealObject
     }
     
-    public func sendCompletionResponse(usingUrl url: String,
-                                       withBody body: IssuanceCompletionResponse) -> Promise<String?> {
+    func sendCompletionResponse(usingUrl url: String, withBody body: IssuanceCompletionResponse) async throws {
         Self.wasPostCompletionResponseCalled = true
-        return Promise { seal in
-            seal.reject(MockIssuanceNetworkingError.doNotWantToResolveRealObject)
-        }
+        throw MockIssuanceNetworkingError.doNotWantToResolveRealObject
     }
 }

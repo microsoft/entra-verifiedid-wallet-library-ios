@@ -10,7 +10,7 @@ import PromiseKit
 #endif
 
 protocol DiscoveryNetworking {
-    func getDocument(from identifier: String) -> Promise<IdentifierDocument>
+    func getDocument(from identifier: String) async throws -> IdentifierDocument
 }
 
 class DIDDocumentNetworkCalls: DiscoveryNetworking {
@@ -24,18 +24,11 @@ class DIDDocumentNetworkCalls: DiscoveryNetworking {
         self.correlationVector = correlationVector
     }
     
-    func getDocument(from identifier: String) -> Promise<IdentifierDocument> {
-        
-        do {
-            var operation = try FetchDIDDocumentOperation(withIdentifier: identifier,
-                                                          andCorrelationVector: correlationVector,
-                                                          session: self.urlSession)
-            return operation.fire()
-        } catch {
-            return Promise { seal in
-                seal.reject(error)
-            }
-        }
+    func getDocument(from identifier: String) async throws -> IdentifierDocument {
+        var operation = try FetchDIDDocumentOperation(withIdentifier: identifier,
+                                                      andCorrelationVector: correlationVector,
+                                                      session: self.urlSession)
+        return try await AsyncWrapper().wrap { operation.fire() }()
     }
 }
 
