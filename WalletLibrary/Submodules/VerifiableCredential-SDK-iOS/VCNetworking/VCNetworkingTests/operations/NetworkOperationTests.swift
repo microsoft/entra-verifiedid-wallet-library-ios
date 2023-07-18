@@ -38,6 +38,7 @@ class NetworkOperationTests: XCTestCase {
         do {
             // Act
             let response = try await self.mockNetworkOperation.fire()
+            XCTFail()
         } catch {
             // Assert
             XCTAssertEqual(error as! NetworkingError, NetworkingError.badRequest(withBody: self.serializedExpectedResponse, statusCode: 400))
