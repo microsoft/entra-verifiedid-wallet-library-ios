@@ -4,8 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import PromiseKit
-
 @testable import WalletLibrary
 
 class FetchContractTests: XCTestCase {
@@ -33,7 +31,7 @@ class FetchContractTests: XCTestCase {
     
     func testInvalidUrlInit() {
         let invalidUrl = ""
-        XCTAssertThrowsError(try FetchContractOperation(withUrl: invalidUrl)) { error in
+        XCTAssertThrowsError(try FetchContractOperation(withUrl: invalidUrl, session: URLSession.shared)) { error in
             XCTAssertEqual(error as! NetworkingError, NetworkingError.invalidUrl(withUrl: invalidUrl))
         }
     }

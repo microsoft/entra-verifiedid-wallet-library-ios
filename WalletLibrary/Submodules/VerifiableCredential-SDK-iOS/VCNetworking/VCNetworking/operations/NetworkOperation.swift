@@ -3,18 +3,12 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 internal protocol InternalNetworkOperation: NetworkOperation & InternalOperation {}
 
 protocol NetworkOperation {
     associatedtype ResponseBody
     
-    mutating func fire() -> Promise<ResponseBody>
+    func fire() async throws -> ResponseBody
 }
 
 protocol InternalOperation {
@@ -49,9 +43,10 @@ extension InternalNetworkOperation {
         return VCSDKLog.sharedInstance
     }
     
-    mutating func fire() -> Promise<ResponseBody> {
+    func fire() async throws -> ResponseBody {
         
         // Adds library version header to all network calls.
+        var urlRequest = self.urlRequest
         urlRequest.setValue("iOS/\(WalletLibraryVersion.Version)", forHTTPHeaderField: Constants.WALLET_LIBRARY_HEADER)
         
         if let cv = correlationVector {
@@ -61,44 +56,30 @@ extension InternalNetworkOperation {
             sdkLog.logInfo(message: "Correlation Vector for \(String(describing: self)): \(cv.value)")
         }
         
-        return firstly {
-            retryHandler.onRetry { [self] in
-                return self.call(urlSession: self.urlSession, urlRequest: self.urlRequest)
-            }
+        return try await retryHandler.onRetry { [self] in
+            try await call(urlRequest: urlRequest)
         }
     }
     
-    private func call(urlSession: URLSession, urlRequest: URLRequest) -> Promise<ResponseBody> {
-        return firstly {
-            logNetworkTime(name: String(describing: Self.self), correlationVector: correlationVector) { [self] in
-                self.urlSession.dataTask(.promise, with: urlRequest)
-            }
-        }.then { data, response in
-            self.handleResponse(data: data, response: response)
+    private func call(urlRequest: URLRequest) async throws -> ResponseBody {
+        let (data, response) = try await logNetworkTime(name: String(describing: Self.self),
+                                                        correlationVector: correlationVector) { [self] in
+            try await urlSession.data(for: urlRequest)
         }
+        
+        return try handleResponse(data: data, response: response)
     }
     
-    private func handleResponse(data: Data, response: URLResponse) -> Promise<ResponseBody> {
-        return Promise { seal in
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                seal.reject(NetworkingError.unableToParseData)
-                return
-            }
-            
-            if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
-                seal.fulfill(try self.onSuccess(data: data, response: httpResponse))
-                return
-            }
-            seal.reject(try self.onFailure(data: data, response: httpResponse))
+    private func handleResponse(data: Data, response: URLResponse) throws -> ResponseBody {
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkingError.unableToParseData
         }
-    }
-    
-    private func onSuccess(data: Data, response: HTTPURLResponse) throws -> ResponseBody {
-        return try self.successHandler.onSuccess(data: data, decodeWith: self.decoder)
-    }
-    
-    private func onFailure(data: Data, response: HTTPURLResponse) throws -> NetworkingError {
-        return try self.failureHandler.onFailure(data: data, response: response)
+        
+        if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+            return try successHandler.onSuccess(data: data, decodeWith: self.decoder)
+        }
+        
+        throw try failureHandler.onFailure(data: data, response: httpResponse)
     }
 }

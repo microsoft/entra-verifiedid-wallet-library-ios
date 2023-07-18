@@ -21,7 +21,7 @@ class IssuanceService {
     private let sdkLog: VCSDKLog
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
-                     urlSession: URLSession = URLSession.shared) {
+                     urlSession: URLSession) {
         self.init(formatter: IssuanceResponseFormatter(),
                   apiCalls: IssuanceNetworkCalls(correlationVector: correlationVector,
                                                  urlSession: urlSession),

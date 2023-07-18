@@ -28,7 +28,7 @@ class PostPresentationResponseOperation: InternalPostNetworkOperation {
     init(usingUrl urlStr: String,
          withBody body: PresentationResponse,
          andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
-         urlSession: URLSession = URLSession.shared) throws {
+         urlSession: URLSession) throws {
         
         guard let url = URL(unsafeString: urlStr) else {
             throw NetworkingError.invalidUrl(withUrl: urlStr)

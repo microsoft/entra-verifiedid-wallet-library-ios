@@ -22,7 +22,7 @@ class IssuanceServiceTests: XCTestCase {
                                   discoveryApiCalls: MockDiscoveryApiCalls(),
                                   requestValidator: MockIssuanceRequestValidator(),
                                   identifierService: IdentifierService(),
-                                  linkedDomainService: LinkedDomainService())
+                                  linkedDomainService: LinkedDomainService(urlSession: URLSession.shared))
         
         let encodedContract = TestData.aiContract.rawValue.data(using: .utf8)!
         self.contract = try JSONDecoder().decode(Contract.self, from: encodedContract)
@@ -44,7 +44,7 @@ class IssuanceServiceTests: XCTestCase {
     
     func testPublicInit() {
         // Act
-        let service = IssuanceService()
+        let service = IssuanceService(urlSession: URLSession.shared)
         
         // Assert
         XCTAssertNotNil(service.formatter)
@@ -54,7 +54,7 @@ class IssuanceServiceTests: XCTestCase {
     func testGetRequest() async throws {
         do {
             // Act
-            let request = try await service.getRequest(usingUrl: expectedUrl)
+            let _ = try await service.getRequest(usingUrl: expectedUrl)
             XCTFail()
         } catch {
             // Assert
@@ -87,7 +87,7 @@ class IssuanceServiceTests: XCTestCase {
                                       discoveryApiCalls: MockDiscoveryApiCalls(),
                                       requestValidator: MockIssuanceRequestValidator(),
                                       identifierService: IdentifierService(),
-                                      linkedDomainService: LinkedDomainService())
+                                      linkedDomainService: LinkedDomainService(urlSession: URLSession.shared))
         
         do {
             // Act

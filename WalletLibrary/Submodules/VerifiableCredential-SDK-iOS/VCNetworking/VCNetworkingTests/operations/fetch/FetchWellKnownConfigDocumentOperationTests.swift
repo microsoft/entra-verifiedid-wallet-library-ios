@@ -4,15 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import PromiseKit
-
 @testable import WalletLibrary
 
 class FetchWellKnownConfigDocumentOperationTests: XCTestCase {
     let expectedUrl = "https://did.com/.well-known/did-configuration.json"
     
     func testInitWithPath() throws {
-        let fetchOperation = try FetchWellKnownConfigDocumentOperation(withUrl: "https://did.com/test")
+        let fetchOperation = try FetchWellKnownConfigDocumentOperation(withUrl: "https://did.com/test", session: URLSession.shared)
         XCTAssertTrue(fetchOperation.successHandler is SimpleSuccessHandler)
         XCTAssertTrue(fetchOperation.failureHandler is SimpleFailureHandler)
         XCTAssertTrue(fetchOperation.retryHandler is NoRetry)
@@ -20,7 +18,7 @@ class FetchWellKnownConfigDocumentOperationTests: XCTestCase {
     }
     
     func testInitWithTrailingSlash() throws {
-        let fetchOperation = try FetchWellKnownConfigDocumentOperation(withUrl: "https://did.com/")
+        let fetchOperation = try FetchWellKnownConfigDocumentOperation(withUrl: "https://did.com/", session: URLSession.shared)
         XCTAssertTrue(fetchOperation.successHandler is SimpleSuccessHandler)
         XCTAssertTrue(fetchOperation.failureHandler is SimpleFailureHandler)
         XCTAssertTrue(fetchOperation.retryHandler is NoRetry)
@@ -28,7 +26,7 @@ class FetchWellKnownConfigDocumentOperationTests: XCTestCase {
     }
     
     func testInitWithNoPath() throws {
-        let fetchOperation = try FetchWellKnownConfigDocumentOperation(withUrl: "https://did.com")
+        let fetchOperation = try FetchWellKnownConfigDocumentOperation(withUrl: "https://did.com", session: URLSession.shared)
         XCTAssertTrue(fetchOperation.successHandler is SimpleSuccessHandler)
         XCTAssertTrue(fetchOperation.failureHandler is SimpleFailureHandler)
         XCTAssertTrue(fetchOperation.retryHandler is NoRetry)
@@ -36,7 +34,7 @@ class FetchWellKnownConfigDocumentOperationTests: XCTestCase {
     }
     
     func testInitWithQuery() throws {
-        let fetchOperation = try FetchWellKnownConfigDocumentOperation(withUrl: "https://did.com?idToken=abcd")
+        let fetchOperation = try FetchWellKnownConfigDocumentOperation(withUrl: "https://did.com?idToken=abcd", session: URLSession.shared)
         XCTAssertTrue(fetchOperation.successHandler is SimpleSuccessHandler)
         XCTAssertTrue(fetchOperation.failureHandler is SimpleFailureHandler)
         XCTAssertTrue(fetchOperation.retryHandler is NoRetry)

@@ -74,8 +74,9 @@ public class VerifiedIdClientBuilder {
     }
     
     private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
-        let issuanceService = IssuanceService(correlationVector: correlationHeader)
-        let presentationService = PresentationService(correlationVector: correlationHeader)
+        // TODO: inject networking client into Services.
+        let issuanceService = IssuanceService(correlationVector: correlationHeader, urlSession: URLSession.shared)
+        let presentationService = PresentationService(correlationVector: correlationHeader, urlSession: URLSession.shared)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,

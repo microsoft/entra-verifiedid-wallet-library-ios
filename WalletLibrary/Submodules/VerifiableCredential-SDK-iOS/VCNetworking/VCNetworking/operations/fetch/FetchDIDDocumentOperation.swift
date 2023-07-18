@@ -3,13 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import Foundation
-import PromiseKit
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 class FetchDIDDocumentOperation: InternalNetworkOperation {
     typealias ResponseBody = IdentifierDocument
     
@@ -20,7 +13,7 @@ class FetchDIDDocumentOperation: InternalNetworkOperation {
     
     init(withIdentifier identifier: String,
          andCorrelationVector correlationVector: VerifiedIdCorrelationHeader? = nil,
-         session: URLSession = URLSession()) throws {
+         session: URLSession) throws {
         
         guard var urlComponents = URLComponents(string: VCSDKConfiguration.sharedInstance.discoveryUrl) else {
             throw NetworkingError.invalidUrl(withUrl: VCSDKConfiguration.sharedInstance.discoveryUrl)

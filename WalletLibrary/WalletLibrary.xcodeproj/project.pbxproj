@@ -174,7 +174,6 @@
 		5552D40929EF490A00B40302 /* PresentationInputDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D37529EF47EC00B40302 /* PresentationInputDescriptor.swift */; };
 		5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D37A29EF47EC00B40302 /* PresentationExchangeConstraints.swift */; };
 		5552D43F29EF4A8100B40302 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D40C29EF4A8100B40302 /* NetworkingError.swift */; };
-		5552D44029EF4A8100B40302 /* HelperNetworkFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D40E29EF4A8100B40302 /* HelperNetworkFunctions.swift */; };
 		5552D44229EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */; };
 		5552D44329EF4A8100B40302 /* SimpleSuccessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41229EF4A8100B40302 /* SimpleSuccessHandler.swift */; };
 		5552D44429EF4A8100B40302 /* SuccessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41329EF4A8100B40302 /* SuccessHandler.swift */; };
@@ -323,7 +322,6 @@
 		5552D85729F2E43900B40302 /* UrlProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D83329F2E43900B40302 /* UrlProtocolMock.swift */; };
 		5552D85829F2E43900B40302 /* MockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D83429F2E43900B40302 /* MockObject.swift */; };
 		5552D85929F2E43900B40302 /* MockDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D83529F2E43900B40302 /* MockDecoder.swift */; };
-		5552D85A29F2E43900B40302 /* HelperNetworkFunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D83729F2E43900B40302 /* HelperNetworkFunctionsTests.swift */; };
 		5552D85B29F2E43900B40302 /* SimpleSuccessHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D83929F2E43900B40302 /* SimpleSuccessHandlerTests.swift */; };
 		5552D85C29F2E43900B40302 /* NoRetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D83B29F2E43900B40302 /* NoRetryTests.swift */; };
 		5552D85D29F2E43900B40302 /* PostIssuanceResponseOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D83E29F2E43900B40302 /* PostIssuanceResponseOperationTests.swift */; };
@@ -359,12 +357,7 @@
 		5552D89E29F2E58000B40302 /* IdentifierDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */; };
 		5552D89F29F2E58000B40302 /* PresentationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88729F2E58000B40302 /* PresentationServiceTests.swift */; };
 		5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27B29EF335600B40302 /* DifWordList.swift */; };
-		5552D9A629F2F1B600B40302 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D99229F2F19100B40302 /* PromiseKit.framework */; };
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
-		5552D9A929F2F1B900B40302 /* Secp256k1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5552D9C129F2F2A500B40302 /* NSURLSession+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 5552D9AD29F2F29400B40302 /* NSURLSession+AnyPromise.h */; };
-		5552D9C529F2F2DB00B40302 /* NSURLSession+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D9B229F2F29400B40302 /* NSURLSession+Promise.swift */; };
-		5552D9C629F2F2E100B40302 /* NSURLSession+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5552D9B329F2F29400B40302 /* NSURLSession+AnyPromise.m */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */; };
 		559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */; };
@@ -454,9 +447,7 @@
 		55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */; };
 		55E3370A293FD3E000CD2ED7 /* IdTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */; };
 		55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */; };
-		55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337642943749600CD2ED7 /* AsyncWrapper.swift */; };
 		55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376729437E3500CD2ED7 /* OpenIdForVCResolver.swift */; };
-		55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */; };
 		55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337B32948B4B000CD2ED7 /* PinRequirement.swift */; };
 		55E337BC2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */; };
 		55EA178D29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */; };
@@ -490,77 +481,7 @@
 			remoteGlobalIDString = 92B9684D25240F2100F64AB0;
 			remoteInfo = Secp256k1;
 		};
-		5552D99129F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63B0AC571D595E1B00FA21D9;
-			remoteInfo = PromiseKit;
-		};
-		5552D99329F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 631751A81D59766500A9DDDC;
-			remoteInfo = "PMKA+Tests";
-		};
-		5552D99529F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6314113C1D59795700E24B9E;
-			remoteInfo = PMKBridgeTests;
-		};
-		5552D99729F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 630019221D596292003B4E30;
-			remoteInfo = PMKCoreTests;
-		};
-		5552D99929F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 633027EA203CC0060037E136;
-			remoteInfo = PMKDeprecatedTests;
-		};
-		5552D99B29F2F19100B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C0244E622047A6CB00ACB4AC;
-			remoteInfo = "PMKJSA+Tests";
-		};
-		5552D9A229F2F19D00B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63C7FFA71D5BEE09003BAE60;
-			remoteInfo = PMKFoundation;
-		};
-		5552D9A429F2F19D00B40302 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63C7FFF21D5C020D003BAE60;
-			remoteInfo = PMKNSTests;
-		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		5552D5A829F1F8CB00B40302 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5552D9A929F2F1B900B40302 /* Secp256k1.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		550A913C29930D970014D030 /* MockRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRawRequest.swift; sourceTree = "<group>"; };
@@ -731,7 +652,6 @@
 		5552D38629EF47EC00B40302 /* VCTraceLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTraceLevel.swift; sourceTree = "<group>"; };
 		5552D38729EF47EC00B40302 /* DefaultLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLogConsumer.swift; sourceTree = "<group>"; };
 		5552D40C29EF4A8100B40302 /* NetworkingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
-		5552D40E29EF4A8100B40302 /* HelperNetworkFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperNetworkFunctions.swift; sourceTree = "<group>"; };
 		5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WellKnownConfigDocumentNetworkCalls.swift; sourceTree = "<group>"; };
 		5552D41229EF4A8100B40302 /* SimpleSuccessHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSuccessHandler.swift; sourceTree = "<group>"; };
 		5552D41329EF4A8100B40302 /* SuccessHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessHandler.swift; sourceTree = "<group>"; };
@@ -882,7 +802,6 @@
 		5552D83329F2E43900B40302 /* UrlProtocolMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlProtocolMock.swift; sourceTree = "<group>"; };
 		5552D83429F2E43900B40302 /* MockObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockObject.swift; sourceTree = "<group>"; };
 		5552D83529F2E43900B40302 /* MockDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDecoder.swift; sourceTree = "<group>"; };
-		5552D83729F2E43900B40302 /* HelperNetworkFunctionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperNetworkFunctionsTests.swift; sourceTree = "<group>"; };
 		5552D83929F2E43900B40302 /* SimpleSuccessHandlerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSuccessHandlerTests.swift; sourceTree = "<group>"; };
 		5552D83B29F2E43900B40302 /* NoRetryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoRetryTests.swift; sourceTree = "<group>"; };
 		5552D83E29F2E43900B40302 /* PostIssuanceResponseOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIssuanceResponseOperationTests.swift; sourceTree = "<group>"; };
@@ -918,11 +837,6 @@
 		5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierDatabaseTests.swift; sourceTree = "<group>"; };
 		5552D88729F2E58000B40302 /* PresentationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationServiceTests.swift; sourceTree = "<group>"; };
 		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
-		5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
-		5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PMKFoundation.xcodeproj; path = Foundation/PMKFoundation.xcodeproj; sourceTree = "<group>"; };
-		5552D9AD29F2F29400B40302 /* NSURLSession+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+AnyPromise.h"; sourceTree = "<group>"; };
-		5552D9B229F2F29400B40302 /* NSURLSession+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Promise.swift"; sourceTree = "<group>"; };
-		5552D9B329F2F29400B40302 /* NSURLSession+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+AnyPromise.m"; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+MappableTests.swift"; sourceTree = "<group>"; };
@@ -1013,9 +927,7 @@
 		55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRequirement.swift; sourceTree = "<group>"; };
 		55E33709293FD3E000CD2ED7 /* IdTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenRequirement.swift; sourceTree = "<group>"; };
 		55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttestedClaimRequirement.swift; sourceTree = "<group>"; };
-		55E337642943749600CD2ED7 /* AsyncWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapper.swift; sourceTree = "<group>"; };
 		55E3376729437E3500CD2ED7 /* OpenIdForVCResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdForVCResolver.swift; sourceTree = "<group>"; };
-		55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncWrapperTests.swift; sourceTree = "<group>"; };
 		55E337B32948B4B000CD2ED7 /* PinRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinRequirement.swift; path = WalletLibrary/Requests/Requirements/PinRequirement.swift; sourceTree = SOURCE_ROOT; };
 		55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationService+OpenIdForVC.swift"; sourceTree = "<group>"; };
 		55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdIssuanceRequest.swift; sourceTree = "<group>"; };
@@ -1032,7 +944,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5552D9A629F2F1B600B40302 /* PromiseKit.framework in Frameworks */,
 				5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1664,7 +1575,6 @@
 				5552D41829EF4A8100B40302 /* operations */,
 				5552D41429EF4A8100B40302 /* retryHandlers */,
 				5552D41129EF4A8100B40302 /* successHandlers */,
-				5552D9AC29F2F29400B40302 /* Sources */,
 				5552D40D29EF4A8100B40302 /* util */,
 				5552D43C29EF4A8100B40302 /* DIDDocumentNetworkCalls.swift */,
 				5552D41729EF4A8100B40302 /* IssuanceNetworkCalls.swift */,
@@ -1680,7 +1590,6 @@
 			isa = PBXGroup;
 			children = (
 				5552D42B29EF4A8100B40302 /* NetworkingConstants.swift */,
-				5552D40E29EF4A8100B40302 /* HelperNetworkFunctions.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -2080,7 +1989,6 @@
 			isa = PBXGroup;
 			children = (
 				5552D83029F2E43900B40302 /* mocks */,
-				5552D83629F2E43900B40302 /* util */,
 				5552D83829F2E43900B40302 /* successHandlers */,
 				5552D83A29F2E43900B40302 /* retryHandlers */,
 				5552D83C29F2E43900B40302 /* operations */,
@@ -2103,14 +2011,6 @@
 				5552D83529F2E43900B40302 /* MockDecoder.swift */,
 			);
 			path = mocks;
-			sourceTree = "<group>";
-		};
-		5552D83629F2E43900B40302 /* util */ = {
-			isa = PBXGroup;
-			children = (
-				5552D83729F2E43900B40302 /* HelperNetworkFunctionsTests.swift */,
-			);
-			path = util;
 			sourceTree = "<group>";
 		};
 		5552D83829F2E43900B40302 /* successHandlers */ = {
@@ -2231,8 +2131,6 @@
 		5552D8A529F2F09E00B40302 /* Submodules */ = {
 			isa = PBXGroup;
 			children = (
-				5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */,
-				5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */,
 				5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */,
 			);
 			name = Submodules;
@@ -2246,39 +2144,6 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
-		};
-		5552D98929F2F19100B40302 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5552D99229F2F19100B40302 /* PromiseKit.framework */,
-				5552D99429F2F19100B40302 /* PMKA+Tests.xctest */,
-				5552D99629F2F19100B40302 /* PMKBridgeTests.xctest */,
-				5552D99829F2F19100B40302 /* PMKCoreTests.xctest */,
-				5552D99A29F2F19100B40302 /* PMKDeprecatedTests.xctest */,
-				5552D99C29F2F19100B40302 /* PMKJSA+Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		5552D99E29F2F19D00B40302 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5552D9A329F2F19D00B40302 /* PMKFoundation.framework */,
-				5552D9A529F2F19D00B40302 /* PMKNSTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		5552D9AC29F2F29400B40302 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				5552D9AD29F2F29400B40302 /* NSURLSession+AnyPromise.h */,
-				5552D9B229F2F29400B40302 /* NSURLSession+Promise.swift */,
-				5552D9B329F2F29400B40302 /* NSURLSession+AnyPromise.m */,
-			);
-			name = Sources;
-			path = "Submodules/VerifiableCredential-SDK-iOS/Submodules/Foundation/Sources";
-			sourceTree = SOURCE_ROOT;
 		};
 		559BD3A4299AD9A200BD61AC /* Manifest */ = {
 			isa = PBXGroup;
@@ -2616,7 +2481,6 @@
 		55E337632943747E00CD2ED7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				55E337642943749600CD2ED7 /* AsyncWrapper.swift */,
 				5534E668294A0C3F005D0765 /* Mapper.swift */,
 				550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */,
 				550E320D298B0FAC004E7716 /* WalletLibraryLogger.swift */,
@@ -2639,7 +2503,6 @@
 		55E3376929478C3300CD2ED7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				55E3376A29478C5000CD2ED7 /* AsyncWrapperTests.swift */,
 				5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */,
 				5524A60D29D635A700C5F18D /* WalletLibraryLoggerTests.swift */,
 			);
@@ -2693,7 +2556,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */,
-				5552D9C129F2F2A500B40302 /* NSURLSession+AnyPromise.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2708,7 +2570,6 @@
 				552E508E293E6AB200868F47 /* Sources */,
 				552E508F293E6AB200868F47 /* Frameworks */,
 				552E5090293E6AB200868F47 /* Resources */,
-				5552D5A829F1F8CB00B40302 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2791,14 +2652,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 5552D99E29F2F19D00B40302 /* Products */;
-					ProjectRef = 5552D99D29F2F19D00B40302 /* PMKFoundation.xcodeproj */;
-				},
-				{
-					ProductGroup = 5552D98929F2F19100B40302 /* Products */;
-					ProjectRef = 5552D98829F2F19100B40302 /* PromiseKit.xcodeproj */;
-				},
-				{
 					ProductGroup = 5552D98329F2F17F00B40302 /* Products */;
 					ProjectRef = 5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */;
 				},
@@ -2818,62 +2671,6 @@
 			fileType = wrapper.framework;
 			path = Secp256k1.framework;
 			remoteRef = 5552D98629F2F17F00B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99229F2F19100B40302 /* PromiseKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PromiseKit.framework;
-			remoteRef = 5552D99129F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99429F2F19100B40302 /* PMKA+Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "PMKA+Tests.xctest";
-			remoteRef = 5552D99329F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99629F2F19100B40302 /* PMKBridgeTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKBridgeTests.xctest;
-			remoteRef = 5552D99529F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99829F2F19100B40302 /* PMKCoreTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKCoreTests.xctest;
-			remoteRef = 5552D99729F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99A29F2F19100B40302 /* PMKDeprecatedTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKDeprecatedTests.xctest;
-			remoteRef = 5552D99929F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D99C29F2F19100B40302 /* PMKJSA+Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "PMKJSA+Tests.xctest";
-			remoteRef = 5552D99B29F2F19100B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D9A329F2F19D00B40302 /* PMKFoundation.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PMKFoundation.framework;
-			remoteRef = 5552D9A229F2F19D00B40302 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5552D9A529F2F19D00B40302 /* PMKNSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PMKNSTests.xctest;
-			remoteRef = 5552D9A429F2F19D00B40302 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2966,7 +2763,6 @@
 				5552D4BF29EF4AC300B40302 /* HmacSha2AesCbc.swift in Sources */,
 				5552D3F629EF48ED00B40302 /* ProtectedBackupData.swift in Sources */,
 				5552D4CA29EF4AC300B40302 /* ED25519PublicKey.swift in Sources */,
-				5552D9C529F2F2DB00B40302 /* NSURLSession+Promise.swift in Sources */,
 				5552D3FF29EF490000B40302 /* PresentationSubmission.swift in Sources */,
 				5552D3F829EF48ED00B40302 /* Microsoft2020UnprotectedBackup.swift in Sources */,
 				5552D3B729EF486C00B40302 /* TokenTimeConstraints.swift in Sources */,
@@ -3008,7 +2804,6 @@
 				5552D4B829EF4AC300B40302 /* Aes.swift in Sources */,
 				55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */,
 				5552D3F329EF48E200B40302 /* PresentationResponseContainer.swift in Sources */,
-				55E337652943749600CD2ED7 /* AsyncWrapper.swift in Sources */,
 				5552D3D129EF48B200B40302 /* IssuanceServiceResponse.swift in Sources */,
 				5552D3FE29EF490000B40302 /* PresentationInputDescriptorMapping.swift in Sources */,
 				5552D39E29EF481100B40302 /* ResponseMappings.swift in Sources */,
@@ -3082,7 +2877,6 @@
 				5552D4B929EF4AC300B40302 /* HmacSha512.swift in Sources */,
 				5552D3AE29EF485100B40302 /* DiscoveryServiceResponse.swift in Sources */,
 				5552D4C329EF4AC300B40302 /* Sha512.swift in Sources */,
-				5552D9C629F2F2E100B40302 /* NSURLSession+AnyPromise.m in Sources */,
 				5552D3BE29EF488200B40302 /* VerifiablePresentationFormatter.swift in Sources */,
 				5552D3E829EF48E200B40302 /* UnprotectedBackup.swift in Sources */,
 				5552D3AB29EF484700B40302 /* DomainLinkageCredentialContent.swift in Sources */,
@@ -3115,7 +2909,6 @@
 				5552D3D529EF48B200B40302 /* LogoDisplayDescriptor.swift in Sources */,
 				55E2F086299573C30008010D /* OpenIdVerifierStyle.swift in Sources */,
 				55EA17A429CA4F590085E29E /* VerifiedIdStyle.swift in Sources */,
-				5552D44029EF4A8100B40302 /* HelperNetworkFunctions.swift in Sources */,
 				559BD49C299D913F00BD61AC /* IssuanceResponseContainer+WalletLibrary.swift in Sources */,
 				559BD414299D37B100BD61AC /* SelfIssuedClaimsDescriptor+Mappable.swift in Sources */,
 				5552D3B529EF486500B40302 /* RequestedClaims.swift in Sources */,
@@ -3214,7 +3007,6 @@
 				55E2F06F299553B40008010D /* OpenIdRequestHandlerTests.swift in Sources */,
 				5552D7EE29F2E1AF00B40302 /* ClaimsTest.swift in Sources */,
 				5552D7F129F2E1AF00B40302 /* ECPublicJwkTests.swift in Sources */,
-				55E3376B29478C5000CD2ED7 /* AsyncWrapperTests.swift in Sources */,
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */,
 				5552D7D129F2E0AA00B40302 /* PbkdfTests.swift in Sources */,
 				559BD4ED299EEAD100BD61AC /* IdTokenRequirementTests.swift in Sources */,
@@ -3327,7 +3119,6 @@
 				5552D7CB29F2E0AA00B40302 /* KeyManagementOperationsTests.swift in Sources */,
 				5552D82B29F2E25900B40302 /* DomainLinkageCredentialValidatorTests.swift in Sources */,
 				5552D7D529F2E0AA00B40302 /* HmacSha512Tests.swift in Sources */,
-				5552D85A29F2E43900B40302 /* HelperNetworkFunctionsTests.swift in Sources */,
 				5552D7D229F2E0AA00B40302 /* KeychainSecretStoreTests.swift in Sources */,
 				5552D85529F2E43900B40302 /* MockNetworkOperation.swift in Sources */,
 				5552D82429F2E25900B40302 /* IdentifierFormatterTests.swift in Sources */,

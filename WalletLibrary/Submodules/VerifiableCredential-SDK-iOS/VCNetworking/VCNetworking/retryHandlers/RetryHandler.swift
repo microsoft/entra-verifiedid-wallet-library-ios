@@ -3,9 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
-
 protocol RetryHandler {
-
-    func onRetry<ResponseBody>(closure : @escaping () -> Promise<ResponseBody>) -> Promise<ResponseBody>
+    func onRetry<ResponseBody>(closure: @escaping () async throws -> ResponseBody) async throws -> ResponseBody
 }

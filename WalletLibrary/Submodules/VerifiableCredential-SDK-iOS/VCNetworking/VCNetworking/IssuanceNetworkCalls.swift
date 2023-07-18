@@ -21,25 +21,25 @@ class IssuanceNetworkCalls: IssuanceNetworking {
     }
     
     func getRequest(withUrl url: String) async throws -> SignedContract {
-        var operation = try FetchContractOperation(withUrl: url,
+        let operation = try FetchContractOperation(withUrl: url,
                                                    andCorrelationVector: correlationVector,
                                                    session: self.urlSession)
-        return try await AsyncWrapper().wrap { operation.fire() }()
+        return try await operation.fire()
     }
     
     func sendResponse(usingUrl url: String, withBody body: IssuanceResponse) async throws -> VerifiableCredential {
-        var operation = try PostIssuanceResponseOperation(usingUrl: url,
+        let operation = try PostIssuanceResponseOperation(usingUrl: url,
                                                           withBody: body,
                                                           andCorrelationVector: correlationVector,
                                                           urlSession: self.urlSession)
-        return try await AsyncWrapper().wrap { operation.fire() }()
+        return try await operation.fire()
     }
     
     func sendCompletionResponse(usingUrl url: String, withBody body: IssuanceCompletionResponse) async throws {
-        var operation = try PostIssuanceCompletionResponseOperation(usingUrl: url,
+        let operation = try PostIssuanceCompletionResponseOperation(usingUrl: url,
                                                                     withBody: body,
                                                                     andCorrelationVector: correlationVector,
                                                                     urlSession: self.urlSession)
-        let _ = try await AsyncWrapper().wrap { operation.fire() }()
+        let _ = try await operation.fire()
     }
 }

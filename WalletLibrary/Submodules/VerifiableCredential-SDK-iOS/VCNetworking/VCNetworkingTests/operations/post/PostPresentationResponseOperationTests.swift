@@ -4,7 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import PromiseKit
 @testable import WalletLibrary
 
 class PostPresentionResponseOperationTests: XCTestCase {
@@ -44,7 +43,8 @@ class PostPresentionResponseOperationTests: XCTestCase {
     func testInvalidUrlInit() {
         let invalidUrl = ""
         XCTAssertThrowsError(try PostPresentationResponseOperation(usingUrl: invalidUrl,
-                                                                   withBody: expectedPresentationResponse)) { error in
+                                                                   withBody: expectedPresentationResponse,
+                                                                   urlSession: URLSession.shared)) { error in
             XCTAssertEqual(error as! NetworkingError, NetworkingError.invalidUrl(withUrl: invalidUrl))
         }
     }

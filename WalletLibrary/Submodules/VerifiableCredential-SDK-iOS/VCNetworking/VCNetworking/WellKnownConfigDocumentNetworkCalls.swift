@@ -3,14 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import PromiseKit
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 protocol WellKnownConfigDocumentNetworking {
-    func getDocument(fromUrl domainUrl: String) -> Promise<WellKnownConfigDocument>
+    func getDocument(fromUrl domainUrl: String) async throws -> WellKnownConfigDocument
 }
 
 class WellKnownConfigDocumentNetworkCalls: WellKnownConfigDocumentNetworking {
@@ -24,17 +18,11 @@ class WellKnownConfigDocumentNetworkCalls: WellKnownConfigDocumentNetworking {
         self.correlationVector = correlationVector
     }
     
-    func getDocument(fromUrl domainUrl: String) -> Promise<WellKnownConfigDocument> {
-        do {
-            var operation = try FetchWellKnownConfigDocumentOperation(withUrl: domainUrl,
-                                                                      andCorrelationVector: correlationVector,
-                                                                      session: urlSession)
-            return operation.fire()
-        } catch {
-            return Promise { seal in
-                seal.reject(error)
-            }
-        }
+    func getDocument(fromUrl domainUrl: String) async throws -> WellKnownConfigDocument {
+        let operation = try FetchWellKnownConfigDocumentOperation(withUrl: domainUrl,
+                                                                  andCorrelationVector: correlationVector,
+                                                                  session: urlSession)
+        return try await operation.fire()
     }
 }
 

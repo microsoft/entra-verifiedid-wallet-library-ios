@@ -4,8 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
-import PromiseKit
-
 @testable import WalletLibrary
 
 class NoRetryTests: XCTestCase {
@@ -14,25 +12,15 @@ class NoRetryTests: XCTestCase {
     var expectedClosureCalled = false
     let expectedAnswer = 425
 
-    func testNoRetry() throws {
-        let expec = self.expectation(description: "Fire")
-        noRetry.onRetry(closure: expectedClosure).done { actualNum in
-            XCTAssertEqual(actualNum, self.expectedAnswer)
-            XCTAssertTrue(self.expectedClosureCalled)
-            expec.fulfill()
-        }.catch { error in
-            print(error)
-            XCTFail()
-        }
-        
-        wait(for: [expec], timeout: 5)
+    func testNoRetry() async throws {
+        let actualResult = try await noRetry.onRetry(closure: expectedClosure)
+            XCTAssertEqual(actualResult, expectedAnswer)
+            XCTAssertTrue(expectedClosureCalled)
     }
     
-    func expectedClosure() -> Promise<Int> {
-        return Promise<Int> { seal in
-            self.expectedClosureCalled = true
-            seal.fulfill(self.expectedAnswer)
-        }
+    func expectedClosure() async throws -> Int {
+        expectedClosureCalled = true
+        return expectedAnswer
     }
 
 }

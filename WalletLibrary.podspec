@@ -98,7 +98,6 @@ Pod::Spec.new do |s|
         cs.source_files= "#{vcsdkPath}/VCEntities/VCEntities/**/*.swift"
         cs.dependency 'WalletLibrary/VCToken'
         cs.dependency 'WalletLibrary/VCCrypto'
-        cs.dependency 'PromiseKit', '~> 6.18.0'
     end
 
     s.subspec 'VCNetworking' do |cs|
@@ -106,7 +105,6 @@ Pod::Spec.new do |s|
         cs.preserve_paths = "#{vcsdkPath}/VCNetworking/**/*.swift"
         cs.source_files= "#{vcsdkPath}/VCNetworking/VCNetworking/**/*.swift"
         cs.dependency 'WalletLibrary/VCEntities'
-        cs.dependency 'PromiseKit', '~> 6.18.0'
     end
 
     s.subspec 'VCServices' do |cs|
@@ -114,12 +112,11 @@ Pod::Spec.new do |s|
         cs.preserve_paths = "#{vcsdkPath}/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}"
         cs.source_files= "#{vcsdkPath}/VCServices/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}"
         cs.resources = [
-            "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld",
-            "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld/*.xcdatamodel"]
-        cs.preserve_paths = "#{vcsdkPath}/VCServices/VCServices/coreData/VerifiableCredentialDataModel.xcdatamodeld"
+            "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld",
+            "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld/*.xcdatamodel"]
+        cs.preserve_paths = "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld"
         cs.dependency 'WalletLibrary/VCNetworking'
         cs.dependency 'WalletLibrary/VCEntities'
-        cs.dependency 'PromiseKit', '~> 6.18.0'
     end
 
     s.subspec 'Core' do |cs|
@@ -128,6 +125,5 @@ Pod::Spec.new do |s|
         cs.source_files= "WalletLibrary/WalletLibrary/**/*.swift"
         cs.dependency 'WalletLibrary/VCServices'
         cs.dependency 'WalletLibrary/VCEntities'
-        cs.dependency 'PromiseKit', '~> 6.18.0'
     end
 end
