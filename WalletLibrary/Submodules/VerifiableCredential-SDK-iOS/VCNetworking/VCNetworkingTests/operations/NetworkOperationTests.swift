@@ -37,7 +37,7 @@ class NetworkOperationTests: XCTestCase {
         
         do {
             // Act
-            let response = try await self.mockNetworkOperation.fire()
+            let _ = try await self.mockNetworkOperation.fire()
             XCTFail()
         } catch {
             // Assert
