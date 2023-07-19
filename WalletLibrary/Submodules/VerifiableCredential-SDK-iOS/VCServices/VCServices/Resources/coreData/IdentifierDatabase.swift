@@ -3,14 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-
 enum IdentifierDatabaseError: Error {
     case noIdentifiersSaved
     case unableToFetchMasterIdentifier
@@ -61,7 +53,7 @@ struct IdentifierDatabase {
         
         let identifierModels = try coreDataManager.fetchIdentifiers()
         
-        var identifierModel: IdentifierModel? = nil
+        var identifierModel: IdentifierDataModel? = nil
         
         for identifier in identifierModels {
             if identifier.alias == alias {
@@ -80,7 +72,7 @@ struct IdentifierDatabase {
         
         let identifierModels = try coreDataManager.fetchIdentifiers()
         
-        var identifierModel: IdentifierModel? = nil
+        var identifierModel: IdentifierDataModel? = nil
         
         for identifier in identifierModels {
             if identifier.did == did {
@@ -129,7 +121,7 @@ struct IdentifierDatabase {
         try self.saveIdentifier(identifier: identifier)
     }
     
-    private func createIdentifier(fromIdentifierModel model: IdentifierModel) throws -> Identifier {
+    private func createIdentifier(fromIdentifierModel model: IdentifierDataModel) throws -> Identifier {
         
         guard let longFormDid = model.did,
             let alias = model.alias else {

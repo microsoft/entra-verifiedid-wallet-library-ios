@@ -17,6 +17,7 @@
 		550A919B29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A919A29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift */; };
 		550A919E29940ED70014D030 /* OpenIdRawRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A919D29940ED70014D030 /* OpenIdRawRequest.swift */; };
 		550A91A0299412790014D030 /* MockOpenIdRawRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A919F299412790014D030 /* MockOpenIdRawRequest.swift */; };
+		550BEEDB2A5EF578003AA32C /* VerifiedIdDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 550BEECF2A5EF578003AA32C /* VerifiedIdDataModel.xcdatamodeld */; };
 		550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */; };
 		550E320A298B0EA4004E7716 /* VerifiedIdClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */; };
 		550E320C298B0F30004E7716 /* WalletLibraryLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */; };
@@ -62,7 +63,6 @@
 		5552D28629EF340200B40302 /* IdentifierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D26F29EF335500B40302 /* IdentifierService.swift */; };
 		5552D28829EF340900B40302 /* difwordlist.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5552D27229EF335500B40302 /* difwordlist.txt */; };
 		5552D28929EF343000B40302 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27529EF335500B40302 /* CoreDataManager.swift */; };
-		5552D28A29EF343400B40302 /* VerifiableCredentialDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27629EF335500B40302 /* VerifiableCredentialDataModel.xcdatamodeld */; };
 		5552D28B29EF343700B40302 /* IdentifierDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27829EF335500B40302 /* IdentifierDatabase.swift */; };
 		5552D39E29EF481100B40302 /* ResponseMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D30029EF47EC00B40302 /* ResponseMappings.swift */; };
 		5552D39F29EF481600B40302 /* ExchangeRequestClaims.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D30429EF47EC00B40302 /* ExchangeRequestClaims.swift */; };
@@ -494,6 +494,8 @@
 		550A919A29940E9E0014D030 /* PresentationRequest+OpenIdRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationRequest+OpenIdRawRequest.swift"; sourceTree = "<group>"; };
 		550A919D29940ED70014D030 /* OpenIdRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdRawRequest.swift; sourceTree = "<group>"; };
 		550A919F299412790014D030 /* MockOpenIdRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOpenIdRawRequest.swift; sourceTree = "<group>"; };
+		550BEED02A5EF578003AA32C /* Identifier 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Identifier 2.0.xcdatamodel"; sourceTree = "<group>"; };
+		550BEED12A5EF578003AA32C /* Identifier.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Identifier.xcdatamodel; sourceTree = "<group>"; };
 		550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientBuilder.swift; sourceTree = "<group>"; };
 		550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdClient.swift; sourceTree = "<group>"; };
 		550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletLibraryLogConsumer.swift; sourceTree = "<group>"; };
@@ -534,7 +536,6 @@
 		5552D26F29EF335500B40302 /* IdentifierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierService.swift; sourceTree = "<group>"; };
 		5552D27229EF335500B40302 /* difwordlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = difwordlist.txt; sourceTree = "<group>"; };
 		5552D27529EF335500B40302 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		5552D27729EF335500B40302 /* Identifier.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Identifier.xcdatamodel; sourceTree = "<group>"; };
 		5552D27829EF335500B40302 /* IdentifierDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierDatabase.swift; sourceTree = "<group>"; };
 		5552D27929EF335500B40302 /* LinkedDomainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedDomainService.swift; sourceTree = "<group>"; };
 		5552D27A29EF335600B40302 /* ServicesConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesConstants.swift; sourceTree = "<group>"; };
@@ -1233,8 +1234,8 @@
 		5552D27429EF335500B40302 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
+				550BEECF2A5EF578003AA32C /* VerifiedIdDataModel.xcdatamodeld */,
 				5552D27529EF335500B40302 /* CoreDataManager.swift */,
-				5552D27629EF335500B40302 /* VerifiableCredentialDataModel.xcdatamodeld */,
 				5552D27829EF335500B40302 /* IdentifierDatabase.swift */,
 			);
 			path = coreData;
@@ -2945,7 +2946,6 @@
 				5552D3E329EF48C700B40302 /* ServiceDescriptor.swift in Sources */,
 				55E2F08A299576350008010D /* PresentationDefinition+Mappable.swift in Sources */,
 				5552D39F29EF481600B40302 /* ExchangeRequestClaims.swift in Sources */,
-				5552D28A29EF343400B40302 /* VerifiableCredentialDataModel.xcdatamodeld in Sources */,
 				553CC09D29A97181005A5FD6 /* IssuanceResponseContaining.swift in Sources */,
 				55DECBE929B934B900D5C802 /* IssuanceRequestContent.swift in Sources */,
 				5552D46129EF4A8100B40302 /* IssuanceServiceResponseDecoder.swift in Sources */,
@@ -2992,6 +2992,7 @@
 				5552D44529EF4A8100B40302 /* NoRetry.swift in Sources */,
 				5552D3F129EF48E200B40302 /* PresentationResponse.swift in Sources */,
 				55E2F07D2995561E0008010D /* OpenIdPresentationRequest.swift in Sources */,
+				550BEEDB2A5EF578003AA32C /* VerifiedIdDataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3540,13 +3541,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		5552D27629EF335500B40302 /* VerifiableCredentialDataModel.xcdatamodeld */ = {
+		550BEECF2A5EF578003AA32C /* VerifiedIdDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				5552D27729EF335500B40302 /* Identifier.xcdatamodel */,
+				550BEED02A5EF578003AA32C /* Identifier 2.0.xcdatamodel */,
+				550BEED12A5EF578003AA32C /* Identifier.xcdatamodel */,
 			);
-			currentVersion = 5552D27729EF335500B40302 /* Identifier.xcdatamodel */;
-			path = VerifiableCredentialDataModel.xcdatamodeld;
+			currentVersion = 550BEED02A5EF578003AA32C /* Identifier 2.0.xcdatamodel */;
+			path = VerifiedIdDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
