@@ -53,7 +53,7 @@ struct IdentifierDatabase {
         
         let identifierModels = try coreDataManager.fetchIdentifiers()
         
-        var identifierModel: IdentifierModel? = nil
+        var identifierModel: IdentifierDataModel? = nil
         
         for identifier in identifierModels {
             if identifier.alias == alias {
@@ -72,7 +72,7 @@ struct IdentifierDatabase {
         
         let identifierModels = try coreDataManager.fetchIdentifiers()
         
-        var identifierModel: IdentifierModel? = nil
+        var identifierModel: IdentifierDataModel? = nil
         
         for identifier in identifierModels {
             if identifier.did == did {
@@ -121,7 +121,7 @@ struct IdentifierDatabase {
         try self.saveIdentifier(identifier: identifier)
     }
     
-    private func createIdentifier(fromIdentifierModel model: IdentifierModel) throws -> Identifier {
+    private func createIdentifier(fromIdentifierModel model: IdentifierDataModel) throws -> Identifier {
         
         guard let longFormDid = model.did,
             let alias = model.alias else {
