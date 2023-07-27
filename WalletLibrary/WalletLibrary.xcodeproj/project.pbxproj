@@ -392,6 +392,7 @@
 		559BD4F3299EEAFD00BD61AC /* SelfAttestedClaimRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4F2299EEAFD00BD61AC /* SelfAttestedClaimRequirementTests.swift */; };
 		559BD4F5299EEC9500BD61AC /* MockVerifiedIdRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4F4299EEC9500BD61AC /* MockVerifiedIdRequester.swift */; };
 		559BD4F8299EED5700BD61AC /* MockRawManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD4F7299EED5700BD61AC /* MockRawManifest.swift */; };
+		55A0D9C42A72E3BA00BC178E /* IdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0D9C32A72E3BA00BC178E /* IdentifierManager.swift */; };
 		55A4BB172A27A436006836AB /* VerifiedIdError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB162A27A436006836AB /* VerifiedIdError.swift */; };
 		55A4BB332A29383A006836AB /* VerifiedIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB322A29383A006836AB /* VerifiedIdResult.swift */; };
 		55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */; };
@@ -872,6 +873,7 @@
 		559BD4F2299EEAFD00BD61AC /* SelfAttestedClaimRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttestedClaimRequirementTests.swift; sourceTree = "<group>"; };
 		559BD4F4299EEC9500BD61AC /* MockVerifiedIdRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdRequester.swift; sourceTree = "<group>"; };
 		559BD4F7299EED5700BD61AC /* MockRawManifest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRawManifest.swift; sourceTree = "<group>"; };
+		55A0D9C32A72E3BA00BC178E /* IdentifierManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierManager.swift; sourceTree = "<group>"; };
 		55A4BB162A27A436006836AB /* VerifiedIdError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdError.swift; sourceTree = "<group>"; };
 		55A4BB322A29383A006836AB /* VerifiedIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdResult.swift; sourceTree = "<group>"; };
 		55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdErrors.swift; sourceTree = "<group>"; };
@@ -2475,6 +2477,7 @@
 				550E3215298B1224004E7716 /* Styles */,
 				5534E66C294A0F76005D0765 /* Utilities */,
 				55BA2DB429CDF9E000BB8207 /* VerifiedId */,
+				55A0D9C32A72E3BA00BC178E /* IdentifierManager.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -2885,6 +2888,7 @@
 				5552D3E929EF48E200B40302 /* PresentationResponseClaims.swift in Sources */,
 				5552D40629EF490A00B40302 /* InputDescriptorSchema.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
+				55A0D9C42A72E3BA00BC178E /* IdentifierManager.swift in Sources */,
 				55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */,
 				5552D48129EF4AAB00B40302 /* VCTokenError.swift in Sources */,
 				5552D3FD29EF48F700B40302 /* JwePasswordProtectionMethod.swift in Sources */,
