@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCServices)
-    import VCServices
-#endif
-
 /**
  * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
  */
@@ -21,6 +17,8 @@ public class VerifiedIdClientBuilder {
     private var requestResolvers: [any RequestResolving] = []
     
     private var requestHandlers: [any RequestHandling] = []
+    
+    private var identifierManager: IdentifierManager?
     
     public init() {
         logger = WalletLibraryLogger()
@@ -55,6 +53,11 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    public func with(identifierManager: IdentifierManager) -> VerifiedIdClientBuilder {
+        self.identifierManager = identifierManager
+        return self
+    }
+    
     /// Optional method to add a custom Correlation Header to the VerifiedIdClient.
     public func with(verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader) -> VerifiedIdClientBuilder {
         self.correlationHeader = verifiedIdCorrelationHeader
@@ -68,15 +71,19 @@ public class VerifiedIdClientBuilder {
     }
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
-        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(),
+        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(identifierService: identifierManager),
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
     
     private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
         // TODO: inject networking client into Services.
-        let issuanceService = IssuanceService(correlationVector: correlationHeader, urlSession: URLSession.shared)
-        let presentationService = PresentationService(correlationVector: correlationHeader, urlSession: URLSession.shared)
+        let issuanceService = IssuanceService(correlationVector: correlationHeader,
+                                              identifierManager: identifierManager,
+                                              urlSession: URLSession.shared)
+        let presentationService = PresentationService(correlationVector: correlationHeader,
+                                                      identifierService: identifierManager,
+                                                      urlSession: URLSession.shared)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,
