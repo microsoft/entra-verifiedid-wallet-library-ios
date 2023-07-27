@@ -23,10 +23,11 @@ class PresentationService {
     private let didDocumentDiscoveryApiCalls: DiscoveryNetworking
     private let requestValidator: RequestValidating
     private let linkedDomainService: LinkedDomainService
-    private let identifierService: IdentifierService
+    private let identifierService: IdentifierManager
     private let sdkLog: VCSDKLog
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
+                     identifierService: IdentifierManager?,
                      urlSession: URLSession = URLSession.shared) {
         self.init(formatter: PresentationResponseFormatter(),
                   presentationApiCalls: PresentationNetworkCalls(correlationVector: correlationVector,
@@ -36,7 +37,7 @@ class PresentationService {
                   requestValidator: PresentationRequestValidator(),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
                                                            urlSession: urlSession),
-                  identifierService: IdentifierService(),
+                  identifierService: identifierService ?? IdentifierService(),
                   sdkLog: VCSDKLog.sharedInstance)
     }
     
@@ -45,7 +46,7 @@ class PresentationService {
          didDocumentDiscoveryApiCalls: DiscoveryNetworking,
          requestValidator: RequestValidating,
          linkedDomainService: LinkedDomainService,
-         identifierService: IdentifierService,
+         identifierService: IdentifierManager,
          sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
         self.formatter = formatter
         self.presentationApiCalls = presentationApiCalls

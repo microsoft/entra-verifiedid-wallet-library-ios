@@ -16,11 +16,12 @@ class IssuanceService {
     let apiCalls: IssuanceNetworking
     private let discoveryApiCalls: DiscoveryNetworking
     private let requestValidator: IssuanceRequestValidating
-    private let identifierService: IdentifierService
+    private let identifierService: IdentifierManager
     private let linkedDomainService: LinkedDomainService
     private let sdkLog: VCSDKLog
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
+                     identifierManager: IdentifierManager? = nil,
                      urlSession: URLSession) {
         self.init(formatter: IssuanceResponseFormatter(),
                   apiCalls: IssuanceNetworkCalls(correlationVector: correlationVector,
@@ -28,7 +29,7 @@ class IssuanceService {
                   discoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
                                                              urlSession: urlSession),
                   requestValidator: IssuanceRequestValidator(),
-                  identifierService: IdentifierService(),
+                  identifierService: identifierManager ?? IdentifierService(),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
                                                            urlSession: urlSession),
                   sdkLog: VCSDKLog.sharedInstance)
@@ -38,7 +39,7 @@ class IssuanceService {
          apiCalls: IssuanceNetworking,
          discoveryApiCalls: DiscoveryNetworking,
          requestValidator: IssuanceRequestValidating,
-         identifierService: IdentifierService,
+         identifierService: IdentifierManager,
          linkedDomainService: LinkedDomainService,
          sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
         self.formatter = formatter
