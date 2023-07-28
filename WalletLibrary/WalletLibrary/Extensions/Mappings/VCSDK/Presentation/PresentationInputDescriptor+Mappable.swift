@@ -75,6 +75,6 @@ extension PresentationInputDescriptor: Mappable {
 extension PresentationExchangeField: Mappable {
     
     func map(using mapper: Mapping) throws -> VerifiedIdConstraint {
-        return PresentationExchangeFieldConstraint(field: self)
+        return try PresentationExchangeFieldConstraint(field: self)
     }
 }
