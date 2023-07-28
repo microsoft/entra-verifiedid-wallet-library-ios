@@ -3,12 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import Foundation
-
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 class PostPresentationResponseOperation: InternalPostNetworkOperation {
     typealias Encoder = PresentationResponseEncoder
     typealias RequestBody = PresentationResponse
