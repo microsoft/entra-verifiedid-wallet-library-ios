@@ -9,10 +9,21 @@ extension Dictionary where Key == String, Value == Any {
     func getValue(with path: String) -> Any? {
         
         var sanitizedPath = path
-        _ = sanitizedPath.removeFirst()
-        let keys = sanitizedPath.split(separator: ".").map(String.init)
         
+        if sanitizedPath.starts(with: "$") {
+            _ = sanitizedPath.removeFirst()
+        }
+        
+        if sanitizedPath.starts(with: ".") {
+            _ = sanitizedPath.removeFirst()
+        }
+        
+        let keys = sanitizedPath.split(separator: ".", omittingEmptySubsequences: false).map(String.init)
         var currentValue: Any? = self
+        
+        if (keys.contains { $0.count == 0 }) {
+            return nil
+        }
         
         for key in keys {
 
