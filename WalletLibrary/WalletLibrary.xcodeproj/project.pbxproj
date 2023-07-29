@@ -395,6 +395,9 @@
 		55A0DA182A74466700BC178E /* PresentationExchangePattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA172A74466700BC178E /* PresentationExchangePattern.swift */; };
 		55A0DA1A2A7446B000BC178E /* PresentationExchangeFieldConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA192A7446B000BC178E /* PresentationExchangeFieldConstraint.swift */; };
 		55A0DA1C2A745E4200BC178E /* Dictionary+ValueExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA1B2A745E4100BC178E /* Dictionary+ValueExtraction.swift */; };
+		55A0DA482A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA472A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift */; };
+		55A0DA4A2A74862A00BC178E /* PresentationExchangePatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA492A74862A00BC178E /* PresentationExchangePatternTests.swift */; };
+		55A0DA4C2A74868100BC178E /* DictionaryExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA4B2A74868100BC178E /* DictionaryExtensionTests.swift */; };
 		55A4BB172A27A436006836AB /* VerifiedIdError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB162A27A436006836AB /* VerifiedIdError.swift */; };
 		55A4BB332A29383A006836AB /* VerifiedIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB322A29383A006836AB /* VerifiedIdResult.swift */; };
 		55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */; };
@@ -877,6 +880,9 @@
 		55A0DA172A74466700BC178E /* PresentationExchangePattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangePattern.swift; sourceTree = "<group>"; };
 		55A0DA192A7446B000BC178E /* PresentationExchangeFieldConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeFieldConstraint.swift; sourceTree = "<group>"; };
 		55A0DA1B2A745E4100BC178E /* Dictionary+ValueExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+ValueExtraction.swift"; sourceTree = "<group>"; };
+		55A0DA472A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeFieldConstraintTests.swift; sourceTree = "<group>"; };
+		55A0DA492A74862A00BC178E /* PresentationExchangePatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangePatternTests.swift; sourceTree = "<group>"; };
+		55A0DA4B2A74868100BC178E /* DictionaryExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionTests.swift; sourceTree = "<group>"; };
 		55A4BB162A27A436006836AB /* VerifiedIdError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdError.swift; sourceTree = "<group>"; };
 		55A4BB322A29383A006836AB /* VerifiedIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdResult.swift; sourceTree = "<group>"; };
 		55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdErrors.swift; sourceTree = "<group>"; };
@@ -2269,6 +2275,15 @@
 			path = PresentationExchange;
 			sourceTree = "<group>";
 		};
+		55A0DA462A74846D00BC178E /* PresentationExchange */ = {
+			isa = PBXGroup;
+			children = (
+				55A0DA472A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift */,
+				55A0DA492A74862A00BC178E /* PresentationExchangePatternTests.swift */,
+			);
+			path = PresentationExchange;
+			sourceTree = "<group>";
+		};
 		55A4BB3D2A2A5560006836AB /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -2372,6 +2387,7 @@
 		55DECC3129BFDB4E00D5C802 /* Constraints */ = {
 			isa = PBXGroup;
 			children = (
+				55A0DA462A74846D00BC178E /* PresentationExchange */,
 				55DECC3229BFDB6200D5C802 /* GroupConstraintTests.swift */,
 				55DECC3429BFDB7600D5C802 /* VCTypeConstraintTests.swift */,
 			);
@@ -2522,6 +2538,7 @@
 			children = (
 				5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */,
 				5524A60D29D635A700C5F18D /* WalletLibraryLoggerTests.swift */,
+				55A0DA4B2A74868100BC178E /* DictionaryExtensionTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3070,6 +3087,7 @@
 				5552D86C29F2E43A00B40302 /* DIDDocumentDecoderTests.swift in Sources */,
 				5524A5B629D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift in Sources */,
 				5552D85829F2E43900B40302 /* MockObject.swift in Sources */,
+				55A0DA482A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift in Sources */,
 				55BA2DDB29CDFA6100BB8207 /* VerifiedIdEncoderTests.swift in Sources */,
 				55A81C0D2991BF86002C259A /* MockInput.swift in Sources */,
 				5552D89929F2E58000B40302 /* IssuanceServiceTests.swift in Sources */,
@@ -3089,6 +3107,7 @@
 				559BD4F8299EED5700BD61AC /* MockRawManifest.swift in Sources */,
 				5552D89029F2E58000B40302 /* MockVCSDKConfiguration.swift in Sources */,
 				5552D7CA29F2E0AA00B40302 /* PublicKeyMock.swift in Sources */,
+				55A0DA4A2A74862A00BC178E /* PresentationExchangePatternTests.swift in Sources */,
 				550A919829940DCE0014D030 /* MockOpenIdforVCResolver.swift in Sources */,
 				5552D7D029F2E0AA00B40302 /* ES256kTests.swift in Sources */,
 				5552D7EA29F2E1AF00B40302 /* MockCryptoOperations.swift in Sources */,
@@ -3151,6 +3170,7 @@
 				5534E688294A5F16005D0765 /* IdTokenDescriptor+MappableTests.swift in Sources */,
 				5552D7EF29F2E1AF00B40302 /* JwsTokenTests.swift in Sources */,
 				5552D86129F2E43900B40302 /* FetchWellKnownConfigDocumentOperationTests.swift in Sources */,
+				55A0DA4C2A74868100BC178E /* DictionaryExtensionTests.swift in Sources */,
 				5552D82729F2E25900B40302 /* IssuanceServiceResponseTests.swift in Sources */,
 				5552D85C29F2E43900B40302 /* NoRetryTests.swift in Sources */,
 				5552D89C29F2E58000B40302 /* LinkedDomainServiceTests.swift in Sources */,
