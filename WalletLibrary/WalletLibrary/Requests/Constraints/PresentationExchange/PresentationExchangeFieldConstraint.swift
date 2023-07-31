@@ -10,7 +10,9 @@ enum PresentationExchangeFieldConstraintError: String, Error
     case VerifiedIdDoesNotMatchConstraints = "Verified Id does not match constraints."
 }
 
-/// Presentation Exchange Pattern used to match an input string with pattern.
+/**
+ * A Verifiable Credential specific constraint for the Presentation Exchange Field specifications.
+ */
 struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
     
     private let field: PresentationExchangeField
@@ -20,10 +22,9 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
     init(field: PresentationExchangeField) throws {
         
         guard let paths = field.path,
-              !paths.isEmpty else
-        {
-            let innerError = PresentationExchangeFieldConstraintError.NoPathsFoundOnPresentationExchangeField
-            throw VerifiedIdErrors.MalformedInput(error: innerError).error
+              !paths.isEmpty else {
+
+            throw PresentationExchangeFieldConstraintError.NoPathsFoundOnPresentationExchangeField
         }
         
         self.field = field
@@ -43,33 +44,29 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
         
         guard let verifiableCredential = verifiedId as? VCVerifiedId,
               let encodedContent = try? JSONEncoder().encode(verifiableCredential.raw.content),
-              let vc = try JSONSerialization.jsonObject(with: encodedContent) as? [String: Any] else
-        {
-            let innerError = PresentationExchangeFieldConstraintError.UnableToCastVerifiedIdToVerifiableCredential
-            throw VerifiedIdErrors.MalformedInput(error: innerError).error
+              let vc = try JSONSerialization.jsonObject(with: encodedContent) as? [String: Any] else {
+
+            throw PresentationExchangeFieldConstraintError.UnableToCastVerifiedIdToVerifiableCredential
         }
             
-        for path in paths
-        {
+        for path in paths {
+            
             let value = vc.getValue(with: path)
-            if let expectedValue = value as? String
-            {
-                if doesFilterMatch(expectedValue: expectedValue)
-                {
+            if let expectedValue = value as? String {
+                
+                if doesFilterMatch(expectedValue: expectedValue) {
                     return
                 }
             }
         }
         
-        let innerError = PresentationExchangeFieldConstraintError.VerifiedIdDoesNotMatchConstraints
-        throw VerifiedIdErrors.MalformedInput(error: innerError).error
+        throw PresentationExchangeFieldConstraintError.VerifiedIdDoesNotMatchConstraints
     }
     
     private func doesFilterMatch(expectedValue: String) -> Bool
     {
         guard let patternStr = field.filter?.pattern?.pattern,
-              let pattern = PresentationExchangePattern(from: patternStr) else
-        {
+              let pattern = PresentationExchangePattern(from: patternStr) else {
             return false
         }
         

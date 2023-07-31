@@ -19,9 +19,9 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try PresentationExchangeFieldConstraint(field: field)) { error in
             // Assert
-            XCTAssert(error is VerifiedIdError)
-            XCTAssertEqual((error as! MalformedInputError).error as? PresentationExchangeFieldConstraintError,
-                           PresentationExchangeFieldConstraintError.NoPathsFoundOnPresentationExchangeField)
+            XCTAssert(error is PresentationExchangeFieldConstraintError)
+            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError,
+                           .NoPathsFoundOnPresentationExchangeField)
         }
     }
     
@@ -34,9 +34,9 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try PresentationExchangeFieldConstraint(field: field)) { error in
             // Assert
-            XCTAssert(error is VerifiedIdError)
-            XCTAssertEqual((error as! MalformedInputError).error as? PresentationExchangeFieldConstraintError,
-                           PresentationExchangeFieldConstraintError.NoPathsFoundOnPresentationExchangeField)
+            XCTAssert(error is PresentationExchangeFieldConstraintError)
+            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError,
+                           .NoPathsFoundOnPresentationExchangeField)
         }
     }
     
@@ -49,9 +49,9 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try field.map(using: Mapper())) { error in
             // Assert
-            XCTAssert(error is VerifiedIdError)
-            XCTAssertEqual((error as! MalformedInputError).error as? PresentationExchangeFieldConstraintError,
-                           PresentationExchangeFieldConstraintError.NoPathsFoundOnPresentationExchangeField)
+            XCTAssert(error is PresentationExchangeFieldConstraintError)
+            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError,
+                           .NoPathsFoundOnPresentationExchangeField)
         }
     }
     
@@ -79,9 +79,9 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try constraint.matches(verifiedId: invalidTypeVerifiedId)) { error in
             // Assert
-            XCTAssert(error is VerifiedIdError)
-            XCTAssertEqual((error as! MalformedInputError).error as? PresentationExchangeFieldConstraintError,
-                           PresentationExchangeFieldConstraintError.UnableToCastVerifiedIdToVerifiableCredential)
+            XCTAssert(error is PresentationExchangeFieldConstraintError)
+            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError,
+                           .UnableToCastVerifiedIdToVerifiableCredential)
         }
     }
     
@@ -97,9 +97,9 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
         // Act
         XCTAssertThrowsError(try constraint.matches(verifiedId: verifiableCredential)) { error in
             // Assert
-            XCTAssert(error is VerifiedIdError)
-            XCTAssertEqual((error as! MalformedInputError).error as? PresentationExchangeFieldConstraintError,
-                           PresentationExchangeFieldConstraintError.VerifiedIdDoesNotMatchConstraints)
+            XCTAssert(error is PresentationExchangeFieldConstraintError)
+            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError,
+                           .VerifiedIdDoesNotMatchConstraints)
         }
     }
     

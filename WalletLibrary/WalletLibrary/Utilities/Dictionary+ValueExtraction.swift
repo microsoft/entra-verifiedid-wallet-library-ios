@@ -3,7 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-
+/**
+ * A Dictionary helper method to get the value defined on a specific path.
+ */
 extension Dictionary where Key == String, Value == Any {
     
     func getValue(with path: String) -> Any? {
@@ -47,4 +49,3 @@ extension Dictionary where Key == String, Value == Any {
         return currentValue
     }
 }
-
