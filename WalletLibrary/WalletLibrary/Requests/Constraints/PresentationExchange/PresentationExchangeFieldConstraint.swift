@@ -19,7 +19,8 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
     
     init(field: PresentationExchangeField) throws {
         
-        guard let paths = field.path else
+        guard let paths = field.path,
+              !paths.isEmpty else
         {
             let innerError = PresentationExchangeFieldConstraintError.NoPathsFoundOnPresentationExchangeField
             throw VerifiedIdErrors.MalformedInput(error: innerError).error

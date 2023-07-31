@@ -25,8 +25,8 @@ struct PresentationExchangeField: Codable, Equatable {
     }
     
     init(path: [String]? = nil,
-                purpose: String? = nil,
-                filter: PresentationExchangeFilter? = nil) {
+         purpose: String? = nil,
+         filter: PresentationExchangeFilter? = nil) {
         self.path = path
         self.purpose = purpose
         self.filter = filter
