@@ -29,11 +29,11 @@ struct PresentationInputDescriptor: Codable, Equatable {
     let constraints: PresentationExchangeConstraints?
     
     init(id: String?,
-                schema: [InputDescriptorSchema]?,
-                issuanceMetadata: [IssuanceMetadata]?,
-                name: String?,
-                purpose: String?,
-                constraints: PresentationExchangeConstraints?) {
+         schema: [InputDescriptorSchema]?,
+         issuanceMetadata: [IssuanceMetadata]?,
+         name: String?,
+         purpose: String?,
+         constraints: PresentationExchangeConstraints?) {
         self.id = id
         self.schema = schema
         self.issuanceMetadata = issuanceMetadata

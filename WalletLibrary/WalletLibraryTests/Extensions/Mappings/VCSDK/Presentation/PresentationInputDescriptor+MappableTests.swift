@@ -288,4 +288,103 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         XCTAssert(actualResult.constraint is VCTypeConstraint)
         XCTAssertEqual((actualResult.constraint as? VCTypeConstraint)?.type, "mockType")
     }
+    
+    func testMap_WithInvalidPresentationExchangeFieldConstraint_ThrowsError() throws {
+        // Arrange
+        let mockMapper = MockMapper()
+        let mockSchema = InputDescriptorSchema(uri: "mockType")
+        let invalidField = PresentationExchangeField(path: [],
+                                                     purpose: nil,
+                                                     filter: nil)
+        let constraint = PresentationExchangeConstraints(fields: [invalidField])
+        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+                                                                      schema: [mockSchema],
+                                                                      issuanceMetadata: nil,
+                                                                      name: nil,
+                                                                      purpose: nil,
+                                                                      constraints: constraint)
+        
+        // Act
+        XCTAssertThrowsError(try mockMapper.map(presentationInputDescriptor)) { error in
+            // Assert
+            XCTAssert(error is PresentationExchangeFieldConstraintError)
+            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError, .NoPathsFoundOnPresentationExchangeField)
+        }
+    }
+    
+    func testMap_WitOnePresentationExchangeFieldConstraint_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+        let mockMapper = MockMapper()
+        let mockSchema = InputDescriptorSchema(uri: "mockType")
+        let field = PresentationExchangeField(path: ["mock path"],
+                                              purpose: nil,
+                                              filter: nil)
+        let constraint = PresentationExchangeConstraints(fields: [field])
+        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+                                                                      schema: [mockSchema],
+                                                                      issuanceMetadata: nil,
+                                                                      name: nil,
+                                                                      purpose: nil,
+                                                                      constraints: constraint)
+        
+        // Act
+        let actualResult = try mockMapper.map(presentationInputDescriptor)
+        
+        // Assert
+        XCTAssertFalse(actualResult.encrypted)
+        XCTAssertTrue(actualResult.required)
+        XCTAssertEqual(actualResult.types, ["mockType"])
+        XCTAssertEqual(actualResult.issuanceOptions as? [VerifiedIdRequestURL], [])
+        XCTAssertNil(actualResult.purpose)
+        XCTAssert(actualResult.constraint is GroupConstraint)
+        let groupConstraint = actualResult.constraint as! GroupConstraint
+        XCTAssertEqual(groupConstraint.constraints.count, 2)
+        XCTAssert(groupConstraint.constraints.contains { ($0 as? VCTypeConstraint)?.type == "mockType"} )
+        XCTAssert(groupConstraint.constraints.contains { $0 is PresentationExchangeFieldConstraint } )
+    }
+    
+    func testMap_WitThreePresentationExchangeFieldConstraint_ReturnsVerifiedIdRequirement() throws {
+        // Arrange
+        let mockMapper = MockMapper()
+        let mockSchema = InputDescriptorSchema(uri: "mockType")
+        let field = PresentationExchangeField(path: ["mock path"],
+                                              purpose: nil,
+                                              filter: nil)
+        let field2 = PresentationExchangeField(path: ["mock path 2"],
+                                              purpose: nil,
+                                              filter: nil)
+        let field3 = PresentationExchangeField(path: ["mock path 3"],
+                                              purpose: nil,
+                                              filter: nil)
+        let constraint = PresentationExchangeConstraints(fields: [field, field2, field3])
+        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+                                                                      schema: [mockSchema],
+                                                                      issuanceMetadata: nil,
+                                                                      name: nil,
+                                                                      purpose: nil,
+                                                                      constraints: constraint)
+        
+        // Act
+        let actualResult = try mockMapper.map(presentationInputDescriptor)
+        
+        // Assert
+        XCTAssertFalse(actualResult.encrypted)
+        XCTAssertTrue(actualResult.required)
+        XCTAssertEqual(actualResult.types, ["mockType"])
+        XCTAssertEqual(actualResult.issuanceOptions as? [VerifiedIdRequestURL], [])
+        XCTAssertNil(actualResult.purpose)
+        XCTAssert(actualResult.constraint is GroupConstraint)
+        let groupConstraint = actualResult.constraint as! GroupConstraint
+        XCTAssertEqual(groupConstraint.constraints.count, 4)
+        XCTAssert(groupConstraint.constraints.contains { ($0 as? VCTypeConstraint)?.type == "mockType"} )
+        
+        var counter = 0
+        for constraint in groupConstraint.constraints {
+            if constraint is PresentationExchangeFieldConstraint {
+                counter = counter + 1
+            }
+        }
+
+        XCTAssertEqual(counter, 3)
+    }
 }
