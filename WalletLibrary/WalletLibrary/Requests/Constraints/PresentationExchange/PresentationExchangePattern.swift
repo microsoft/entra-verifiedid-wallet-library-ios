@@ -11,9 +11,19 @@ struct PresentationExchangePattern {
     private let regex: NSRegularExpression
     
     init?(from pattern: String) {
-
-        guard let sanitizedPattern = pattern.split(separator: "/").first,
-              let regex = try? NSRegularExpression(pattern: String(sanitizedPattern), options: [.caseInsensitive]) else {
+        
+        var sanitizedPattern = pattern
+        if pattern.starts(with: "/") {
+            _ = sanitizedPattern.removeFirst()
+        }
+        
+        if let lastIndex = sanitizedPattern.lastIndex(of: "/")
+        {
+            sanitizedPattern = String(sanitizedPattern.prefix(upTo: lastIndex))
+        }
+        
+        guard let regex = try? NSRegularExpression(pattern: sanitizedPattern,
+                                                   options: [.caseInsensitive]) else {
             return nil
         }
         

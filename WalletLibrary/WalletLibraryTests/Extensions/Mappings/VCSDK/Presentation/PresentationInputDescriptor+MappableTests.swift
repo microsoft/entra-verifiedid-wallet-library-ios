@@ -312,13 +312,36 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         }
     }
     
+    func testMap_WithInvalidPresentationExchangeFilterPatternConstraint_ThrowsError() throws {
+        // Arrange
+        let mockMapper = MockMapper()
+        let mockSchema = InputDescriptorSchema(uri: "mockType")
+        let invalidField = PresentationExchangeField(path: ["mock path"],
+                                                     purpose: nil,
+                                                     filter: nil)
+        let constraint = PresentationExchangeConstraints(fields: [invalidField])
+        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
+                                                                      schema: [mockSchema],
+                                                                      issuanceMetadata: nil,
+                                                                      name: nil,
+                                                                      purpose: nil,
+                                                                      constraints: constraint)
+        
+        // Act
+        XCTAssertThrowsError(try mockMapper.map(presentationInputDescriptor)) { error in
+            // Assert
+            XCTAssert(error is PresentationExchangeFieldConstraintError)
+            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError, .InvalidPatternOnThePresentationExchangeField)
+        }
+    }
+    
     func testMap_WitOnePresentationExchangeFieldConstraint_ReturnsVerifiedIdRequirement() throws {
         // Arrange
         let mockMapper = MockMapper()
         let mockSchema = InputDescriptorSchema(uri: "mockType")
         let field = PresentationExchangeField(path: ["mock path"],
                                               purpose: nil,
-                                              filter: nil)
+                                              filter: PresentationExchangeFilter(pattern: try NSRegularExpression(pattern: "test")))
         let constraint = PresentationExchangeConstraints(fields: [field])
         let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
                                                                       schema: [mockSchema],
@@ -347,15 +370,16 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         // Arrange
         let mockMapper = MockMapper()
         let mockSchema = InputDescriptorSchema(uri: "mockType")
+        let mockFilter = PresentationExchangeFilter(pattern: try NSRegularExpression(pattern: "test"))
         let field = PresentationExchangeField(path: ["mock path"],
                                               purpose: nil,
-                                              filter: nil)
+                                              filter: mockFilter)
         let field2 = PresentationExchangeField(path: ["mock path 2"],
                                               purpose: nil,
-                                              filter: nil)
+                                              filter: mockFilter)
         let field3 = PresentationExchangeField(path: ["mock path 3"],
                                               purpose: nil,
-                                              filter: nil)
+                                              filter: mockFilter)
         let constraint = PresentationExchangeConstraints(fields: [field, field2, field3])
         let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
                                                                       schema: [mockSchema],

@@ -3,11 +3,25 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum PresentationExchangeFieldConstraintError: String, Error
+enum PresentationExchangeFieldConstraintError: Error, CustomStringConvertible
 {
-    case NoPathsFoundOnPresentationExchangeField = "No paths found on presentation exchange field."
-    case UnableToCastVerifiedIdToVerifiableCredential = "Unable to case Verified Id to Verifiable Credential."
-    case VerifiedIdDoesNotMatchConstraints = "Verified Id does not match constraints."
+    case NoPathsFoundOnPresentationExchangeField
+    case UnableToCastVerifiedIdToVerifiableCredential
+    case VerifiedIdDoesNotMatchConstraints
+    case InvalidPatternOnThePresentationExchangeField
+    
+    var description: String {
+        switch self {
+        case .NoPathsFoundOnPresentationExchangeField:
+            return "No paths found on presentation exchange field."
+        case .UnableToCastVerifiedIdToVerifiableCredential:
+            return "Unable to case Verified Id to Verifiable Credential."
+        case .VerifiedIdDoesNotMatchConstraints:
+            return "Verified Id does not match constraints."
+        case .InvalidPatternOnThePresentationExchangeField:
+            return "Invalid Pattern on the presentation exchange field."
+        }
+    }
 }
 
 /**
@@ -19,16 +33,23 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
     
     private let paths: [String]
     
+    private let pattern: PresentationExchangePattern
+    
     init(field: PresentationExchangeField) throws {
         
         guard let paths = field.path,
               !paths.isEmpty else {
-
             throw PresentationExchangeFieldConstraintError.NoPathsFoundOnPresentationExchangeField
+        }
+        
+        guard let patternStr = field.filter?.pattern?.pattern,
+              let pattern = PresentationExchangePattern(from: patternStr) else {
+            throw PresentationExchangeFieldConstraintError.InvalidPatternOnThePresentationExchangeField
         }
         
         self.field = field
         self.paths = paths
+        self.pattern = pattern
     }
     
     func doesMatch(verifiedId: VerifiedId) -> Bool {
@@ -54,22 +75,12 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
             let value = vc.getValue(with: path)
             if let expectedValue = value as? String {
                 
-                if doesFilterMatch(expectedValue: expectedValue) {
+                if pattern.matches(in: expectedValue) {
                     return
                 }
             }
         }
         
         throw PresentationExchangeFieldConstraintError.VerifiedIdDoesNotMatchConstraints
-    }
-    
-    private func doesFilterMatch(expectedValue: String) -> Bool
-    {
-        guard let patternStr = field.filter?.pattern?.pattern,
-              let pattern = PresentationExchangePattern(from: patternStr) else {
-            return false
-        }
-        
-        return pattern.matches(in: expectedValue)
     }
 }

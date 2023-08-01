@@ -27,7 +27,23 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
     
     func testInit_WithEmptyPathsOnField_ThrowsError() throws {
         // Arrange
+        let mockFilter = PresentationExchangeFilter(pattern: try NSRegularExpression(pattern: "test"))
         let field = PresentationExchangeField(path: [],
+                                              purpose: nil,
+                                              filter: mockFilter)
+
+        // Act
+        XCTAssertThrowsError(try PresentationExchangeFieldConstraint(field: field)) { error in
+            // Assert
+            XCTAssert(error is PresentationExchangeFieldConstraintError)
+            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError,
+                           .NoPathsFoundOnPresentationExchangeField)
+        }
+    }
+    
+    func testInit_WithInvalidPatternOnFilter_ThrowsError() throws {
+        // Arrange
+        let field = PresentationExchangeField(path: ["mock path"],
                                               purpose: nil,
                                               filter: nil)
 
@@ -36,7 +52,7 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
             // Assert
             XCTAssert(error is PresentationExchangeFieldConstraintError)
             XCTAssertEqual(error as? PresentationExchangeFieldConstraintError,
-                           .NoPathsFoundOnPresentationExchangeField)
+                           .InvalidPatternOnThePresentationExchangeField)
         }
     }
     
@@ -58,9 +74,11 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
     func testInit_WithPathsOnField_DoesNotThrow() throws {
         // Arrange
         let mockPath = "mock path"
+        let mockFilter = PresentationExchangeFilter(pattern: try NSRegularExpression(pattern: "test"))
+        
         let field = PresentationExchangeField(path: [mockPath],
                                               purpose: nil,
-                                              filter: nil)
+                                              filter: mockFilter)
 
         // Act
         XCTAssertNoThrow(try PresentationExchangeFieldConstraint(field: field))
@@ -71,9 +89,10 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
         let mockPath = "mock path"
         let invalidTypeVerifiedId = MockVerifiedId(id: "id",
                                                    issuedOn: Date())
+        let mockFilter = PresentationExchangeFilter(pattern: try NSRegularExpression(pattern: "test"))
         let field = PresentationExchangeField(path: [mockPath],
                                               purpose: nil,
-                                              filter: nil)
+                                              filter: mockFilter)
         let constraint = try PresentationExchangeFieldConstraint(field: field)
 
         // Act
@@ -88,10 +107,11 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
     func testMatches_WithNoMatches_ThrowsError() throws {
         // Arrange
         let mockPath = "mock path"
+        let mockFilter = PresentationExchangeFilter(pattern: try NSRegularExpression(pattern: "test"))
         let verifiableCredential = mockVerifiableCredentialHelper.createMockVerifiableCredential(claims: ["key": "mock value"])
         let field = PresentationExchangeField(path: [mockPath],
                                               purpose: nil,
-                                              filter: nil)
+                                              filter: mockFilter)
         let constraint = try PresentationExchangeFieldConstraint(field: field)
 
         // Act
@@ -135,10 +155,11 @@ class PresentationExchangeFieldConstraintTests: XCTestCase {
     func testDoesMatch_WithNoMatches_ReturnsFalse() throws {
         // Arrange
         let mockPath = "mock path"
+        let mockFilter = PresentationExchangeFilter(pattern: try NSRegularExpression(pattern: "test"))
         let verifiableCredential = mockVerifiableCredentialHelper.createMockVerifiableCredential(claims: ["key": "mock value"])
         let field = PresentationExchangeField(path: [mockPath],
                                               purpose: nil,
-                                              filter: nil)
+                                              filter: mockFilter)
         let constraint = try PresentationExchangeFieldConstraint(field: field)
 
         // Act / Assert
