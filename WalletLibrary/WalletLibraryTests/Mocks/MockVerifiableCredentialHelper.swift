@@ -7,21 +7,27 @@
 
 struct MockVerifiableCredentialHelper {
     
-    func createMockVerifiableCredential(expectedTypes: [String] = []) -> VCVerifiedId {
-        let raw = createVCEntitiesVC(expectedTypes: expectedTypes)
+    func createMockVerifiableCredential(expectedTypes: [String] = [],
+                                        claims: [String:String] = [:],
+                                        issuer: String = "") -> VCVerifiedId {
+        let raw = createVCEntitiesVC(expectedTypes: expectedTypes,
+                                     claims: claims,
+                                     issuer: issuer)
         let contract = createMockContract()
         return try! VCVerifiedId(raw: raw, from: contract)
     }
     
-    func createVCEntitiesVC(expectedTypes: [String]) -> VerifiableCredential {
+    func createVCEntitiesVC(expectedTypes: [String],
+                            claims: [String:String],
+                            issuer: String) -> VerifiableCredential {
         let claims = VCClaims(jti: "",
-                              iss: "",
+                              iss: issuer,
                               sub: "",
                               iat: 0,
                               exp: 0,
                               vc: VerifiableCredentialDescriptor(context: [],
                                                                  type: expectedTypes,
-                                                                 credentialSubject: [:]))
+                                                                 credentialSubject: claims))
         return VerifiableCredential(headers: Header(), content: claims)!
     }
 
