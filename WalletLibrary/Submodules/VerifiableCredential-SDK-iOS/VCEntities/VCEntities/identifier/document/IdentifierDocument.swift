@@ -10,9 +10,9 @@ struct IdentifierDocument: Codable, Equatable {
     let authentication: [String]
     
     init(service: [IdentifierDocumentServiceEndpointDescriptor]?,
-                verificationMethod: [IdentifierDocumentPublicKey]?,
-                authentication: [String],
-                id: String) {
+         verificationMethod: [IdentifierDocumentPublicKey]?,
+         authentication: [String],
+         id: String) {
         self.service = service
         self.verificationMethod = verificationMethod
         self.authentication = authentication
