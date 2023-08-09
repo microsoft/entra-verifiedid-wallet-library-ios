@@ -31,7 +31,7 @@ extension PresentationDescriptor: Mappable {
                                      types: [credentialType],
                                      purpose: nil,
                                      issuanceOptions: issuanceOptions ?? [],
-                                     id: nil,
+                                     id: credentialType,
                                      constraint: constraint)
     }
 }
