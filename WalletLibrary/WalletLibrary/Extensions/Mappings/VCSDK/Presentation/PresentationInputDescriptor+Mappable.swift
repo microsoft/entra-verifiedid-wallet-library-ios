@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
  * Errors thrown in Presentation Input Descriptor Mappable extension.
  */
@@ -37,8 +33,19 @@ extension PresentationInputDescriptor: Mappable {
             return nil
         }
         
-        /// TODO: support presentation exchange constraints.
-        let constraint = getTypeConstraint(from: types)
+        var constraints: [VerifiedIdConstraint] = []
+        if let fields = self.constraints?.fields {
+            for field in fields {
+                constraints.append(try mapper.map(field))
+            }
+        }
+        
+        var verifiedIdConstraint = getTypeConstraint(from: types)
+        if !constraints.isEmpty {
+            constraints.append(verifiedIdConstraint)
+            verifiedIdConstraint = GroupConstraint(constraints: constraints,
+                                                   constraintOperator: .ALL)
+        }
         
         return VerifiedIdRequirement(encrypted: false,
                                      required: true,
@@ -46,7 +53,7 @@ extension PresentationInputDescriptor: Mappable {
                                      purpose: purpose,
                                      issuanceOptions: issuanceOptions ?? [],
                                      id: id,
-                                     constraint: constraint)
+                                     constraint: verifiedIdConstraint)
     }
     
     private func getTypeConstraint(from requestedTypes: [String]) -> VerifiedIdConstraint {
@@ -62,5 +69,12 @@ extension PresentationInputDescriptor: Mappable {
         
         /// TODO: Is this an ANY or ALL operation?
         return GroupConstraint(constraints: typeConstraints, constraintOperator: .ANY)
+    }
+}
+
+extension PresentationExchangeField: Mappable {
+    
+    func map(using mapper: Mapping) throws -> VerifiedIdConstraint {
+        return try PresentationExchangeFieldConstraint(field: self)
     }
 }
