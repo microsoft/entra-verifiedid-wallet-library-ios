@@ -20,6 +20,8 @@ public class VerifiedIdClientBuilder {
     
     private var identifierManager: IdentifierManager?
     
+    private var rootOfTrustResolver: RootOfTrustResolver?
+    
     public init() {
         logger = WalletLibraryLogger()
     }
@@ -58,6 +60,11 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    public func with(rootOfTrustResolver: RootOfTrustResolver) -> VerifiedIdClientBuilder {
+        self.rootOfTrustResolver = rootOfTrustResolver
+        return self
+    }
+    
     /// Optional method to add a custom Correlation Header to the VerifiedIdClient.
     public func with(verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader) -> VerifiedIdClientBuilder {
         self.correlationHeader = verifiedIdCorrelationHeader
@@ -71,7 +78,8 @@ public class VerifiedIdClientBuilder {
     }
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
-        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(identifierService: identifierManager),
+        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(identifierService: identifierManager,
+                                                                                             rootOfTrustResolver: rootOfTrustResolver),
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
@@ -80,9 +88,11 @@ public class VerifiedIdClientBuilder {
         // TODO: inject networking client into Services.
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
                                               identifierManager: identifierManager,
+                                              rootOfTrustResolver: rootOfTrustResolver,
                                               urlSession: URLSession.shared)
         let presentationService = PresentationService(correlationVector: correlationHeader,
                                                       identifierService: identifierManager,
+                                                      rootOfTrustResolver: rootOfTrustResolver,
                                                       urlSession: URLSession.shared)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
                                                  openIdResponder: presentationService,
