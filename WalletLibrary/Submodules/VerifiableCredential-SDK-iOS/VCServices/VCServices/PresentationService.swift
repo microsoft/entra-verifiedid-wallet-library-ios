@@ -28,6 +28,7 @@ class PresentationService {
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                      identifierService: IdentifierManager?,
+                     rootOfTrustResolver: RootOfTrustResolver?,
                      urlSession: URLSession = URLSession.shared) {
         self.init(formatter: PresentationResponseFormatter(),
                   presentationApiCalls: PresentationNetworkCalls(correlationVector: correlationVector,
@@ -36,6 +37,7 @@ class PresentationService {
                                                                         urlSession: urlSession),
                   requestValidator: PresentationRequestValidator(),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
+                                                           rootOfTrustResolver: rootOfTrustResolver,
                                                            urlSession: urlSession),
                   identifierService: identifierService ?? IdentifierService(),
                   sdkLog: VCSDKLog.sharedInstance)
