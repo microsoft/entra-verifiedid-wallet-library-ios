@@ -92,9 +92,12 @@ struct VCVerifiedId: VerifiedId {
         for (claim, value) in vcClaims {
             if let claimStyle = claimLabels["vc.credentialSubject.\(claim)"] {
                 verifiedIdClaims.append(VerifiedIdClaim(id: claimStyle.label,
+                                                        type: claimStyle.type,
                                                         value: value))
             } else {
+                /// Default to String.
                 verifiedIdClaims.append(VerifiedIdClaim(id: claim,
+                                                        type: nil,
                                                         value: value))
             }
         }
