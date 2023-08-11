@@ -124,11 +124,11 @@ class UnspecifiedVerifiedIdError: VerifiedIdError {
 }
 
 /// Thrown when there is a Networking Error within the library.
-class VerifiedIdNetworkingError: VerifiedIdError {
+public class VerifiedIdNetworkingError: VerifiedIdError {
     
-    let statusCode: Int?
-    let innerError: Error?
-    let retryable: Bool
+    public let statusCode: Int?
+    public let innerError: Error?
+    public let retryable: Bool
     
     fileprivate init(message: String,
                      code: String,
