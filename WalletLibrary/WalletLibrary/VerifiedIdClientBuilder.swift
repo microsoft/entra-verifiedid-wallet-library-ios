@@ -22,6 +22,8 @@ public class VerifiedIdClientBuilder {
     
     private var rootOfTrustResolver: RootOfTrustResolver?
     
+    private var urlSession: URLSession?
+    
     public init() {
         logger = WalletLibraryLogger()
     }
@@ -47,6 +49,11 @@ public class VerifiedIdClientBuilder {
         return VerifiedIdClient(requestResolverFactory: requestResolverFactory,
                                 requestHandlerFactory: requestHandlerFactory,
                                 configuration: configuration)
+    }
+    
+    public func with(urlSession: URLSession) -> VerifiedIdClientBuilder {
+        self.urlSession = urlSession
+        return self
     }
 
     /// Optional method to add a custom log consumer to VerifiedIdClient.
@@ -89,11 +96,11 @@ public class VerifiedIdClientBuilder {
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
                                               identifierManager: identifierManager,
                                               rootOfTrustResolver: rootOfTrustResolver,
-                                              urlSession: URLSession.shared)
+                                              urlSession: urlSession ?? URLSession.shared)
         let presentationService = PresentationService(correlationVector: correlationHeader,
                                                       identifierService: identifierManager,
                                                       rootOfTrustResolver: rootOfTrustResolver,
-                                                      urlSession: URLSession.shared)
+                                                      urlSession: urlSession ?? URLSession.shared)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,
