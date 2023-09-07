@@ -3,11 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCToken)
-    import VCToken
-#endif
-
-struct IssuanceResponseContainer: ResponseContaining {
+struct IssuanceResponseContainer {
     let contract: Contract
     let contractUri: String
     let expiryInSeconds: Int
@@ -18,7 +14,7 @@ struct IssuanceResponseContainer: ResponseContaining {
     var requestedIdTokenMap: RequestedIdTokenMap = [:]
     var requestedAccessTokenMap: RequestedAccessTokenMap = [:]
     var requestedSelfAttestedClaimMap: RequestedSelfAttestedClaimMap = [:]
-    var requestVCMap: RequestedVerifiableCredentialMap = []
+    var requestVCMap: [RequestedVerifiableCredentialMapping] = []
     
     init(from contract: Contract,
          contractUri: String,

@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 enum PresentationResponseContainerError: Error, Equatable {
     case unableToCastVCSDKPresentationRequestFromRawRequestOfType(String)
     case unsupportedRequirementOfType(String)
@@ -58,9 +54,7 @@ extension PresentationResponseContainer: RawPresentationResponse {
         guard let verifiableCredential = verifiedIdRequirement.selectedVerifiedId as? VCVerifiedId else {
             throw PresentationResponseContainerError.unableToCastVerifableCredentialFromVerifiedId
         }
-        
-        let mapping = RequestedVerifiableCredentialMapping(id: requirementId,
-                                                           verifiableCredential: verifiableCredential.raw)
-        self.requestVCMap.append(mapping)
+
+        try self.addVerifiableCredential(id: requirementId, vc: verifiableCredential.raw)
     }
 }

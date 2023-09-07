@@ -3,15 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCToken)
-    import VCToken
-#endif
-
-protocol PresentationResponseFormatting {
-    func format(response: PresentationResponseContainer, usingIdentifier identifier: Identifier) throws -> PresentationResponse
-}
-
-class PresentationResponseFormatter: PresentationResponseFormatting {
+class PresentationResponseFormatter {
     
     private struct Constants {
         static let CredentialEncoding = "base64Url"
@@ -27,7 +19,7 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
     let headerFormatter = JwsHeaderFormatter()
     
     init(signer: TokenSigning = Secp256k1Signer(),
-                sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
+         sdkLog: VCSDKLog) {
         self.signer = signer
         self.vpFormatter = VerifiablePresentationFormatter(signer: signer)
         self.sdkLog = sdkLog
@@ -43,11 +35,16 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
             throw FormatterError.noStateInRequest
         }
         
-        let idToken = try createIdToken(from: response, usingIdentifier: identifier, andSignWith: signingKey)
-        let vpToken = try createVpToken(from: response, usingIdentifier: identifier, andSignWith: signingKey)
-
+        let vpTokens = try self.createVpTokens(from: response,
+                                               usingIdentifier: identifier,
+                                               andSignWith: signingKey)
+        
+        let idToken = try createIdToken(from: response,
+                                        usingIdentifier: identifier,
+                                        andSignWith: signingKey)
+        
         return PresentationResponse(idToken: idToken,
-                                    vpToken: vpToken,
+                                    vpTokens: vpTokens,
                                     state: state)
     }
     
@@ -67,24 +64,29 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
         return token
     }
     
-    private func createVpToken(from response: PresentationResponseContainer,
-                               usingIdentifier identifier: Identifier,
-                               andSignWith key: KeyContainer) throws -> VerifiablePresentation {
+    private func createVpTokens(from response: PresentationResponseContainer,
+                                usingIdentifier identifier: Identifier,
+                                andSignWith key: KeyContainer) throws -> [VerifiablePresentation] {
         
-        return try vpFormatter.format(toWrap: response.requestVCMap,
-                                      withAudience: response.audienceDid,
-                                      withNonce: response.nonce,
-                                      withExpiryInSeconds: response.expiryInSeconds,
-                                      usingIdentifier: identifier,
-                                      andSignWith: key)
+        return try response.requestVCMap.compactMap { presentationSubmissionId, mappings in
+            try vpFormatter.format(toWrap: mappings,
+                                   withAudience: response.audienceDid,
+                                   withNonce: response.nonce,
+                                   withExpiryInSeconds: response.expiryInSeconds,
+                                   usingIdentifier: identifier,
+                                   andSignWith: key)
+        }
     }
     
     private func formatClaims(from response: PresentationResponseContainer, usingIdentifier identifier: Identifier, andSignWith key: KeyContainer) throws -> PresentationResponseClaims {
         
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: response.expiryInSeconds)
         
-        let presentationSubmission = self.formatPresentationSubmission(from: response, keyType: VCEntitiesConstants.JWT)
-        let vpTokenDescription = VPTokenResponseDescription(presentationSubmission: presentationSubmission)
+        let presentationSubmissions = response.requestVCMap.compactMap { id, mappings in
+            self.formatPresentationSubmission(presentationDefinitionId: id, vcsRequested: mappings)
+        }
+        
+        let vpTokenDescription = VPTokenResponseDescription(presentationSubmission: presentationSubmissions)
         
         return PresentationResponseClaims(subject: identifier.longFormDid,
                                           audience: response.audienceDid,
@@ -94,23 +96,24 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
                                           exp: timeConstraints.expiration)
     }
     
-    private func formatPresentationSubmission(from response: PresentationResponseContainer, keyType: String) -> PresentationSubmission? {
+    private func formatPresentationSubmission(presentationDefinitionId: String,
+                                              vcsRequested: [RequestedVerifiableCredentialMapping]) -> PresentationSubmission? {
         
-        guard !response.requestVCMap.isEmpty else {
+        guard !vcsRequested.isEmpty else {
             return nil
         }
         
-        let inputDescriptorMap = response.requestVCMap.enumerated().map { (index, vcMapping) in
+        let inputDescriptorMap = vcsRequested.enumerated().map { (index, vcMapping) in
             createInputDescriptorMapping(id: vcMapping.inputDescriptorId, index: index)
         }
         
         sdkLog.logVerbose(message: """
-            Creating Presentation Response with:
-            verifiable credentials: \(response.requestVCMap.count)
+            Creating Presentation Submission with:
+            verifiable credentials: \(inputDescriptorMap.count)
             """)
         
         let submission = PresentationSubmission(id: UUID().uuidString,
-                                                definitionId: response.presentationDefinitionId,
+                                                definitionId: presentationDefinitionId,
                                                 inputDescriptorMap: inputDescriptorMap)
         
         return submission
