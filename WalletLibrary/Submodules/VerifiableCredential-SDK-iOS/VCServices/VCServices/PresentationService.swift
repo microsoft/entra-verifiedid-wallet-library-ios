@@ -18,7 +18,7 @@ enum PresentationServiceError: Error {
 
 class PresentationService {
     
-    let formatter: PresentationResponseFormatter
+    let formatter: PresentationResponseFormatting
     let presentationApiCalls: PresentationNetworking
     private let didDocumentDiscoveryApiCalls: DiscoveryNetworking
     private let requestValidator: RequestValidating
@@ -40,7 +40,7 @@ class PresentationService {
                   sdkLog: VCSDKLog.sharedInstance)
     }
     
-    init(formatter: PresentationResponseFormatter,
+    init(formatter: PresentationResponseFormatting,
          presentationApiCalls: PresentationNetworking,
          didDocumentDiscoveryApiCalls: DiscoveryNetworking,
          requestValidator: RequestValidating,

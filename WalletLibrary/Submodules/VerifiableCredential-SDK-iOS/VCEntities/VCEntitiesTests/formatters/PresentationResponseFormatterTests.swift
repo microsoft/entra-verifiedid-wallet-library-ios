@@ -17,7 +17,7 @@ class PresentationResponseFormatterTests: XCTestCase {
     
     override func setUpWithError() throws {
         let signer = MockTokenSigner(x: "x", y: "y")
-        self.formatter = PresentationResponseFormatter(signer: signer)
+        self.formatter = PresentationResponseFormatter(signer: signer, sdkLog: VCSDKLog.sharedInstance)
         
         let encodedRequest = TestData.presentationRequest.rawValue.data(using: .utf8)!
         self.request = PresentationRequest(from: JwsToken(from: encodedRequest)!, linkedDomainResult: .linkedDomainVerified(domainUrl: "test.com"))
@@ -33,8 +33,8 @@ class PresentationResponseFormatterTests: XCTestCase {
     
     func testFormatToken() throws {
         let vc = VerifiableCredential(from: TestData.verifiableCredential.rawValue)!
-        self.mockResponse.requestVCMap.append(RequestedVerifiableCredentialMapping(id: expectedCredentialType,
-                                                                                   verifiableCredential: vc))
+        self.mockResponse.requestVCMap["1"] = [RequestedVerifiableCredentialMapping(id: expectedCredentialType,
+                                                                                   verifiableCredential: vc)]
         
         let formattedResponse = try formatter.format(response: self.mockResponse, usingIdentifier: self.mockIdentifier)
         

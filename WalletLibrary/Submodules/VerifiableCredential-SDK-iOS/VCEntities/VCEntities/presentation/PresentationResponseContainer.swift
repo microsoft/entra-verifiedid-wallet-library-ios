@@ -7,6 +7,9 @@ enum PresentationResponseError: Error {
     case noAudienceInRequest
     case noAudienceDidInRequest
     case noNonceInRequest
+    case noVerifiablePresentationRequestsInRequest
+    case noPresentationDefinitionInVerifiablePresentationRequest
+    case noInputDescriptorMatchesGivenId
 }
 
 struct PresentationResponseContainer: ResponseContaining {
@@ -67,9 +70,10 @@ struct PresentationResponseContainer: ResponseContaining {
     
     mutating func addVerifiableCredential(id: String, vc: VerifiableCredential) throws
     {
-        guard let vpTokenRequests = request?.content.claims?.vpToken else
+        guard let vpTokenRequests = request?.content.claims?.vpToken,
+              !vpTokenRequests.isEmpty else
         {
-            throw PresentationResponseError.noAudienceDidInRequest
+            throw PresentationResponseError.noVerifiablePresentationRequestsInRequest
         }
         
         for vpTokenRequest in vpTokenRequests {
@@ -77,7 +81,7 @@ struct PresentationResponseContainer: ResponseContaining {
             guard let presentationDefinition = vpTokenRequest.presentationDefinition,
                   let presentationDefinitionId = presentationDefinition.id else
             {
-                throw PresentationResponseError.noAudienceDidInRequest
+                throw PresentationResponseError.noPresentationDefinitionInVerifiablePresentationRequest
             }
             
             if let inputDescriptors = presentationDefinition.inputDescriptors,
@@ -89,7 +93,10 @@ struct PresentationResponseContainer: ResponseContaining {
                 mappings.append(mapping)
                 
                 requestVCMap.updateValue(mappings, forKey: presentationDefinitionId)
+                return
             }
         }
+        
+        throw PresentationResponseError.noInputDescriptorMatchesGivenId
     }
 }

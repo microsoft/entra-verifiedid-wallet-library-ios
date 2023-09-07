@@ -3,7 +3,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-class PresentationResponseFormatter {
+protocol PresentationResponseFormatting {
+    func format(response: PresentationResponseContainer, usingIdentifier identifier: Identifier) throws -> PresentationResponse
+}
+
+class PresentationResponseFormatter: PresentationResponseFormatting {
     
     private struct Constants {
         static let CredentialEncoding = "base64Url"
