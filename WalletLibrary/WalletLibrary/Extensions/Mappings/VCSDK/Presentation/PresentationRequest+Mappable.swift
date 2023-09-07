@@ -19,7 +19,7 @@ extension PresentationRequest: Mappable {
     
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
         
-        guard let presentationDefinition = content.claims?.vpToken?.presentationDefinition else {
+        guard let presentationDefinition = content.claims?.vpToken.first?.presentationDefinition else {
             throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
         }
         

@@ -3,10 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCToken)
-    import VCToken
-#endif
-
 class VerifiablePresentationFormatter {
     
     private struct Constants {
@@ -21,7 +17,7 @@ class VerifiablePresentationFormatter {
         self.signer = signer
     }
     
-    func format(toWrap vcs: RequestedVerifiableCredentialMap,
+    func format(toWrap vcs: [RequestedVerifiableCredentialMapping],
                 withAudience audience: String,
                 withNonce nonce: String,
                 withExpiryInSeconds exp: Int,
@@ -49,7 +45,7 @@ class VerifiablePresentationFormatter {
         return token
     }
     
-    private func createVerifiablePresentationDescriptor(toWrap vcs: RequestedVerifiableCredentialMap) throws -> VerifiablePresentationDescriptor {
+    private func createVerifiablePresentationDescriptor(toWrap vcs: [RequestedVerifiableCredentialMapping]) throws -> VerifiablePresentationDescriptor {
         
         return VerifiablePresentationDescriptor(context: [Constants.Context],
                                                 type: [Constants.VerifiablePresentation],

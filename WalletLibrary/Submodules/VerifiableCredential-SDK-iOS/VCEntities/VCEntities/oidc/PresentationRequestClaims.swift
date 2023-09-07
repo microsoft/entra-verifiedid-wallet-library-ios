@@ -51,20 +51,20 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
     }
     
     init(jti: String?,
-                clientID: String?,
-                redirectURI: String?,
-                responseMode: String?,
-                responseType: String?,
-                claims: RequestedClaims?,
-                state: String?,
-                nonce: String?,
-                scope: String?,
-                prompt: String?,
-                registration: RegistrationClaims?,
-                idTokenHint: String? = nil,
-                iat: Double?,
-                exp: Double?,
-                pin: PinDescriptor?) {
+         clientID: String?,
+         redirectURI: String?,
+         responseMode: String?,
+         responseType: String?,
+         claims: RequestedClaims?,
+         state: String?,
+         nonce: String?,
+         scope: String?,
+         prompt: String?,
+         registration: RegistrationClaims?,
+         idTokenHint: String? = nil,
+         iat: Double?,
+         exp: Double?,
+         pin: PinDescriptor?) {
         self.jti = jti
         self.clientID = clientID
         self.redirectURI = redirectURI
