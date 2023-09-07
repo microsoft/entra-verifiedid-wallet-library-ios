@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
  * An extension of the VCEntities.IdTokenDescriptor class to be able
  * to map IdTokenDescriptor to IdTokenRequirement.
@@ -20,14 +16,12 @@ extension IdTokenDescriptor: Mappable {
             throw MappingError.InvalidProperty(property:"configuration",
                                                in: String(describing: IdTokenDescriptor.self))
         }
-        
-        let redirectUri = try getRequiredProperty(property: redirectURI, propertyName: "redirectURI")
 
         return IdTokenRequirement(encrypted: encrypted ?? false,
                                   required: idTokenRequired ?? false,
                                   configuration: configuration,
                                   clientId: clientID,
-                                  redirectUri: redirectUri,
+                                  redirectUri: redirectURI,
                                   scope: scope)
     }
 }

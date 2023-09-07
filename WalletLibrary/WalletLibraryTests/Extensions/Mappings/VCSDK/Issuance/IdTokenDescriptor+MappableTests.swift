@@ -49,22 +49,6 @@ class IdTokenDescriptorMappingTests: XCTestCase {
         assertEqual(actualResult, expectedResult)
     }
     
-    func testMappingWithNoRedirectUrlPresentError() throws {
-        let input = IdTokenDescriptor(encrypted: false,
-                                      claims: [],
-                                      idTokenRequired: false,
-                                      configuration: expectedConfiguration,
-                                      clientID: expectedClientId,
-                                      redirectURI: nil,
-                                      scope: expectedScope)
-        
-        XCTAssertThrowsError(try mapper.map(input)) { error in
-            XCTAssert(error is MappingError)
-            XCTAssertEqual(error as? MappingError,
-                           .PropertyNotPresent(property: "redirectURI", in: String(describing: IdTokenDescriptor.self)))
-        }
-    }
-    
     func testMappingWithNoClientIdPresentError() throws {
         let input = IdTokenDescriptor(encrypted: false,
                                       claims: [],
