@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
  * An extension of the VCEntities.IdTokenDescriptor class to be able
  * to map IdTokenDescriptor to IdTokenRequirement.

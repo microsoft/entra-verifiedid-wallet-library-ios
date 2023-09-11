@@ -36,7 +36,7 @@ struct RegistrationClaims: Codable, Equatable {
         self.subjectIdentifierTypesSupported = subjectIdentifierTypesSupported
         self.vpFormats = vpFormats
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case clientName = "client_name"
         case clientPurpose = "client_purpose"

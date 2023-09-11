@@ -34,7 +34,7 @@ class PresentationResponseFormatterTests: XCTestCase {
     func testFormatToken() throws {
         let vc = VerifiableCredential(from: TestData.verifiableCredential.rawValue)!
         self.mockResponse.requestVCMap["1"] = [RequestedVerifiableCredentialMapping(id: expectedCredentialType,
-                                                                                   verifiableCredential: vc)]
+                                                                                    verifiableCredential: vc)]
         
         let formattedResponse = try formatter.format(response: self.mockResponse, usingIdentifier: self.mockIdentifier)
         
@@ -55,5 +55,13 @@ class PresentationResponseFormatterTests: XCTestCase {
         XCTAssertEqual(formattedResponse.idToken.content.audience, self.mockResponse.audienceDid)
         XCTAssert(MockTokenSigner.wasSignCalled)
         XCTAssert(MockTokenSigner.wasGetPublicJwkCalled)
+    }
+    
+    func testFormat_WithMultipleVPTokens_ThrowsError() throws {
+        // Arrange
+    }
+    
+    func testFormat_WithMultipleVPTokens_ReturnsPresentationResponse() throws {
+        // Arrange
     }
 }
