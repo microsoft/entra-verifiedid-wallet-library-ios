@@ -38,7 +38,8 @@ struct PresentationResponseEncoder: Encoding {
         else
         {
             let serializedVpTokens = try value.vpTokens.compactMap { try $0.serialize() }
-            vpTokenParam = "\(Constants.vpToken)=\(serializedVpTokens)"
+            let test = String(describing: serializedVpTokens)
+            vpTokenParam = "\(Constants.vpToken)=\(test)"
         }
         
         var responseBody = "\(idTokenParam)&\(vpTokenParam)"

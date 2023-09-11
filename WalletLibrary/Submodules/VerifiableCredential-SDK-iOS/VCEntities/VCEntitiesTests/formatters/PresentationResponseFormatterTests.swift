@@ -56,12 +56,4 @@ class PresentationResponseFormatterTests: XCTestCase {
         XCTAssert(MockTokenSigner.wasSignCalled)
         XCTAssert(MockTokenSigner.wasGetPublicJwkCalled)
     }
-    
-    func testFormat_WithMultipleVPTokens_ThrowsError() throws {
-        // Arrange
-    }
-    
-    func testFormat_WithMultipleVPTokens_ReturnsPresentationResponse() throws {
-        // Arrange
-    }
 }

@@ -10,7 +10,7 @@ class PresentationResponseContainerTests: XCTestCase {
     
     func testAddVerifiableCredential_WithEmptyVpRequests_ThrowsError() throws {
         // Arrange
-        var container = try createContainer(using: [])
+        var container = try PresentationResponseContainer.mock(using: [])
         let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: [],
                                                                          claims: [:],
                                                                          issuer: "mock issuer")
@@ -27,7 +27,7 @@ class PresentationResponseContainerTests: XCTestCase {
     func testAddVerifiableCredential_WithMalformedVpRequest_ThrowsError() throws {
         // Arrange
         let vpRequest = RequestedVPToken(presentationDefinition: nil)
-        var container = try createContainer(using: [vpRequest])
+        var container = try PresentationResponseContainer.mock(using: [vpRequest])
         let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: [],
                                                                          claims: [:],
                                                                          issuer: "mock issuer")
@@ -47,7 +47,7 @@ class PresentationResponseContainerTests: XCTestCase {
                                                             inputDescriptors: [],
                                                             issuance: [])
         let vpRequest = RequestedVPToken(presentationDefinition: presentationDefinition)
-        var container = try createContainer(using: [vpRequest])
+        var container = try PresentationResponseContainer.mock(using: [vpRequest])
         let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: [],
                                                                          claims: [:],
                                                                          issuer: "mock issuer")
@@ -69,7 +69,7 @@ class PresentationResponseContainerTests: XCTestCase {
                                                             inputDescriptors: [inputDescriptor],
                                                             issuance: [])
         let vpRequest = RequestedVPToken(presentationDefinition: presentationDefinition)
-        var container = try createContainer(using: [vpRequest])
+        var container = try PresentationResponseContainer.mock(using: [vpRequest])
         let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: [],
                                                                          claims: [:],
                                                                          issuer: "mock issuer")
@@ -92,7 +92,7 @@ class PresentationResponseContainerTests: XCTestCase {
                                                             inputDescriptors: [inputDescriptor],
                                                             issuance: [])
         let vpRequest = RequestedVPToken(presentationDefinition: presentationDefinition)
-        var container = try createContainer(using: [vpRequest])
+        var container = try PresentationResponseContainer.mock(using: [vpRequest])
         let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: [],
                                                                          claims: [:],
                                                                          issuer: "mock issuer")
@@ -118,7 +118,7 @@ class PresentationResponseContainerTests: XCTestCase {
                                                             inputDescriptors: [inputDescriptor1, inputDescriptor2],
                                                             issuance: [])
         let vpRequest = RequestedVPToken(presentationDefinition: presentationDefinition)
-        var container = try createContainer(using: [vpRequest])
+        var container = try PresentationResponseContainer.mock(using: [vpRequest])
         let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: [],
                                                                          claims: [:],
                                                                          issuer: "mock issuer")
@@ -155,7 +155,7 @@ class PresentationResponseContainerTests: XCTestCase {
                                                              issuance: [])
         let vpRequest2 = RequestedVPToken(presentationDefinition: presentationDefinition2)
         
-        var container = try createContainer(using: [vpRequest, vpRequest2])
+        var container = try PresentationResponseContainer.mock(using: [vpRequest, vpRequest2])
         let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: [],
                                                                          claims: [:],
                                                                          issuer: "mock issuer")
@@ -169,17 +169,6 @@ class PresentationResponseContainerTests: XCTestCase {
         let mapping = container.requestVCMap[presentationDefinitionId]
         XCTAssertEqual(mapping?.first?.inputDescriptorId, id)
         XCTAssertEqual(try mapping?.first?.vc.serialize(), try mockVC.serialize())
-    }
-    
-    private func createContainer(using requestedVpTokens: [RequestedVPToken]) throws -> PresentationResponseContainer {
-        let requestedClaims = RequestedClaims(vpToken: requestedVpTokens)
-        let claims = PresentationRequestClaims(clientID: "mock did",
-                                               redirectURI: "mock audience",
-                                               claims: requestedClaims,
-                                               nonce: "mock nonce")
-        let token = PresentationRequestToken(headers: Header(), content: claims)!
-        let request = PresentationRequest(from: token, linkedDomainResult: .linkedDomainMissing)
-        return try PresentationResponseContainer(from: request)
     }
     
     private func createInputDescriptor(withId id: String) -> PresentationInputDescriptor {

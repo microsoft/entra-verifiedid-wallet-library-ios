@@ -362,6 +362,7 @@
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
 		5598CFD42AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */; };
+		5598CFD62AAFBBE800EBDE87 /* PresentationResponseContainer+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD52AAFBBE800EBDE87 /* PresentationResponseContainer+Mock.swift */; };
 		559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */; };
 		559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */; };
 		559BD3072995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3062995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift */; };
@@ -850,6 +851,7 @@
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
 		5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseEncoderTests.swift; sourceTree = "<group>"; };
+		5598CFD52AAFBBE800EBDE87 /* PresentationResponseContainer+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationResponseContainer+Mock.swift"; sourceTree = "<group>"; };
 		559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD3062995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
@@ -1938,6 +1940,7 @@
 				5552D7FB29F2E25900B40302 /* MockKeyManagementOperations.swift */,
 				5552D7FD29F2E25900B40302 /* MockCodableObject.swift */,
 				5552D7FE29F2E25900B40302 /* MockIdentifierFormatter.swift */,
+				5598CFD52AAFBBE800EBDE87 /* PresentationResponseContainer+Mock.swift */,
 			);
 			path = mocks;
 			sourceTree = "<group>";
@@ -3205,6 +3208,7 @@
 				5552D7C729F2E0A900B40302 /* SecretStoreMock.swift in Sources */,
 				55508A1B2A38F88E00186885 /* MockCorrelationHeader.swift in Sources */,
 				5552D7E929F2E1AF00B40302 /* MockVerifier.swift in Sources */,
+				5598CFD62AAFBBE800EBDE87 /* PresentationResponseContainer+Mock.swift in Sources */,
 				5552D85929F2E43900B40302 /* MockDecoder.swift in Sources */,
 				5552D89429F2E58000B40302 /* MockDiscoveryApiCalls.swift in Sources */,
 				5552D89E29F2E58000B40302 /* IdentifierDatabaseTests.swift in Sources */,
