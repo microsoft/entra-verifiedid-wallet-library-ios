@@ -25,6 +25,11 @@ struct PresentationResponseEncoder: Encoding {
         
         var vpTokenParam = ""
         
+        guard !value.vpTokens.isEmpty else
+        {
+            throw PresentationResponseEncoderError.noVerifiablePresentationInResponse
+        }
+        
         if value.vpTokens.count == 1,
            let onlyVpToken = value.vpTokens.first
         {
