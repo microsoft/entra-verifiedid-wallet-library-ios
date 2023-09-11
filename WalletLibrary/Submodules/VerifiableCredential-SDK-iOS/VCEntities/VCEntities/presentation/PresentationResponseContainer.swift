@@ -24,8 +24,6 @@ struct PresentationResponseContainer: ResponseContaining {
     
     let nonce: String
     
-    let presentationDefinitionId: String?
-    
     var requestedIdTokenMap: RequestedIdTokenMap = [:]
     
     var requestedSelfAttestedClaimMap: RequestedSelfAttestedClaimMap = [:]
@@ -49,7 +47,6 @@ struct PresentationResponseContainer: ResponseContaining {
         self.audienceUrl = audience
         self.audienceDid = audienceDid
         self.nonce = nonce
-        self.presentationDefinitionId = presentationRequest.content.claims?.vpToken.first?.presentationDefinition?.id
         self.request = presentationRequest
         self.expiryInSeconds = exp
     }
@@ -57,30 +54,25 @@ struct PresentationResponseContainer: ResponseContaining {
     init(audienceUrl: String,
          audienceDid: String,
          nonce: String,
-         expiryInSeconds: Int,
-         presentationDefinitionId: String)
-    {
+         expiryInSeconds: Int) {
         self.audienceDid = audienceDid
         self.audienceUrl = audienceUrl
         self.expiryInSeconds = expiryInSeconds
         self.nonce = nonce
-        self.presentationDefinitionId = presentationDefinitionId
         self.request = nil
     }
     
-    mutating func addVerifiableCredential(id: String, vc: VerifiableCredential) throws
-    {
+    mutating func addVerifiableCredential(id: String, vc: VerifiableCredential) throws {
+        
         guard let vpTokenRequests = request?.content.claims?.vpToken,
-              !vpTokenRequests.isEmpty else
-        {
+              !vpTokenRequests.isEmpty else {
             throw PresentationResponseError.noVerifiablePresentationRequestsInRequest
         }
         
         for vpTokenRequest in vpTokenRequests {
             
             guard let presentationDefinition = vpTokenRequest.presentationDefinition,
-                  let presentationDefinitionId = presentationDefinition.id else
-            {
+                  let presentationDefinitionId = presentationDefinition.id else {
                 throw PresentationResponseError.noPresentationDefinitionInVerifiablePresentationRequest
             }
             

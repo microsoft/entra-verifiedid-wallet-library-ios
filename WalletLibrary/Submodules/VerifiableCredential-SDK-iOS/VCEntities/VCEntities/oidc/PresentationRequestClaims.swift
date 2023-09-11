@@ -50,21 +50,21 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
         case state, nonce, prompt, registration, iat, exp, scope, claims, jti, pin
     }
     
-    init(jti: String?,
-         clientID: String?,
-         redirectURI: String?,
-         responseMode: String?,
-         responseType: String?,
+    init(jti: String? = nil,
+         clientID: String? = nil,
+         redirectURI: String? = nil,
+         responseMode: String? = nil,
+         responseType: String? = nil,
          claims: RequestedClaims?,
-         state: String?,
-         nonce: String?,
-         scope: String?,
-         prompt: String?,
-         registration: RegistrationClaims?,
+         state: String? = nil,
+         nonce: String? = nil,
+         scope: String? = nil,
+         prompt: String? = nil,
+         registration: RegistrationClaims? = nil,
          idTokenHint: String? = nil,
-         iat: Double?,
-         exp: Double?,
-         pin: PinDescriptor?) {
+         iat: Double? = nil,
+         exp: Double? = nil,
+         pin: PinDescriptor? = nil) {
         self.jti = jti
         self.clientID = clientID
         self.redirectURI = redirectURI
