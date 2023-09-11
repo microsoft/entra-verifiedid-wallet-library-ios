@@ -7,6 +7,9 @@ enum PresentationResponseError: Error {
     case noAudienceInRequest
     case noAudienceDidInRequest
     case noNonceInRequest
+    case noVerifiablePresentationRequestsInRequest
+    case noPresentationDefinitionInVerifiablePresentationRequest
+    case noInputDescriptorMatchesGivenId
 }
 
 struct PresentationResponseContainer: ResponseContaining {
@@ -20,8 +23,6 @@ struct PresentationResponseContainer: ResponseContaining {
     let audienceDid: String
     
     let nonce: String
-    
-    let presentationDefinitionId: String?
     
     var requestedIdTokenMap: RequestedIdTokenMap = [:]
     
@@ -46,7 +47,6 @@ struct PresentationResponseContainer: ResponseContaining {
         self.audienceUrl = audience
         self.audienceDid = audienceDid
         self.nonce = nonce
-        self.presentationDefinitionId = presentationRequest.content.claims?.vpToken.first?.presentationDefinition?.id
         self.request = presentationRequest
         self.expiryInSeconds = exp
     }
@@ -54,30 +54,26 @@ struct PresentationResponseContainer: ResponseContaining {
     init(audienceUrl: String,
          audienceDid: String,
          nonce: String,
-         expiryInSeconds: Int,
-         presentationDefinitionId: String)
-    {
+         expiryInSeconds: Int) {
         self.audienceDid = audienceDid
         self.audienceUrl = audienceUrl
         self.expiryInSeconds = expiryInSeconds
         self.nonce = nonce
-        self.presentationDefinitionId = presentationDefinitionId
         self.request = nil
     }
     
-    mutating func addVerifiableCredential(id: String, vc: VerifiableCredential) throws
-    {
-        guard let vpTokenRequests = request?.content.claims?.vpToken else
-        {
-            throw PresentationResponseError.noAudienceDidInRequest
+    mutating func addVerifiableCredential(id: String, vc: VerifiableCredential) throws {
+        
+        guard let vpTokenRequests = request?.content.claims?.vpToken,
+              !vpTokenRequests.isEmpty else {
+            throw PresentationResponseError.noVerifiablePresentationRequestsInRequest
         }
         
         for vpTokenRequest in vpTokenRequests {
             
             guard let presentationDefinition = vpTokenRequest.presentationDefinition,
-                  let presentationDefinitionId = presentationDefinition.id else
-            {
-                throw PresentationResponseError.noAudienceDidInRequest
+                  let presentationDefinitionId = presentationDefinition.id else {
+                throw PresentationResponseError.noPresentationDefinitionInVerifiablePresentationRequest
             }
             
             if let inputDescriptors = presentationDefinition.inputDescriptors,
@@ -89,7 +85,10 @@ struct PresentationResponseContainer: ResponseContaining {
                 mappings.append(mapping)
                 
                 requestVCMap.updateValue(mappings, forKey: presentationDefinitionId)
+                return
             }
         }
+        
+        throw PresentationResponseError.noInputDescriptorMatchesGivenId
     }
 }

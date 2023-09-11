@@ -13,6 +13,10 @@ struct RequestedClaims: Codable, Equatable {
         case vpToken = "vp_token"
     }
     
+    init(vpToken: [RequestedVPToken]) {
+        self.vpToken = vpToken
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

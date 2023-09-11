@@ -25,6 +25,11 @@ struct PresentationResponseEncoder: Encoding {
         
         var vpTokenParam = ""
         
+        guard !value.vpTokens.isEmpty else
+        {
+            throw PresentationResponseEncoderError.noVerifiablePresentationInResponse
+        }
+        
         if value.vpTokens.count == 1,
            let onlyVpToken = value.vpTokens.first
         {
@@ -33,7 +38,8 @@ struct PresentationResponseEncoder: Encoding {
         else
         {
             let serializedVpTokens = try value.vpTokens.compactMap { try $0.serialize() }
-            vpTokenParam = "\(Constants.vpToken)=\(serializedVpTokens)"
+            let test = String(describing: serializedVpTokens)
+            vpTokenParam = "\(Constants.vpToken)=\(test)"
         }
         
         var responseBody = "\(idTokenParam)&\(vpTokenParam)"

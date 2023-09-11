@@ -24,7 +24,7 @@ class MockPresentationResponseFormatter: PresentationResponseFormatting {
             let header = Header(type: "type", algorithm: "alg", jsonWebKey: "key", keyId: "kid")
             let claims = PresentationResponseClaims(nonce: "nonce")
             let idToken = PresentationResponseToken(headers: header, content: claims)!
-            return PresentationResponse(idToken: idToken, vpToken: nil, state: "state")
+            return PresentationResponse(idToken: idToken, vpTokens: [], state: "state")
         } else {
             throw MockIssuanceResponseFormatterError.doNotWantToResolveRealObject
         }
