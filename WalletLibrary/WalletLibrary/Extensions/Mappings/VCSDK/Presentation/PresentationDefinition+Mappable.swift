@@ -3,24 +3,21 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
  * Errors thrown in Presentation Definition Mappable extension.
  */
 enum PresentationDefinitionMappingError: Error {
     case missingInputDescriptors
+    case malformedPresentationRequest
 }
 
 /**
  * An extension of the VCEntities.PresentationDefinition class to be able
- * to map PresentationDefinition to a Requirement.
+ * to map PresentationDefinition to Requirements.
  */
 extension PresentationDefinition: Mappable {
     
-    func map(using mapper: Mapping) throws -> Requirement {
+    func map(using mapper: Mapping) throws -> [Requirement] {
         
         guard let inputDescriptors = self.inputDescriptors,
               !inputDescriptors.isEmpty else {
@@ -29,7 +26,7 @@ extension PresentationDefinition: Mappable {
         
         if inputDescriptors.count == 1,
            let onlyPresentationInputDescriptor = inputDescriptors.first {
-            return try mapper.map(onlyPresentationInputDescriptor)
+            return [try mapper.map(onlyPresentationInputDescriptor)]
         }
         
         let requirements = try inputDescriptors.compactMap {
@@ -37,8 +34,6 @@ extension PresentationDefinition: Mappable {
         }
 
         /// VC SDK only supports ALL operator for now.
-        return GroupRequirement(required: true,
-                                requirements: requirements,
-                                requirementOperator: .ALL)
+        return requirements
     }
 }

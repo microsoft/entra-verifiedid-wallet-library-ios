@@ -363,6 +363,7 @@
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
 		5598CFD42AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */; };
 		5598CFD62AAFBBE800EBDE87 /* PresentationResponseContainer+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD52AAFBBE800EBDE87 /* PresentationResponseContainer+Mock.swift */; };
+		5598CFE62AB1012C00EBDE87 /* RequestedClaims+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFE52AB1012C00EBDE87 /* RequestedClaims+Mappable.swift */; };
 		559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */; };
 		559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */; };
 		559BD3072995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559BD3062995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift */; };
@@ -852,6 +853,7 @@
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
 		5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseEncoderTests.swift; sourceTree = "<group>"; };
 		5598CFD52AAFBBE800EBDE87 /* PresentationResponseContainer+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationResponseContainer+Mock.swift"; sourceTree = "<group>"; };
+		5598CFE52AB1012C00EBDE87 /* RequestedClaims+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestedClaims+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		559BD3042995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDefinition+MappableTests.swift"; sourceTree = "<group>"; };
 		559BD3062995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationInputDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
@@ -2251,6 +2253,7 @@
 				559BD3022995993700BD61AC /* PresentationInputDescriptor+Mappable.swift */,
 				55E2F056299553300008010D /* PresentationRequest+Mappable.swift */,
 				553CC08F29A955E6005A5FD6 /* PinDescriptor+Mappable.swift */,
+				5598CFE52AB1012C00EBDE87 /* RequestedClaims+Mappable.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -2885,6 +2888,7 @@
 				5552D3E529EF48C700B40302 /* VerifiableCredentialDescriptor.swift in Sources */,
 				5552D28129EF33E900B40302 /* VerifiableCredentialSDK.swift in Sources */,
 				5552D3B629EF486A00B40302 /* PresentationResponseFormatter.swift in Sources */,
+				5598CFE62AB1012C00EBDE87 /* RequestedClaims+Mappable.swift in Sources */,
 				559BD3AB299ADEFF00BD61AC /* ContractIssuanceRequest.swift in Sources */,
 				5552D44229EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift in Sources */,
 				5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */,
