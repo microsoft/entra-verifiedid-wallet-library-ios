@@ -19,7 +19,7 @@ extension PresentationRequest: Mappable {
     
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
         
-        guard let presentationDefinition = content.claims?.vpToken.first?.presentationDefinition else {
+        guard let claims = content.claims else {
             throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
         }
         
@@ -30,7 +30,7 @@ extension PresentationRequest: Mappable {
             throw PresentationRequestMappingError.callbackURLMalformed(content.redirectURI)
         }
         
-        let requirement = try mapper.map(presentationDefinition)
+        let requirement = try mapper.map(claims)
         let rootOfTrust = try mapper.map(linkedDomainResult)
         let injectedIdToken = try createInjectedIdTokenIfExists(using: mapper)
         
