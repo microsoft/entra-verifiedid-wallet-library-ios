@@ -86,7 +86,8 @@ public class VerifiedIdClientBuilder {
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
         let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(identifierService: identifierManager,
-                                                                                             rootOfTrustResolver: rootOfTrustResolver),
+                                                                                             rootOfTrustResolver: rootOfTrustResolver,
+                                                                                             urlSession: urlSession ?? URLSession.shared),
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }

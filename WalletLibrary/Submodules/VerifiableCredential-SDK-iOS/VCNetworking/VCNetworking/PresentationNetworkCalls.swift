@@ -13,8 +13,8 @@ class PresentationNetworkCalls: PresentationNetworking {
     private let urlSession: URLSession
     private let correlationVector: VerifiedIdCorrelationHeader?
     
-    init(correlationVector: VerifiedIdCorrelationHeader? = nil,
-         urlSession: URLSession = URLSession.shared) {
+    init(correlationVector: VerifiedIdCorrelationHeader?,
+         urlSession: URLSession) {
         self.correlationVector = correlationVector
         self.urlSession = urlSession
     }
