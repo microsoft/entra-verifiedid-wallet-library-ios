@@ -86,29 +86,32 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
         
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: response.expiryInSeconds)
         
-        let presentationSubmissions = response.requestVCMap.compactMap { id, mappings in
-            self.formatPresentationSubmission(presentationDefinitionId: id, vcsRequested: mappings)
+        var index: Int = 0
+        let vpTokensResponses = response.requestVCMap.compactMap { id, mappings in
+            let submission = self.formatPresentationSubmission(presentationDefinitionId: id,
+                                                               presentationDefinitionIndex: index,
+                                                               vcsRequested: mappings)
+            let vpTokenResponse = VPTokenResponseDescription(presentationSubmission: submission)
+            index = index + 1
+            return vpTokenResponse
         }
-        
-        let vpTokenDescription = VPTokenResponseDescription(presentationSubmission: presentationSubmissions)
         
         return PresentationResponseClaims(subject: identifier.longFormDid,
                                           audience: response.audienceDid,
-                                          vpTokenDescription: vpTokenDescription,
+                                          vpTokenDescription: vpTokensResponses,
                                           nonce: response.nonce,
                                           iat: timeConstraints.issuedAt,
                                           exp: timeConstraints.expiration)
     }
     
     private func formatPresentationSubmission(presentationDefinitionId: String,
-                                              vcsRequested: [RequestedVerifiableCredentialMapping]) -> PresentationSubmission? {
-        
-        guard !vcsRequested.isEmpty else {
-            return nil
-        }
+                                              presentationDefinitionIndex: Int,
+                                              vcsRequested: [RequestedVerifiableCredentialMapping]) -> PresentationSubmission {
         
         let inputDescriptorMap = vcsRequested.enumerated().map { (index, vcMapping) in
-            createInputDescriptorMapping(id: vcMapping.inputDescriptorId, index: index)
+            createInputDescriptorMapping(id: vcMapping.inputDescriptorId,
+                                         presentationDefinitionIndex: presentationDefinitionIndex,
+                                         vcIndex: index)
         }
         
         sdkLog.logVerbose(message: """
@@ -123,14 +126,16 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
         return submission
     }
     
-    private func createInputDescriptorMapping(id: String, index: Int) -> InputDescriptorMapping {
+    private func createInputDescriptorMapping(id: String,
+                                              presentationDefinitionIndex: Int,
+                                              vcIndex: Int) -> InputDescriptorMapping {
         let nestedInputDescriptorMapping = NestedInputDescriptorMapping(id: id,
                                                                         format: Constants.JwtVc,
-                                                                        path: "$.verifiableCredential[\(index)]")
+                                                                        path: "$.verifiableCredential[\(vcIndex)]")
         
         return InputDescriptorMapping(id: id,
                                       format: Constants.JwtVp,
-                                      path: Constants.SimplePath,
+                                      path: "\(Constants.SimplePath)[\(presentationDefinitionIndex)]",
                                       pathNested: nestedInputDescriptorMapping)
     }
 }
