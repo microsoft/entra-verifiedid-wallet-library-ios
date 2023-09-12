@@ -30,19 +30,12 @@ struct PresentationResponseEncoder: Encoding {
             throw PresentationResponseEncoderError.noVerifiablePresentationInResponse
         }
         
-        if value.vpTokens.count == 1,
-           let onlyVpToken = value.vpTokens.first
+        for vpToken in value.vpTokens
         {
-            vpTokenParam = "\(Constants.vpToken)=\(try onlyVpToken.serialize())"
-        }
-        else
-        {
-            let serializedVpTokens = try value.vpTokens.compactMap { try $0.serialize() }
-            let test = String(describing: serializedVpTokens)
-            vpTokenParam = "\(Constants.vpToken)=\(test)"
+            vpTokenParam = vpTokenParam + "&\(Constants.vpToken)=\(try vpToken.serialize())"
         }
         
-        var responseBody = "\(idTokenParam)&\(vpTokenParam)"
+        var responseBody = "\(idTokenParam)\(vpTokenParam)"
         
         if let state = value.state?.stringByAddingPercentEncodingForRFC3986() {
             let stateParam = "\(Constants.state)=\(state)"
