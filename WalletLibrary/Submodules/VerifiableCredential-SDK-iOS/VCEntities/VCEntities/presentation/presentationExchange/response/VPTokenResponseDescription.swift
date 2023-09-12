@@ -10,22 +10,9 @@
 struct VPTokenResponseDescription: Codable {
     
     /// The presentation submission that describes what is being presented.
-    let presentationSubmission: [PresentationSubmission]
+    let presentationSubmission: PresentationSubmission
     
     enum CodingKeys: String, CodingKey {
         case presentationSubmission = "presentation_submission"
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        if presentationSubmission.count == 1,
-           let onlySubmission = presentationSubmission.first
-        {
-            try container.encode(onlySubmission, forKey: .presentationSubmission)
-        }
-        else
-        {
-            try container.encode(self.presentationSubmission, forKey: .presentationSubmission)
-        }
     }
 }
