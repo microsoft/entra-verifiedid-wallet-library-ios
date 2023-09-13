@@ -86,13 +86,13 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
         
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: response.expiryInSeconds)
         
-        var index: Int = 0
+        var presentationDefinitionIndex: Int = 0
         let vpTokensResponses = response.requestVCMap.compactMap { id, mappings in
             let submission = self.formatPresentationSubmission(presentationDefinitionId: id,
-                                                               presentationDefinitionIndex: index,
+                                                               presentationDefinitionIndex: presentationDefinitionIndex,
                                                                vcsRequested: mappings)
             let vpTokenResponse = VPTokenResponseDescription(presentationSubmission: submission)
-            index = index + 1
+            presentationDefinitionIndex = presentationDefinitionIndex + 1
             return vpTokenResponse
         }
         
