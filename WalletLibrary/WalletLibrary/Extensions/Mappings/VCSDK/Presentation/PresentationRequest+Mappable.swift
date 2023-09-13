@@ -7,7 +7,7 @@
  * Errors thrown in Presentation Request Mappable extension.
  */
 enum PresentationRequestMappingError: Error, Equatable {
-    case presentationDefinitionMissingInRequest
+    case claimsRequestedMissingInRequest
     case callbackURLMalformed(String?)
 }
 
@@ -20,7 +20,7 @@ extension PresentationRequest: Mappable {
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
         
         guard let claims = content.claims else {
-            throw PresentationRequestMappingError.presentationDefinitionMissingInRequest
+            throw PresentationRequestMappingError.claimsRequestedMissingInRequest
         }
         
         let requestState = try self.getRequiredProperty(property: content.state, propertyName: "state")
