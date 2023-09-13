@@ -66,7 +66,8 @@ class PresentationResponseEncoderTests: XCTestCase {
         
         // Assert
         let stringifiedResult = String(data: result, encoding: .utf8)!
-//        XCTAssertEqual(stringifiedResult, "id_token=\(try idToken.serialize())&vp_token=\(try vp1.serialize())")
+        XCTAssertEqual(stringifiedResult,
+                       "id_token=\(try idToken.serialize())&vp_token=\(try vp1.serialize())&vp_token=\(try vp2.serialize())&vp_token=\(try vp3.serialize())")
     }
     
     private func mockIdToken() -> PresentationResponseToken {

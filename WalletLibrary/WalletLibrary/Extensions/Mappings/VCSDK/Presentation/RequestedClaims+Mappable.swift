@@ -5,7 +5,7 @@
 
 /**
  * An extension of the VCEntities.RequestedClaims class to be able
- * to map PresentationDefinitions to a Requirement.
+ * to map RequestedClaims to a Requirement.
  */
 extension RequestedClaims: Mappable
 {

@@ -43,16 +43,8 @@ class PresentationDefinitionMappingTests: XCTestCase {
     func testMap_WithOneInputDescriptorPresent_ReturnsVerifiedIdRequirement() throws {
         
         // Arrange
-        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
-                                                                  required: false,
-                                                                  types: [],
-                                                                  purpose: nil,
-                                                                  issuanceOptions: [],
-                                                                  id: nil,
-                                                                  constraint: GroupConstraint(constraints: [],
-                                                                                              constraintOperator: .ALL))
-        let inputDescriptor = PresentationInputDescriptor(id: nil,
-                                                          schema: nil,
+        let inputDescriptor = PresentationInputDescriptor(id: "mock id",
+                                                          schema: [InputDescriptorSchema(uri: "mock type")],
                                                           issuanceMetadata: nil,
                                                           name: nil,
                                                           purpose: nil,
@@ -61,22 +53,16 @@ class PresentationDefinitionMappingTests: XCTestCase {
                                                             inputDescriptors: [inputDescriptor],
                                                             issuance: nil)
         
-        func mockResults(objectToBeMapped: Any) throws -> Any? {
-            if objectToBeMapped is PresentationInputDescriptor {
-                return expectedVerifiedIdRequirement
-            }
-            
-            return nil
-        }
-        
-        let mockMapper = MockMapper(mockResults: mockResults)
+        let mapper = Mapper()
         
         // Act
-        let actualResult = try mockMapper.map(presentationDefinition)
+        let actualResult = try mapper.map(presentationDefinition)
         
         // Assert
-        XCTAssert(actualResult is VerifiedIdRequirement)
-        XCTAssertIdentical(actualResult as AnyObject, expectedVerifiedIdRequirement as AnyObject)
+        XCTAssert(actualResult is [VerifiedIdRequirement])
+        XCTAssertEqual(actualResult.count, 1)
+        XCTAssertEqual((actualResult.first as? VerifiedIdRequirement)?.types, ["mock type"])
+        XCTAssertEqual((actualResult.first as? VerifiedIdRequirement)?.id, "mock id")
     }
     
     func testMap_WithMultipleInputDescriptorPresent_ReturnsGroupRequirement() throws {
@@ -129,12 +115,10 @@ class PresentationDefinitionMappingTests: XCTestCase {
         let actualResult = try mockMapper.map(presentationDefinition)
         
         // Assert
-        XCTAssert(actualResult is GroupRequirement)
-        XCTAssertEqual((actualResult as? GroupRequirement)?.requirements.count, requirementCount)
-        XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements.first as AnyObject, mockVerifiedIdRequirement as AnyObject)
-        XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements[1] as AnyObject, mockVerifiedIdRequirement as AnyObject)
-        XCTAssertIdentical((actualResult as? GroupRequirement)?.requirements[2] as AnyObject, mockVerifiedIdRequirement as AnyObject)
-        XCTAssert((actualResult as? GroupRequirement)?.required ?? false)
-        XCTAssertEqual((actualResult as? GroupRequirement)?.requirementOperator, .ALL)
+        XCTAssert(actualResult is [VerifiedIdRequirement])
+        XCTAssertEqual(actualResult.count, requirementCount)
+        XCTAssertIdentical(actualResult.first as AnyObject, mockVerifiedIdRequirement as AnyObject)
+        XCTAssertIdentical(actualResult[1] as AnyObject, mockVerifiedIdRequirement as AnyObject)
+        XCTAssertIdentical(actualResult[2] as AnyObject, mockVerifiedIdRequirement as AnyObject)
     }
 }
