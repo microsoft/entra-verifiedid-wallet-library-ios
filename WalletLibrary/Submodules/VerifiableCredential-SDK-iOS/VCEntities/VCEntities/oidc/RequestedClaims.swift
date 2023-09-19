@@ -7,13 +7,25 @@
 struct RequestedClaims: Codable, Equatable {
     
     /// Request Verifiable Presentation Tokens.
-    let vpToken: RequestedVPToken?
-    
-    init(vpToken: RequestedVPToken?) {
-        self.vpToken = vpToken
-    }
+    let vpToken: [RequestedVPToken]
 
     enum CodingKeys: String, CodingKey {
         case vpToken = "vp_token"
+    }
+    
+    init(vpToken: [RequestedVPToken]) {
+        self.vpToken = vpToken
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        if let vpTokens = try? container.decode([RequestedVPToken].self, forKey: .vpToken) {
+             self.vpToken = vpTokens
+        } else if let vpToken = try? container.decode(RequestedVPToken.self, forKey: .vpToken) {
+            self.vpToken = [vpToken]
+         } else {
+             throw DecodingError.unableToDecodeToken
+         }
     }
 }

@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCToken)
-    import VCToken
-#endif
-
 struct PresentationResponseClaims: OIDCClaims {
     
     let issuer: String = VCEntitiesConstants.SELF_ISSUED_V2
@@ -15,7 +11,7 @@ struct PresentationResponseClaims: OIDCClaims {
     
     let audience: String
     
-    let vpTokenDescription: VPTokenResponseDescription?
+    let vpTokenDescription: [VPTokenResponseDescription]
     
     let nonce: String?
     
@@ -24,11 +20,11 @@ struct PresentationResponseClaims: OIDCClaims {
     let exp: Double?
     
     init(subject: String = "",
-                audience: String = "",
-                vpTokenDescription: VPTokenResponseDescription? = nil,
-                nonce: String? = "",
-                iat: Double? = nil,
-                exp: Double? = nil) {
+         audience: String = "",
+         vpTokenDescription: [VPTokenResponseDescription] = [],
+         nonce: String? = "",
+         iat: Double? = nil,
+         exp: Double? = nil) {
         self.subject = subject
         self.audience = audience
         self.nonce = nonce
@@ -43,6 +39,25 @@ struct PresentationResponseClaims: OIDCClaims {
         case vpTokenDescription = "_vp_token"
         case audience = "aud"
         case iat, exp, nonce
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(issuer, forKey: .issuer)
+        try container.encode(subject, forKey: .subject)
+        try container.encode(audience, forKey: .audience)
+        try container.encode(iat, forKey: .iat)
+        try container.encode(exp, forKey: .exp)
+        try container.encode(nonce, forKey: .nonce)
+        if vpTokenDescription.count == 1,
+           let onlyVpToken = vpTokenDescription.first
+        {
+            try container.encode(onlyVpToken, forKey: .vpTokenDescription)
+        }
+        else
+        {
+            try container.encode(self.vpTokenDescription, forKey: .vpTokenDescription)
+        }
     }
 }
 

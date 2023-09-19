@@ -33,13 +33,13 @@ struct VerifiablePresentationClaims: OIDCClaims {
     }
     
     init(vpId: String = "",
-                verifiablePresentation: VerifiablePresentationDescriptor?,
-                issuerOfVp: String = "",
-                audience: String = "",
-                iat: Double = 0,
-                nbf: Double = 0,
-                exp: Double = 0,
-                nonce: String? = "") {
+         verifiablePresentation: VerifiablePresentationDescriptor?,
+         issuerOfVp: String = "",
+         audience: String = "",
+         iat: Double = 0,
+         nbf: Double = 0,
+         exp: Double = 0,
+         nonce: String? = "") {
         self.vpId = vpId
         self.verifiablePresentation = verifiablePresentation ?? VerifiablePresentationDescriptor(context: [], type: [], verifiableCredential: [])
         self.issuerOfVp = issuerOfVp

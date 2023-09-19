@@ -12,10 +12,25 @@ class PresentationRequestMappingTests: XCTestCase {
         case expectedToBeThrown
     }
     
-    func testMap_WithNoPresentationDefinitionPresent_ThrowsError() throws {
+    func testMap_WithNoRequestedClaimsPresent_ThrowsError() throws {
         // Arrange
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: nil))
-        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: nil)
+        let presentationRequestTokenClaims = PresentationRequestClaims(jti: nil,
+                                                                       clientID: nil,
+                                                                       redirectURI: nil,
+                                                                       responseMode: nil,
+                                                                       responseType: nil,
+                                                                       claims: nil,
+                                                                       state: nil,
+                                                                       nonce: nil,
+                                                                       scope: nil,
+                                                                       prompt: nil,
+                                                                       registration: nil,
+                                                                       idTokenHint: nil,
+                                                                       iat: nil,
+                                                                       exp: nil,
+                                                                       pin: nil)
+        
+        let token = PresentationRequestToken(headers: Header(), content: presentationRequestTokenClaims)!
         
         let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
         let presentationRequest = PresentationRequest(from: token,
@@ -27,14 +42,14 @@ class PresentationRequestMappingTests: XCTestCase {
         XCTAssertThrowsError(try mockMapper.map(presentationRequest)) { error in
             // Assert
             XCTAssert(error is PresentationRequestMappingError)
-            XCTAssertEqual(error as? PresentationRequestMappingError, .presentationDefinitionMissingInRequest)
+            XCTAssertEqual(error as? PresentationRequestMappingError, .claimsRequestedMissingInRequest)
         }
     }
     
     func testMap_WithInvalidPresentationDefinition_ThrowsError() throws {
         // Arrange
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+        let mockRequestClaims = RequestedClaims(vpToken: [RequestedVPToken(presentationDefinition: mockPresentationDefinition)])
         let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: nil)
         
         let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
@@ -68,10 +83,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   issuanceOptions: [],
                                                                   id: nil,
                                                                   constraint: GroupConstraint(constraints: [],
-                                                                                                        constraintOperator: .ALL))
-        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
-        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: nil)
+                                                                                              constraintOperator: .ALL))
+        let token = createPresentationRequestToken()
         
         let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
         let presentationRequest = PresentationRequest(from: token,
@@ -111,14 +124,12 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   id: nil,
                                                                   constraint: GroupConstraint(constraints: [],
                                                                                               constraintOperator: .ALL))
-        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: nil,
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
                                                   vpFormats: nil)
-        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: mockRegistration)
+        let token = createPresentationRequestToken(registration: mockRegistration)
         
         let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
         let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
@@ -127,7 +138,7 @@ class PresentationRequestMappingTests: XCTestCase {
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             
-            if objectToBeMapped is PresentationDefinition {
+            if objectToBeMapped is RequestedClaims {
                 return expectedVerifiedIdRequirement
             }
             
@@ -162,15 +173,12 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   id: nil,
                                                                   constraint: GroupConstraint(constraints: [],
                                                                                               constraintOperator: .ALL))
-        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: nil,
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
                                                   vpFormats: nil)
-        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims,
-                                                   registration: mockRegistration,
+        let token = createPresentationRequestToken(registration: mockRegistration,
                                                    callbackUrl: nil)
         
         let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
@@ -180,7 +188,7 @@ class PresentationRequestMappingTests: XCTestCase {
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             
-            if objectToBeMapped is PresentationDefinition {
+            if objectToBeMapped is RequestedClaims {
                 return expectedVerifiedIdRequirement
             }
             
@@ -212,7 +220,7 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   constraint: GroupConstraint(constraints: [],
                                                                                               constraintOperator: .ALL))
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+        let mockRequestClaims = RequestedClaims(vpToken: [RequestedVPToken(presentationDefinition: mockPresentationDefinition)])
         let mockRegistration = RegistrationClaims(clientName: nil,
                                                   clientPurpose: nil,
                                                   logoURI: nil,
@@ -261,7 +269,7 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   constraint: GroupConstraint(constraints: [],
                                                                                               constraintOperator: .ALL))
         let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+        let mockRequestClaims = RequestedClaims(vpToken: [RequestedVPToken(presentationDefinition: mockPresentationDefinition)])
         let mockRegistration = RegistrationClaims(clientName: nil,
                                                   clientPurpose: nil,
                                                   logoURI: nil,
@@ -310,15 +318,13 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   issuanceOptions: [],
                                                                   id: nil,
                                                                   constraint: GroupConstraint(constraints: [],
-                                                                                                        constraintOperator: .ALL))
-        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+                                                                                              constraintOperator: .ALL))
         let mockRegistration = RegistrationClaims(clientName: mockRequesterName,
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
                                                   vpFormats: nil)
-        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: mockRegistration)
+        let token = createPresentationRequestToken(registration: mockRegistration)
         
         let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
         let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
@@ -327,7 +333,7 @@ class PresentationRequestMappingTests: XCTestCase {
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             
-            if objectToBeMapped is PresentationDefinition {
+            if objectToBeMapped is RequestedClaims {
                 return expectedVerifiedIdRequirement
             }
             
@@ -365,14 +371,12 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   id: nil,
                                                                   constraint: GroupConstraint(constraints: [],
                                                                                               constraintOperator: .ALL))
-        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: mockRequesterName,
                                                   clientPurpose: nil,
                                                   logoURI: "https://test.com",
                                                   subjectIdentifierTypesSupported: nil,
                                                   vpFormats: nil)
-        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims, registration: mockRegistration)
+        let token = createPresentationRequestToken(registration: mockRegistration)
         
         let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
         let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
@@ -381,7 +385,7 @@ class PresentationRequestMappingTests: XCTestCase {
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             
-            if objectToBeMapped is PresentationDefinition {
+            if objectToBeMapped is RequestedClaims {
                 return expectedVerifiedIdRequirement
             }
             
@@ -418,15 +422,12 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   id: nil,
                                                                   constraint: GroupConstraint(constraints: [],
                                                                                                         constraintOperator: .ALL))
-        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
         let mockRegistration = RegistrationClaims(clientName: mockRequesterName,
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
                                                   vpFormats: nil)
-        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims,
-                                                   registration: mockRegistration,
+        let token = createPresentationRequestToken(registration: mockRegistration,
                                                    idTokenHint: "mock idToken hint")
         
         let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
@@ -436,7 +437,7 @@ class PresentationRequestMappingTests: XCTestCase {
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             
-            if objectToBeMapped is PresentationDefinition {
+            if objectToBeMapped is RequestedClaims {
                 return expectedVerifiedIdRequirement
             }
             
@@ -477,9 +478,7 @@ class PresentationRequestMappingTests: XCTestCase {
                                                                   issuanceOptions: [],
                                                                   id: nil,
                                                                   constraint: GroupConstraint(constraints: [],
-                                                                                                        constraintOperator: .ALL))
-        let mockPresentationDefinition = PresentationDefinition(id: nil, inputDescriptors: nil, issuance: nil)
-        let mockRequestClaims = RequestedClaims(vpToken: RequestedVPToken(presentationDefinition: mockPresentationDefinition))
+                                                                                              constraintOperator: .ALL))
         let mockRegistration = RegistrationClaims(clientName: mockRequesterName,
                                                   clientPurpose: nil,
                                                   logoURI: nil,
@@ -491,8 +490,7 @@ class PresentationRequestMappingTests: XCTestCase {
                                           salt: "mock salt",
                                           iterations: nil,
                                           alg: nil)
-        let token = createPresentationRequestToken(requestedClaims: mockRequestClaims,
-                                                   registration: mockRegistration,
+        let token = createPresentationRequestToken(registration: mockRegistration,
                                                    idTokenHint: "mock idToken hint",
                                                    pin: pinDescriptor)
         
@@ -503,7 +501,7 @@ class PresentationRequestMappingTests: XCTestCase {
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             
-            if objectToBeMapped is PresentationDefinition {
+            if objectToBeMapped is RequestedClaims {
                 return expectedVerifiedIdRequirement
             }
             
@@ -539,12 +537,27 @@ class PresentationRequestMappingTests: XCTestCase {
                                                 callbackUrl: String? = "https://test.com",
                                                 idTokenHint: String? = nil,
                                                 pin: PinDescriptor? = nil) -> PresentationRequestToken {
+        var claims = requestedClaims
+        if requestedClaims == nil {
+            let inputDescriptor = PresentationInputDescriptor(id: "mock id",
+                                                              schema: [InputDescriptorSchema(uri: "mock type")],
+                                                              issuanceMetadata: nil,
+                                                              name: nil,
+                                                              purpose: nil,
+                                                              constraints: nil)
+            let mockPresentationDefinition = PresentationDefinition(id: "mock presentation definition id",
+                                                                    inputDescriptors: [inputDescriptor],
+                                                                    issuance: nil)
+            let mockRequestClaims = RequestedClaims(vpToken: [RequestedVPToken(presentationDefinition: mockPresentationDefinition)])
+            claims = mockRequestClaims
+        }
+        
         let presentationRequestTokenClaims = PresentationRequestClaims(jti: nil,
                                                                        clientID: nil,
                                                                        redirectURI: callbackUrl,
                                                                        responseMode: nil,
                                                                        responseType: nil,
-                                                                       claims: requestedClaims,
+                                                                       claims: claims,
                                                                        state: state,
                                                                        nonce: nil,
                                                                        scope: nil,

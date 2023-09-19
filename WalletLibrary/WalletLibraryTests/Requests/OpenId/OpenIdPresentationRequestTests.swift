@@ -144,6 +144,18 @@ class OpenIdPresentationRequestTests: XCTestCase {
     
     func testComplete_WithResponderThrows_ReturnsFailureResult() async throws {
         // Arrange
+        let mockInputDescriptor = PresentationInputDescriptor(id: "mockId",
+                                                              schema: [],
+                                                              issuanceMetadata: [],
+                                                              name: nil,
+                                                              purpose: nil,
+                                                              constraints: nil)
+        let mockPresentationDefinition = PresentationDefinition(id: "mock id",
+                                                                inputDescriptors: [mockInputDescriptor],
+                                                                issuance: nil)
+        let requestedVpToken = RequestedVPToken(presentationDefinition: mockPresentationDefinition)
+        let mockPresentationRequest = createMockPresentationRequest(requestedVPTokens: [requestedVpToken])
+        
         let mockStyle = MockRequesterStyle(requester: "mock requester")
         let mockRootOfTrust = RootOfTrust(verified: true, source: "")
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
@@ -170,10 +182,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let mockResponder = MockOpenIdResponder(mockSend: mockSend)
         
-        let mockRawRequest = createMockPresentationRequest()
-        
         let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: mockRawRequest,
+                                                rawRequest: mockPresentationRequest,
                                                 openIdResponder: mockResponder,
                                                 configuration: configuration)
         
@@ -193,6 +203,18 @@ class OpenIdPresentationRequestTests: XCTestCase {
     
     func testComplete_WithValidInput_ReturnsSuccessResult() async throws {
         // Arrange
+        let mockInputDescriptor = PresentationInputDescriptor(id: "mockId",
+                                                              schema: [],
+                                                              issuanceMetadata: [],
+                                                              name: nil,
+                                                              purpose: nil,
+                                                              constraints: nil)
+        let mockPresentationDefinition = PresentationDefinition(id: "mock id",
+                                                                inputDescriptors: [mockInputDescriptor],
+                                                                issuance: nil)
+        let requestedVpToken = RequestedVPToken(presentationDefinition: mockPresentationDefinition)
+        let mockPresentationRequest = createMockPresentationRequest(requestedVPTokens: [requestedVpToken])
+        
         let mockStyle = MockRequesterStyle(requester: "mock requester")
         let mockRootOfTrust = RootOfTrust(verified: true, source: "")
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
@@ -215,10 +237,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let mockResponder = MockOpenIdResponder()
         
-        let mockRawRequest = createMockPresentationRequest()
-        
         let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: mockRawRequest,
+                                                rawRequest: mockPresentationRequest,
                                                 openIdResponder: mockResponder,
                                                 configuration: configuration)
         
@@ -234,23 +254,23 @@ class OpenIdPresentationRequestTests: XCTestCase {
         }
     }
     
-    private func createMockPresentationRequest() -> PresentationRequest {
-        let mockClaims = PresentationRequestClaims(jti: nil,
-                                                   clientID: "mockAudienceDID",
-                                                   redirectURI: "mockAudienceURL",
-                                                   responseMode: nil,
-                                                   responseType: nil,
-                                                   claims: nil,
-                                                   state: nil,
-                                                   nonce: "mockNonce",
-                                                   scope: nil,
-                                                   prompt: nil,
+    private func createMockPresentationRequest(requestedVPTokens: [RequestedVPToken] = []) -> PresentationRequest {
+        let mockClaims = PresentationRequestClaims(jti: "",
+                                                   clientID: "expectedAudienceDid",
+                                                   redirectURI: "expectedAudienceUrl",
+                                                   responseMode: "",
+                                                   responseType: "",
+                                                   claims: RequestedClaims(vpToken: requestedVPTokens),
+                                                   state: "",
+                                                   nonce: "expectedNonce",
+                                                   scope: "",
+                                                   prompt: "",
                                                    registration: nil,
                                                    iat: nil,
                                                    exp: nil,
                                                    pin: nil)
         let mockToken = PresentationRequestToken(headers: Header(), content: mockClaims)!
-        let mockRawRequest = PresentationRequest(from: mockToken, linkedDomainResult: .linkedDomainMissing)
-        return mockRawRequest
+        let rawPresentationRequest = PresentationRequest(from: mockToken, linkedDomainResult: LinkedDomainResult.linkedDomainMissing)
+        return rawPresentationRequest
     }
 }

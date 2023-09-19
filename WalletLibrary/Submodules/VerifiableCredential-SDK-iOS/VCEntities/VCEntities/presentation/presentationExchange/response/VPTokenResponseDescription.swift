@@ -10,7 +10,7 @@
 struct VPTokenResponseDescription: Codable {
     
     /// The presentation submission that describes what is being presented.
-    let presentationSubmission: PresentationSubmission?
+    let presentationSubmission: PresentationSubmission
     
     enum CodingKeys: String, CodingKey {
         case presentationSubmission = "presentation_submission"

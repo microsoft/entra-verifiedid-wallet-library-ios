@@ -108,7 +108,17 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
     
     func testAddRequirement_WithVerifiedIdRequirement_AddsVCToMap() async throws {
         // Arrange
-        let mockPresentationRequest = createPresentationRequest()
+        let mockInputDescriptor = PresentationInputDescriptor(id: "mockId",
+                                                              schema: [],
+                                                              issuanceMetadata: [],
+                                                              name: nil,
+                                                              purpose: nil,
+                                                              constraints: nil)
+        let mockPresentationDefinition = PresentationDefinition(id: "mock id",
+                                                                inputDescriptors: [mockInputDescriptor],
+                                                                issuance: nil)
+        let requestedVpToken = RequestedVPToken(presentationDefinition: mockPresentationDefinition)
+        let mockPresentationRequest = createPresentationRequest(requestedVPTokens: [requestedVpToken])
         var presentationResponse = try PresentationResponseContainer(rawRequest: mockPresentationRequest)
         
         let mockConstraint = MockConstraint(doesMatchResult: true)
@@ -125,14 +135,31 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         // Act / Assert
         XCTAssertNoThrow(try presentationResponse.add(requirement: verifiedIdRequirement))
         XCTAssertEqual(presentationResponse.requestVCMap.count, 1)
-        XCTAssertEqual(try presentationResponse.requestVCMap.first?.vc.serialize(),
+        XCTAssertEqual(try presentationResponse.requestVCMap.first?.value.first?.vc.serialize(),
                        try mockVC.raw.serialize())
-        XCTAssertEqual(presentationResponse.requestVCMap.first?.inputDescriptorId, verifiedIdRequirement.id)
+        XCTAssertEqual(presentationResponse.requestVCMap.first?.value.first?.inputDescriptorId, verifiedIdRequirement.id)
     }
     
     func testAddRequirement_WithMultipleVerifiedIdRequirements_AddsVCsToMap() async throws {
         // Arrange
-        let mockPresentationRequest = createPresentationRequest()
+        let mockInputDescriptor1 = PresentationInputDescriptor(id: "mockId1",
+                                                              schema: [],
+                                                              issuanceMetadata: [],
+                                                              name: nil,
+                                                              purpose: nil,
+                                                              constraints: nil)
+        let mockInputDescriptor2 = PresentationInputDescriptor(id: "mockId2",
+                                                              schema: [],
+                                                              issuanceMetadata: [],
+                                                              name: nil,
+                                                              purpose: nil,
+                                                              constraints: nil)
+        let mockPresentationDefinition = PresentationDefinition(id: "mock id",
+                                                                inputDescriptors: [mockInputDescriptor1,
+                                                                                   mockInputDescriptor2],
+                                                                issuance: nil)
+        let requestedVpToken = RequestedVPToken(presentationDefinition: mockPresentationDefinition)
+        let mockPresentationRequest = createPresentationRequest(requestedVPTokens: [requestedVpToken])
         var presentationResponse = try PresentationResponseContainer(rawRequest: mockPresentationRequest)
         
         let mockConstraint = MockConstraint(doesMatchResult: true)
@@ -160,22 +187,23 @@ class PresentationResponseContainerExtensionTests: XCTestCase {
         
         // Act / Assert
         XCTAssertNoThrow(try presentationResponse.add(requirement: groupRequirement))
-        XCTAssertEqual(presentationResponse.requestVCMap.count, 2)
-        XCTAssertEqual(try presentationResponse.requestVCMap.first?.vc.serialize(),
+        XCTAssertEqual(presentationResponse.requestVCMap.count, 1)
+        XCTAssertEqual(presentationResponse.requestVCMap.first?.value.count, 2)
+        XCTAssertEqual(try presentationResponse.requestVCMap.first?.value.first?.vc.serialize(),
                        try mockVC1.raw.serialize())
-        XCTAssertEqual(presentationResponse.requestVCMap.first?.inputDescriptorId, verifiedIdRequirement1.id)
-        XCTAssertEqual(try presentationResponse.requestVCMap[1].vc.serialize(),
+        XCTAssertEqual(presentationResponse.requestVCMap.first?.value.first?.inputDescriptorId, verifiedIdRequirement1.id)
+        XCTAssertEqual(try presentationResponse.requestVCMap.first?.value[1].vc.serialize(),
                        try mockVC2.raw.serialize())
-        XCTAssertEqual(presentationResponse.requestVCMap[1].inputDescriptorId, verifiedIdRequirement2.id)
+        XCTAssertEqual(presentationResponse.requestVCMap.first?.value[1].inputDescriptorId, verifiedIdRequirement2.id)
     }
     
-    private func createPresentationRequest() -> PresentationRequest {
+    private func createPresentationRequest(requestedVPTokens: [RequestedVPToken] = []) -> PresentationRequest {
         let mockClaims = PresentationRequestClaims(jti: "",
                                                    clientID: "expectedAudienceDid",
                                                    redirectURI: "expectedAudienceUrl",
                                                    responseMode: "",
                                                    responseType: "",
-                                                   claims: nil,
+                                                   claims: RequestedClaims(vpToken: requestedVPTokens),
                                                    state: "",
                                                    nonce: "expectedNonce",
                                                    scope: "",

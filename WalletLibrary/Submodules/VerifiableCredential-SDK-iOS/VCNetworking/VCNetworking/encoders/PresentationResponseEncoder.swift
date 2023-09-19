@@ -5,14 +5,6 @@
 
 import Foundation
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
-#if canImport(VCToken)
-    import VCToken
-#endif
-
 enum PresentationResponseEncoderError: Error {
     case noVerifiablePresentationInResponse
     case unableToSerializeResponse
@@ -31,13 +23,19 @@ struct PresentationResponseEncoder: Encoding {
         
         let idTokenParam = "\(Constants.idToken)=\(try value.idToken.serialize())"
         
-        guard let vpToken = value.vpToken else {
+        var vpTokenParam = ""
+        
+        guard !value.vpTokens.isEmpty else
+        {
             throw PresentationResponseEncoderError.noVerifiablePresentationInResponse
         }
         
-        let vpTokenParam = "\(Constants.vpToken)=\(try vpToken.serialize())"
+        for vpToken in value.vpTokens
+        {
+            vpTokenParam = vpTokenParam + "&\(Constants.vpToken)=\(try vpToken.serialize())"
+        }
         
-        var responseBody = "\(idTokenParam)&\(vpTokenParam)"
+        var responseBody = "\(idTokenParam)\(vpTokenParam)"
         
         if let state = value.state?.stringByAddingPercentEncodingForRFC3986() {
             let stateParam = "\(Constants.state)=\(state)"

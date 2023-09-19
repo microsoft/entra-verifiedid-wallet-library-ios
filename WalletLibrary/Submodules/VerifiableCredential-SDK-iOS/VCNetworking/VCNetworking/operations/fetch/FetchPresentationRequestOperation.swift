@@ -30,7 +30,14 @@ class FetchPresentationRequestOperation: InternalNetworkOperation {
         self.correlationVector = cv
         
         /// sets value in order to get a signed version of the contract
-        self.urlRequest.addValue(Constants.VersionNumberHeaderValue,
-                                 forHTTPHeaderField: Constants.VersionNumberHeaderField)
+        if let value = urlSession.configuration.httpAdditionalHeaders?[Constants.VersionNumberHeaderField] {
+            
+            let newValue = "\(value);\(Constants.VersionNumberHeaderValue)"
+            urlSession.configuration.httpAdditionalHeaders?[Constants.VersionNumberHeaderField] = newValue
+
+        } else {
+            self.urlRequest.addValue(Constants.VersionNumberHeaderValue,
+                                     forHTTPHeaderField: Constants.VersionNumberHeaderField)
+        }
     }
 }

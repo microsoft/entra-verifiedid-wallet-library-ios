@@ -8,11 +8,6 @@ class PostPresentationResponseOperation: InternalPostNetworkOperation {
     typealias RequestBody = PresentationResponse
     typealias ResponseBody = String?
     
-    private struct InternalConstants {
-        static let VersionNumberHeaderField = "prefer"
-        static let VersionNumberHeaderValue = "WACI4ION-0.0.1"
-    }
-    
     let decoder = BasicServiceResponseDecoder()
     let encoder = PresentationResponseEncoder()
     let urlSession: URLSession

@@ -19,7 +19,9 @@ class PostPresentionResponseOperationTests: XCTestCase {
         let idToken = PresentationResponseToken(headers: header, content: claims)!
         let vpClaims = VerifiablePresentationClaims(verifiablePresentation: nil)
         let vpToken = VerifiablePresentation(headers: header, content: vpClaims)!
-        expectedPresentationResponse = PresentationResponse(idToken: idToken, vpToken: vpToken, state: "state")
+        expectedPresentationResponse = PresentationResponse(idToken: idToken,
+                                                            vpTokens: [vpToken],
+                                                            state: "state")
 
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [UrlProtocolMock.self]

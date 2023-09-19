@@ -6,4 +6,4 @@
 typealias RequestedIdTokenMap = [String:String]
 typealias RequestedAccessTokenMap = [String: String]
 typealias RequestedSelfAttestedClaimMap = [String: String]
-typealias RequestedVerifiableCredentialMap = [RequestedVerifiableCredentialMapping]
+typealias RequestedVerifiableCredentialMap = [String: [RequestedVerifiableCredentialMapping]]

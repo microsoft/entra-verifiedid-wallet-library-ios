@@ -16,7 +16,7 @@ class PresentationServiceTests: XCTestCase {
     let expectedUrl = "openid://vc/?request_uri=https://test-relyingparty.azurewebsites.net/request/UZWlr4uOY13QiA"
     
     override func setUpWithError() throws {
-        let formatter = PresentationResponseFormatter()
+        let formatter = PresentationResponseFormatter(sdkLog: VCSDKLog.sharedInstance)
         let identifierService = IdentifierService()
         service = PresentationService(formatter: formatter,
                                       presentationApiCalls: MockPresentationApiCalls(),

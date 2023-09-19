@@ -28,7 +28,7 @@ class PresentationService {
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                      urlSession: URLSession = URLSession.shared) {
-        self.init(formatter: PresentationResponseFormatter(),
+        self.init(formatter: PresentationResponseFormatter(sdkLog: VCSDKLog.sharedInstance),
                   presentationApiCalls: PresentationNetworkCalls(correlationVector: correlationVector,
                                                                  urlSession: urlSession),
                   didDocumentDiscoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
@@ -76,8 +76,9 @@ class PresentationService {
     
     func send(response: PresentationResponseContainer) async throws {
         try await logTime(name: "Presentation sendResponse") {
-            let signedToken = try self.formatPresentationResponse(response: response)
-            try await self.presentationApiCalls.sendResponse(usingUrl:  response.audienceUrl, withBody: signedToken)
+            let formattedResponse = try self.formatPresentationResponse(response: response)
+            try await self.presentationApiCalls.sendResponse(usingUrl: response.audienceUrl,
+                                                             withBody: formattedResponse)
         }
     }
     
@@ -116,6 +117,7 @@ class PresentationService {
     private func formatPresentationResponse(response: PresentationResponseContainer) throws -> PresentationResponse {
         let identifier = try identifierService.fetchOrCreateMasterIdentifier()
         sdkLog.logVerbose(message: "Signing Presentation Response with Identifier")
-        return try self.formatter.format(response: response, usingIdentifier: identifier)
+        return try self.formatter.format(response: response,
+                                         usingIdentifier: identifier)
     }
 }
