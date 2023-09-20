@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
  * An extension of the VCEntities.PresentationDescriptor class to be able
  * to map PresentationDescriptor to VerifiedIdRequirement.
@@ -31,7 +27,7 @@ extension PresentationDescriptor: Mappable {
                                      types: [credentialType],
                                      purpose: nil,
                                      issuanceOptions: issuanceOptions ?? [],
-                                     id: nil,
+                                     id: credentialType,
                                      constraint: constraint)
     }
 }
