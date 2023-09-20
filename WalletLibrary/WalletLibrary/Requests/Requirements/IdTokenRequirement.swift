@@ -18,7 +18,7 @@ public class IdTokenRequirement: Requirement {
     public let configuration: URL
     
     /// The client id used to get the id token through an authentication library.
-    public let clientId: String
+    public let clientId: String?
     
     /// The redirect url used to get the id token through an authentication library.
     public let redirectUri: String?
@@ -37,7 +37,7 @@ public class IdTokenRequirement: Requirement {
     init(encrypted: Bool,
          required: Bool,
          configuration: URL,
-         clientId: String,
+         clientId: String?,
          redirectUri: String?,
          scope: String?) {
         self.encrypted = encrypted
