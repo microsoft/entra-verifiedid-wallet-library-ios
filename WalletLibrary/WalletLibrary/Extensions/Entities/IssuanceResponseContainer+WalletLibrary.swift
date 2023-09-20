@@ -3,15 +3,11 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 enum IssuanceResponseContainerError: Error, Equatable {
     case unableToCastVCSDKIssuanceRequestFromRawManifestOfType(String)
     case unableToCastVerifiedIdRequestURLFromInputOfType(String)
     case unsupportedRequirementOfType(String)
-    case verifiedIdRequirementsOnIssuanceRequestsAreUnsupported
+    case unsupportedVerifiedIdOfType(String)
 }
 
 /**
@@ -82,8 +78,17 @@ extension IssuanceResponseContainer: IssuanceResponseContaining {
     }
     
     private mutating func add(verifiedIdRequirement: VerifiedIdRequirement) throws {
-        /// TODO: support VerifiedIdRequirements on issuance requests.
-        throw IssuanceResponseContainerError.verifiedIdRequirementsOnIssuanceRequestsAreUnsupported
+        
+        try verifiedIdRequirement.validate().get()
+
+        guard let vc = verifiedIdRequirement.selectedVerifiedId as? VCVerifiedId else
+        {
+            let type = String(describing: type(of: verifiedIdRequirement.selectedVerifiedId))
+            throw IssuanceResponseContainerError.unsupportedVerifiedIdOfType(type)
+        }
+
+        self.requestVCMap.append(RequestedVerifiableCredentialMapping(id: verifiedIdRequirement.id ?? "",
+                                                                      verifiableCredential: vc.raw))
     }
     
     private mutating func add(selfAttestedRequirement: SelfAttestedClaimRequirement) throws {
