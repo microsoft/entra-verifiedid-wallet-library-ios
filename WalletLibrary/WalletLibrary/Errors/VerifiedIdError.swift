@@ -6,9 +6,9 @@
 /// Base Error Protocol. Every error that is returned from the library is a VerifiedIdError.
 public class VerifiedIdError: LocalizedError, CustomStringConvertible, Encodable {
 
-    let message: String
-    let code: String
-    let correlationId: String?
+    public let message: String
+    public let code: String
+    public let correlationId: String?
     
     init(message: String, code: String, correlationId: String? = nil) {
         self.message = message
