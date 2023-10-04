@@ -5,7 +5,7 @@
 
 enum CryptoOperationsError: Error {
     case invalidPublicKey
-    case signingAlgorithmNotSupported
+    case signingAlgorithmNotSupported(String?)
     case signingAlgorithmDoesNotSupportGetPublicKey
     case signingAlgorithmDoesNotSupportSigning
     case signingAlgorithmDoesNotSupportVerification
@@ -28,11 +28,11 @@ struct CryptoOperations: CryptoOperating {
     
     /// Only supports Secp256k1 signing.
     func sign(message: Data,
-                     usingSecret secret: VCCryptoSecret,
-                     algorithm: String = SupportedCurve.Secp256k1.rawValue) throws -> Data {
+              usingSecret secret: VCCryptoSecret,
+              algorithm: String = SupportedCurve.Secp256k1.rawValue) throws -> Data {
         
         guard let signingAlgo = signingAlgorithms[algorithm.uppercased()] else {
-            throw CryptoOperationsError.signingAlgorithmNotSupported
+            throw CryptoOperationsError.signingAlgorithmNotSupported(algorithm)
         }
         
         guard signingAlgo.supportedSigningOperations.contains(.Signing) else {
@@ -44,10 +44,10 @@ struct CryptoOperations: CryptoOperating {
     
     /// Only support Secp256k1 public key retrieval.
     func getPublicKey(fromSecret secret: VCCryptoSecret,
-                             algorithm: String = SupportedCurve.Secp256k1.rawValue) throws -> PublicKey {
+                      algorithm: String = SupportedCurve.Secp256k1.rawValue) throws -> PublicKey {
         
         guard let signingAlgo = signingAlgorithms[algorithm.uppercased()] else {
-            throw CryptoOperationsError.signingAlgorithmNotSupported
+            throw CryptoOperationsError.signingAlgorithmNotSupported(algorithm)
         }
         
         guard signingAlgo.supportedSigningOperations.contains(.GetPublicKey) else {
@@ -57,13 +57,23 @@ struct CryptoOperations: CryptoOperating {
         return try signingAlgo.algorithm.createPublicKey(forSecret: secret)
     }
     
+    func getPublicKey(fromJWK key: JWK) throws -> PublicKey {
+        
+        if let algoName = key.curve?.uppercased(),
+           let signer = signingAlgorithms[algoName] {
+            return try signer.algorithm.createPublicKey(fromJWK: key)
+        }
+        
+        throw CryptoOperationsError.signingAlgorithmNotSupported(key.curve)
+    }
+    
     /// Verify signature for the message using the public key if public key algorithm is supported.
     func verify(signature: Data,
-                       forMessage message: Data,
-                       usingPublicKey publicKey: PublicKey) throws -> Bool {
+                forMessage message: Data,
+                usingPublicKey publicKey: PublicKey) throws -> Bool {
         
         guard let signingAlgo = signingAlgorithms[publicKey.algorithm.uppercased()] else {
-            throw CryptoOperationsError.signingAlgorithmNotSupported
+            throw CryptoOperationsError.signingAlgorithmNotSupported(publicKey.algorithm)
         }
         
         guard signingAlgo.supportedSigningOperations.contains(.Verification) else {

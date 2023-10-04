@@ -40,5 +40,9 @@ struct ES256k: Signing {
     func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey {
         return try curveAlgorithm.createPublicKey(forSecret: secret)
     }
+    
+    func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
+        return try curveAlgorithm.createPublicKey(fromJWK: key)
+    }
 }
 

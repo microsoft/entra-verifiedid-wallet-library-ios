@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-
 enum TokenVerifierError: Error, Equatable {
     case malformedProtectedMessageInToken
     case missingKeyMaterialInJWK
@@ -31,36 +27,11 @@ struct TokenVerifier: TokenVerifying {
             throw TokenVerifierError.malformedProtectedMessageInToken
         }
         
-        return try cryptoOperations.verify(signature: signature, forMessage: encodedMessage, usingPublicKey: transformKey(key: key))
-    }
-    
-    private func transformKey(key: JWK) throws -> PublicKey {
-        switch key.curve?.uppercased() {
-        case SupportedCurve.Secp256k1.rawValue:
-            return try transformSecp256k1(key: key)
-        case SupportedCurve.ED25519.rawValue:
-            return try transformED25519(key: key)
-        default:
-            throw TokenVerifierError.unsupportedAlgorithmFoundInJWK(algorithm: key.curve)
-        }
-    }
-    
-    private func transformSecp256k1(key: JWK) throws -> Secp256k1PublicKey {
-        guard let x = key.x, let y = key.y,
-              let secpKey = Secp256k1PublicKey(x: x, y: y) else {
-            throw TokenVerifierError.missingKeyMaterialInJWK
-        }
+        let publicKey = try cryptoOperations.getPublicKey(fromJWK: key)
         
-        return secpKey
-    }
-    
-    private func transformED25519(key: JWK) throws -> ED25519PublicKey {
-        guard let x = key.x,
-              let edKey = ED25519PublicKey(x: x) else {
-            throw TokenVerifierError.missingKeyMaterialInJWK
-        }
-        
-        return edKey
+        return try cryptoOperations.verify(signature: signature,
+                                           forMessage: encodedMessage,
+                                           usingPublicKey: publicKey)
     }
 }
 

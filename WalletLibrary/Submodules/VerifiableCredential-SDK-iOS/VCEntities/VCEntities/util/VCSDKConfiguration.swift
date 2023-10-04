@@ -13,7 +13,7 @@ struct VCSDKConfiguration: VCSDKConfigurable {
     
     private(set) var accessGroupIdentifier: String?
     
-    private(set) var discoveryUrl: String = "https://discover.did.msidentity.com/v1.0/identifiers"
+    private(set) var discoveryUrl: String = "https://dev.discover.did.msidentity.com/private/identifiers"
     
     private init() {}
     

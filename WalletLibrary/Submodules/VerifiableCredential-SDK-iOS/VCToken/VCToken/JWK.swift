@@ -28,15 +28,15 @@ struct JWK: Codable, Equatable {
         case curve = "crv"
         case use, x, y, d
     }
-
+    
     init(keyType: String,
-                keyId: String? = nil,
-                key: Data? = nil,
-                curve: String? = nil,
-                use: String? = nil,
-                x: Data? = nil,
-                y: Data? = nil,
-                d: Data? = nil) {
+         keyId: String? = nil,
+         key: Data? = nil,
+         curve: String? = nil,
+         use: String? = nil,
+         x: Data? = nil,
+         y: Data? = nil,
+         d: Data? = nil) {
         self.keyType = keyType
         self.keyId = keyId
         self.key = key

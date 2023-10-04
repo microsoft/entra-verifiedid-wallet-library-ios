@@ -5,6 +5,7 @@
 
 /// Protocol that specifies operations of a signing algorithm.
 protocol Signing {
+//    associatedtype PubKey where PubKey: PublicKey
     
     /// Sign a message and return signature.
     func sign(message: Data, withSecret secret: VCCryptoSecret) throws -> Data
@@ -14,4 +15,6 @@ protocol Signing {
     
     /// create public key from private key.
     func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey
+    
+    func createPublicKey(fromJWK key: JWK) throws -> PublicKey
 }
