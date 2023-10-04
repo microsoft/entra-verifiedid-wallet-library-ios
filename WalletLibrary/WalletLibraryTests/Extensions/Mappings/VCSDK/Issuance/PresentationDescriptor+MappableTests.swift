@@ -87,7 +87,7 @@ class PresentationDescriptorMappingTests: XCTestCase {
         XCTAssert(actual.constraint is VCTypeConstraint)
         XCTAssertEqual((actual.constraint as? VCTypeConstraint)?.type,
                        (expected.constraint as? VCTypeConstraint)?.type)
-        XCTAssertNil(actual.id)
+        XCTAssertEqual(actual.id, expected.id)
     }
 
     private func setUpInput(encrypted: Bool? = false,
@@ -116,7 +116,7 @@ class PresentationDescriptorMappingTests: XCTestCase {
                                                    types: [credentialType],
                                                    purpose: nil,
                                                    issuanceOptions: expectedIssuanceOptions ?? [],
-                                                   id: nil,
+                                                   id: credentialType,
                                                    constraint: VCTypeConstraint(type: credentialType))
         return (input, expectedResult)
     }

@@ -49,12 +49,12 @@ class IdTokenDescriptorMappingTests: XCTestCase {
         assertEqual(actualResult, expectedResult)
     }
     
-    func testMappingWithNoClientIdPresentError() throws {
+    func testMappingWithMalformedConfigurationError() throws {
         let input = IdTokenDescriptor(encrypted: false,
                                       claims: [],
                                       idTokenRequired: false,
-                                      configuration: "$|[%=",
-                                      clientID: expectedConfiguration,
+                                      configuration: "//|\\",
+                                      clientID: nil,
                                       redirectURI: expectedRedirectUri,
                                       scope: expectedScope)
         

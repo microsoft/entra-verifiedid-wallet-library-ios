@@ -6,7 +6,7 @@
 /**
  * An object that describes a necessary piece of information to be included within a Request.
  */
-public protocol Requirement {
+public protocol Requirement: AnyObject {
     /// Whether or not the requirement is required to fulfill request.
     var required: Bool { get }
     
