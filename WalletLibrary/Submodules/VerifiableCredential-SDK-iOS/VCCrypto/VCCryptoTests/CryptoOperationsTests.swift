@@ -50,7 +50,7 @@ class CryptoOperationsTests: XCTestCase {
         let cryptoOperations = CryptoOperations()
         XCTAssertThrowsError(try cryptoOperations.sign(message: mockMessageToSign, usingSecret: mockSecret, algorithm: "mock")) { error in
             XCTAssertFalse(SigningMock.wasSignCalled)
-            XCTAssertEqual(error as? CryptoOperationsError, CryptoOperationsError.signingAlgorithmNotSupported)
+            XCTAssertEqual(error as? CryptoOperationsError, CryptoOperationsError.signingAlgorithmNotSupported("mock"))
         }
     }
     
@@ -104,7 +104,7 @@ class CryptoOperationsTests: XCTestCase {
                                                          forMessage: mockMessageToSign,
                                                          usingPublicKey: mockPublicKey)) { error in
             XCTAssertFalse(SigningMock.wasIsValidSignatureCalled)
-            XCTAssertEqual(error as? CryptoOperationsError, CryptoOperationsError.signingAlgorithmNotSupported)
+            XCTAssertEqual(error as? CryptoOperationsError, CryptoOperationsError.signingAlgorithmNotSupported("mock"))
         }
     }
     
@@ -148,7 +148,7 @@ class CryptoOperationsTests: XCTestCase {
         let cryptoOperations = CryptoOperations()
         XCTAssertThrowsError(try cryptoOperations.getPublicKey(fromSecret: mockSecret, algorithm: "mock")) { error in
             XCTAssertFalse(SigningMock.wasCreatePublicKeyCalled)
-            XCTAssertEqual(error as? CryptoOperationsError, CryptoOperationsError.signingAlgorithmNotSupported)
+            XCTAssertEqual(error as? CryptoOperationsError, CryptoOperationsError.signingAlgorithmNotSupported("mock"))
         }
     }
     

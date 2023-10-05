@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum CryptoOperationsError: Error {
+enum CryptoOperationsError: Error, Equatable {
     case invalidPublicKey
     case signingAlgorithmNotSupported(String?)
     case signingAlgorithmDoesNotSupportGetPublicKey
