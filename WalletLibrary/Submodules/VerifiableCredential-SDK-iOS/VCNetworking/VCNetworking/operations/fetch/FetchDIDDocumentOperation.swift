@@ -27,8 +27,6 @@ class FetchDIDDocumentOperation: InternalNetworkOperation {
         }
         
         self.urlRequest = URLRequest(url: url)
-        
-        urlRequest.addValue("Microsoft-Authenticator/6.7.12", forHTTPHeaderField: "User-Agent")
 
         self.urlSession = session
         self.correlationVector = correlationVector
