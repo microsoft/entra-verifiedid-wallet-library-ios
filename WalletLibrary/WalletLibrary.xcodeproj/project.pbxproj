@@ -1762,14 +1762,14 @@
 		5552D49129EF4AC300B40302 /* VCCrypto */ = {
 			isa = PBXGroup;
 			children = (
-				5552D49229EF4AC300B40302 /* KeychainSecretStore.swift */,
 				5552D49329EF4AC300B40302 /* Algorithms */,
 				5552D4A029EF4AC300B40302 /* Extensions */,
-				5552D4A329EF4AC300B40302 /* KeyManagementOperations.swift */,
-				5552D4A429EF4AC300B40302 /* CryptoOperations.swift */,
 				5552D4A529EF4AC300B40302 /* Keys */,
-				5552D4AC29EF4AC300B40302 /* SecretStoring.swift */,
 				5552D4AD29EF4AC300B40302 /* Protocols */,
+				5552D4A429EF4AC300B40302 /* CryptoOperations.swift */,
+				5552D49229EF4AC300B40302 /* KeychainSecretStore.swift */,
+				5552D4A329EF4AC300B40302 /* KeyManagementOperations.swift */,
+				5552D4AC29EF4AC300B40302 /* SecretStoring.swift */,
 			);
 			name = VCCrypto;
 			path = "Submodules/VerifiableCredential-SDK-iOS/VCCrypto/VCCrypto";
@@ -1861,22 +1861,12 @@
 		5552D7AC29F2E0A900B40302 /* VCCryptoTests */ = {
 			isa = PBXGroup;
 			children = (
+				55F01CD62ACF135C000794B4 /* Algorithms */,
+				55F01CD52ACF134D000794B4 /* Keys */,
 				5552D7AE29F2E0A900B40302 /* Mocks */,
-				5552D7AD29F2E0A900B40302 /* Sha256Tests.swift */,
-				5552D7B629F2E0A900B40302 /* KeyManagementOperationsTests.swift */,
-				5552D7B729F2E0A900B40302 /* Sha512Tests.swift */,
-				5552D7B829F2E0A900B40302 /* AesTests.swift */,
 				5552D7B929F2E0A900B40302 /* CryptoOperationsTests.swift */,
-				5552D7BA29F2E0A900B40302 /* Secp256k1PublicKeyTests.swift */,
-				5552D7BB29F2E0A900B40302 /* ES256kTests.swift */,
-				5552D7BC29F2E0A900B40302 /* PbkdfTests.swift */,
+				5552D7B629F2E0A900B40302 /* KeyManagementOperationsTests.swift */,
 				5552D7BD29F2E0A900B40302 /* KeychainSecretStoreTests.swift */,
-				5552D7BE29F2E0A900B40302 /* EdDSATests.swift */,
-				5552D7BF29F2E0A900B40302 /* Random32BytesSecretTests.swift */,
-				5552D7C029F2E0A900B40302 /* HmacSha512Tests.swift */,
-				5552D7C229F2E0A900B40302 /* Secp256k1Tests.swift */,
-				55F01CCE2ACDFF55000794B4 /* P256Tests.swift */,
-				55F01CD32ACE100B000794B4 /* P256PublicKeyTests.swift */,
 			);
 			name = VCCryptoTests;
 			path = "Submodules/VerifiableCredential-SDK-iOS/VCCrypto/VCCryptoTests";
@@ -2623,6 +2613,32 @@
 				5534E663294A0B28005D0765 /* Mappings */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		55F01CD52ACF134D000794B4 /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				55F01CD32ACE100B000794B4 /* P256PublicKeyTests.swift */,
+				5552D7BF29F2E0A900B40302 /* Random32BytesSecretTests.swift */,
+				5552D7BA29F2E0A900B40302 /* Secp256k1PublicKeyTests.swift */,
+			);
+			path = Keys;
+			sourceTree = "<group>";
+		};
+		55F01CD62ACF135C000794B4 /* Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				5552D7B829F2E0A900B40302 /* AesTests.swift */,
+				5552D7BE29F2E0A900B40302 /* EdDSATests.swift */,
+				5552D7BB29F2E0A900B40302 /* ES256kTests.swift */,
+				5552D7C029F2E0A900B40302 /* HmacSha512Tests.swift */,
+				55F01CCE2ACDFF55000794B4 /* P256Tests.swift */,
+				5552D7BC29F2E0A900B40302 /* PbkdfTests.swift */,
+				5552D7AD29F2E0A900B40302 /* Sha256Tests.swift */,
+				5552D7B729F2E0A900B40302 /* Sha512Tests.swift */,
+				5552D7C229F2E0A900B40302 /* Secp256k1Tests.swift */,
+			);
+			path = Algorithms;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
