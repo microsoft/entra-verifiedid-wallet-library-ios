@@ -43,4 +43,8 @@ final class SigningMock: Signing {
         Self.wasCreatePublicKeyCalled = true
         return createPublicKeyResult
     }
+    
+    func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
+        return createPublicKeyResult
+    }
 }

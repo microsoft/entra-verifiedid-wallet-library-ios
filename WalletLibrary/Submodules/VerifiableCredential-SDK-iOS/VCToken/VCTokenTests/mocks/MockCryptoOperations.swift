@@ -5,9 +5,14 @@
 
 @testable import WalletLibrary
 
+enum MockCryptoError: Error {
+    case ExpectedToThrow
+}
+
 class MockCryptoOperations: CryptoOperating {
-    
+
     var verifyResult: Bool = true
+    var throwWhenGettingPublicKey: Bool = false
     var signingResult: Data?
     var publicKey: PublicKey?
     
@@ -27,6 +32,10 @@ class MockCryptoOperations: CryptoOperating {
         self.publicKey = publicKey
     }
     
+    init(throwWhenGettingPublicKey: Bool) {
+        self.throwWhenGettingPublicKey = throwWhenGettingPublicKey
+    }
+    
     func verify(signature: Data, forMessage message: Data, usingPublicKey publicKey: PublicKey) throws -> Bool {
         Self.wasVerifyCalled = true
         return verifyResult
@@ -39,6 +48,15 @@ class MockCryptoOperations: CryptoOperating {
     
     func getPublicKey(fromSecret secret: VCCryptoSecret, algorithm: String = "mock") throws -> PublicKey {
         Self.wasGetPublicKeyCalled = true
+        return publicKey ?? Secp256k1PublicKey(x: Data(count: 32), y: Data(count: 32))!
+    }
+    
+    func getPublicKey(fromJWK jwk: WalletLibrary.JWK) throws -> WalletLibrary.PublicKey {
+        if throwWhenGettingPublicKey
+        {
+            throw MockCryptoError.ExpectedToThrow
+        }
+        
         return publicKey ?? Secp256k1PublicKey(x: Data(count: 32), y: Data(count: 32))!
     }
 }
