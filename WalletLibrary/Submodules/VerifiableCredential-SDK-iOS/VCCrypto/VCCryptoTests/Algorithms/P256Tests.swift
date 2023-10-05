@@ -81,5 +81,143 @@ class P256Tests: XCTestCase
             XCTFail("Signature verification failed: \(error)")
         }
     }
+    
+    func testCreatePublicKey_WithInvalidKeyType_ThrowsError()
+    {
+        // Arrange
+        let mockInvalidKeyType = "Invalid Key Type"
+        let mockX = Data(count: 32)
+        let mockY = Data(count: 32)
+        let jwk = JWK(keyType: mockInvalidKeyType,
+                      keyId: "mock jwk",
+                      key: nil,
+                      curve: "P-256",
+                      use: nil,
+                      x: mockX,
+                      y: mockY,
+                      d: nil)
+        let algorithm = WalletLibrary.P256()
+        
+        do {
+            // Act
+            let _ = try algorithm.createPublicKey(fromJWK: jwk)
+            
+            // Assert
+            XCTFail()
+        } catch {
+            XCTAssert(error is P256Error)
+            XCTAssertEqual(error as? P256Error, .JWKContainsInvalidKeyType(mockInvalidKeyType))
+        }
+    }
+    
+    func testCreatePublicKey_WithInvalidAlgorithm_ThrowsError()
+    {
+        // Arrange
+        let mockInvalidAlgorithm = "Invalid Algorithm"
+        let mockX = Data(count: 32)
+        let mockY = Data(count: 32)
+        let jwk = JWK(keyType: "EC",
+                      keyId: "mock jwk",
+                      key: nil,
+                      curve: mockInvalidAlgorithm,
+                      use: nil,
+                      x: mockX,
+                      y: mockY,
+                      d: nil)
+        let algorithm = WalletLibrary.P256()
+        
+        do {
+            // Act
+            let _ = try algorithm.createPublicKey(fromJWK: jwk)
+            
+            // Assert
+            XCTFail()
+        } catch {
+            XCTAssert(error is P256Error)
+            XCTAssertEqual(error as? P256Error, .JWKContainsInvalidCurveAlgorithm(mockInvalidAlgorithm))
+        }
+    }
+    
+    func testCreatePublicKey_WithMissingXValue_ThrowsError()
+    {
+        // Arrange
+        let mockY = Data(count: 32)
+        let jwk = JWK(keyType: "EC",
+                      keyId: "mock jwk",
+                      key: nil,
+                      curve: "P-256",
+                      use: nil,
+                      x: nil,
+                      y: mockY,
+                      d: nil)
+        let algorithm = WalletLibrary.P256()
+        
+        do {
+            // Act
+            let _ = try algorithm.createPublicKey(fromJWK: jwk)
+            
+            // Assert
+            XCTFail()
+        } catch {
+            XCTAssert(error is P256Error)
+            XCTAssertEqual(error as? P256Error, .MissingKeyMaterialInJWK)
+        }
+    }
+    
+    func testCreatePublicKey_WithInvalidKeyMaterial_ThrowsError()
+    {
+        // Arrange
+        let mockX = Data(count: 33)
+        let mockY = Data(count: 32)
+        let jwk = JWK(keyType: "EC",
+                      keyId: "mock jwk",
+                      key: nil,
+                      curve: "P-256",
+                      use: nil,
+                      x: mockX,
+                      y: mockY,
+                      d: nil)
+        let algorithm = WalletLibrary.P256()
+        
+        do {
+            // Act
+            let _ = try algorithm.createPublicKey(fromJWK: jwk)
+            
+            // Assert
+            XCTFail()
+        } catch {
+            XCTAssert(error is P256Error)
+            XCTAssertEqual(error as? P256Error, .InvalidKeyMaterialInJWK)
+        }
+    }
+    
+    func testCreatePublicKey_WithValidJWK_ReturnsPublicKey()
+    {
+        // Arrange
+        let mockX = Data(count: 32)
+        let mockY = Data(count: 32)
+        let jwk = JWK(keyType: "EC",
+                      keyId: "mock jwk",
+                      key: nil,
+                      curve: "P-256",
+                      use: nil,
+                      x: mockX,
+                      y: mockY,
+                      d: nil)
+        let algorithm = WalletLibrary.P256()
+        
+        do {
+            // Act
+            let publicKey = try algorithm.createPublicKey(fromJWK: jwk)
+            
+            // Assert
+            XCTAssert(publicKey is P256PublicKey)
+            XCTAssertEqual(publicKey.algorithm, "P-256")
+            XCTAssertEqual((publicKey as? P256PublicKey)?.x, mockX)
+            XCTAssertEqual((publicKey as? P256PublicKey)?.y, mockY)
+        } catch {
+            XCTFail("Signature verification failed: \(error)")
+        }
+    }
 }
 
