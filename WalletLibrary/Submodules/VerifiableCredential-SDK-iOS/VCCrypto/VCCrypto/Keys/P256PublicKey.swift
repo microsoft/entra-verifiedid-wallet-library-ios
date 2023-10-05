@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-class P256PublicKey: PublicKey 
-{
+/// A P256 Public Key.
+class P256PublicKey: PublicKey {
    
     let algorithm = SupportedCurve.P256.rawValue
     

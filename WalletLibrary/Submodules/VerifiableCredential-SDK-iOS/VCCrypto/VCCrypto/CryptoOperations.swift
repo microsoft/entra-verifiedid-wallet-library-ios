@@ -57,6 +57,7 @@ struct CryptoOperations: CryptoOperating {
         return try signingAlgo.algorithm.createPublicKey(forSecret: secret)
     }
     
+    /// Get the public key representation of the key from the JWK format if the algorithm is supported.
     func getPublicKey(fromJWK key: JWK) throws -> PublicKey {
         
         if let algoName = key.curve?.uppercased(),

@@ -176,8 +176,11 @@ struct Secp256k1: Signing {
         return Secp256k1PublicKey(uncompressedPublicKey: publicKey)!
     }
     
+    /// Creates a public key from JWK format.
     func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
-        guard let x = key.x, let y = key.y,
+
+        guard let x = key.x,
+              let y = key.y,
               let secpKey = Secp256k1PublicKey(x: x, y: y) else {
             throw Secp256k1Error.missingKeyMaterialInJWK
         }

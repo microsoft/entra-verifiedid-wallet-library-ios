@@ -11,7 +11,7 @@ protocol CryptoOperating {
     /// Get a public key derived from the secret.
     func getPublicKey(fromSecret secret: VCCryptoSecret, algorithm: String) throws -> PublicKey
     
-    /// Get public key from JWK.
+    /// Get the public key representation of the key from the JWK format if the algorithm is supported.
     func getPublicKey(fromJWK jwk: JWK) throws -> PublicKey
     
     /// Verify signature for the message using a public key and return true if valid signature, false if invalid.

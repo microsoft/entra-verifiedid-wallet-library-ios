@@ -30,6 +30,7 @@ struct EdDSA: Signing {
         throw ED25519Error.notImplemented
     }
     
+    /// Creates a public key from JWK format.
     func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
         guard let x = key.x,
               let edKey = ED25519PublicKey(x: x) else {
