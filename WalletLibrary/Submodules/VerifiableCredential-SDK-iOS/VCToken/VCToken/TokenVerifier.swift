@@ -5,8 +5,6 @@
 
 enum TokenVerifierError: Error, Equatable {
     case malformedProtectedMessageInToken
-    case missingKeyMaterialInJWK
-    case unsupportedAlgorithmFoundInJWK(algorithm: String?)
 }
 
 struct TokenVerifier: TokenVerifying {
