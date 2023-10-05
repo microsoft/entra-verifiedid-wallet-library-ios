@@ -7,7 +7,7 @@ import XCTest
 import CryptoKit
 @testable import WalletLibrary
 
-class P256Tests: XCTestCase
+class ES256Tests: XCTestCase
 {
     func testIsValidSignature_WithMatchingMessage_ReturnsTrue()
     {
@@ -18,7 +18,7 @@ class P256Tests: XCTestCase
         
         let rawRepresentation = privateKey.publicKey.rawRepresentation
         let publicKey = P256PublicKey(uncompressedPublicKey: rawRepresentation)!
-        let algorithm = WalletLibrary.P256()
+        let algorithm = ES256()
         
         do {
             // Act
@@ -43,7 +43,7 @@ class P256Tests: XCTestCase
         
         let rawRepresentation = privateKey.publicKey.rawRepresentation
         let publicKey = P256PublicKey(uncompressedPublicKey: rawRepresentation)!
-        let algorithm = WalletLibrary.P256()
+        let algorithm = ES256()
         
         do {
             // Act
@@ -67,7 +67,7 @@ class P256Tests: XCTestCase
         
         let rawRepresentation = privateKey.publicKey.rawRepresentation
         let publicKey = P256PublicKey(uncompressedPublicKey: rawRepresentation)!
-        let algorithm = WalletLibrary.P256()
+        let algorithm = ES256()
         
         do {
             // Act
@@ -96,7 +96,7 @@ class P256Tests: XCTestCase
                       x: mockX,
                       y: mockY,
                       d: nil)
-        let algorithm = WalletLibrary.P256()
+        let algorithm = ES256()
         
         do {
             // Act
@@ -105,8 +105,8 @@ class P256Tests: XCTestCase
             // Assert
             XCTFail()
         } catch {
-            XCTAssert(error is P256Error)
-            XCTAssertEqual(error as? P256Error, .JWKContainsInvalidKeyType(mockInvalidKeyType))
+            XCTAssert(error is ES256Error)
+            XCTAssertEqual(error as? ES256Error, .JWKContainsInvalidKeyType(mockInvalidKeyType))
         }
     }
     
@@ -124,7 +124,7 @@ class P256Tests: XCTestCase
                       x: mockX,
                       y: mockY,
                       d: nil)
-        let algorithm = WalletLibrary.P256()
+        let algorithm = ES256()
         
         do {
             // Act
@@ -133,8 +133,8 @@ class P256Tests: XCTestCase
             // Assert
             XCTFail()
         } catch {
-            XCTAssert(error is P256Error)
-            XCTAssertEqual(error as? P256Error, .JWKContainsInvalidCurveAlgorithm(mockInvalidAlgorithm))
+            XCTAssert(error is ES256Error)
+            XCTAssertEqual(error as? ES256Error, .JWKContainsInvalidCurveAlgorithm(mockInvalidAlgorithm))
         }
     }
     
@@ -150,7 +150,7 @@ class P256Tests: XCTestCase
                       x: nil,
                       y: mockY,
                       d: nil)
-        let algorithm = WalletLibrary.P256()
+        let algorithm = ES256()
         
         do {
             // Act
@@ -159,8 +159,8 @@ class P256Tests: XCTestCase
             // Assert
             XCTFail()
         } catch {
-            XCTAssert(error is P256Error)
-            XCTAssertEqual(error as? P256Error, .MissingKeyMaterialInJWK)
+            XCTAssert(error is ES256Error)
+            XCTAssertEqual(error as? ES256Error, .MissingKeyMaterialInJWK)
         }
     }
     
@@ -177,7 +177,7 @@ class P256Tests: XCTestCase
                       x: mockX,
                       y: mockY,
                       d: nil)
-        let algorithm = WalletLibrary.P256()
+        let algorithm = ES256()
         
         do {
             // Act
@@ -186,8 +186,8 @@ class P256Tests: XCTestCase
             // Assert
             XCTFail()
         } catch {
-            XCTAssert(error is P256Error)
-            XCTAssertEqual(error as? P256Error, .InvalidKeyMaterialInJWK)
+            XCTAssert(error is ES256Error)
+            XCTAssertEqual(error as? ES256Error, .InvalidKeyMaterialInJWK)
         }
     }
     
@@ -204,7 +204,7 @@ class P256Tests: XCTestCase
                       x: mockX,
                       y: mockY,
                       d: nil)
-        let algorithm = WalletLibrary.P256()
+        let algorithm = ES256()
         
         do {
             // Act

@@ -17,7 +17,7 @@ struct SupportedSigningAlgorithms {
                                      supportedSigningOperations: [.Verification])
         
         let p256 = SigningAlgorithm(curve: SupportedCurve.P256.rawValue,
-                                    algorithm: WalletLibrary.P256(),
+                                    algorithm: WalletLibrary.ES256(),
                                     supportedSigningOperations: [.Verification])
         return [
             es256k.curve: es256k,

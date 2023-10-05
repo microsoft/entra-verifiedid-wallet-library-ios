@@ -6,7 +6,7 @@
 import Foundation
 import CryptoKit
 
-enum P256Error: Error, Equatable
+enum ES256Error: Error, Equatable
 {
     case InvalidKeyMaterialInJWK
     case JWKContainsInvalidKeyType(String)
@@ -15,17 +15,17 @@ enum P256Error: Error, Equatable
     case NotImplemented
 }
 
-/// Algorithm that verifies a message using the P256 algorithm.
-struct P256: Signing {
+/// ECDSA using P-256 and SHA-256.
+struct ES256: Signing {
     
     private struct Constants {
         static let KeyType = "EC"
-        static let Algorithm = "P-256"
+        static let Curve = "P-256"
     }
     
     /// Not Implemented.
     func sign(message: Data, withSecret secret: VCCryptoSecret) throws -> Data {
-        throw P256Error.NotImplemented
+        throw ES256Error.NotImplemented
     }
     
     /// Validates the signature for a given message using the given public key.
@@ -40,26 +40,26 @@ struct P256: Signing {
     
     /// Not Implemented.
     func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey {
-        throw P256Error.NotImplemented
+        throw ES256Error.NotImplemented
     }
     
     /// Creates a public key from JWK format.
     func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
         
         guard key.keyType == Constants.KeyType else {
-            throw P256Error.JWKContainsInvalidKeyType(key.keyType)
+            throw ES256Error.JWKContainsInvalidKeyType(key.keyType)
         }
         
-        guard key.curve == Constants.Algorithm else {
-            throw P256Error.JWKContainsInvalidCurveAlgorithm(key.curve)
+        guard key.curve == Constants.Curve else {
+            throw ES256Error.JWKContainsInvalidCurveAlgorithm(key.curve)
         }
 
         guard let x = key.x, let y = key.y else {
-            throw P256Error.MissingKeyMaterialInJWK
+            throw ES256Error.MissingKeyMaterialInJWK
         }
         
         guard let publicKey = P256PublicKey(x: x, y: y) else {
-            throw P256Error.InvalidKeyMaterialInJWK
+            throw ES256Error.InvalidKeyMaterialInJWK
         }
         
         return publicKey
