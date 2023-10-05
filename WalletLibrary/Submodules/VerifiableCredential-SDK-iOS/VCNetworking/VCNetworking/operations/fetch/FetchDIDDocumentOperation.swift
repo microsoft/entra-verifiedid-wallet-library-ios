@@ -27,7 +27,6 @@ class FetchDIDDocumentOperation: InternalNetworkOperation {
         }
         
         self.urlRequest = URLRequest(url: url)
-
         self.urlSession = session
         self.correlationVector = correlationVector
     }

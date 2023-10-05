@@ -28,7 +28,7 @@ struct JWK: Codable, Equatable {
         case curve = "crv"
         case use, x, y, d
     }
-    
+
     init(keyType: String,
          keyId: String? = nil,
          key: Data? = nil,
