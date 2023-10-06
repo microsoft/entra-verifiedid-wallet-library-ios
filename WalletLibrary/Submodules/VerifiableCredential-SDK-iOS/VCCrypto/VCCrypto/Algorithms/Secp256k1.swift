@@ -18,6 +18,7 @@ enum Secp256k1Error: Error {
     case publicKeyCreationFailure
     case invalidSecret
     case unableToCreateContext
+    case missingKeyMaterialInJWK
 }
 
 /// Signing/Verifying curve algorithm.
@@ -173,5 +174,17 @@ struct Secp256k1: Signing {
         
         // Wrap it all up
         return Secp256k1PublicKey(uncompressedPublicKey: publicKey)!
+    }
+    
+    /// Creates a public key from JWK format.
+    func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
+
+        guard let x = key.x,
+              let y = key.y,
+              let secpKey = Secp256k1PublicKey(x: x, y: y) else {
+            throw Secp256k1Error.missingKeyMaterialInJWK
+        }
+        
+        return secpKey
     }
 }

@@ -49,4 +49,8 @@ struct MockAlgorithm: Signing {
     func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey {
         return Secp256k1PublicKey(x: self.x, y: self.y)!
     }
+    
+    func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
+        return Secp256k1PublicKey(x: self.x, y: self.y)!
+    }
 }

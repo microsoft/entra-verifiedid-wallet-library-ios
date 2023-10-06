@@ -15,9 +15,14 @@ struct SupportedSigningAlgorithms {
         let edDSA = SigningAlgorithm(curve: SupportedCurve.ED25519.rawValue,
                                      algorithm: EdDSA(),
                                      supportedSigningOperations: [.Verification])
+        
+        let p256 = SigningAlgorithm(curve: SupportedCurve.P256.rawValue,
+                                    algorithm: WalletLibrary.ES256(),
+                                    supportedSigningOperations: [.Verification])
         return [
             es256k.curve: es256k,
-            edDSA.curve: edDSA
+            edDSA.curve: edDSA,
+            p256.curve: p256
         ]
     }
 }
