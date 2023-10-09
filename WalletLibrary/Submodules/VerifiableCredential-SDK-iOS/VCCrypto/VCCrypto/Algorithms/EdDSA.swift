@@ -8,6 +8,7 @@ import CryptoKit
 
 enum ED25519Error: Error {
     case notImplemented
+    case missingKeyMaterialInJWK
 }
 
 /// Algorithm that hashes message and signs/verifies using ED25519.
@@ -28,5 +29,14 @@ struct EdDSA: Signing {
     func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey {
         throw ED25519Error.notImplemented
     }
-
+    
+    /// Creates a public key from JWK format.
+    func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
+        guard let x = key.x,
+              let edKey = ED25519PublicKey(x: x) else {
+            throw ED25519Error.missingKeyMaterialInJWK
+        }
+        
+        return edKey
+    }
 }

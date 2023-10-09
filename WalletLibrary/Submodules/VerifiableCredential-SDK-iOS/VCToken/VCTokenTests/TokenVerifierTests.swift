@@ -22,7 +22,8 @@ class TokenVerifierTests: XCTestCase {
         MockCryptoOperations.wasGetPublicKeyCalled = false
     }
     
-    func testVerifierWithNoSignature() throws {
+    func testVerify_WithNoSignature_ReturnFalse() throws {
+        // Arrange
         let verifier = TokenVerifier(cryptoOperations: MockCryptoOperations())
         testToken = JwsToken(headers: expectedHeader, content: expectedContent, signature: nil)
         let publicKey = JWK(keyType: "testType",
@@ -33,12 +34,17 @@ class TokenVerifierTests: XCTestCase {
                             x: Data(count: 32),
                             y: Data(count: 32),
                             d: nil)
+        
+        // Act
         let result = try verifier.verify(token: testToken, usingPublicKey: publicKey)
+        
+        // Assert
         XCTAssertFalse(result)
         XCTAssertFalse(MockCryptoOperations.wasVerifyCalled)
     }
     
-    func testVerifierWithMalformedProtectedMessage() throws {
+    func testVerify_WithMalformedProtectedMessage_ThrowsError() throws {
+        // Arrange
         let verifier = TokenVerifier(cryptoOperations: MockCryptoOperations())
         testToken = JwsToken(headers: expectedHeader, content: expectedContent, protectedMessage: "¼¡©", signature: "testSignature".data(using: .utf8))
         let publicKey = JWK(keyType: "testType",
@@ -49,48 +55,17 @@ class TokenVerifierTests: XCTestCase {
                             x: Data(count: 32),
                             y: Data(count: 32),
                             d: nil)
+        
+        // Act / Assert
         XCTAssertThrowsError(try verifier.verify(token: testToken, usingPublicKey: publicKey)) { error in
             XCTAssertFalse(MockCryptoOperations.wasVerifyCalled)
             XCTAssertEqual(error as? TokenVerifierError, TokenVerifierError.malformedProtectedMessageInToken)
         }
     }
     
-    func testVerifierWithMalformedJWKForED25519() throws {
-        let verifier = TokenVerifier(cryptoOperations: MockCryptoOperations())
-        testToken = JwsToken(headers: expectedHeader, content: expectedContent, signature: "testSignature".data(using: .utf8))
-        let publicKey = JWK(keyType: "testType",
-                            keyId: nil,
-                            key: nil,
-                            curve: "secp256k1",
-                            use: nil,
-                            x: nil,
-                            y: nil,
-                            d: nil)
-        XCTAssertThrowsError(try verifier.verify(token: testToken, usingPublicKey: publicKey)) { error in
-            XCTAssertFalse(MockCryptoOperations.wasVerifyCalled)
-            XCTAssertEqual(error as? TokenVerifierError, TokenVerifierError.missingKeyMaterialInJWK)
-        }
-    }
-    
-    func testVerifierWithMalformedJWKForSECP256K1() throws {
-        let verifier = TokenVerifier(cryptoOperations: MockCryptoOperations())
-        testToken = JwsToken(headers: expectedHeader, content: expectedContent, signature: "testSignature".data(using: .utf8))
-        let publicKey = JWK(keyType: "testType",
-                            keyId: nil,
-                            key: nil,
-                            curve: "secp256k1",
-                            use: nil,
-                            x: Data(count: 32),
-                            y: nil,
-                            d: nil)
-        XCTAssertThrowsError(try verifier.verify(token: testToken, usingPublicKey: publicKey)) { error in
-            XCTAssertFalse(MockCryptoOperations.wasVerifyCalled)
-            XCTAssertEqual(error as? TokenVerifierError, TokenVerifierError.missingKeyMaterialInJWK)
-        }
-    }
-    
-    func testVerifierWithUnsupportedAlgorithmError() throws {
-        let verifier = TokenVerifier(cryptoOperations: MockCryptoOperations())
+    func testVerify_WithUnsupportedAlgorithm_ThrowsError() throws {
+        // Arrange
+        let verifier = TokenVerifier(cryptoOperations: MockCryptoOperations(throwWhenGettingPublicKey: true))
         testToken = JwsToken(headers: expectedHeader, content: expectedContent, signature: "testSignature".data(using: .utf8))
         let publicKey = JWK(keyType: "testType",
                             keyId: nil,
@@ -100,13 +75,16 @@ class TokenVerifierTests: XCTestCase {
                             x: Data(count: 32),
                             y: nil,
                             d: nil)
+        
+        // Act / Assert
         XCTAssertThrowsError(try verifier.verify(token: testToken, usingPublicKey: publicKey)) { error in
             XCTAssertFalse(MockCryptoOperations.wasVerifyCalled)
-            XCTAssertEqual(error as? TokenVerifierError, TokenVerifierError.unsupportedAlgorithmFoundInJWK(algorithm: "unsupportedCurve"))
+            XCTAssertEqual(error as? MockCryptoError, MockCryptoError.ExpectedToThrow)
         }
     }
     
-    func testVerifierWithSignatureWithPublicKey() throws {
+    func testVerify_WithValidSignatureAndPublicKey_ReturnsTrue() throws {
+        // Arrange
         let verifier = TokenVerifier(cryptoOperations: MockCryptoOperations())
         testToken = JwsToken(headers: expectedHeader, content: expectedContent, signature: "testSignature".data(using: .utf8))
         let publicKey = JWK(keyType: "testType",
@@ -117,12 +95,17 @@ class TokenVerifierTests: XCTestCase {
                             x: Data(count: 32),
                             y: Data(count: 32),
                             d: nil)
+        
+        // Act
         let result = try verifier.verify(token: testToken, usingPublicKey: publicKey)
+        
+        // Assert
         XCTAssertTrue(result)
         XCTAssertTrue(MockCryptoOperations.wasVerifyCalled)
     }
     
-    func testVerifierWithSignatureWithInvalidSignature() throws {
+    func testVerify_WithInvalidSignature_ReturnsTrue() throws {
+        // Arrange
         let verifier = TokenVerifier(cryptoOperations: MockCryptoOperations(verifyResult: false))
         testToken = JwsToken(headers: expectedHeader, content: expectedContent, signature: "testSignature".data(using: .utf8))
         let publicKey = JWK(keyType: "testType",
@@ -133,7 +116,11 @@ class TokenVerifierTests: XCTestCase {
                             x: Data(count: 32),
                             y: Data(count: 32),
                             d: nil)
+        
+        // Act
         let result = try verifier.verify(token: testToken, usingPublicKey: publicKey)
+        
+        // Assert
         XCTAssertFalse(result)
         XCTAssertTrue(MockCryptoOperations.wasVerifyCalled)
     }

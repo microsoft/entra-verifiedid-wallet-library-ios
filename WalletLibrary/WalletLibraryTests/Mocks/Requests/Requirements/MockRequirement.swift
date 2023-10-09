@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockRequirement: Requirement, Equatable {
+class MockRequirement: Requirement, Equatable {
     
     let required: Bool
     

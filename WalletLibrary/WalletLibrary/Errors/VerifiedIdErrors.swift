@@ -55,9 +55,9 @@ enum VerifiedIdErrors {
 // MARK: Common Errors
 
 /// Thrown when an input such as Data in decoding method is not properly formed.
-class MalformedInputError: VerifiedIdError {
+public class MalformedInputError: VerifiedIdError {
     
-    let error: Error
+    public let error: Error
     
     fileprivate init(error: Error, correlationId: String?) {
         self.error = error
@@ -78,9 +78,9 @@ class MalformedInputError: VerifiedIdError {
 }
 
 /// Thrown when a requirement such as VerifiedIdRequirement is not properly met.
-class RequirementNotMetError: VerifiedIdError {
+public class RequirementNotMetError: VerifiedIdError {
     
-    let errors: [Error]?
+    public let errors: [Error]?
     
     fileprivate init(message: String, errors: [Error]? = nil, correlationId: String?) {
         self.errors = errors
@@ -101,9 +101,9 @@ class RequirementNotMetError: VerifiedIdError {
 }
 
 /// Wraps any error that is not caught by another VerifiedIdError before being returned outside library.
-class UnspecifiedVerifiedIdError: VerifiedIdError {
+public class UnspecifiedVerifiedIdError: VerifiedIdError {
     
-    let error: Error
+    public let error: Error
     
     init(error: Error, correlationId: String?) {
         self.error = error

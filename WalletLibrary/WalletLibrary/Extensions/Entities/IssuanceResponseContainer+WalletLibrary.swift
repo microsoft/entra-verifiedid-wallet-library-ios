@@ -78,14 +78,14 @@ extension IssuanceResponseContainer: IssuanceResponseContaining {
     }
     
     private mutating func add(verifiedIdRequirement: VerifiedIdRequirement) throws {
-        try verifiedIdRequirement.validate().get()
         
+        try verifiedIdRequirement.validate().get()
+
         guard let vc = verifiedIdRequirement.selectedVerifiedId as? VCVerifiedId else
         {
             let type = String(describing: type(of: verifiedIdRequirement.selectedVerifiedId))
             throw IssuanceResponseContainerError.unsupportedVerifiedIdOfType(type)
         }
-        
         self.requestVCMap.append(RequestedVerifiableCredentialMapping(id: verifiedIdRequirement.id ?? "",
                                                                       verifiableCredential: vc.raw))
     }

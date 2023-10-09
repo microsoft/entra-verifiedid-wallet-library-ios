@@ -9,7 +9,7 @@ struct IdTokenDescriptor: Codable, Equatable {
     let claims: [ClaimDescriptor]
     let idTokenRequired: Bool?
     let configuration: String
-    let clientID: String
+    let clientID: String?
     let redirectURI: String?
     let scope: String?
 
@@ -23,12 +23,12 @@ struct IdTokenDescriptor: Codable, Equatable {
     }
     
     init(encrypted: Bool? = nil,
-                claims: [ClaimDescriptor],
-                idTokenRequired: Bool? = nil,
-                configuration: String,
-                clientID: String,
-                redirectURI: String? = nil,
-                scope: String? = nil) {
+         claims: [ClaimDescriptor],
+         idTokenRequired: Bool? = nil,
+         configuration: String,
+         clientID: String? = nil,
+         redirectURI: String? = nil,
+         scope: String? = nil) {
         self.encrypted = encrypted
         self.claims = claims
         self.idTokenRequired = idTokenRequired
