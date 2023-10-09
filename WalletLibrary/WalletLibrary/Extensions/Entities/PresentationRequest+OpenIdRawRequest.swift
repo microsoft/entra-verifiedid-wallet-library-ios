@@ -30,4 +30,8 @@ extension PresentationRequest: OpenIdRawRequest {
             return nil
         }
     }
+    
+    var authority: String {
+        token.content.clientID ?? ""
+    }
 }

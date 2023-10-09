@@ -21,6 +21,9 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     /// The root of trust results between the request and the source of the request.
     let rootOfTrust: RootOfTrust
     
+    /// The DID of the verifier
+    let authority: String
+    
     private let rawRequest: any OpenIdRawRequest
     
     private let responder: OpenIdResponder
@@ -36,6 +39,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.rawRequest = rawRequest
+        self.authority = rawRequest.authority
         self.responder = openIdResponder
         self.configuration = configuration
     }
