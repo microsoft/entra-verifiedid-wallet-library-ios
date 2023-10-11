@@ -34,4 +34,8 @@ extension PresentationRequest: OpenIdRawRequest {
     var authority: String {
         token.content.clientID ?? ""
     }
+    
+    var nonce: String? {
+        token.content.nonce
+    }
 }

@@ -11,4 +11,7 @@ public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void
     
     /// The DID of the Verifier
     var authority: String { get }
+    
+    /// The nonce on the request.
+    var nonce: String? { get }
 }

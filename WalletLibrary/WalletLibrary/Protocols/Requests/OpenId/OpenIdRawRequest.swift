@@ -13,4 +13,7 @@ protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent {
     
     /// The DID of the verifier.
     var authority: String { get }
+    
+    /// The nonce on the request.
+    var nonce: String? { get }
 }
