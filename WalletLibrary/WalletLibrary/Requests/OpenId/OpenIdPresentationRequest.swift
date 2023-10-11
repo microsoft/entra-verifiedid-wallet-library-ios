@@ -11,7 +11,7 @@ enum VerifiedIdPresentationRequestError: Error {
  * Presentation Requst that is Open Id specific.
  */
 class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
-    
+
     /// The look and feel of the requester.
     let style: RequesterStyle
     
@@ -20,6 +20,11 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     
     /// The root of trust results between the request and the source of the request.
     let rootOfTrust: RootOfTrust
+    
+    /// The DID of the verifier
+    let authority: String
+    
+    let nonce: String?
     
     private let rawRequest: any OpenIdRawRequest
     
@@ -36,6 +41,8 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.rawRequest = rawRequest
+        self.authority = rawRequest.authority
+        self.nonce = rawRequest.nonce
         self.responder = openIdResponder
         self.configuration = configuration
     }

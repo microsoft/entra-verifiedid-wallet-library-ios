@@ -7,4 +7,11 @@
  * A Verified Id Presentation Request contains the look and feel of the verifier,
  * the requirement needed to fulfill the request, and the root of trust.
  */
-public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void { }
+public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void {
+    
+    /// The DID of the Verifier
+    var authority: String { get }
+    
+    /// The nonce on the request.
+    var nonce: String? { get }
+}
