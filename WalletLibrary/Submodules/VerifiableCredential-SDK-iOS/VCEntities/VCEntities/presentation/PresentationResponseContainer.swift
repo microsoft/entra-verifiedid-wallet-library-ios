@@ -64,29 +64,25 @@ struct PresentationResponseContainer: ResponseContaining {
     
     mutating func addVerifiableCredential(id: String, vc: VerifiableCredential) throws {
         
-        guard let vpTokenRequests = request?.content.claims?.vpToken,
-              !vpTokenRequests.isEmpty else {
+        guard let vpTokenRequest = request?.content.claims?.vpToken else {
             throw PresentationResponseError.noVerifiablePresentationRequestsInRequest
         }
         
-        for vpTokenRequest in vpTokenRequests {
+        guard let presentationDefinition = vpTokenRequest.presentationDefinition,
+                let presentationDefinitionId = presentationDefinition.id else {
+            throw PresentationResponseError.noPresentationDefinitionInVerifiablePresentationRequest
+        }
+        
+        if let inputDescriptors = presentationDefinition.inputDescriptors,
+            inputDescriptors.contains(where: { $0.id == id }) {
             
-            guard let presentationDefinition = vpTokenRequest.presentationDefinition,
-                  let presentationDefinitionId = presentationDefinition.id else {
-                throw PresentationResponseError.noPresentationDefinitionInVerifiablePresentationRequest
-            }
+            let mapping = RequestedVerifiableCredentialMapping(id: id, verifiableCredential: vc)
             
-            if let inputDescriptors = presentationDefinition.inputDescriptors,
-               inputDescriptors.contains(where: { $0.id == id }) {
-                
-                let mapping = RequestedVerifiableCredentialMapping(id: id, verifiableCredential: vc)
-                
-                var mappings = requestVCMap[presentationDefinitionId] ?? []
-                mappings.append(mapping)
-                
-                requestVCMap.updateValue(mappings, forKey: presentationDefinitionId)
-                return
-            }
+            var mappings = requestVCMap[presentationDefinitionId] ?? []
+            mappings.append(mapping)
+            
+            requestVCMap.updateValue(mappings, forKey: presentationDefinitionId)
+            return
         }
         
         throw PresentationResponseError.noInputDescriptorMatchesGivenId

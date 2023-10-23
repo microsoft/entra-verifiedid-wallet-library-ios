@@ -4,31 +4,42 @@
 ## Creating a Verified Id Request from Input
 ```mermaid
 classDiagram
-RequestHandler ..> VerifiedIdRequestInput: uses
-RequestResolver ..> AdditionalRequestParams: uses
-RequestResolver ..|> RawRequest: creates
-RequestResolver ..|> VerifiedIdRequestInput: uses
-RequestHandler ..> RequestResolver: uses
-RequestProcessor ..|> VerifiedIdRequest: creates
-AdditionalRequestParams <.. RequestProcessor: uses
-RawRequest <.. RequestProcessor: uses
+class RequestHandlerFactory {
+    - requestHandlers: [RequestHandler]
+    ~getHandler(from resolver: RequestResolver) RequestHandler
+}
+RequestHandlerFactory o-- RequestHandler
+RequestHandlerFactory ..> RequestResolver: uses
+RequestHandlerFactory ..> RequestHandler: creates
+
+RawRequest ..> RequestHandler: uses
+RequestResolver ..> RawRequest: creates
+RequestResolver ..> VerifiedIdRequestInput: uses
+RequestProcessor ..> VerifiedIdRequest: creates
+RequestHandler ..> VerifiedIdRequest: creates
+RawRequest ..> RequestProcessor: uses
 <<Interface>> RequestResolver
 class RequestResolver {
     ~canResolve(using: RequestHandler) Bool
     ~canResolve(from: VerifiedIdClientInput) Bool
-    ~resolve(input: VerifiedIdClientInput, using: [AdditionalRequestParams]) RawRequest
+    ~resolve(input: VerifiedIdClientInput) RawRequest
 }
 class RequestHandler{
-    ~handle(input: VerifiedIdRequestInput, using: RequestResolver) VerifiedIdRequest
+    ~handle(input: RawRequest) VerifiedIdRequest
 }
 <<Interface>> VerifiedIdRequestInput
+class RequestProcessorFactory {
+    - requestProcessors: [RequestProcessor]
+    ~getRequestProcessor(for: RawRequest) RequestProcessor
+}
 <<Interface>> RequestProcessor
 class RequestProcessor {
-    -requestParams: AdditionalRequestParams
     ~canProcess(raw: RawRequest) Bool
     ~process(raw: RawRequest) VerifiedIdRequest
 }
-<<Interface>> AdditionalRequestParams
+RequestProcessorFactory o-- RequestProcessor
+RequestHandler ..> RequestProcessor: uses
+RequestHandler *-- RequestProcessorFactory
 <<Interface>> RawRequest
 <<Interface>> VerifiedIdRequest
 class VerifiedIdRequest {
@@ -44,14 +55,14 @@ A Request Resolver resolves a raw request from a request input and additional pa
 Ex: An `OpenIdURLRequestResolver` would know how to resolve a raw open id request token. The additional params would be OpenId specific to be used to send any additional information needed to resolve the request (what version of openid is supported, for example). The result would be a `OpenIdRawRequest` that has not been processed or validated yet.
 
 ### Request Handler
-A request handler is used to handle an input where the request can be resolved by a request resolver and then processed, validated and mapped to a Verified Id Request. A request handler is protocol specific (e.g. `OpenIdRequestHandler`). It does not need to know to resolve the input as that logic is handles by the resolver, but it can inject any additional parameters into the resolver using Additional Params. 
+A request handler is used to handle an input where the request can be resolved by a request resolver and then processed, validated and mapped to a Verified Id Request. A request handler is protocol specific (e.g. `OpenIdRequestHandler`). It does not need to know to resolve the input as that logic is handles by the resolver.
 
-Ex: An `OpenIdRequestHandler` would take in any type of input as long as the resolver that is also passed in knows how to resolve the input into an OpenIdRawRequest. The `OpenIdRequestHandler` would contain a list of `OpenIdRequestProcessors` that know how to process different types of openid version (e.g. jwt 0.1, jwt 0.2, json-ld, etc). The handler would use the `OpenIdAdditionalRequestParams` that are passed into the resolver to tell the resolver what version of open-id are supported. 
+Ex: An `OpenIdRequestHandler` would take in any type of input as long as the resolver that is also passed in knows how to resolve the input into an OpenIdRawRequest. The `OpenIdRequestHandler` would contain a list of `OpenIdRequestProcessors` that know how to process different types of openid version or extensions (e.g. jwt 0.1, jwt 0.2, json-ld, etc). `OpenIdRequestHandler` can parse the base OpenID request, then use `OpenIDRequestProcessors` for verified ID logic to form responses, then serialize and send the response according to openID protocol.
 
 ### Request Processor
-A request processor is used to process a Raw Request and return a Verified Id Request. A request processor is protocol-version specific. 
+A request processor is used to process a Raw Request and return a Verified Id Request. A request processor is protocol-version specific logic.
 
-Ex. A `JWTV1RequestProcessor` takes in a `OpenIdRawRequest` and processes, validates, and maps it to a Verified Id Request. 
+Ex. A `JWTV1RequestProcessor` takes in a `OpenIdRawRequest` and processes, validates, and maps it to a Verified Id Request.
 
 ## Configuring the Request Handler
 ```mermaid
