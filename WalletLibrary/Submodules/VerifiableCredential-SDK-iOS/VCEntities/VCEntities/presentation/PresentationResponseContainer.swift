@@ -64,8 +64,7 @@ struct PresentationResponseContainer: ResponseContaining {
     
     mutating func addVerifiableCredential(id: String, vc: VerifiableCredential) throws {
         
-        guard let vpTokenRequest = request?.content.claims?.vpToken,
-              !vpTokenRequests else {
+        guard let vpTokenRequest = request?.content.claims?.vpToken else {
             throw PresentationResponseError.noVerifiablePresentationRequestsInRequest
         }
         

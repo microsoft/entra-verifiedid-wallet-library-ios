@@ -14,12 +14,9 @@ extension RequestedClaims: Mappable
     {
         var requirements: [Requirement] = []
         
-        for vpTokenRequest in vpToken
+        if let presentationDefinition = vpToken.presentationDefinition
         {
-            if let presentationDefinition = vpTokenRequest.presentationDefinition
-            {
-                requirements.append(contentsOf: try mapper.map(presentationDefinition))
-            }
+            requirements.append(contentsOf: try mapper.map(presentationDefinition))
         }
         
         if requirements.isEmpty
