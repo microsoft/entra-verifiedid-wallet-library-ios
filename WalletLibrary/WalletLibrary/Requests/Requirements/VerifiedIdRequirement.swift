@@ -23,6 +23,13 @@ public class VerifiedIdRequirement: Requirement {
     /// An optional property for information needed for issuance during presentation flow.
     public let issuanceOptions: [VerifiedIdRequestInput]
     
+    /// The verified id that fulfilled this requirement (if one exists)
+    public var verifiedId: VerifiedId? {
+        get {
+            return selectedVerifiedId
+        }
+    }
+    
     /// Optional id of requirement defined by the request.
     let id: String?
     
