@@ -4,7 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 enum VerifiedIdPresentationRequestError: Error {
-    case cancelPresentationRequestIsUnsupported
+    case CancelPresentationRequestIsUnsupported
+    case IdentifierDoesNotContainKeys
+    case UnableToCreateSelfSignedVC
 }
 
 /**
@@ -45,6 +47,24 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         self.nonce = rawRequest.nonce
         self.responder = openIdResponder
         self.configuration = configuration
+        
+        addSelfSigningAbilityToRequirements(requirement: requirement)
+    }
+
+    private func addSelfSigningAbilityToRequirements(requirement: Requirement)
+    {
+        switch requirement 
+        {
+        case let groupRequirement as GroupRequirement:
+            for req in groupRequirement.requirements
+            {
+                addSelfSigningAbilityToRequirements(requirement: req)
+            }
+        case let verifiedIdRequirement as VerifiedIdRequirement:
+            verifiedIdRequirement.signSelfSignedVC = signSelfSignedVC
+        default:
+            return
+        }
     }
     
     /// Whether or not the request is satisfied on client side.
@@ -70,5 +90,64 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     /// Cancel the request with an optional message.
     func cancel(message: String?) async -> VerifiedIdResult<Void> {
         return VerifiedIdError(message: message ?? "User Canceled.", code: VerifiedIdErrors.ErrorCode.UserCanceled).result()
+    }
+}
+
+extension OpenIdPresentationRequest
+{
+    internal struct Constants
+    {
+        static let FaceCheckSchema = "LivenessCheck"
+        static let selfSignedType = "JWT"
+        static let selfSignedAlg = "ES256K"
+        static let vcDataModelContext = "https://www.w3.org/2018/credentials/v1"
+        static let vcDataModelType = "VerifiableCredential"
+    }
+    
+    private func signSelfSignedVC(claims: [String: String], types: [String]) throws -> VerifiedId
+    {
+        let vcDescriptor = VerifiableCredentialDescriptor(context: [Constants.vcDataModelContext],
+                                                          type: types,
+                                                          credentialSubject: claims)
+        let identifier = try configuration.identifierManager.fetchOrCreateMasterIdentifier()
+        guard let signingKey = identifier.didDocumentKeys.first else
+        {
+            throw VerifiedIdPresentationRequestError.IdentifierDoesNotContainKeys
+        }
+        
+        let tokenHeader = createTokenHeader(withKeyId: identifier.did + "#" + signingKey.keyId)
+        
+        let now = round(Date().timeIntervalSince1970 * 1000)
+        let expiry = round(Date().addingTimeInterval(TimeInterval(5 * 60)).timeIntervalSince1970 * 1000) // 5 minutes
+        let token = JwsToken<VCClaims>(headers: tokenHeader,
+                                       content: VCClaims(jti: UUID().uuidString,
+                                                         iss: identifier.did,
+                                                         sub: identifier.did,
+                                                         iat: now,
+                                                         exp: expiry,
+                                                         vc: vcDescriptor))
+        
+        guard var vcToken = token else
+        {
+            throw VerifiedIdPresentationRequestError.UnableToCreateSelfSignedVC
+        }
+        
+        let signer = Secp256k1Signer()
+        try vcToken.sign(using: signer, withSecret: signingKey.keyReference)
+        vcToken.rawValue = try vcToken.serialize()
+        let verifiedId = try VCVerifiedId(raw: vcToken)
+        return verifiedId
+    }
+    
+    private func createTokenHeader(withKeyId keyId: String) -> Header
+    {
+        return Header(type: Constants.selfSignedType,
+                      algorithm: Constants.selfSignedAlg,
+                      encryptionMethod: nil,
+                      jsonWebKey: nil,
+                      keyId: keyId,
+                      contentType: nil,
+                      pbes2SaltInput: nil,
+                      pbes2Count: nil)
     }
 }

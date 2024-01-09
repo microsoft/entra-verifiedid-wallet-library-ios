@@ -38,6 +38,7 @@ public class VerifiedIdClientBuilder {
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
                                                  correlationHeader: correlationHeader,
+                                                 identifierManager: identifierManager ?? VerifiableCredentialSDK.identifierService,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder())
         

@@ -30,7 +30,9 @@ public class VerifiedIdRequirement: Requirement {
     let constraint: VerifiedIdConstraint
     
     /// The verified id that was selected.
-    var selectedVerifiedId: VerifiedId?
+    public var selectedVerifiedId: VerifiedId?
+    
+    var signSelfSignedVC: (([String: String], [String]) -> VerifiedId?)?
     
     init(encrypted: Bool,
          required: Bool,
@@ -78,6 +80,18 @@ public class VerifiedIdRequirement: Requirement {
             try constraint.matches(verifiedId: verifiedId)
         } catch {
             return VerifiedIdErrors.RequirementNotMet(message: "Verified Id Constraints do not match.", errors: [error]).result()
+        }
+        
+        self.selectedVerifiedId = verifiedId
+        return VerifiedIdResult.success(())
+    }
+    
+    public func fulfill(withClaims claims: [String: String]) -> VerifiedIdResult<Void> {
+        
+        guard let verifiedId = self.signSelfSignedVC?(claims, types) else
+        {
+            let error = VerifiedIdError(message: "No SignSelfSignedVC method on requirement", code: "")
+            return VerifiedIdResult.failure(error)
         }
         
         self.selectedVerifiedId = verifiedId

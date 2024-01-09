@@ -23,4 +23,3 @@ public protocol VerifiedId: Codable {
     /// Get the claims contained within the Verified Id that includes an id of the claim that can be used as a label.
     func getClaims() -> [VerifiedIdClaim]
 }
-

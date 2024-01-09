@@ -31,9 +31,9 @@ struct VCVerifiedId: VerifiedId {
     
     let raw: VerifiableCredential
     
-    let contract: Contract
+    let contract: Contract?
     
-    init(raw: VerifiableCredential, from contract: Contract) throws {
+    init(raw: VerifiableCredential, from contract: Contract? = nil) throws {
         
         guard let issuedOn = raw.content.iat else {
             throw VerifiableCredentialError.missingIssuedOnValueInVerifiableCredential
@@ -55,7 +55,19 @@ struct VCVerifiedId: VerifiedId {
             self.expiresOn = nil
         }
         
-        self.style = try Mapper().map(contract.display.card)
+        if let contract = contract
+        {
+            self.style = try Mapper().map(contract.display.card)
+        }
+        else
+        {
+            self.style = BasicVerifiedIdStyle(name: "",
+                                              issuer: "",
+                                              backgroundColor: "",
+                                              textColor: "",
+                                              description: "",
+                                              logo: nil)
+        }
     }
     
     enum CodingKeys: String, CodingKey {
@@ -85,7 +97,7 @@ struct VCVerifiedId: VerifiedId {
             return []
         }
         
-        let claimLabels = contract.display.claims
+        let claimLabels = contract?.display.claims ?? [:]
         
         var verifiedIdClaims: [VerifiedIdClaim] = []
         /// TODO: add casting to correct type from contract.
