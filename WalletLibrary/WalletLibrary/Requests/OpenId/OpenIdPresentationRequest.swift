@@ -97,52 +97,61 @@ extension OpenIdPresentationRequest
 {
     internal struct Constants
     {
-        static let FaceCheckSchema = "LivenessCheck"
-        static let selfSignedType = "JWT"
-        static let selfSignedAlg = "ES256K"
-        static let vcDataModelContext = "https://www.w3.org/2018/credentials/v1"
-        static let vcDataModelType = "VerifiableCredential"
+        static let SelfSignedType = "JWT"
+        static let SelfSignedAlg = "ES256K"
+        static let VCDataModelContext = "https://www.w3.org/2018/credentials/v1"
+        static let VCDataModelType = "VerifiableCredential"
     }
     
-    private func signSelfSignedVC(claims: [String: String], types: [String]) throws -> VerifiedId
+    private func signSelfSignedVC(claims: [String: String], types: [String]) -> VerifiedId?
     {
-        let vcDescriptor = VerifiableCredentialDescriptor(context: [Constants.vcDataModelContext],
-                                                          type: types,
-                                                          credentialSubject: claims)
-        let identifier = try configuration.identifierManager.fetchOrCreateMasterIdentifier()
-        guard let signingKey = identifier.didDocumentKeys.first else
+        do
         {
-            throw VerifiedIdPresentationRequestError.IdentifierDoesNotContainKeys
+            var vcTypes = [Constants.VCDataModelType]
+            vcTypes.append(contentsOf: types)
+            let vcDescriptor = VerifiableCredentialDescriptor(context: [Constants.VCDataModelContext],
+                                                              type: vcTypes,
+                                                              credentialSubject: claims)
+            let identifier = try configuration.identifierManager.fetchOrCreateMasterIdentifier()
+            guard let signingKey = identifier.didDocumentKeys.first else
+            {
+                throw VerifiedIdPresentationRequestError.IdentifierDoesNotContainKeys
+            }
+            
+            let tokenHeader = createTokenHeader(withKeyId: identifier.did + "#" + signingKey.keyId)
+            
+            let now = round(Date().timeIntervalSince1970 * 1000)
+            let expiry = round(Date().addingTimeInterval(TimeInterval(5 * 60)).timeIntervalSince1970 * 1000) // 5 minutes
+            let token = JwsToken<VCClaims>(headers: tokenHeader,
+                                           content: VCClaims(jti: UUID().uuidString,
+                                                             iss: identifier.did,
+                                                             sub: identifier.did,
+                                                             iat: now,
+                                                             exp: expiry,
+                                                             vc: vcDescriptor))
+            
+            guard var vcToken = token else
+            {
+                throw VerifiedIdPresentationRequestError.UnableToCreateSelfSignedVC
+            }
+            
+            let signer = Secp256k1Signer()
+            try vcToken.sign(using: signer, withSecret: signingKey.keyReference)
+            vcToken.rawValue = try vcToken.serialize()
+            let verifiedId = try VCVerifiedId(raw: vcToken)
+            return verifiedId
         }
-        
-        let tokenHeader = createTokenHeader(withKeyId: identifier.did + "#" + signingKey.keyId)
-        
-        let now = round(Date().timeIntervalSince1970 * 1000)
-        let expiry = round(Date().addingTimeInterval(TimeInterval(5 * 60)).timeIntervalSince1970 * 1000) // 5 minutes
-        let token = JwsToken<VCClaims>(headers: tokenHeader,
-                                       content: VCClaims(jti: UUID().uuidString,
-                                                         iss: identifier.did,
-                                                         sub: identifier.did,
-                                                         iat: now,
-                                                         exp: expiry,
-                                                         vc: vcDescriptor))
-        
-        guard var vcToken = token else
+        catch
         {
-            throw VerifiedIdPresentationRequestError.UnableToCreateSelfSignedVC
+            configuration.logger.logError(message: String(describing: error))
+            return nil
         }
-        
-        let signer = Secp256k1Signer()
-        try vcToken.sign(using: signer, withSecret: signingKey.keyReference)
-        vcToken.rawValue = try vcToken.serialize()
-        let verifiedId = try VCVerifiedId(raw: vcToken)
-        return verifiedId
     }
     
     private func createTokenHeader(withKeyId keyId: String) -> Header
     {
-        return Header(type: Constants.selfSignedType,
-                      algorithm: Constants.selfSignedAlg,
+        return Header(type: Constants.SelfSignedType,
+                      algorithm: Constants.SelfSignedAlg,
                       encryptionMethod: nil,
                       jsonWebKey: nil,
                       keyId: keyId,
