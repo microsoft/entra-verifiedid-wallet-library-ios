@@ -135,6 +135,45 @@ class IssuanceRequestContentTests: XCTestCase {
                            pinRequirement as AnyObject)
     }
     
+    func testAddNonceToIdToken_WithIdTokenRequirement_AddsNonce() async throws {
+        
+        // Arrange
+        let idTokenRequirement = createIdTokenRequirement()
+        let mockNonce = "mockNonce"
+        let issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
+                                                            verifiedIdStyle: MockVerifiedIdStyle(),
+                                                            requirement: idTokenRequirement,
+                                                            rootOfTrust: RootOfTrust(verified: false, source: nil))
+        
+        // Act
+        issuanceRequestContent.addNonceToIdTokenRequirementIfPresent(nonce: mockNonce)
+        
+        // Assert
+        XCTAssert(issuanceRequestContent.requirement is IdTokenRequirement)
+        XCTAssertEqual(idTokenRequirement.nonce, mockNonce)
+    }
+    
+    func testAddNonceToIdToken_WithIdTokenRequirementInGroupReq_AddsNonce() async throws {
+        
+        // Arrange
+        let mockRequirement = MockRequirement(id: "mockRequirement")
+        let mockNonce = "mockNonce"
+        let idTokenRequirement = createIdTokenRequirement()
+        let groupRequirement = GroupRequirement(required: false,
+                                                requirements: [mockRequirement, idTokenRequirement],
+                                                requirementOperator: .ALL)
+        var issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
+                                                            verifiedIdStyle: MockVerifiedIdStyle(),
+                                                            requirement: groupRequirement,
+                                                            rootOfTrust: RootOfTrust(verified: false, source: nil))
+        
+        // Act
+        issuanceRequestContent.addNonceToIdTokenRequirementIfPresent(nonce: mockNonce)
+        
+        // Assert
+        XCTAssertEqual(idTokenRequirement.nonce, mockNonce)
+    }
+    
     private func createIdTokenRequirement(configuration: String = "https://self-issued.me") -> IdTokenRequirement {
         return IdTokenRequirement(encrypted: false,
                                   required: false,
