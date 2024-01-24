@@ -33,6 +33,24 @@ struct IssuanceRequestContent {
         self.issuanceResultCallbackUrl = issuanceResultCallbackUrl
     }
     
+    func addNonceToIdTokenRequirementIfPresent(nonce: String)
+    {
+        addNonceToRequirement(requirement: requirement, nonce: nonce)
+    }
+    
+    private func addNonceToRequirement(requirement: Requirement, nonce: String)
+    {
+        switch (requirement) 
+        {
+        case let groupRequirement as GroupRequirement:
+            addNonceToRequirement(requirement: groupRequirement, nonce: nonce)
+        case let idTokenRequirement as IdTokenRequirement:
+            idTokenRequirement.add(nonce: nonce)
+        default:
+            return
+        }
+    }
+    
     mutating func addRequirement(from injectedIdToken: InjectedIdToken) {
         switch (requirement) {
         case let groupRequirement as GroupRequirement:

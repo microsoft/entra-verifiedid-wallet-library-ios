@@ -90,6 +90,7 @@ struct OpenIdRequestHandler: RequestHandling {
         
         issuanceRequestContent.add(requestState: requestContent.requestState)
         issuanceRequestContent.add(issuanceResultCallbackUrl: requestContent.callbackUrl)
+        issuanceRequestContent.addNonceToIdTokenRequirementIfPresent(nonce: "")
         
         if let injectedIdToken = requestContent.injectedIdToken {
             issuanceRequestContent.addRequirement(from: injectedIdToken)

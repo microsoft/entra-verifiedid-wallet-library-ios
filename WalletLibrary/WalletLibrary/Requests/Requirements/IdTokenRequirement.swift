@@ -48,6 +48,11 @@ public class IdTokenRequirement: Requirement {
         self.scope = scope
     }
     
+    func add(nonce: String)
+    {
+        self.nonce = nonce
+    }
+    
     /// Returns Failure Result if requirement is not fulfilled.
     public func validate() -> VerifiedIdResult<Void> {
         if idToken == nil {
