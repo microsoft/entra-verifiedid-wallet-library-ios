@@ -8,6 +8,7 @@ enum NonceCreatorError: Error
     case UnableToSerializeDid
 }
 
+/// Creates a nonce for the ID Token Issuance Flow.
 struct NonceCreator
 {
     func createNonce(fromIdentifier did: String) -> String?

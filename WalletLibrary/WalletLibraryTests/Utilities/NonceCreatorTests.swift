@@ -6,12 +6,13 @@
 import XCTest
 @testable import WalletLibrary
 
-class NonceCreatorTests: XCTestCase {
+class NonceCreatorTests: XCTestCase 
+{
     
     let nonceCreator = NonceCreator()
     
-    func testCreateNonce_WithValidDID_CreatesNonce() async throws {
-        
+    func testCreateNonce_WithValidDID_CreatesNonce() async throws 
+    {
         // Arrange
         let did = "validDID"
         let expectedResult = "TmDv4cykZTDgsb9-owZmsYw82RVlU72LLm0o1Wp8RbJEge4mDMDe4eJH8s3nq8P5NMm7B_TLnk5xAAR3vr3ubA"
