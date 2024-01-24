@@ -3,21 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-
 enum IdentifierServiceError: Error {
     case keyNotFoundInKeyStore(innerError: Error)
     case keyStoreError(message: String)
     case noKeysSavedForIdentifier
 }
 
-class IdentifierService {
+class IdentifierService: IdentifierManager {
     
     private let identifierDB: IdentifierDatabase
     private let identifierCreator: IdentifierCreator
