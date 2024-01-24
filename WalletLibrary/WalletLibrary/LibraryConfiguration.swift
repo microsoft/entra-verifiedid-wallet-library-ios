@@ -26,12 +26,12 @@ class LibraryConfiguration {
          correlationHeader: VerifiedIdCorrelationHeader? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
-         identifierManager: IdentifierManager) {
+         identifierManager: IdentifierManager? = nil) {
         self.logger = logger
         self.mapper = mapper
         self.correlationHeader = correlationHeader
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
-        self.identifierManager = identifierManager
+        self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
     }
 }
