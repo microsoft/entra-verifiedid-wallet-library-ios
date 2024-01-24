@@ -18,16 +18,20 @@ class LibraryConfiguration {
     let verifiedIdEncoder: VerifiedIdEncoding
     
     let correlationHeader: VerifiedIdCorrelationHeader?
+    
+    let identifierManager: IdentifierManager
 
     init(logger: WalletLibraryLogger,
          mapper: Mapping,
          correlationHeader: VerifiedIdCorrelationHeader? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
-         verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder()) {
+         verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
+         identifierManager: IdentifierManager) {
         self.logger = logger
         self.mapper = mapper
         self.correlationHeader = correlationHeader
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
+        self.identifierManager = identifierManager
     }
 }
