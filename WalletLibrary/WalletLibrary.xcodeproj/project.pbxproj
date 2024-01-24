@@ -33,10 +33,11 @@
 		55265A3D2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265A3C2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift */; };
 		55265ACF2B61B0D600BAD6A2 /* IdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265ACE2B61B0D600BAD6A2 /* IdentifierManager.swift */; };
 		55265AD12B61B2B800BAD6A2 /* DataExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD02B61B2B800BAD6A2 /* DataExtensionTests.swift */; };
+		55265AD32B61B6DE00BAD6A2 /* NonceCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		553275402AF5A9930049A63F /* NonceProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532753F2AF5A9930049A63F /* NonceProcessor.swift */; };
+		553275402AF5A9930049A63F /* NonceCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5532753F2AF5A9930049A63F /* NonceCreator.swift */; };
 		5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E5B42948FEB5005D0765 /* RootOfTrust.swift */; };
 		5534E64D294A0888005D0765 /* PresentationDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */; };
 		5534E667294A0B6C005D0765 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534E666294A0B6C005D0765 /* Mappable.swift */; };
@@ -528,11 +529,12 @@
 		55265A3C2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Base64URLEncoding.swift"; sourceTree = "<group>"; };
 		55265ACE2B61B0D600BAD6A2 /* IdentifierManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierManager.swift; sourceTree = "<group>"; };
 		55265AD02B61B2B800BAD6A2 /* DataExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTests.swift; sourceTree = "<group>"; };
+		55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonceCreatorTests.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientTests.swift; sourceTree = "<group>"; };
-		5532753F2AF5A9930049A63F /* NonceProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonceProcessor.swift; sourceTree = "<group>"; };
+		5532753F2AF5A9930049A63F /* NonceCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonceCreator.swift; sourceTree = "<group>"; };
 		5534E5B42948FEB5005D0765 /* RootOfTrust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootOfTrust.swift; sourceTree = "<group>"; };
 		5534E64C294A0888005D0765 /* PresentationDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationDescriptor+Mappable.swift"; sourceTree = "<group>"; };
 		5534E666294A0B6C005D0765 /* Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
@@ -2562,7 +2564,7 @@
 				5524A59E29D5FDA500C5F18D /* WalletLibraryVCSDKLogConsumer.swift */,
 				55A4BB322A29383A006836AB /* VerifiedIdResult.swift */,
 				55A0DA1B2A745E4100BC178E /* Dictionary+ValueExtraction.swift */,
-				5532753F2AF5A9930049A63F /* NonceProcessor.swift */,
+				5532753F2AF5A9930049A63F /* NonceCreator.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2583,6 +2585,7 @@
 				5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */,
 				5524A60D29D635A700C5F18D /* WalletLibraryLoggerTests.swift */,
 				55A0DA4B2A74868100BC178E /* DictionaryExtensionTests.swift */,
+				55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2901,7 +2904,7 @@
 				55DECBE729B92E3900D5C802 /* RawPresentationResponse.swift in Sources */,
 				5552D48929EF4AAB00B40302 /* JweToken.swift in Sources */,
 				5552D3A029EF481A00B40302 /* ExchangeRequestContainer.swift in Sources */,
-				553275402AF5A9930049A63F /* NonceProcessor.swift in Sources */,
+				553275402AF5A9930049A63F /* NonceCreator.swift in Sources */,
 				5552D48B29EF4AAB00B40302 /* TokenVerifier.swift in Sources */,
 				5552D3E629EF48E200B40302 /* VCLogConsumer.swift in Sources */,
 				559BD4B3299EDFB400BD61AC /* VerifiableCredential.swift in Sources */,
@@ -3189,6 +3192,7 @@
 				55265AD12B61B2B800BAD6A2 /* DataExtensionTests.swift in Sources */,
 				55A0DA4A2A74862A00BC178E /* PresentationExchangePatternTests.swift in Sources */,
 				550A919829940DCE0014D030 /* MockOpenIdforVCResolver.swift in Sources */,
+				55265AD32B61B6DE00BAD6A2 /* NonceCreatorTests.swift in Sources */,
 				5552D7D029F2E0AA00B40302 /* ES256kTests.swift in Sources */,
 				5552D7EA29F2E1AF00B40302 /* MockCryptoOperations.swift in Sources */,
 				5552D89129F2E58000B40302 /* MockPresentationApiCalls.swift in Sources */,

@@ -3,38 +3,31 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum NonceProcessorError: Error 
+enum NonceCreatorError: Error 
 {
     case UnableToSerializeDid
 }
 
-struct NonceProcessor 
+struct NonceCreator
 {
-    func createNonce(fromIdentifier did: String) -> String? 
+    func createNonce(fromIdentifier did: String) -> String?
     {
-        do 
-        {
-            let didHash = try getDidHash(from: did)
-            guard let prefix = createRandomURLSafeString(withSize: 32) else 
-            {
-                return nil
-            }
-
-            return "\(prefix).\(didHash)"
-
-        } 
-        catch
+        guard let didHash = getDidHash(from: did),
+              let prefix = createRandomURLSafeString(withSize: 32) else
         {
             return nil
         }
+        
+        return "\(prefix).\(didHash)"
     }
-
-    private func getDidHash(from did: String) throws -> String 
+    
+    private func getDidHash(from did: String) -> String?
     {
 
         guard let serialized = did.data(using: .utf8) else 
         {
-            throw NonceProcessorError.UnableToSerializeDid
+            /// This should never happen.
+            return nil
         }
 
         let sha = Sha512()
