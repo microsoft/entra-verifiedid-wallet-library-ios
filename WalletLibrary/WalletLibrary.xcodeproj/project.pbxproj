@@ -30,6 +30,7 @@
 		5524A5B629D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */; };
 		5524A60C29D634BC00C5F18D /* VerifiedIdLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524A5F629D634BC00C5F18D /* VerifiedIdLogo.swift */; };
 		5524A60E29D635A700C5F18D /* WalletLibraryLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524A60D29D635A700C5F18D /* WalletLibraryLoggerTests.swift */; };
+		55265A3D2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265A3C2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -522,6 +523,7 @@
 		5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryVCSDKLogConsumerTests.swift; sourceTree = "<group>"; };
 		5524A5F629D634BC00C5F18D /* VerifiedIdLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdLogo.swift; sourceTree = "<group>"; };
 		5524A60D29D635A700C5F18D /* WalletLibraryLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryLoggerTests.swift; sourceTree = "<group>"; };
+		55265A3C2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Base64URLEncoding.swift"; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2614,6 +2616,7 @@
 				550A919929940E880014D030 /* Entities */,
 				5534E664294A0B3E005D0765 /* Services */,
 				5534E663294A0B28005D0765 /* Mappings */,
+				55265A3C2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3025,6 +3028,7 @@
 				5552D45429EF4A8100B40302 /* FailureHandler.swift in Sources */,
 				5552D4C029EF4AC300B40302 /* ES256k.swift in Sources */,
 				5552D44C29EF4A8100B40302 /* PostIssuanceCompletionResponse.swift in Sources */,
+				55265A3D2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift in Sources */,
 				5552D43F29EF4A8100B40302 /* NetworkingError.swift in Sources */,
 				5552D45829EF4A8100B40302 /* PresentationResponseEncoder.swift in Sources */,
 				5552D3D729EF48B200B40302 /* Contract.swift in Sources */,
