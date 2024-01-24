@@ -33,11 +33,15 @@ public class VerifiedIdClientBuilder {
         let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
                                                    accessGroupIdentifier: keychainAccessGroupIdentifier)
         
+        /// TODO: update to new Identifier logic once designed.
+        let identifierManager: IdentifierManager = VerifiableCredentialSDK.identifierService
+        
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
                                                  correlationHeader: correlationHeader,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
-                                                 verifiedIdEncoder: VerifiedIdEncoder())
+                                                 verifiedIdEncoder: VerifiedIdEncoder(),
+                                                 identifierManager: identifierManager)
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestHandlers(with: configuration)
