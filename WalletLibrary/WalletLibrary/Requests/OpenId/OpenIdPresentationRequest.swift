@@ -11,7 +11,7 @@ enum VerifiedIdPresentationRequestError: Error {
  * Presentation Requst that is Open Id specific.
  */
 class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
-
+    
     /// The look and feel of the requester.
     let style: RequesterStyle
     
