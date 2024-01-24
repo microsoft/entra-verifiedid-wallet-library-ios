@@ -90,7 +90,12 @@ struct OpenIdRequestHandler: RequestHandling {
         
         issuanceRequestContent.add(requestState: requestContent.requestState)
         issuanceRequestContent.add(issuanceResultCallbackUrl: requestContent.callbackUrl)
-        issuanceRequestContent.addNonceToIdTokenRequirementIfPresent(nonce: "")
+        
+        if let did = try? configuration.identifierManager.fetchOrCreateMasterIdentifier().longFormDid,
+           let nonce = NonceProcessor().createNonce(fromIdentifier: did)
+        {
+            issuanceRequestContent.addNonceToIdTokenRequirementIfPresent(nonce: nonce)
+        }
         
         if let injectedIdToken = requestContent.injectedIdToken {
             issuanceRequestContent.addRequirement(from: injectedIdToken)

@@ -43,7 +43,10 @@ struct IssuanceRequestContent {
         switch (requirement) 
         {
         case let groupRequirement as GroupRequirement:
-            addNonceToRequirement(requirement: groupRequirement, nonce: nonce)
+            for req in groupRequirement.requirements
+            {
+                addNonceToRequirement(requirement: req, nonce: nonce)
+            }
         case let idTokenRequirement as IdTokenRequirement:
             idTokenRequirement.add(nonce: nonce)
         default:
