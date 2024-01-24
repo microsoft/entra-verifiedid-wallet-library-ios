@@ -394,6 +394,73 @@ class OpenIdRequestHandlerTests: XCTestCase {
         XCTAssert(actualRequest.rootOfTrust.verified)
     }
     
+    func testHandleIssuanceRequest_WithValidContractAndIdTokenRequirement_ReturnsVerifiedIdIssuanceRequest() async throws {
+        
+        // Arrange
+        let issuanceOptionURL = URL(string: "https://test.com")!
+        let expectedPresentationStyle = MockRequesterStyle(requester: "mock requester")
+        let mockState = "mock state"
+        let mockCallbackUrl = URL(string: "https://test.com")!
+        let expectedPresentationRequirement = VerifiedIdRequirement(encrypted: false,
+                                                                    required: true,
+                                                                    types: [],
+                                                                    purpose: nil,
+                                                                    issuanceOptions: [VerifiedIdRequestURL(url: issuanceOptionURL)],
+                                                                    id: nil,
+                                                                    constraint: GroupConstraint(constraints: [],
+                                                                                                constraintOperator: .ALL))
+        let expectedPresentationRootOfTrust = RootOfTrust(verified: true, source: "mock source")
+        let expectedPresentationContent = PresentationRequestContent(style: expectedPresentationStyle,
+                                                                     requirement: expectedPresentationRequirement,
+                                                                     rootOfTrust: expectedPresentationRootOfTrust,
+                                                                     requestState: mockState,
+                                                                     callbackUrl: mockCallbackUrl)
+        
+        let expectedIssuanceStyle = MockRequesterStyle(requester: "mock issuer")
+        let expectedIssuanceRequirement = createIdTokenRequirement()
+        let expectedIssuanceRootOfTrust = RootOfTrust(verified: true, source: "mock issuer source")
+        let expectedIssuanceContent = IssuanceRequestContent(style: expectedIssuanceStyle,
+                                                             verifiedIdStyle: MockVerifiedIdStyle(),
+                                                             requirement: expectedIssuanceRequirement,
+                                                             rootOfTrust: expectedIssuanceRootOfTrust)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is MockOpenIdRawRequest {
+                return expectedPresentationContent
+            }
+            
+            if objectToBeMapped is IssuanceRequest {
+                return expectedIssuanceContent
+            }
+            
+            return nil
+        }
+        
+        func mockResolveContract(url: String) throws -> any RawManifest {
+            return createMockIssuanceRequest()
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
+        let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
+        let handler = OpenIdRequestHandler(configuration: configuration,
+                                           openIdResponder: MockPresentationResponder(),
+                                           manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
+                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+        
+        // Act
+        let actualRequest = try await handler.handleRequest(from: mockRawRequest)
+        
+        // Assert
+        XCTAssert(actualRequest is ContractIssuanceRequest)
+        XCTAssertEqual(actualRequest.style as? MockRequesterStyle, expectedIssuanceStyle)
+        XCTAssertNotNil((actualRequest.requirement as? IdTokenRequirement)?.nonce)
+        XCTAssertEqual(actualRequest.rootOfTrust.source, expectedIssuanceRootOfTrust.source)
+        XCTAssertEqual((actualRequest as? ContractIssuanceRequest)?.requestState, mockState)
+        XCTAssertEqual((actualRequest as? ContractIssuanceRequest)?.issuanceResultCallbackUrl, mockCallbackUrl)
+        XCTAssert(actualRequest.rootOfTrust.verified)
+    }
+    
     func testHandleIssuanceRequest_WithValidContractAndInjectedIdToken_ReturnsVerifiedIdIssuanceRequest() async throws {
         
         // Arrange
@@ -487,5 +554,14 @@ class OpenIdRequestHandlerTests: XCTestCase {
 
         let mockSignedContract = SignedContract(headers: Header(), content: mockContract)!
         return IssuanceRequest(from: mockSignedContract, linkedDomainResult: .linkedDomainMissing)
+    }
+    
+    private func createIdTokenRequirement(configuration: String = "https://self-issued.me") -> IdTokenRequirement {
+        return IdTokenRequirement(encrypted: false,
+                                  required: false,
+                                  configuration: URL(string: configuration)!,
+                                  clientId: "mockClientId",
+                                  redirectUri: "mockRedirectUri",
+                                  scope: nil)
     }
 }
