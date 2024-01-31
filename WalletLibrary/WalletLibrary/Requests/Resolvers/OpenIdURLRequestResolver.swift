@@ -47,6 +47,7 @@ struct OpenIdURLRequestResolver: RequestResolving {
             throw OpenIdURLRequestResolverError.unsupportedVerifiedIdRequestInputWith(type: String(describing: type(of: input)))
         }
         
+        // TODO: add support for Credential Offer and fall back to old Issuance flow.
         return try await openIdResolver.getRequest(url: input.url.absoluteString)
     }
 }

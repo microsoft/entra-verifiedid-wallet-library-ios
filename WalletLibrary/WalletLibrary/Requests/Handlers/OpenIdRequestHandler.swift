@@ -37,6 +37,8 @@ struct OpenIdRequestHandler: RequestHandling
     
     func canHandle(_ object: Any) -> Bool 
     {
+        // TODO: once VC SDK logic is moved to handler and new resolver logic is implemented,
+        // reimplement with new constraints.
         return object is any OpenIdRawRequest
     }
     
