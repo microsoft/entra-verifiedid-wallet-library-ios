@@ -6,33 +6,35 @@
 /**
  * Errors thrown in Request Handler Factory class.
  */
-enum RequestHandlerFactoryError: Error {
-    case UnsupportedResolver
+enum RequestHandlerFactoryError: Error 
+{
+    case UnsupportedRawRequest
 }
 
 /**
  * Request Handler Factory holds all objects that conform to RequestHandling protocol
  * and handles logic of returning the correct handler based on input.
  */
-class RequestHandlerFactory {
-
+class RequestHandlerFactory 
+{
     let requestHandlers: [any RequestHandling]
 
-    init(requestHandlers: [any RequestHandling]) {
+    init(requestHandlers: [any RequestHandling]) 
+    {
         self.requestHandlers = requestHandlers
     }
-
-    /// Return one of the request handlers that supports the resolver given.
-    func getHandler(from resolver: some RequestResolving) throws -> any RequestHandling {
-
-        let handler = requestHandlers.filter {
-            resolver.canResolve(using: $0)
-        }.first
-        
-        guard let handler = handler else {
-            throw RequestHandlerFactoryError.UnsupportedResolver
+    
+    /// Return one of the request handlers that supports the raw request given.
+    func getHandler(from rawRequest: Any) throws -> any RequestHandling
+    {
+        for handler in requestHandlers 
+        {
+            if handler.canHandle(rawRequest)
+            {
+                return handler
+            }
         }
 
-        return handler
+        throw RequestHandlerFactoryError.UnsupportedRawRequest
     }
 }
