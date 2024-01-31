@@ -10,12 +10,11 @@ class RequestHandlerFactoryTests: XCTestCase {
     
     func testOneHandlerRegistered() throws {
         
-        let expectedHandler = MockHandler()
-        let mockResolver = MockResolver(canResolveUsingInput: true)
+        let expectedHandler = MockHandler(mockCanHandle: true)
         
         let factory = RequestHandlerFactory(requestHandlers: [expectedHandler])
         
-        let actualHandler = try factory.getHandler(from: mockResolver)
+        let actualHandler = try factory.getHandler(from: "mock raw request")
         XCTAssertIdentical(expectedHandler as AnyObject, actualHandler as AnyObject)
     }
     
@@ -24,23 +23,20 @@ class RequestHandlerFactoryTests: XCTestCase {
         let expectedHandler = MockHandler(mockCanHandle: true)
         let firstMockHandler = MockHandler()
         let secondMockHandler = MockHandler()
-
-        let mockResolver = MockResolver(canResolveUsingInput: true)
         
         let factory = RequestHandlerFactory(requestHandlers: [expectedHandler, firstMockHandler, secondMockHandler])
         
-        let actualHandler = try factory.getHandler(from: mockResolver)
+        let actualHandler = try factory.getHandler(from: "mock raw request")
         XCTAssertIdentical(expectedHandler as AnyObject, actualHandler as AnyObject)
     }
 
     func testUnsupportedHandlerRegistered() throws {
         
-        let mockResolver = MockResolver(canResolveUsingInput: true)
         let mockHandler = MockHandler()
         
         let factory = RequestHandlerFactory(requestHandlers: [mockHandler])
         
-        XCTAssertThrowsError(try factory.getHandler(from: mockResolver)) { error in
+        XCTAssertThrowsError(try factory.getHandler(from: "mock raw request")) { error in
             XCTAssert(error is RequestHandlerFactoryError)
             XCTAssertEqual(error as? RequestHandlerFactoryError, .UnsupportedRawRequest)
         }
@@ -49,9 +45,8 @@ class RequestHandlerFactoryTests: XCTestCase {
     func testNoResolversRegistered() throws {
         
         let factory = RequestHandlerFactory(requestHandlers: [])
-        let mockResolver = MockResolver(canResolveUsingInput: true)
         
-        XCTAssertThrowsError(try factory.getHandler(from: mockResolver)) { error in
+        XCTAssertThrowsError(try factory.getHandler(from: "mock raw request")) { error in
             XCTAssert(error is RequestHandlerFactoryError)
             XCTAssertEqual(error as? RequestHandlerFactoryError, .UnsupportedRawRequest)
         }
