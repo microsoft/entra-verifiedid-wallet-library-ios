@@ -9,6 +9,9 @@
  */
 protocol RequestHandling {
     
+    /// Determines if Request Handler can handle the object.
+    func canHandle(_ object: Any) -> Bool
+    
     /// Validate and map an input to a verified id request.
     func handleRequest<RawRequest>(from: RawRequest) async throws -> any VerifiedIdRequest
 }

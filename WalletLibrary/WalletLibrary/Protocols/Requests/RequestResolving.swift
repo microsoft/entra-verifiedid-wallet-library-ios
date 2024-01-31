@@ -8,14 +8,10 @@
  * It should be specific to a certain type of request handler and input type.
  */
 protocol RequestResolving {
-    associatedtype RawRequest
-
-    /// Whether or not the object can resolve a raw request that will be handled by the given handler.
-    func canResolve(using handler: any RequestHandling) -> Bool
     
     /// Whether or not the object can resolve the given input.
     func canResolve(input: VerifiedIdRequestInput) -> Bool
     
     /// Resolve the raw request from the given input.
-    func resolve(input: VerifiedIdRequestInput) async throws -> RawRequest
+    func resolve(input: VerifiedIdRequestInput) async throws -> Any
 }
