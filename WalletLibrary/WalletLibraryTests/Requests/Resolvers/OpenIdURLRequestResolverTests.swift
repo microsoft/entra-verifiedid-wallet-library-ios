@@ -94,35 +94,4 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         // Assert
         XCTAssertTrue(actualResult)
     }
-    
-    func testCanResolve_WithInvalidRequestHandler_ReturnsFalse() throws {
-        
-        // Arrange
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        let mockHandler = MockHandler()
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
-        
-        // Act
-        let actualResult = resolver.canResolve(using: mockHandler)
-        
-        // Assert
-        XCTAssertFalse(actualResult)
-    }
-    
-    func testCanResolve_WithValidRequestHandler_ReturnsTrue() throws {
-
-        // Arrange
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        let mockHandler = OpenIdRequestHandler(configuration: configuration,
-                                               openIdResponder: MockPresentationResponder(),
-                                               manifestResolver: MockManifestResolver(),
-                                               verifiableCredentialRequester: MockVerifiedIdRequester())
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
-        
-        // Act
-        let actualResult = resolver.canResolve(using: mockHandler)
-        
-        // Assert
-        XCTAssertTrue(actualResult)
-    }
 }

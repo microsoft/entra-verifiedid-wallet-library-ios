@@ -118,7 +118,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         } catch {
             // Assert
             XCTAssert(error is OpenIdRequestHandlerError)
-            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.unableToCastRequirementToVerifiedIdRequirement)
+            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.UnableToCastRequirementToVerifiedIdRequirement)
         }
     }
     
@@ -163,7 +163,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         } catch {
             // Assert
             XCTAssert(error is OpenIdRequestHandlerError)
-            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest)
+            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.NoIssuanceOptionsPresentToCreateIssuanceRequest)
         }
     }
     
@@ -208,7 +208,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         } catch {
             // Assert
             XCTAssert(error is OpenIdRequestHandlerError)
-            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest)
+            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.NoIssuanceOptionsPresentToCreateIssuanceRequest)
         }
     }
     
