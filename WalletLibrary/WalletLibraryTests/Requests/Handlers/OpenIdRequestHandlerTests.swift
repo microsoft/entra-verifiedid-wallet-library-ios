@@ -43,7 +43,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
-        let actualRequest = try await handler.handleRequest(from: mockRawRequest)
+        let actualRequest = try await handler.handle(rawRequest: mockRawRequest)
         
         // Assert
         XCTAssert(actualRequest is OpenIdPresentationRequest)
@@ -74,7 +74,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await handler.handleRequest(from: mockRawRequest)
+            let _ = try await handler.handle(rawRequest: mockRawRequest)
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
@@ -113,7 +113,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await handler.handleRequest(from: mockRawRequest)
+            let _ = try await handler.handle(rawRequest: mockRawRequest)
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
@@ -158,7 +158,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await handler.handleRequest(from: mockRawRequest)
+            let _ = try await handler.handle(rawRequest: mockRawRequest)
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
@@ -203,7 +203,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await handler.handleRequest(from: mockRawRequest)
+            let _ = try await handler.handle(rawRequest: mockRawRequest)
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
@@ -263,7 +263,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await handler.handleRequest(from: mockRawRequest)
+            let _ = try await handler.handle(rawRequest: mockRawRequest)
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
@@ -318,7 +318,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         
         // Act
         do {
-            let _ = try await handler.handleRequest(from: mockRawRequest)
+            let _ = try await handler.handle(rawRequest: mockRawRequest)
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
@@ -382,7 +382,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
-        let actualRequest = try await handler.handleRequest(from: mockRawRequest)
+        let actualRequest = try await handler.handle(rawRequest: mockRawRequest)
         
         // Assert
         XCTAssert(actualRequest is ContractIssuanceRequest)
@@ -449,7 +449,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
-        let actualRequest = try await handler.handleRequest(from: mockRawRequest)
+        let actualRequest = try await handler.handle(rawRequest: mockRawRequest)
         
         // Assert
         XCTAssert(actualRequest is ContractIssuanceRequest)
@@ -518,7 +518,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
-        let actualRequest = try await handler.handleRequest(from: mockRawRequest)
+        let actualRequest = try await handler.handle(rawRequest: mockRawRequest)
         
         // Assert
         XCTAssert(actualRequest is ContractIssuanceRequest)

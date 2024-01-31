@@ -29,7 +29,7 @@ class RequestHandlerFactory
     {
         for handler in requestHandlers 
         {
-            if handler.canHandle(rawRequest)
+            if handler.canHandle(rawRequest: rawRequest)
             {
                 return handler
             }

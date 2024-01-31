@@ -35,17 +35,17 @@ struct OpenIdRequestHandler: RequestHandling
         self.verifiedIdRequester = verifiableCredentialRequester
     }
     
-    func canHandle(_ object: Any) -> Bool 
+    func canHandle(rawRequest: Any) -> Bool
     {
         // TODO: once VC SDK logic is moved to handler and new resolver logic is implemented,
         // reimplement with new constraints.
-        return object is any OpenIdRawRequest
+        return rawRequest is any OpenIdRawRequest
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    func handleRequest<RawRequest>(from request: RawRequest) async throws -> any VerifiedIdRequest {
+    func handle(rawRequest: Any) async throws -> any VerifiedIdRequest {
         
-        guard let request = request as? any OpenIdRawRequest else {
+        guard let request = rawRequest as? any OpenIdRawRequest else {
             throw OpenIdRequestHandlerError.UnsupportedRawRequestType
         }
         

@@ -32,7 +32,7 @@ public class VerifiedIdClient {
             let resolver = try self.requestResolverFactory.getResolver(from: input)
             let rawRequest = try await resolver.resolve(input: input)
             let handler = try self.requestHandlerFactory.getHandler(from: rawRequest)
-            return try await handler.handleRequest(from: rawRequest)
+            return try await handler.handle(rawRequest: rawRequest)
         }
     }
     
