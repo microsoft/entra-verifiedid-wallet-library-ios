@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCServices)
-    import VCServices
-#endif
-
 /**
  * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
  */
@@ -21,6 +17,8 @@ public class VerifiedIdClientBuilder {
     private var requestResolvers: [any RequestResolving] = []
     
     private var requestHandlers: [any RequestHandling] = []
+    
+    private var previewFeatureFlagsSupported: [PreviewFeatureFlag] = []
     
     public init() {
         logger = WalletLibraryLogger()
@@ -41,7 +39,8 @@ public class VerifiedIdClientBuilder {
                                                  correlationHeader: correlationHeader,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
-                                                 identifierManager: identifierManager)
+                                                 identifierManager: identifierManager,
+                                                 previewFeatureFlagsSupported: previewFeatureFlagsSupported)
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestHandlers(with: configuration)
@@ -51,6 +50,13 @@ public class VerifiedIdClientBuilder {
         return VerifiedIdClient(requestResolverFactory: requestResolverFactory,
                                 requestHandlerFactory: requestHandlerFactory,
                                 configuration: configuration)
+    }
+    
+    /// Optional method to add support for preview features.
+    public func with(previewFeatureFlags: [PreviewFeatureFlag]) -> VerifiedIdClientBuilder
+    {
+        previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
+        return self
     }
 
     /// Optional method to add a custom log consumer to VerifiedIdClient.
