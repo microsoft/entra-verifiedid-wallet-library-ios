@@ -36,6 +36,8 @@
 		55265AD32B61B6DE00BAD6A2 /* NonceCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */; };
 		55265AE02B6C34C400BAD6A2 /* CredentialOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265ADF2B6C34C400BAD6A2 /* CredentialOffer.swift */; };
 		55265AE22B6C379900BAD6A2 /* CredentialMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AE12B6C379900BAD6A2 /* CredentialMetadata.swift */; };
+		55265AE42B6C4CE700BAD6A2 /* RawOpenID4VCIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AE32B6C4CE600BAD6A2 /* RawOpenID4VCIRequest.swift */; };
+		55265AE62B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AE52B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -534,6 +536,8 @@
 		55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonceCreatorTests.swift; sourceTree = "<group>"; };
 		55265ADF2B6C34C400BAD6A2 /* CredentialOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialOffer.swift; sourceTree = "<group>"; };
 		55265AE12B6C379900BAD6A2 /* CredentialMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialMetadata.swift; sourceTree = "<group>"; };
+		55265AE32B6C4CE600BAD6A2 /* RawOpenID4VCIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawOpenID4VCIRequest.swift; sourceTree = "<group>"; };
+		55265AE52B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawOpenID4VCIResponse.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1094,6 +1098,8 @@
 			children = (
 				55265ADF2B6C34C400BAD6A2 /* CredentialOffer.swift */,
 				55265AE12B6C379900BAD6A2 /* CredentialMetadata.swift */,
+				55265AE32B6C4CE600BAD6A2 /* RawOpenID4VCIRequest.swift */,
+				55265AE52B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift */,
 			);
 			path = OpenID4VCI;
 			sourceTree = "<group>";
@@ -2899,6 +2905,7 @@
 				55BA2DCC29CDF9E000BB8207 /* VerifiedIdDecoding.swift in Sources */,
 				5552D3FA29EF48ED00B40302 /* RawIdentity.swift in Sources */,
 				5552D4BF29EF4AC300B40302 /* HmacSha2AesCbc.swift in Sources */,
+				55265AE42B6C4CE700BAD6A2 /* RawOpenID4VCIRequest.swift in Sources */,
 				5552D3F629EF48ED00B40302 /* ProtectedBackupData.swift in Sources */,
 				5552D4CA29EF4AC300B40302 /* ED25519PublicKey.swift in Sources */,
 				5552D3FF29EF490000B40302 /* PresentationSubmission.swift in Sources */,
@@ -2940,6 +2947,7 @@
 				559BD4B3299EDFB400BD61AC /* VerifiableCredential.swift in Sources */,
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
 				5552D3C729EF489E00B40302 /* IONDocumentInitialState.swift in Sources */,
+				55265AE62B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift in Sources */,
 				553CC09029A955E6005A5FD6 /* PinDescriptor+Mappable.swift in Sources */,
 				5552D4B829EF4AC300B40302 /* Aes.swift in Sources */,
 				55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */,
