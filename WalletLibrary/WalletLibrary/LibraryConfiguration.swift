@@ -21,27 +21,27 @@ class LibraryConfiguration {
     
     let identifierManager: IdentifierManager
     
-    let previewFeatureFlagsSupported: [PreviewFeatureFlag]
+    let previewFeatureFlags: PreviewFeatureFlag
 
-    init(logger: WalletLibraryLogger,
-         mapper: Mapping,
+    init(logger: WalletLibraryLogger = WalletLibraryLogger(),
+         mapper: Mapping = Mapper(),
          correlationHeader: VerifiedIdCorrelationHeader? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          identifierManager: IdentifierManager? = nil,
-         previewFeatureFlagsSupported: [PreviewFeatureFlag] = []) {
+         previewFeatureFlags: PreviewFeatureFlag = PreviewFeatureFlag()) {
         self.logger = logger
         self.mapper = mapper
         self.correlationHeader = correlationHeader
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
         self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
-        self.previewFeatureFlagsSupported = previewFeatureFlagsSupported
+        self.previewFeatureFlags = previewFeatureFlags
     }
     
     /// Helper function to determine if a preview feature flag is supported
-    func isPreviewFeatureFlagSupported(_ featureFlag: PreviewFeatureFlag) -> Bool
+    func isPreviewFeatureFlagSupported(_ featureFlag: String) -> Bool
     {
-        return previewFeatureFlagsSupported.contains(featureFlag)
+        return previewFeatureFlags.isPreviewFeatureSupported(featureFlag)
     }
 }

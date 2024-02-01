@@ -18,7 +18,7 @@ public class VerifiedIdClientBuilder {
     
     private var requestHandlers: [any RequestHandling] = []
     
-    private var previewFeatureFlagsSupported: [PreviewFeatureFlag] = []
+    private var previewFeatureFlagsSupported: [String] = []
     
     public init() {
         logger = WalletLibraryLogger()
@@ -27,6 +27,7 @@ public class VerifiedIdClientBuilder {
     /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
 
+        let previewFeatureFlags = PreviewFeatureFlag(previewFeatureFlags: previewFeatureFlagsSupported)
         let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
         let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
                                                    accessGroupIdentifier: keychainAccessGroupIdentifier)
@@ -40,7 +41,7 @@ public class VerifiedIdClientBuilder {
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
                                                  identifierManager: identifierManager,
-                                                 previewFeatureFlagsSupported: previewFeatureFlagsSupported)
+                                                 previewFeatureFlags: previewFeatureFlags)
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestHandlers(with: configuration)
@@ -53,7 +54,7 @@ public class VerifiedIdClientBuilder {
     }
     
     /// Optional method to add support for preview features.
-    public func with(previewFeatureFlags: [PreviewFeatureFlag]) -> VerifiedIdClientBuilder
+    public func with(previewFeatureFlags: [String]) -> VerifiedIdClientBuilder
     {
         previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
         return self

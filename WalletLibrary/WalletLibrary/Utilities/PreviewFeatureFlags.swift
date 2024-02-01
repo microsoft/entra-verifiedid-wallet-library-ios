@@ -6,11 +6,29 @@
 /**
  * Feature Flags that can be used to support preview features that are still under development..
  */
-public enum PreviewFeatureFlag 
+public struct PreviewFeatureFlag
 {
     /// A preview feature for access token support from the OpenID4VCI protocol.
-    case OpenID4VCIAccessTokenSupport
+    public static let OpenID4VCIAccessToken = "OpenID4VCIAccessToken"
     
     /// A preview feature for Pre Auth support from the OpenID4VCI protocol.
-    case OpenID4VCIPreAuthSupport
+    public static let OpenID4VCIPreAuth = "OpenID4VCIPreAuth"
+    
+    private var supportedPreviewFeatures: [String: Bool] = [
+        OpenID4VCIAccessToken: false,
+        OpenID4VCIPreAuth: false
+    ]
+    
+    init(previewFeatureFlags: [String] = [])
+    {
+        for flag in previewFeatureFlags 
+        {
+            supportedPreviewFeatures[flag] = true
+        }
+    }
+    
+    func isPreviewFeatureSupported(_ featureFlag: String) -> Bool
+    {
+        return supportedPreviewFeatures[featureFlag] ?? false
+    }
 }
