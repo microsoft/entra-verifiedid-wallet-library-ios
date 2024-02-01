@@ -14,10 +14,10 @@ struct CredentialMetadata: Decodable
     /// The authorization servers property is a list of endpoints that can be used to get access token for this issuer.
     let authorization_servers: [String]?
     
-    /// The endpoint to send response to..
+    /// The endpoint to send response to.
     let credential_endpoint: String?
     
-    ///
+    /// The endpoint to send the result of the issuance back to.
     let notification_endpoint: String?
     
     /// A token to verify the issuer owns the DID and domain that the metadata comes from.
