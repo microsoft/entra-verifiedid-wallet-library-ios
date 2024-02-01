@@ -35,6 +35,7 @@
 		55265AD12B61B2B800BAD6A2 /* DataExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD02B61B2B800BAD6A2 /* DataExtensionTests.swift */; };
 		55265AD32B61B6DE00BAD6A2 /* NonceCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */; };
 		55265AD62B6C188200BAD6A2 /* PreviewFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD52B6C188200BAD6A2 /* PreviewFeatureFlags.swift */; };
+		55265AD82B6C267400BAD6A2 /* LibraryConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD72B6C267300BAD6A2 /* LibraryConfigurationTests.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -532,6 +533,7 @@
 		55265AD02B61B2B800BAD6A2 /* DataExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTests.swift; sourceTree = "<group>"; };
 		55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonceCreatorTests.swift; sourceTree = "<group>"; };
 		55265AD52B6C188200BAD6A2 /* PreviewFeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewFeatureFlags.swift; sourceTree = "<group>"; };
+		55265AD72B6C267300BAD6A2 /* LibraryConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryConfigurationTests.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1126,6 +1128,7 @@
 				55A81BF02991BB13002C259A /* Requests */,
 				55E3376929478C3300CD2ED7 /* Utilities */,
 				553CC09E29A97FD7005A5FD6 /* VerifiedId */,
+				55265AD72B6C267300BAD6A2 /* LibraryConfigurationTests.swift */,
 				559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */,
 				552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */,
 			);
@@ -3170,6 +3173,7 @@
 				55BA2DD629CDFA4600BB8207 /* MockVerifiedIdEncoder.swift in Sources */,
 				559BD3052995AB8F00BD61AC /* PresentationDefinition+MappableTests.swift in Sources */,
 				5552D86C29F2E43A00B40302 /* DIDDocumentDecoderTests.swift in Sources */,
+				55265AD82B6C267400BAD6A2 /* LibraryConfigurationTests.swift in Sources */,
 				5524A5B629D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift in Sources */,
 				5552D85829F2E43900B40302 /* MockObject.swift in Sources */,
 				55A0DA482A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift in Sources */,
