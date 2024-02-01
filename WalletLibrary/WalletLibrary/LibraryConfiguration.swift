@@ -21,7 +21,7 @@ class LibraryConfiguration {
     
     let identifierManager: IdentifierManager
     
-    let previewFeatureFlags: PreviewFeatureFlag
+    let previewFeatureFlags: PreviewFeatureFlags
 
     init(logger: WalletLibraryLogger = WalletLibraryLogger(),
          mapper: Mapping = Mapper(),
@@ -29,7 +29,7 @@ class LibraryConfiguration {
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          identifierManager: IdentifierManager? = nil,
-         previewFeatureFlags: PreviewFeatureFlag = PreviewFeatureFlag()) {
+         previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags()) {
         self.logger = logger
         self.mapper = mapper
         self.correlationHeader = correlationHeader

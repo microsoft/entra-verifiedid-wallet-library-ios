@@ -27,7 +27,7 @@ public class VerifiedIdClientBuilder {
     /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
 
-        let previewFeatureFlags = PreviewFeatureFlag(previewFeatureFlags: previewFeatureFlagsSupported)
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: previewFeatureFlagsSupported)
         let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
         let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
                                                    accessGroupIdentifier: keychainAccessGroupIdentifier)

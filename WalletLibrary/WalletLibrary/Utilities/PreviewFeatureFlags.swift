@@ -6,7 +6,7 @@
 /**
  * Feature Flags that can be used to support preview features that are still under development..
  */
-public struct PreviewFeatureFlag
+public struct PreviewFeatureFlags
 {
     /// A preview feature for access token support from the OpenID4VCI protocol.
     public static let OpenID4VCIAccessToken = "OpenID4VCIAccessToken"

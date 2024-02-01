@@ -11,7 +11,7 @@ class LibraryConfigurationTests: XCTestCase {
     func testIsPreviewFeatureSupported_WhenFeatureIsSupported_ReturnTrue() async throws {
         // Arrange
         let mockFeatureFlag = "MockFeatureFlag"
-        let previewFeatureFlag = PreviewFeatureFlag(previewFeatureFlags: [mockFeatureFlag])
+        let previewFeatureFlag = PreviewFeatureFlags(previewFeatureFlags: [mockFeatureFlag])
         let configuration = LibraryConfiguration(previewFeatureFlags: previewFeatureFlag)
         
         // Act / Arrange
