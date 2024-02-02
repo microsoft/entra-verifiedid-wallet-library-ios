@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCServices)
-    import VCServices
-#endif
-
 /**
  * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
  */
@@ -22,6 +18,8 @@ public class VerifiedIdClientBuilder {
     
     private var requestHandlers: [any RequestHandling] = []
     
+    private var previewFeatureFlagsSupported: [String] = []
+    
     public init() {
         logger = WalletLibraryLogger()
     }
@@ -29,6 +27,7 @@ public class VerifiedIdClientBuilder {
     /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
 
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: previewFeatureFlagsSupported)
         let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
         let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
                                                    accessGroupIdentifier: keychainAccessGroupIdentifier)
@@ -41,7 +40,8 @@ public class VerifiedIdClientBuilder {
                                                  correlationHeader: correlationHeader,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
-                                                 identifierManager: identifierManager)
+                                                 identifierManager: identifierManager,
+                                                 previewFeatureFlags: previewFeatureFlags)
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestHandlers(with: configuration)
@@ -51,6 +51,13 @@ public class VerifiedIdClientBuilder {
         return VerifiedIdClient(requestResolverFactory: requestResolverFactory,
                                 requestHandlerFactory: requestHandlerFactory,
                                 configuration: configuration)
+    }
+    
+    /// Optional method to add support for preview features.
+    public func with(previewFeatureFlags: [String]) -> VerifiedIdClientBuilder
+    {
+        previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
+        return self
     }
 
     /// Optional method to add a custom log consumer to VerifiedIdClient.
