@@ -38,6 +38,7 @@
 		55265AE22B6C379900BAD6A2 /* CredentialMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AE12B6C379900BAD6A2 /* CredentialMetadata.swift */; };
 		55265AE42B6C4CE700BAD6A2 /* RawOpenID4VCIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AE32B6C4CE600BAD6A2 /* RawOpenID4VCIRequest.swift */; };
 		55265AE62B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AE52B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift */; };
+		55265AE82B6C73F300BAD6A2 /* CredentialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AE72B6C73F300BAD6A2 /* CredentialConfiguration.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -538,6 +539,7 @@
 		55265AE12B6C379900BAD6A2 /* CredentialMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialMetadata.swift; sourceTree = "<group>"; };
 		55265AE32B6C4CE600BAD6A2 /* RawOpenID4VCIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawOpenID4VCIRequest.swift; sourceTree = "<group>"; };
 		55265AE52B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawOpenID4VCIResponse.swift; sourceTree = "<group>"; };
+		55265AE72B6C73F300BAD6A2 /* CredentialConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialConfiguration.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1100,6 +1102,7 @@
 				55265AE12B6C379900BAD6A2 /* CredentialMetadata.swift */,
 				55265AE32B6C4CE600BAD6A2 /* RawOpenID4VCIRequest.swift */,
 				55265AE52B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift */,
+				55265AE72B6C73F300BAD6A2 /* CredentialConfiguration.swift */,
 			);
 			path = OpenID4VCI;
 			sourceTree = "<group>";
@@ -2937,6 +2940,7 @@
 				5552D4CF29EF4AC300B40302 /* Signing.swift in Sources */,
 				5552D3D229EF48B200B40302 /* ClaimDescriptor.swift in Sources */,
 				5552D47E29EF4AAB00B40302 /* Claims.swift in Sources */,
+				55265AE82B6C73F300BAD6A2 /* CredentialConfiguration.swift in Sources */,
 				5552D3F929EF48ED00B40302 /* WalletMetadata.swift in Sources */,
 				55DECBE729B92E3900D5C802 /* RawPresentationResponse.swift in Sources */,
 				5552D48929EF4AAB00B40302 /* JweToken.swift in Sources */,
