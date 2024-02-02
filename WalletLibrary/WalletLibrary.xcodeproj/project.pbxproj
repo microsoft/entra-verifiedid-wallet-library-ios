@@ -41,6 +41,8 @@
 		55265AF62B6D765D00BAD6A2 /* RawOpenID4VCIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AF12B6D765D00BAD6A2 /* RawOpenID4VCIRequest.swift */; };
 		55265AF72B6D765D00BAD6A2 /* RawOpenID4VCIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AF22B6D765D00BAD6A2 /* RawOpenID4VCIResponse.swift */; };
 		55265AF82B6D765D00BAD6A2 /* CredentialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AF32B6D765D00BAD6A2 /* CredentialConfiguration.swift */; };
+		55265B012B6D938800BAD6A2 /* OpenID4VCIRequestNetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265B002B6D938800BAD6A2 /* OpenID4VCIRequestNetworkOperation.swift */; };
+		55265B032B6D957700BAD6A2 /* WalletLibraryNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265B022B6D957700BAD6A2 /* WalletLibraryNetworking.swift */; };
 		552E509B293E6AB200868F47 /* WalletLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552E5092293E6AB200868F47 /* WalletLibrary.framework */; };
 		552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */; };
 		552E50A1293E6AB200868F47 /* WalletLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 552E5095293E6AB200868F47 /* WalletLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -544,6 +546,8 @@
 		55265AF12B6D765D00BAD6A2 /* RawOpenID4VCIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawOpenID4VCIRequest.swift; sourceTree = "<group>"; };
 		55265AF22B6D765D00BAD6A2 /* RawOpenID4VCIResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawOpenID4VCIResponse.swift; sourceTree = "<group>"; };
 		55265AF32B6D765D00BAD6A2 /* CredentialConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialConfiguration.swift; sourceTree = "<group>"; };
+		55265B002B6D938800BAD6A2 /* OpenID4VCIRequestNetworkOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenID4VCIRequestNetworkOperation.swift; sourceTree = "<group>"; };
+		55265B022B6D957700BAD6A2 /* WalletLibraryNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryNetworking.swift; sourceTree = "<group>"; };
 		552E5092293E6AB200868F47 /* WalletLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		552E5095293E6AB200868F47 /* WalletLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletLibrary.h; sourceTree = "<group>"; };
 		552E509A293E6AB200868F47 /* WalletLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalletLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1086,6 +1090,8 @@
 		55265ADC2B6C349400BAD6A2 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				55265B022B6D957700BAD6A2 /* WalletLibraryNetworking.swift */,
+				55265AFF2B6D936900BAD6A2 /* Operations */,
 				55265ADD2B6C34AC00BAD6A2 /* Entities */,
 			);
 			path = Networking;
@@ -1109,6 +1115,14 @@
 				55265AF22B6D765D00BAD6A2 /* RawOpenID4VCIResponse.swift */,
 			);
 			path = OpenID4VCI;
+			sourceTree = "<group>";
+		};
+		55265AFF2B6D936900BAD6A2 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				55265B002B6D938800BAD6A2 /* OpenID4VCIRequestNetworkOperation.swift */,
+			);
+			path = Operations;
 			sourceTree = "<group>";
 		};
 		552E5088293E6AB100868F47 = {
@@ -3076,6 +3090,7 @@
 				55A81BE12991AB96002C259A /* RequestHandling.swift in Sources */,
 				5552D40029EF490000B40302 /* VPTokenResponseDescription.swift in Sources */,
 				55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */,
+				55265B012B6D938800BAD6A2 /* OpenID4VCIRequestNetworkOperation.swift in Sources */,
 				5552D4CE29EF4AC300B40302 /* SecretStoring.swift in Sources */,
 				550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */,
 				5552D3D329EF48B200B40302 /* IssuancePin.swift in Sources */,
@@ -3135,6 +3150,7 @@
 				55E2F06C299553300008010D /* PresentationRequest+Mappable.swift in Sources */,
 				5552D40729EF490A00B40302 /* PinDescriptor.swift in Sources */,
 				5552D3D429EF48B200B40302 /* PresentationDescriptor.swift in Sources */,
+				55265B032B6D957700BAD6A2 /* WalletLibraryNetworking.swift in Sources */,
 				5552D3B829EF487300B40302 /* ExchangeRequestFormatter.swift in Sources */,
 				5552D40529EF490A00B40302 /* IssuanceMetadata.swift in Sources */,
 				5552D3E729EF48E200B40302 /* VCSDKLog.swift in Sources */,
