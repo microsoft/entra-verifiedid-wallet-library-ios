@@ -25,14 +25,16 @@ class LibraryConfiguration {
 
     init(logger: WalletLibraryLogger = WalletLibraryLogger(),
          mapper: Mapping = Mapper(),
-         walletLibraryNetworking: WalletLibraryNetworking,
+         networking: WalletLibraryNetworking? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          identifierManager: IdentifierManager? = nil,
          previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags()) {
         self.logger = logger
         self.mapper = mapper
-        self.networking = walletLibraryNetworking
+        self.networking = networking ?? WalletLibraryNetworking(urlSession: URLSession.shared,
+                                                                logger: logger,
+                                                                verifiedIdCorrelationHeader: nil)
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
         self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService

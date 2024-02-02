@@ -41,7 +41,7 @@ public class VerifiedIdClientBuilder {
         
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
-                                                 walletLibraryNetworking: walletLibraryNetworking,
+                                                 networking: walletLibraryNetworking,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
                                                  identifierManager: identifierManager,

@@ -4,7 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The constraints for issuance and display information of a credential,
+ * The Networking Layer of the Wallet Library. All builtin networking operations will go through this layer.
+ * Note: VC SDK legacy code still handles some networking operations.
  */
 class WalletLibraryNetworking
 {
