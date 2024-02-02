@@ -23,28 +23,6 @@ struct CredentialMetadata: Decodable
     /// A token to verify the issuer owns the DID and domain that the metadata comes from.
     let signed_metadata: String?
     
-    /// A dictionary of Credential IDs to the corresponding contract.
-    let credential_configurations_supported: [String: Any]?
-    
-    enum CodingKeys: String, CodingKey
-    {
-        case credential_issuer
-        case authorization_servers
-        case credential_endpoint
-        case notification_endpoint
-        case signed_metadata
-        case credential_configurations_supported
-    }
-    
-    init(from decoder: Decoder) throws 
-    {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        credential_issuer = try container.decode(String.self, forKey: .credential_issuer)
-        authorization_servers = try container.decode([String].self, forKey: .authorization_servers)
-        credential_endpoint = try container.decode(String.self, forKey: .credential_endpoint)
-        notification_endpoint = try container.decode(String.self, forKey: .notification_endpoint)
-        signed_metadata = try container.decode(String.self, forKey: .signed_metadata)
-        credential_configurations_supported = try container.decode(Dictionary<String, Any>.self,
-                                                                   forKey: .credential_configurations_supported)
-    }
+    /// A dictionary of Credential IDs to the corresponding credential configuration.
+    let credential_configurations_supported: [String: CredentialConfiguration]?
 }

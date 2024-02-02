@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The Raw Response from the Issuance Service that issues Wallet a Verified ID.
+ * The constraints for issuance and display information of a credential,
  */
 struct CredentialConfiguration: Decodable
 {
