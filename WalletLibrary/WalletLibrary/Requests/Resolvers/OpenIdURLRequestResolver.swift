@@ -47,7 +47,20 @@ struct OpenIdURLRequestResolver: RequestResolving {
             throw OpenIdURLRequestResolverError.unsupportedVerifiedIdRequestInputWith(type: String(describing: type(of: input)))
         }
         
+        // TODO: split access token and pre-auth token flows up.
+        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIAccessToken)
+        {
+            return try await resolveUsingOpenID4VCI(input: input)
+        }
+        
         // TODO: add support for Credential Offer and fall back to old Issuance flow.
         return try await openIdResolver.getRequest(url: input.url.absoluteString)
+    }
+    
+    private func resolveUsingOpenID4VCI(input: VerifiedIdRequestURL) async throws -> Any
+    {
+        let serializedRequest = try await configuration.networking.fetch(request: URLRequest(url: input.url),
+                                                                         type: OpenID4VCIRequestNetworkOperation.self)
+        return try await openIdResolver.validateRequest(data: serializedRequest)
     }
 }
