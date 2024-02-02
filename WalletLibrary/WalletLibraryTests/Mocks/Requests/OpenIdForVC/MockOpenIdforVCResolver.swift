@@ -6,7 +6,7 @@
 @testable import WalletLibrary
 
 struct MockOpenIdForVCResolver: OpenIdForVCResolver {
-    
+
     enum MockOpenIdForVCResolverError: Error {
         case nilCallback
     }
@@ -15,6 +15,15 @@ struct MockOpenIdForVCResolver: OpenIdForVCResolver {
     
     init(mockGetRequestCallback: ((String) -> any OpenIdRawRequest)? = nil) {
         self.mockGetRequestCallback = mockGetRequestCallback
+    }
+    
+    func validateRequest(data: Data) async throws -> any OpenIdRawRequest {
+        
+        guard let mockGetRequestCallback = mockGetRequestCallback else {
+            throw MockOpenIdForVCResolverError.nilCallback
+        }
+        
+        return mockGetRequestCallback(data.base64EncodedString())
     }
     
     func getRequest(url: String) async throws -> any OpenIdRawRequest {

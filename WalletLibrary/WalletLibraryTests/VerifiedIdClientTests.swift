@@ -178,9 +178,12 @@ class VerifiedIdClientTests: XCTestCase {
                                       mockHandleRequest: { return expectedRequest })
         let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
         let mockCorrelationHeader = MockCorrelationHeader()
+        let walletLibraryNetworking = WalletLibraryNetworking(urlSession: URLSession.shared,
+                                                              logger: WalletLibraryLogger(),
+                                                              verifiedIdCorrelationHeader: mockCorrelationHeader)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
-                                                 mapper: Mapper(),
-                                                 correlationHeader: mockCorrelationHeader)
+                                                 mapper: Mapper(), 
+                                                 networking: walletLibraryNetworking)
         
         let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
                                       requestHandlerFactory: handlerFactory,
