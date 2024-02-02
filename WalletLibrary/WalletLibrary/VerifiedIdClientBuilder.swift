@@ -35,9 +35,13 @@ public class VerifiedIdClientBuilder {
         /// TODO: update to new Identifier logic once designed.
         let identifierManager: IdentifierManager = VerifiableCredentialSDK.identifierService
         
+        let walletLibraryNetworking = WalletLibraryNetworking(urlSession: URLSession.shared,
+                                                              logger: logger,
+                                                              verifiedIdCorrelationHeader: correlationHeader)
+        
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
-                                                 correlationHeader: correlationHeader,
+                                                 walletLibraryNetworking: walletLibraryNetworking,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
                                                  identifierManager: identifierManager,

@@ -17,7 +17,7 @@ class LibraryConfiguration {
     
     let verifiedIdEncoder: VerifiedIdEncoding
     
-    let correlationHeader: VerifiedIdCorrelationHeader?
+    let networking: WalletLibraryNetworking
     
     let identifierManager: IdentifierManager
     
@@ -25,14 +25,14 @@ class LibraryConfiguration {
 
     init(logger: WalletLibraryLogger = WalletLibraryLogger(),
          mapper: Mapping = Mapper(),
-         correlationHeader: VerifiedIdCorrelationHeader? = nil,
+         walletLibraryNetworking: WalletLibraryNetworking,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          identifierManager: IdentifierManager? = nil,
          previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags()) {
         self.logger = logger
         self.mapper = mapper
-        self.correlationHeader = correlationHeader
+        self.networking = walletLibraryNetworking
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
         self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
