@@ -15,13 +15,13 @@ struct RawOpenID4VCIRequest: Encodable
     let issuer_session: String
     
     /// The proof needed to get the credential.
-    let proof: RawOpenID4VCIProof
+    let proof: OpenID4VCIJWTProof
 }
 
 /**
- * The proof needed to get the credential.
+ * The proof needed to get the credential in JWT format.
  */
-struct RawOpenID4VCIProof: Encodable
+struct OpenID4VCIJWTProof: Encodable
 {
     /// The format the proof is in.
     let proof_type: String
