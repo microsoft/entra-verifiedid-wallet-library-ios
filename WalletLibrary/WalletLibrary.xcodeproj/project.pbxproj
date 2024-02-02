@@ -1098,11 +1098,11 @@
 		55265ADE2B6C34B500BAD6A2 /* OpenID4VCI */ = {
 			isa = PBXGroup;
 			children = (
+				55265AE72B6C73F300BAD6A2 /* CredentialConfiguration.swift */,
 				55265ADF2B6C34C400BAD6A2 /* CredentialOffer.swift */,
 				55265AE12B6C379900BAD6A2 /* CredentialMetadata.swift */,
 				55265AE32B6C4CE600BAD6A2 /* RawOpenID4VCIRequest.swift */,
 				55265AE52B6C4DE100BAD6A2 /* RawOpenID4VCIResponse.swift */,
-				55265AE72B6C73F300BAD6A2 /* CredentialConfiguration.swift */,
 			);
 			path = OpenID4VCI;
 			sourceTree = "<group>";
