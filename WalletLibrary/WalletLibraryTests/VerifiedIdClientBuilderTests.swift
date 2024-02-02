@@ -119,4 +119,27 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssertEqual(actualResult.configuration.correlationHeader?.name, name)
         XCTAssertEqual(actualResult.configuration.correlationHeader?.value, value)
     }
+    
+    func testBuild_WithPreviewFlagInjection_ReturnsVerifiedIdClient() throws {
+        // Arrange
+        let mockPreviewFeature = "mockPreviewFeature"
+        let unsupportedPreviewFeature = "unsupportedPreviewFeature"
+        
+        // Act
+        let builder = VerifiedIdClientBuilder()
+            .with(previewFeatureFlags: [mockPreviewFeature])
+        let actualResult = builder.build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssert(actualResult.configuration.isPreviewFeatureFlagSupported(mockPreviewFeature))
+        XCTAssertFalse(actualResult.configuration.isPreviewFeatureFlagSupported(unsupportedPreviewFeature))
+    }
 }
