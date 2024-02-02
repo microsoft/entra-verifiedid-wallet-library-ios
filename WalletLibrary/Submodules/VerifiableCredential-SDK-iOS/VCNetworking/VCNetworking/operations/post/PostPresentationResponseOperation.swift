@@ -6,7 +6,7 @@
 class PostPresentationResponseOperation: InternalPostNetworkOperation {
     typealias Encoder = PresentationResponseEncoder
     typealias RequestBody = PresentationResponse
-    typealias ResponseBody = String?
+    typealias ResponseBody = Data
     
     let decoder = BasicServiceResponseDecoder()
     let encoder = PresentationResponseEncoder()

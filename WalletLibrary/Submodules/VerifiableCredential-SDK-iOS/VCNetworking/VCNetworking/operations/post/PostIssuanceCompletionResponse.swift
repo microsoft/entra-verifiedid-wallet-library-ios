@@ -5,15 +5,11 @@
 
 import Foundation
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 class PostIssuanceCompletionResponseOperation: InternalPostNetworkOperation {
     
     typealias Encoder = IssuanceCompletionResponseEncoder
     typealias RequestBody = IssuanceCompletionResponse
-    typealias ResponseBody = String?
+    typealias ResponseBody = Data
     
     let decoder = BasicServiceResponseDecoder()
     private let encoder = IssuanceCompletionResponseEncoder()
