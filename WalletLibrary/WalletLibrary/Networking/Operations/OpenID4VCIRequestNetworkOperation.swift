@@ -9,10 +9,9 @@
 struct OpenID4VCIRequestNetworkOperation: WalletLibraryNetworkOperation
 {
     typealias ResponseBody = Data
+    typealias Decoder = BasicServiceResponseDecoder
     
-    typealias Decoder = TestDecoder
-    
-    var decoder: TestDecoder
+    var decoder = BasicServiceResponseDecoder()
     
     var urlSession: URLSession
     
@@ -24,27 +23,8 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryNetworkOperation
          urlRequest: URLRequest,
          correlationVector: VerifiedIdCorrelationHeader?)
     {
-        self.decoder = TestDecoder()
         self.urlSession = urlSession
         self.urlRequest = urlRequest
         self.correlationVector = correlationVector
     }
-}
-
-struct TestDecoder: Decoding
-{
-    func decode(data: Data) throws -> Data {
-        return Data()
-    }
-    
-    typealias ResponseBody = Data
-    
-    
-}
-
-protocol WalletLibraryNetworkOperation: InternalNetworkOperation
-{
-    init(urlSession: URLSession, 
-         urlRequest: URLRequest,
-         correlationVector: VerifiedIdCorrelationHeader?)
 }
