@@ -17,7 +17,7 @@ class LibraryConfiguration {
     
     let verifiedIdEncoder: VerifiedIdEncoding
     
-    let networking: WalletLibraryNetworking
+    let networking: LibraryNetworking
     
     let identifierManager: IdentifierManager
     
@@ -25,7 +25,7 @@ class LibraryConfiguration {
 
     init(logger: WalletLibraryLogger = WalletLibraryLogger(),
          mapper: Mapping = Mapper(),
-         networking: WalletLibraryNetworking? = nil,
+         networking: LibraryNetworking? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          identifierManager: IdentifierManager? = nil,
