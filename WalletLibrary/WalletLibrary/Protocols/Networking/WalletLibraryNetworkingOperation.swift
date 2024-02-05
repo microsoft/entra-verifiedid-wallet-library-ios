@@ -4,11 +4,39 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The Wallet Library specific network operation.
+ * The Wallet Library Fetch Operation.
  */
-protocol WalletLibraryNetworkOperation: InternalNetworkOperation
+protocol WalletLibraryFetchOperation: InternalNetworkOperation
 {
-    init(urlSession: URLSession,
-         urlRequest: URLRequest,
+    init(url: URL,
+         additionalHeaders: [String: String]?,
+         urlSession: URLSession,
          correlationVector: VerifiedIdCorrelationHeader?)
+}
+
+/**
+ * The Wallet Library Post Operation.
+ */
+protocol WalletLibraryPostOperation: PostNetworkOperation
+{
+    init(requestBody: RequestBody,
+         url: URL,
+         additionalHeaders: [String: String]?,
+         urlSession: URLSession,
+         correlationVector: VerifiedIdCorrelationHeader?)
+}
+
+extension InternalNetworkOperation
+{
+    mutating func addHeadersToURLRequest(headers: [String: String]?)
+    {
+        if let headers = headers
+        {
+            for (headerField, headerValue) in headers
+            {
+                urlRequest.addValue(headerValue, 
+                                    forHTTPHeaderField: headerField)
+            }
+        }
+    }
 }

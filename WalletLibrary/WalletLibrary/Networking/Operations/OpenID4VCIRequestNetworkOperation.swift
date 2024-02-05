@@ -6,7 +6,7 @@
 /**
  * The constraints for issuance and display information of a credential,
  */
-struct OpenID4VCIRequestNetworkOperation: WalletLibraryNetworkOperation
+struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
 {
     typealias ResponseBody = Data
     typealias Decoder = ServiceResponseDecoder
@@ -19,13 +19,23 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryNetworkOperation
     
     var correlationVector: VerifiedIdCorrelationHeader?
     
-    init(urlSession: URLSession,
-         urlRequest: URLRequest,
+    let PreferHeaderValue = "oid4vci-interop-profile-version=0.0.1"
+    
+    let PreferHeaderField = "prefer"
+    
+    init(url: URL,
+         additionalHeaders: [String: String]?,
+         urlSession: URLSession,
          correlationVector: VerifiedIdCorrelationHeader?)
     {
         self.urlSession = urlSession
-        self.urlRequest = urlRequest
+        self.urlRequest = URLRequest(url: url)
         self.correlationVector = correlationVector
+        
+        /// Adds value to prefer header, appending if value already exists.
+        urlRequest.addValue(PreferHeaderValue, forHTTPHeaderField: PreferHeaderField)
+        
+        addHeadersToURLRequest(headers: additionalHeaders)
     }
 }
 

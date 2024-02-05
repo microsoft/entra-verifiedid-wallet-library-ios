@@ -3,15 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-protocol LibraryNetworking
-{
-    // Maybe should not be?
-    func resetCorrelationHeader()
-    
-    func fetch<Operation: WalletLibraryNetworkOperation>(request: URLRequest,
-                                                         type: Operation.Type) async throws -> Operation.ResponseBody
-}
-
 /**
  * The Networking Layer of the Wallet Library. All builtin networking operations will go through this layer.
  * Note: VC SDK legacy code still handles some networking operations.
@@ -38,11 +29,26 @@ class WalletLibraryNetworking: LibraryNetworking
         verifiedIdCorrelationHeader?.reset()
     }
     
-    func fetch<Operation: WalletLibraryNetworkOperation>(request: URLRequest,
-                                                         type: Operation.Type) async throws -> Operation.ResponseBody
+    func fetch<Operation: WalletLibraryFetchOperation>(url: URL,
+                                                       _ type: Operation.Type,
+                                                       additionalHeaders: [String: String]? = nil) async throws -> Operation.ResponseBody
     {
-        let operation = Operation(urlSession: urlSession,
-                                  urlRequest: request,
+        let operation = Operation(url: url,
+                                  additionalHeaders: additionalHeaders,
+                                  urlSession: urlSession,
+                                  correlationVector: verifiedIdCorrelationHeader)
+        return try await operation.fire()
+    }
+    
+    func post<Operation: WalletLibraryPostOperation>(requestBody: Operation.RequestBody,
+                                                     url: URL,
+                                                     _ type: Operation.Type,
+                                                     additionalHeaders: [String: String]? = nil) async throws -> Operation.ResponseBody
+    {
+        let operation = Operation(requestBody: requestBody,
+                                  url: url,
+                                  additionalHeaders: additionalHeaders,
+                                  urlSession: urlSession,
                                   correlationVector: verifiedIdCorrelationHeader)
         return try await operation.fire()
     }
