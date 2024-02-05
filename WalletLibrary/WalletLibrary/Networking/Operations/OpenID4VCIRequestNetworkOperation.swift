@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The constraints for issuance and display information of a credential,
+ * The Network Operation to prefer the OpenID4VCI Request.
  */
 struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
 {
@@ -39,13 +39,12 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
     }
 }
 
+/// A Simple Service Response Decoder to just return the Data
+// TODO: Update to OpenID4VCIRequest Decoder if needed in next PR.
 struct ServiceResponseDecoder: Decoding
 {
-    func decode(data: Data) throws -> Data {
+    func decode(data: Data) throws -> Data 
+    {
         return data
     }
-    
-    typealias ResponseBody = Data
-    
-    
 }
