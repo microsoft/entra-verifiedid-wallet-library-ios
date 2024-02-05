@@ -7,6 +7,12 @@
 
 struct MockOpenIdForVCResolver: OpenIdForVCResolver {
     
+    func validateRequest(data: Data) async throws -> any OpenIdRawRequest 
+    {
+        return MockOpenIdRawRequest(raw: nil)
+    }
+    
+    
     enum MockOpenIdForVCResolverError: Error {
         case nilCallback
     }

@@ -69,6 +69,16 @@ struct OpenIdURLRequestResolver: RequestResolving
     {
         let serializedRequest = try await configuration.networking.fetch(url: input.url,
                                                                          OpenID4VCIRequestNetworkOperation.self)
-        throw OpenIdURLRequestResolverError.Unimplemented
+        do
+        {
+            let serializedRequest = try JSONSerialization.jsonObject(with: serializedRequest)
+            print(serializedRequest)
+            return serializedRequest
+        }
+        catch
+        {
+            let presentationRequest = try await openIdResolver.getRequest(url: input.url.absoluteString)
+            return presentationRequest
+        }
     }
 }

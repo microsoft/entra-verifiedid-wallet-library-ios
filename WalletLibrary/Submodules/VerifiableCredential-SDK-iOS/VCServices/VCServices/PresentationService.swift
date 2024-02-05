@@ -64,12 +64,7 @@ class PresentationService {
         }
     }
     
-    func validateRequest(data: Data) async throws -> PresentationRequest {
-        let request = try PresentationRequestDecoder().decode(data: data)
-        return try await validate(request: request)
-    }
-    
-    private func validate(request: PresentationRequestToken) async throws -> PresentationRequest {
+    func validate(request: PresentationRequestToken) async throws -> PresentationRequest {
         
         let document = try await self.getIdentifierDocument(from: request)
         

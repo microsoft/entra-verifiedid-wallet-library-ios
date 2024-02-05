@@ -12,6 +12,11 @@ enum PresentationServiceExtensionError: Error {
  */
 extension PresentationService: OpenIdForVCResolver, OpenIdResponder {
     
+    func validateRequest(data: Data) async throws -> any OpenIdRawRequest {
+        let request = try PresentationRequestDecoder().decode(data: data)
+        return try await validate(request: request)
+    }
+    
     /// Fetches and validates the presentation request.
     func getRequest(url: String) async throws -> any OpenIdRawRequest {
         return try await self.getRequest(usingUrl: url)

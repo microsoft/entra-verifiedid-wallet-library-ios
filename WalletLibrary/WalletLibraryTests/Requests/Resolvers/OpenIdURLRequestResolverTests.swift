@@ -28,6 +28,42 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         XCTAssertEqual(actualRawRequest as? MockOpenIdRawRequest, expectedRawRequest)
     }
     
+    func testResolve_WithUt_ReturnsRawRequest() async throws {
+        
+        // Arrange
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
+        let mockLibraryNetworking = MockLibraryNetworking(getExpectedResponseBodies: getExpectedResponseBodies)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(), 
+                                                 networking: mockLibraryNetworking,
+                                                 previewFeatureFlags: previewFeatureFlags)
+        let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com")!)
+        let expectedRawData = "test data".data(using: .utf8)!
+        let expectedRawRequest = MockOpenIdRawRequest(raw: expectedRawData)
+        let mockCallback = { (url: String) in
+            return expectedRawRequest
+        }
+        let openIdResolver = MockOpenIdForVCResolver(mockGetRequestCallback: mockCallback)
+        let resolver = OpenIdURLRequestResolver(openIdResolver: openIdResolver, configuration: configuration)
+        
+        // Act
+        let actualRawRequest = try await resolver.resolve(input: mockInput)
+        
+        // Assert
+        XCTAssertEqual(actualRawRequest as? MockOpenIdRawRequest, expectedRawRequest)
+    }
+    
+    func getExpectedResponseBodies(_ input: Any) -> Any
+    {
+        switch input
+        {
+        case is OpenID4VCIRequestNetworkOperation.Type:
+            return "test".data(using: .utf8)!
+        default:
+            return "Test"
+        }
+    }
+    
     func testResolve_WithInvalidRequestInput_ThrowsError() async throws {
         
         // Arrange
