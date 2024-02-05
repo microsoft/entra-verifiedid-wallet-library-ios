@@ -12,6 +12,8 @@ public class VerifiedIdClientBuilder {
     
     private var correlationHeader: VerifiedIdCorrelationHeader?
     
+    private var urlSession: URLSession = URLSession.shared
+    
     private var logger: WalletLibraryLogger
     
     private var requestResolvers: [any RequestResolving] = []
@@ -35,7 +37,7 @@ public class VerifiedIdClientBuilder {
         /// TODO: update to new Identifier logic once designed.
         let identifierManager: IdentifierManager = VerifiableCredentialSDK.identifierService
         
-        let walletLibraryNetworking = WalletLibraryNetworking(urlSession: URLSession.shared,
+        let walletLibraryNetworking = WalletLibraryNetworking(urlSession: urlSession,
                                                               logger: logger,
                                                               correlationHeader: correlationHeader)
         
@@ -76,6 +78,12 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    /// Optional method to add a custom URLSession to the VerifiedIdClient.
+    public func with(urlSession: URLSession) -> VerifiedIdClientBuilder {
+        self.urlSession = urlSession
+        return self
+    }
+    
     /// Optional method to use the given value to specify what Keychain Access Group keys should be stored in.
     public func with(keychainAccessGroupIdentifier: String) -> VerifiedIdClientBuilder {
         self.keychainAccessGroupIdentifier = keychainAccessGroupIdentifier
@@ -90,8 +98,8 @@ public class VerifiedIdClientBuilder {
     
     private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
         // TODO: inject networking client into Services.
-        let issuanceService = IssuanceService(correlationVector: correlationHeader, urlSession: URLSession.shared)
-        let presentationService = PresentationService(correlationVector: correlationHeader, urlSession: URLSession.shared)
+        let issuanceService = IssuanceService(correlationVector: correlationHeader, urlSession: urlSession)
+        let presentationService = PresentationService(correlationVector: correlationHeader, urlSession: urlSession)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,

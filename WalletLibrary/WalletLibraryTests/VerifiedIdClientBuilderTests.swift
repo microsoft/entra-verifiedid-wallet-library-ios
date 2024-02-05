@@ -123,6 +123,28 @@ class VerifiedIdClientBuilderTests: XCTestCase {
                        value)
     }
     
+    func testBuild_WithURLSessionInjected_ReturnsVerifiedIdClient() throws {
+        // Arrange
+        let expectedURLSession = URLSession(configuration: URLSessionConfiguration.ephemeral)
+        
+        // Act
+        let builder = VerifiedIdClientBuilder()
+            .with(urlSession: expectedURLSession)
+        let actualResult = builder.build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssert(actualResult.configuration.networking is WalletLibraryNetworking)
+        XCTAssert((actualResult.configuration.networking as! WalletLibraryNetworking).urlSession === expectedURLSession)
+    }
+    
     func testBuild_WithPreviewFlagInjection_ReturnsVerifiedIdClient() throws {
         // Arrange
         let mockPreviewFeature = "mockPreviewFeature"

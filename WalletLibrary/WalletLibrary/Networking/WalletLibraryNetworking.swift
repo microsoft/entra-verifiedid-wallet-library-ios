@@ -10,7 +10,7 @@
 class WalletLibraryNetworking: LibraryNetworking
 {
     /// URLSession instance used for making network requests.
-    private let urlSession: URLSession
+    let urlSession: URLSession
     
     /// Optional header for tracking request correlation, used for debugging and tracking request flows.
     let correlationHeader: VerifiedIdCorrelationHeader?

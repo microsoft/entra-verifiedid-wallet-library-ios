@@ -39,7 +39,7 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
     }
 }
 
-/// A Simple Service Response Decoder to just return the Data
+/// A Simple Service Response Decoder to just return the Data.
 // TODO: Update to OpenID4VCIRequest Decoder if needed in next PR.
 struct ServiceResponseDecoder: Decoding
 {
