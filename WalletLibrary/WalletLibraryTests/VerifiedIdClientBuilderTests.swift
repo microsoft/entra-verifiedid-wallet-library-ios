@@ -116,8 +116,11 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
-//        XCTAssertEqual(actualResult.configuration.correlationHeader?.name, name)
-//        XCTAssertEqual(actualResult.configuration.correlationHeader?.value, value)
+        XCTAssert(actualResult.configuration.networking is WalletLibraryNetworking)
+        XCTAssertEqual((actualResult.configuration.networking as! WalletLibraryNetworking).correlationHeader?.name,
+                       name)
+        XCTAssertEqual((actualResult.configuration.networking as! WalletLibraryNetworking).correlationHeader?.value,
+                       value)
     }
     
     func testBuild_WithPreviewFlagInjection_ReturnsVerifiedIdClient() throws {

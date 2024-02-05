@@ -37,7 +37,7 @@ public class VerifiedIdClientBuilder {
         
         let walletLibraryNetworking = WalletLibraryNetworking(urlSession: URLSession.shared,
                                                               logger: logger,
-                                                              verifiedIdCorrelationHeader: correlationHeader)
+                                                              correlationHeader: correlationHeader)
         
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),

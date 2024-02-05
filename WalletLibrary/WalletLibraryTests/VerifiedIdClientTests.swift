@@ -180,7 +180,7 @@ class VerifiedIdClientTests: XCTestCase {
         let mockCorrelationHeader = MockCorrelationHeader()
         let walletLibraryNetworking = WalletLibraryNetworking(urlSession: URLSession.shared,
                                                               logger: WalletLibraryLogger(),
-                                                              verifiedIdCorrelationHeader: mockCorrelationHeader)
+                                                              correlationHeader: mockCorrelationHeader)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(), 
                                                  networking: walletLibraryNetworking)

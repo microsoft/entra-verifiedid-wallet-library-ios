@@ -13,25 +13,25 @@ class WalletLibraryNetworking: LibraryNetworking
     private let urlSession: URLSession
     
     /// Optional header for tracking request correlation, used for debugging and tracking request flows.
-    private let verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader?
+    let correlationHeader: VerifiedIdCorrelationHeader?
     
     /// Logger instance for logging network request and response details.
     private let logger: WalletLibraryLogger
     
     init(urlSession: URLSession, 
          logger: WalletLibraryLogger,
-         verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader?)
+         correlationHeader: VerifiedIdCorrelationHeader?)
     {
         self.urlSession = urlSession
         self.logger = logger
-        self.verifiedIdCorrelationHeader = verifiedIdCorrelationHeader
+        self.correlationHeader = correlationHeader
     }
     
     /// Resets the correlation header to its initial state.
     /// This is useful for starting a new sequence of correlated requests.
     func resetCorrelationHeader()
     {
-        verifiedIdCorrelationHeader?.reset()
+        correlationHeader?.reset()
     }
     
     /// Fetches data from a specified URL.
@@ -47,7 +47,7 @@ class WalletLibraryNetworking: LibraryNetworking
         let operation = Operation(url: url,
                                   additionalHeaders: additionalHeaders,
                                   urlSession: urlSession,
-                                  correlationVector: verifiedIdCorrelationHeader)
+                                  correlationVector: correlationHeader)
         return try await operation.fire()
     }
     
@@ -67,7 +67,7 @@ class WalletLibraryNetworking: LibraryNetworking
                                   url: url,
                                   additionalHeaders: additionalHeaders,
                                   urlSession: urlSession,
-                                  correlationVector: verifiedIdCorrelationHeader)
+                                  correlationVector: correlationHeader)
         return try await operation.fire()
     }
 }
