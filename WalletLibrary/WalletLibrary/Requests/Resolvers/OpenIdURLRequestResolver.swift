@@ -61,6 +61,6 @@ struct OpenIdURLRequestResolver: RequestResolving {
     {
         let serializedRequest = try await configuration.networking.fetch(request: URLRequest(url: input.url),
                                                                          type: OpenID4VCIRequestNetworkOperation.self)
-        return try await openIdResolver.validateRequest(data: serializedRequest)
+        return serializedRequest
     }
 }

@@ -9,9 +9,9 @@
 struct OpenID4VCIRequestNetworkOperation: WalletLibraryNetworkOperation
 {
     typealias ResponseBody = Data
-    typealias Decoder = BasicServiceResponseDecoder
+    typealias Decoder = ServiceResponseDecoder
     
-    var decoder = BasicServiceResponseDecoder()
+    var decoder = ServiceResponseDecoder()
     
     var urlSession: URLSession
     
@@ -27,4 +27,15 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryNetworkOperation
         self.urlRequest = urlRequest
         self.correlationVector = correlationVector
     }
+}
+
+struct ServiceResponseDecoder: Decoding
+{
+    func decode(data: Data) throws -> Data {
+        return data
+    }
+    
+    typealias ResponseBody = Data
+    
+    
 }

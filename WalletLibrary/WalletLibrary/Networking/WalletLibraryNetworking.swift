@@ -3,11 +3,20 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+protocol LibraryNetworking
+{
+    // Maybe should not be?
+    func resetCorrelationHeader()
+    
+    func fetch<Operation: WalletLibraryNetworkOperation>(request: URLRequest,
+                                                         type: Operation.Type) async throws -> Operation.ResponseBody
+}
+
 /**
  * The Networking Layer of the Wallet Library. All builtin networking operations will go through this layer.
  * Note: VC SDK legacy code still handles some networking operations.
  */
-class WalletLibraryNetworking
+class WalletLibraryNetworking: LibraryNetworking
 {
     private let urlSession: URLSession
     

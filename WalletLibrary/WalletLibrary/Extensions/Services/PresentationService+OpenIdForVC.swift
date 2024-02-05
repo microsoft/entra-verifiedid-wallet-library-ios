@@ -10,14 +10,7 @@ enum PresentationServiceExtensionError: Error {
 /**
  * An extension of the VCServices.PresentationService class.
  */
-extension PresentationService: OpenIdForVCResolver, OpenIdResponder 
-{
-    /// If request was already fetched, validates the serialzied request.
-    func validateRequest(data: Data) async throws -> any OpenIdRawRequest
-    {
-        let request = try PresentationRequestDecoder().decode(data: data)
-        return try await validate(request: request)
-    }
+extension PresentationService: OpenIdForVCResolver, OpenIdResponder {
     
     /// Fetches and validates the presentation request.
     func getRequest(url: String) async throws -> any OpenIdRawRequest {

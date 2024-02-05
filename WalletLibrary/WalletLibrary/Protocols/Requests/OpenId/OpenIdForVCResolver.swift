@@ -9,6 +9,4 @@
 protocol OpenIdForVCResolver {
     /// Fetches and validates the presentation request.
     func getRequest(url: String) async throws -> any OpenIdRawRequest
-    
-    func validateRequest(data: Data) async throws -> any OpenIdRawRequest
 }
