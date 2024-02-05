@@ -60,6 +60,7 @@ struct OpenIdURLRequestResolver: RequestResolving
             return try await resolveUsingOpenID4VCI(input: input)
         }
         
+        // TODO: add support for Credential Offer and fall back to old Issuance flow.
         return try await openIdResolver.getRequest(url: input.url.absoluteString)
     }
     
