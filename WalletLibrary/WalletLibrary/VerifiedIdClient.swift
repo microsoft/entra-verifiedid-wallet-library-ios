@@ -31,8 +31,8 @@ public class VerifiedIdClient {
         return await VerifiedIdResult<VerifiedId>.getResult {
             let resolver = try self.requestResolverFactory.getResolver(from: input)
             let rawRequest = try await resolver.resolve(input: input)
-            let handler = try self.requestHandlerFactory.getHandler(from: resolver)
-            return try await handler.handleRequest(from: rawRequest)
+            let handler = try self.requestHandlerFactory.getHandler(from: rawRequest)
+            return try await handler.handle(rawRequest: rawRequest)
         }
     }
     

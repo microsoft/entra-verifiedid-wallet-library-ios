@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
  * Errors associated with the Open Id URL Request Resolver.
  */
@@ -30,16 +26,6 @@ struct OpenIdURLRequestResolver: RequestResolving {
         self.configuration = configuration
     }
     
-    /// Whether or not the request handler given request handler can handle the resolved raw request.
-    func canResolve(using handler: any RequestHandling) -> Bool {
-        
-        guard handler is OpenIdRequestHandler else {
-            return false
-        }
-        
-        return true
-    }
-    
     /// Whether or not the resolver can resolve input given.
     func canResolve(input: VerifiedIdRequestInput) -> Bool {
         
@@ -55,12 +41,13 @@ struct OpenIdURLRequestResolver: RequestResolving {
     }
     
     /// Resolve raw request from input given.
-    func resolve(input: VerifiedIdRequestInput) async throws -> any OpenIdRawRequest {
+    func resolve(input: VerifiedIdRequestInput) async throws -> Any {
         
         guard let input = input as? VerifiedIdRequestURL else {
             throw OpenIdURLRequestResolverError.unsupportedVerifiedIdRequestInputWith(type: String(describing: type(of: input)))
         }
         
+        // TODO: add support for Credential Offer and fall back to old Issuance flow.
         return try await openIdResolver.getRequest(url: input.url.absoluteString)
     }
 }

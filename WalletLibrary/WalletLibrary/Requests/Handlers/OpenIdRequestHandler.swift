@@ -3,22 +3,19 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
-enum OpenIdRequestHandlerError: Error {
-    case unsupportedRawRequestType
-    case noIssuanceOptionsPresentToCreateIssuanceRequest
-    case unableToCastRequirementToVerifiedIdRequirement
+enum OpenIdRequestHandlerError: Error 
+{
+    case UnsupportedRawRequestType
+    case NoIssuanceOptionsPresentToCreateIssuanceRequest
+    case UnableToCastRequirementToVerifiedIdRequirement
 }
 
 /**
  * Handles a raw Open Id request and configures a VeriifedIdRequest object.
  * Post Private Preview TODO: add processors to support multiple profiles of open id.
  */
-struct OpenIdRequestHandler: RequestHandling {
-    
+struct OpenIdRequestHandler: RequestHandling 
+{
     private let configuration: LibraryConfiguration
     
     private let openIdResponder: OpenIdResponder
@@ -38,11 +35,18 @@ struct OpenIdRequestHandler: RequestHandling {
         self.verifiedIdRequester = verifiableCredentialRequester
     }
     
+    func canHandle(rawRequest: Any) -> Bool
+    {
+        // TODO: once VC SDK logic is moved to handler and new resolver logic is implemented,
+        // reimplement with new constraints.
+        return rawRequest is any OpenIdRawRequest
+    }
+    
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    func handleRequest<RawRequest>(from request: RawRequest) async throws -> any VerifiedIdRequest {
+    func handle(rawRequest: Any) async throws -> any VerifiedIdRequest {
         
-        guard let request = request as? any OpenIdRawRequest else {
-            throw OpenIdRequestHandlerError.unsupportedRawRequestType
+        guard let request = rawRequest as? any OpenIdRawRequest else {
+            throw OpenIdRequestHandlerError.UnsupportedRawRequestType
         }
         
         let requestContent = try configuration.mapper.map(request)
@@ -57,11 +61,11 @@ struct OpenIdRequestHandler: RequestHandling {
     private func handleIssuanceRequest(from presentationRequestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest {
         
         guard let verifiedIdRequirement = presentationRequestContent.requirement as? VerifiedIdRequirement else {
-            throw OpenIdRequestHandlerError.unableToCastRequirementToVerifiedIdRequirement
+            throw OpenIdRequestHandlerError.UnableToCastRequirementToVerifiedIdRequirement
         }
         
         guard let issuanceOption = verifiedIdRequirement.issuanceOptions.first as? VerifiedIdRequestURL else {
-            throw OpenIdRequestHandlerError.noIssuanceOptionsPresentToCreateIssuanceRequest
+            throw OpenIdRequestHandlerError.NoIssuanceOptionsPresentToCreateIssuanceRequest
         }
         
         var rawContract: any RawManifest
