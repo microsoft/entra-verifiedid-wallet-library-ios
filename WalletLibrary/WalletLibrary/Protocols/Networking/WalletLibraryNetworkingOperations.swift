@@ -28,6 +28,7 @@ protocol WalletLibraryPostOperation: PostNetworkOperation
 
 extension InternalNetworkOperation
 {
+    /// A helper method classes that implement this protocol can use to inject additional headers into the URLRequest.
     mutating func addHeadersToURLRequest(headers: [String: String]?)
     {
         if let headers = headers
