@@ -3,6 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+#if canImport(VCEntities)
+    import VCEntities
+#endif
+
 /**
  * Protocol is used as a wrapper to wrap the VC SDK get presentation response method.
  */

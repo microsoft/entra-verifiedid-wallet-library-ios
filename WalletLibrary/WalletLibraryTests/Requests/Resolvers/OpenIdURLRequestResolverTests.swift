@@ -45,7 +45,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
             XCTAssert(error is OpenIdURLRequestResolverError)
             
             switch (error as? OpenIdURLRequestResolverError) {
-            case .unsupportedVerifiedIdRequestInputWith(type: let type):
+            case .UnsupportedVerifiedIdRequestInputWith(type: let type):
                 XCTAssertEqual(type, "MockInput")
             default:
                 XCTFail("error thrown is incorrect type.")
