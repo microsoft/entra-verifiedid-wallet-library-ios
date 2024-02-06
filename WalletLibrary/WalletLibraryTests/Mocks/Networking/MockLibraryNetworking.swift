@@ -12,7 +12,7 @@ enum MockLibraryNetworkingError: Error, Equatable
 }
 
 /**
- *
+ * A mock class for networking calls.
  */
 struct MockLibraryNetworking: LibraryNetworking
 {
@@ -23,13 +23,14 @@ struct MockLibraryNetworking: LibraryNetworking
         self.getExpectedResponseBodies = getExpectedResponseBodies
     }
     
-    /// Helper function to return MockLibraryNetworkingThatAlwaysThrows.
+    /// Helper function to return MockLibraryNetworking that always throws.
     static func expectToThrow() -> MockLibraryNetworking
     {
         let alwaysThrow = { (_: Any) in throw MockLibraryNetworkingError.ExpectedError }
         return MockLibraryNetworking(getExpectedResponseBodies: alwaysThrow)
     }
     
+    /// Helper function to create a MockLibraryNetworking that returns response body given based on type.
     static func create<H: Hashable, O: InternalNetworkOperation>(expected: [H: O.Type]) -> MockLibraryNetworking
     {
         let callback = { (input: any InternalNetworkOperation.Type) in
@@ -55,6 +56,7 @@ struct MockLibraryNetworking: LibraryNetworking
                                                        additionalHeaders: [String : String]?) async throws -> Operation.ResponseBody
     {
         let expectedResponseBody = try getExpectedResponseBodies(type)
+        
         if let responseBody = expectedResponseBody as? Operation.ResponseBody
         {
             return responseBody

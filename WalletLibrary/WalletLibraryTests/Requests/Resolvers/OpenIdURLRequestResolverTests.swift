@@ -43,9 +43,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
 
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
-        // Act
         do
         {
+            // Act
             let _ = try await resolver.resolve(input: mockInput)
             XCTFail("Should have thrown error")
         }
@@ -78,9 +78,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
 
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
         
-        // Act
         do
         {
+            // Act
             let _ = try await resolver.resolve(input: mockInput)
             XCTFail("Should have thrown error")
         }

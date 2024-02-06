@@ -19,7 +19,7 @@ enum OpenIdURLRequestResolverError: Error
 struct OpenIdURLRequestResolver: RequestResolving 
 {
     
-    struct Constants
+    private struct Constants
     {
         static let OpenIdScheme = "openid-vc"
         static let RequestURI = "request_uri"
@@ -72,7 +72,6 @@ struct OpenIdURLRequestResolver: RequestResolving
     
     private func resolveUsingOpenID4VCI(input: VerifiedIdRequestURL) async throws -> Any
     {
-        
         guard let requestUri = getRequestUri(openIdURL: input.url) else
         {
             throw OpenIdURLRequestResolverError.URLDoesNotContainProperQueryItem(url: input.url.absoluteString)
