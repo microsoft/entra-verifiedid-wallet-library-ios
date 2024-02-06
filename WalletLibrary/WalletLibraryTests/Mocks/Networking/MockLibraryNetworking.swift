@@ -5,9 +5,10 @@
 
 @testable import WalletLibrary
 
-enum MockLibraryNetworkingError: Error
+enum MockLibraryNetworkingError: Error, Equatable
 {
     case MockingNotSupportedForOperation(String)
+    case ExpectedError
 }
 
 /**
@@ -15,11 +16,36 @@ enum MockLibraryNetworkingError: Error
  */
 struct MockLibraryNetworking: LibraryNetworking
 {
-    let getExpectedResponseBodies: ((Any) -> Any)
+    let getExpectedResponseBodies: (any InternalNetworkOperation.Type) throws -> Any
     
-    init(getExpectedResponseBodies: @escaping ((Any) -> Any))
+    init(getExpectedResponseBodies: @escaping (any InternalNetworkOperation.Type) throws -> Any)
     {
         self.getExpectedResponseBodies = getExpectedResponseBodies
+    }
+    
+    /// Helper function to return MockLibraryNetworkingThatAlwaysThrows.
+    static func expectToThrow() -> MockLibraryNetworking
+    {
+        let alwaysThrow = { (_: Any) in throw MockLibraryNetworkingError.ExpectedError }
+        return MockLibraryNetworking(getExpectedResponseBodies: alwaysThrow)
+    }
+    
+    static func create<H: Hashable, O: InternalNetworkOperation>(expected: [H: O.Type]) -> MockLibraryNetworking
+    {
+        let callback = { (input: any InternalNetworkOperation.Type) in
+            
+            for (key, value) in expected
+            {
+                if input == value
+                {
+                    return key
+                }
+            }
+            
+            throw MockLibraryNetworkingError.ExpectedError
+        }
+        
+        return MockLibraryNetworking(getExpectedResponseBodies: callback)
     }
     
     func resetCorrelationHeader() { }
@@ -28,7 +54,7 @@ struct MockLibraryNetworking: LibraryNetworking
                                                        _ type: Operation.Type,
                                                        additionalHeaders: [String : String]?) async throws -> Operation.ResponseBody
     {
-        let expectedResponseBody = getExpectedResponseBodies(type)
+        let expectedResponseBody = try getExpectedResponseBodies(type)
         if let responseBody = expectedResponseBody as? Operation.ResponseBody
         {
             return responseBody
