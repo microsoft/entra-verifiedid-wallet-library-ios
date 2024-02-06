@@ -9,6 +9,7 @@
 enum OpenIdURLRequestResolverError: Error 
 {
     case UnsupportedVerifiedIdRequestInputWith(type: String)
+    case URLDoesNotContainProperQueryItem(url: String)
     case Unimplemented
 }
 
@@ -18,7 +19,12 @@ enum OpenIdURLRequestResolverError: Error
 struct OpenIdURLRequestResolver: RequestResolving 
 {
     
-    private let openIdScheme = "openid-vc"
+    struct Constants
+    {
+        static let OpenIdScheme = "openid-vc"
+        static let RequestURI = "request_uri"
+        static let CredentialOfferURI = "credential_offer_uri"
+    }
     
     private let openIdResolver: OpenIdForVCResolver
     
@@ -38,7 +44,7 @@ struct OpenIdURLRequestResolver: RequestResolving
             return false
         }
         
-        if input.url.scheme == openIdScheme 
+        if input.url.scheme == Constants.OpenIdScheme
         {
             return true
         }
@@ -60,25 +66,52 @@ struct OpenIdURLRequestResolver: RequestResolving
             return try await resolveUsingOpenID4VCI(input: input)
         }
         
-        // TODO: add support for Credential Offer and fall back to old Issuance flow.
+        /// If preview features are not supported, fallback to VC SDK implementation.
         return try await openIdResolver.getRequest(url: input.url.absoluteString)
     }
     
-    // TODO: Implement for OpenID4VCI Flow.
     private func resolveUsingOpenID4VCI(input: VerifiedIdRequestURL) async throws -> Any
     {
-        let serializedRequest = try await configuration.networking.fetch(url: input.url,
-                                                                         OpenID4VCIRequestNetworkOperation.self)
+        
+        guard let requestUri = getRequestUri(openIdURL: input.url) else
+        {
+            throw OpenIdURLRequestResolverError.URLDoesNotContainProperQueryItem(url: input.url.absoluteString)
+        }
+        
+        /// Fetch a serialized request that could be OpenID Request or Credential Offer.
+        let serializedRequest: Data = try await configuration.networking.fetch(url: requestUri,
+                                                                               OpenID4VCIRequestNetworkOperation.self)
         do
         {
-            let serializedRequest = try JSONSerialization.jsonObject(with: serializedRequest)
-            print(serializedRequest)
-            return serializedRequest
+            /// If request is JSON, serialize the request.
+            let rawRequest = try JSONSerialization.jsonObject(with: serializedRequest)
+            return rawRequest
         }
         catch
         {
-            let presentationRequest = try await openIdResolver.getRequest(url: input.url.absoluteString)
+            /// If unable to parse JSON, fallback to VC SDK implementation.
+            let presentationRequest = try await openIdResolver.validateRequest(data: serializedRequest)
             return presentationRequest
         }
+    }
+    
+    private func getRequestUri(openIdURL: URL) -> URL? 
+    {
+        guard let urlComponents = URLComponents(url: openIdURL, resolvingAgainstBaseURL: true),
+              let queryItems = urlComponents.percentEncodedQueryItems else
+        {
+            return nil
+        }
+        
+        for queryItem in queryItems 
+        {
+            if (queryItem.name == Constants.RequestURI || queryItem.name == Constants.CredentialOfferURI),
+               let value = queryItem.value?.removingPercentEncoding
+            {
+                return URL(unsafeString: value)
+            }
+        }
+        
+        return nil
     }
 }
