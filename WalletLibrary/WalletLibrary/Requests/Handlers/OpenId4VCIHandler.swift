@@ -42,7 +42,7 @@ struct OpenId4VCIHandler: RequestHandling
         
         // TODO: validate payloads.
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
-        let credentialMetadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
+        let _ = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
         throw OpenId4VCIHandlerError.Unimplemented
     }
