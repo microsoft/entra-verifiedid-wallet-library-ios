@@ -38,6 +38,3 @@ struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
         self.urlRequest = URLRequest(url: url)
     }
 }
-
-
-
