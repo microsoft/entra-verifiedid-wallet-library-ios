@@ -10,8 +10,7 @@ enum OpenId4VCIHandlerError: Error
 }
 
 /**
- * Handles a raw Open Id request and configures a VeriifedIdRequest object.
- * Post Private Preview TODO: add processors to support multiple profiles of open id.
+ * Handles a Raw Request expected to be a Credential Offer and configures a VerifiedIdRequest object.
  */
 struct OpenId4VCIHandler: RequestHandling
 {
@@ -22,6 +21,12 @@ struct OpenId4VCIHandler: RequestHandling
         self.configuration = configuration
     }
     
+    /// Determines whether a given raw request can be handled by this handler.
+    ///
+    /// This method checks if the raw request can be cast to a dictionary and contains
+    /// a specific key (`credential_issuer`), indicating it is a valid request for processing.
+    ///
+    /// - Parameter rawRequest: The raw request to be evaluated, expected to be a dictionary.
     func canHandle(rawRequest: Any) -> Bool
     {
         guard let request = rawRequest as? [String: Any],
@@ -33,6 +38,11 @@ struct OpenId4VCIHandler: RequestHandling
         return true
     }
     
+    /// Processes a given raw request expected to be a dictionary, collects the rest of the request,
+    /// validates the request, and returns a `VerifiedIdRequest` object.
+    ///
+    /// - Parameter rawRequest: The raw request to be processed, expected to be a dictionary.
+    /// TODO: finish implementation in next PR.
     func handle(rawRequest: Any) async throws -> any VerifiedIdRequest
     {
         guard let requestJson = rawRequest as? [String: Any] else
