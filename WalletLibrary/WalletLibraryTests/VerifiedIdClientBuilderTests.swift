@@ -16,8 +16,9 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         let actualResult = builder.build()
         
         // Assert
-        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
         XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
@@ -37,8 +38,9 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         let actualResult = builder.build()
         
         // Assert
-        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
         XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssertEqual(actualResult.configuration.logger.consumers.count, 1)
@@ -62,8 +64,9 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         let actualResult = builder.build()
         
         // Assert
-        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
         XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssertEqual(actualResult.configuration.logger.consumers.count, 3)
@@ -85,8 +88,9 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         let actualResult = builder.build()
         
         // Assert
-        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
         XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
@@ -108,8 +112,9 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         let actualResult = builder.build()
         
         // Assert
-        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
         XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
@@ -133,8 +138,9 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         let actualResult = builder.build()
         
         // Assert
-        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
         XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
@@ -156,8 +162,9 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         let actualResult = builder.build()
         
         // Assert
-        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 1)
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
         XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)

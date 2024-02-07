@@ -15,7 +15,7 @@
  * can be used to return a mock object or mock error instead.
  */
 struct MockMapper: Mapping {
-    
+
     let mockResults: ((Any) throws -> (Any?))?
     
     init(mockResults: ((Any) throws -> (Any?))? = nil) {
@@ -33,5 +33,18 @@ struct MockMapper: Mapping {
         }
         
         return try object.map(using: self)
+    }
+    
+    func map<Target: MappableTarget>(_ object: Target.Source,
+                                     type: Target.Type) throws -> Target
+    {
+        if let mockResults = mockResults {
+            let result = try mockResults(object)
+            if let result = result as? Target {
+                return result
+            }
+        }
+        
+        return try Target.map(object, using: self)
     }
 }
