@@ -7,8 +7,6 @@ enum OpenId4VCIHandlerError: Error
 {
     case Unimplemented
     case InputNotSupported
-    case PropertyNotPresent(String)
-    case CredentialOfferGrantPropertyIsEmpty
 }
 
 /**
@@ -17,7 +15,14 @@ enum OpenId4VCIHandlerError: Error
  */
 struct OpenId4VCIHandler: RequestHandling
 {
-    func canHandle(rawRequest: Any) -> Bool 
+    private let configuration: LibraryConfiguration
+    
+    init(configuration: LibraryConfiguration) 
+    {
+        self.configuration = configuration
+    }
+    
+    func canHandle(rawRequest: Any) -> Bool
     {
         guard let request = rawRequest as? [String: Any],
               request["credential_issuer"] != nil else
@@ -35,44 +40,20 @@ struct OpenId4VCIHandler: RequestHandling
             throw OpenId4VCIHandlerError.InputNotSupported
         }
         
-        let credentialIssuer: String = try validateValueExists("credential_issuer", in: requestJson)
-        let issuerSession: String = try validateValueExists("issuer_session", in: requestJson)
-        let credentialConfigurationIds: [String] = try validateValueExists("credential_configuration_ids",
-                                                                           in: requestJson)
-        let rawGrants: [String: Any] = try validateValueExists("grants",
-                                                               in: requestJson)
-        var grants: [String: CredentialOfferGrant] = [:]
-        for (key, value) in rawGrants
-        {
-            if let rawGrant = value as? [String: Any]
-            {
-                let authorizationServer: String = try validateValueExists("issuer_session",
-                                                                          in: rawGrant)
-                let credentialOfferGrant = CredentialOfferGrant(authorization_server: authorizationServer)
-                grants[key] = credentialOfferGrant
-            }
-        }
-        
-        guard grants.isEmpty else
-        {
-            throw OpenId4VCIHandlerError.CredentialOfferGrantPropertyIsEmpty
-        }
-        
-        let credentialOffer = CredentialOffer(credential_issuer: credentialIssuer,
-                                              issuer_session: issuerSession,
-                                              credential_configuration_ids: credentialConfigurationIds,
-                                              grants: grants)
+        // TODO: validate payloads.
+        let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
+        let credentialMetadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
         throw OpenId4VCIHandlerError.Unimplemented
     }
     
-    private func validateValueExists<T>(_ key: String, in json: [String: Any]) throws -> T
+    private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
-        guard let value = json[key] as? T else
+        guard let url = URL(string: url) else
         {
-            throw OpenId4VCIHandlerError.PropertyNotPresent(key)
+            throw OpenId4VCIHandlerError.InputNotSupported
         }
         
-        return value
+        return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
     }
 }
