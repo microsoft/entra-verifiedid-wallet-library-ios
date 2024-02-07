@@ -4,12 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The Network Operation to prefer the OpenID4VCI Request.
+ * The Network Operation for the Credential Metadata fetch request.
  */
 struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
 {
     typealias ResponseBody = CredentialMetadata
     
+    /// The decoder for the Credential Metadata.
     struct CredentialMetadataDecoder: Decoding
     {
         typealias ResponseBody = CredentialMetadata
@@ -36,5 +37,11 @@ struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
         self.urlSession = urlSession
         self.correlationVector = correlationVector
         self.urlRequest = URLRequest(url: url)
+        
+        /// Adds value to prefer header, appending if value already exists.
+        urlRequest.addValue(OpenID4VCINetworkConstants.PreferHeaderValue,
+                            forHTTPHeaderField: OpenID4VCINetworkConstants.PreferHeaderField)
+        
+        addHeadersToURLRequest(headers: additionalHeaders)
     }
 }
