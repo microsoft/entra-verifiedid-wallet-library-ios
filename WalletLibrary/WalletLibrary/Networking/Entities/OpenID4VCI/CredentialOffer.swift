@@ -37,7 +37,7 @@ struct CredentialOfferGrant: Codable
      * MUST NOT be used otherwise.
      * The value of this parameter MUST match with one of the values in the authorization_servers array obtained from the Credential Issuer metadata.
      */
-    let authorization_server: String?
+    let authorization_server: String
     
     enum CodingKeys: String, CodingKey
     {
@@ -65,9 +65,10 @@ extension CredentialOffer: MappableTarget
             }
         }
         
-        guard grants.isEmpty else
+        guard !grants.isEmpty else
         {
-            throw MappingError.PropertyNotPresent(property: "grants", in: String(describing: Self.self))
+            throw MappingError.PropertyNotPresent(property: CodingKeys.grants.rawValue,
+                                                  in: String(describing: Self.self))
         }
         
         return CredentialOffer(credential_issuer: credentialIssuer,

@@ -374,6 +374,7 @@
 		5552D89F29F2E58000B40302 /* PresentationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88729F2E58000B40302 /* PresentationServiceTests.swift */; };
 		5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27B29EF335600B40302 /* DifWordList.swift */; };
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
+		555FB16A2B73FBB000EE14BD /* CredentialOfferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
@@ -886,6 +887,7 @@
 		5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierDatabaseTests.swift; sourceTree = "<group>"; };
 		5552D88729F2E58000B40302 /* PresentationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationServiceTests.swift; sourceTree = "<group>"; };
 		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
+		555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialOfferTests.swift; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
@@ -1195,6 +1197,7 @@
 			children = (
 				5552D7AB29F2E07A00B40302 /* VCSDKTests */,
 				55A81C0A2991BF6C002C259A /* Mocks */,
+				555FB1662B73FB5500EE14BD /* Networking */,
 				55508A552A3B95CA00186885 /* Errors */,
 				5534E67C294A392F005D0765 /* Extensions */,
 				55A81BF02991BB13002C259A /* Requests */,
@@ -2261,6 +2264,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		555FB1662B73FB5500EE14BD /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				555FB1672B73FB6300EE14BD /* Entities */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		555FB1672B73FB6300EE14BD /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				555FB1682B73FB6B00EE14BD /* OpenID4VCI */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		555FB1682B73FB6B00EE14BD /* OpenID4VCI */ = {
+			isa = PBXGroup;
+			children = (
+				555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */,
+			);
+			path = OpenID4VCI;
+			sourceTree = "<group>";
+		};
 		5598CFCA2AAF8DBC00EBDE87 /* oidc */ = {
 			isa = PBXGroup;
 			children = (
@@ -3293,6 +3320,7 @@
 				5552D7C429F2E0A900B40302 /* Utf8TestData.swift in Sources */,
 				55BA2DD729CDFA4600BB8207 /* MockVerifiedIdDecoder.swift in Sources */,
 				5552D81F29F2E25900B40302 /* ExchangeRequestContainerTests.swift in Sources */,
+				555FB16A2B73FBB000EE14BD /* CredentialOfferTests.swift in Sources */,
 				559BD459299D3E7F00BD61AC /* SelfIssuedClaimsDescriptor+MappableTests.swift in Sources */,
 				5552D86229F2E43900B40302 /* FetchContractOperationTests.swift in Sources */,
 				5552D86029F2E43900B40302 /* FetchDIDDocumentOperationTests.swift in Sources */,

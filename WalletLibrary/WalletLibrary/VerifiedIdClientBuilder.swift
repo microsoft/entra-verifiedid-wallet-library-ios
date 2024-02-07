@@ -106,7 +106,7 @@ public class VerifiedIdClientBuilder {
                                                  verifiableCredentialRequester: issuanceService)
         requestHandlers.append(openIdHandler)
         
-        let openId4VCIHandler = OpenId4VCIHandler()
+        let openId4VCIHandler = OpenId4VCIHandler(configuration: configuration)
         requestHandlers.append(openId4VCIHandler)
     }
 }
