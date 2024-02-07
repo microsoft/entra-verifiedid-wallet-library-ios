@@ -26,7 +26,7 @@ public class VerifiedIdClient {
     public func createRequest(from input: VerifiedIdRequestInput) async -> VerifiedIdResult<any VerifiedIdRequest> {
         
         // Reset the correlation header before each flow begins.
-        self.configuration.correlationHeader?.reset()
+        self.configuration.networking.resetCorrelationHeader()
         
         return await VerifiedIdResult<VerifiedId>.getResult {
             let resolver = try self.requestResolverFactory.getResolver(from: input)

@@ -7,8 +7,8 @@
  * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
  * all of library will use.
  */
-class LibraryConfiguration {
-
+class LibraryConfiguration 
+{
     let logger: WalletLibraryLogger
 
     let mapper: Mapping
@@ -17,7 +17,7 @@ class LibraryConfiguration {
     
     let verifiedIdEncoder: VerifiedIdEncoding
     
-    let correlationHeader: VerifiedIdCorrelationHeader?
+    let networking: LibraryNetworking
     
     let identifierManager: IdentifierManager
     
@@ -25,14 +25,17 @@ class LibraryConfiguration {
 
     init(logger: WalletLibraryLogger = WalletLibraryLogger(),
          mapper: Mapping = Mapper(),
-         correlationHeader: VerifiedIdCorrelationHeader? = nil,
+         networking: LibraryNetworking? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          identifierManager: IdentifierManager? = nil,
-         previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags()) {
+         previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags()) 
+    {
         self.logger = logger
         self.mapper = mapper
-        self.correlationHeader = correlationHeader
+        self.networking = networking ?? WalletLibraryNetworking(urlSession: URLSession.shared,
+                                                                logger: logger,
+                                                                correlationHeader: nil)
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
         self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
