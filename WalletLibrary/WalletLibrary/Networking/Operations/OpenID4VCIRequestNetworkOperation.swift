@@ -3,6 +3,12 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+struct OpenID4VCINetworkConstants
+{
+    static let InteropProfileVersion = "oid4vci-interop-profile-version=0.0.1"
+    static let PreferHeaderField = "prefer"
+}
+
 /**
  * The Network Operation to prefer the OpenID4VCI Request.
  */
@@ -19,10 +25,6 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
     
     var correlationVector: VerifiedIdCorrelationHeader?
     
-    let PreferHeaderValue = "oid4vci-interop-profile-version=0.0.1"
-    
-    let PreferHeaderField = "prefer"
-    
     init(url: URL,
          additionalHeaders: [String: String]?,
          urlSession: URLSession,
@@ -33,7 +35,8 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
         self.correlationVector = correlationVector
         
         /// Adds value to prefer header, appending if value already exists.
-        urlRequest.addValue(PreferHeaderValue, forHTTPHeaderField: PreferHeaderField)
+        let preferHeader = [OpenID4VCINetworkConstants.PreferHeaderField: OpenID4VCINetworkConstants.InteropProfileVersion]
+        addHeadersToURLRequest(headers: preferHeader)
         
         addHeadersToURLRequest(headers: additionalHeaders)
     }
