@@ -5,7 +5,7 @@
 
 struct OpenID4VCINetworkConstants
 {
-    static let PreferHeaderValue = "oid4vci-interop-profile-version=0.0.1"
+    static let InteropProfileVersion = "oid4vci-interop-profile-version=0.0.1"
     static let PreferHeaderField = "prefer"
 }
 
@@ -35,8 +35,8 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
         self.correlationVector = correlationVector
         
         /// Adds value to prefer header, appending if value already exists.
-        urlRequest.addValue(OpenID4VCINetworkConstants.PreferHeaderValue,
-                            forHTTPHeaderField: OpenID4VCINetworkConstants.PreferHeaderField)
+        let preferHeader = [OpenID4VCINetworkConstants.PreferHeaderField: OpenID4VCINetworkConstants.InteropProfileVersion]
+        addHeadersToURLRequest(headers: preferHeader)
         
         addHeadersToURLRequest(headers: additionalHeaders)
     }
