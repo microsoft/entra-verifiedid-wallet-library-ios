@@ -67,7 +67,7 @@ extension CredentialOffer: MappableTarget
         
         guard grants.isEmpty else
         {
-            throw OpenId4VCIHandlerError.CredentialOfferGrantPropertyIsEmpty
+            throw MappingError.PropertyNotPresent(property: "grants", in: String(describing: Self.self))
         }
         
         return CredentialOffer(credential_issuer: credentialIssuer,
