@@ -30,7 +30,8 @@ struct OpenId4VCIHandler: RequestHandling
     func canHandle(rawRequest: Any) -> Bool
     {
         guard let request = rawRequest as? [String: Any],
-              request["credential_issuer"] != nil else
+              let _ = try? configuration.mapper.map(request,
+                                                    type: CredentialOffer.self) else
         {
             return false
         }
