@@ -387,7 +387,10 @@
 		555FB2062B756CC000EE14BD /* IdentifierDocumentExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2052B756CC000EE14BD /* IdentifierDocumentExtensionTests.swift */; };
 		555FB2092B7570A400EE14BD /* JwsTokenExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2082B7570A400EE14BD /* JwsTokenExtensionTests.swift */; };
 		555FB20B2B757A9E00EE14BD /* Decodable+PropertyValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB20A2B757A9E00EE14BD /* Decodable+PropertyValidation.swift */; };
-		555FB20D2B75807700EE14BD /* OpenId4VCIProtocolValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB20C2B75807700EE14BD /* OpenId4VCIProtocolValidationError.swift */; };
+		555FB20D2B75807700EE14BD /* OpenId4VCIValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB20C2B75807700EE14BD /* OpenId4VCIValidationError.swift */; };
+		555FB20F2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB20E2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift */; };
+		555FB2122B759FC200EE14BD /* MockIdentifierDocumentResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2112B759FC200EE14BD /* MockIdentifierDocumentResolver.swift */; };
+		555FB2142B759FF100EE14BD /* MockRootOfTrustResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2132B759FF100EE14BD /* MockRootOfTrustResolver.swift */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
@@ -913,7 +916,10 @@
 		555FB2052B756CC000EE14BD /* IdentifierDocumentExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierDocumentExtensionTests.swift; sourceTree = "<group>"; };
 		555FB2082B7570A400EE14BD /* JwsTokenExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwsTokenExtensionTests.swift; sourceTree = "<group>"; };
 		555FB20A2B757A9E00EE14BD /* Decodable+PropertyValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+PropertyValidation.swift"; sourceTree = "<group>"; };
-		555FB20C2B75807700EE14BD /* OpenId4VCIProtocolValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIProtocolValidationError.swift; sourceTree = "<group>"; };
+		555FB20C2B75807700EE14BD /* OpenId4VCIValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIValidationError.swift; sourceTree = "<group>"; };
+		555FB20E2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataProcessorTests.swift; sourceTree = "<group>"; };
+		555FB2112B759FC200EE14BD /* MockIdentifierDocumentResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIdentifierDocumentResolver.swift; sourceTree = "<group>"; };
+		555FB2132B759FF100EE14BD /* MockRootOfTrustResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRootOfTrustResolver.swift; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
@@ -2367,6 +2373,15 @@
 			path = Token;
 			sourceTree = "<group>";
 		};
+		555FB2102B759FA700EE14BD /* RootOfTrust */ = {
+			isa = PBXGroup;
+			children = (
+				555FB2112B759FC200EE14BD /* MockIdentifierDocumentResolver.swift */,
+				555FB2132B759FF100EE14BD /* MockRootOfTrustResolver.swift */,
+			);
+			path = RootOfTrust;
+			sourceTree = "<group>";
+		};
 		5598CFCA2AAF8DBC00EBDE87 /* oidc */ = {
 			isa = PBXGroup;
 			children = (
@@ -2518,7 +2533,7 @@
 				55A4BB162A27A436006836AB /* VerifiedIdError.swift */,
 				55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */,
 				555FB1FE2B75671300EE14BD /* TokenValidationError.swift */,
-				555FB20C2B75807700EE14BD /* OpenId4VCIProtocolValidationError.swift */,
+				555FB20C2B75807700EE14BD /* OpenId4VCIValidationError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -2542,6 +2557,7 @@
 		55A81C0A2991BF6C002C259A /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				555FB2102B759FA700EE14BD /* RootOfTrust */,
 				55265B0D2B71908300BAD6A2 /* Networking */,
 				553CC09729A96C29005A5FD6 /* VerifiedId */,
 				55E2F08229955E7B0008010D /* Utilities */,
@@ -2646,6 +2662,7 @@
 			children = (
 				55E2F06E299553B40008010D /* OpenIdRequestHandlerTests.swift */,
 				555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */,
+				555FB20E2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -3294,7 +3311,7 @@
 				55E2F06C299553300008010D /* PresentationRequest+Mappable.swift in Sources */,
 				5552D40729EF490A00B40302 /* PinDescriptor.swift in Sources */,
 				5552D3D429EF48B200B40302 /* PresentationDescriptor.swift in Sources */,
-				555FB20D2B75807700EE14BD /* OpenId4VCIProtocolValidationError.swift in Sources */,
+				555FB20D2B75807700EE14BD /* OpenId4VCIValidationError.swift in Sources */,
 				55FE707A2B72E7C600CC3018 /* OpenId4VCIHandler.swift in Sources */,
 				55265B032B6D957700BAD6A2 /* WalletLibraryNetworking.swift in Sources */,
 				5552D3B829EF487300B40302 /* ExchangeRequestFormatter.swift in Sources */,
@@ -3345,6 +3362,7 @@
 				5552D81629F2E25900B40302 /* MockTokenVerifier.swift in Sources */,
 				55DECC3D29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift in Sources */,
 				55EA17AA29CA57320085E29E /* MockVerifiedIdStyle.swift in Sources */,
+				555FB2142B759FF100EE14BD /* MockRootOfTrustResolver.swift in Sources */,
 				55DECC4329C0CF5F00D5C802 /* MockOpenIdResponder.swift in Sources */,
 				5552D7D329F2E0AA00B40302 /* EdDSATests.swift in Sources */,
 				559BD455299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift in Sources */,
@@ -3400,6 +3418,7 @@
 				5552D82C29F2E25900B40302 /* PresentationRequestValidatorTests.swift in Sources */,
 				553CC09929A96C38005A5FD6 /* MockVerifiedId.swift in Sources */,
 				5552D82D29F2E25900B40302 /* OIDCClaimsTests.swift in Sources */,
+				555FB20F2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift in Sources */,
 				55DECC4129BFEDE400D5C802 /* VerifiedIdRequirementTests.swift in Sources */,
 				5552D7D729F2E0AA00B40302 /* Secp256k1Tests.swift in Sources */,
 				559BD4F8299EED5700BD61AC /* MockRawManifest.swift in Sources */,
@@ -3433,6 +3452,7 @@
 				5552D82129F2E25900B40302 /* MultihashTests.swift in Sources */,
 				5552D88929F2E58000B40302 /* MockIssuanceRequestValidator.swift in Sources */,
 				559BD30F2996C1C500BD61AC /* MockLogConsumer.swift in Sources */,
+				555FB2122B759FC200EE14BD /* MockIdentifierDocumentResolver.swift in Sources */,
 				5552D86A29F2E43A00B40302 /* ContractDecoderTests.swift in Sources */,
 				55E2F076299555280008010D /* MockRequirement.swift in Sources */,
 				553CC09229A957A3005A5FD6 /* PinDescriptor+MappableTests.swift in Sources */,
