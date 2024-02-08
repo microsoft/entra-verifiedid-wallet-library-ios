@@ -27,8 +27,14 @@ struct CredentialMetadata: Decodable
     let credential_configurations_supported: [String: CredentialConfiguration]?
 }
 
+/**
+ * Defines a typealias `SignedMetadata` that represents a JWS Token with claims specific to signed metadata.
+ */
 typealias SignedMetadata = JwsToken<SignedMetadataTokenClaims>
 
+/**
+ * This structure is designed to hold claims related to signed metadata tokens.
+ */
 struct SignedMetadataTokenClaims: Claims
 {
     let sub: String?
@@ -36,8 +42,12 @@ struct SignedMetadataTokenClaims: Claims
     let iss: String?
 }
 
+/**
+ * Extends `SignedMetadata` with functionality for validating the claims contained within the token.
+ */
 extension SignedMetadata
 {
+    /// Validates the claims of the signed metadata token against expected values.
     func validateClaims(expectedSubject: String,
                         expectedIssuer: String) throws
     {
