@@ -378,7 +378,7 @@
 		555FB16A2B73FBB000EE14BD /* CredentialOfferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */; };
 		555FB1B62B740A3000EE14BD /* OpenId4VCIHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */; };
 		555FB1D72B74400300EE14BD /* RootOfTrustResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1D62B74400300EE14BD /* RootOfTrustResolver.swift */; };
-		555FB1DB2B74406400EE14BD /* SignedCredentialMetadataValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1DA2B74406400EE14BD /* SignedCredentialMetadataValidator.swift */; };
+		555FB1DB2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1DA2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift */; };
 		555FB1F72B75657900EE14BD /* IdentifierDocumentResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1F62B75657900EE14BD /* IdentifierDocumentResolver.swift */; };
 		555FB1FD2B75660500EE14BD /* LinkedDomainResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1FC2B75660500EE14BD /* LinkedDomainResolver.swift */; };
 		555FB1FF2B75671300EE14BD /* TokenValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1FE2B75671300EE14BD /* TokenValidationError.swift */; };
@@ -899,7 +899,7 @@
 		555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialOfferTests.swift; sourceTree = "<group>"; };
 		555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIHandlerTests.swift; sourceTree = "<group>"; };
 		555FB1D62B74400300EE14BD /* RootOfTrustResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootOfTrustResolver.swift; path = WalletLibrary/Protocols/RootOfTrust/RootOfTrustResolver.swift; sourceTree = SOURCE_ROOT; };
-		555FB1DA2B74406400EE14BD /* SignedCredentialMetadataValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataValidator.swift; sourceTree = "<group>"; };
+		555FB1DA2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataProcessor.swift; sourceTree = "<group>"; };
 		555FB1F62B75657900EE14BD /* IdentifierDocumentResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierDocumentResolver.swift; sourceTree = "<group>"; };
 		555FB1FC2B75660500EE14BD /* LinkedDomainResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedDomainResolver.swift; sourceTree = "<group>"; };
 		555FB1FE2B75671300EE14BD /* TokenValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenValidationError.swift; sourceTree = "<group>"; };
@@ -1056,7 +1056,7 @@
 				55A81BE62991B2F3002C259A /* RequestHandlerFactory.swift */,
 				550A9157299310D40014D030 /* OpenIdRequestHandler.swift */,
 				55FE70792B72E7C600CC3018 /* OpenId4VCIHandler.swift */,
-				555FB1DA2B74406400EE14BD /* SignedCredentialMetadataValidator.swift */,
+				555FB1DA2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -3225,7 +3225,7 @@
 				5552D3D729EF48B200B40302 /* Contract.swift in Sources */,
 				55F01CD22ACE0066000794B4 /* P256PublicKey.swift in Sources */,
 				5552D4BB29EF4AC300B40302 /* SupportedSigningAlgorithms.swift in Sources */,
-				555FB1DB2B74406400EE14BD /* SignedCredentialMetadataValidator.swift in Sources */,
+				555FB1DB2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift in Sources */,
 				550A9192299400820014D030 /* OpenIdResponder.swift in Sources */,
 				5552D45A29EF4A8100B40302 /* IssuanceCompletionResponseEncoder.swift in Sources */,
 				5552D3D829EF48B200B40302 /* AccessTokenDescriptor.swift in Sources */,
