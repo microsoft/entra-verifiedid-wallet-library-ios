@@ -386,6 +386,7 @@
 		555FB2042B756BE100EE14BD /* IdentifierDocument+WalletLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2032B756BE100EE14BD /* IdentifierDocument+WalletLibrary.swift */; };
 		555FB2062B756CC000EE14BD /* IdentifierDocumentExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2052B756CC000EE14BD /* IdentifierDocumentExtensionTests.swift */; };
 		555FB2092B7570A400EE14BD /* JwsTokenExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2082B7570A400EE14BD /* JwsTokenExtensionTests.swift */; };
+		555FB20B2B757A9E00EE14BD /* Decodable+PropertyValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB20A2B757A9E00EE14BD /* Decodable+PropertyValidation.swift */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
@@ -910,6 +911,7 @@
 		555FB2032B756BE100EE14BD /* IdentifierDocument+WalletLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdentifierDocument+WalletLibrary.swift"; sourceTree = "<group>"; };
 		555FB2052B756CC000EE14BD /* IdentifierDocumentExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierDocumentExtensionTests.swift; sourceTree = "<group>"; };
 		555FB2082B7570A400EE14BD /* JwsTokenExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwsTokenExtensionTests.swift; sourceTree = "<group>"; };
+		555FB20A2B757A9E00EE14BD /* Decodable+PropertyValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+PropertyValidation.swift"; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
@@ -2813,6 +2815,7 @@
 				5534E664294A0B3E005D0765 /* Services */,
 				5534E663294A0B28005D0765 /* Mappings */,
 				55265A3C2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift */,
+				555FB20A2B757A9E00EE14BD /* Decodable+PropertyValidation.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3205,6 +3208,7 @@
 				5552D3FC29EF48F700B40302 /* JwePasswordProtectedBackupData.swift in Sources */,
 				5552D3BB29EF487B00B40302 /* IssuanceVPFormatter.swift in Sources */,
 				5552D3F429EF48ED00B40302 /* Microsoft2020IdentifierBackup.swift in Sources */,
+				555FB20B2B757A9E00EE14BD /* Decodable+PropertyValidation.swift in Sources */,
 				559BD485299D8DCC00BD61AC /* VerifiedIdRequester.swift in Sources */,
 				5552D45929EF4A8100B40302 /* Encoding.swift in Sources */,
 				5552D44F29EF4A8100B40302 /* FetchContractOperation.swift in Sources */,
