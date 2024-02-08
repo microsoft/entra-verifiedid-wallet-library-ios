@@ -5,10 +5,6 @@
 
 import Foundation
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 struct PresentationRequestDecoder: Decoding {
     
     func decode(data: Data) throws -> PresentationRequestToken {
