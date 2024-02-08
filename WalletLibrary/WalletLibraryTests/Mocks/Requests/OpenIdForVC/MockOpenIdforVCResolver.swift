@@ -24,4 +24,9 @@ struct MockOpenIdForVCResolver: OpenIdForVCResolver {
         }
         return mockGetRequestCallback(url)
     }
+    
+    func validateRequest(data: Data) async throws -> any OpenIdRawRequest
+    {
+        return mockGetRequestCallback?("") ?? MockOpenIdRawRequest(raw: nil)
+    }
 }

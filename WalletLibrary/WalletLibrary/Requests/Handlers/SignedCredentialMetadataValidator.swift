@@ -16,11 +16,19 @@ struct LinkedDomainResolver: RootOfTrustResolver
     
     private let configuration: LibraryConfiguration
     
-    init(linkedDomainService: LinkedDomainService,
-         configuration: LibraryConfiguration)
+    init(configuration: LibraryConfiguration)
     {
-        self.linkedDomainService = linkedDomainService
         self.configuration = configuration
+        
+        if let networking = configuration.networking as? WalletLibraryNetworking
+        {
+            self.linkedDomainService = LinkedDomainService(correlationVector: networking.correlationHeader,
+                                                           urlSession: networking.urlSession)
+        }
+        else
+        {
+            self.linkedDomainService = LinkedDomainService(urlSession: URLSession.shared)
+        }
     }
     
     func resolve(using identifier: Any) async throws -> RootOfTrust
@@ -39,9 +47,17 @@ struct IdentifierDocumentResolver
 {
     private let identifierNetworkCalls: DIDDocumentNetworkCalls
     
-    init(identifierNetworkCalls: DIDDocumentNetworkCalls)
+    init(configuration: LibraryConfiguration)
     {
-        self.identifierNetworkCalls = identifierNetworkCalls
+        if let networking = configuration.networking as? WalletLibraryNetworking
+        {
+            self.identifierNetworkCalls = DIDDocumentNetworkCalls(correlationVector: networking.correlationHeader,
+                                                                  urlSession: networking.urlSession)
+        }
+        else
+        {
+            self.identifierNetworkCalls = DIDDocumentNetworkCalls(urlSession: URLSession.shared)
+        }
     }
     
     func resolve(identifier: String) async throws -> IdentifierDocument
@@ -58,13 +74,11 @@ struct SignedCredentialMetadataProcessor
     
     private let rootOfTrustResolver: RootOfTrustResolver
     
-    init(tokenVerifier: TokenVerifying,
-         identifierDocumentResolver: IdentifierDocumentResolver,
-         rootOfTrustResolver: RootOfTrustResolver)
+    init(configuration: LibraryConfiguration)
     {
-        self.tokenVerifier = tokenVerifier
-        self.identifierDocumentResolver = identifierDocumentResolver
-        self.rootOfTrustResolver = rootOfTrustResolver
+        self.tokenVerifier = TokenVerifier()
+        self.identifierDocumentResolver = IdentifierDocumentResolver(configuration: configuration)
+        self.rootOfTrustResolver = LinkedDomainResolver(configuration: configuration)
     }
     
     func process(signedMetadata: String,

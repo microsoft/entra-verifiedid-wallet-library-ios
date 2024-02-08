@@ -16,13 +16,12 @@ struct OpenId4VCIHandler: RequestHandling
 {
     private let configuration: LibraryConfiguration
     
-    private let test: any Processor
+    private let signedMetadataProcessor: SignedCredentialMetadataProcessor
     
-    init(configuration: LibraryConfiguration,
-         test: any Processor)
+    init(configuration: LibraryConfiguration)
     {
         self.configuration = configuration
-        self.test = test
+        self.signedMetadataProcessor = SignedCredentialMetadataProcessor(configuration: configuration)
     }
     
     /// Determines whether a given raw request can be handled by this handler.
@@ -34,7 +33,8 @@ struct OpenId4VCIHandler: RequestHandling
     func canHandle(rawRequest: Any) -> Bool
     {
         guard let request = rawRequest as? [String: Any],
-              request["credential_issuer"] != nil else
+              let _ = try? configuration.mapper.map(request,
+                                                    type: CredentialOffer.self) else
         {
             return false
         }
@@ -57,22 +57,30 @@ struct OpenId4VCIHandler: RequestHandling
         // TODO: validate payloads.
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
         let credentialMetadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
-//        
-        if let signedProcessor = test as? SignedCredentialMetadataProcessor
-        {
-            let rootOfTrust = try await signedProcessor.process(input: credentialMetadata.signed_metadata!)
-        }
+        
+        // Validate signed metadata and get Root of Trust.
+        let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
         
         throw OpenId4VCIHandlerError.Unimplemented
     }
     
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
-        guard let url = URL(string: url) else
-        {
-            throw OpenId4VCIHandlerError.InputNotSupported
-        }
-        
+        let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
+    }
+    
+    private func validateSignedMetadataAndGetRootOfTrust(credentialMetadata: CredentialMetadata) async throws -> RootOfTrust
+    {
+        let signedMetadata = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.signed_metadata,
+                                                                        propertyName: "signed_metadata")
+        
+        let credentialIssuer = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.credential_issuer,
+                                                                        propertyName: "credential_issuer")
+        
+        // Validate signed metadata and get Root of Trust.
+        let rootOfTrust = try await signedMetadataProcessor.process(signedMetadata: signedMetadata,
+                                                                    credentialIssuer: credentialIssuer)
+        return rootOfTrust
     }
 }

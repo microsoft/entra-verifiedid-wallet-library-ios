@@ -36,12 +36,12 @@ class OpenId4VCIHandlerTests: XCTestCase
     {
         
         // Arrange
-        let invalidRawRequest = ["credential_issuer": "mock value"]
+        let rawRequest = createJSONCredentialOffer()
         let configuration = LibraryConfiguration()
         let handler = OpenId4VCIHandler(configuration: configuration)
         
         // Act
-        XCTAssert(handler.canHandle(rawRequest: invalidRawRequest))
+        XCTAssert(handler.canHandle(rawRequest: rawRequest))
     }
     
     func testHandle_WithInvalidRawRequest_ThrowsError() async throws 
@@ -68,5 +68,21 @@ class OpenId4VCIHandlerTests: XCTestCase
     func testHandle_WithRawRequest_ReturnsVerifiedIdRequest() async throws
     {
         // TODO: handle successful case in next PR
+    }
+    
+    private func createJSONCredentialOffer() -> [String: Any]
+    {
+        var json: [String: Any] = [
+            "credential_issuer": "expectedCredentialIssuer",
+            "issuer_session": "expectedIssuerSession",
+            "credential_configuration_ids": ["expectedCredentialIds"],
+            "grants": [
+                "authorization_code": [
+                    "authorization_server": "expectedAuthorizationServer"
+                ]
+            ]
+        ]
+        
+        return json
     }
 }
