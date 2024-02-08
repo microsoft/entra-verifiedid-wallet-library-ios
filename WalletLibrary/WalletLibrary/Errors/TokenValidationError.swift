@@ -10,9 +10,17 @@
 class TokenValidationError: VerifiedIdError
 {
     /// Creates an instance of `TokenValidationError` when property of the token does not have the expected value.
-    static func InvalidProperty(_ prop: String?, expected: String) -> TokenValidationError
+    static func InvalidProperty(_ prop: String, actual: String?, expected: String) -> TokenValidationError
     {
-        let message = "Invalid Property \(String(describing: prop)), expected: \(expected)"
+        if let actual = actual
+        {
+            let message = "Invalid String for property: \(prop). Expected: \(expected), Actual: \(actual)."
+            return TokenValidationError(message: message,
+                                        code: "invalid_property",
+                                        correlationId: nil)
+        }
+        
+        let message = "Propery \(prop) is not present. Expected: \(expected)."
         return TokenValidationError(message: message,
                                     code: "invalid_property",
                                     correlationId: nil)
@@ -32,6 +40,16 @@ class TokenValidationError: VerifiedIdError
     static func IatHasNotOccurred() -> TokenValidationError
     {
         let message = "Token iat has not occurred."
+        return TokenValidationError(message: message,
+                                    code: "token_invalid",
+                                    correlationId: nil)
+    }
+    
+    /// Creates an instance of `TokenValidationError` indicating that the "issued at" time (`iat`) of the token is in the future,
+    /// which means the token is not yet valid.
+    static func InvalidSignature() -> TokenValidationError
+    {
+        let message = "Signature is not valid."
         return TokenValidationError(message: message,
                                     code: "token_invalid",
                                     correlationId: nil)
