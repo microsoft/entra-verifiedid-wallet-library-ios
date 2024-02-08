@@ -9,8 +9,7 @@ enum CredentialMetadataProcessorError: Error
 }
 
 /**
- * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
- * all of library will use.
+ * Defines a structure for processing signed credential metadata.
  */
 struct SignedCredentialMetadataProcessor
 {
@@ -27,6 +26,10 @@ struct SignedCredentialMetadataProcessor
         self.rootOfTrustResolver = LinkedDomainResolver(configuration: configuration)
     }
     
+    /// Processes the signed metadata, verifying its integrity and authenticity, and resolving the root of trust.
+    /// - Parameters:
+    ///   - signedMetadata: A string representation of the signed metadata, expected to be in JSON Web Token format.
+    ///   - credentialIssuer: The credential issuer property from the Credential Metadata.
     func process(signedMetadata: String,
                  credentialIssuer: String) async throws -> RootOfTrust
     {
