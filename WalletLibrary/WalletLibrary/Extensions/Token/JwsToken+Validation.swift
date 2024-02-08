@@ -4,11 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
- * all of library will use.
+ * Extension for handling JSON Web Token operations.
  */
 extension JwsToken
 {
+    /// Represents the DID (Decentralized Identifier) and Key ID extracted from the token header's key identifier.
     struct TokenHeaderKeyId
     {
         let did: String
@@ -16,11 +16,14 @@ extension JwsToken
         let keyId: String
     }
     
+    /// Extracts and separates the DID and Key ID from the token header's key identifier.
+    /// - Returns: A `TokenHeaderKeyId` containing the DID and Key ID if the extraction is successful; otherwise, `nil`.
     func getKeyId() -> TokenHeaderKeyId?
     {
         guard let components = headers.keyId?.split(separator: "#",
                                                     maxSplits: 1,
-                                                    omittingEmptySubsequences: true) else
+                                                    omittingEmptySubsequences: true),
+              components.count == 2 else
         {
             return nil
         }
@@ -29,32 +32,29 @@ extension JwsToken
                                 keyId: String(components[1]))
     }
     
+    /// Validates the `iat` (Issued At) and `exp` (Expiration Time) claims of the token.
     func validateIatAndExp() throws
     {
-        guard let exp = content.exp else
+        let exp = try T.getRequiredProperty(property: content.exp, propertyName: "exp")
+        let iat = try T.getRequiredProperty(property: content.iat, propertyName: "iat")
+        
+        // Adjusts for a 5-minute (300 seconds) delay.
+        guard getCurrentTimeInSeconds(delay: Double(-300)) <= exp else
         {
-            throw TokenValidationError.PropertyNotPresent("exp")
+            throw TokenValidationError.TokenHasExpired()
         }
         
-        guard let iat = content.iat else
+        // Adjusts for a 5-minute (300 seconds) skew.
+        guard getCurrentTimeInSeconds(delay: Double(300)) >= iat else
         {
-            throw TokenValidationError.PropertyNotPresent("iat")
-        }
-        
-        guard getCurrentTimeInSecondsWithDelay() > exp else
-        {
-            throw TokenValidationError.TokenHasExpired
-        }
-        
-        guard getCurrentTimeInSecondsWithDelay() < iat else
-        {
-            throw TokenValidationError.IatHasNotOccurred
+            throw TokenValidationError.IatHasNotOccurred()
         }
     }
     
-    private func getCurrentTimeInSecondsWithDelay() -> Double {
+    private func getCurrentTimeInSeconds(delay: Double) -> Double 
+    {
         let currentTimeInSeconds = (Date().timeIntervalSince1970).rounded(.down)
-        return currentTimeInSeconds - Double(300)
+        return currentTimeInSeconds + delay
     }
 }
 
