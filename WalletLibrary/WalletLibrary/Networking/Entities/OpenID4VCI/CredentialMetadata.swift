@@ -40,7 +40,7 @@ extension CredentialMetadata
             guard authorizationServers.contains(grant.value.authorization_server) else
             {
                 let errorMessage = "Authorization servers in Credential Metadata does not contain \(grant.value.authorization_server)"
-                throw OpenId4VCIProtocolValidationError.MalformedCredentialMetadata(message: errorMessage)
+                throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
             }
         }
     }
@@ -59,6 +59,18 @@ struct SignedMetadataTokenClaims: Claims
     let sub: String?
     
     let iss: String?
+    
+    let exp: Double?
+    
+    let iat: Double?
+    
+    init(sub: String?, iss: String?, exp: Double? = nil, iat: Double? = nil)
+    {
+        self.sub = sub
+        self.iss = iss
+        self.exp = exp
+        self.iat = iat
+    }
 }
 
 /**
@@ -72,12 +84,12 @@ extension SignedMetadata
     {
         if expectedIssuer != content.iss
         {
-            throw TokenValidationError.InvalidProperty(content.iss, expected: expectedIssuer)
+            throw TokenValidationError.InvalidProperty("iss", actual: content.iss, expected: expectedIssuer)
         }
         
         if expectedSubject != content.sub
         {
-            throw TokenValidationError.InvalidProperty(content.sub, expected: expectedSubject)
+            throw TokenValidationError.InvalidProperty("sub", actual: content.sub, expected: expectedSubject)
         }
         
         try validateIatAndExp()

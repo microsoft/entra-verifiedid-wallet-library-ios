@@ -7,7 +7,7 @@
  * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
  * all of library will use.
  */
-struct IdentifierDocumentResolver
+struct DIDDocumentResolver: IdentifierDocumentResolver
 {
     private let identifierNetworkCalls: DIDDocumentNetworkCalls
     
@@ -28,4 +28,9 @@ struct IdentifierDocumentResolver
     {
         return try await identifierNetworkCalls.getDocument(from: identifier)
     }
+}
+
+protocol IdentifierDocumentResolver
+{
+    func resolve(identifier: String) async throws -> IdentifierDocument
 }
