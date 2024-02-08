@@ -32,19 +32,22 @@ struct SignedCredentialMetadataProcessor
     {
         guard let signedMetadataToken = SignedMetadata(from: signedMetadata) else
         {
-            throw CredentialMetadataProcessorError.No
+            let errorMessage = "Signed Metadata is not a JSON Web Token."
+            throw OpenId4VCIProtocolValidationError.MalformedSignedMetadataToken(message: errorMessage)
         }
         
         guard let kid = signedMetadataToken.getKeyId() else
         {
-            throw CredentialMetadataProcessorError.No
+            let errorMessage = "Unable to extract Key Id from Signed Metadata Token."
+            throw OpenId4VCIProtocolValidationError.MalformedSignedMetadataToken(message: errorMessage)
         }
         
         let identifierDocument = try await identifierDocumentResolver.resolve(identifier: kid.did)
         
         guard let publicKey = identifierDocument.getJWK(id: kid.keyId) else
         {
-            throw CredentialMetadataProcessorError.No
+            let errorMessage = "Key Id not defined in Identifier Document."
+            throw OpenId4VCIProtocolValidationError.MalformedSignedMetadataToken(message: errorMessage)
         }
         
         try validateSignature(signedMetadata: signedMetadataToken,
@@ -65,12 +68,14 @@ struct SignedCredentialMetadataProcessor
             
             if !isValid
             {
-                throw VerifiedIdError(message: "", code: "")
+                let errorMessage = "The signature on the Signed Metadata Token is not valid."
+                throw OpenId4VCIProtocolValidationError.MalformedSignedMetadataToken(message: errorMessage)
             }
         }
         catch
         {
-            throw error
+            throw OpenId4VCIProtocolValidationError.MalformedSignedMetadataToken(message: "Unable to verify signature",
+                                                                                 error: error)
         }
     }
 }

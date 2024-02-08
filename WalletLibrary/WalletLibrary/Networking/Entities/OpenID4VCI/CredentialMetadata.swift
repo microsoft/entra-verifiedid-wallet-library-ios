@@ -39,9 +39,8 @@ extension CredentialMetadata
         {
             guard authorizationServers.contains(grant.value.authorization_server) else
             {
-                /// TODO: update error.
-                throw OpenId4VCIHandlerError.NotPresentInMetadata(authorizationServer: grant.value.authorization_server,
-                                                                  grantType: grant.key)
+                let errorMessage = "Authorization servers in Credential Metadata does not contain \(grant.value.authorization_server)"
+                throw OpenId4VCIProtocolValidationError.MalformedCredentialMetadata(message: errorMessage)
             }
         }
     }
