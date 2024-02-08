@@ -26,3 +26,31 @@ struct CredentialMetadata: Decodable
     /// A dictionary of Credential IDs to the corresponding credential configuration.
     let credential_configurations_supported: [String: CredentialConfiguration]?
 }
+
+typealias SignedMetadata = JwsToken<SignedMetadataTokenClaims>
+
+struct SignedMetadataTokenClaims: Claims
+{
+    let sub: String?
+    
+    let iss: String?
+}
+
+extension SignedMetadata
+{
+    func validateClaims(expectedSubject: String,
+                        expectedIssuer: String) throws
+    {
+        if expectedIssuer != content.iss
+        {
+            throw TokenValidationError.InvalidProperty(content.iss, expected: expectedIssuer)
+        }
+        
+        if expectedSubject != content.sub
+        {
+            throw TokenValidationError.InvalidProperty(content.sub, expected: expectedSubject)
+        }
+        
+        try validateIatAndExp()
+    }
+}
