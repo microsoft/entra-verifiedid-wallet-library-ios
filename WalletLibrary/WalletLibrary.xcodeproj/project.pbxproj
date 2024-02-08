@@ -376,6 +376,8 @@
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
 		555FB16A2B73FBB000EE14BD /* CredentialOfferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */; };
 		555FB1B62B740A3000EE14BD /* OpenId4VCIHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */; };
+		555FB1D72B74400300EE14BD /* RootOfTrustResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1D62B74400300EE14BD /* RootOfTrustResolver.swift */; };
+		555FB1DB2B74406400EE14BD /* SignedCredentialMetadataValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1DA2B74406400EE14BD /* SignedCredentialMetadataValidator.swift */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
@@ -890,6 +892,8 @@
 		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
 		555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialOfferTests.swift; sourceTree = "<group>"; };
 		555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIHandlerTests.swift; sourceTree = "<group>"; };
+		555FB1D62B74400300EE14BD /* RootOfTrustResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootOfTrustResolver.swift; path = WalletLibrary/Protocols/Requests/RootOfTrustResolver.swift; sourceTree = SOURCE_ROOT; };
+		555FB1DA2B74406400EE14BD /* SignedCredentialMetadataValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataValidator.swift; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
@@ -1042,6 +1046,7 @@
 				55A81BE62991B2F3002C259A /* RequestHandlerFactory.swift */,
 				550A9157299310D40014D030 /* OpenIdRequestHandler.swift */,
 				55FE70792B72E7C600CC3018 /* OpenId4VCIHandler.swift */,
+				555FB1DA2B74406400EE14BD /* SignedCredentialMetadataValidator.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -2710,6 +2715,7 @@
 				550E3213298B11A5004E7716 /* Requirement.swift */,
 				55A81BC92991AB82002C259A /* RequestResolving.swift */,
 				55E2F08029955A960008010D /* RequestType.swift */,
+				555FB1D62B74400300EE14BD /* RootOfTrustResolver.swift */,
 				550E320F298B113C004E7716 /* VerifiedIdRequest.swift */,
 				559BD484299D8DCC00BD61AC /* VerifiedIdRequester.swift */,
 				550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */,
@@ -3050,6 +3056,7 @@
 				559BD3AB299ADEFF00BD61AC /* ContractIssuanceRequest.swift in Sources */,
 				5552D44229EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift in Sources */,
 				5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */,
+				555FB1D72B74400300EE14BD /* RootOfTrustResolver.swift in Sources */,
 				5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */,
 				5552D3B929EF487600B40302 /* FormatterError.swift in Sources */,
 				550E320E298B0FAC004E7716 /* WalletLibraryLogger.swift in Sources */,
@@ -3161,6 +3168,7 @@
 				5552D3D729EF48B200B40302 /* Contract.swift in Sources */,
 				55F01CD22ACE0066000794B4 /* P256PublicKey.swift in Sources */,
 				5552D4BB29EF4AC300B40302 /* SupportedSigningAlgorithms.swift in Sources */,
+				555FB1DB2B74406400EE14BD /* SignedCredentialMetadataValidator.swift in Sources */,
 				550A9192299400820014D030 /* OpenIdResponder.swift in Sources */,
 				5552D45A29EF4A8100B40302 /* IssuanceCompletionResponseEncoder.swift in Sources */,
 				5552D3D829EF48B200B40302 /* AccessTokenDescriptor.swift in Sources */,

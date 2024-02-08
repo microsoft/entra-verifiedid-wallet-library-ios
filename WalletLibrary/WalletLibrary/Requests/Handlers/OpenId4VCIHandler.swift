@@ -16,9 +16,13 @@ struct OpenId4VCIHandler: RequestHandling
 {
     private let configuration: LibraryConfiguration
     
-    init(configuration: LibraryConfiguration) 
+    private let test: any Processor
+    
+    init(configuration: LibraryConfiguration,
+         test: any Processor)
     {
         self.configuration = configuration
+        self.test = test
     }
     
     /// Determines whether a given raw request can be handled by this handler.
@@ -52,7 +56,12 @@ struct OpenId4VCIHandler: RequestHandling
         
         // TODO: validate payloads.
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
-        let _ = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
+        let credentialMetadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
+//        
+        if let signedProcessor = test as? SignedCredentialMetadataProcessor
+        {
+            let rootOfTrust = try await signedProcessor.process(input: credentialMetadata.signed_metadata!)
+        }
         
         throw OpenId4VCIHandlerError.Unimplemented
     }
