@@ -47,7 +47,7 @@ struct OpenId4VCIHandler: RequestHandling
         guard let requestJson = rawRequest as? [String: Any] else
         {
             let errorMessage = "Request is not in the correct format."
-            throw OpenId4VCIProtocolValidationError.MalformedCredentialOffer(message: errorMessage)
+            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
         
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
@@ -59,7 +59,7 @@ struct OpenId4VCIHandler: RequestHandling
         let _ = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
         
         // TODO: transform payload into VerifiedIdRequest
-        throw OpenId4VCIProtocolValidationError.MalformedCredentialMetadata(message: "Not implemented yet.")
+        throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "Not implemented yet.")
     }
     
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
