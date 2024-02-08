@@ -7,6 +7,7 @@ enum OpenId4VCIHandlerError: Error
 {
     case Unimplemented
     case InputNotSupported
+    case NotPresentInMetadata(authorizationServer: String, grantType: String)
 }
 
 /**
@@ -18,10 +19,11 @@ struct OpenId4VCIHandler: RequestHandling
     
     private let signedMetadataProcessor: SignedCredentialMetadataProcessor
     
-    init(configuration: LibraryConfiguration)
+    init(configuration: LibraryConfiguration,
+         signedMetadataProcessor: SignedCredentialMetadataProcessor? = nil)
     {
         self.configuration = configuration
-        self.signedMetadataProcessor = SignedCredentialMetadataProcessor(configuration: configuration)
+        self.signedMetadataProcessor = signedMetadataProcessor ?? SignedCredentialMetadataProcessor(configuration: configuration)
     }
     
     /// Determines whether a given raw request can be handled by this handler.
@@ -54,12 +56,15 @@ struct OpenId4VCIHandler: RequestHandling
             throw OpenId4VCIHandlerError.InputNotSupported
         }
         
-        // TODO: validate payloads.
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
         let credentialMetadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
+        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
+        
         // Validate signed metadata and get Root of Trust.
-        let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
+        let _ = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
+        
+        // TODO: transform payload into VerifiedIdRequest
         
         throw OpenId4VCIHandlerError.Unimplemented
     }

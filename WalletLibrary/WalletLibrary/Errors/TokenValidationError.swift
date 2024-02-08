@@ -5,6 +5,7 @@
 
 /**
  * This class is used to represent different types of validation errors related to tokens.
+ * TODO: add a way to inject correlatin vector in all errors.
  */
 class TokenValidationError: VerifiedIdError
 {

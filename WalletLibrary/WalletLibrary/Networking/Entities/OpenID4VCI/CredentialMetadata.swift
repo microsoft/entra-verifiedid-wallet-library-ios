@@ -27,6 +27,26 @@ struct CredentialMetadata: Decodable
     let credential_configurations_supported: [String: CredentialConfiguration]?
 }
 
+extension CredentialMetadata
+{
+    /// Defines a function to validate if the authorization servers specified in a credential offer are present in the metadata of the credential.
+    func validateAuthorizationServers(credentialOffer: CredentialOffer) throws
+    {
+        let authorizationServers = try Self.getRequiredProperty(property: authorization_servers,
+                                                                propertyName: "authorization_servers")
+        
+        for grant in credentialOffer.grants
+        {
+            guard authorizationServers.contains(grant.value.authorization_server) else
+            {
+                /// TODO: update error.
+                throw OpenId4VCIHandlerError.NotPresentInMetadata(authorizationServer: grant.value.authorization_server,
+                                                                  grantType: grant.key)
+            }
+        }
+    }
+}
+
 /**
  * Defines a typealias `SignedMetadata` that represents a JWS Token with claims specific to signed metadata.
  */
