@@ -10,30 +10,12 @@ struct IdentifierDocument: Codable, Equatable {
     let authentication: [String]
     
     init(service: [IdentifierDocumentServiceEndpointDescriptor]?,
-         verificationMethod: [IdentifierDocumentPublicKey]?,
-         authentication: [String],
-         id: String) {
+                verificationMethod: [IdentifierDocumentPublicKey]?,
+                authentication: [String],
+                id: String) {
         self.service = service
         self.verificationMethod = verificationMethod
         self.authentication = authentication
         self.id = id
-    }
-    
-    func getJWK(id: String) -> JWK?
-    {
-        guard let publicKeys = verificationMethod else
-        {
-            return nil
-        }
-        
-        for publicKey in publicKeys
-        {
-            if publicKey.id == id
-            {
-                return publicKey.publicKeyJwk.toJWK()
-            }
-        }
-        
-        return nil
     }
 }
