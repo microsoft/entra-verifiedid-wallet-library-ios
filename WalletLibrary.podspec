@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name= 'WalletLibrary'
-    s.version= '1.0.0'
+    s.version= '1.0.1'
     s.license= 'MIT'
     s.summary= 'An SDK to manage your Decentralized Identities and Verifiable Credentials.'
     s.homepage= 'https://github.com/microsoft/entra-verifiedid-wallet-library-ios'
@@ -80,7 +80,6 @@ Pod::Spec.new do |s|
 
     s.subspec 'Core' do |cs|
         cs.name = 'Core'
-        cs.preserve_paths = "WalletLibrary/**/*.{swift,xcdatamodeld,xcdatamodel,mom,momd}"
         cs.source_files= [
             "WalletLibrary/WalletLibrary/**/*.swift",
             "#{vcsdkPath}/VCServices/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}",
