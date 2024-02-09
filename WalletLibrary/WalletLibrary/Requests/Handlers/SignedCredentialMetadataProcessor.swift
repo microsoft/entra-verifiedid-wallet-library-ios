@@ -3,11 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum CredentialMetadataProcessorError: Error
-{
-    case No
-}
-
 /**
  * Defines a structure for processing signed credential metadata.
  */

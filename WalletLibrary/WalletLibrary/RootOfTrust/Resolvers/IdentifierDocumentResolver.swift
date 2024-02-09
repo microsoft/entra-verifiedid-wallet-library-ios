@@ -4,8 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
- * all of library will use.
+ * Responsible for resolving Identifier Document using VC SDK DIDDocumentNetworkCalls.
+ * TODO: shift to Wallet Library networking layer.
  */
 struct DIDDocumentResolver: IdentifierDocumentResolver
 {
@@ -24,13 +24,11 @@ struct DIDDocumentResolver: IdentifierDocumentResolver
         }
     }
     
+    /// Resolves an Identifier Document for a given identifier.
+    /// - Parameters:
+    ///   - identifier: A string identifying the document to be resolved.
     func resolve(identifier: String) async throws -> IdentifierDocument
     {
         return try await identifierNetworkCalls.getDocument(from: identifier)
     }
-}
-
-protocol IdentifierDocumentResolver
-{
-    func resolve(identifier: String) async throws -> IdentifierDocument
 }

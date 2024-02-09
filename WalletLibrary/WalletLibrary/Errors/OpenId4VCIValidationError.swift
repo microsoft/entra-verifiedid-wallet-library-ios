@@ -13,8 +13,8 @@ class OpenId4VCIValidationError: VerifiedIdError
     static func MalformedCredentialOffer(message: String) -> OpenId4VCIValidationError
     {
         return OpenId4VCIValidationError(message: message,
-                                                 code: "credential_metadata_malformed",
-                                                 correlationId: nil)
+                                         code: "credential_metadata_malformed",
+                                         correlationId: nil)
     }
     
     /// Creates an instance of `OpenId4VCIProtocolValidationError` when encountering error with signed metadata.
@@ -22,9 +22,9 @@ class OpenId4VCIValidationError: VerifiedIdError
                                              error: Error? = nil) -> OpenId4VCIValidationError
     {
         return OpenId4VCIValidationError(message: message,
-                                                 code: "signed_metadata_token_malformed",
-                                                 error: error,
-                                                 correlationId: nil)
+                                         code: "signed_metadata_token_malformed",
+                                         error: error,
+                                         correlationId: nil)
     }
     
     /// Creates an instance of `OpenId4VCIProtocolValidationError` when credential metadata is malformed.
@@ -32,9 +32,9 @@ class OpenId4VCIValidationError: VerifiedIdError
                                             error: Error? = nil) -> OpenId4VCIValidationError
     {
         return OpenId4VCIValidationError(message: message,
-                                                 code: "credential_metadata_malformed",
-                                                 error: error,
-                                                 correlationId: nil)
+                                         code: "credential_metadata_malformed",
+                                         error: error,
+                                         correlationId: nil)
     }
     
     /// Optional nested error.
@@ -48,12 +48,12 @@ class OpenId4VCIValidationError: VerifiedIdError
                    correlationId: correlationId)
     }
     
-    private enum CodingKeys: String, CodingKey 
+    private enum CodingKeys: String, CodingKey
     {
         case message, code, correlationId, error
     }
     
-    override func encode(to encoder: Encoder) throws 
+    override func encode(to encoder: Encoder) throws
     {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(String(describing: error), forKey: .error)

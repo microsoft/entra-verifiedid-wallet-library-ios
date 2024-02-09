@@ -4,8 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
- * all of library will use.
+ * Responsible for resolving the Root of Trust through the Linked Domain.
  */
 struct LinkedDomainResolver: RootOfTrustResolver
 {
@@ -28,6 +27,9 @@ struct LinkedDomainResolver: RootOfTrustResolver
         }
     }
     
+    /// Resolves the Root of Trust through Linked Domains.
+    /// - Parameters:
+    ///   - identifier: An identifier used to resolve the Linked Domains. This should be the `IdentifierDocument` in this case.
     func resolve(using identifier: Any) async throws -> RootOfTrust
     {
         guard let identifier = identifier as? IdentifierDocument else

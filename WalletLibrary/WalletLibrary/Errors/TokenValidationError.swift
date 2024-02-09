@@ -45,8 +45,7 @@ class TokenValidationError: VerifiedIdError
                                     correlationId: nil)
     }
     
-    /// Creates an instance of `TokenValidationError` indicating that the "issued at" time (`iat`) of the token is in the future,
-    /// which means the token is not yet valid.
+    /// Creates an instance of `TokenValidationError` when signature is invalid.
     static func InvalidSignature() -> TokenValidationError
     {
         let message = "Signature is not valid."
