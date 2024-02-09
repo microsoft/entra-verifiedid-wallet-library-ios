@@ -84,7 +84,7 @@ Pod::Spec.new do |s|
         cs.library = 'c++'
         cs.public_header_files = ["#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/include/*"]
         cs.compiler_flags = "-Wno-shorten-64-to-32", "-Wno-unused-function"
-        cs.preserve_paths = "WalletLibrary/**/*.{swift,xcdatamodeld,xcdatamodel,mom,momd}"
+        cs.preserve_paths = "WalletLibrary/**/*.{swift,xcdatamodeld,xcdatamodel,mom,momd,c,h}"
         cs.source_files= [
             "WalletLibrary/WalletLibrary/**/*.swift",
             "#{vcsdkPath}/VCServices/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}",
