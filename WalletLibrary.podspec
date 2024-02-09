@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
     s.source= {
       :git => 'https://github.com/microsoft/entra-verifiedid-wallet-library-ios.git',
       :submodules => true,
-      :tag => s.version
+      :commit => 'c476403d31100ef5d9a5d0c52d5029e411357168'
     }
 
     vcsdkPath = 'WalletLibrary/Submodules/VerifiableCredential-SDK-iOS'
@@ -43,6 +43,7 @@ Pod::Spec.new do |s|
           "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/src/valgrind_ctime_test.c",
           "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/src/ctime_tests.c",
           "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/src/gen_context.c",
+          "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/src/precompute_ecmult.c",
           "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/src/precompute_ecmult_gen.c",
           "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/src/tests_exhaustive.c",
           "#{submodulePath}/Secp256k1/bitcoin-core/secp256k1/contrib/*.{c, h}"
@@ -77,53 +78,21 @@ Pod::Spec.new do |s|
   #define VERSION "0.1"'
     end
 
-    s.subspec 'VCCrypto' do |cs|
-        cs.name = 'VCCrypto'
-        cs.preserve_paths = "#{vcsdkPath}/VCCrypto/**/*.swift"
-        cs.source_files= "#{vcsdkPath}/VCCrypto/VCCrypto/**/*.swift"
-        cs.dependency 'WalletLibrary/Secp256k1'
-    end 
-
-    s.subspec 'VCToken' do |cs|
-        cs.name = 'VCToken'
-        cs.preserve_paths = "#{vcsdkPath}/VCToken/**/*.swift"
-        cs.source_files= "#{vcsdkPath}/VCToken/VCToken/**/*.swift"
-        cs.dependency 'WalletLibrary/VCCrypto'
-    end
-
-
-    s.subspec 'VCEntities' do |cs|
-        cs.name = 'VCEntities'
-        cs.preserve_paths = "#{vcsdkPath}/VCEntities/**/*.swift"
-        cs.source_files= "#{vcsdkPath}/VCEntities/VCEntities/**/*.swift"
-        cs.dependency 'WalletLibrary/VCToken'
-        cs.dependency 'WalletLibrary/VCCrypto'
-    end
-
-    s.subspec 'VCNetworking' do |cs|
-        cs.name = 'VCNetworking'
-        cs.preserve_paths = "#{vcsdkPath}/VCNetworking/**/*.swift"
-        cs.source_files= "#{vcsdkPath}/VCNetworking/VCNetworking/**/*.swift"
-        cs.dependency 'WalletLibrary/VCEntities'
-    end
-
-    s.subspec 'VCServices' do |cs|
-        cs.name = 'VCServices'
-        cs.preserve_paths = "#{vcsdkPath}/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}"
-        cs.source_files= "#{vcsdkPath}/VCServices/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}"
-        cs.resources = [
-            "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld",
-            "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld/*.xcdatamodel"]
-        cs.preserve_paths = "#{vcsdkPath}/VCServices/VCServices/Resources/coreData/VerifiableCredentialDataModel.xcdatamodeld"
-        cs.dependency 'WalletLibrary/VCNetworking'
-        cs.dependency 'WalletLibrary/VCEntities'
-    end
-
     s.subspec 'Core' do |cs|
         cs.name = 'Core'
-        cs.preserve_paths = "WalletLibrary/WalletLibrary/**/*.swift"
-        cs.source_files= "WalletLibrary/WalletLibrary/**/*.swift"
-        cs.dependency 'WalletLibrary/VCServices'
-        cs.dependency 'WalletLibrary/VCEntities'
+        cs.preserve_paths = "WalletLibrary/**/*.{swift,xcdatamodeld,xcdatamodel,mom,momd}"
+        cs.source_files= [
+            "WalletLibrary/WalletLibrary/**/*.swift",
+            "#{vcsdkPath}/VCServices/VCServices/**/*.{swift, xcdatamodeld, xcdatamodel}",
+            "#{vcsdkPath}/VCNetworking/VCNetworking/**/*.swift",
+            "#{vcsdkPath}/VCEntities/VCEntities/**/*.swift",
+            "#{vcsdkPath}/VCToken/VCToken/**/*.swift",
+            "#{vcsdkPath}/VCCrypto/VCCrypto/**/*.swift"
+        ]
+        cs.resources = "#{vcsdkPath}/VCServices/VCServices/Resources/**/*.{xcdatamodeld,xcdatamodel,mom,momd}"
+        cs.exclude_files = [
+            "WalletLibrary/**/*Test/*.swift"
+        ]
+        cs.dependency 'WalletLibrary/Secp256k1'
     end
 end
