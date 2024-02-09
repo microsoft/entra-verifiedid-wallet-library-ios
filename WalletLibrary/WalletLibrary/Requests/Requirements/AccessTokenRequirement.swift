@@ -29,10 +29,10 @@ public class AccessTokenRequirement: Requirement {
     /// The access token that fulfills the requirement.
     var accessToken: String?
     
-    init(encrypted: Bool,
-         required: Bool,
+    init(encrypted: Bool = false,
+         required: Bool = true,
          configuration: String,
-         clientId: String?,
+         clientId: String? = nil,
          resourceId: String,
          scope: String) {
         self.encrypted = encrypted

@@ -26,3 +26,20 @@ struct CredentialMetadata: Decodable
     /// A dictionary of Credential IDs to the corresponding credential configuration.
     let credential_configurations_supported: [String: CredentialConfiguration]?
 }
+
+extension CredentialMetadata
+{
+    func getCredentialConfigurations(ids: [String]) -> [CredentialConfiguration]
+    {
+        var configurations: [CredentialConfiguration] = []
+        for id in ids
+        {
+            if let configuration = credential_configurations_supported?[id]
+            {
+                configurations.append(configuration)
+            }
+        }
+        
+        return configurations
+    }
+}

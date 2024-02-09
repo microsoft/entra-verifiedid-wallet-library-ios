@@ -31,3 +31,19 @@ public protocol VerifiedIdRequest {
     /// Cancel the request with an optional message.
     func cancel(message: String?) async -> VerifiedIdResult<Void>
 }
+
+extension VerifiedIdRequest 
+{
+    public func isSatisfied() -> Bool 
+    {
+        do 
+        {
+            try requirement.validate().get()
+            return true
+        } 
+        catch
+        {
+            return false
+        }
+    }
+}

@@ -83,3 +83,40 @@ struct LogoDisplayDefinition: Decodable
     /// Alt Text that describes the logo.
     let alt_text: String?
 }
+
+extension LogoDisplayDefinition: Mappable
+{
+    func map(using mapper: Mapping) throws -> VerifiedIdLogo?
+    {
+        guard let uri = self.uri else
+        {
+            return nil
+        }
+        
+        return VerifiedIdLogo(url: URL(string: uri),
+                              altText: alt_text)
+    }
+}
+
+
+
+extension LocalizedDisplayDefinition: Mappable
+{
+    func map(using mapper: Mapping) throws -> VerifiedIdStyle
+    {
+        var verifiedIdLogo: VerifiedIdLogo? = nil
+        if let logo = self.logo
+        {
+            verifiedIdLogo = try mapper.map(logo)
+        }
+
+        let basicVerifiedIdStyle = BasicVerifiedIdStyle(name: name ?? "",
+                                                        issuer: "",
+                                                        backgroundColor: background_color ?? "",
+                                                        textColor: text_color ?? "",
+                                                        description: "",
+                                                        logo: verifiedIdLogo)
+        
+        return basicVerifiedIdStyle
+    }
+}
