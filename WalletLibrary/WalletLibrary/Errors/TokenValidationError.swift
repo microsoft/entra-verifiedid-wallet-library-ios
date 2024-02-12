@@ -50,7 +50,7 @@ class TokenValidationError: VerifiedIdError
     {
         let message = "Signature is not valid."
         return TokenValidationError(message: message,
-                                    code: "token_invalid",
+                                    code: "signature_invalid",
                                     correlationId: nil)
     }
 }
