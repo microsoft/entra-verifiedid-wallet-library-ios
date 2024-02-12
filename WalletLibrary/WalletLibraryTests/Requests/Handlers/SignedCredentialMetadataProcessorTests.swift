@@ -204,7 +204,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
             XCTAssertEqual(validationError.message, "Signed metadata is not valid.")
             XCTAssert(validationError.error is TokenValidationError)
             let tokenError = validationError.error as! TokenValidationError
-            XCTAssertEqual(tokenError.code, "token_invalid")
+            XCTAssertEqual(tokenError.code, "signature_invalid")
             XCTAssertEqual(tokenError.message, "Signature is not valid.")
         }
     }
