@@ -17,13 +17,45 @@ protocol WalletLibraryFetchOperation: InternalNetworkOperation
 /**
  * The Wallet Library Post Operation.
  */
-protocol WalletLibraryPostOperation: InternalPostOperation
+protocol WalletLibraryPostOperation: InternalPostOperation where ResponseBody: Decodable, RequestBody: Encodable
 {
+    associatedtype Encoder = SimpleEncoder<RequestBody>
+    associatedtype Decoder = SimpleDecoder<ResponseBody>
+
     init(requestBody: RequestBody,
          url: URL,
          additionalHeaders: [String: String]?,
          urlSession: URLSession,
          correlationVector: VerifiedIdCorrelationHeader?)
+}
+
+extension WalletLibraryPostOperation
+{
+    var encoder: SimpleEncoder<RequestBody>
+    {
+        SimpleEncoder()
+    }
+    
+    var decoder: SimpleDecoder<ResponseBody>
+    {
+        SimpleDecoder()
+    }
+}
+
+struct SimpleEncoder<T: Encodable>: Encoding
+{
+    func encode(value: T) throws -> Data
+    {
+        try JSONEncoder().encode(value)
+    }
+}
+
+struct SimpleDecoder<T: Decodable>: Decoding
+{
+    func decode(data: Data) throws -> T
+    {
+        return try JSONDecoder().decode(T.self, from: data)
+    }
 }
 
 extension InternalNetworkOperation

@@ -8,32 +8,8 @@
  */
 struct OpenID4VCIPostOperation: WalletLibraryPostOperation
 {
-    typealias Encoder = RawOpenID4VCIRequestEncoder
-    
-    typealias ResponseBody = RawOpenID4VCIResponse
-    
     typealias RequestBody = RawOpenID4VCIRequest
-    
-    /// The decoder for the Credential Metadata.
-    struct RawOpenID4VCIResponseDecoder: Decoding
-    {
-        func decode(data: Data) throws -> RawOpenID4VCIResponse
-        {
-            return try JSONDecoder().decode(RawOpenID4VCIResponse.self,
-                                            from: data)
-        }
-    }
-    
-    /// The decoder for the Credential Metadata.
-    struct RawOpenID4VCIRequestEncoder: Encoding
-    {
-        func encode(value: RawOpenID4VCIRequest) throws -> Data {
-            return try JSONEncoder().encode(value)
-        }
-    }
-    
-    
-    var decoder = RawOpenID4VCIResponseDecoder()
+    typealias ResponseBody = RawOpenID4VCIResponse
     
     var urlSession: URLSession
     
@@ -45,7 +21,8 @@ struct OpenID4VCIPostOperation: WalletLibraryPostOperation
          url: URL,
          additionalHeaders: [String : String]?,
          urlSession: URLSession,
-         correlationVector: VerifiedIdCorrelationHeader?) {
+         correlationVector: VerifiedIdCorrelationHeader?) 
+    {
         
         self.urlSession = urlSession
         self.correlationVector = correlationVector
@@ -59,4 +36,3 @@ struct OpenID4VCIPostOperation: WalletLibraryPostOperation
         addHeadersToURLRequest(headers: additionalHeaders)
     }
 }
-
