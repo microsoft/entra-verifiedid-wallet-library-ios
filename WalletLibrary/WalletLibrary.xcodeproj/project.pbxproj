@@ -392,6 +392,7 @@
 		555FB2122B759FC200EE14BD /* MockIdentifierDocumentResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2112B759FC200EE14BD /* MockIdentifierDocumentResolver.swift */; };
 		555FB2142B759FF100EE14BD /* MockRootOfTrustResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2132B759FF100EE14BD /* MockRootOfTrustResolver.swift */; };
 		555FB2162B75A2A900EE14BD /* IdentifierDocumentResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2152B75A2A900EE14BD /* IdentifierDocumentResolving.swift */; };
+		555FB2402B7AD85000EE14BD /* OpenId4VCIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB23F2B7AD85000EE14BD /* OpenId4VCIRequest.swift */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
@@ -922,6 +923,7 @@
 		555FB2112B759FC200EE14BD /* MockIdentifierDocumentResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIdentifierDocumentResolver.swift; sourceTree = "<group>"; };
 		555FB2132B759FF100EE14BD /* MockRootOfTrustResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRootOfTrustResolver.swift; sourceTree = "<group>"; };
 		555FB2152B75A2A900EE14BD /* IdentifierDocumentResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierDocumentResolving.swift; sourceTree = "<group>"; };
+		555FB23F2B7AD85000EE14BD /* OpenId4VCIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenId4VCIRequest.swift; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
@@ -2689,7 +2691,7 @@
 		55E2F07B2995561E0008010D /* OpenId */ = {
 			isa = PBXGroup;
 			children = (
-				555FB2292B7AAC2C00EE14BD /* OpenId4VCIRequest.swift */,
+				555FB23F2B7AD85000EE14BD /* OpenId4VCIRequest.swift */,
 				55E2F07C2995561E0008010D /* OpenIdPresentationRequest.swift */,
 				55E2F085299573C30008010D /* OpenIdVerifierStyle.swift */,
 				5585BDE629A6C38C0059710B /* InjectedIdToken.swift */,
@@ -3108,7 +3110,6 @@
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,
 				5552D3D629EF48B200B40302 /* SelfIssuedClaimsDescriptor.swift in Sources */,
 				55265ACF2B61B0D600BAD6A2 /* IdentifierManager.swift in Sources */,
-				555FB22A2B7AAC2C00EE14BD /* OpenId4VCIRequest.swift in Sources */,
 				5552D3B429EF486300B40302 /* SupportedVerifiablePresentationFormats.swift in Sources */,
 				5552D28629EF340200B40302 /* IdentifierService.swift in Sources */,
 				5552D47F29EF4AAB00B40302 /* JweEncoder.swift in Sources */,
@@ -3199,6 +3200,7 @@
 				550E320A298B0EA4004E7716 /* VerifiedIdClient.swift in Sources */,
 				559BD45B299D587200BD61AC /* VerifiedIdManifestIssuerStyle.swift in Sources */,
 				55265B082B71718600BAD6A2 /* LibraryNetworking.swift in Sources */,
+				555FB2402B7AD85000EE14BD /* OpenId4VCIRequest.swift in Sources */,
 				5552D4BA29EF4AC300B40302 /* Sha256.swift in Sources */,
 				5552D48D29EF4AAB00B40302 /* TokenSigning.swift in Sources */,
 				55DECBEB29B954F500D5C802 /* PresentationResponseContainer+WalletLibrary.swift in Sources */,

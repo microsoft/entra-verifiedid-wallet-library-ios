@@ -54,14 +54,15 @@ struct OpenId4VCIHandler: RequestHandling
         let metadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
         
-        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
+        try metadata.validateAuthorizationServers(credentialOffer: credentialOffer)
         
         // Validate signed metadata and get Root of Trust.
-        let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
+        let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: metadata)
         
         guard let config = metadata.getCredentialConfigurations(ids: credentialOffer.credential_configuration_ids).first else
         {
-            throw OpenId4VCIHandlerError.InputNotSupported
+            let errorMessage = "Request does not contain expected credential configuration."
+            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
         
         let requesterStyle = getRequesterStyle(metadata: metadata)
@@ -80,28 +81,39 @@ struct OpenId4VCIHandler: RequestHandling
                                  configuration: configuration)
     }
     
-    private func getGrant(credentialOffer: CredentialOffer) -> CredentialOfferGrant?
-    {
-        return credentialOffer.grants["authorization_code"]
-    }
-    
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
-    {
-        let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
-        return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
-    }
+     {
+         let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
+         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
+     }
+     
+     private func validateSignedMetadataAndGetRootOfTrust(credentialMetadata: CredentialMetadata) async throws -> RootOfTrust
+     {
+         let signedMetadata = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.signed_metadata,
+                                                                         propertyName: "signed_metadata")
+         
+         let credentialIssuer = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.credential_issuer,
+                                                                         propertyName: "credential_issuer")
+         
+         // Validate signed metadata and get Root of Trust.
+         let rootOfTrust = try await signedMetadataProcessor.process(signedMetadata: signedMetadata,
+                                                                     credentialIssuer: credentialIssuer)
+         return rootOfTrust
+     }
     
     // Only supports Access Token Requirement.
     private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
     {
         guard let grant = credentialOffer.grants["authorization_code"] else
         {
-            throw OpenId4VCIHandlerError.InputNotSupported
+            let errorMessage = "Request is not in the correct format."
+            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
         
         guard let scope = scope else
         {
-            throw OpenId4VCIHandlerError.InputNotSupported
+            let errorMessage = "Request is not in the correct format."
+            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
         
         return AccessTokenRequirement(configuration: grant.authorization_server,
