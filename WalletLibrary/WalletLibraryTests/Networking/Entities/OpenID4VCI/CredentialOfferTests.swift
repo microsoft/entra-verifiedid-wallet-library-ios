@@ -74,7 +74,7 @@ class CredentialOfferTests: XCTestCase
     
     private func createJSONCredentialOffer() -> [String: Any]
     {
-        var json: [String: Any] = [
+        let json: [String: Any] = [
             "credential_issuer": expectedCredentialIssuer,
             "issuer_session": expectedIssuerSession,
             "credential_configuration_ids": expectedCredentialIds,

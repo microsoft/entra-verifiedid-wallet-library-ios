@@ -3,12 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum OpenId4VCIHandlerError: Error
-{
-    case Unimplemented
-    case InputNotSupported
-}
-
 /**
  * Handles a Raw Request expected to be a Credential Offer and configures a VerifiedIdRequest object.
  */
@@ -16,9 +10,13 @@ struct OpenId4VCIHandler: RequestHandling
 {
     private let configuration: LibraryConfiguration
     
-    init(configuration: LibraryConfiguration)
+    private let signedMetadataProcessor: SignedCredentialMetadataProcessor
+    
+    init(configuration: LibraryConfiguration,
+         signedMetadataProcessor: SignedCredentialMetadataProcessor? = nil)
     {
         self.configuration = configuration
+        self.signedMetadataProcessor = signedMetadataProcessor ?? SignedCredentialMetadataProcessor(configuration: configuration)
     }
     
     /// Determines whether a given raw request can be handled by this handler.
@@ -48,12 +46,18 @@ struct OpenId4VCIHandler: RequestHandling
     {
         guard let requestJson = rawRequest as? [String: Any] else
         {
-            throw OpenId4VCIHandlerError.InputNotSupported
+            let errorMessage = "Request is not in the correct format."
+            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
         
-        // TODO: validate payloads.
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
         let metadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
+        
+        
+        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
+        
+        // Validate signed metadata and get Root of Trust.
+        let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
         
         guard let config = metadata.getCredentialConfigurations(ids: credentialOffer.credential_configuration_ids).first else
         {
@@ -69,7 +73,7 @@ struct OpenId4VCIHandler: RequestHandling
         
         return OpenId4VCIRequest(style: requesterStyle,
                                  verifiedIdStyle: verifiedIdStyle,
-                                 rootOfTrust: RootOfTrust(verified: false, source: ""),
+                                 rootOfTrust: rootOfTrust,
                                  requirement: requirement,
                                  credentialMetadata: metadata,
                                  credentialOffer: credentialOffer,
@@ -83,11 +87,7 @@ struct OpenId4VCIHandler: RequestHandling
     
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
-        guard let url = URL(string: url) else
-        {
-            throw OpenId4VCIHandlerError.InputNotSupported
-        }
-        
+        let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
     }
     

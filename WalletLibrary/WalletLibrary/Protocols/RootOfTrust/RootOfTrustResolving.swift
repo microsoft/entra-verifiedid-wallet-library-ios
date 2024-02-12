@@ -3,20 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-@testable import WalletLibrary
-
-struct MockClaims: Claims, Equatable 
+/**
+ * Defines the behavior of resolving the Root of Trust (aka Linked Domain Result).
+ */
+protocol RootOfTrustResolving
 {
-    let key: String
-    
-    let iat: Double?
-    
-    let exp: Double?
-    
-    init(key: String, iat: Double? = nil, exp: Double? = nil)
-    {
-        self.key = key
-        self.iat = iat
-        self.exp = exp
-    }
+    func resolve(using identifier: IdentifierDocument) async throws -> RootOfTrust
 }
