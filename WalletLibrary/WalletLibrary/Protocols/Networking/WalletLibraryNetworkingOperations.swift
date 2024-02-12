@@ -17,7 +17,7 @@ protocol WalletLibraryFetchOperation: InternalNetworkOperation
 /**
  * The Wallet Library Post Operation.
  */
-protocol WalletLibraryPostOperation: PostNetworkOperation
+protocol WalletLibraryPostOperation: InternalPostOperation
 {
     init(requestBody: RequestBody,
          url: URL,
