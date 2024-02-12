@@ -1,5 +1,4 @@
 # Microsoft Entra Wallet Library
-![badge-privatepreview]
 ![badge-packagemanagers-supported] 
 ![badge-pod-version] 
 ![badge-languages] 
