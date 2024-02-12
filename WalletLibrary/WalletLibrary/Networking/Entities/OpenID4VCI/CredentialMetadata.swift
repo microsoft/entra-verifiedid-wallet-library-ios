@@ -38,11 +38,12 @@ struct LocalizedIssuerDisplayDefinition: Decodable
     /// The name of the issuer.
     let name: String
     
+    /// The locale of the display definition.
     let locale: String?
 }
 
 /**
- * Extension for the Credential Metadata to define get credentials configuration operation.
+ * Extension for the Credential Metadata to get credentials configurations with given ids.
  */
 extension CredentialMetadata
 {

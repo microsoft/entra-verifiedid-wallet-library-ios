@@ -87,27 +87,3 @@ extension CredentialOfferGrant: MappableTarget
         return CredentialOfferGrant(authorization_server: authorizationServer)
     }
 }
-
-extension [String: CredentialOfferGrant]: Mappable
-{
-    func map(using mapper: Mapping) throws -> Requirement
-    {
-        var requirement: Requirement? = nil
-        for (key, value) in self
-        {
-            if key == "authorization_code"
-            {
-                requirement = AccessTokenRequirement(configuration: value.authorization_server,
-                                                     resourceId: "",
-                                                     scope: "")
-            }
-        }
-        
-        guard let req = requirement else
-        {
-            throw MappingError.PropertyNotPresent(property: "", in: "")
-        }
-        
-        return req
-    }
-}

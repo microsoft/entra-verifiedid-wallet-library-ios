@@ -69,7 +69,7 @@ struct OpenId4VCIHandler: RequestHandling
         
         return OpenId4VCIRequest(style: requesterStyle,
                                  verifiedIdStyle: verifiedIdStyle,
-                                 rootOfTrust: RootOfTrust(verified: false, source: ""), // TODO
+                                 rootOfTrust: RootOfTrust(verified: false, source: ""),
                                  requirement: requirement,
                                  credentialMetadata: metadata,
                                  credentialOffer: credentialOffer,
