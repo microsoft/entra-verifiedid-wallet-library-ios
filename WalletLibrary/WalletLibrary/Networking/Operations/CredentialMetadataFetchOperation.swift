@@ -39,7 +39,6 @@ struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
         self.urlRequest = URLRequest(url: url)
         
         /// Adds value to prefer header, appending if value already exists.
-        /// Adds value to prefer header, appending if value already exists.
         let preferHeader = [OpenID4VCINetworkConstants.PreferHeaderField: OpenID4VCINetworkConstants.InteropProfileVersion]
         addHeadersToURLRequest(headers: preferHeader)
         

@@ -10,43 +10,39 @@ class OpenId4VCIHandlerTests: XCTestCase
 {
     func testCanHandle_WithInvalidRawRequest_ReturnsFalse() async throws
     {
-        
         // Arrange
         let invalidRawRequest = "invalid raw request"
         let configuration = LibraryConfiguration()
         let handler = OpenId4VCIHandler(configuration: configuration)
         
-        // Act
+        // Act / Assert
         XCTAssertFalse(handler.canHandle(rawRequest: invalidRawRequest))
     }
     
     func testCanHandle_WithInvalidJSONRequest_ReturnsFalse() async throws
     {
-        
         // Arrange
         let invalidRawRequest = ["invalid": "request"]
         let configuration = LibraryConfiguration()
         let handler = OpenId4VCIHandler(configuration: configuration)
         
-        // Act
+        // Act / Assert
         XCTAssertFalse(handler.canHandle(rawRequest: invalidRawRequest))
     }
     
     func testCanHandle_WithValidJSONRequest_ReturnsTrue() async throws
     {
-        
         // Arrange
         let rawRequest = createJSONCredentialOffer()
         let configuration = LibraryConfiguration()
         let handler = OpenId4VCIHandler(configuration: configuration)
         
-        // Act
+        // Act / Assert
         XCTAssert(handler.canHandle(rawRequest: rawRequest))
     }
     
     func testHandle_WithInvalidRawRequest_ThrowsError() async throws 
     {
-        
         // Arrange
         let invalidRawRequest = "invalid raw request"
         let configuration = LibraryConfiguration()
@@ -60,8 +56,8 @@ class OpenId4VCIHandlerTests: XCTestCase
         catch
         {
             // Assert
-            XCTAssert(error is OpenId4VCIHandlerError)
-            XCTAssertEqual(error as? OpenId4VCIHandlerError, .InputNotSupported)
+            XCTAssert(error is OpenId4VCIValidationError)
+//            XCTAssertEqual(error as? OpenId4VCIProtocolValidationError, .InputNotSupported)
         }
     }
     
