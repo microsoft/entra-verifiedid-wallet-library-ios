@@ -10,19 +10,6 @@ struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
 {
     typealias ResponseBody = CredentialMetadata
     
-    /// The decoder for the Credential Metadata.
-    struct CredentialMetadataDecoder: Decoding
-    {
-        typealias ResponseBody = CredentialMetadata
-        
-        func decode(data: Data) throws -> CredentialMetadata
-        {
-            return try JSONDecoder().decode(CredentialMetadata.self, from: data)
-        }
-    }
-    
-    var decoder = CredentialMetadataDecoder()
-    
     var urlSession: URLSession
     
     var urlRequest: URLRequest

@@ -6,12 +6,22 @@
 /**
  * The Wallet Library Fetch Operation.
  */
-protocol WalletLibraryFetchOperation: InternalNetworkOperation
+protocol WalletLibraryFetchOperation: InternalNetworkOperation where ResponseBody: Decodable
 {
+    associatedtype Decoder = SimpleDecoder<ResponseBody>
+    
     init(url: URL,
          additionalHeaders: [String: String]?,
          urlSession: URLSession,
          correlationVector: VerifiedIdCorrelationHeader?)
+}
+
+extension WalletLibraryFetchOperation
+{
+    var decoder: SimpleDecoder<ResponseBody>
+    {
+        SimpleDecoder()
+    }
 }
 
 /**
