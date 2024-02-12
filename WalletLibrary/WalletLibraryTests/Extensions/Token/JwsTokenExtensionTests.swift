@@ -34,7 +34,7 @@ class JwsTokenExtensionTests: XCTestCase
         XCTAssertEqual(expectedKeyId, keyId?.keyId)
     }
     
-    func testValidateExpAndIat_WithValidateProps_DoesNotThrow() throws
+    func testValidateExp_WithValidateProps_DoesNotThrow() throws
     {
         // Arrange
         let exp = (Date().timeIntervalSince1970).rounded(.down)
@@ -43,10 +43,10 @@ class JwsTokenExtensionTests: XCTestCase
         let token = JwsToken(headers: Header(), content: claims)!
         
         // Act / Assert
-        XCTAssertNoThrow(try token.validateIatAndExp())
+        XCTAssertNoThrow(try token.validateExpIfPresent())
     }
     
-    func testValidateExpAndIat_WithExpiredToken_DoesThrows() throws
+    func testValidateExp_WithExpiredToken_DoesThrows() throws
     {
         // Arrange
         let exp = (Date().timeIntervalSince1970).rounded(.down) - 6000
@@ -55,14 +55,14 @@ class JwsTokenExtensionTests: XCTestCase
         let token = JwsToken(headers: Header(), content: claims)!
         
         // Act / Assert
-        XCTAssertThrowsError(try token.validateIatAndExp()) { error in
+        XCTAssertThrowsError(try token.validateExpIfPresent()) { error in
             XCTAssert(error is TokenValidationError)
             XCTAssertEqual((error as? TokenValidationError)?.message, "Token has expired.")
             XCTAssertEqual((error as? TokenValidationError)?.code, "token_expired")
         }
     }
     
-    func testValidateExpAndIat_WithInvalidIat_DoesThrows() throws
+    func testValidateIat_WithInvalidIat_DoesThrows() throws
     {
         // Arrange
         let exp = (Date().timeIntervalSince1970).rounded(.down)
@@ -71,7 +71,7 @@ class JwsTokenExtensionTests: XCTestCase
         let token = JwsToken(headers: Header(), content: claims)!
         
         // Act / Assert
-        XCTAssertThrowsError(try token.validateIatAndExp()) { error in
+        XCTAssertThrowsError(try token.validateIatIfPresent()) { error in
             XCTAssert(error is TokenValidationError)
             XCTAssertEqual((error as? TokenValidationError)?.message,
                            "Token iat has not occurred.")
@@ -80,7 +80,7 @@ class JwsTokenExtensionTests: XCTestCase
         }
     }
     
-    func testValidateExpAndIat_WithMissingIat_DoesThrows() throws
+    func testValidateIat_WithMissingIat_DoesNotThrows() throws
     {
         // Arrange
         let exp = (Date().timeIntervalSince1970).rounded(.down)
@@ -88,14 +88,10 @@ class JwsTokenExtensionTests: XCTestCase
         let token = JwsToken(headers: Header(), content: claims)!
         
         // Act / Assert
-        XCTAssertThrowsError(try token.validateIatAndExp()) { error in
-            XCTAssert(error is MappingError)
-            XCTAssertEqual(error as? MappingError, .PropertyNotPresent(property: "iat",
-                                                                       in: "MockClaims"))
-        }
+        XCTAssertNoThrow(try token.validateIatIfPresent())
     }
     
-    func testValidateExpAndIat_WithMissingExp_DoesThrows() throws
+    func testValidateExp_WithMissingExp_DoesThrows() throws
     {
         // Arrange
         let iat = (Date().timeIntervalSince1970).rounded(.down)
@@ -103,11 +99,7 @@ class JwsTokenExtensionTests: XCTestCase
         let token = JwsToken(headers: Header(), content: claims)!
         
         // Act / Assert
-        XCTAssertThrowsError(try token.validateIatAndExp()) { error in
-            XCTAssert(error is MappingError)
-            XCTAssertEqual(error as? MappingError, .PropertyNotPresent(property: "exp",
-                                                                       in: "MockClaims"))
-        }
+        XCTAssertNoThrow(try token.validateExpIfPresent())
     }
     
 }

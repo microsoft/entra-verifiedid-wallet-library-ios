@@ -32,29 +32,28 @@ extension JwsToken
                                 keyId: String(components[1]))
     }
     
-    /// Validates the `iat` (Issued At) and `exp` (Expiration Time) claims of the token.
-    func validateIatAndExp() throws
+    func validateIatIfPresent(withClockSkew skew: Double = 300) throws
     {
-        let exp = try T.getRequiredProperty(property: content.exp, propertyName: "exp")
-        let iat = try T.getRequiredProperty(property: content.iat, propertyName: "iat")
-        
-        // Adjusts for a 5-minute (300 seconds) delay.
-        guard getCurrentTimeInSeconds(delay: Double(-300)) <= exp else
+        if let iat = content.iat,
+           getCurrentTimeInSeconds(skew: skew) <= iat
         {
-            throw TokenValidationError.TokenHasExpired()
-        }
-        
-        // Adjusts for a 5-minute (300 seconds) skew.
-        guard getCurrentTimeInSeconds(delay: Double(300)) >= iat else
-        {
-            throw TokenValidationError.IatHasNotOccurred()
+                throw TokenValidationError.IatHasNotOccurred()
         }
     }
     
-    private func getCurrentTimeInSeconds(delay: Double) -> Double 
+    func validateExpIfPresent(withClockSkew skew: Double = 300) throws
+    {
+        if let exp = content.exp,
+           getCurrentTimeInSeconds(skew: Double(-300)) >= exp
+        {
+            throw TokenValidationError.TokenHasExpired()
+        }
+    }
+    
+    private func getCurrentTimeInSeconds(skew: Double) -> Double
     {
         let currentTimeInSeconds = (Date().timeIntervalSince1970).rounded(.down)
-        return currentTimeInSeconds + delay
+        return currentTimeInSeconds + skew
     }
 }
 

@@ -92,6 +92,7 @@ extension SignedMetadata
             throw TokenValidationError.InvalidProperty("sub", actual: content.sub, expected: expectedSubject)
         }
         
-        try validateIatAndExp()
+        try validateIatIfPresent()
+        try validateExpIfPresent()
     }
 }
