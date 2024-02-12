@@ -10,13 +10,13 @@ struct SignedCredentialMetadataProcessor
 {
     private let tokenVerifier: TokenVerifying
     
-    private let identifierDocumentResolver: IdentifierDocumentResolver
+    private let identifierDocumentResolver: IdentifierDocumentResolving
     
-    private let rootOfTrustResolver: RootOfTrustResolver
+    private let rootOfTrustResolver: RootOfTrustResolving
     
     init(tokenVerifier: TokenVerifying, 
-         identifierDocumentResolver: IdentifierDocumentResolver,
-         rootOfTrustResolver: RootOfTrustResolver)
+         identifierDocumentResolver: IdentifierDocumentResolving,
+         rootOfTrustResolver: RootOfTrustResolving)
     {
         self.tokenVerifier = tokenVerifier
         self.identifierDocumentResolver = identifierDocumentResolver

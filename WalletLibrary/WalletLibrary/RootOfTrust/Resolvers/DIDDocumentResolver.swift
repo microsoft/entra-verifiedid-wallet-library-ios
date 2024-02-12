@@ -7,7 +7,7 @@
  * Responsible for resolving Identifier Document using VC SDK DIDDocumentNetworkCalls.
  * TODO: shift to Wallet Library networking layer.
  */
-struct DIDDocumentResolver: IdentifierDocumentResolver
+struct DIDDocumentResolver: IdentifierDocumentResolving
 {
     private let identifierNetworkCalls: DIDDocumentNetworkCalls
     

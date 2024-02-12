@@ -4,9 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Defines the behavior of resolving an Identifier Document.
+ * Defines the behavior of resolving the Root of Trust (aka Linked Domain Result).
  */
-protocol IdentifierDocumentResolver
+protocol RootOfTrustResolving
 {
-    func resolve(identifier: String) async throws -> IdentifierDocument
+    func resolve(using identifier: IdentifierDocument) async throws -> RootOfTrust
 }

@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockIdentifierDocumentResolver: IdentifierDocumentResolver
+struct MockIdentifierDocumentResolver: IdentifierDocumentResolving
 {
     enum ExpectedError: Error
     {
