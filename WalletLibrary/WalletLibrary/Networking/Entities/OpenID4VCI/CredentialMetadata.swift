@@ -25,8 +25,25 @@ struct CredentialMetadata: Decodable
     
     /// A dictionary of Credential IDs to the corresponding credential configuration.
     let credential_configurations_supported: [String: CredentialConfiguration]?
+    
+    /// The display information for the issuer.
+    let display: [LocalizedIssuerDisplayDefinition]
 }
 
+/**
+ * The localized display definition for the issuer.
+ */
+struct LocalizedIssuerDisplayDefinition: Decodable
+{
+    /// The name of the issuer.
+    let name: String
+    
+    let locale: String?
+}
+
+/**
+ * Extension for the Credential Metadata to define get credentials configuration operation.
+ */
 extension CredentialMetadata
 {
     func getCredentialConfigurations(ids: [String]) -> [CredentialConfiguration]

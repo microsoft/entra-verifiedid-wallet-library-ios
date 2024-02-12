@@ -52,7 +52,7 @@ struct CredentialSubjectDefinition: Decodable
 }
 
 /**
- * Describes the way to display the credential based on a specific locale..
+ * Describes the way to display the credential based on a specific locale.
  */
 struct LocalizedDisplayDefinition: Decodable
 {
@@ -64,6 +64,9 @@ struct LocalizedDisplayDefinition: Decodable
     
     /// Describes the logo metadata for the credential.
     let logo: LogoDisplayDefinition?
+    
+    /// The description of the credential.
+    let description: String?
     
     /// The background color of the credential.
     let background_color: String?
@@ -95,28 +98,5 @@ extension LogoDisplayDefinition: Mappable
         
         return VerifiedIdLogo(url: URL(string: uri),
                               altText: alt_text)
-    }
-}
-
-
-
-extension LocalizedDisplayDefinition: Mappable
-{
-    func map(using mapper: Mapping) throws -> VerifiedIdStyle
-    {
-        var verifiedIdLogo: VerifiedIdLogo? = nil
-        if let logo = self.logo
-        {
-            verifiedIdLogo = try mapper.map(logo)
-        }
-
-        let basicVerifiedIdStyle = BasicVerifiedIdStyle(name: name ?? "",
-                                                        issuer: "",
-                                                        backgroundColor: background_color ?? "",
-                                                        textColor: text_color ?? "",
-                                                        description: "",
-                                                        logo: verifiedIdLogo)
-        
-        return basicVerifiedIdStyle
     }
 }

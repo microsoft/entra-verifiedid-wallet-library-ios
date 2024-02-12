@@ -16,7 +16,7 @@ struct OpenId4VCIHandler: RequestHandling
 {
     private let configuration: LibraryConfiguration
     
-    init(configuration: LibraryConfiguration) 
+    init(configuration: LibraryConfiguration)
     {
         self.configuration = configuration
     }
@@ -53,9 +53,32 @@ struct OpenId4VCIHandler: RequestHandling
         
         // TODO: validate payloads.
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
-        let _ = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
+        let metadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
-        throw OpenId4VCIHandlerError.Unimplemented
+        guard let config = metadata.getCredentialConfigurations(ids: credentialOffer.credential_configuration_ids).first else
+        {
+            throw OpenId4VCIHandlerError.InputNotSupported
+        }
+        
+        let requesterStyle = getRequesterStyle(metadata: metadata)
+        let verifiedIdStyle = getVerifiedIdStyle(metadata: metadata,
+                                                 credentialConfigIds: credentialOffer.credential_configuration_ids,
+                                                 issuerName: requesterStyle.name)
+        
+        let requirement = try getRequirement(scope: config.scope, credentialOffer: credentialOffer)
+        
+        return OpenId4VCIRequest(style: requesterStyle,
+                                 verifiedIdStyle: verifiedIdStyle,
+                                 rootOfTrust: RootOfTrust(verified: false, source: ""), // TODO
+                                 requirement: requirement,
+                                 credentialMetadata: metadata,
+                                 credentialOffer: credentialOffer,
+                                 configuration: configuration)
+    }
+    
+    private func getGrant(credentialOffer: CredentialOffer) -> CredentialOfferGrant?
+    {
+        return credentialOffer.grants["authorization_code"]
     }
     
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
@@ -66,5 +89,49 @@ struct OpenId4VCIHandler: RequestHandling
         }
         
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
+    }
+    
+    // Only supports Access Token Requirement.
+    private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
+    {
+        guard let grant = credentialOffer.grants["authorization_code"] else
+        {
+            throw OpenId4VCIHandlerError.InputNotSupported
+        }
+        
+        guard let scope = scope else
+        {
+            throw OpenId4VCIHandlerError.InputNotSupported
+        }
+        
+        return AccessTokenRequirement(configuration: grant.authorization_server,
+                                      resourceId: "", // resource id is not needed.
+                                      scope: scope)
+    }
+    
+    private func getRequesterStyle(metadata: CredentialMetadata) -> RequesterStyle
+    {
+        let issuerName = metadata.display.first?.name
+        let issuerStyle = VerifiedIdManifestIssuerStyle(name: issuerName ?? "")
+        return issuerStyle
+    }
+    
+    private func getVerifiedIdStyle(metadata: CredentialMetadata,
+                                    credentialConfigIds: [String],
+                                    issuerName: String) -> VerifiedIdStyle
+    {
+        // Only support one right now.
+        let config = metadata.getCredentialConfigurations(ids: credentialConfigIds).first
+        let definition = config?.credential_definition?.display?.first
+        let logo = definition?.logo.flatMap { try? configuration.mapper.map($0) }
+        
+        let style = BasicVerifiedIdStyle(name: definition?.name ?? "",
+                                         issuer: issuerName,
+                                         backgroundColor: definition?.background_color ?? "",
+                                         textColor: definition?.text_color ?? "",
+                                         description: "",
+                                         logo: logo)
+        
+        return style
     }
 }
