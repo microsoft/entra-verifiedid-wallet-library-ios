@@ -16,6 +16,10 @@ protocol WalletLibraryFetchOperation: InternalNetworkOperation where ResponseBod
          correlationVector: VerifiedIdCorrelationHeader?)
 }
 
+/**
+ * An extension for the `WalletLibraryFetchOperation` to have a simple decoder
+ * that just decodes JSON by default.
+ */
 extension WalletLibraryFetchOperation
 {
     var decoder: SimpleDecoder<ResponseBody>
@@ -39,6 +43,10 @@ protocol WalletLibraryPostOperation: InternalPostOperation where ResponseBody: D
          correlationVector: VerifiedIdCorrelationHeader?)
 }
 
+/**
+ * An extension for the `WalletLibraryPostOperation`
+ * to have a simple decoder and a simple encoder to handle JSON by default.
+ */
 extension WalletLibraryPostOperation
 {
     var encoder: SimpleEncoder<RequestBody>
@@ -52,6 +60,9 @@ extension WalletLibraryPostOperation
     }
 }
 
+/**
+ * A Simple Encoder to act as default to handle JSON.
+ */
 struct SimpleEncoder<T: Encodable>: Encoding
 {
     func encode(value: T) throws -> Data
@@ -60,6 +71,9 @@ struct SimpleEncoder<T: Encodable>: Encoding
     }
 }
 
+/**
+ * A Simple Decoder to act as default to handle JSON.
+ */
 struct SimpleDecoder<T: Decodable>: Decoding
 {
     func decode(data: Data) throws -> T
