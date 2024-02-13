@@ -10,6 +10,19 @@ class CredentialMetadataTests: XCTestCase
 {
     private let mapper = Mapper()
     
+    func testGetPreferredLocalizedIssuerDisplayDefinition_WhenConfigValuesAreNil_ReturnStyle() async throws
+    {
+        // Arrange
+        let metadata = createCredentialMetadata(issuerName: "expectedIssuerName")
+        
+        // Act
+        let result = metadata.getPreferredLocalizedIssuerDisplayDefinition()
+        
+        // Assert
+        XCTAssert(result is VerifiedIdManifestIssuerStyle)
+        XCTAssertEqual(result.name, "expectedIssuerName")
+    }
+    
     func testGetLocalizedVerifiedIdStyle_WhenConfigValuesAreNil_ReturnVerifiedIdStyle() async throws
     {
         // Arrange
@@ -105,5 +118,18 @@ class CredentialMetadataTests: XCTestCase
         XCTAssertEqual(basicVerifiedIdStyle.description, "expectedDescription")
         XCTAssertEqual(basicVerifiedIdStyle.name, "expectedName")
         XCTAssertEqual(basicVerifiedIdStyle.textColor, "expectedTextColor")
+    }
+    
+    private func createCredentialMetadata(expectedConfigs: [String: CredentialConfiguration] = [:],
+                                          issuerName: String = "issuerName") -> CredentialMetadata
+    {
+        let metadata = CredentialMetadata(credential_issuer: "credentialIssuer",
+                                          authorization_servers: ["expectedAuthorizationServer"],
+                                          credential_endpoint: nil,
+                                          notification_endpoint: nil,
+                                          signed_metadata: "eymockToken",
+                                          credential_configurations_supported: expectedConfigs,
+                                          display: [LocalizedIssuerDisplayDefinition(name: issuerName, locale: nil)])
+        return metadata
     }
 }
