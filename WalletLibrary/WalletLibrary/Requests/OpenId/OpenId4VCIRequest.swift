@@ -54,8 +54,8 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     public func complete() async -> VerifiedIdResult<VerifiedId>
     {
         let result: VerifiedIdResult<VerifiedId> = await VerifiedIdResult<VerifiedId>.getResult {
-            let errorMessage = "Request is not in the correct format."
-            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
+            let errorMessage = "Not implemented."
+            throw VerifiedIdError(message: errorMessage, code: "")
         }
         
         return result
@@ -66,8 +66,8 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     public func cancel(message: String?) async -> VerifiedIdResult<Void>
     {
         let result = await VerifiedIdResult<VerifiedId>.getResult {
-            let errorMessage = "Request is not in the correct format."
-            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
+            let errorMessage = "Not implemented."
+            throw VerifiedIdError(message: errorMessage, code: "")
         }
         
         return result
