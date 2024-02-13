@@ -42,11 +42,27 @@ struct CredentialDefinition: Decodable
     let display: [LocalizedDisplayDefinition]?
 }
 
-extension CredentialDefinition
+extension CredentialConfiguration
 {
-    func getPreferredLocalizedDisplayDefinition() -> LocalizedDisplayDefinition?
+    /// Get `VerifiedIdStyle` from metadata in preferred locale.
+    func map(withIssuerName issuerName: String, mapper: any Mapping) -> VerifiedIdStyle
     {
-        guard let displayDefinitions = display else
+        let definition = getPreferredLocalizedDisplayDefinition()
+        let logo = definition?.logo.flatMap { try? mapper.map($0) }
+        
+        let style = BasicVerifiedIdStyle(name: definition?.name ?? "",
+                                         issuer: issuerName,
+                                         backgroundColor: definition?.background_color ?? "",
+                                         textColor: definition?.text_color ?? "",
+                                         description: "",
+                                         logo: logo)
+        
+        return style
+    }
+    
+    private func getPreferredLocalizedDisplayDefinition() -> LocalizedDisplayDefinition?
+    {
+        guard let displayDefinitions = self.credential_definition?.display else
         {
             return nil
         }

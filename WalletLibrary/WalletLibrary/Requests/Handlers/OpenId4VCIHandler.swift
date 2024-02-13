@@ -66,9 +66,9 @@ struct OpenId4VCIHandler: RequestHandling
         let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into public `Style` data models.
-        let requesterStyle = getRequesterStyle(metadata: credentialMetadata)
-        let verifiedIdStyle = getVerifiedIdStyle(credentialConfig: credentialConfig,
-                                                 issuerName: requesterStyle.name)
+        let requesterStyle = credentialMetadata.getPreferredLocalizedIssuerDisplayDefinition()
+        let verifiedIdStyle = credentialConfig.map(withIssuerName: requesterStyle.name,
+                                                   mapper: configuration.mapper)
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into Requirement.
         let requirement = try getRequirement(scope: credentialConfig.scope, credentialOffer: credentialOffer)
@@ -124,30 +124,5 @@ struct OpenId4VCIHandler: RequestHandling
         return AccessTokenRequirement(configuration: grant.authorization_server,
                                       resourceId: "",
                                       scope: scope)
-    }
-    
-    /// Get `RequesterStyle` from metadata.
-    private func getRequesterStyle(metadata: CredentialMetadata) -> RequesterStyle
-    {
-        let issuerName = metadata.display?.first?.name
-        let issuerStyle = VerifiedIdManifestIssuerStyle(name: issuerName ?? "")
-        return issuerStyle
-    }
-    
-    /// Get `VerifiedIdStyle` from metadata in preferred locale.
-    private func getVerifiedIdStyle(credentialConfig: CredentialConfiguration,
-                                    issuerName: String) -> VerifiedIdStyle
-    {
-        let definition = credentialConfig.credential_definition?.getPreferredLocalizedDisplayDefinition()
-        let logo = definition?.logo.flatMap { try? configuration.mapper.map($0) }
-        
-        let style = BasicVerifiedIdStyle(name: definition?.name ?? "",
-                                         issuer: issuerName,
-                                         backgroundColor: definition?.background_color ?? "",
-                                         textColor: definition?.text_color ?? "",
-                                         description: "",
-                                         logo: logo)
-        
-        return style
     }
 }
