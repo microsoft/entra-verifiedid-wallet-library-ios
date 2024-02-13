@@ -392,6 +392,7 @@
 		555FB2122B759FC200EE14BD /* MockIdentifierDocumentResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2112B759FC200EE14BD /* MockIdentifierDocumentResolver.swift */; };
 		555FB2142B759FF100EE14BD /* MockRootOfTrustResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2132B759FF100EE14BD /* MockRootOfTrustResolver.swift */; };
 		555FB2162B75A2A900EE14BD /* IdentifierDocumentResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2152B75A2A900EE14BD /* IdentifierDocumentResolving.swift */; };
+		555FB23A2B7AD67600EE14BD /* OpenID4VCIPostOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2392B7AD67600EE14BD /* OpenID4VCIPostOperation.swift */; };
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
@@ -922,6 +923,7 @@
 		555FB2112B759FC200EE14BD /* MockIdentifierDocumentResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIdentifierDocumentResolver.swift; sourceTree = "<group>"; };
 		555FB2132B759FF100EE14BD /* MockRootOfTrustResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRootOfTrustResolver.swift; sourceTree = "<group>"; };
 		555FB2152B75A2A900EE14BD /* IdentifierDocumentResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierDocumentResolving.swift; sourceTree = "<group>"; };
+		555FB2392B7AD67600EE14BD /* OpenID4VCIPostOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenID4VCIPostOperation.swift; sourceTree = "<group>"; };
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
@@ -1167,6 +1169,7 @@
 		55265AFF2B6D936900BAD6A2 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				555FB2392B7AD67600EE14BD /* OpenID4VCIPostOperation.swift */,
 				55265B002B6D938800BAD6A2 /* OpenID4VCIRequestNetworkOperation.swift */,
 				55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */,
 			);
@@ -3049,6 +3052,7 @@
 				5552D45529EF4A8100B40302 /* SimpleFailureHandler.swift in Sources */,
 				5552D3A829EF483900B40302 /* ResponseContaining.swift in Sources */,
 				55DECC2E29BB8DA800D5C802 /* GroupConstraint.swift in Sources */,
+				555FB23A2B7AD67600EE14BD /* OpenID4VCIPostOperation.swift in Sources */,
 				5552D4D029EF4AC300B40302 /* VCSDKConfigurable.swift in Sources */,
 				5552D3C329EF489400B40302 /* IONDocumentPatch.swift in Sources */,
 				5534E667294A0B6C005D0765 /* Mappable.swift in Sources */,

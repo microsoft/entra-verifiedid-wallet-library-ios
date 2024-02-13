@@ -6,21 +6,24 @@
 /**
  * The Network Operation for the Credential Metadata fetch request.
  */
-struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
+struct OpenID4VCIPostOperation: WalletLibraryPostOperation
 {
-    typealias ResponseBody = CredentialMetadata
+    typealias RequestBody = RawOpenID4VCIRequest
+    typealias ResponseBody = RawOpenID4VCIResponse
     
-    var urlSession: URLSession
+    let urlSession: URLSession
     
     var urlRequest: URLRequest
     
     var correlationVector: VerifiedIdCorrelationHeader?
     
-    init(url: URL,
+    init(requestBody: RawOpenID4VCIRequest, 
+         url: URL,
          additionalHeaders: [String : String]?,
          urlSession: URLSession,
-         correlationVector: VerifiedIdCorrelationHeader?)
+         correlationVector: VerifiedIdCorrelationHeader?) 
     {
+        
         self.urlSession = urlSession
         self.correlationVector = correlationVector
         self.urlRequest = URLRequest(url: url)
