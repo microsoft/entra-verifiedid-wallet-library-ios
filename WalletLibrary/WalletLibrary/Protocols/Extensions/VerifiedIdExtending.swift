@@ -6,7 +6,7 @@
 /**
   * Extension to the Verified ID Wallet library
  */
-protocol VerifiedIdExtnding {
+public protocol VerifiedIdExtendable {
     /**
      * List of prefer headers to include when resolving the request to convey extension support
      */
@@ -15,5 +15,5 @@ protocol VerifiedIdExtnding {
     /**
      * List of RequestProcessorExtending to be injected into RequestProcessing classes
      */
-    var requestProcessorExtensions: [RequestProcessorExtending]? { get }
+    var requestProcessorExtensions: [RequestProcessorExtendable]? { get }
 }

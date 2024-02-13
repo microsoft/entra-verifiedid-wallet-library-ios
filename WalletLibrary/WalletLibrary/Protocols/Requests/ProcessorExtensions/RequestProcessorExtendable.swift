@@ -6,7 +6,7 @@
 /**
   * Extension for the RequestProcessor
  */
-protocol RequestProcessorExtending {
+public protocol RequestProcessorExtendable {
     /**
      * Associated RequestProcessor this extension should be injected into
      */

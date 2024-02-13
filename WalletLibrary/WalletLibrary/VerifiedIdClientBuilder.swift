@@ -90,6 +90,12 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    public func with(extension: VerifiedIdExtendable) -> VerifiedIdClientBuilder {
+        // TODO: add prefer headers to requestResolverFactory
+        // TODO: add RequestProcessorExtendables to RequestProcessors
+        return self
+    }
+    
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
         let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(),
                                                          configuration: configuration)
