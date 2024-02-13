@@ -41,7 +41,6 @@ struct OpenId4VCIHandler: RequestHandling
     /// validates the request, and returns a `VerifiedIdRequest` object.
     ///
     /// - Parameter rawRequest: The raw request to be processed, expected to be a dictionary.
-    /// TODO: finish implementation in next PR.
     func handle(rawRequest: Any) async throws -> any VerifiedIdRequest
     {
         guard let requestJson = rawRequest as? [String: Any] else
@@ -53,16 +52,14 @@ struct OpenId4VCIHandler: RequestHandling
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
         let metadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
-        
+        // Validate properties on signed metadata and get Root of Trust.
         try metadata.validateAuthorizationServers(credentialOffer: credentialOffer)
-        
-        // Validate signed metadata and get Root of Trust.
         let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: metadata)
         
         guard let config = metadata.getCredentialConfigurations(ids: credentialOffer.credential_configuration_ids).first else
         {
             let errorMessage = "Request does not contain expected credential configuration."
-            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
+            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
         }
         
         let requesterStyle = getRequesterStyle(metadata: metadata)
@@ -82,24 +79,24 @@ struct OpenId4VCIHandler: RequestHandling
     }
     
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
-     {
-         let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
-         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
-     }
-     
-     private func validateSignedMetadataAndGetRootOfTrust(credentialMetadata: CredentialMetadata) async throws -> RootOfTrust
-     {
-         let signedMetadata = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.signed_metadata,
-                                                                         propertyName: "signed_metadata")
-         
-         let credentialIssuer = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.credential_issuer,
-                                                                         propertyName: "credential_issuer")
-         
-         // Validate signed metadata and get Root of Trust.
-         let rootOfTrust = try await signedMetadataProcessor.process(signedMetadata: signedMetadata,
-                                                                     credentialIssuer: credentialIssuer)
-         return rootOfTrust
-     }
+    {
+        let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
+        return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
+    }
+    
+    private func validateSignedMetadataAndGetRootOfTrust(credentialMetadata: CredentialMetadata) async throws -> RootOfTrust
+    {
+        let signedMetadata = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.signed_metadata,
+                                                                        propertyName: "signed_metadata")
+        
+        let credentialIssuer = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.credential_issuer,
+                                                                          propertyName: "credential_issuer")
+        
+        // Validate signed metadata and get Root of Trust.
+        let rootOfTrust = try await signedMetadataProcessor.process(signedMetadata: signedMetadata,
+                                                                    credentialIssuer: credentialIssuer)
+        return rootOfTrust
+    }
     
     // Only supports Access Token Requirement.
     private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
