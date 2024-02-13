@@ -11,7 +11,7 @@ struct OpenID4VCIPostOperation: WalletLibraryPostOperation
     typealias RequestBody = RawOpenID4VCIRequest
     typealias ResponseBody = RawOpenID4VCIResponse
     
-    var urlSession: URLSession
+    let urlSession: URLSession
     
     var urlRequest: URLRequest
     
