@@ -45,7 +45,7 @@ struct CredentialDefinition: Decodable
 extension CredentialConfiguration
 {
     /// Get `VerifiedIdStyle` from metadata in preferred locale.
-    func map(withIssuerName issuerName: String, mapper: any Mapping) -> VerifiedIdStyle
+    func getLocalizedVerifiedIdStyle(withIssuerName issuerName: String, mapper: any Mapping) -> VerifiedIdStyle
     {
         let definition = getPreferredLocalizedDisplayDefinition()
         let logo = definition?.logo.flatMap { try? mapper.map($0) }
@@ -54,7 +54,7 @@ extension CredentialConfiguration
                                          issuer: issuerName,
                                          backgroundColor: definition?.background_color ?? "",
                                          textColor: definition?.text_color ?? "",
-                                         description: "",
+                                         description: definition?.description ?? "",
                                          logo: logo)
         
         return style

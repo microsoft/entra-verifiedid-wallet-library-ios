@@ -67,8 +67,8 @@ struct OpenId4VCIHandler: RequestHandling
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into public `Style` data models.
         let requesterStyle = credentialMetadata.getPreferredLocalizedIssuerDisplayDefinition()
-        let verifiedIdStyle = credentialConfig.map(withIssuerName: requesterStyle.name,
-                                                   mapper: configuration.mapper)
+        let verifiedIdStyle = credentialConfig.getLocalizedVerifiedIdStyle(withIssuerName: requesterStyle.name,
+                                                                           mapper: configuration.mapper)
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into Requirement.
         let requirement = try getRequirement(scope: credentialConfig.scope, credentialOffer: credentialOffer)
