@@ -49,41 +49,47 @@ struct OpenId4VCIHandler: RequestHandling
             throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
         
+        /// Transform raw request into `CredentialOffer` and fetch `CredentialMetadata`.
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
-        let metadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
+        let credentialMetadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
-        // Validate properties on signed metadata and get Root of Trust.
-        try metadata.validateAuthorizationServers(credentialOffer: credentialOffer)
-        let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: metadata)
-        
-        guard let config = metadata.getCredentialConfigurations(ids: credentialOffer.credential_configuration_ids).first else
+        /// Validate the `CredentialMetadata` contains credential config ids from `CredentialOffer`.
+        let configIds = credentialOffer.credential_configuration_ids
+        guard let credentialConfig = credentialMetadata.getCredentialConfigurations(ids: configIds).first else
         {
             let errorMessage = "Request does not contain expected credential configuration."
             throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
         }
         
-        let requesterStyle = getRequesterStyle(metadata: metadata)
-        let verifiedIdStyle = getVerifiedIdStyle(metadata: metadata,
-                                                 credentialConfigIds: credentialOffer.credential_configuration_ids,
+        /// Validate properties on signed metadata and get `RootOfTrust`.
+        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
+        let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
+        
+        /// Transform `CredentialMetadata` and `CredentialOffer` into public `Style` data models.
+        let requesterStyle = getRequesterStyle(metadata: credentialMetadata)
+        let verifiedIdStyle = getVerifiedIdStyle(credentialConfig: credentialConfig,
                                                  issuerName: requesterStyle.name)
         
-        let requirement = try getRequirement(scope: config.scope, credentialOffer: credentialOffer)
+        /// Transform `CredentialMetadata` and `CredentialOffer` into Requirement.
+        let requirement = try getRequirement(scope: credentialConfig.scope, credentialOffer: credentialOffer)
         
         return OpenId4VCIRequest(style: requesterStyle,
                                  verifiedIdStyle: verifiedIdStyle,
                                  rootOfTrust: rootOfTrust,
                                  requirement: requirement,
-                                 credentialMetadata: metadata,
+                                 credentialMetadata: credentialMetadata,
                                  credentialOffer: credentialOffer,
                                  configuration: configuration)
     }
     
+    /// Fetch `CredentialMetadata` from "credential_issuer" .
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
         let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
     }
     
+    /// Validate the signed metadata on `CredentialMetadata` and resolve `RootOfTrust` using signed metadata processor.
     private func validateSignedMetadataAndGetRootOfTrust(credentialMetadata: CredentialMetadata) async throws -> RootOfTrust
     {
         let signedMetadata = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.signed_metadata,
@@ -98,26 +104,29 @@ struct OpenId4VCIHandler: RequestHandling
         return rootOfTrust
     }
     
-    // Only supports Access Token Requirement.
+    /// Transform `CredentialOffer` and `scope` from `CredentialMetadata` to `Requirement`.
+    /// note: only support Access Token Requirement.
     private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
     {
         guard let grant = credentialOffer.grants["authorization_code"] else
         {
-            let errorMessage = "Request is not in the correct format."
+            let errorMessage = "Grants does not contain 'authorization_code' property."
             throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
         
         guard let scope = scope else
         {
-            let errorMessage = "Request is not in the correct format."
-            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
+            let errorMessage = "Credential Configuration does not contain scope value."
+            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
         }
         
+        // resource id is not needed.
         return AccessTokenRequirement(configuration: grant.authorization_server,
-                                      resourceId: "", // resource id is not needed.
+                                      resourceId: "",
                                       scope: scope)
     }
     
+    /// Get `RequesterStyle` from metadata.
     private func getRequesterStyle(metadata: CredentialMetadata) -> RequesterStyle
     {
         let issuerName = metadata.display.first?.name
@@ -125,13 +134,11 @@ struct OpenId4VCIHandler: RequestHandling
         return issuerStyle
     }
     
-    private func getVerifiedIdStyle(metadata: CredentialMetadata,
-                                    credentialConfigIds: [String],
+    /// Get `VerifiedIdStyle` from metadata in preferred locale.
+    private func getVerifiedIdStyle(credentialConfig: CredentialConfiguration,
                                     issuerName: String) -> VerifiedIdStyle
     {
-        // Only support one right now.
-        let config = metadata.getCredentialConfigurations(ids: credentialConfigIds).first
-        let definition = config?.credential_definition?.display?.first
+        let definition = credentialConfig.credential_definition?.getPreferredLocalizedDisplayDefinition()
         let logo = definition?.logo.flatMap { try? configuration.mapper.map($0) }
         
         let style = BasicVerifiedIdStyle(name: definition?.name ?? "",
