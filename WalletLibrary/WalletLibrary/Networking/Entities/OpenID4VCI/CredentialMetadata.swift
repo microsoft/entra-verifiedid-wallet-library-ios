@@ -25,8 +25,26 @@ struct CredentialMetadata: Decodable
     
     /// A dictionary of Credential IDs to the corresponding credential configuration.
     let credential_configurations_supported: [String: CredentialConfiguration]?
+    
+    /// The display information for the issuer.
+    let display: [LocalizedIssuerDisplayDefinition]?
 }
 
+/**
+ * The localized display definition for the issuer.
+ */
+struct LocalizedIssuerDisplayDefinition: Decodable
+{
+    /// The name of the issuer.
+    let name: String?
+    
+    /// The locale of the display definition.
+    let locale: String?
+}
+
+/**
+ * Extension for the Credential Metadata.
+ */
 extension CredentialMetadata
 {
     /// Defines a function to validate if the authorization servers specified in a credential offer are present in the metadata of the credential.
@@ -43,6 +61,43 @@ extension CredentialMetadata
                 throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
             }
         }
+    }
+    
+    /// Defines a function to get credentials configurations with given ids.
+    func getCredentialConfigurations(ids: [String]) -> [CredentialConfiguration]
+    {
+        var configurations: [CredentialConfiguration] = []
+        for id in ids
+        {
+            if let configuration = credential_configurations_supported?[id]
+            {
+                configurations.append(configuration)
+            }
+        }
+        
+        return configurations
+    }
+    
+    /// Defines a function to get localized Requester Style from display definition.
+    func getPreferredLocalizedIssuerDisplayDefinition() -> RequesterStyle
+    {
+        guard let definitions = display else
+        {
+            return VerifiedIdManifestIssuerStyle(name: "")
+        }
+        
+        let preferredLanguage = Locale.preferredLanguages
+        
+        for definition in definitions
+        {
+            if let locale = definition.locale,
+               preferredLanguage.contains(locale)
+            {
+                return VerifiedIdManifestIssuerStyle(name: definition.name ?? "")
+            }
+        }
+        
+        return VerifiedIdManifestIssuerStyle(name: definitions.first?.name ?? "")
     }
 }
 
