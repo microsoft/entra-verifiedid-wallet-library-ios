@@ -8,6 +8,8 @@
  */
 struct OpenId4VCIHandler: RequestProcessing
 {
+    var requestProcessorExtensions: [RequestProcessorExtendable] = []
+    
     private let configuration: LibraryConfiguration
     
     private let signedMetadataProcessor: SignedCredentialMetadataProcessor

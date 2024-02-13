@@ -16,6 +16,8 @@ enum OpenIdRequestHandlerError: Error
  */
 struct OpenIdRequestHandler: RequestProcessing 
 {
+    var requestProcessorExtensions: [RequestProcessorExtendable] = []
+    
     private let configuration: LibraryConfiguration
     
     private let openIdResponder: OpenIdResponder
