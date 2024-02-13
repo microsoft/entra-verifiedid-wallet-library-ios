@@ -27,7 +27,7 @@ struct CredentialMetadata: Decodable
     let credential_configurations_supported: [String: CredentialConfiguration]?
     
     /// The display information for the issuer.
-    let display: [LocalizedIssuerDisplayDefinition]
+    let display: [LocalizedIssuerDisplayDefinition]?
 }
 
 /**

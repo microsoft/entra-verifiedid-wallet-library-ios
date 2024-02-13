@@ -10,10 +10,10 @@ struct OpenId4VCIHandler: RequestHandling
 {
     private let configuration: LibraryConfiguration
     
-    private let signedMetadataProcessor: SignedCredentialMetadataProcessor
+    private let signedMetadataProcessor: SignedCredentialMetadataProcessing
     
     init(configuration: LibraryConfiguration,
-         signedMetadataProcessor: SignedCredentialMetadataProcessor? = nil)
+         signedMetadataProcessor: SignedCredentialMetadataProcessing? = nil)
     {
         self.configuration = configuration
         self.signedMetadataProcessor = signedMetadataProcessor ?? SignedCredentialMetadataProcessor(configuration: configuration)
@@ -129,7 +129,7 @@ struct OpenId4VCIHandler: RequestHandling
     /// Get `RequesterStyle` from metadata.
     private func getRequesterStyle(metadata: CredentialMetadata) -> RequesterStyle
     {
-        let issuerName = metadata.display.first?.name
+        let issuerName = metadata.display?.first?.name
         let issuerStyle = VerifiedIdManifestIssuerStyle(name: issuerName ?? "")
         return issuerStyle
     }

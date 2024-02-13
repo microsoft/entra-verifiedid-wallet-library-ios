@@ -4,9 +4,18 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
+ * Defines the behavior of processing a signed credential metadata.
+ */
+protocol SignedCredentialMetadataProcessing
+{
+    func process(signedMetadata: String,
+                 credentialIssuer: String) async throws -> RootOfTrust
+}
+
+/**
  * Defines a structure for processing signed credential metadata.
  */
-struct SignedCredentialMetadataProcessor
+struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
 {
     private let tokenVerifier: TokenVerifying
     
