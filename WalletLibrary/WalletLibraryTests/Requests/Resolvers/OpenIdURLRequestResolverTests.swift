@@ -163,7 +163,6 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let actualRawRequest = try await resolver.resolve(input: mockInput)
         
         // Assert
-        print(actualRawRequest)
         XCTAssertEqual(actualRawRequest as? MockOpenIdRawRequest, expectedRawRequest)
     }
     
