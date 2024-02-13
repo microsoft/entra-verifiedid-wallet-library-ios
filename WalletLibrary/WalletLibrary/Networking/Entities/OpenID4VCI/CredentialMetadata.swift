@@ -78,6 +78,7 @@ extension CredentialMetadata
         return configurations
     }
     
+    /// Defines a function to get localized Requester Style from display definition.
     func getPreferredLocalizedIssuerDisplayDefinition() -> RequesterStyle
     {
         guard let definitions = display else

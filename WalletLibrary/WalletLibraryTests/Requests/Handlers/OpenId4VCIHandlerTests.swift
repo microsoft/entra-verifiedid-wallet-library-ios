@@ -259,27 +259,3 @@ class OpenId4VCIHandlerTests: XCTestCase
         return json
     }
 }
-
-struct MockSignedMetadataProcessor: SignedCredentialMetadataProcessing
-{
-    enum MockError: Error
-    {
-        case ErrorExpected
-    }
-    
-    private let shouldThrow: Bool
-    
-    init(shouldThrow: Bool)
-    {
-        self.shouldThrow = shouldThrow
-    }
-    func process(signedMetadata: String, credentialIssuer: String) async throws -> RootOfTrust 
-    {
-        if shouldThrow
-        {
-            throw MockError.ErrorExpected
-        }
-        
-        return RootOfTrust(verified: true, source: "")
-    }
-}

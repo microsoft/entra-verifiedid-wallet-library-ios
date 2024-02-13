@@ -82,7 +82,7 @@ struct OpenId4VCIHandler: RequestHandling
                                  configuration: configuration)
     }
     
-    /// Fetch `CredentialMetadata` from "credential_issuer" .
+    /// Fetch `CredentialMetadata` from "credential_issuer".
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
         let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
