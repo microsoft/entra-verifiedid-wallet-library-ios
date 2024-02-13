@@ -7,7 +7,7 @@
  * The `OpenId4VCIRequest` class is designed to handle issuance requests in compliance with
  * the OpenId4VCI Protocol.
  *
- * The class extends the functionality of`VerifiedIdIssuanceRequest`l.
+ * The class extends the functionality of`VerifiedIdIssuanceRequest`.
  */
 class OpenId4VCIRequest: VerifiedIdIssuanceRequest
 {

@@ -67,11 +67,6 @@ extension CredentialConfiguration
             return nil
         }
         
-        if displayDefinitions.count == 1
-        {
-            return displayDefinitions.first
-        }
-        
         let preferredLanguages = Locale.preferredLanguages
         
         for language in preferredLanguages 
@@ -85,7 +80,7 @@ extension CredentialConfiguration
             }
         }
         
-        return nil
+        return displayDefinitions.first
     }
 }
 
