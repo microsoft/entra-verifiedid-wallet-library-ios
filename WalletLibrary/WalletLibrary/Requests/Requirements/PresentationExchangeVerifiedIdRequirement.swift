@@ -14,6 +14,8 @@ public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement {
     
     var exclusivePresentationWith: [String]?
     
+    var encodedCredential: String?
+    
     init(encrypted: Bool,
                   required: Bool,
                   types: [String],
@@ -35,6 +37,25 @@ public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement {
                    issuanceOptions: issuanceOptions,
                    id: id,
                    constraint: constraint)
+    }
+    
+    override public func fulfill(with verifiedId: VerifiedId) -> VerifiedIdResult<Void> {
+        let fulfillResult = super.fulfill(with: verifiedId)
+        switch (fulfillResult) {
+        case Result.success():
+            switch (verifiedId) {
+            case let vcVerifiedId as VCVerifiedId where verifiedId is VCVerifiedId:
+                guard let rawCredential = vcVerifiedId.raw.rawValue else {
+                    return VerifiedIdResult.failure(VerifiedIdError(message: "No Data in Verified ID", code: "NoData"))
+                }
+                self.encodedCredential = rawCredential
+                return fulfillResult
+            default:
+                return VerifiedIdResult.failure(VerifiedIdError(message: "Unsupported Verified ID Format", code: "NotSupported"))
+            }
+        default:
+            return fulfillResult
+        }
     }
 }
 
