@@ -42,6 +42,37 @@ struct CredentialDefinition: Decodable
     let display: [LocalizedDisplayDefinition]?
 }
 
+extension CredentialDefinition
+{
+    func getPreferredLocalizedDisplayDefinition() -> LocalizedDisplayDefinition?
+    {
+        guard let displayDefinitions = display else
+        {
+            return nil
+        }
+        
+        if displayDefinitions.count == 1
+        {
+            return displayDefinitions.first
+        }
+        
+        let preferredLanguages = Locale.preferredLanguages
+        
+        for language in preferredLanguages 
+        {
+            for definition in displayDefinitions 
+            {
+                if definition.locale == language
+                {
+                    return definition
+                }
+            }
+        }
+        
+        return nil
+    }
+}
+
 /**
  * Describes the way to display the credential.
  */
@@ -87,6 +118,9 @@ struct LogoDisplayDefinition: Decodable
     let alt_text: String?
 }
 
+/**
+ * This extension allows instances of LogoDisplayDefinition to be mapped into a VerifiedIdLogo.
+ */
 extension LogoDisplayDefinition: Mappable
 {
     func map(using mapper: Mapping) throws -> VerifiedIdLogo?
