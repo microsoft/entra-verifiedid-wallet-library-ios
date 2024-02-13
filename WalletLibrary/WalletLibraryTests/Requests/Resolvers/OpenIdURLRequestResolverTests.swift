@@ -96,8 +96,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         
         // Arrange
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
-        let expectedNetworkResults = [try JSONEncoder().encode(getTestCredentialOffering()): OpenID4VCIRequestNetworkOperation.self]
-        let mockLibraryNetworking = MockLibraryNetworking.create(expected: expectedNetworkResults)
+        let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
+        let expectedNetworkResult = (expectedResponseBody, OpenID4VCIRequestNetworkOperation.self)
+        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
                                                  networking: mockLibraryNetworking,
@@ -119,8 +120,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         
         // Arrange
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
-        let expectedNetworkResults = [try JSONEncoder().encode(getTestCredentialOffering()): OpenID4VCIRequestNetworkOperation.self]
-        let mockLibraryNetworking = MockLibraryNetworking.create(expected: expectedNetworkResults)
+        let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
+        let expectedNetworkResult = (expectedResponseBody, OpenID4VCIRequestNetworkOperation.self)
+        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
                                                  networking: mockLibraryNetworking,
@@ -142,8 +144,8 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         
         // Arrange
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
-        let expectedNetworkResults = ["mockToken".data(using: .utf8): OpenID4VCIRequestNetworkOperation.self]
-        let mockLibraryNetworking = MockLibraryNetworking.create(expected: expectedNetworkResults)
+        let expectedNetworkResults = ("mockToken".data(using: .utf8), OpenID4VCIRequestNetworkOperation.self)
+        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResults])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
                                                  networking: mockLibraryNetworking,
@@ -161,6 +163,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let actualRawRequest = try await resolver.resolve(input: mockInput)
         
         // Assert
+        print(actualRawRequest)
         XCTAssertEqual(actualRawRequest as? MockOpenIdRawRequest, expectedRawRequest)
     }
     

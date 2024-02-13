@@ -31,15 +31,15 @@ struct MockLibraryNetworking: LibraryNetworking
     }
     
     /// Helper function to create a MockLibraryNetworking that returns response body given based on type.
-    static func create(expectedResults: [ExpectedNetworkResult]) -> MockLibraryNetworking
+    static func create(expectedResults: [(Decodable, any InternalNetworkOperation.Type)]) -> MockLibraryNetworking
     {
         let callback = { (input: any InternalNetworkOperation.Type) in
             
             for expected in expectedResults
             {
-                if input == expected.operationType
+                if input == expected.1
                 {
-                    return expected.result
+                    return expected.0
                 }
             }
             
@@ -66,11 +66,4 @@ struct MockLibraryNetworking: LibraryNetworking
             throw MockLibraryNetworkingError.MockingNotSupportedForOperation(String(describing: type))
         }
     }
-}
-
-struct ExpectedNetworkResult
-{
-    let result: Decodable
-    
-    let operationType: any InternalNetworkOperation.Type
 }

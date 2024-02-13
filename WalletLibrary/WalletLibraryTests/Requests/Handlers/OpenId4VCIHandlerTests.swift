@@ -89,7 +89,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         // Arrange
         let rawRequest = createJSONCredentialOffer()
         let metadata = createCredentialMetadata(expectedConfigIds: ["mismatchedCredentialId"])
-        let expectedResult = ExpectedNetworkResult(result: metadata, operationType: CredentialMetadataFetchOperation.self)
+        let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
         let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
         let configuration = LibraryConfiguration(networking: mockNetworking)
         let handler = OpenId4VCIHandler(configuration: configuration)
@@ -114,7 +114,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         // Arrange
         let rawRequest = createJSONCredentialOffer()
         let metadata = createCredentialMetadata(authorizationServer: "mismatchedAuthServer")
-        let expectedResult = ExpectedNetworkResult(result: metadata, operationType: CredentialMetadataFetchOperation.self)
+        let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
         let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
         let configuration = LibraryConfiguration(networking: mockNetworking)
         let handler = OpenId4VCIHandler(configuration: configuration)
@@ -140,7 +140,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         let rawRequest = createJSONCredentialOffer()
         let metadata = createCredentialMetadata()
         
-        let expectedResult = ExpectedNetworkResult(result: metadata, operationType: CredentialMetadataFetchOperation.self)
+        let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
         let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
         let configuration = LibraryConfiguration(networking: mockNetworking)
         
@@ -168,7 +168,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         let rawRequest = createJSONCredentialOffer()
         let metadata = createCredentialMetadata(scope: nil)
         
-        let expectedResult = ExpectedNetworkResult(result: metadata, operationType: CredentialMetadataFetchOperation.self)
+        let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
         let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
         let configuration = LibraryConfiguration(networking: mockNetworking)
         
@@ -198,7 +198,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         let rawRequest = createJSONCredentialOffer()
         let metadata = createCredentialMetadata()
         
-        let expectedResult = ExpectedNetworkResult(result: metadata, operationType: CredentialMetadataFetchOperation.self)
+        let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
         let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
         let configuration = LibraryConfiguration(networking: mockNetworking)
         
