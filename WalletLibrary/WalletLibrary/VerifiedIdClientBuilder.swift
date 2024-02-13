@@ -18,7 +18,7 @@ public class VerifiedIdClientBuilder {
     
     private var requestResolvers: [any RequestResolving] = []
     
-    private var requestHandlers: [any RequestHandling] = []
+    private var requestHandlers: [any RequestProcessing] = []
     
     private var previewFeatureFlagsSupported: [String] = []
     

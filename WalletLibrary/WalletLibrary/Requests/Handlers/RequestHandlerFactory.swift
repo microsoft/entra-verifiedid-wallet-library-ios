@@ -17,15 +17,15 @@ enum RequestHandlerFactoryError: Error
  */
 class RequestHandlerFactory 
 {
-    let requestHandlers: [any RequestHandling]
+    let requestHandlers: [any RequestProcessing]
 
-    init(requestHandlers: [any RequestHandling]) 
+    init(requestHandlers: [any RequestProcessing]) 
     {
         self.requestHandlers = requestHandlers
     }
     
     /// Return one of the request handlers that supports the raw request given.
-    func getHandler(from rawRequest: Any) throws -> any RequestHandling
+    func getHandler(from rawRequest: Any) throws -> any RequestProcessing
     {
         for handler in requestHandlers 
         {

@@ -14,7 +14,7 @@ enum OpenIdRequestHandlerError: Error
  * Handles a raw Open Id request and configures a VeriifedIdRequest object.
  * Post Private Preview TODO: add processors to support multiple profiles of open id.
  */
-struct OpenIdRequestHandler: RequestHandling 
+struct OpenIdRequestHandler: RequestProcessing 
 {
     private let configuration: LibraryConfiguration
     

@@ -7,7 +7,7 @@
  * An object that can handle an input where the request can be resolved by a request resolver and
  * then processed, validated and mapped to a verified id request. A conforming object is request protocol specific.
  */
-protocol RequestHandling {
+protocol RequestProcessing {
     
     /// Determines if Request Handler can handle the object.
     func canHandle(rawRequest: Any) -> Bool

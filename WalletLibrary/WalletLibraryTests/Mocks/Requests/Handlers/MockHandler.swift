@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-class MockHandler: RequestHandling {
+class MockHandler: RequestProcessing {
 
     enum MockHandlerError: Error {
         case nilMockHandlerMethod

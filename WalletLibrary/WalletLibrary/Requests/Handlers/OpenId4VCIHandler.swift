@@ -6,7 +6,7 @@
 /**
  * Handles a Raw Request expected to be a Credential Offer and configures a VerifiedIdRequest object.
  */
-struct OpenId4VCIHandler: RequestHandling
+struct OpenId4VCIHandler: RequestProcessing
 {
     private let configuration: LibraryConfiguration
     
