@@ -19,12 +19,12 @@ extension PresentationService: OpenIdForVCResolver, OpenIdResponder {
     
     /// Sends the presentation response container and if successful, returns void,
     /// If unsuccessful, throws an error.
-    func send(response: RawPresentationResponse) async throws -> Void {
+    func send(response: RawPresentationResponse, additionalHeaders: [String: String]?) async throws -> Void {
         
         guard let presentationResponseContainer = response as? PresentationResponseContainer else {
             throw PresentationServiceExtensionError.unableToCastOpenIdForVCResponseToPresentationResponseContainer
         }
         
-        try await self.send(response: presentationResponseContainer)
+        try await self.send(response: presentationResponseContainer, additionalHeader: additionalHeaders)
     }
 }

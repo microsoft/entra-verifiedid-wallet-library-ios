@@ -13,5 +13,5 @@
 protocol OpenIdResponder {
     /// Sends the presentation response and if successful, returns void,
     /// If unsuccessful, throws an error.
-    func send(response: RawPresentationResponse) async throws -> Void
+    func send(response: RawPresentationResponse, additionalHeaders: [String: String]?) async throws -> Void
 }

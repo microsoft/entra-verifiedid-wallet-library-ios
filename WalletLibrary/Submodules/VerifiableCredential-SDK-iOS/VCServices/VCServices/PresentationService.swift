@@ -77,11 +77,12 @@ class PresentationService {
         }
     }
     
-    func send(response: PresentationResponseContainer) async throws {
+    func send(response: PresentationResponseContainer, additionalHeader: [String: String]?) async throws {
         try await logTime(name: "Presentation sendResponse") {
             let formattedResponse = try self.formatPresentationResponse(response: response)
             try await self.presentationApiCalls.sendResponse(usingUrl: response.audienceUrl,
-                                                             withBody: formattedResponse)
+                                                             withBody: formattedResponse,
+                                                             additionalHeaders: additionalHeader)
         }
     }
     
