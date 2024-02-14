@@ -6,7 +6,7 @@
 /**
  * The Credential Offer Data Model from the OpenID4VCI protocol.
  */
-struct CredentialMetadata: Decodable
+struct CredentialMetadata: Codable
 {
     /// The end point of the credential issuer.
     let credential_issuer: String?
@@ -33,7 +33,7 @@ struct CredentialMetadata: Decodable
 /**
  * The localized display definition for the issuer.
  */
-struct LocalizedIssuerDisplayDefinition: Decodable
+struct LocalizedIssuerDisplayDefinition: Codable
 {
     /// The name of the issuer.
     let name: String?
