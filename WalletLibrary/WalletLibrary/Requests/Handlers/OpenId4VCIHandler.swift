@@ -62,7 +62,8 @@ struct OpenId4VCIHandler: RequestHandling
         }
         
         /// Validate properties on signed metadata and get `RootOfTrust`.
-        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
+        /// Authorization Server does not match.
+//        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
         let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into public `Style` data models.
@@ -85,7 +86,9 @@ struct OpenId4VCIHandler: RequestHandling
     /// Fetch `CredentialMetadata` from "credential_issuer".
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
-        let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
+        // TODO make / optional
+        let wellKnownUrl = url + "/.well-known/openid-credential-issuer"
+        let url = try URL.getRequiredProperty(property: URL(string: wellKnownUrl), propertyName: "credential_issuer")
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
     }
     
@@ -108,7 +111,8 @@ struct OpenId4VCIHandler: RequestHandling
     /// note: only support Access Token Requirement.
     private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
     {
-        guard let grant = credentialOffer.grants["authorization_code"] else
+        /// "authorization_code"
+        guard let grant = credentialOffer.grants["authorizationCode"] else
         {
             let errorMessage = "Grants does not contain 'authorization_code' property."
             throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
