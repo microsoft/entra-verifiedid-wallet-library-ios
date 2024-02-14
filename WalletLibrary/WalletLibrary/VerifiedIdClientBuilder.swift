@@ -24,7 +24,6 @@ public class VerifiedIdClientBuilder {
     
     private var rootOfTrustResolver: RootOfTrustResolver?
     
-    private var urlSession: URLSession?
     private var previewFeatureFlagsSupported: [String] = []
     
     public init() {
@@ -64,8 +63,8 @@ public class VerifiedIdClientBuilder {
                                 configuration: configuration)
     }
     
-    public func with(urlSession: URLSession) -> VerifiedIdClientBuilder {
-        self.urlSession = urlSession
+    public func with(previewFeatureFlags: [String]) -> VerifiedIdClientBuilder {
+        self.previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
         return self
     }
 
@@ -106,7 +105,7 @@ public class VerifiedIdClientBuilder {
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
         let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(identifierService: identifierManager,
                                                                                              rootOfTrustResolver: rootOfTrustResolver,
-                                                                                             urlSession: urlSession ?? URLSession.shared),
+                                                                                             urlSession: urlSession),
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
@@ -116,11 +115,11 @@ public class VerifiedIdClientBuilder {
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
                                               identifierManager: identifierManager,
                                               rootOfTrustResolver: rootOfTrustResolver,
-                                              urlSession: urlSession ?? URLSession.shared)
+                                              urlSession: urlSession)
         let presentationService = PresentationService(correlationVector: correlationHeader,
                                                       identifierService: identifierManager,
                                                       rootOfTrustResolver: rootOfTrustResolver,
-                                                      urlSession: urlSession ?? URLSession.shared)
+                                                      urlSession: urlSession)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,
