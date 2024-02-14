@@ -21,12 +21,15 @@ struct OpenID4VCIPostOperation: WalletLibraryPostOperation
          url: URL,
          additionalHeaders: [String : String]?,
          urlSession: URLSession,
-         correlationVector: VerifiedIdCorrelationHeader?) 
+         correlationVector: VerifiedIdCorrelationHeader?) throws
     {
         
         self.urlSession = urlSession
         self.correlationVector = correlationVector
         self.urlRequest = URLRequest(url: url)
+        self.urlRequest.httpMethod = Constants.POST
+        self.urlRequest.httpBody = try self.encoder.encode(value: requestBody)
+        self.urlRequest.setValue(Constants.JSON, forHTTPHeaderField: Constants.CONTENT_TYPE)
         
         /// Adds value to prefer header, appending if value already exists.
         let preferHeader = [OpenID4VCINetworkConstants.PreferHeaderField: OpenID4VCINetworkConstants.InteropProfileVersion]
