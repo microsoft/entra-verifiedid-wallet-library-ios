@@ -40,7 +40,7 @@ protocol WalletLibraryPostOperation: InternalPostOperation where ResponseBody: D
          url: URL,
          additionalHeaders: [String: String]?,
          urlSession: URLSession,
-         correlationVector: VerifiedIdCorrelationHeader?)
+         correlationVector: VerifiedIdCorrelationHeader?) throws
 }
 
 /**
