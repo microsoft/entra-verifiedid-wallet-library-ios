@@ -6,36 +6,42 @@
 /**
  * The constraints for issuance and display information of a credential,
  */
-struct CredentialConfiguration: Decodable
+struct CredentialConfiguration: Codable
 {
     /// The Verified ID issued.
     let format: String?
     
-    /// The notification id to pass to notification endpoint.
+    /// The scope to be used to get Access Token.
     let scope: String?
     
-    /// The crypto binding methods supported (ex. did:jwk)
+    /// The crypto binding methods supported (ex. did:jwk).
     let cryptographic_binding_methods_supported: [String]?
     
-    /// The crypto suites supported (ex. ES256)
+    /// The crypto suites supported (ex. ES256).
     let cryptographic_suites_supported: [String]?
     
     /// Describes the metadata of the supported credential.
     let credential_definition: CredentialDefinition?
+    
+    /// proof_types: ["jwt"]
+    /// Describes the way to display the credential.
+    /// On configuration or definition?
+    let display: [LocalizedDisplayDefinition]?
 }
 
 /**
  * Describes the metadata of the supported credential.
  */
-struct CredentialDefinition: Decodable
+struct CredentialDefinition: Codable
 {
     /// The types of the credential.
     let type: [String]?
     
     /// A mapping to describe how to display the claims in the credential.
-    let credentialSubject: [String: CredentialSubjectDefinition]?
+    let credential_subject: [String: CredentialSubjectDefinition]?
     
     /// The type of proof that can be used to show ownership of keys bound to crypto binding method (ex. jwt).
+    /// Not here anymore.
     let proof_types_supported: [String]?
     
     /// Describes the way to display the credential.
@@ -62,7 +68,7 @@ extension CredentialConfiguration
     
     private func getPreferredLocalizedDisplayDefinition() -> LocalizedDisplayDefinition?
     {
-        guard let displayDefinitions = self.credential_definition?.display else
+        guard let displayDefinitions = self.display else
         {
             return nil
         }
@@ -87,7 +93,7 @@ extension CredentialConfiguration
 /**
  * Describes the way to display the credential.
  */
-struct CredentialSubjectDefinition: Decodable
+struct CredentialSubjectDefinition: Codable
 {
     /// An array of ways to display the credential with different locales.
     let display: [LocalizedDisplayDefinition]
@@ -96,7 +102,7 @@ struct CredentialSubjectDefinition: Decodable
 /**
  * Describes the way to display the credential based on a specific locale.
  */
-struct LocalizedDisplayDefinition: Decodable
+struct LocalizedDisplayDefinition: Codable
 {
     /// The name of the credential in specific locale.
     let name: String?
@@ -120,7 +126,7 @@ struct LocalizedDisplayDefinition: Decodable
 /**
  * Describes the logo metadata for the credential.
  */
-struct LogoDisplayDefinition: Decodable
+struct LogoDisplayDefinition: Codable
 {
     /// Data uri of the logo.
     let uri: String?
