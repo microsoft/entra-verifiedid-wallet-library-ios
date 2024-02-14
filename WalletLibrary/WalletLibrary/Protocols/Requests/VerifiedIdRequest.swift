@@ -31,3 +31,22 @@ public protocol VerifiedIdRequest {
     /// Cancel the request with an optional message.
     func cancel(message: String?) async -> VerifiedIdResult<Void>
 }
+
+/**
+ * Extension used to determine if request is satisfied if requirements are valid.
+ */
+extension VerifiedIdRequest
+{
+    public func isSatisfied() -> Bool 
+    {
+        do 
+        {
+            try requirement.validate().get()
+            return true
+        } 
+        catch
+        {
+            return false
+        }
+    }
+}

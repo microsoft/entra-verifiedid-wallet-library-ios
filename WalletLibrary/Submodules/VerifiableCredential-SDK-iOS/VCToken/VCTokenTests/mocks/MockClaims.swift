@@ -5,6 +5,18 @@
 
 @testable import WalletLibrary
 
-struct MockClaims: Claims, Equatable {
+struct MockClaims: Claims, Equatable 
+{
     let key: String
+    
+    let iat: Double?
+    
+    let exp: Double?
+    
+    init(key: String, iat: Double? = nil, exp: Double? = nil)
+    {
+        self.key = key
+        self.iat = iat
+        self.exp = exp
+    }
 }
