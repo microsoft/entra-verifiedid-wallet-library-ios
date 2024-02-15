@@ -35,7 +35,7 @@ class CredentialMetadataTests: XCTestCase
                                                   proof_types_supported: nil)
         
         // Act
-        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName", mapper: mapper)
+        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName")
         
         // Assert
         XCTAssert(result is BasicVerifiedIdStyle)
@@ -68,7 +68,7 @@ class CredentialMetadataTests: XCTestCase
                                                   proof_types_supported: nil)
         
         // Act
-        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName", mapper: mapper)
+        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName")
         
         // Assert
         XCTAssert(result is BasicVerifiedIdStyle)
@@ -109,7 +109,7 @@ class CredentialMetadataTests: XCTestCase
                                                   proof_types_supported: nil)
         
         // Act
-        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName", mapper: mapper)
+        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName")
         
         // Assert
         XCTAssert(result is BasicVerifiedIdStyle)

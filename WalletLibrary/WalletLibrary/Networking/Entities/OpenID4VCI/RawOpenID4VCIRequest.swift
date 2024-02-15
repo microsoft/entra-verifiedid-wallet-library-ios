@@ -30,21 +30,30 @@ struct OpenID4VCIJWTProof: Encodable
     let jwt: String
 }
 
+/**
+ * The claims in the token
+ */
 struct OpenID4VCIJWTProofClaims: Claims
 {
+    /// Identifies the recipients that the JWT is intended for.
+    /// Should be equal to the credential endpoint.
     let aud: String
     
+    /// Identifies the time at which the JWT was issued.
     let iat: String
     
+    /// Identifies the subject of the JWT.
+    /// Should be equal to the user's DID.
     let sub: String
     
+    /// Provides integrity protection for the access token.
     let at_hash: String
     
-    init(credentialIssuer: String,
+    init(credentialEndpoint: String,
          did: String,
          accessTokenHash: String)
     {
-        self.aud = credentialIssuer
+        self.aud = credentialEndpoint
         self.iat = String(Int(Date().timeIntervalSince1970))
         self.sub = did
         self.at_hash = accessTokenHash

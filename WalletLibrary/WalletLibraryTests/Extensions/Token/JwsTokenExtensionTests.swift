@@ -22,8 +22,8 @@ class JwsTokenExtensionTests: XCTestCase
     {
         // Arrange
         let expectedDid = "did:test:mock"
-        let expectedKeyId = "mockKeyId"
-        let headers = Header(keyId: "\(expectedDid)#\(expectedKeyId)")
+        let expectedKeyId = "#mockKeyId"
+        let headers = Header(keyId: "\(expectedDid)\(expectedKeyId)")
         let token = JwsToken(headers: headers, content: MockClaims(key: ""))!
         
         // Act

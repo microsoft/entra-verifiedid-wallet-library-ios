@@ -23,8 +23,10 @@ struct CredentialConfiguration: Codable
     /// Describes the metadata of the supported credential.
     let credential_definition: CredentialDefinition?
     
+    /// Describes the way to display the credential.
     let display: [LocalizedDisplayDefinition]?
     
+    /// The types of proofs supported.
     let proof_types_supported: [String: ProofTypesSupported]?
 }
 
@@ -55,16 +57,26 @@ extension CredentialConfiguration
     func getLocalizedVerifiedIdStyle(withIssuerName issuerName: String) -> VerifiedIdStyle
     {
         let definition = getPreferredLocalizedDisplayDefinition()
-        let logo = definition?.logo.flatMap { try? Mapper().map($0) }
         
         let style = BasicVerifiedIdStyle(name: definition?.name ?? "",
                                          issuer: issuerName,
                                          backgroundColor: definition?.background_color ?? "",
                                          textColor: definition?.text_color ?? "",
                                          description: definition?.description ?? "",
-                                         logo: logo)
+                                         logo: getLogo(in: definition))
         
         return style
+    }
+    
+    private func getLogo(in definition: LocalizedDisplayDefinition?) -> VerifiedIdLogo?
+    {
+        guard let uri = definition?.logo?.uri else
+        {
+            return nil
+        }
+        
+        return VerifiedIdLogo(url: URL(string: uri),
+                              altText: definition?.logo?.alt_text)
     }
     
     private func getPreferredLocalizedDisplayDefinition() -> LocalizedDisplayDefinition?
@@ -134,21 +146,4 @@ struct LogoDisplayDefinition: Codable
     
     /// Alt Text that describes the logo.
     let alt_text: String?
-}
-
-/**
- * This extension allows instances of LogoDisplayDefinition to be mapped into a VerifiedIdLogo.
- */
-extension LogoDisplayDefinition: Mappable
-{
-    func map(using mapper: Mapping) throws -> VerifiedIdLogo?
-    {
-        guard let uri = self.uri else
-        {
-            return nil
-        }
-        
-        return VerifiedIdLogo(url: URL(string: uri),
-                              altText: alt_text)
-    }
 }

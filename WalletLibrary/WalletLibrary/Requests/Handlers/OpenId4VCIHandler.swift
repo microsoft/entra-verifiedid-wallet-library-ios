@@ -62,8 +62,7 @@ struct OpenId4VCIHandler: RequestHandling
         }
         
         /// Validate properties on signed metadata and get `RootOfTrust`.
-        /// Authorization Server does not match.
-//        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
+        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
         let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into public `Style` data models.
@@ -78,6 +77,7 @@ struct OpenId4VCIHandler: RequestHandling
                                  rootOfTrust: rootOfTrust,
                                  requirement: requirement,
                                  credentialMetadata: credentialMetadata,
+                                 credentialConfiguration: credentialConfig,
                                  credentialOffer: credentialOffer,
                                  configuration: configuration)
     }
@@ -85,9 +85,8 @@ struct OpenId4VCIHandler: RequestHandling
     /// Fetch `CredentialMetadata` from "credential_issuer".
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
-        // TODO make / optional
-        let wellKnownUrl = url + "/.well-known/openid-credential-issuer"
-        let url = try URL.getRequiredProperty(property: URL(string: wellKnownUrl), propertyName: "credential_issuer")
+        let wellKnownUrl = CredentialMetadataFetchOperation.buildCredentialMetadataEndpoint(url: url)
+        let url = try URL.getRequiredProperty(property: wellKnownUrl, propertyName: "credential_issuer")
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
     }
     
@@ -110,7 +109,6 @@ struct OpenId4VCIHandler: RequestHandling
     /// note: only support Access Token Requirement.
     private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
     {
-        /// "authorization_code"
         guard let grant = credentialOffer.grants["authorization_code"] else
         {
             let errorMessage = "Grants does not contain 'authorization_code' property."

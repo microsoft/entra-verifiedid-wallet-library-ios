@@ -47,15 +47,18 @@ struct LocalizedIssuerDisplayDefinition: Codable
  */
 extension CredentialMetadata
 {
-    /// Defines a function to validate if the authorization servers specified in a credential offer are present in the metadata of the credential.
+    /// Validate the Authorization Server URL hosts specified in a credential offer are equal to the ones in the metadata.
     func validateAuthorizationServers(credentialOffer: CredentialOffer) throws
     {
         let authorizationServers = try Self.getRequiredProperty(property: authorization_servers,
                                                                 propertyName: "authorization_servers")
         
+        let authorizatinServerURLHosts = authorizationServers.compactMap { URL(string: $0)?.host }
+        
         for grant in credentialOffer.grants
         {
-            guard authorizationServers.contains(grant.value.authorization_server) else
+            guard let authServerURLHostFromGrant = URL(string: grant.value.authorization_server)?.host,
+                  authorizatinServerURLHosts.contains(authServerURLHostFromGrant) else
             {
                 let errorMessage = "Authorization servers in Credential Metadata does not contain \(grant.value.authorization_server)"
                 throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
