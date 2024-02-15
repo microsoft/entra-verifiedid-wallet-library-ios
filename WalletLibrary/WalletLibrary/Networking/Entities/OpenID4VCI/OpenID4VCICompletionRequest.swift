@@ -17,14 +17,10 @@ struct OpenID4VCICompletionRequest: Encodable
     }
     
     /// The result of the issuance.
-    let event: String
-    
-    let event_description: String
+    let code: String
     
     /// The issuer state from the credential offering.
-    let issuer_session: String
-    
-    let notification_id: String
+    let state: String
     
     init(code: Code, state: String) 
     {
