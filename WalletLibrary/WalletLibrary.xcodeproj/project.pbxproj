@@ -514,6 +514,8 @@
 		55F01CD22ACE0066000794B4 /* P256PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F01CD02ACE002E000794B4 /* P256PublicKey.swift */; };
 		55F01CD42ACE100B000794B4 /* P256PublicKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F01CD32ACE100B000794B4 /* P256PublicKeyTests.swift */; };
 		55FD87742B7EA2EE00620F1B /* RawOpenID4VCIRequestFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FD87722B7EA2EE00620F1B /* RawOpenID4VCIRequestFormatter.swift */; };
+		55FD87C72B7EB43900620F1B /* OpenID4VCICompletePostOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FD87C52B7EB43900620F1B /* OpenID4VCICompletePostOperation.swift */; };
+		55FD87C92B7EB44700620F1B /* OpenID4VCICompletionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FD87C82B7EB44700620F1B /* OpenID4VCICompletionRequest.swift */; };
 		55FE707A2B72E7C600CC3018 /* OpenId4VCIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FE70792B72E7C600CC3018 /* OpenId4VCIHandler.swift */; };
 		55FE70822B730D1500CC3018 /* CredentialMetadataFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */; };
 /* End PBXBuildFile section */
@@ -1054,6 +1056,8 @@
 		55F01CD02ACE002E000794B4 /* P256PublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P256PublicKey.swift; sourceTree = "<group>"; };
 		55F01CD32ACE100B000794B4 /* P256PublicKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P256PublicKeyTests.swift; sourceTree = "<group>"; };
 		55FD87722B7EA2EE00620F1B /* RawOpenID4VCIRequestFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawOpenID4VCIRequestFormatter.swift; sourceTree = "<group>"; };
+		55FD87C52B7EB43900620F1B /* OpenID4VCICompletePostOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenID4VCICompletePostOperation.swift; sourceTree = "<group>"; };
+		55FD87C82B7EB44700620F1B /* OpenID4VCICompletionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenID4VCICompletionRequest.swift; sourceTree = "<group>"; };
 		55FE70792B72E7C600CC3018 /* OpenId4VCIHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIHandler.swift; sourceTree = "<group>"; };
 		55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialMetadataFetchOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1181,6 +1185,7 @@
 		55265ADE2B6C34B500BAD6A2 /* OpenID4VCI */ = {
 			isa = PBXGroup;
 			children = (
+				55FD87C82B7EB44700620F1B /* OpenID4VCICompletionRequest.swift */,
 				55265AF32B6D765D00BAD6A2 /* CredentialConfiguration.swift */,
 				55265AF02B6D765C00BAD6A2 /* CredentialMetadata.swift */,
 				55265AEF2B6D765C00BAD6A2 /* CredentialOffer.swift */,
@@ -1193,6 +1198,7 @@
 		55265AFF2B6D936900BAD6A2 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				55FD87C52B7EB43900620F1B /* OpenID4VCICompletePostOperation.swift */,
 				550AF6332B7BE74800E5F305 /* OpenID4VCIPostOperation.swift */,
 				55265B002B6D938800BAD6A2 /* OpenID4VCIRequestNetworkOperation.swift */,
 				55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */,
@@ -3125,6 +3131,7 @@
 				5552D28329EF33EF00B40302 /* PresentationService.swift in Sources */,
 				5552D3B329EF486000B40302 /* RegistrationClaims.swift in Sources */,
 				550E320C298B0F30004E7716 /* WalletLibraryLogConsumer.swift in Sources */,
+				55FD87C72B7EB43900620F1B /* OpenID4VCICompletePostOperation.swift in Sources */,
 				5552D44A29EF4A8100B40302 /* PostNetworkOperation.swift in Sources */,
 				5552D28529EF33FF00B40302 /* ServicesConstants.swift in Sources */,
 				5552D3CD29EF48B200B40302 /* AttestationResponseDescriptor.swift in Sources */,
@@ -3172,6 +3179,7 @@
 				5552D45029EF4A8100B40302 /* FetchWellKnownConfigDocumentOperation.swift in Sources */,
 				550A9173299311A10014D030 /* VerifiedIdRequestURL.swift in Sources */,
 				5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */,
+				55FD87C92B7EB44700620F1B /* OpenID4VCICompletionRequest.swift in Sources */,
 				55265AF62B6D765D00BAD6A2 /* RawOpenID4VCIRequest.swift in Sources */,
 				55FD87742B7EA2EE00620F1B /* RawOpenID4VCIRequestFormatter.swift in Sources */,
 				5552D3E429EF48C700B40302 /* VCClaims.swift in Sources */,
