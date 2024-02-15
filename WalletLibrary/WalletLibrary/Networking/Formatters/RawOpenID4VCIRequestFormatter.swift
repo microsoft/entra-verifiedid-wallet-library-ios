@@ -70,9 +70,9 @@ struct RawOpenID4VCIRequestFormatter
                                                     andSigningKey: signingKey,
                                                     type: "openid4vci-proof+jwt")
         
-        let serializedToken = try creatSerializedToken(headers: headers,
-                                                       claims: claims,
-                                                       keyReference: signingKey.keyReference)
+        let serializedToken = try createSerializedToken(headers: headers,
+                                                        claims: claims,
+                                                        keyReference: signingKey.keyReference)
         return serializedToken
     }
     
@@ -89,8 +89,8 @@ struct RawOpenID4VCIRequestFormatter
     }
     
     private func createSerializedToken(headers: Header,
-                                      claims: OpenID4VCIJWTProofClaims,
-                                      keyReference: VCCryptoSecret) throws -> String
+                                       claims: OpenID4VCIJWTProofClaims,
+                                       keyReference: VCCryptoSecret) throws -> String
     {
         guard var jwt = JwsToken(headers: headers, content: claims) else
         {
