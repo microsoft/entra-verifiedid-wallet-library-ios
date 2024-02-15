@@ -4,8 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Verifiable Credential object contains the raw VC, and the contract that created the Verifiable Credential.
- * This object conforms to the Mappable protocol and maps VC claims and display contract to a Verified Id.
+ * OpenID4VCI specific Verifiable Credential object contains the raw VC, and the display information.
  */
 struct OpenID4VCIVerifiedId: VerifiedId 
 {
