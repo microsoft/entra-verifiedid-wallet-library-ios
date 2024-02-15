@@ -62,8 +62,7 @@ struct OpenId4VCIHandler: RequestHandling
         }
         
         /// Validate properties on signed metadata and get `RootOfTrust`.
-        /// Authorization Server does not match.
-//        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
+        try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
         let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into public `Style` data models.
