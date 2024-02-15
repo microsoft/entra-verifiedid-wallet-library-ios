@@ -29,8 +29,10 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     /// The credential offer for the credential being requested.
     private let credentialOffer: CredentialOffer
     
+    /// The credential configuration that describes the credential from credential metadata.
     private let credentialConfiguration: CredentialConfiguration
     
+    /// The formatter to handle formatting request to a`RawOpenID4VCIRequest`.
     private let requestFormatter: RawOpenID4VCIRequestFormatter
     
     /// The library configuration.
