@@ -32,7 +32,6 @@ class PostPresentationResponseOperation: InternalPostNetworkOperation {
         self.urlSession = urlSession
         self.correlationVector = cv
         
-        
         for header in (additionalHeaders ?? [:])
         {
             self.urlRequest.addValue(header.value, forHTTPHeaderField: header.key)
