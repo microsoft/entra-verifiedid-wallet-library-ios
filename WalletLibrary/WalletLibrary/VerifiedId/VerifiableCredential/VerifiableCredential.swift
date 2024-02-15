@@ -62,6 +62,8 @@ struct VCVerifiedId: VerifiedId {
         case raw, contract
     }
     
+    /// Do not change this logic. This method determines how Verified IDs will be deserialized.
+    /// Developer are encouraged to use this logic to deserialize Verified IDs from their databases.
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let rawToken = try values.decode(String.self, forKey: .raw)
@@ -72,6 +74,8 @@ struct VCVerifiedId: VerifiedId {
         try self.init(raw: raw, from: contract)
     }
     
+    /// Do not change this logic. This method determines how Verified IDs will be serialized.
+    /// Developer are encouraged to use this logic to serialize Verified IDs from their databases.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         let serializedToken = try raw.serialize()
