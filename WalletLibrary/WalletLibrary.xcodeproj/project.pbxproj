@@ -513,6 +513,8 @@
 		55F01CCF2ACDFF55000794B4 /* ES256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F01CCE2ACDFF55000794B4 /* ES256Tests.swift */; };
 		55F01CD22ACE0066000794B4 /* P256PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F01CD02ACE002E000794B4 /* P256PublicKey.swift */; };
 		55F01CD42ACE100B000794B4 /* P256PublicKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F01CD32ACE100B000794B4 /* P256PublicKeyTests.swift */; };
+		55FD87782B7EADEF00620F1B /* OpenID4VCICompletePostOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FD87772B7EADEF00620F1B /* OpenID4VCICompletePostOperation.swift */; };
+		55FD877A2B7EAE3200620F1B /* OpenID4VCICompletionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FD87792B7EAE3200620F1B /* OpenID4VCICompletionRequest.swift */; };
 		55FE707A2B72E7C600CC3018 /* OpenId4VCIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FE70792B72E7C600CC3018 /* OpenId4VCIHandler.swift */; };
 		55FE70822B730D1500CC3018 /* CredentialMetadataFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */; };
 /* End PBXBuildFile section */
@@ -1051,6 +1053,8 @@
 		55F01CCE2ACDFF55000794B4 /* ES256Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ES256Tests.swift; sourceTree = "<group>"; };
 		55F01CD02ACE002E000794B4 /* P256PublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P256PublicKey.swift; sourceTree = "<group>"; };
 		55F01CD32ACE100B000794B4 /* P256PublicKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P256PublicKeyTests.swift; sourceTree = "<group>"; };
+		55FD87772B7EADEF00620F1B /* OpenID4VCICompletePostOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenID4VCICompletePostOperation.swift; sourceTree = "<group>"; };
+		55FD87792B7EAE3200620F1B /* OpenID4VCICompletionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenID4VCICompletionRequest.swift; sourceTree = "<group>"; };
 		55FE70792B72E7C600CC3018 /* OpenId4VCIHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIHandler.swift; sourceTree = "<group>"; };
 		55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialMetadataFetchOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1183,6 +1187,7 @@
 				55265AEF2B6D765C00BAD6A2 /* CredentialOffer.swift */,
 				55265AF12B6D765D00BAD6A2 /* RawOpenID4VCIRequest.swift */,
 				55265AF22B6D765D00BAD6A2 /* RawOpenID4VCIResponse.swift */,
+				55FD87792B7EAE3200620F1B /* OpenID4VCICompletionRequest.swift */,
 			);
 			path = OpenID4VCI;
 			sourceTree = "<group>";
@@ -1193,6 +1198,7 @@
 				550AF6332B7BE74800E5F305 /* OpenID4VCIPostOperation.swift */,
 				55265B002B6D938800BAD6A2 /* OpenID4VCIRequestNetworkOperation.swift */,
 				55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */,
+				55FD87772B7EADEF00620F1B /* OpenID4VCICompletePostOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -3071,12 +3077,14 @@
 				5552D48229EF4AAB00B40302 /* PbesJwe.swift in Sources */,
 				5552D3CE29EF48B200B40302 /* IssuanceRequest.swift in Sources */,
 				5552D48329EF4AAB00B40302 /* ECPublicJwk.swift in Sources */,
+				55FD87782B7EADEF00620F1B /* OpenID4VCICompletePostOperation.swift in Sources */,
 				55FE70822B730D1500CC3018 /* CredentialMetadataFetchOperation.swift in Sources */,
 				5552D44729EF4A8100B40302 /* IssuanceNetworkCalls.swift in Sources */,
 				5552D4D329EF4AC300B40302 /* SupportedCurve.swift in Sources */,
 				5552D3F029EF48E200B40302 /* VCTraceLevel.swift in Sources */,
 				5552D45529EF4A8100B40302 /* SimpleFailureHandler.swift in Sources */,
 				5552D3A829EF483900B40302 /* ResponseContaining.swift in Sources */,
+				55FD877A2B7EAE3200620F1B /* OpenID4VCICompletionRequest.swift in Sources */,
 				55DECC2E29BB8DA800D5C802 /* GroupConstraint.swift in Sources */,
 				5552D4D029EF4AC300B40302 /* VCSDKConfigurable.swift in Sources */,
 				5552D3C329EF489400B40302 /* IONDocumentPatch.swift in Sources */,
