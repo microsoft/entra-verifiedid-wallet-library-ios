@@ -77,6 +77,7 @@ struct OpenId4VCIHandler: RequestHandling
                                  rootOfTrust: rootOfTrust,
                                  requirement: requirement,
                                  credentialMetadata: credentialMetadata,
+                                 credentialConfiguration: credentialConfig,
                                  credentialOffer: credentialOffer,
                                  configuration: configuration)
     }

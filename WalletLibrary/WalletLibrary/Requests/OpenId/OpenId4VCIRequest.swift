@@ -29,6 +29,8 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     /// The credential offer for the credential being requested.
     private let credentialOffer: CredentialOffer
     
+    private let credentialConfiguration: CredentialConfiguration
+    
     private let requestFormatter: RawOpenID4VCIRequestFormatter
     
     /// The library configuration.
@@ -39,6 +41,7 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
          rootOfTrust: RootOfTrust,
          requirement: Requirement,
          credentialMetadata: CredentialMetadata,
+         credentialConfiguration: CredentialConfiguration,
          credentialOffer: CredentialOffer,
          configuration: LibraryConfiguration)
     {
@@ -47,6 +50,7 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
         self.rootOfTrust = rootOfTrust
         self.requirement = requirement
         self.credentialMetadata = credentialMetadata
+        self.credentialConfiguration = credentialConfiguration
         self.credentialOffer = credentialOffer
         self.configuration = configuration
         self.requestFormatter = RawOpenID4VCIRequestFormatter(configuration: configuration)
@@ -57,7 +61,8 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     public func complete() async -> VerifiedIdResult<VerifiedId>
     {
         let result = await VerifiedIdResult<VerifiedId>.getResult {
-            return try await self.sendIssuanceRequest()
+            let response = try await self.sendIssuanceRequest()
+            return try self.mapToVerifiedId(rawResponse: response)
         }
         
         return result
@@ -75,45 +80,52 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
         return result
     }
     
-    private func sendIssuanceRequest() async throws -> VerifiedId
+    private func sendIssuanceRequest() async throws -> RawOpenID4VCIResponse
     {
-        let rawRequest = try createRawRequest()
-        
         guard let accessTokenRequirement = requirement as? AccessTokenRequirement,
               let accessToken = accessTokenRequirement.accessToken else
         {
-            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "")
+            let errorMessage = "Access token not defined on requirement."
+            throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage)
         }
         
-        let url = URL(string: credentialMetadata.credential_endpoint!)!
-        let test = try await configuration.networking.post(requestBody: rawRequest,
-                                                           url: url,
-                                                           OpenID4VCIPostOperation.self,
-                                                           additionalHeaders: ["Authorization": "Bearer \(accessToken)"])
+        guard let credentialEndpoint = credentialMetadata.credential_endpoint,
+              let endpointURL = URL(string: credentialEndpoint) else
+        {
+            let errorMessage = "Credential Endpoint not set on Credential Metadata."
+            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
+        }
         
-        let credential = try RawOpenID4VCIResponse.getRequiredProperty(property: test.credential,
+        let rawRequest = try createRawRequest(accessToken: accessToken,
+                                              credentialEndpoint: credentialEndpoint)
+        let authorizationHeader = ["Authorization": "Bearer \(accessToken)"]
+        
+        let response = try await configuration.networking.post(requestBody: rawRequest,
+                                                               url: endpointURL,
+                                                               OpenID4VCIPostOperation.self,
+                                                               additionalHeaders: authorizationHeader)
+        return response
+    }
+    
+    private func createRawRequest(accessToken: String,
+                                  credentialEndpoint: String) throws -> RawOpenID4VCIRequest
+    {
+        let rawRequest = try requestFormatter.format(credentialOffer: credentialOffer,
+                                                     credentialEndpoint: credentialEndpoint,
+                                                     accessToken: accessToken)
+        return rawRequest
+    }
+    
+    private func mapToVerifiedId(rawResponse: RawOpenID4VCIResponse) throws -> VerifiedId
+    {
+        let credential = try RawOpenID4VCIResponse.getRequiredProperty(property: rawResponse.credential,
                                                                        propertyName: "credential")
         
-        let config = credentialMetadata.getCredentialConfigurations(ids: credentialOffer.credential_configuration_ids).first!
         let issuerName = credentialMetadata.getPreferredLocalizedIssuerDisplayDefinition().name
         
         let verifiedId = try OpenID4VCIVerifiedId(raw: credential,
                                                   issuerName: issuerName,
-                                                  configuration: config)
+                                                  configuration: credentialConfiguration)
         return verifiedId
-    }
-    
-    private func createRawRequest() throws -> RawOpenID4VCIRequest
-    {
-        guard let accessTokenRequirement = requirement as? AccessTokenRequirement,
-              let accessToken = accessTokenRequirement.accessToken else
-        {
-            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "")
-        }
-        
-        let rawRequest = try requestFormatter.format(credentialOffer: credentialOffer,
-                                                     credentialEndpoint: credentialMetadata.credential_endpoint!,
-                                                     accessToken: accessToken)
-        return rawRequest
     }
 }
