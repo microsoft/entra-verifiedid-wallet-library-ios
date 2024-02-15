@@ -84,9 +84,8 @@ struct OpenId4VCIHandler: RequestHandling
     /// Fetch `CredentialMetadata` from "credential_issuer".
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
-        // TODO make / optional
-        let wellKnownUrl = url + "/.well-known/openid-credential-issuer"
-        let url = try URL.getRequiredProperty(property: URL(string: wellKnownUrl), propertyName: "credential_issuer")
+        let wellKnownUrl = CredentialMetadataFetchOperation.buildCredentialMetadataEndpoint(url: url)
+        let url = try URL.getRequiredProperty(property: wellKnownUrl, propertyName: "credential_issuer")
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
     }
     
@@ -109,7 +108,6 @@ struct OpenId4VCIHandler: RequestHandling
     /// note: only support Access Token Requirement.
     private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
     {
-        /// "authorization_code"
         guard let grant = credentialOffer.grants["authorization_code"] else
         {
             let errorMessage = "Grants does not contain 'authorization_code' property."
