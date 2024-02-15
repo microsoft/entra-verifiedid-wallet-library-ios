@@ -22,7 +22,7 @@ struct CredentialOffer: Codable
     
     enum CodingKeys: String, CodingKey
     {
-        case credential_issuer
+        case credential_issuer = "credential_issuer"
         case issuer_session
         case credential_configuration_ids
         case grants

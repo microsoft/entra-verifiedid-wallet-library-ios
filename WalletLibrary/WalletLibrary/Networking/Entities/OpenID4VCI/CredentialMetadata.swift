@@ -47,7 +47,7 @@ struct LocalizedIssuerDisplayDefinition: Codable
  */
 extension CredentialMetadata
 {
-    /// Defines a function to validate if the authorization servers specified in a credential offer are present in the metadata of the credential.
+    /// Validate the Authorization Server URL hosts specified in a credential offer are equal to the ones in the metadata.
     func validateAuthorizationServers(credentialOffer: CredentialOffer) throws
     {
         let authorizationServers = try Self.getRequiredProperty(property: authorization_servers,

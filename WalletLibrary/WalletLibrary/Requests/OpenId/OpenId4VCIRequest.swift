@@ -143,7 +143,7 @@ struct OpenId4VCIRequestFormatter
         }
         
         let jwtProof = try formatProof(configurationId: configurationId,
-                                       credentialIssuer: credentialEndpoint,
+                                       credentialEndpoint: credentialEndpoint,
                                        accessToken: accessToken)
         let proof = OpenID4VCIJWTProof(jwt: jwtProof)
         let rawRequest = RawOpenID4VCIRequest(credential_configuration_id: configurationId,
@@ -153,7 +153,7 @@ struct OpenId4VCIRequestFormatter
     }
     
     private func formatProof(configurationId: String,
-                             credentialIssuer: String,
+                             credentialEndpoint: String,
                              accessToken: String) throws -> String
     {
         guard let identifier = try? configuration.identifierManager.fetchOrCreateMasterIdentifier(),
@@ -169,7 +169,7 @@ struct OpenId4VCIRequestFormatter
 //        
 //        let hashedAccessToken = Sha256().hash(data: accessToken).base64URLEncodedString()
         
-        let claims = OpenID4VCIJWTProofClaims(credentialIssuer: credentialIssuer,
+        let claims = OpenID4VCIJWTProofClaims(credentialEndpoint: credentialEndpoint,
                                               did: identifier.longFormDid,
                                               accessTokenHash: accessToken)
         
