@@ -22,9 +22,9 @@ struct CredentialOffer: Codable
     
     enum CodingKeys: String, CodingKey
     {
-        case credential_issuer = "credentialIssuer"
+        case credential_issuer
         case issuer_session
-        case credential_configuration_ids = "credentials"
+        case credential_configuration_ids
         case grants
     }
 }
@@ -41,7 +41,7 @@ struct CredentialOfferGrant: Codable
     
     enum CodingKeys: String, CodingKey
     {
-        case authorization_server = "authorizationServer"
+        case authorization_server
     }
 }
 
@@ -51,7 +51,7 @@ extension CredentialOffer: MappableTarget
     {
         let credentialIssuer: String = try validateValueExists(CodingKeys.credential_issuer.rawValue,
                                                                in: object)
-//        let issuerSession: String = try validateValueExists(CodingKeys.issuer_session.rawValue, in: object)
+        let issuerSession: String = try validateValueExists(CodingKeys.issuer_session.rawValue, in: object)
         let credentialConfigurationIds: [String] = try validateValueExists(CodingKeys.credential_configuration_ids.rawValue,
                                                                            in: object)
         let rawGrants: [String: Any] = try validateValueExists(CodingKeys.grants.rawValue,
@@ -72,7 +72,7 @@ extension CredentialOffer: MappableTarget
         }
         
         return CredentialOffer(credential_issuer: credentialIssuer,
-                               issuer_session: "issuerSession",
+                               issuer_session: issuerSession,
                                credential_configuration_ids: credentialConfigurationIds,
                                grants: grants)
     }

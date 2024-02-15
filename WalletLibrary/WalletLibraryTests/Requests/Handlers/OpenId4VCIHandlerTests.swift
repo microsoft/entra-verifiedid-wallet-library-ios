@@ -230,7 +230,8 @@ class OpenId4VCIHandlerTests: XCTestCase
                                                            cryptographic_binding_methods_supported: nil,
                                                            cryptographic_suites_supported: nil,
                                                            credential_definition: nil,
-                                                           display: nil)
+                                                           display: nil,
+                                                           proof_types_supported: nil)
             return result[id] = credentialConfig
         }
 

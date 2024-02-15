@@ -23,10 +23,18 @@ struct CredentialConfiguration: Codable
     /// Describes the metadata of the supported credential.
     let credential_definition: CredentialDefinition?
     
-    /// proof_types: ["jwt"]
-    /// Describes the way to display the credential.
-    /// On configuration or definition?
     let display: [LocalizedDisplayDefinition]?
+    
+    let proof_types_supported: [String: ProofTypesSupported]?
+}
+
+/**
+ * The types of proofs supported.
+ */
+struct ProofTypesSupported: Codable
+{
+    /// The type of proof that can be used to show ownership of keys bound to crypto binding method (ex. jwt).
+    let proof_signing_alg_values_supported: [String]
 }
 
 /**
@@ -39,13 +47,6 @@ struct CredentialDefinition: Codable
     
     /// A mapping to describe how to display the claims in the credential.
     let credential_subject: [String: CredentialSubjectDefinition]?
-    
-    /// The type of proof that can be used to show ownership of keys bound to crypto binding method (ex. jwt).
-    /// Not here anymore.
-    let proof_types_supported: [String]?
-    
-    /// Describes the way to display the credential.
-    let display: [LocalizedDisplayDefinition]?
 }
 
 extension CredentialConfiguration
