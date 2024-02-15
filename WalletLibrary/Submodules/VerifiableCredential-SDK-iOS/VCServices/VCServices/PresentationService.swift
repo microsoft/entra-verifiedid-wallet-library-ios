@@ -18,16 +18,18 @@ enum PresentationServiceError: Error {
 
 class PresentationService {
     
-    let formatter: PresentationResponseFormatting
+    let formatter: PresentationResponseFormatter
     let presentationApiCalls: PresentationNetworking
     private let didDocumentDiscoveryApiCalls: DiscoveryNetworking
     private let requestValidator: RequestValidating
     private let linkedDomainService: LinkedDomainService
-    private let identifierService: IdentifierService
+    private let identifierService: IdentifierManager
     private let sdkLog: VCSDKLog
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
-                     urlSession: URLSession = URLSession.shared) {
+                     identifierService: IdentifierManager?,
+                     rootOfTrustResolver: RootOfTrustResolver?,
+                     urlSession: URLSession) {
         self.init(formatter: PresentationResponseFormatter(sdkLog: VCSDKLog.sharedInstance),
                   presentationApiCalls: PresentationNetworkCalls(correlationVector: correlationVector,
                                                                  urlSession: urlSession),
@@ -35,17 +37,18 @@ class PresentationService {
                                                                         urlSession: urlSession),
                   requestValidator: PresentationRequestValidator(),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
+                                                           rootOfTrustResolver: rootOfTrustResolver,
                                                            urlSession: urlSession),
-                  identifierService: IdentifierService(),
+                  identifierService: identifierService ?? IdentifierService(),
                   sdkLog: VCSDKLog.sharedInstance)
     }
     
-    init(formatter: PresentationResponseFormatting,
+    init(formatter: PresentationResponseFormatter,
          presentationApiCalls: PresentationNetworking,
          didDocumentDiscoveryApiCalls: DiscoveryNetworking,
          requestValidator: RequestValidating,
          linkedDomainService: LinkedDomainService,
-         identifierService: IdentifierService,
+         identifierService: IdentifierManager,
          sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
         self.formatter = formatter
         self.presentationApiCalls = presentationApiCalls

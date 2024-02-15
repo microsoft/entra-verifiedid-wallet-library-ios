@@ -86,7 +86,6 @@ extension IssuanceResponseContainer: IssuanceResponseContaining {
             let type = String(describing: type(of: verifiedIdRequirement.selectedVerifiedId))
             throw IssuanceResponseContainerError.unsupportedVerifiedIdOfType(type)
         }
-
         self.requestVCMap.append(RequestedVerifiableCredentialMapping(id: verifiedIdRequirement.id ?? "",
                                                                       verifiableCredential: vc.raw))
     }

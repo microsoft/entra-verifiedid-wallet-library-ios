@@ -22,6 +22,12 @@ public class VerifiedIdClientBuilder {
     
     private var previewFeatureFlagsSupported: [String] = []
     
+    private var identifierManager: IdentifierManager?
+    
+    private var rootOfTrustResolver: RootOfTrustResolver?
+    
+    private var urlSession: URLSession?
+    
     public init() {
         logger = WalletLibraryLogger()
     }
@@ -72,6 +78,16 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    public func with(identifierManager: IdentifierManager) -> VerifiedIdClientBuilder {
+        self.identifierManager = identifierManager
+        return self
+    }
+    
+    public func with(rootOfTrustResolver: RootOfTrustResolver) -> VerifiedIdClientBuilder {
+        self.rootOfTrustResolver = rootOfTrustResolver
+        return self
+    }
+    
     /// Optional method to add a custom Correlation Header to the VerifiedIdClient.
     public func with(verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader) -> VerifiedIdClientBuilder {
         self.correlationHeader = verifiedIdCorrelationHeader
@@ -91,15 +107,23 @@ public class VerifiedIdClientBuilder {
     }
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
-        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(),
+        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(identifierService: identifierManager,
+                                                                                             rootOfTrustResolver: rootOfTrustResolver,
+                                                                                             urlSession: urlSession ?? URLSession.shared),
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
     
-    private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration)
-    {
-        let issuanceService = IssuanceService(correlationVector: correlationHeader, urlSession: urlSession)
-        let presentationService = PresentationService(correlationVector: correlationHeader, urlSession: urlSession)
+    private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
+        // TODO: inject networking client into Services.
+        let issuanceService = IssuanceService(correlationVector: correlationHeader,
+                                              identifierManager: identifierManager,
+                                              rootOfTrustResolver: rootOfTrustResolver,
+                                              urlSession: urlSession ?? URLSession.shared)
+        let presentationService = PresentationService(correlationVector: correlationHeader,
+                                                      identifierService: identifierManager,
+                                                      rootOfTrustResolver: rootOfTrustResolver,
+                                                      urlSession: urlSession ?? URLSession.shared)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,

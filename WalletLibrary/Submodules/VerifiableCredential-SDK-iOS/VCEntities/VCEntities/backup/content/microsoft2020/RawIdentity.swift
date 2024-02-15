@@ -19,7 +19,7 @@ enum RawIdentityError: Error {
     case keyIdNotFound
 }
 
-struct RawIdentity: Codable {
+public struct RawIdentity: Codable {
     var id: String
     var name: String
     var keys: [JWK]?
@@ -40,7 +40,7 @@ struct RawIdentity: Codable {
         self.keys = keys
     }
     
-    func asIdentifier() throws -> Identifier {
+    public func asIdentifier() throws -> Identifier {
         // Get out the keys
         guard let keys = self.keys else {
             throw RawIdentityError.signingKeyNotFound

@@ -14,4 +14,9 @@ public struct RootOfTrust: Equatable {
     /// The source of the root of trust (could be the well-known endpoint url or a hub perhaps).
     public let source: String?
     
+    public init(verified: Bool, source: String?) {
+        self.verified = verified
+        self.source = source
+    }
+    
 }

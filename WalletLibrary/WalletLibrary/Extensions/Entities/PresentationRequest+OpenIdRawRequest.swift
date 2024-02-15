@@ -30,4 +30,12 @@ extension PresentationRequest: OpenIdRawRequest {
             return nil
         }
     }
+    
+    var authority: String {
+        token.content.clientID ?? ""
+    }
+    
+    var nonce: String? {
+        token.content.nonce
+    }
 }

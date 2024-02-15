@@ -11,7 +11,7 @@ struct PresentationDescriptor: Codable, Equatable {
     let credentialType: String
     let issuers: [IssuerDescriptor]?
     let contracts: [String]?
-
+    
     enum CodingKeys: String, CodingKey {
         case encrypted, claims
         case presentationRequired = "required"
@@ -19,11 +19,11 @@ struct PresentationDescriptor: Codable, Equatable {
     }
     
     init(encrypted: Bool? = nil,
-                claims: [ClaimDescriptor],
-                presentationRequired: Bool? = nil,
-                credentialType: String,
-                issuers: [IssuerDescriptor]? = nil,
-                contracts: [String]? = nil) {
+         claims: [ClaimDescriptor],
+         presentationRequired: Bool? = nil,
+         credentialType: String,
+         issuers: [IssuerDescriptor]? = nil,
+         contracts: [String]? = nil) {
         self.encrypted = encrypted
         self.claims = claims
         self.presentationRequired = presentationRequired

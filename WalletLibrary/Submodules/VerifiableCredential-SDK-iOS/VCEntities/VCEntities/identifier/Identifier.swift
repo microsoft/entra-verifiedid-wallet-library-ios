@@ -3,11 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-
-struct Identifier {
+public struct Identifier {
     let longFormDid: String
     let didDocumentKeys: [KeyContainer]
     let updateKey: KeyContainer
@@ -20,12 +16,12 @@ struct Identifier {
             return longFormDid
         }
     }
-
+    
     init(longFormDid: String,
-                didDocumentKeys: [KeyContainer],
-                updateKey: KeyContainer,
-                recoveryKey: KeyContainer,
-                alias: String) {
+         didDocumentKeys: [KeyContainer],
+         updateKey: KeyContainer,
+         recoveryKey: KeyContainer,
+         alias: String) {
         self.longFormDid = longFormDid
         self.didDocumentKeys = didDocumentKeys
         self.updateKey = updateKey
