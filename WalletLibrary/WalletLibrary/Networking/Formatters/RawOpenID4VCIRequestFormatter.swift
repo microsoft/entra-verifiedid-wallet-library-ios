@@ -88,7 +88,7 @@ struct RawOpenID4VCIRequestFormatter
         return hashedAccessToken
     }
     
-    private func creatSerializedToken(headers: Header,
+    private func createSerializedToken(headers: Header,
                                       claims: OpenID4VCIJWTProofClaims,
                                       keyReference: VCCryptoSecret) throws -> String
     {
