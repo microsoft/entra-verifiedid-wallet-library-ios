@@ -37,6 +37,16 @@ class OpenId4VCIValidationError: VerifiedIdError
                                          correlationId: nil)
     }
     
+    /// Creates an instance of `OpenId4VCIProtocolValidationError` when unable to create request.
+    static func OpenID4VCIRequestCreationError(message: String,
+                                               error: Error? = nil) -> OpenId4VCIValidationError
+    {
+        return OpenId4VCIValidationError(message: message,
+                                         code: "request_creation_error",
+                                         error: error,
+                                         correlationId: nil)
+    }
+    
     /// Optional nested error.
     let error: Error?
     

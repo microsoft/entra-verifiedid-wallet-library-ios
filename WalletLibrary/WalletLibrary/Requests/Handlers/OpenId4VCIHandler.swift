@@ -67,8 +67,7 @@ struct OpenId4VCIHandler: RequestHandling
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into public `Style` data models.
         let requesterStyle = credentialMetadata.getPreferredLocalizedIssuerDisplayDefinition()
-        let verifiedIdStyle = credentialConfig.getLocalizedVerifiedIdStyle(withIssuerName: requesterStyle.name,
-                                                                           mapper: configuration.mapper)
+        let verifiedIdStyle = credentialConfig.getLocalizedVerifiedIdStyle(withIssuerName: requesterStyle.name)
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into Requirement.
         let requirement = try getRequirement(scope: credentialConfig.scope, credentialOffer: credentialOffer)
@@ -78,6 +77,7 @@ struct OpenId4VCIHandler: RequestHandling
                                  rootOfTrust: rootOfTrust,
                                  requirement: requirement,
                                  credentialMetadata: credentialMetadata,
+                                 credentialConfiguration: credentialConfig,
                                  credentialOffer: credentialOffer,
                                  configuration: configuration)
     }
@@ -85,7 +85,8 @@ struct OpenId4VCIHandler: RequestHandling
     /// Fetch `CredentialMetadata` from "credential_issuer".
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
-        let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
+        let wellKnownUrl = CredentialMetadataFetchOperation.buildCredentialMetadataEndpoint(url: url)
+        let url = try URL.getRequiredProperty(property: wellKnownUrl, propertyName: "credential_issuer")
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
     }
     
@@ -120,9 +121,9 @@ struct OpenId4VCIHandler: RequestHandling
             throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
         }
         
-        // resource id is not needed.
+        /// resource id is the String in the scope param and scope is the resource id appended with `/.default`.
         return AccessTokenRequirement(configuration: grant.authorization_server,
-                                      resourceId: "",
-                                      scope: scope)
+                                      resourceId: scope,
+                                      scope: "\(scope)/.default")
     }
 }

@@ -31,4 +31,17 @@ struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
         
         addHeadersToURLRequest(headers: additionalHeaders)
     }
+    
+    static func buildCredentialMetadataEndpoint(url: String) -> URL?
+    {
+        let suffix = "/.well-known/openid-credential-issuer"
+        if url.hasSuffix(suffix)
+        {
+            return URL(string: url)
+        }
+        else
+        {
+            return URL(string: "\(url)\(suffix)")
+        }
+    }
 }

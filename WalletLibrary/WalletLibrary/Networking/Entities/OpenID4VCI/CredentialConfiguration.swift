@@ -6,63 +6,82 @@
 /**
  * The constraints for issuance and display information of a credential,
  */
-struct CredentialConfiguration: Decodable
+struct CredentialConfiguration: Codable
 {
     /// The Verified ID issued.
     let format: String?
     
-    /// The notification id to pass to notification endpoint.
+    /// The scope to be used to get Access Token.
     let scope: String?
     
-    /// The crypto binding methods supported (ex. did:jwk)
+    /// The crypto binding methods supported (ex. did:jwk).
     let cryptographic_binding_methods_supported: [String]?
     
-    /// The crypto suites supported (ex. ES256)
+    /// The crypto suites supported (ex. ES256).
     let cryptographic_suites_supported: [String]?
     
     /// Describes the metadata of the supported credential.
     let credential_definition: CredentialDefinition?
+    
+    /// Describes the way to display the credential.
+    let display: [LocalizedDisplayDefinition]?
+    
+    /// The types of proofs supported.
+    let proof_types_supported: [String: ProofTypesSupported]?
+}
+
+/**
+ * The types of proofs supported.
+ */
+struct ProofTypesSupported: Codable
+{
+    /// The type of proof that can be used to show ownership of keys bound to crypto binding method (ex. jwt).
+    let proof_signing_alg_values_supported: [String]
 }
 
 /**
  * Describes the metadata of the supported credential.
  */
-struct CredentialDefinition: Decodable
+struct CredentialDefinition: Codable
 {
     /// The types of the credential.
     let type: [String]?
     
     /// A mapping to describe how to display the claims in the credential.
-    let credentialSubject: [String: CredentialSubjectDefinition]?
-    
-    /// The type of proof that can be used to show ownership of keys bound to crypto binding method (ex. jwt).
-    let proof_types_supported: [String]?
-    
-    /// Describes the way to display the credential.
-    let display: [LocalizedDisplayDefinition]?
+    let credential_subject: [String: CredentialSubjectDefinition]?
 }
 
 extension CredentialConfiguration
 {
     /// Get `VerifiedIdStyle` from metadata in preferred locale.
-    func getLocalizedVerifiedIdStyle(withIssuerName issuerName: String, mapper: any Mapping) -> VerifiedIdStyle
+    func getLocalizedVerifiedIdStyle(withIssuerName issuerName: String) -> VerifiedIdStyle
     {
         let definition = getPreferredLocalizedDisplayDefinition()
-        let logo = definition?.logo.flatMap { try? mapper.map($0) }
         
         let style = BasicVerifiedIdStyle(name: definition?.name ?? "",
                                          issuer: issuerName,
                                          backgroundColor: definition?.background_color ?? "",
                                          textColor: definition?.text_color ?? "",
                                          description: definition?.description ?? "",
-                                         logo: logo)
+                                         logo: getLogo(in: definition))
         
         return style
     }
     
+    private func getLogo(in definition: LocalizedDisplayDefinition?) -> VerifiedIdLogo?
+    {
+        guard let uri = definition?.logo?.uri else
+        {
+            return nil
+        }
+        
+        return VerifiedIdLogo(url: URL(string: uri),
+                              altText: definition?.logo?.alt_text)
+    }
+    
     private func getPreferredLocalizedDisplayDefinition() -> LocalizedDisplayDefinition?
     {
-        guard let displayDefinitions = self.credential_definition?.display else
+        guard let displayDefinitions = self.display else
         {
             return nil
         }
@@ -87,7 +106,7 @@ extension CredentialConfiguration
 /**
  * Describes the way to display the credential.
  */
-struct CredentialSubjectDefinition: Decodable
+struct CredentialSubjectDefinition: Codable
 {
     /// An array of ways to display the credential with different locales.
     let display: [LocalizedDisplayDefinition]
@@ -96,7 +115,7 @@ struct CredentialSubjectDefinition: Decodable
 /**
  * Describes the way to display the credential based on a specific locale.
  */
-struct LocalizedDisplayDefinition: Decodable
+struct LocalizedDisplayDefinition: Codable
 {
     /// The name of the credential in specific locale.
     let name: String?
@@ -120,28 +139,11 @@ struct LocalizedDisplayDefinition: Decodable
 /**
  * Describes the logo metadata for the credential.
  */
-struct LogoDisplayDefinition: Decodable
+struct LogoDisplayDefinition: Codable
 {
     /// Data uri of the logo.
     let uri: String?
     
     /// Alt Text that describes the logo.
     let alt_text: String?
-}
-
-/**
- * This extension allows instances of LogoDisplayDefinition to be mapped into a VerifiedIdLogo.
- */
-extension LogoDisplayDefinition: Mappable
-{
-    func map(using mapper: Mapping) throws -> VerifiedIdLogo?
-    {
-        guard let uri = self.uri else
-        {
-            return nil
-        }
-        
-        return VerifiedIdLogo(url: URL(string: uri),
-                              altText: alt_text)
-    }
 }

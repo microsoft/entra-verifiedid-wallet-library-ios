@@ -30,10 +30,12 @@ class CredentialMetadataTests: XCTestCase
                                                   scope: nil,
                                                   cryptographic_binding_methods_supported: nil,
                                                   cryptographic_suites_supported: nil,
-                                                  credential_definition: nil)
+                                                  credential_definition: nil,
+                                                  display: nil, 
+                                                  proof_types_supported: nil)
         
         // Act
-        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName", mapper: mapper)
+        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName")
         
         // Assert
         XCTAssert(result is BasicVerifiedIdStyle)
@@ -56,17 +58,17 @@ class CredentialMetadataTests: XCTestCase
                                                            background_color: "expectedBackground",
                                                            text_color: "expectedTextColor")
         let definition = CredentialDefinition(type: nil,
-                                              credentialSubject: nil,
-                                              proof_types_supported: nil,
-                                              display: [displayDefinition])
+                                              credential_subject: nil)
         let emptyConfig = CredentialConfiguration(format: nil,
                                                   scope: nil,
                                                   cryptographic_binding_methods_supported: nil,
                                                   cryptographic_suites_supported: nil,
-                                                  credential_definition: definition)
+                                                  credential_definition: definition,
+                                                  display: [displayDefinition],
+                                                  proof_types_supported: nil)
         
         // Act
-        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName", mapper: mapper)
+        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName")
         
         // Assert
         XCTAssert(result is BasicVerifiedIdStyle)
@@ -91,23 +93,23 @@ class CredentialMetadataTests: XCTestCase
                                                            text_color: "expectedTextColor")
         
         let displayDefinition2 = LocalizedDisplayDefinition(name: "unsupportedName",
-                                                           locale: "unsupportedLocale",
-                                                           logo: nil,
-                                                           description: "unsupportedDescription",
-                                                           background_color: "unsupportedBackground",
-                                                           text_color: "unsupportedextColor")
+                                                            locale: "unsupportedLocale",
+                                                            logo: nil,
+                                                            description: "unsupportedDescription",
+                                                            background_color: "unsupportedBackground",
+                                                            text_color: "unsupportedextColor")
         let definition = CredentialDefinition(type: nil,
-                                              credentialSubject: nil,
-                                              proof_types_supported: nil,
-                                              display: [displayDefinition1, displayDefinition2])
+                                              credential_subject: nil)
         let emptyConfig = CredentialConfiguration(format: nil,
                                                   scope: nil,
                                                   cryptographic_binding_methods_supported: nil,
                                                   cryptographic_suites_supported: nil,
-                                                  credential_definition: definition)
+                                                  credential_definition: definition,
+                                                  display: [displayDefinition1, displayDefinition2],
+                                                  proof_types_supported: nil)
         
         // Act
-        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName", mapper: mapper)
+        let result = emptyConfig.getLocalizedVerifiedIdStyle(withIssuerName: "issuerName")
         
         // Assert
         XCTAssert(result is BasicVerifiedIdStyle)

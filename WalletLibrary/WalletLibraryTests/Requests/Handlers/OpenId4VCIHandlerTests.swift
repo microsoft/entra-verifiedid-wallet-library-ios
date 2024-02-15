@@ -130,7 +130,7 @@ class OpenId4VCIHandlerTests: XCTestCase
             XCTAssert(error is OpenId4VCIValidationError)
             let validationError = error as! OpenId4VCIValidationError
             XCTAssertEqual(validationError.code, "credential_metadata_malformed")
-            XCTAssertEqual(validationError.message, "Authorization servers in Credential Metadata does not contain expectedAuthorizationServer")
+            XCTAssertEqual(validationError.message, "Authorization servers in Credential Metadata does not contain https://login.microsoft.com")
         }
     }
     
@@ -221,7 +221,7 @@ class OpenId4VCIHandlerTests: XCTestCase
     }
     
     private func createCredentialMetadata(expectedConfigIds: [String] = ["expectedCredentialId"],
-                                          authorizationServer: String = "expectedAuthorizationServer",
+                                          authorizationServer: String = "https://login.microsoft.com",
                                           scope: String? = "expectedScope") -> CredentialMetadata
     {
         let credentialConfigs: [String: CredentialConfiguration] = expectedConfigIds.reduce(into: [:]) { (result, id) in
@@ -229,7 +229,9 @@ class OpenId4VCIHandlerTests: XCTestCase
                                                            scope: scope,
                                                            cryptographic_binding_methods_supported: nil,
                                                            cryptographic_suites_supported: nil,
-                                                           credential_definition: nil)
+                                                           credential_definition: nil,
+                                                           display: nil,
+                                                           proof_types_supported: nil)
             return result[id] = credentialConfig
         }
 
@@ -251,7 +253,7 @@ class OpenId4VCIHandlerTests: XCTestCase
             "credential_configuration_ids": ["expectedCredentialId"],
             "grants": [
                 "authorization_code": [
-                    "authorization_server": "expectedAuthorizationServer"
+                    "authorization_server": "https://login.microsoft.com"
                 ]
             ]
         ]
