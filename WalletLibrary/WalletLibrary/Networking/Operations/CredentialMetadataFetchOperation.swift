@@ -41,7 +41,7 @@ struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
         }
         else
         {
-            return URL(string: "url\(suffix)")
+            return URL(string: "\(url)\(suffix)")
         }
     }
 }
