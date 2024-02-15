@@ -52,10 +52,10 @@ struct CredentialDefinition: Codable
 extension CredentialConfiguration
 {
     /// Get `VerifiedIdStyle` from metadata in preferred locale.
-    func getLocalizedVerifiedIdStyle(withIssuerName issuerName: String, mapper: any Mapping) -> VerifiedIdStyle
+    func getLocalizedVerifiedIdStyle(withIssuerName issuerName: String) -> VerifiedIdStyle
     {
         let definition = getPreferredLocalizedDisplayDefinition()
-        let logo = definition?.logo.flatMap { try? mapper.map($0) }
+        let logo = definition?.logo.flatMap { try? Mapper().map($0) }
         
         let style = BasicVerifiedIdStyle(name: definition?.name ?? "",
                                          issuer: issuerName,

@@ -21,9 +21,13 @@ struct OpenID4VCIVerifiedId: VerifiedId
     
     let vc: VerifiableCredential
     
-    let metadata: CredentialMetadata
+    let configuration: CredentialConfiguration
     
-    init(raw: String, metadata: CredentialMetadata) throws
+    let issuerName: String
+    
+    init(raw: String, 
+         issuerName: String,
+         configuration: CredentialConfiguration) throws
     {
         guard let vc = VerifiableCredential(from: raw) else
         {
@@ -36,10 +40,11 @@ struct OpenID4VCIVerifiedId: VerifiedId
                                                   propertyName: "jti")
         
         self.vc = vc
-        self.metadata = metadata
+        self.configuration = configuration
         self.issuedOn = Date(timeIntervalSince1970: issuedOn)
         self.id = id
         self.types = vc.content.vc?.type ?? []
+        self.issuerName = issuerName
         
         if let expiresOn = vc.content.exp
         {
@@ -50,26 +55,27 @@ struct OpenID4VCIVerifiedId: VerifiedId
             self.expiresOn = nil
         }
         
-        self.style = BasicVerifiedIdStyle(name: "", issuer: "", backgroundColor: "", textColor: "", description: "", logo: nil)
+        self.style = configuration.getLocalizedVerifiedIdStyle(withIssuerName: issuerName)
     }
     
     enum CodingKeys: String, CodingKey 
     {
-        case vc, metadata
+        case vc, configuration, issuerName
     }
     
     public init(from decoder: Decoder) throws 
     {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let rawToken = try values.decode(String.self, forKey: .vc)
+        let issuerName = try values.decode(String.self, forKey: .issuerName)
         
         guard let raw = VerifiableCredential(from: rawToken) else 
         {
             throw VerifiableCredentialError.unableToDecodeRawVerifiableCredentialToken
         }
         
-        let metadata = try values.decode(CredentialMetadata.self, forKey: .metadata)
-        try self.init(raw: rawToken, metadata: metadata)
+        let configuration = try values.decode(CredentialConfiguration.self, forKey: .configuration)
+        try self.init(raw: rawToken, issuerName: issuerName, configuration: configuration)
     }
     
     public func encode(to encoder: Encoder) throws 
@@ -77,7 +83,8 @@ struct OpenID4VCIVerifiedId: VerifiedId
         var container = encoder.container(keyedBy: CodingKeys.self)
         let serializedToken = try vc.serialize()
         try container.encode(serializedToken, forKey: .vc)
-        try container.encode(metadata, forKey: .metadata)
+        try container.encode(configuration, forKey: .configuration)
+        try container.encode(issuerName, forKey: .issuerName)
     }
     
     public func getClaims() -> [VerifiedIdClaim] 

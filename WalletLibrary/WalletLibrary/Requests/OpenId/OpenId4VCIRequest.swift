@@ -94,7 +94,12 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
         let credential = try RawOpenID4VCIResponse.getRequiredProperty(property: test.credential,
                                                                        propertyName: "credential")
         
-        let verifiedId = try OpenID4VCIVerifiedId(raw: credential, metadata: credentialMetadata)
+        let config = credentialMetadata.getCredentialConfigurations(ids: credentialOffer.credential_configuration_ids).first!
+        let issuerName = credentialMetadata.getPreferredLocalizedIssuerDisplayDefinition().name
+        
+        let verifiedId = try OpenID4VCIVerifiedId(raw: credential,
+                                                  issuerName: issuerName,
+                                                  configuration: config)
         return verifiedId
     }
     
@@ -141,7 +146,7 @@ struct OpenId4VCIRequestFormatter
                                        credentialIssuer: credentialEndpoint,
                                        accessToken: accessToken)
         let proof = OpenID4VCIJWTProof(jwt: jwtProof)
-        let rawRequest = RawOpenID4VCIRequest(credential_identifier: configurationId,
+        let rawRequest = RawOpenID4VCIRequest(credential_configuration_id: configurationId,
                                               issuer_session: credentialOffer.issuer_session,
                                               proof: proof)
         return rawRequest
@@ -165,13 +170,12 @@ struct OpenId4VCIRequestFormatter
 //        let hashedAccessToken = Sha256().hash(data: accessToken).base64URLEncodedString()
         
         let claims = OpenID4VCIJWTProofClaims(credentialIssuer: credentialIssuer,
-                                              credentialConfigurationId: configurationId,
                                               did: identifier.longFormDid,
                                               accessTokenHash: accessToken)
         
         let headers = headerFormatter.formatHeaders(usingIdentifier: identifier,
                                                     andSigningKey: signingKey,
-                                                    type: "jwt") // openid4vci-proof+jwt
+                                                    type: "openid4vci-proof+jwt")
         
         guard var jwt = JwsToken(headers: headers, content: claims) else
         {
