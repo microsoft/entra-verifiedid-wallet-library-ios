@@ -32,6 +32,8 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     
     private let configuration: LibraryConfiguration
     
+    private var additionalHeaders: [String: String]?
+    
     init(content: PresentationRequestContent,
          rawRequest: any OpenIdRawRequest,
          openIdResponder: OpenIdResponder,
@@ -58,12 +60,18 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         }
     }
     
+    func with(additionalHeaders: [String : String]) -> any VerifiedIdPresentationRequest
+    {
+        self.additionalHeaders = additionalHeaders
+        return self
+    }
+    
     /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
     func complete() async -> VerifiedIdResult<Void> {
         return await VerifiedIdResult<Void>.getResult {
             var response = try PresentationResponseContainer(rawRequest: self.rawRequest)
             try response.add(requirement: self.requirement)
-            try await self.responder.send(response: response)
+            try await self.responder.send(response: response, additionalHeaders: self.additionalHeaders)
         }
     }
     
