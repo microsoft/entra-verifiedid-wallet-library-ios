@@ -3,12 +3,18 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+/**
+ * Formats a raw OpenID 4VCI Request to send to credential endpoint.
+ */
 struct RawOpenID4VCIRequestFormatter
 {
+    /// Signs the proof token.
     private let signer: TokenSigning
     
+    /// Formats the headers for the token.
     private let headerFormatter = JwsHeaderFormatter()
     
+    /// Configuration settings for the library
     private let configuration: LibraryConfiguration
     
     init(signer: TokenSigning = Secp256k1Signer(),
@@ -18,6 +24,11 @@ struct RawOpenID4VCIRequestFormatter
         self.configuration = configuration
     }
     
+    /// Format the `RawOpenID4VCIRequest` from the input.
+    /// - Parameters:
+    ///   - CredentialOffer: The Credential Offer that initiated the request.
+    ///   - CredentialEndpoint: The URL that will be used to end raw request to.
+    ///   - AccessToken: The access token used for authorization.
     func format(credentialOffer: CredentialOffer,
                 credentialEndpoint: String,
                 accessToken: String) throws -> RawOpenID4VCIRequest
@@ -47,16 +58,16 @@ struct RawOpenID4VCIRequestFormatter
             throw FormatterError.noSigningKeyFound
         }
         
-//        guard let accessToken = Data(base64URLEncoded: accessToken) else
-//        {
-//            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "")
-//        }
-//
-//        let hashedAccessToken = Sha256().hash(data: accessToken).base64URLEncodedString()
+        guard let encodedAccessToken = accessToken.data(using: .utf8) else
+        {
+            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "")
+        }
+
+        let hashedAccessToken = Sha256().hash(data: encodedAccessToken).base64URLEncodedString()
         
         let claims = OpenID4VCIJWTProofClaims(credentialEndpoint: credentialEndpoint,
                                               did: identifier.longFormDid,
-                                              accessTokenHash: accessToken)
+                                              accessTokenHash: hashedAccessToken)
         
         let headers = headerFormatter.formatHeaders(usingIdentifier: identifier,
                                                     andSigningKey: signingKey,
