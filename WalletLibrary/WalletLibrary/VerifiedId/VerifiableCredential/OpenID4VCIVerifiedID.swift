@@ -68,12 +68,6 @@ struct OpenID4VCIVerifiedId: VerifiedId
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let rawToken = try values.decode(String.self, forKey: .vc)
         let issuerName = try values.decode(String.self, forKey: .issuerName)
-        
-        guard let raw = VerifiableCredential(from: rawToken) else 
-        {
-            throw VerifiableCredentialError.unableToDecodeRawVerifiableCredentialToken
-        }
-        
         let configuration = try values.decode(CredentialConfiguration.self, forKey: .configuration)
         try self.init(raw: rawToken, issuerName: issuerName, configuration: configuration)
     }
@@ -87,27 +81,10 @@ struct OpenID4VCIVerifiedId: VerifiedId
         try container.encode(issuerName, forKey: .issuerName)
     }
     
-    public func getClaims() -> [VerifiedIdClaim] 
+    /// TODO: implement in next PR.
+    public func getClaims() -> [VerifiedIdClaim]
     {
-        guard let vcClaims = vc.content.vc?.credentialSubject else
-        {
-            return []
-        }
-        
-//        let claimLabels = contract.display.claims
-        
         var verifiedIdClaims: [VerifiedIdClaim] = []
-        /// TODO: add casting to correct type from contract.
-//        for (claim, value) in vcClaims {
-//            if let claimStyle = claimLabels["vc.credentialSubject.\(claim)"] {
-//                verifiedIdClaims.append(VerifiedIdClaim(id: claimStyle.label,
-//                                                        value: value))
-//            } else {
-//                verifiedIdClaims.append(VerifiedIdClaim(id: claim,
-//                                                        value: value))
-//            }
-//        }
-        
         return verifiedIdClaims
     }
 }
