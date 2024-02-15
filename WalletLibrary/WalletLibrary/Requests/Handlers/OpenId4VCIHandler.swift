@@ -112,7 +112,7 @@ struct OpenId4VCIHandler: RequestHandling
     private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
     {
         /// "authorization_code"
-        guard let grant = credentialOffer.grants["authorizationCode"] else
+        guard let grant = credentialOffer.grants["authorization_code"] else
         {
             let errorMessage = "Grants does not contain 'authorization_code' property."
             throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
@@ -124,9 +124,9 @@ struct OpenId4VCIHandler: RequestHandling
             throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
         }
         
-        // resource id is not needed.
+        /// resource id is the String in the scope param and scope is the resource id appended with `/.default`.
         return AccessTokenRequirement(configuration: grant.authorization_server,
-                                      resourceId: "",
-                                      scope: scope)
+                                      resourceId: scope,
+                                      scope: "\(scope)/.default")
     }
 }
