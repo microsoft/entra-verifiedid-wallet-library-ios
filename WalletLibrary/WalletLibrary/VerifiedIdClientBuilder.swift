@@ -39,7 +39,7 @@ public class VerifiedIdClientBuilder {
                                                    accessGroupIdentifier: keychainAccessGroupIdentifier)
         
         /// TODO: update to new Identifier logic once designed.
-        let identifierManager: IdentifierManager = VerifiableCredentialSDK.identifierService
+        let identifierManager: IdentifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
         
         let walletLibraryNetworking = WalletLibraryNetworking(urlSession: urlSession,
                                                               logger: logger,
@@ -103,9 +103,11 @@ public class VerifiedIdClientBuilder {
     }
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
-        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(identifierService: identifierManager,
-                                                                                             rootOfTrustResolver: rootOfTrustResolver,
-                                                                                             urlSession: urlSession),
+        let presentationService = PresentationService(correlationVector: correlationHeader,
+                                                      identifierService: configuration.identifierManager,
+                                                      rootOfTrustResolver: rootOfTrustResolver,
+                                                      urlSession: urlSession)
+        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: presentationService,
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
@@ -113,11 +115,11 @@ public class VerifiedIdClientBuilder {
     private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
         // TODO: inject networking client into Services.
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
-                                              identifierManager: identifierManager,
+                                              identifierManager: configuration.identifierManager,
                                               rootOfTrustResolver: rootOfTrustResolver,
                                               urlSession: urlSession)
         let presentationService = PresentationService(correlationVector: correlationHeader,
-                                                      identifierService: identifierManager,
+                                                      identifierService: configuration.identifierManager,
                                                       rootOfTrustResolver: rootOfTrustResolver,
                                                       urlSession: urlSession)
         let openIdHandler = OpenIdRequestHandler(configuration: configuration,
