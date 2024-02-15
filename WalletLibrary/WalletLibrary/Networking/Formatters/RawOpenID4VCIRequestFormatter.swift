@@ -4,11 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Formats a raw OpenID 4VCI Request to send to credential endpoint.
+ * Formats a raw OpenID4VCI Request to send to credential endpoint.
  */
 struct RawOpenID4VCIRequestFormatter
 {
-    /// Signs the proof token.
+    /// Used to sign the proof token.
     private let signer: TokenSigning
     
     /// Formats the headers for the token.
@@ -35,7 +35,8 @@ struct RawOpenID4VCIRequestFormatter
     {
         guard let configurationId = credentialOffer.credential_configuration_ids.first else
         {
-            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "")
+            let errorMessage = "Configuration Id not present in Credential Offer."
+            throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage)
         }
         
         let jwtProof = try formatProof(configurationId: configurationId,
@@ -55,32 +56,58 @@ struct RawOpenID4VCIRequestFormatter
         guard let identifier = try? configuration.identifierManager.fetchOrCreateMasterIdentifier(),
               let signingKey = identifier.didDocumentKeys.first else
         {
-            throw FormatterError.noSigningKeyFound
-        }
-        
-        guard let encodedAccessToken = accessToken.data(using: .utf8) else
-        {
-            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "")
+            let errorMessage = "Unable to fetch user's signing key reference."
+            throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage)
         }
 
-        let hashedAccessToken = Sha256().hash(data: encodedAccessToken).base64URLEncodedString()
+        let accessTokenHash = try hash(accessToken: accessToken)
         
         let claims = OpenID4VCIJWTProofClaims(credentialEndpoint: credentialEndpoint,
                                               did: identifier.longFormDid,
-                                              accessTokenHash: hashedAccessToken)
+                                              accessTokenHash: accessTokenHash)
         
         let headers = headerFormatter.formatHeaders(usingIdentifier: identifier,
                                                     andSigningKey: signingKey,
                                                     type: "openid4vci-proof+jwt")
         
+        let serializedToken = try creatSerializedToken(headers: headers,
+                                                       claims: claims,
+                                                       keyReference: signingKey.keyReference)
+        return serializedToken
+    }
+    
+    private func hash(accessToken: String) throws -> String
+    {
+        guard let encodedAccessToken = accessToken.data(using: .utf8) else
+        {
+            let errorMessage = "Unable to hash access token."
+            throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage)
+        }
+
+        let hashedAccessToken = Sha256().hash(data: encodedAccessToken).base64URLEncodedString()
+        return hashedAccessToken
+    }
+    
+    private func creatSerializedToken(headers: Header,
+                                      claims: OpenID4VCIJWTProofClaims,
+                                      keyReference: VCCryptoSecret) throws -> String
+    {
         guard var jwt = JwsToken(headers: headers, content: claims) else
         {
-            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "")
+            let errorMessage = "Unable to create Proof JWT."
+            throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage)
         }
         
-        try jwt.sign(using: signer, withSecret: signingKey.keyReference)
-        
-        // sign JWT
-        return try jwt.serialize()
+        do
+        {
+            try jwt.sign(using: signer, withSecret: keyReference)
+            return try jwt.serialize()
+        }
+        catch
+        {
+            let errorMessage = "Unable to format the Proof Token."
+            throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage,
+                                                                           error: error)
+        }
     }
 }
