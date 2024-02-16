@@ -60,10 +60,9 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
         }
     }
     
-    func with(additionalHeaders: [String : String]) -> any VerifiedIdPresentationRequest
+    func set(additionalHeaders: [String : String])
     {
         self.additionalHeaders = additionalHeaders
-        return self
     }
     
     /// Completes the request and returns a Result object containing void if successful, and an error if not successful.

@@ -25,6 +25,7 @@ extension PresentationService: OpenIdForVCResolver, OpenIdResponder {
             throw PresentationServiceExtensionError.unableToCastOpenIdForVCResponseToPresentationResponseContainer
         }
         
-        try await self.send(response: presentationResponseContainer, additionalHeader: additionalHeaders)
+        try await self.send(response: presentationResponseContainer, 
+                            additionalHeaders: additionalHeaders)
     }
 }

@@ -18,7 +18,7 @@ enum PresentationServiceError: Error {
 
 class PresentationService {
     
-    let formatter: PresentationResponseFormatter
+    let formatter: PresentationResponseFormatting
     let presentationApiCalls: PresentationNetworking
     private let didDocumentDiscoveryApiCalls: DiscoveryNetworking
     private let requestValidator: RequestValidating
@@ -43,7 +43,7 @@ class PresentationService {
                   sdkLog: VCSDKLog.sharedInstance)
     }
     
-    init(formatter: PresentationResponseFormatter,
+    init(formatter: PresentationResponseFormatting,
          presentationApiCalls: PresentationNetworking,
          didDocumentDiscoveryApiCalls: DiscoveryNetworking,
          requestValidator: RequestValidating,
@@ -77,12 +77,13 @@ class PresentationService {
         }
     }
     
-    func send(response: PresentationResponseContainer, additionalHeader: [String: String]?) async throws {
+    func send(response: PresentationResponseContainer,
+              additionalHeaders: [String: String]? = nil) async throws {
         try await logTime(name: "Presentation sendResponse") {
             let formattedResponse = try self.formatPresentationResponse(response: response)
             try await self.presentationApiCalls.sendResponse(usingUrl: response.audienceUrl,
                                                              withBody: formattedResponse,
-                                                             additionalHeaders: additionalHeader)
+                                                             additionalHeaders: additionalHeaders)
         }
     }
     
