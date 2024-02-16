@@ -57,6 +57,7 @@ class LinkedDomainServiceTests: XCTestCase {
         let validator = MockDomainLinkageCredentialValidator(isValid: isLinkageCredentialValid)
         
         return LinkedDomainService(wellKnownDocumentApiCalls: wellKnownApiCalls,
+                                   rootOfTrustResolver: nil,
                                    domainLinkageValidator: validator)
     }
     

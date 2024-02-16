@@ -26,8 +26,6 @@ public class VerifiedIdClientBuilder {
     
     private var rootOfTrustResolver: RootOfTrustResolver?
     
-    private var urlSession: URLSession?
-    
     public init() {
         logger = WalletLibraryLogger()
     }
