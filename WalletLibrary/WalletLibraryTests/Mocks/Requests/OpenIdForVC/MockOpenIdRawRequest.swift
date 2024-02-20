@@ -6,7 +6,7 @@
 @testable import WalletLibrary
 
 struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
-    
+
     enum MockOpenIdRawRequestError: Error {
         case mappingNotSupported
     }
@@ -14,6 +14,10 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     var type: RequestType
     
     var raw: Data?
+    
+    var authority: String = ""
+    
+    var nonce: String? = ""
     
     init(raw: Data?, type: RequestType = .Presentation) {
         self.raw = raw

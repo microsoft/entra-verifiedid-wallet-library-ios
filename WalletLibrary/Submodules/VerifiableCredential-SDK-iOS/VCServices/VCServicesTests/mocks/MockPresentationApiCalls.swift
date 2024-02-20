@@ -19,7 +19,9 @@ class MockPresentationApiCalls: PresentationNetworking {
         throw MockPresentationNetworkingError.doNotWantToResolveRealObject
     }
     
-    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) async throws {
+    func sendResponse(usingUrl url: String, 
+                      withBody body: WalletLibrary.PresentationResponse,
+                      additionalHeaders: [String : String]?) async throws {
         Self.wasPostCalled = true
         throw MockPresentationNetworkingError.doNotWantToResolveRealObject
     }

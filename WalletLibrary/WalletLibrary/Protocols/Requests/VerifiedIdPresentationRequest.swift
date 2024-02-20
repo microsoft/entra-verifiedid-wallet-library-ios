@@ -15,5 +15,5 @@ public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void
     /// The nonce on the request.
     var nonce: String? { get }
     
-    func with(additionalHeaders: [String: String]) -> any VerifiedIdPresentationRequest
+    func set(additionalHeaders: [String: String])
 }
