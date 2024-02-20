@@ -91,7 +91,12 @@ extension InternalNetworkOperation
         {
             for (headerField, headerValue) in headers
             {
-                urlRequest.addValue(headerValue, 
+                if let headerValueOnURLSession = urlSession.configuration.httpAdditionalHeaders?[headerField] as? String
+                {
+                    self.urlRequest.addValue(headerValueOnURLSession, forHTTPHeaderField: headerField)
+                }
+                
+                urlRequest.addValue(headerValue,
                                     forHTTPHeaderField: headerField)
             }
         }
