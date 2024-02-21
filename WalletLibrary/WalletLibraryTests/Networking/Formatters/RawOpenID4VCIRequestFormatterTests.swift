@@ -100,10 +100,10 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
         XCTAssertEqual(request.credential_configuration_id, mockConfigurationId)
         XCTAssertEqual(request.issuer_session, mockIssuerSession)
         XCTAssertEqual(request.proof.proof_type, "jwt")
-        let result = JwsToken<OpenID4VCIJWTProofClaims>(from: request.proof.jwt)
-        XCTAssertEqual(result?.content.aud, mockEndpoint)
-        XCTAssertEqual(result?.content.sub, "did:test:1234")
-        XCTAssertEqual(result?.content.at_hash, "1EZBnvsFWlK8ESkgHQsrISKuTFVEzRM4MyM9Z7xwrDs")
+        let proof = JwsToken<OpenID4VCIJWTProofClaims>(from: request.proof.jwt)
+        XCTAssertEqual(proof?.content.aud, mockEndpoint)
+        XCTAssertEqual(proof?.content.sub, "did:test:1234")
+        XCTAssertEqual(proof?.content.at_hash, "1EZBnvsFWlK8ESkgHQsrISKuTFVEzRM4MyM9Z7xwrDs")
     }
     
     private func createCredentialOffer(configIds: [String] = ["configIds"],
