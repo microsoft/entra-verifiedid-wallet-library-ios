@@ -6,7 +6,7 @@
 /**
  * OpenID4VCI specific Verifiable Credential object contains the raw VC, and the display information.
  */
-struct OpenID4VCIVerifiedId: VerifiedId 
+struct OpenID4VCIVerifiedId: InternalVerifiedId
 {
     public let id: String
     
@@ -18,7 +18,7 @@ struct OpenID4VCIVerifiedId: VerifiedId
     
     let types: [String]
     
-    let vc: VerifiableCredential
+    let raw: VerifiableCredential
     
     let configuration: CredentialConfiguration
     
@@ -38,7 +38,7 @@ struct OpenID4VCIVerifiedId: VerifiedId
         let id = try VCClaims.getRequiredProperty(property: vc.content.jti,
                                                   propertyName: "jti")
         
-        self.vc = vc
+        self.raw = vc
         self.configuration = configuration
         self.issuedOn = Date(timeIntervalSince1970: issuedOn)
         self.id = id
@@ -74,7 +74,7 @@ struct OpenID4VCIVerifiedId: VerifiedId
     public func encode(to encoder: Encoder) throws 
     {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let serializedToken = try vc.serialize()
+        let serializedToken = try raw.serialize()
         try container.encode(serializedToken, forKey: .vc)
         try container.encode(configuration, forKey: .configuration)
         try container.encode(issuerName, forKey: .issuerName)
