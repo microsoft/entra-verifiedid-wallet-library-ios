@@ -103,7 +103,7 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
         let proof = JwsToken<OpenID4VCIJWTProofClaims>(from: request.proof.jwt)
         XCTAssertEqual(proof?.content.aud, mockEndpoint)
         XCTAssertEqual(proof?.content.sub, "did:test:1234")
-        XCTAssertEqual(proof?.content.at_hash, "1EZBnvsFWlK8ESkgHQsrISKuTFVEzRM4MyM9Z7xwrDs")
+        XCTAssertEqual(proof?.content.at_hash, "1EZBnvsFWlK8ESkgHQsrIQ")
     }
     
     private func createCredentialOffer(configIds: [String] = ["configIds"],
