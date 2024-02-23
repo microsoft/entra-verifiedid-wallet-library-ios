@@ -93,7 +93,7 @@ class VCVerifiedIdTests: XCTestCase {
         let expectedValue1 = "mockValue1"
         let expectedValue2 = "mockValue2"
         let expectedClaim1 = VerifiedIdClaim(id: "mockKey1", type: "String", value: expectedValue1)
-        let expectedClaim2 = VerifiedIdClaim(id: "mockKey2", type: "String",value: expectedValue2)
+        let expectedClaim2 = VerifiedIdClaim(id: "mockKey2", type: "String", value: expectedValue2)
         let mockVCClaimDictionary = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
         let mockVerifiableCredential = createVCEntitiesVC(expectedClaims: mockVCClaimDictionary)
         let mockContract = createMockSignedContract()

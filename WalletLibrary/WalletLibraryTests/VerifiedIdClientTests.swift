@@ -48,7 +48,6 @@ class VerifiedIdClientTests: XCTestCase {
     func testCreateRequest_WhenResolverThrows_ThrowError() async throws {
         // Arrange
         let resolver = MockResolver(canResolveUsingInput: true,
-                                    canResolveUsingHandler: { _ in false },
                                     mockResolve: { _ in throw ExpectedError.expectedToBeThrownInResolver })
         let resolverFactory = RequestResolverFactory(resolvers: [resolver])
         
@@ -80,13 +79,12 @@ class VerifiedIdClientTests: XCTestCase {
     func testCreateRequest_WhenHandlerFactoryThrows_ThrowError() async throws {
         // Arrange
         let resolver = MockResolver(canResolveUsingInput: true,
-                                    canResolveUsingHandler: { _ in false },
                                     mockResolve: {_ in MockRawRequest(raw: "")})
         let resolverFactory = RequestResolverFactory(resolvers: [resolver])
         
         let mockInput = MockInput(mockData: "")
         
-        let mockHandler = MockHandler()
+        let mockHandler = MockHandler(mockCanHandle: false)
         let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
@@ -105,20 +103,20 @@ class VerifiedIdClientTests: XCTestCase {
                            VerifiedIdErrors.ErrorCode.UnspecifiedError)
             let innerError = (error as! UnspecifiedVerifiedIdError).error
             XCTAssert(innerError is RequestHandlerFactoryError)
-            XCTAssertEqual(innerError as? RequestHandlerFactoryError, .UnsupportedResolver)
+            XCTAssertEqual(innerError as? RequestHandlerFactoryError, .UnsupportedRawRequest)
         }
     }
     
     func testCreateRequest_WhenHandlerThrows_ThrowError() async throws {
         // Arrange
         let resolver = MockResolver(canResolveUsingInput: true,
-                                    canResolveUsingHandler: { _ in true },
                                     mockResolve: {_ in MockRawRequest(raw: "")})
         let resolverFactory = RequestResolverFactory(resolvers: [resolver])
         
         let mockInput = MockInput(mockData: "")
         
-        let mockHandler = MockHandler(mockHandleRequest: { throw ExpectedError.expectedToBeThrownInHandler })
+        let mockHandler = MockHandler(mockCanHandle: true,
+                                      mockHandleRequest: { throw ExpectedError.expectedToBeThrownInHandler })
         let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
@@ -144,7 +142,6 @@ class VerifiedIdClientTests: XCTestCase {
     func testCreateRequest_WithNoErrorsThrown_ReturnsVerifiedIdRequest() async throws {
         // Arrange
         let resolver = MockResolver(canResolveUsingInput: true,
-                                    canResolveUsingHandler: { _ in true },
                                     mockResolve: {_ in MockRawRequest(raw: "")})
         let resolverFactory = RequestResolverFactory(resolvers: [resolver])
         
@@ -152,7 +149,8 @@ class VerifiedIdClientTests: XCTestCase {
         
         let expectedRequest = MockVerifiedIdRequest()
         
-        let mockHandler = MockHandler(mockHandleRequest: { return expectedRequest })
+        let mockHandler = MockHandler(mockCanHandle: true,
+                                      mockHandleRequest: { return expectedRequest })
         let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
@@ -169,7 +167,6 @@ class VerifiedIdClientTests: XCTestCase {
     func testCreateRequest_WithCorrelationHeader_ResetsCorrelationHeader() async throws {
         // Arrange
         let resolver = MockResolver(canResolveUsingInput: true,
-                                    canResolveUsingHandler: { _ in true },
                                     mockResolve: {_ in MockRawRequest(raw: "")})
         let resolverFactory = RequestResolverFactory(resolvers: [resolver])
         
@@ -177,12 +174,16 @@ class VerifiedIdClientTests: XCTestCase {
         
         let expectedRequest = MockVerifiedIdRequest()
         
-        let mockHandler = MockHandler(mockHandleRequest: { return expectedRequest })
+        let mockHandler = MockHandler(mockCanHandle: true,
+                                      mockHandleRequest: { return expectedRequest })
         let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
         let mockCorrelationHeader = MockCorrelationHeader()
+        let walletLibraryNetworking = WalletLibraryNetworking(urlSession: URLSession.shared,
+                                                              logger: WalletLibraryLogger(),
+                                                              correlationHeader: mockCorrelationHeader)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
-                                                 mapper: Mapper(),
-                                                 correlationHeader: mockCorrelationHeader)
+                                                 mapper: Mapper(), 
+                                                 networking: walletLibraryNetworking)
         
         let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
                                       requestHandlerFactory: handlerFactory,

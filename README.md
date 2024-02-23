@@ -1,5 +1,4 @@
 # Microsoft Entra Wallet Library
-![badge-privatepreview]
 ![badge-packagemanagers-supported] 
 ![badge-pod-version] 
 ![badge-languages] 
@@ -18,7 +17,7 @@ You can use cocoapods to install the Wallet Library by adding it to your Podfile
 
 target "YourApp" do
   use_frameworks!
-  pod "WalletLibrary", "~> 0.0.1"
+  pod "WalletLibrary", "~> 0.0.1", :submodules => true
 end
 ```
 > note: use_frameworks! is required for this Pod.
@@ -158,4 +157,3 @@ Any use of third-party trademarks or logos are subject to those third-party's po
 [badge-platforms]: https://img.shields.io/badge/platforms-iOS-lightgrey.svg
 [badge-license]: https://img.shields.io/github/license/microsoft/entra-verifiedid-wallet-library-ios
 [badge-azure-pipline]: https://decentralized-identity.visualstudio.com/Core/_apis/build/status/iOS%20Wallet%20Library?branchName=dev
-[badge-privatepreview]: https://img.shields.io/badge/status-Private%20Preview-red.svg

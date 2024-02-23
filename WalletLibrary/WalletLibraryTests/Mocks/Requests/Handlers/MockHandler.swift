@@ -6,18 +6,26 @@
 @testable import WalletLibrary
 
 class MockHandler: RequestHandling {
-    
+
     enum MockHandlerError: Error {
         case nilMockHandlerMethod
     }
     
     let mockHandleRequest: (() throws -> any VerifiedIdRequest)?
     
-    init(mockHandleRequest: (() throws -> any VerifiedIdRequest)? = nil) {
+    let mockCanHandle: Bool
+    
+    init(mockCanHandle: Bool = false,
+         mockHandleRequest: (() throws -> any VerifiedIdRequest)? = nil) {
+        self.mockCanHandle = mockCanHandle
         self.mockHandleRequest = mockHandleRequest
     }
     
-    func handleRequest<RawRequest>(from: RawRequest) async throws -> any VerifiedIdRequest {
+    func canHandle(rawRequest: Any) -> Bool {
+        return mockCanHandle
+    }
+    
+    func handle(rawRequest: Any) async throws -> any VerifiedIdRequest {
         
         guard let mockHandleRequest = mockHandleRequest else {
             throw MockHandlerError.nilMockHandlerMethod

@@ -12,17 +12,19 @@ public class VerifiedIdClientBuilder {
     
     private var correlationHeader: VerifiedIdCorrelationHeader?
     
+    private var urlSession: URLSession = URLSession.shared
+    
     private var logger: WalletLibraryLogger
     
     private var requestResolvers: [any RequestResolving] = []
     
     private var requestHandlers: [any RequestHandling] = []
     
+    private var previewFeatureFlagsSupported: [String] = []
+    
     private var identifierManager: IdentifierManager?
     
     private var rootOfTrustResolver: RootOfTrustResolver?
-    
-    private var urlSession: URLSession?
     
     public init() {
         logger = WalletLibraryLogger()
@@ -31,15 +33,25 @@ public class VerifiedIdClientBuilder {
     /// Builds the VerifiedIdClient with the set configuration from the builder.
     public func build() -> VerifiedIdClient {
 
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: previewFeatureFlagsSupported)
         let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
         let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
                                                    accessGroupIdentifier: keychainAccessGroupIdentifier)
         
+        /// TODO: update to new Identifier logic once designed.
+        let identifierManager: IdentifierManager = VerifiableCredentialSDK.identifierService
+        
+        let walletLibraryNetworking = WalletLibraryNetworking(urlSession: urlSession,
+                                                              logger: logger,
+                                                              correlationHeader: correlationHeader)
+        
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
-                                                 correlationHeader: correlationHeader,
+                                                 networking: walletLibraryNetworking,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
-                                                 verifiedIdEncoder: VerifiedIdEncoder())
+                                                 verifiedIdEncoder: VerifiedIdEncoder(),
+                                                 identifierManager: identifierManager,
+                                                 previewFeatureFlags: previewFeatureFlags)
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestHandlers(with: configuration)
@@ -51,8 +63,10 @@ public class VerifiedIdClientBuilder {
                                 configuration: configuration)
     }
     
-    public func with(urlSession: URLSession) -> VerifiedIdClientBuilder {
-        self.urlSession = urlSession
+    /// Optional method to add support for preview features.
+    public func with(previewFeatureFlags: [String]) -> VerifiedIdClientBuilder
+    {
+        previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
         return self
     }
 
@@ -75,6 +89,12 @@ public class VerifiedIdClientBuilder {
     /// Optional method to add a custom Correlation Header to the VerifiedIdClient.
     public func with(verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader) -> VerifiedIdClientBuilder {
         self.correlationHeader = verifiedIdCorrelationHeader
+        return self
+    }
+    
+    /// Optional method to add a custom URLSession to the VerifiedIdClient.
+    public func with(urlSession: URLSession) -> VerifiedIdClientBuilder {
+        self.urlSession = urlSession
         return self
     }
     
@@ -107,5 +127,8 @@ public class VerifiedIdClientBuilder {
                                                  manifestResolver: issuanceService,
                                                  verifiableCredentialRequester: issuanceService)
         requestHandlers.append(openIdHandler)
+        
+        let openId4VCIHandler = OpenId4VCIHandler(configuration: configuration)
+        requestHandlers.append(openId4VCIHandler)
     }
 }

@@ -63,21 +63,25 @@ class PresentationService {
         return try await logTime(name: "Presentation getRequest") {
             let requestUri = try self.getRequestUri(from: urlStr)
             let request = try await self.presentationApiCalls.getRequest(withUrl: requestUri)
-            
-            let document = try await self.getIdentifierDocument(from: request)
-            
-            guard let publicKeys = document.verificationMethod else
-            {
-                throw PresentationServiceError.noPublicKeysInIdentifierDocument
-            }
-            
-            try self.requestValidator.validate(request: request, usingKeys: publicKeys)
-            let result = try await self.linkedDomainService.validateLinkedDomain(from: document)
-            return PresentationRequest(from: request, linkedDomainResult: result)
+            return try await self.validate(request: request)
         }
     }
     
-    func send(response: PresentationResponseContainer,
+    func validate(request: PresentationRequestToken) async throws -> PresentationRequest {
+        
+        let document = try await self.getIdentifierDocument(from: request)
+        
+        guard let publicKeys = document.verificationMethod else
+        {
+            throw PresentationServiceError.noPublicKeysInIdentifierDocument
+        }
+        
+        try self.requestValidator.validate(request: request, usingKeys: publicKeys)
+        let result = try await self.linkedDomainService.validateLinkedDomain(from: document)
+        return PresentationRequest(from: request, linkedDomainResult: result)
+    }
+    
+    func send(response: PresentationResponseContainer, 
               additionalHeaders: [String: String]? = nil) async throws {
         try await logTime(name: "Presentation sendResponse") {
             let formattedResponse = try self.formatPresentationResponse(response: response)
