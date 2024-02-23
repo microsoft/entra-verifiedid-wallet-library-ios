@@ -81,11 +81,13 @@ class PresentationService {
         return PresentationRequest(from: request, linkedDomainResult: result)
     }
     
-    func send(response: PresentationResponseContainer) async throws {
+    func send(response: PresentationResponseContainer, 
+              additionalHeaders: [String: String]? = nil) async throws {
         try await logTime(name: "Presentation sendResponse") {
             let formattedResponse = try self.formatPresentationResponse(response: response)
             try await self.presentationApiCalls.sendResponse(usingUrl: response.audienceUrl,
-                                                             withBody: formattedResponse)
+                                                             withBody: formattedResponse,
+                                                             additionalHeaders: additionalHeaders)
         }
     }
     

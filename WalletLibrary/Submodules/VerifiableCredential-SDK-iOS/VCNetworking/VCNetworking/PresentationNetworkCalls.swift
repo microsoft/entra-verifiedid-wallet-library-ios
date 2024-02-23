@@ -5,7 +5,9 @@
 
 protocol PresentationNetworking {
     func getRequest(withUrl url: String) async throws -> PresentationRequestToken
-    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) async throws
+    func sendResponse(usingUrl url: String,
+                      withBody body: PresentationResponse,
+                      additionalHeaders: [String: String]?) async throws
 }
 
 class PresentationNetworkCalls: PresentationNetworking {
@@ -26,9 +28,12 @@ class PresentationNetworkCalls: PresentationNetworking {
         return try await operation.fire()
     }
     
-    func sendResponse(usingUrl url: String, withBody body: PresentationResponse) async throws {
+    func sendResponse(usingUrl url: String, 
+                      withBody body: PresentationResponse,
+                      additionalHeaders: [String: String]?) async throws {
         let operation = try PostPresentationResponseOperation(usingUrl: url,
                                                               withBody: body,
+                                                              additionalHeaders: additionalHeaders,
                                                               andCorrelationVector: correlationVector,
                                                               urlSession: urlSession)
         let _ = try await operation.fire()
