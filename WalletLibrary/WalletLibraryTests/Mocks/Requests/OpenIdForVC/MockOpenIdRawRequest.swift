@@ -15,6 +15,10 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     
     var raw: Data?
     
+    var authority: String = ""
+    
+    var nonce: String? = ""
+    
     init(raw: Data?, type: RequestType = .Presentation) {
         self.raw = raw
         self.type = type

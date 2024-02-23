@@ -32,6 +32,4 @@ class MockCorrelationHeader: VerifiedIdCorrelationHeader {
     func reset() {
         wasResetCalled = true
     }
-    
-    
 }
