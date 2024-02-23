@@ -51,7 +51,7 @@ extension PresentationResponseContainer: RawPresentationResponse {
             throw PresentationResponseContainerError.missingIdInVerifiedIdRequirement
         }
         
-        guard let verifiableCredential = verifiedIdRequirement.selectedVerifiedId as? VCVerifiedId else {
+        guard let verifiableCredential = verifiedIdRequirement.selectedVerifiedId as? InternalVerifiedId else {
             throw PresentationResponseContainerError.unableToCastVerifableCredentialFromVerifiedId
         }
 
