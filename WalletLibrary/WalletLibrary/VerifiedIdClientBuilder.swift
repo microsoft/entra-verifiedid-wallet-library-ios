@@ -20,6 +20,8 @@ public class VerifiedIdClientBuilder {
     
     private var requestHandlers: [any RequestHandling] = []
     
+    private var previewFeatureFlagsSupported: [String] = []
+    
     private var identifierManager: IdentifierManager?
     
     private var rootOfTrustResolver: RootOfTrustResolver?
@@ -63,8 +65,10 @@ public class VerifiedIdClientBuilder {
                                 configuration: configuration)
     }
     
-    public func with(previewFeatureFlags: [String]) -> VerifiedIdClientBuilder {
-        self.previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
+    /// Optional method to add support for preview features.
+    public func with(previewFeatureFlags: [String]) -> VerifiedIdClientBuilder
+    {
+        previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
         return self
     }
 
