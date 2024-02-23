@@ -19,11 +19,13 @@ struct MockVerifiableCredentialHelper {
     
     func createVCEntitiesVC(expectedTypes: [String],
                             claims: [String:String],
-                            issuer: String) -> VerifiableCredential {
-        let claims = VCClaims(jti: "",
+                            issuer: String,
+                            jti: String? = "",
+                            iat: Double? = 0) -> VerifiableCredential {
+        let claims = VCClaims(jti: jti,
                               iss: issuer,
                               sub: "",
-                              iat: 0,
+                              iat: iat,
                               exp: 0,
                               vc: VerifiableCredentialDescriptor(context: [],
                                                                  type: expectedTypes,
