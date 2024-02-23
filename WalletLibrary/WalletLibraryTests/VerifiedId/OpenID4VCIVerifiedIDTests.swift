@@ -93,7 +93,7 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
                                               configuration: mockConfig)
         
         // Assert
-        XCTAssertEqual(try result.vc.serialize(), rawVC)
+        XCTAssertEqual(try result.raw.serialize(), rawVC)
         XCTAssertEqual(result.id, mockID)
         XCTAssertEqual(result.issuerName, mockIssuerName)
         XCTAssertEqual(result.types, mockTypes)
@@ -159,7 +159,7 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         let result = try JSONDecoder().decode(OpenID4VCIVerifiedId.self, from: encodedVC)
         
         // Assert
-        XCTAssertEqual(try result.vc.serialize(), rawVC)
+        XCTAssertEqual(try result.raw.serialize(), rawVC)
         XCTAssertEqual(result.id, mockID)
         XCTAssertEqual(result.issuerName, mockIssuerName)
         XCTAssertEqual(result.types, mockTypes)
