@@ -126,7 +126,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
     func testProcess_WithClaimsInTokenInvalid_ThrowsError() async throws
     {
         // Arrange
-        let keyId = "mockKeyId"
+        let keyId = "#mockKeyId"
         let did = "did:test:mock"
         let credentialIssuer = "credentialIssuer"
         let validTime = (Date().timeIntervalSince1970).rounded(.down)
@@ -141,7 +141,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
                                                             exp: validTime,
                                                             iat: validTime)
         
-        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)#\(keyId)"),
+        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)\(keyId)"),
                                                      content: metadataTokenClaims)!
         let serializedMetadata = try signedMetadata.serialize()
         
@@ -169,7 +169,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
     func testProcess_WithSignatureFailed_ThrowsError() async throws
     {
         // Arrange
-        let keyId = "mockKeyId"
+        let keyId = "#mockKeyId"
         let did = "did:test:mock"
         let credentialIssuer = "credentialIssuer"
         let validTime = (Date().timeIntervalSince1970).rounded(.down)
@@ -185,7 +185,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
                                                             exp: validTime, 
                                                             iat: validTime)
         
-        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)#\(keyId)"),
+        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)\(keyId)"),
                                                      content: metadataTokenClaims)!
         let serializedMetadata = try signedMetadata.serialize()
         
@@ -212,7 +212,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
     func testProcess_WithRootOfTrustResolverFails_ThrowsError() async throws
     {
         // Arrange
-        let keyId = "mockKeyId"
+        let keyId = "#mockKeyId"
         let did = "did:test:mock"
         let credentialIssuer = "credentialIssuer"
         let validTime = (Date().timeIntervalSince1970).rounded(.down)
@@ -228,7 +228,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
                                                             exp: validTime,
                                                             iat: validTime)
         
-        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)#\(keyId)"),
+        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)\(keyId)"),
                                                      content: metadataTokenClaims)!
         let serializedMetadata = try signedMetadata.serialize()
         
@@ -248,7 +248,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
     func testProcess_WithAllValidationPasses_ReturnsRootOfTrust() async throws
     {
         // Arrange
-        let keyId = "mockKeyId"
+        let keyId = "#mockKeyId"
         let did = "did:test:mock"
         let credentialIssuer = "credentialIssuer"
         let validTime = (Date().timeIntervalSince1970).rounded(.down)
@@ -264,7 +264,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
                                                             exp: validTime,
                                                             iat: validTime)
         
-        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)#\(keyId)"),
+        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)\(keyId)"),
                                             content: metadataTokenClaims)!
         let serializedMetadata = try signedMetadata.serialize()
         
@@ -276,7 +276,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
         XCTAssertEqual(rootOfTrust, RootOfTrust(verified: true, source: "mockSource"))
     }
     
-    private func createMockResolve(_ keyId: String = "invalidId") -> ((String) throws -> IdentifierDocument)
+    private func createMockResolve(_ keyId: String = "#invalidId") -> ((String) throws -> IdentifierDocument)
     {
         let secpKey = Secp256k1PublicKey(x: Data(count: 32), y: Data(count: 32))!
         let publicJwk = ECPublicJwk(withPublicKey: secpKey, withKeyId: keyId)

@@ -12,10 +12,10 @@ struct OpenId4VCIHandler: RequestProcessing
     
     private let configuration: LibraryConfiguration
     
-    private let signedMetadataProcessor: SignedCredentialMetadataProcessor
+    private let signedMetadataProcessor: SignedCredentialMetadataProcessing
     
     init(configuration: LibraryConfiguration,
-         signedMetadataProcessor: SignedCredentialMetadataProcessor? = nil)
+         signedMetadataProcessor: SignedCredentialMetadataProcessing? = nil)
     {
         self.configuration = configuration
         self.signedMetadataProcessor = signedMetadataProcessor ?? SignedCredentialMetadataProcessor(configuration: configuration)
@@ -43,7 +43,6 @@ struct OpenId4VCIHandler: RequestProcessing
     /// validates the request, and returns a `VerifiedIdRequest` object.
     ///
     /// - Parameter rawRequest: The raw request to be processed, expected to be a dictionary.
-    /// TODO: finish implementation in next PR.
     func handle(rawRequest: Any) async throws -> any VerifiedIdRequest
     {
         guard let requestJson = rawRequest as? [String: Any] else
@@ -52,35 +51,81 @@ struct OpenId4VCIHandler: RequestProcessing
             throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
         
+        /// Transform raw request into `CredentialOffer` and fetch `CredentialMetadata`.
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
         let credentialMetadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
+        /// Validate the `CredentialMetadata` contains credential config ids from `CredentialOffer`.
+        let configIds = credentialOffer.credential_configuration_ids
+        guard let credentialConfig = credentialMetadata.getCredentialConfigurations(ids: configIds).first else
+        {
+            let errorMessage = "Request does not contain expected credential configuration."
+            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
+        }
+        
+        /// Validate properties on signed metadata and get `RootOfTrust`.
         try credentialMetadata.validateAuthorizationServers(credentialOffer: credentialOffer)
+        let rootOfTrust = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
         
-        // Validate signed metadata and get Root of Trust.
-        let _ = try await validateSignedMetadataAndGetRootOfTrust(credentialMetadata: credentialMetadata)
+        /// Transform `CredentialMetadata` and `CredentialOffer` into public `Style` data models.
+        let requesterStyle = credentialMetadata.getPreferredLocalizedIssuerDisplayDefinition()
+        let verifiedIdStyle = credentialConfig.getLocalizedVerifiedIdStyle(withIssuerName: requesterStyle.name)
         
-        // TODO: transform payload into VerifiedIdRequest
-        throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "Not implemented yet.")
+        /// Transform `CredentialMetadata` and `CredentialOffer` into Requirement.
+        let requirement = try getRequirement(scope: credentialConfig.scope, credentialOffer: credentialOffer)
+        
+        return OpenId4VCIRequest(style: requesterStyle,
+                                 verifiedIdStyle: verifiedIdStyle,
+                                 rootOfTrust: rootOfTrust,
+                                 requirement: requirement,
+                                 credentialMetadata: credentialMetadata,
+                                 credentialConfiguration: credentialConfig,
+                                 credentialOffer: credentialOffer,
+                                 configuration: configuration)
     }
     
+    /// Fetch `CredentialMetadata` from "credential_issuer".
     private func fetchCredentialMetadata(url: String) async throws -> CredentialMetadata
     {
-        let url = try URL.getRequiredProperty(property: URL(string: url), propertyName: "credential_issuer")
+        let wellKnownUrl = CredentialMetadataFetchOperation.buildCredentialMetadataEndpoint(url: url)
+        let url = try URL.getRequiredProperty(property: wellKnownUrl, propertyName: "credential_issuer")
         return try await configuration.networking.fetch(url: url, CredentialMetadataFetchOperation.self)
     }
     
+    /// Validate the signed metadata on `CredentialMetadata` and resolve `RootOfTrust` using signed metadata processor.
     private func validateSignedMetadataAndGetRootOfTrust(credentialMetadata: CredentialMetadata) async throws -> RootOfTrust
     {
         let signedMetadata = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.signed_metadata,
                                                                         propertyName: "signed_metadata")
         
         let credentialIssuer = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.credential_issuer,
-                                                                        propertyName: "credential_issuer")
+                                                                          propertyName: "credential_issuer")
         
         // Validate signed metadata and get Root of Trust.
         let rootOfTrust = try await signedMetadataProcessor.process(signedMetadata: signedMetadata,
                                                                     credentialIssuer: credentialIssuer)
         return rootOfTrust
+    }
+    
+    /// Transform `CredentialOffer` and `scope` from `CredentialMetadata` to `Requirement`.
+    /// note: only support Access Token Requirement.
+    private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
+    {
+        guard let grant = credentialOffer.grants["authorization_code"] else
+        {
+            let errorMessage = "Grants does not contain 'authorization_code' property."
+            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
+        }
+        
+        guard let scope = scope else
+        {
+            let errorMessage = "Credential Configuration does not contain scope value."
+            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
+        }
+        
+        /// resource id is the String in the scope param and scope is the resource id appended with `/.default`.
+        return AccessTokenRequirement(configuration: grant.authorization_server,
+                                      resourceId: scope,
+                                      scope: "\(scope)/.default")
     }
 }
