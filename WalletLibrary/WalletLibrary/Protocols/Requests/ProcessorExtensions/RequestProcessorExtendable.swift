@@ -10,11 +10,11 @@ public protocol RequestProcessorExtendable {
     /**
      * Associated RequestProcessor this extension should be injected into
      */
-    var associatedRequestProcessor: RequestProcessing.Type { get }
+    associatedtype RequestProcessor : RequestProcessing
     
     /**
      * Extension to parse additional information from the request. Extensions should return an updated form of the request
      */
-    func parse(rawRequest: Any, request: any VerifiedIdRequest) -> any VerifiedIdRequest
+    func parse(rawRequest: RequestProcessor.RawRequestType, request: VerifiedIdPartialRequest) -> VerifiedIdPartialRequest
     
 }

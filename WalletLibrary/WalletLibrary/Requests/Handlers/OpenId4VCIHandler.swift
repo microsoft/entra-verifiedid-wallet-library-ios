@@ -8,7 +8,9 @@
  */
 struct OpenId4VCIHandler: RequestProcessing
 {
-    var requestProcessorExtensions: [RequestProcessorExtendable] = []
+    typealias RawRequestType = Dictionary<String, Any>
+    
+    var requestProcessorExtensions: [any RequestProcessorExtendable] = []
     
     private let configuration: LibraryConfiguration
     
