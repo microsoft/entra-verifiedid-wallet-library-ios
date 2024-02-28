@@ -106,7 +106,7 @@ public class VerifiedIdClientBuilder {
     {
         let issuanceService = IssuanceService(correlationVector: correlationHeader, urlSession: urlSession)
         let presentationService = PresentationService(correlationVector: correlationHeader, urlSession: urlSession)
-        let openIdHandler = OpenIdRequestHandler(configuration: configuration,
+        let openIdHandler = OpenIdRequestProcessor(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,
                                                  verifiableCredentialRequester: issuanceService)
