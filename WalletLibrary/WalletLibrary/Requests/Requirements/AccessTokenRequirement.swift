@@ -56,4 +56,17 @@ public class AccessTokenRequirement: Requirement {
     public func fulfill(with rawToken: String) {
         accessToken = rawToken
     }
+    
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? {
+        switch (verifiedIdSerializer) {
+        case _ as any VerifiedIdSerializing<String>:
+            return accessToken as! T?
+        default:
+            return nil
+        }
+    }
+    
+    class AccessTokenSerializationError: Error {
+        
+    }
 }

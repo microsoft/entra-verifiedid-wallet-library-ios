@@ -66,4 +66,13 @@ public class IdTokenRequirement: Requirement {
     public func fulfill(with rawToken: String) {
         idToken = rawToken
     }
+    
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? {
+        switch (verifiedIdSerializer) {
+        case _ as any VerifiedIdSerializing<String>:
+            return idToken as! T?
+        default:
+            return nil
+        }
+    }
 }

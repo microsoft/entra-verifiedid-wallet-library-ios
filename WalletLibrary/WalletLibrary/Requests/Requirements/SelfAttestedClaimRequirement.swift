@@ -39,4 +39,13 @@ public class SelfAttestedClaimRequirement: Requirement {
     public func fulfill(with value: String) {
         self.value = value
     }
+    
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? {
+            switch (verifiedIdSerializer) {
+            case _ as any VerifiedIdSerializing<String>:
+                return value as! T?
+            default:
+                return nil
+            }
+    }
 }

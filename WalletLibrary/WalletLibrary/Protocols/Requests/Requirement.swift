@@ -12,4 +12,11 @@ public protocol Requirement: AnyObject {
     
     /// Validate the requirement, and throw if there is something invalid.
     func validate() -> VerifiedIdResult<Void>
+    
+    /**
+     * Serializes the requirement into its raw format.
+     * If this requirement is composed or an aggregate of other requirements, MUST call the protocolSerializer's serialize function on all used requirements.
+     * returns the raw format for a given SerializedFormat type (if it has output).
+     */
+    func serialize<T>(protocolSerializer: RequestProcessorSerializing, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
 }

@@ -46,4 +46,13 @@ public class PinRequirement: Requirement {
     public func fulfill(with pin: String) {
         self.pin = pin
     }
+    
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? {
+        switch (verifiedIdSerializer) {
+        case _ as any VerifiedIdSerializing<String>:
+            return pin as! T?
+        default:
+            return nil
+        }
+    }
 }
