@@ -15,5 +15,5 @@ public protocol VerifiedIdExtendable {
     /**
      * List of RequestProcessorExtending to be injected into RequestProcessing classes
      */
-    var requestProcessorExtensions: [any RequestProcessorExtendable]? { get }
+    func createRequestProcessorExtensions() -> [any RequestProcessorExtendable]
 }

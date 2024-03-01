@@ -513,8 +513,11 @@
 		A497435B2B8EA367004851C2 /* VerifiedIdPartialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497435A2B8EA367004851C2 /* VerifiedIdPartialRequest.swift */; };
 		A497435F2B8EB29B004851C2 /* PresentationExchangeRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497435E2B8EB29B004851C2 /* PresentationExchangeRequirement.swift */; };
 		A4A2D8422B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A2D8412B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift */; };
+		A4B4FA622B924E5C00F0AAF3 /* ExtensionIdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B4FA612B924E5C00F0AAF3 /* ExtensionIdentifierManager.swift */; };
 		A4D9F9C72B7AF2BF006D074E /* RequestProcessorExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D9F9C62B7AF2BF006D074E /* RequestProcessorExtendable.swift */; };
 		A4D9F9C92B7AF528006D074E /* VerifiedIdExtending.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D9F9C82B7AF528006D074E /* VerifiedIdExtending.swift */; };
+		A4DC99822B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DC99812B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift */; };
+		A4F39A8B2B91571E005C12FC /* ExtensionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F39A8A2B91571E005C12FC /* ExtensionConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1051,8 +1054,11 @@
 		A497435A2B8EA367004851C2 /* VerifiedIdPartialRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdPartialRequest.swift; sourceTree = "<group>"; };
 		A497435E2B8EB29B004851C2 /* PresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeRequirement.swift; sourceTree = "<group>"; };
 		A4A2D8412B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeVerifiedIdRequirement.swift; sourceTree = "<group>"; };
+		A4B4FA612B924E5C00F0AAF3 /* ExtensionIdentifierManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionIdentifierManager.swift; sourceTree = "<group>"; };
 		A4D9F9C62B7AF2BF006D074E /* RequestProcessorExtendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessorExtendable.swift; sourceTree = "<group>"; };
 		A4D9F9C82B7AF528006D074E /* VerifiedIdExtending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdExtending.swift; sourceTree = "<group>"; };
+		A4DC99812B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeVerifiedIdRequirementTests.swift; sourceTree = "<group>"; };
+		A4F39A8A2B91571E005C12FC /* ExtensionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1234,6 +1240,7 @@
 		552E5094293E6AB200868F47 /* WalletLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				A4B4FA602B924E3C00F0AAF3 /* Identifier */,
 				555FB1F42B75653900EE14BD /* RootOfTrust */,
 				55265ADC2B6C349400BAD6A2 /* Networking */,
 				55A4BB3D2A2A5560006836AB /* Errors */,
@@ -1244,6 +1251,7 @@
 				55E337632943747E00CD2ED7 /* Utilities */,
 				55E2F070299554110008010D /* LibraryConfiguration.swift */,
 				550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */,
+				A4F39A8A2B91571E005C12FC /* ExtensionConfiguration.swift */,
 				550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */,
 				55508A6E2A3BCB5000186885 /* WalletLibraryVersion.swift */,
 				552E5095293E6AB200868F47 /* WalletLibrary.h */,
@@ -2514,6 +2522,7 @@
 				559BD4F0299EEAEA00BD61AC /* PinRequirementTests.swift */,
 				559BD4F2299EEAFD00BD61AC /* SelfAttestedClaimRequirementTests.swift */,
 				55DECC4029BFEDE400D5C802 /* VerifiedIdRequirementTests.swift */,
+				A4DC99812B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -2890,6 +2899,14 @@
 			path = Algorithms;
 			sourceTree = "<group>";
 		};
+		A4B4FA602B924E3C00F0AAF3 /* Identifier */ = {
+			isa = PBXGroup;
+			children = (
+				A4B4FA612B924E5C00F0AAF3 /* ExtensionIdentifierManager.swift */,
+			);
+			path = Identifier;
+			sourceTree = "<group>";
+		};
 		A4D9F9C52B7AF277006D074E /* ProcessorExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -3221,6 +3238,7 @@
 				5552D45E29EF4A8100B40302 /* DIDDocumentDecoder.swift in Sources */,
 				5552D40429EF490A00B40302 /* PresentationDefinition.swift in Sources */,
 				550A9170299310D40014D030 /* OpenIdURLRequestResolver.swift in Sources */,
+				A4F39A8B2B91571E005C12FC /* ExtensionConfiguration.swift in Sources */,
 				5534E669294A0C3F005D0765 /* Mapper.swift in Sources */,
 				5552D4BE29EF4AC300B40302 /* SigningAlgorithm.swift in Sources */,
 				5552D3BD29EF488000B40302 /* IssuanceResponseFormatter.swift in Sources */,
@@ -3369,6 +3387,7 @@
 				55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */,
 				5552D3C429EF489E00B40302 /* IONDocumentModel.swift in Sources */,
 				5552D48529EF4AAB00B40302 /* JWK.swift in Sources */,
+				A4B4FA622B924E5C00F0AAF3 /* ExtensionIdentifierManager.swift in Sources */,
 				55E2F0882995743D0008010D /* LinkedDomainResult+Mappable.swift in Sources */,
 				5552D3A129EF481F00B40302 /* VerifiablePresentationDescriptor.swift in Sources */,
 				5552D3DD29EF48B200B40302 /* IssuerDescriptor.swift in Sources */,
@@ -3499,6 +3518,7 @@
 				5552D7CF29F2E0AA00B40302 /* Secp256k1PublicKeyTests.swift in Sources */,
 				55508A572A3B95E500186885 /* VerifiedIdErrorsTests.swift in Sources */,
 				5552D82029F2E25900B40302 /* JSONCodingKeysTests.swift in Sources */,
+				A4DC99822B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift in Sources */,
 				5552D7E829F2E1AF00B40302 /* MockAlgorithm.swift in Sources */,
 				55DECC3529BFDB7600D5C802 /* VCTypeConstraintTests.swift in Sources */,
 				5552D82229F2E25900B40302 /* IssuanceResponseFormatterTests.swift in Sources */,
