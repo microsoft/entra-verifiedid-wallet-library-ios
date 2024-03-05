@@ -6,7 +6,7 @@
 /**
  * An encoder to handle Post request bodies in the form of URLEncoded Strings.
  */
-struct FormURLEncodedEncoder: Encoding
+struct FormURLEncodedRequestEncoder: Encoding
 {
     /// The Request Body must adhere to the `PropertyIterable` protocol.
     typealias RequestBody = PropertyIterable

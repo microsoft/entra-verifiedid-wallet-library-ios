@@ -12,7 +12,7 @@ struct OpenID4VCIPreAuthTokenPostOperation: WalletLibraryPostOperation
     typealias ResponseBody = PreAuthTokenResponse
     
     /// Post body should be formatted as URL Encoded String.
-    let encoder = FormURLEncodedEncoder()
+    let encoder = FormURLEncodedRequestEncoder()
     
     let urlSession: URLSession
     
