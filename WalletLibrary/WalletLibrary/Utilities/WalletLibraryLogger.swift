@@ -6,7 +6,7 @@
 /**
  * Object used to log data within the library.
  */
-struct WalletLibraryLogger {
+public struct WalletLibraryLogger {
     
     var consumers: [WalletLibraryLogConsumer] = []
     
@@ -15,7 +15,7 @@ struct WalletLibraryLogger {
         consumers.append(consumer)
     }
     
-    func logVerbose(message: String,
+    public func logVerbose(message: String,
                     functionName: String = #function,
                     file: String = #file,
                     line: Int = #line) {
@@ -26,7 +26,7 @@ struct WalletLibraryLogger {
             line: line)
     }
     
-    func logDebug(message: String,
+    public func logDebug(message: String,
                   functionName: String = #function,
                   file: String = #file,
                   line: Int = #line) {
@@ -37,7 +37,7 @@ struct WalletLibraryLogger {
             line: line)
     }
     
-    func logInfo(message: String,
+    public func logInfo(message: String,
                  functionName: String = #function,
                  file: String = #file,
                  line: Int = #line) {
@@ -48,7 +48,7 @@ struct WalletLibraryLogger {
             line: line)
     }
     
-    func logWarning(message: String,
+    public func logWarning(message: String,
                     functionName: String = #function,
                     file: String = #file,
                     line: Int = #line) {
@@ -59,7 +59,7 @@ struct WalletLibraryLogger {
             line: line)
     }
     
-    func logError(message: String,
+    public func logError(message: String,
                   functionName: String = #function,
                   file: String = #file,
                   line: Int = #line) {
@@ -70,7 +70,7 @@ struct WalletLibraryLogger {
             line: line)
     }
     
-    func logFailure(message: String,
+    public func logFailure(message: String,
                     functionName: String = #function,
                     file: String = #file,
                     line: Int = #line) {
@@ -95,7 +95,7 @@ struct WalletLibraryLogger {
         }
     }
     
-    func event(name: String,
+    public func event(name: String,
                properties: [String: String]? = nil,
                measurements: [String: NSNumber]? = nil) {
         consumers.forEach { logger in

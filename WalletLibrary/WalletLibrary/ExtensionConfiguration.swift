@@ -7,17 +7,17 @@
  * Utilities such as logger, identityManager that are configured in builder and
  * all of library will use.
  */
-class ExtensionConfiguration
+public class ExtensionConfiguration
 {
     /**
      * Logs and metrics class
      */
-    let logger: WalletLibraryLogger
+    public let logger: WalletLibraryLogger
     
     /**
      * Identifier manager for extension use
      */
-    let identifierManager: ExtensionIdentifierManager
+    public let identifierManager: ExtensionIdentifierManager
     
     init(logger: WalletLibraryLogger, identifierManager: IdentifierManager) {
         self.logger = logger

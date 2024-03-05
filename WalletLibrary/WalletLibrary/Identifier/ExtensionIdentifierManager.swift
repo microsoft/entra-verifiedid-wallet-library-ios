@@ -54,7 +54,7 @@ public class ExtensionIdentifierManager
             let signer = Secp256k1Signer()
             try vcToken.sign(using: signer, withSecret: signingKey.keyReference)
             vcToken.rawValue = try vcToken.serialize()
-            let verifiedId = try VCVerifiedId(raw: vcToken, from: <#Contract#>)
+            let verifiedId = try VCVerifiedId(raw: vcToken, from: Contract(id: "", display: DisplayDescriptor(id: nil, locale: nil, contract: nil, card: CardDisplayDescriptor(title: "", issuedBy: "", backgroundColor: "", textColor: "", logo: nil, cardDescription: ""), consent: ConsentDisplayDescriptor(title: nil, instructions: ""), claims: [:]), input: ContractInputDescriptor(credentialIssuer: "", issuer: "")))
             return verifiedId
         }
         catch
