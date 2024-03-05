@@ -61,7 +61,7 @@ struct CredentialOfferGrant: Codable
 
 struct CredentialOfferGrantCode: Codable, MappableTarget
 {
-    let length: String
+    let length: Int
     
     let input_mode: String
     
@@ -73,8 +73,8 @@ struct CredentialOfferGrantCode: Codable, MappableTarget
     
     static func map(_ object: Dictionary<String, Any>, using mapper: Mapping) throws -> CredentialOfferGrantCode
     {
-        let length: String = try validateValueExists(CodingKeys.length.rawValue,
-                                                     in: object)
+        let length: Int = try validateValueExists(CodingKeys.length.rawValue,
+                                                  in: object)
         
         let input_mode: String = try validateValueExists(CodingKeys.input_mode.rawValue,
                                                          in: object)

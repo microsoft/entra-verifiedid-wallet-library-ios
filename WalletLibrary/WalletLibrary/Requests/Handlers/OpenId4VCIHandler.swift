@@ -147,9 +147,8 @@ struct OpenId4VCIHandler: RequestHandling
             let preAuthCode = try CredentialOfferGrant.getRequiredProperty(property: grant.pre_authorized_code,
                                                                            propertyName: "pre-authorized_code")
             let requirement = OpenId4VCIRetryablePinRequirement(configuration: configuration,
-                                                                code: preAuthCode,
-                                                                length: Int(txCode.length) ?? -1,
-                                                                type: txCode.input_mode)
+                                                                code: preAuthCode, 
+                                                                grant: grant)
             return requirement
         }
         else
@@ -185,7 +184,7 @@ struct OpenId4VCIHandler: RequestHandling
         }
         else
         {
-            let errorMessage = "Grant types not supported."
+            let errorMessage = "Grant types on Credential Offer not supported."
             throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
         }
     }
