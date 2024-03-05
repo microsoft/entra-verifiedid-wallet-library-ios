@@ -8,7 +8,7 @@
  */
 struct FormURLEncodedEncoder: Encoding
 {
-    /// The Request Body must adhere to the PropertyIterable protocol.
+    /// The Request Body must adhere to the `PropertyIterable` protocol.
     typealias RequestBody = PropertyIterable
     
     /// Encode the Request Body in the form of a URLEncoded String.
