@@ -8,8 +8,8 @@
  */
 struct PreAuthTokenRequest: PropertyIterable
 {
-    /// The type of request..
-    /// Will always equal `urn:ietf:params:oauth:grant-type:pre-authorized_code`
+    /// The type of request.
+    /// Will always equal `urn:ietf:params:oauth:grant-type:pre-authorized_code`.
     let grant_type: String
     
     /// The pre-authorized code found in the credential offer.
@@ -18,18 +18,20 @@ struct PreAuthTokenRequest: PropertyIterable
     /// The pin retreived from the user.
     let tx_code: String?
     
-    enum CodingKeys: String, CodingKey, CaseIterable
+    enum CodingKeys: String, CodingKey
     {
         case grant_type
         case tx_code
         case pre_authorized_code = "pre-authorized_code"
     }
     
-    func allProperties() -> [String : String?] {
+    /// Get all properties to enable iteration.
+    func allProperties() -> [String : String?]
+    {
         return [
-            "grant_type": grant_type,
-            "pre-authorized_code": pre_authorized_code,
-            "tx_code": tx_code
+            CodingKeys.grant_type.rawValue: grant_type,
+            CodingKeys.pre_authorized_code.rawValue: pre_authorized_code,
+            CodingKeys.tx_code.rawValue: tx_code
         ]
     }
 }
