@@ -17,10 +17,11 @@ class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement
     /// The type of the pin such as alphanumeric or numeric.
     public let type: String
     
-    let code: String
-    
     /// The pin that fulfills the requirement.
     var accessToken: String?
+    
+    /// The code needed to fetch access token using pin.
+    private let code: String
     
     private let configuration: LibraryConfiguration
     
@@ -37,8 +38,8 @@ class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement
         self.type = grant.tx_code?.input_mode ?? "alphanumeric"
     }
     
-    /// Returns Failure Result if requirement is not fulfilled.
-    public func validate() -> VerifiedIdResult<Void> 
+    /// Returns failure result if requirement is not fulfilled.
+    public func validate() -> VerifiedIdResult<Void>
     {
         if accessToken == nil
         {
@@ -48,18 +49,20 @@ class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement
         return VerifiedIdResult.success(())
     }
     
-    /// Fulfill requirement with a pin.
+    /// Fulfill requirement with pin and fetch access token using given pin.
+    /// If fails to fetch access token, a new pin can be tried.
     public func fulfill(with pin: String) async -> VerifiedIdResult<Void>
     {
         do
         {
             let resolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)
             let accessToken = try await resolver.resolve(using: grant)
+            self.accessToken = accessToken
             return VerifiedIdResult.success(())
         }
         catch
         {
-            let message = "Unable to fetch access token."
+            let message = "Unable to fetch access token using pin \(pin)."
             return VerifiedIdErrors.RequirementNotMet(message: message,
                                                       errors: [error]).result()
         }
