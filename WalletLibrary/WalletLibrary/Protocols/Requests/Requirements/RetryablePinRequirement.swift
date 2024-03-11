@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * An object that describes a pin requirement needed for a request.
+ * An object that describes a retryable pin requirement needed for a request.
  */
 public protocol RetryablePinRequirement: Requirement
 {

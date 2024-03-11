@@ -522,6 +522,7 @@
 		55EA17AA29CA57320085E29E /* MockVerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */; };
 		55EA17AC29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17AB29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift */; };
 		55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17AD29CA693C0085E29E /* VerifiedIdPresentationRequest.swift */; };
+		55EE2B102B9FC458003E08D1 /* PrefilledAccessTokenRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EE2B0F2B9FC458003E08D1 /* PrefilledAccessTokenRequirement.swift */; };
 		55F01CCD2ACDFD1A000794B4 /* ES256.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F01CCC2ACDFD1A000794B4 /* ES256.swift */; };
 		55F01CCF2ACDFF55000794B4 /* ES256Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F01CCE2ACDFF55000794B4 /* ES256Tests.swift */; };
 		55F01CD22ACE0066000794B4 /* P256PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F01CD02ACE002E000794B4 /* P256PublicKey.swift */; };
@@ -1073,6 +1074,7 @@
 		55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdStyle.swift; sourceTree = "<group>"; };
 		55EA17AB29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardDisplayDescriptor+MappableTests.swift"; sourceTree = "<group>"; };
 		55EA17AD29CA693C0085E29E /* VerifiedIdPresentationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdPresentationRequest.swift; sourceTree = "<group>"; };
+		55EE2B0F2B9FC458003E08D1 /* PrefilledAccessTokenRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefilledAccessTokenRequirement.swift; sourceTree = "<group>"; };
 		55F01CCC2ACDFD1A000794B4 /* ES256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ES256.swift; sourceTree = "<group>"; };
 		55F01CCE2ACDFF55000794B4 /* ES256Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ES256Tests.swift; sourceTree = "<group>"; };
 		55F01CD02ACE002E000794B4 /* P256PublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P256PublicKey.swift; sourceTree = "<group>"; };
@@ -2830,6 +2832,7 @@
 				55E337B32948B4B000CD2ED7 /* PinRequirement.swift */,
 				55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */,
 				55E336D0293FA6F400CD2ED7 /* VerifiedIdRequirement.swift */,
+				55EE2B0F2B9FC458003E08D1 /* PrefilledAccessTokenRequirement.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -3386,6 +3389,7 @@
 				55DECC3029BB8E5C00D5C802 /* VCTypeConstraint.swift in Sources */,
 				5552D44629EF4A8100B40302 /* RetryHandler.swift in Sources */,
 				5552D3A429EF482E00B40302 /* VCEntitiesConstants.swift in Sources */,
+				55EE2B102B9FC458003E08D1 /* PrefilledAccessTokenRequirement.swift in Sources */,
 				5552D45429EF4A8100B40302 /* FailureHandler.swift in Sources */,
 				5552D4C029EF4AC300B40302 /* ES256k.swift in Sources */,
 				5552D44C29EF4A8100B40302 /* PostIssuanceCompletionResponse.swift in Sources */,

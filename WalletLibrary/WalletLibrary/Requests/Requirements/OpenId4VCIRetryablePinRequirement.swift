@@ -6,7 +6,7 @@
 /**
  * Information to describe a pin that is required.
  */
-class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement
+class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement, InternalAccessTokenRequirement
 {
     /// If the requirement is required or not.
     public let required = true

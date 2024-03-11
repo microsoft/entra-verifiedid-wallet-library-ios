@@ -6,8 +6,8 @@
 /**
  * Information to describe an access token required for a Verified Id issuance flow.
  */
-public class AccessTokenRequirement: Requirement {
-        
+public class AccessTokenRequirement: Requirement, InternalAccessTokenRequirement
+{
     /// If the requirement should be encrypted.
     let encrypted: Bool
 

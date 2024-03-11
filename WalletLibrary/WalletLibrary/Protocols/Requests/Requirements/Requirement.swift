@@ -15,6 +15,17 @@ public protocol Requirement: AnyObject
     func validate() -> VerifiedIdResult<Void>
 }
 
+/**
+ * An internal object that describes an access token requirement to be used a the BEARER token in an issuance request.
+ */
+protocol InternalAccessTokenRequirement: Requirement
+{
+    var accessToken: String? { get set }
+}
+
+/**
+ * A helper method to be used to reduce a list of requirements into a `GroupRequirement`.
+ */
 extension [Requirement]
 {
     func reduce() throws -> Requirement
@@ -33,8 +44,8 @@ extension [Requirement]
         }
         else
         {
-            let errorMessage = "Grant types on Credential Offer not supported."
-            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
+            let errorMessage = "Requirement List is empty."
+            throw VerifiedIdError(message: errorMessage, code: "unable_to_reduce_requirements")
         }
     }
 }
