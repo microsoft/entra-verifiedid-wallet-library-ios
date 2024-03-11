@@ -121,7 +121,7 @@ struct OpenId4VCIHandler: RequestHandling
             requirements.append(preAuthRequirement)
         }
         
-        let requirement = try reduce(requirements: requirements)
+        let requirement = try requirements.reduce()
         return requirement
     }
     
@@ -142,7 +142,7 @@ struct OpenId4VCIHandler: RequestHandling
     
     private func createPreAuthRequirement(grant: CredentialOfferGrant) async throws -> Requirement
     {
-        if let txCode = grant.tx_code
+        if grant.tx_code != nil
         {
             let preAuthCode = try CredentialOfferGrant.getRequiredProperty(property: grant.pre_authorized_code,
                                                                            propertyName: "pre-authorized_code")
@@ -158,34 +158,13 @@ struct OpenId4VCIHandler: RequestHandling
         }
     }
     
-    private func fetchAccessTokenNoRequiredPin(grant: CredentialOfferGrant) async throws -> AccessTokenRequirement
+    private func fetchAccessTokenNoRequiredPin(grant: CredentialOfferGrant) async throws -> Requirement
     {
         let tokenResolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)
         let accessToken = try await tokenResolver.resolve(using: grant)
         
-        let requirement = AccessTokenRequirement(configuration: "", resourceId: "", scope: "")
+        let requirement = PrefilledAccessTokenRequirement(accessToken: accessToken)
         requirement.accessToken = accessToken
         return requirement
-    }
-    
-    private func reduce(requirements: [Requirement]) throws -> Requirement
-    {
-        if requirements.count == 1,
-           let onlyRequirement = requirements.first
-        {
-            return onlyRequirement
-        }
-        else if requirements.count > 1
-        {
-            let groupRequirement = GroupRequirement(required: true,
-                                                    requirements: requirements,
-                                                    requirementOperator: .ALL)
-            return groupRequirement
-        }
-        else
-        {
-            let errorMessage = "Grant types on Credential Offer not supported."
-            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
-        }
     }
 }
