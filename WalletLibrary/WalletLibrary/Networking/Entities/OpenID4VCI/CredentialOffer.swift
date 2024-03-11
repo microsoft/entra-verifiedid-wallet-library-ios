@@ -39,8 +39,14 @@ struct CredentialOfferGrant: Codable
      */
     let authorization_server: String
     
+    /**
+     * The code representing the Credential Issuer's authorization for the Wallet to obtain Credentials of a certain type.
+     * This code MUST be short lived and single use. If the Wallet decides to use the Pre-Authorized Code Flow,
+     * this parameter value MUST be included in the subsequent Token Request with the Pre-Authorized Code Flow.
+     */
     let pre_authorized_code: String?
     
+    /// The user pin requirements.
     let tx_code: CredentialOfferGrantCode?
     
     enum CodingKeys: String, CodingKey
@@ -52,7 +58,8 @@ struct CredentialOfferGrant: Codable
     
     init(authorization_server: String, 
          pre_authorized_code: String? = nil,
-         tx_code: CredentialOfferGrantCode? = nil) {
+         tx_code: CredentialOfferGrantCode? = nil) 
+    {
         self.authorization_server = authorization_server
         self.pre_authorized_code = pre_authorized_code
         self.tx_code = tx_code
@@ -61,8 +68,10 @@ struct CredentialOfferGrant: Codable
 
 struct CredentialOfferGrantCode: Codable, MappableTarget
 {
+    /// The length of the expected pin.
     let length: Int
     
+    /// The type of the pin such as alphanumeric or numeric.
     let input_mode: String
     
     enum CodingKeys: String, CodingKey
