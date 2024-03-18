@@ -24,8 +24,38 @@ struct RawOpenID4VCIRequest: Encodable
 struct OpenID4VCIJWTProof: Encodable
 {
     /// The format the proof is in.
-    let proof_type: String
+    let proof_type: String = "jwt"
     
     /// The proof in JWT format.
     let jwt: String
+}
+
+/**
+ * The claims in the token
+ */
+struct OpenID4VCIJWTProofClaims: Claims
+{
+    /// Identifies the recipients that the JWT is intended for.
+    /// Should be equal to the credential endpoint.
+    let aud: String
+    
+    /// Identifies the time at which the JWT was issued.
+    let iat: String
+    
+    /// Identifies the subject of the JWT.
+    /// Should be equal to the user's DID.
+    let sub: String
+    
+    /// Provides integrity protection for the access token.
+    let at_hash: String
+    
+    init(credentialEndpoint: String,
+         did: String,
+         accessTokenHash: String)
+    {
+        self.aud = credentialEndpoint
+        self.iat = String(Int(Date().timeIntervalSince1970))
+        self.sub = did
+        self.at_hash = accessTokenHash
+    }
 }

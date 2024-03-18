@@ -29,7 +29,7 @@ extension JwsToken
         }
         
         return TokenHeaderKeyId(did: String(components[0]),
-                                keyId: String(components[1]))
+                                keyId: "#\(String(components[1]))")
     }
     
     func validateIatIfPresent(withClockSkew skew: Double = 300) throws

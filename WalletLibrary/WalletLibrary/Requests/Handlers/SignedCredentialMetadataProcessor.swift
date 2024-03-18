@@ -6,7 +6,7 @@
 /**
  * Defines a structure for processing signed credential metadata.
  */
-struct SignedCredentialMetadataProcessor
+struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
 {
     private let tokenVerifier: TokenVerifying
     

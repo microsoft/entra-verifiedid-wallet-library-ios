@@ -63,11 +63,11 @@ class WalletLibraryNetworking: LibraryNetworking
                                                      _ type: Operation.Type,
                                                      additionalHeaders: [String: String]? = nil) async throws -> Operation.ResponseBody
     {
-        let operation = Operation(requestBody: requestBody,
-                                  url: url,
-                                  additionalHeaders: additionalHeaders,
-                                  urlSession: urlSession,
-                                  correlationVector: correlationHeader)
+        let operation = try Operation(requestBody: requestBody,
+                                      url: url,
+                                      additionalHeaders: additionalHeaders,
+                                      urlSession: urlSession,
+                                      correlationVector: correlationHeader)
         return try await operation.fire()
     }
 }

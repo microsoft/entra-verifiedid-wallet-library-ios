@@ -6,42 +6,35 @@
 /**
  * The Network Operation for the Credential Metadata fetch request.
  */
-struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
+struct OpenID4VCIPostOperation: WalletLibraryPostOperation
 {
-    typealias ResponseBody = CredentialMetadata
+    typealias RequestBody = RawOpenID4VCIRequest
+    typealias ResponseBody = RawOpenID4VCIResponse
     
-    var urlSession: URLSession
+    let urlSession: URLSession
     
     var urlRequest: URLRequest
     
     var correlationVector: VerifiedIdCorrelationHeader?
     
-    init(url: URL,
+    init(requestBody: RawOpenID4VCIRequest, 
+         url: URL,
          additionalHeaders: [String : String]?,
          urlSession: URLSession,
-         correlationVector: VerifiedIdCorrelationHeader?)
+         correlationVector: VerifiedIdCorrelationHeader?) throws
     {
+        
         self.urlSession = urlSession
         self.correlationVector = correlationVector
         self.urlRequest = URLRequest(url: url)
+        self.urlRequest.httpMethod = Constants.POST
+        self.urlRequest.httpBody = try self.encoder.encode(value: requestBody)
+        self.urlRequest.setValue(Constants.JSON, forHTTPHeaderField: Constants.CONTENT_TYPE)
         
         /// Adds value to prefer header, appending if value already exists.
         let preferHeader = [OpenID4VCINetworkConstants.PreferHeaderField: OpenID4VCINetworkConstants.InteropProfileVersion]
         addHeadersToURLRequest(headers: preferHeader)
         
         addHeadersToURLRequest(headers: additionalHeaders)
-    }
-    
-    static func buildCredentialMetadataEndpoint(url: String) -> URL?
-    {
-        let suffix = "/.well-known/openid-credential-issuer"
-        if url.hasSuffix(suffix)
-        {
-            return URL(string: url)
-        }
-        else
-        {
-            return URL(string: "\(url)\(suffix)")
-        }
     }
 }

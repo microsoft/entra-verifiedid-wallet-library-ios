@@ -63,7 +63,7 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
     
     func matches(verifiedId: VerifiedId) throws {
         
-        guard let verifiableCredential = verifiedId as? VCVerifiedId,
+        guard let verifiableCredential = verifiedId as? InternalVerifiedId,
               let encodedContent = try? JSONEncoder().encode(verifiableCredential.raw.content),
               let vc = try JSONSerialization.jsonObject(with: encodedContent) as? [String: Any] else {
 

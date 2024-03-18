@@ -4,44 +4,41 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The Network Operation for the Credential Metadata fetch request.
+ * The Network Operation for the Pre Authorization Token Retrieval.
  */
-struct CredentialMetadataFetchOperation: WalletLibraryFetchOperation
+struct OpenID4VCIPreAuthTokenPostOperation: WalletLibraryPostOperation
 {
-    typealias ResponseBody = CredentialMetadata
+    typealias RequestBody = PreAuthTokenRequest
+    typealias ResponseBody = PreAuthTokenResponse
     
-    var urlSession: URLSession
+    /// Post body should be formatted as URL Encoded String.
+    let encoder = FormURLEncodedRequestEncoder()
+    
+    let urlSession: URLSession
     
     var urlRequest: URLRequest
     
     var correlationVector: VerifiedIdCorrelationHeader?
     
-    init(url: URL,
+    init(requestBody: PreAuthTokenRequest,
+         url: URL,
          additionalHeaders: [String : String]?,
          urlSession: URLSession,
-         correlationVector: VerifiedIdCorrelationHeader?)
+         correlationVector: VerifiedIdCorrelationHeader?) throws
     {
+        
         self.urlSession = urlSession
         self.correlationVector = correlationVector
         self.urlRequest = URLRequest(url: url)
+        self.urlRequest.httpMethod = Constants.POST
+        self.urlRequest.httpBody = try self.encoder.encode(value: requestBody)
+        self.urlRequest.setValue(Constants.FORM_URLENCODED,
+                                 forHTTPHeaderField: Constants.CONTENT_TYPE)
         
         /// Adds value to prefer header, appending if value already exists.
         let preferHeader = [OpenID4VCINetworkConstants.PreferHeaderField: OpenID4VCINetworkConstants.InteropProfileVersion]
         addHeadersToURLRequest(headers: preferHeader)
         
         addHeadersToURLRequest(headers: additionalHeaders)
-    }
-    
-    static func buildCredentialMetadataEndpoint(url: String) -> URL?
-    {
-        let suffix = "/.well-known/openid-credential-issuer"
-        if url.hasSuffix(suffix)
-        {
-            return URL(string: url)
-        }
-        else
-        {
-            return URL(string: "\(url)\(suffix)")
-        }
     }
 }

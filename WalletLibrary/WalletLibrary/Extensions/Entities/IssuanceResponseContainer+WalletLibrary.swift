@@ -81,7 +81,7 @@ extension IssuanceResponseContainer: IssuanceResponseContaining {
         
         try verifiedIdRequirement.validate().get()
 
-        guard let vc = verifiedIdRequirement.selectedVerifiedId as? VCVerifiedId else
+        guard let vc = verifiedIdRequirement.selectedVerifiedId as? InternalVerifiedId else
         {
             let type = String(describing: type(of: verifiedIdRequirement.selectedVerifiedId))
             throw IssuanceResponseContainerError.unsupportedVerifiedIdOfType(type)

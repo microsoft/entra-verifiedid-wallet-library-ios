@@ -24,3 +24,10 @@ public protocol VerifiedId: Codable {
     func getClaims() -> [VerifiedIdClaim]
 }
 
+protocol InternalVerifiedId: VerifiedId
+{
+    var types: [String] { get }
+    
+    var raw: VerifiableCredential { get }
+}
+
