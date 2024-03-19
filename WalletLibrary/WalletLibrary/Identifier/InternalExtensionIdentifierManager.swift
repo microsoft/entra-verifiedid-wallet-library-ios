@@ -3,9 +3,14 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+/**
+ * Internal implementation fo `ExtensionIdentierManager` that handles Identifier operations used within Wallet Library Extensions.
+ */
 class InternalExtensionIdentifierManager: ExtensionIdentifierManager
 {
-    let identifierManager: IdentifierManager
+    private let identifierManager: IdentifierManager
+    
+    private let configuration: LibraryConfiguration
     
     internal struct Constants
     {
@@ -15,12 +20,16 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
         static let VCDataModelType = "VerifiableCredential"
     }
     
-    init(identifierManager: IdentifierManager) 
+    init(identifierManager: IdentifierManager,
+         libraryConfiguration: LibraryConfiguration)
     {
         self.identifierManager = identifierManager
+        self.configuration = libraryConfiguration
     }
     
-    public func createEphemeralSelfSignedVerifiedId(claims: [String: String], types: [String]) -> VerifiedId?
+    /// Given claims and types, append the claims and types to defaults, and create a self-signed Verified ID (Verifiable Credential).
+    public func createEphemeralSelfSignedVerifiedId(claims: [String: String], 
+                                                    types: [String]) throws -> VerifiedId
     {
         do
         {
@@ -32,7 +41,7 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
             let identifier = try self.identifierManager.fetchOrCreateMasterIdentifier()
             guard let signingKey = identifier.didDocumentKeys.first else
             {
-                return nil
+                throw IdentifierError.NoKeysInDocument()
             }
             
             let tokenHeader = createTokenHeader(withKeyId: identifier.did + "#" + signingKey.keyId)
@@ -49,18 +58,18 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
             
             guard var vcToken = token else
             {
-                return nil
+                throw TokenValidationError.UnableToCreateToken()
             }
             
             let signer = Secp256k1Signer()
             try vcToken.sign(using: signer, withSecret: signingKey.keyReference)
-            vcToken.rawValue = try vcToken.serialize()
-            let verifiedId = try VCVerifiedId(raw: vcToken, from: Contract(id: "", display: DisplayDescriptor(id: nil, locale: nil, contract: nil, card: CardDisplayDescriptor(title: "", issuedBy: "", backgroundColor: "", textColor: "", logo: nil, cardDescription: ""), consent: ConsentDisplayDescriptor(title: nil, instructions: ""), claims: [:]), input: ContractInputDescriptor(credentialIssuer: "", issuer: "")))
+            let verifiedId = try SelfSignedVerifiableCredential(raw: try vcToken.serialize())
             return verifiedId
         }
         catch
         {
-            return nil
+            self.configuration.logger.logError(message: String(describing: error))
+            throw IdentifierError.UnableToCreateSelfSignedVerifiedId(error: error)
         }
     }
     

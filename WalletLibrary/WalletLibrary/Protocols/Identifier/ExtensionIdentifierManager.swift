@@ -9,6 +9,6 @@
 public protocol ExtensionIdentifierManager
 {
     /// Given claims and types, append the claims and types to defaults, and create a self-signed Verified ID (Verifiable Credential).
-    func createEphemeralSelfSignedVerifiedId(claims: [String: String], types: [String]) -> VerifiedId?
+    func createEphemeralSelfSignedVerifiedId(claims: [String: String], types: [String]) throws -> VerifiedId
 }
 

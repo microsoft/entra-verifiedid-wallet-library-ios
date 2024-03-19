@@ -379,6 +379,8 @@
 		5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27B29EF335600B40302 /* DifWordList.swift */; };
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
 		5555F1A02BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */; };
+		5555F1A22BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */; };
+		5555F1A42BAA135600B41FD4 /* IdentifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1A32BAA135600B41FD4 /* IdentifierError.swift */; };
 		555FB16A2B73FBB000EE14BD /* CredentialOfferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */; };
 		555FB1B62B740A3000EE14BD /* OpenId4VCIHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */; };
 		555FB1D72B74400300EE14BD /* RootOfTrustResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */; };
@@ -938,6 +940,8 @@
 		5552D88729F2E58000B40302 /* PresentationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationServiceTests.swift; sourceTree = "<group>"; };
 		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
 		5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionIdentifierManager.swift; sourceTree = "<group>"; };
+		5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSignedVerifiableCredential.swift; sourceTree = "<group>"; };
+		5555F1A32BAA135600B41FD4 /* IdentifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierError.swift; sourceTree = "<group>"; };
 		555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialOfferTests.swift; sourceTree = "<group>"; };
 		555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIHandlerTests.swift; sourceTree = "<group>"; };
 		555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootOfTrustResolving.swift; path = WalletLibrary/Protocols/RootOfTrust/RootOfTrustResolving.swift; sourceTree = SOURCE_ROOT; };
@@ -2600,6 +2604,7 @@
 			children = (
 				559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */,
 				550AF6352B7BED6B00E5F305 /* OpenID4VCIVerifiedID.swift */,
+				5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */,
 			);
 			path = VerifiableCredential;
 			sourceTree = "<group>";
@@ -2662,6 +2667,7 @@
 				55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */,
 				555FB1FE2B75671300EE14BD /* TokenValidationError.swift */,
 				555FB20C2B75807700EE14BD /* OpenId4VCIValidationError.swift */,
+				5555F1A32BAA135600B41FD4 /* IdentifierError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -3255,6 +3261,7 @@
 				5552D44429EF4A8100B40302 /* SuccessHandler.swift in Sources */,
 				5552D45129EF4A8100B40302 /* FetchPresentationRequestOperation.swift in Sources */,
 				5552D3F729EF48ED00B40302 /* VcMetadata.swift in Sources */,
+				5555F1A22BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift in Sources */,
 				550E3217298B1236004E7716 /* RequesterStyle.swift in Sources */,
 				5552D4CD29EF4AC300B40302 /* Secp256k1PublicKey.swift in Sources */,
 				5552D3E229EF48B800B40302 /* IssuanceResponseClaims.swift in Sources */,
@@ -3273,6 +3280,7 @@
 				5552D48929EF4AAB00B40302 /* JweToken.swift in Sources */,
 				55265AF82B6D765D00BAD6A2 /* CredentialConfiguration.swift in Sources */,
 				5552D3A029EF481A00B40302 /* ExchangeRequestContainer.swift in Sources */,
+				5555F1A42BAA135600B41FD4 /* IdentifierError.swift in Sources */,
 				553275402AF5A9930049A63F /* NonceCreator.swift in Sources */,
 				5552D48B29EF4AAB00B40302 /* TokenVerifier.swift in Sources */,
 				5552D3E629EF48E200B40302 /* VCLogConsumer.swift in Sources */,
