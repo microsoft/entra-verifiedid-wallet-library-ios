@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Internal implementation fo `ExtensionIdentierManager` that handles Identifier operations used within Wallet Library Extensions.
+ * Internal implementation for `ExtensionIdentierManager` that handles Identifier operations used within Wallet Library Extensions.
  */
 class InternalExtensionIdentifierManager: ExtensionIdentifierManager
 {

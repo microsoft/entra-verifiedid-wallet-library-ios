@@ -55,20 +55,27 @@ public class GroupRequirement: Requirement {
     }
     
     
-    public func serialize<T>(protocolSerializer: RequestProcessorSerializing, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? {
-        switch self.requirementOperator {
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing, 
+                             verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
+    {
+        switch self.requirementOperator 
+        {
         case .ANY:
-            for requirement in requirements {
+            for requirement in requirements 
+            {
                 do {
                     try requirement.validate().get()
-                    protocolSerializer.serialize(requirement: requirement, verifiedIdSerializer: verifiedIdSerializer)
+                    protocolSerializer.serialize(requirement: requirement, 
+                                                 verifiedIdSerializer: verifiedIdSerializer)
                 } catch {
                     // nothing needs to be done, this requirement won't be serialized
                 }
             }
         case .ALL:
-            for requirement in requirements {
-                protocolSerializer.serialize(requirement: requirement, verifiedIdSerializer: verifiedIdSerializer)
+            for requirement in requirements 
+            {
+                protocolSerializer.serialize(requirement: requirement, 
+                                             verifiedIdSerializer: verifiedIdSerializer)
             }
         }
         // this requirement has no serialization

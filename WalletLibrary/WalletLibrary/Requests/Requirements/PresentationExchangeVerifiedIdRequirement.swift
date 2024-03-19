@@ -6,7 +6,8 @@
 /**
  * Verified ID Requirement with additional information required for Presentation Exchange RequestProcessor
  */
-public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement, PresentationExchangeRequirement {
+public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement, PresentationExchangeRequirement
+{
     
     var inputDescriptorId: String
     
@@ -15,15 +16,15 @@ public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement, P
     var exclusivePresentationWith: [String]?
     
     init(encrypted: Bool,
-                  required: Bool,
-                  types: [String],
-                  purpose: String?,
-                  issuanceOptions: [VerifiedIdRequestInput],
-                  id: String?,
-                  constraint: VerifiedIdConstraint,
-                  inputDescriptorId: String,
-                  format: PresentationExchangeVerifiedIdFormat,
-                  exclusivePresentationWith: [String]?
+         required: Bool,
+         types: [String],
+         purpose: String?,
+         issuanceOptions: [VerifiedIdRequestInput],
+         id: String?,
+         constraint: VerifiedIdConstraint,
+         inputDescriptorId: String,
+         format: PresentationExchangeVerifiedIdFormat,
+         exclusivePresentationWith: [String]?
     ) {
         self.inputDescriptorId = inputDescriptorId
         self.format = format

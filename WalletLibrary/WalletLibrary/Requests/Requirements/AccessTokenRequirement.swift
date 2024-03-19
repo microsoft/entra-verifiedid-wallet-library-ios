@@ -57,16 +57,16 @@ public class AccessTokenRequirement: Requirement {
         accessToken = rawToken
     }
     
-    public func serialize<T>(protocolSerializer: RequestProcessorSerializing, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? {
-        switch (verifiedIdSerializer) {
+    /// If able to serialize, just return access token, else return nil.
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing,
+                             verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
+    {
+        switch (verifiedIdSerializer)
+        {
         case _ as any VerifiedIdSerializing<String>:
             return accessToken as! T?
         default:
             return nil
         }
-    }
-    
-    class AccessTokenSerializationError: Error {
-        
     }
 }

@@ -11,10 +11,9 @@ enum OpenIdRequestHandlerError: Error
 }
 
 /**
- * Handles a raw Open Id request and configures a VeriifedIdRequest object.
- * Post Private Preview TODO: add processors to support multiple profiles of open id.
+ * Processes a raw Open Id request and configures a VeriifedIdRequest object.
  */
-public struct OpenIdRequestProcessor: RequestProcessing
+struct OpenIdRequestProcessor: RequestProcessing
 {
     public typealias RawRequestType = Dictionary<String, Any>
     
@@ -28,18 +27,18 @@ public struct OpenIdRequestProcessor: RequestProcessing
     
     private let verifiedIdRequester: VerifiedIdRequester
     
-    /// TODO: post private preview, manifest resolving and verified id requester will be handled by processors.
     init(configuration: LibraryConfiguration,
          openIdResponder: OpenIdResponder,
          manifestResolver: ManifestResolver,
-         verifiableCredentialRequester: VerifiedIdRequester) {
+         verifiableCredentialRequester: VerifiedIdRequester) 
+    {
         self.configuration = configuration
         self.openIdResponder = openIdResponder
         self.manifestResolver = manifestResolver
         self.verifiedIdRequester = verifiableCredentialRequester
     }
     
-    public func canHandle(rawRequest: Any) -> Bool
+    func canHandle(rawRequest: Any) -> Bool
     {
         // TODO: once VC SDK logic is moved to handler and new resolver logic is implemented,
         // reimplement with new constraints.
@@ -47,7 +46,7 @@ public struct OpenIdRequestProcessor: RequestProcessing
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    public func handle(rawRequest: Any) async throws -> any VerifiedIdRequest 
+    func handle(rawRequest: Any) async throws -> any VerifiedIdRequest
     {
         guard let request = rawRequest as? any OpenIdRawRequest else 
         {
