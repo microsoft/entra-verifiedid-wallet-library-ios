@@ -4,17 +4,22 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
-  * Extension for the RequestProcessor
+ * Extension for the RequestProcessor to add custom logic to processor.
  */
-public protocol RequestProcessorExtendable {
+public protocol RequestProcessorExtendable 
+{
     /**
-     * Associated RequestProcessor this extension should be injected into
+     * Associated RequestProcessor this extension should be injected into.
      */
-    associatedtype RequestProcessor : RequestProcessing
+    associatedtype RequestProcessor: RequestProcessing
     
     /**
-     * Extension to parse additional information from the request. Extensions should return an updated form of the request
+     * Extension to parse additional information from the request. Extensions should return an updated form of the request.
+     * - Parameters:
+     *   - rawRequest: The associated type formed by the RequestProcessor to pass to this extension.
+     *   - request: The partial request to be updated and returned.
      */
-    func parse(rawRequest: RequestProcessor.RawRequestType, request: VerifiedIdPartialRequest) -> VerifiedIdPartialRequest
+    func parse(rawRequest: RequestProcessor.RawRequestType, 
+               request: VerifiedIdPartialRequest) -> VerifiedIdPartialRequest
     
 }

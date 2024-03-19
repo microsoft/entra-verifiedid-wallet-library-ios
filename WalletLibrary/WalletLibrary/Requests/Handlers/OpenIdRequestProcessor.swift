@@ -47,9 +47,10 @@ public struct OpenIdRequestProcessor: RequestProcessing
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    public func handle(rawRequest: Any) async throws -> any VerifiedIdRequest {
-        
-        guard let request = rawRequest as? any OpenIdRawRequest else {
+    public func handle(rawRequest: Any) async throws -> any VerifiedIdRequest 
+    {
+        guard let request = rawRequest as? any OpenIdRawRequest else 
+        {
             throw OpenIdRequestHandlerError.UnsupportedRawRequestType
         }
         

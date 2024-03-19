@@ -14,7 +14,7 @@ public class VerifiedIdClientBuilder {
     
     private var urlSession: URLSession = URLSession.shared
     
-    private var logger: WalletLibraryLogger
+    private var logger: InternalLogger
     
     private var requestResolvers: [any RequestResolving] = []
     
@@ -23,7 +23,7 @@ public class VerifiedIdClientBuilder {
     private var previewFeatureFlagsSupported: [String] = []
     
     public init() {
-        logger = WalletLibraryLogger()
+        logger = InternalLogger()
     }
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.

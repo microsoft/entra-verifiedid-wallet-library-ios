@@ -9,7 +9,7 @@
  */
 class LibraryConfiguration 
 {
-    let logger: WalletLibraryLogger
+    let logger: InternalLogger
 
     let mapper: Mapping
     
@@ -23,7 +23,7 @@ class LibraryConfiguration
     
     let previewFeatureFlags: PreviewFeatureFlags
 
-    init(logger: WalletLibraryLogger = WalletLibraryLogger(),
+    init(logger: InternalLogger = InternalLogger(),
          mapper: Mapping = Mapper(),
          networking: LibraryNetworking? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),

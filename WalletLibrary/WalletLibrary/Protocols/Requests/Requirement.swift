@@ -6,7 +6,8 @@
 /**
  * An object that describes a necessary piece of information to be included within a Request.
  */
-public protocol Requirement: AnyObject {
+public protocol Requirement: AnyObject 
+{
     /// Whether or not the requirement is required to fulfill request.
     var required: Bool { get }
     
@@ -15,8 +16,10 @@ public protocol Requirement: AnyObject {
     
     /**
      * Serializes the requirement into its raw format.
-     * If this requirement is composed or an aggregate of other requirements, MUST call the protocolSerializer's serialize function on all used requirements.
+     * If this requirement is composed or an aggregate of other requirements,
+     * MUST call the protocolSerializer's serialize function on all used requirements.
      * returns the raw format for a given SerializedFormat type (if it has output).
      */
-    func serialize<T>(protocolSerializer: RequestProcessorSerializing, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
+    func serialize<T>(protocolSerializer: RequestProcessorSerializing, 
+                      verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
 }

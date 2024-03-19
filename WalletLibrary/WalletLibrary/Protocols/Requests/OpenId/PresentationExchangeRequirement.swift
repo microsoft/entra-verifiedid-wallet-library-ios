@@ -3,6 +3,17 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+/**
+ * Presentation Exchange Verified ID formats.
+ */
+enum PresentationExchangeVerifiedIdFormat
+{
+    case JWT_VC
+}
+
+/**
+ * Describes properties to be included in a Presentation Exchange Requirement.
+ */
 protocol PresentationExchangeRequirement
 {
     var inputDescriptorId: String { get }
@@ -11,8 +22,4 @@ protocol PresentationExchangeRequirement
     
     var exclusivePresentationWith: [String]? { get set }
 
-}
-
-enum PresentationExchangeVerifiedIdFormat {
-    case JWT_VC
 }

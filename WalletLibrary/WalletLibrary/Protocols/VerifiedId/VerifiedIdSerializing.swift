@@ -4,13 +4,14 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Defines the behavior of serializing a Verified ID
+ * Defines the behavior of serializing a Verified ID.
  */
-public protocol VerifiedIdSerializing<SerializedFormat> {
+public protocol VerifiedIdSerializing<SerializedFormat> 
+{
     associatedtype SerializedFormat
     
     /**
-     * Serialize the given verifiedID into the SerializedFormat
+     * Serialize the given verifiedID into the `SerializedFormat`.
      */
     func serialize(verifiedId: VerifiedId) throws -> SerializedFormat
 }
