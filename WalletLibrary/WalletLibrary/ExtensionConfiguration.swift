@@ -4,23 +4,24 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Utilities such as logger, identityManager that are configured in builder and
- * all of library will use.
+ * Utilities such as the `Logger` and `ExtensionIdentityManager` that are configured in builder and
+ * all of the library will use.
  */
 public class ExtensionConfiguration
 {
     /**
-     * Logs and metrics class
+     * Logs and metrics class.
      */
     public let logger: WalletLibraryLogger
     
     /**
-     * Identifier manager for extension use
+     * Identifier Manager for extension use.
      */
     public let identifierManager: ExtensionIdentifierManager
     
-    init(logger: WalletLibraryLogger, identifierManager: IdentifierManager) {
+    init(logger: WalletLibraryLogger, identifierManager: IdentifierManager) 
+    {
         self.logger = logger
-        self.identifierManager = ExtensionIdentifierManager(identifierManager: identifierManager)
+        self.identifierManager = InternalExtensionIdentifierManager(identifierManager: identifierManager)
     }
 }

@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public class ExtensionIdentifierManager
+class InternalExtensionIdentifierManager: ExtensionIdentifierManager
 {
     let identifierManager: IdentifierManager
     
@@ -15,7 +15,8 @@ public class ExtensionIdentifierManager
         static let VCDataModelType = "VerifiableCredential"
     }
     
-    init(identifierManager: IdentifierManager) {
+    init(identifierManager: IdentifierManager) 
+    {
         self.identifierManager = identifierManager
     }
     
