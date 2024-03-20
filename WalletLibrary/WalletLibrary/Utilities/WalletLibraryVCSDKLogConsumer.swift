@@ -8,9 +8,9 @@
  */
 struct WalletLibraryVCSDKLogConsumer: VCLogConsumer {
     
-    private let logger: InternalLogger
+    private let logger: WalletLibraryLogger
     
-    init(logger: InternalLogger) {
+    init(logger: WalletLibraryLogger) {
         self.logger = logger
     }
     

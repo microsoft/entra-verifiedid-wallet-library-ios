@@ -6,7 +6,7 @@
 /**
  * Public protocol to describe a logger used in this library.
  */
-public protocol WalletLibraryLogger
+public protocol ExtensionWalletLibraryLogger
 {
     func logVerbose(message: String,
                     functionName: String,

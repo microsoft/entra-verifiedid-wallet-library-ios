@@ -6,7 +6,7 @@
 /**
  * Object used to log data within the library.
  */
-struct InternalLogger: WalletLibraryLogger
+struct WalletLibraryLogger: ExtensionWalletLibraryLogger
 {
     var consumers: [WalletLibraryLogConsumer] = []
     

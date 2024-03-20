@@ -4,13 +4,15 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Internal implementation for `ExtensionIdentierManager` that handles Identifier operations used within Wallet Library Extensions.
+ * Internal implementation for `ExtensionIdentifierManager` that handles Identifier operations used within Wallet Library Extensions.
  */
 class InternalExtensionIdentifierManager: ExtensionIdentifierManager
 {
     private let identifierManager: IdentifierManager
     
     private let configuration: LibraryConfiguration
+    
+    private let tokenSigner: TokenSigning
     
     internal struct Constants
     {
@@ -21,10 +23,12 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
     }
     
     init(identifierManager: IdentifierManager,
-         libraryConfiguration: LibraryConfiguration)
+         libraryConfiguration: LibraryConfiguration,
+         tokenSigner: TokenSigning? = nil)
     {
         self.identifierManager = identifierManager
         self.configuration = libraryConfiguration
+        self.tokenSigner = tokenSigner ?? Secp256k1Signer()
     }
     
     /// Given claims and types, append the claims and types to defaults, and create a self-signed Verified ID (Verifiable Credential).
@@ -61,8 +65,7 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
                 throw TokenValidationError.UnableToCreateToken()
             }
             
-            let signer = Secp256k1Signer()
-            try vcToken.sign(using: signer, withSecret: signingKey.keyReference)
+            try vcToken.sign(using: tokenSigner, withSecret: signingKey.keyReference)
             let verifiedId = try SelfSignedVerifiableCredential(raw: try vcToken.serialize())
             return verifiedId
         }

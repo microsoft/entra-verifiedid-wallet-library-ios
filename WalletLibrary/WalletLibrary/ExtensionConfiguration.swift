@@ -12,7 +12,7 @@ public class ExtensionConfiguration
     /**
      * Logs and metrics class.
      */
-    public let logger: WalletLibraryLogger
+    public let logger: ExtensionWalletLibraryLogger
     
     /**
      * Identifier Manager for extension use.
