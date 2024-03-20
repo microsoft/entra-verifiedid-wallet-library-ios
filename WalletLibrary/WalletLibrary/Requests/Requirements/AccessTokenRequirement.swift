@@ -61,12 +61,7 @@ public class AccessTokenRequirement: Requirement {
     public func serialize<T>(protocolSerializer: RequestProcessorSerializing,
                              verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
     {
-        switch (verifiedIdSerializer)
-        {
-        case _ as any VerifiedIdSerializing<String>:
-            return accessToken as! T?
-        default:
-            return nil
-        }
+        throw VerifiedIdError(message: "Serialization not enabled for issuance",
+                              code: "unsupported_serialization_method")
     }
 }
