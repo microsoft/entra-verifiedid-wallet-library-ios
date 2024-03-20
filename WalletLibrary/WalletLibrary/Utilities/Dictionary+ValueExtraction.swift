@@ -4,6 +4,27 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
+ * An extension to help with forming a URLEncodedString from a dictionary.
+ */
+extension Dictionary
+{
+    func toURLEncodedString() -> String
+    {
+        var parts: [String] = []
+        for (key, value) in self
+        {
+            if let key = key as? String,
+               let value = value as? String
+            {
+                let part = "\(key)=\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                parts.append(part)
+            }
+        }
+        return parts.joined(separator: "&")
+    }
+}
+
+/**
  * A Dictionary helper method to get the value defined on a specific path.
  */
 extension Dictionary where Key == String, Value == Any {
