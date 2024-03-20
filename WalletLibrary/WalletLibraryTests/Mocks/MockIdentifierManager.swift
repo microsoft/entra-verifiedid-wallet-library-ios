@@ -12,11 +12,11 @@ struct MockIdentifierManager: IdentifierManager
         case ExpectedToThrow
     }
     
-    let mockKeyId: String
+    let mockKeyId: String?
     
     let doesThrow: Bool
     
-    init(mockKeyId: String)
+    init(mockKeyId: String?)
     {
         self.mockKeyId = mockKeyId
         self.doesThrow = false
@@ -38,12 +38,19 @@ struct MockIdentifierManager: IdentifierManager
         return mockIdentifier(keyId: mockKeyId)
     }
     
-    private func mockIdentifier(keyId: String) -> Identifier
+    private func mockIdentifier(keyId: String?) -> Identifier
     {
         let uuid = UUID()
-        let key = KeyContainer(keyReference: MockCryptoSecret(id: uuid), keyId: keyId)
+        let key = KeyContainer(keyReference: MockCryptoSecret(id: uuid), keyId: keyId ?? "")
+        
+        var keys: [KeyContainer] = []
+        if let keyId = keyId
+        {
+            keys.append(key)
+        }
+
         let identifier = Identifier(longFormDid: "did:test:1234",
-                                    didDocumentKeys: [key],
+                                    didDocumentKeys: keys,
                                     updateKey: key,
                                     recoveryKey: key,
                                     alias: "mock alias")
