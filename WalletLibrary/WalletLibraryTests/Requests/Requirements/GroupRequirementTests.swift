@@ -75,4 +75,9 @@ class GroupRequirementTests: XCTestCase {
         // Act / Assert
         XCTAssertNoThrow(try groupRequirement.validate().get())
     }
+    
+    func testSerializer_WithALLRequirements_ReturnsValue() async throws 
+    {
+        // TODO: Placeholder for unit tests to be added in next PR.
+    }
 }
