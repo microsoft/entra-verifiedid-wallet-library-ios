@@ -3,14 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-public protocol WalletLibraryLogger
-{
-    func logVerbose(message: String,
-                    functionName: String,
-                    file: String,
-                    line: Int)
-}
-
 /**
  * Object used to log data within the library.
  */

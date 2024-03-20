@@ -23,7 +23,7 @@
 		550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */; };
 		550E320A298B0EA4004E7716 /* VerifiedIdClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */; };
 		550E320C298B0F30004E7716 /* WalletLibraryLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */; };
-		550E320E298B0FAC004E7716 /* WalletLibraryLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E320D298B0FAC004E7716 /* WalletLibraryLogger.swift */; };
+		550E320E298B0FAC004E7716 /* InternalLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E320D298B0FAC004E7716 /* InternalLogger.swift */; };
 		550E3210298B113C004E7716 /* VerifiedIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E320F298B113C004E7716 /* VerifiedIdRequest.swift */; };
 		550E3212298B1150004E7716 /* VerifiedIdRequestInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */; };
 		550E3214298B11A5004E7716 /* Requirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3213298B11A5004E7716 /* Requirement.swift */; };
@@ -381,6 +381,7 @@
 		5555F1A02BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */; };
 		5555F1A22BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */; };
 		5555F1A42BAA135600B41FD4 /* IdentifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1A32BAA135600B41FD4 /* IdentifierError.swift */; };
+		5555F1AA2BAB3F4E00B41FD4 /* WalletLibraryLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1A92BAB3F4E00B41FD4 /* WalletLibraryLogger.swift */; };
 		555FB16A2B73FBB000EE14BD /* CredentialOfferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */; };
 		555FB1B62B740A3000EE14BD /* OpenId4VCIHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */; };
 		555FB1D72B74400300EE14BD /* RootOfTrustResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */; };
@@ -582,7 +583,7 @@
 		550E3207298B0EA4004E7716 /* VerifiedIdClientBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdClientBuilder.swift; sourceTree = "<group>"; };
 		550E3208298B0EA4004E7716 /* VerifiedIdClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdClient.swift; sourceTree = "<group>"; };
 		550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletLibraryLogConsumer.swift; sourceTree = "<group>"; };
-		550E320D298B0FAC004E7716 /* WalletLibraryLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalletLibraryLogger.swift; sourceTree = "<group>"; };
+		550E320D298B0FAC004E7716 /* InternalLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalLogger.swift; sourceTree = "<group>"; };
 		550E320F298B113C004E7716 /* VerifiedIdRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequest.swift; sourceTree = "<group>"; };
 		550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequestInput.swift; sourceTree = "<group>"; };
 		550E3213298B11A5004E7716 /* Requirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requirement.swift; sourceTree = "<group>"; };
@@ -942,6 +943,7 @@
 		5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionIdentifierManager.swift; sourceTree = "<group>"; };
 		5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSignedVerifiableCredential.swift; sourceTree = "<group>"; };
 		5555F1A32BAA135600B41FD4 /* IdentifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierError.swift; sourceTree = "<group>"; };
+		5555F1A92BAB3F4E00B41FD4 /* WalletLibraryLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryLogger.swift; sourceTree = "<group>"; };
 		555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialOfferTests.swift; sourceTree = "<group>"; };
 		555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIHandlerTests.swift; sourceTree = "<group>"; };
 		555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootOfTrustResolving.swift; path = WalletLibrary/Protocols/RootOfTrust/RootOfTrustResolving.swift; sourceTree = SOURCE_ROOT; };
@@ -1372,6 +1374,7 @@
 			isa = PBXGroup;
 			children = (
 				5534E66D294A0F8F005D0765 /* Mapping.swift */,
+				5555F1A92BAB3F4E00B41FD4 /* WalletLibraryLogger.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2907,7 +2910,7 @@
 			children = (
 				5534E668294A0C3F005D0765 /* Mapper.swift */,
 				550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */,
-				550E320D298B0FAC004E7716 /* WalletLibraryLogger.swift */,
+				550E320D298B0FAC004E7716 /* InternalLogger.swift */,
 				5524A59E29D5FDA500C5F18D /* WalletLibraryVCSDKLogConsumer.swift */,
 				55A4BB322A29383A006836AB /* VerifiedIdResult.swift */,
 				55A0DA1B2A745E4100BC178E /* Dictionary+ValueExtraction.swift */,
@@ -3220,6 +3223,7 @@
 				55E2F08129955A960008010D /* RequestType.swift in Sources */,
 				5552D3F229EF48E200B40302 /* PresentationRequest.swift in Sources */,
 				5552D40929EF490A00B40302 /* PresentationInputDescriptor.swift in Sources */,
+				5555F1AA2BAB3F4E00B41FD4 /* WalletLibraryLogger.swift in Sources */,
 				55A81BE72991B2F3002C259A /* RequestHandlerFactory.swift in Sources */,
 				559BD3A3299AD95200BD61AC /* IssuanceService+ManifestResolver.swift in Sources */,
 				5552D3EE29EF48E200B40302 /* PresentationRequestValidator.swift in Sources */,
@@ -3323,7 +3327,7 @@
 				5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */,
 				5552D3B929EF487600B40302 /* FormatterError.swift in Sources */,
 				555FB1FD2B75660500EE14BD /* LinkedDomainResolver.swift in Sources */,
-				550E320E298B0FAC004E7716 /* WalletLibraryLogger.swift in Sources */,
+				550E320E298B0FAC004E7716 /* InternalLogger.swift in Sources */,
 				559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */,
 				55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */,
 				5552D3D929EF48B200B40302 /* IssuanceResponseContainer.swift in Sources */,
