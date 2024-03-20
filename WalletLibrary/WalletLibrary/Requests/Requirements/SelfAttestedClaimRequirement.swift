@@ -40,7 +40,6 @@ public class SelfAttestedClaimRequirement: Requirement {
         self.value = value
     }
     
-    /// If able to serialize, just return value, else return nil.
     public func serialize<T>(protocolSerializer: RequestProcessorSerializing,
                              verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? 
     {

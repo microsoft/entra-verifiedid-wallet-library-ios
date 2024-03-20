@@ -47,7 +47,6 @@ public class PinRequirement: Requirement {
         self.pin = pin
     }
     
-    /// If able to serialize, just return pin, else return nil.
     public func serialize<T>(protocolSerializer: RequestProcessorSerializing,
                              verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
     {

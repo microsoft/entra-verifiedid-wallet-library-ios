@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Internal implementation fo `ExtensionIdentierManager` that handles Identifier operations used within Wallet Library Extensions.
+ * This class is used to represent different types of Identifier errors.
  */
 class IdentifierError: VerifiedIdError
 {

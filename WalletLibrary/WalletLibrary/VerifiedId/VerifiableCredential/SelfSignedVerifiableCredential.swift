@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * OpenID4VCI specific Verifiable Credential object contains the raw VC, and the display information.
+ * Self Signed Verifiable Credential object contains the raw VC, and empty display information.
  */
 struct SelfSignedVerifiableCredential: InternalVerifiedId
 {
@@ -74,7 +74,7 @@ struct SelfSignedVerifiableCredential: InternalVerifiedId
         try container.encode(serializedToken, forKey: .vc)
     }
     
-    /// TODO: implement in next PR.
+    // TODO: implement in next PR.
     public func getClaims() -> [VerifiedIdClaim]
     {
         var verifiedIdClaims: [VerifiedIdClaim] = []

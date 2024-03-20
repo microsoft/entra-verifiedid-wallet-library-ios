@@ -67,7 +67,6 @@ public class IdTokenRequirement: Requirement {
         idToken = rawToken
     }
     
-    /// If able to serialize, just return id token, else return nil.
     public func serialize<T>(protocolSerializer: RequestProcessorSerializing,
                              verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
     {

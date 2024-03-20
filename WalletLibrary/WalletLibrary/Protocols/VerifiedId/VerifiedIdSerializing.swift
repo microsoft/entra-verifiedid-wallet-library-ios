@@ -8,6 +8,8 @@
  */
 public protocol VerifiedIdSerializing<SerializedFormat> 
 {
+    /// The object type that the VerifiedId should be serialized to.
+    /// Should be a primitive type.
     associatedtype SerializedFormat
     
     /**
