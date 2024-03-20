@@ -168,15 +168,142 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         XCTAssert(result.style is BasicVerifiedIdStyle)
     }
     
-    private func createCredentialConfiguration() -> CredentialConfiguration
+    func testGetClaims_WithNoClaims_ReturnsEmptyList() async throws
     {
+        // Arrange
+        let mockIssuerDID = "mock issuer DID"
+        let mockTypes = ["mockType1", "mockType2"]
+        let mockID = "mock ID"
+        let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: mockTypes,
+                                                                         claims: [:],
+                                                                         issuer: mockIssuerDID,
+                                                                         jti: mockID)
+        let rawVC = try mockVC.serialize()
+        let mockIssuerName = "mock issuer name"
+        let mockConfig = createCredentialConfiguration()
+        
+        let vc = try OpenID4VCIVerifiedId(raw: rawVC,
+                                          issuerName: mockIssuerName,
+                                          configuration: mockConfig)
+        
+        // Act
+        let result = vc.getClaims()
+        
+        // Assert
+        XCTAssert(result.isEmpty)
+    }
+    
+    func testGetClaims_WithoutDisplayClaims_ReturnsClaims() async throws
+    {
+        // Arrange
+        let expectedValue1 = "mockValue1"
+        let expectedValue2 = "mockValue2"
+        
+        let claimsInVC = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
+        
+        let claimsInDisplay: [String: String] = [:]
+        
+        let mockIssuerDID = "mock issuer DID"
+        let mockTypes = ["mockType1", "mockType2"]
+        let mockID = "mock ID"
+        let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: mockTypes,
+                                                                         claims: claimsInVC,
+                                                                         issuer: mockIssuerDID,
+                                                                         jti: mockID)
+        let rawVC = try mockVC.serialize()
+        let mockIssuerName = "mock issuer name"
+        let mockConfig = createCredentialConfiguration(claims: claimsInDisplay)
+        
+        let vc = try OpenID4VCIVerifiedId(raw: rawVC,
+                                          issuerName: mockIssuerName,
+                                          configuration: mockConfig)
+        
+        // Act
+        let result = vc.getClaims()
+        
+        // Assert
+        XCTAssertEqual(result.count, 2)
+        XCTAssert(result.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey1", value: expectedValue1))
+        })
+        XCTAssert(result.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey2", value: expectedValue2))
+        })
+    }
+    
+    func testGetClaims_WithDisplayClaims_ReturnsClaims() async throws
+    {
+        // Arrange
+        let expectedValue1 = "mockValue1"
+        let expectedValue2 = "mockValue2"
+        
+        let claimsInVC = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
+        
+        let claimsInDisplay: [String: String] = ["mockKey1": "MockLabel1",
+                                                 "mockKey2": "MockLabel2"]
+        
+        let mockIssuerDID = "mock issuer DID"
+        let mockTypes = ["mockType1", "mockType2"]
+        let mockID = "mock ID"
+        let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: mockTypes,
+                                                                         claims: claimsInVC,
+                                                                         issuer: mockIssuerDID,
+                                                                         jti: mockID)
+        let rawVC = try mockVC.serialize()
+        let mockIssuerName = "mock issuer name"
+        let mockConfig = createCredentialConfiguration(claims: claimsInDisplay)
+        
+        let vc = try OpenID4VCIVerifiedId(raw: rawVC,
+                                          issuerName: mockIssuerName,
+                                          configuration: mockConfig)
+        
+        // Act
+        let result = vc.getClaims()
+        
+        // Assert
+        XCTAssertEqual(result.count, 2)
+        XCTAssert(result.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", value: expectedValue1))
+        })
+        XCTAssert(result.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel2", value: expectedValue2))
+        })
+    }
+    
+    private func createCredentialConfiguration(claims: [String: String] = [:]) -> CredentialConfiguration
+    {
+        let displayDefinition = createDisplayDefinition(claims: claims)
+        let credentialDefinition = CredentialDefinition(type: nil,
+                                                        credential_subject: displayDefinition)
         let config = CredentialConfiguration(format: nil,
                                              scope: nil,
                                              cryptographic_binding_methods_supported: nil,
                                              cryptographic_suites_supported: nil,
-                                             credential_definition: nil,
+                                             credential_definition: credentialDefinition,
                                              display: nil,
                                              proof_types_supported: nil)
         return config
+    }
+    
+    private func createDisplayDefinition(claims: [String: String]) -> [String: CredentialSubjectDefinition]
+    {
+        var result: [String: CredentialSubjectDefinition] = [:]
+        claims.forEach { key, value in
+            
+            let localizedDisplayDefinition = LocalizedDisplayDefinition(name: value,
+                                                                        locale: "en",
+                                                                        logo: nil,
+                                                                        description: nil,
+                                                                        background_color: nil,
+                                                                        text_color: nil)
+            let credentialSubjectDefinition = CredentialSubjectDefinition(display: [localizedDisplayDefinition],
+                                                                          value_type: nil)
+            result["vc.credentialSubject.\(key)"] = credentialSubjectDefinition
+        }
+        return result
+    }
+    
+    private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) -> Bool {
+        return (result.id == expected.id) && (result.value as! String == expected.value as! String)
     }
 }

@@ -86,7 +86,7 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
     
     public func getClaims() -> [VerifiedIdClaim]
     {
-        guard let claims = vc.content.vc?.credentialSubject else
+        guard let claims = raw.content.vc?.credentialSubject else
         {
             return []
         }
