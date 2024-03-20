@@ -63,8 +63,18 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     public func complete() async -> VerifiedIdResult<VerifiedId>
     {
         let result = await VerifiedIdResult<VerifiedId>.getResult {
-            let response = try await self.sendIssuanceRequest()
-            return try self.mapToVerifiedId(rawResponse: response)
+            do
+            {
+                let response = try await self.sendIssuanceRequest()
+                let verifiedId = try self.mapToVerifiedId(rawResponse: response)
+                await self.sendCompletionRequest(code: .IssuanceSuccessful)
+                return verifiedId
+            }
+            catch
+            {
+                await self.sendCompletionRequest(code: .IssuanceFailed)
+                throw error
+            }
         }
         
         return result
@@ -75,8 +85,8 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     public func cancel(message: String?) async -> VerifiedIdResult<Void>
     {
         let result = await VerifiedIdResult<VerifiedId>.getResult {
-            let errorMessage = "Not implemented."
-            throw VerifiedIdError(message: errorMessage, code: "")
+            self.configuration.logger.logInfo(message: "Issuance canceled with message: \(message ?? "")")
+            await self.sendCompletionRequest(code: .IssuanceFailed)
         }
         
         return result
@@ -129,5 +139,28 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
                                                   issuerName: issuerName,
                                                   configuration: credentialConfiguration)
         return verifiedId
+    }
+    
+    private func sendCompletionRequest(code: OpenID4VCICompletionRequest.Code) async
+    {
+        do
+        {
+            guard let notificationEndpoint = credentialMetadata.notification_endpoint,
+                  let notificationEndpointURL = URL(string: notificationEndpoint) else
+            {
+                throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: "")
+            }
+            
+            let request = OpenID4VCICompletionRequest(code: code,
+                                                      state: credentialOffer.issuer_session)
+            let _ = try await configuration.networking.post(requestBody: request,
+                                                            url: notificationEndpointURL,
+                                                            OpenID4VCICompletePostOperation.self,
+                                                            additionalHeaders: nil)
+        }
+        catch
+        {
+            configuration.logger.logError(message: String(describing: error))
+        }
     }
 }

@@ -80,10 +80,47 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
         try container.encode(issuerName, forKey: .issuerName)
     }
     
-    /// TODO: implement in next PR.
     public func getClaims() -> [VerifiedIdClaim]
     {
+        guard let claims = raw.content.vc?.credentialSubject else
+        {
+            return []
+        }
+        
         var verifiedIdClaims: [VerifiedIdClaim] = []
+        for (claimReference, claimValue) in claims
+        {
+            let verifiedIdClaim = createVerifiedIdClaim(claimReference: claimReference,
+                                                        claimValue: claimValue)
+            verifiedIdClaims.append(verifiedIdClaim)
+        }
+        
         return verifiedIdClaims
+    }
+    
+    private func createVerifiedIdClaim(claimReference: String, claimValue: Any) -> VerifiedIdClaim
+    {
+        guard let claimDefinitions = configuration.credential_definition?.credential_subject,
+           let claimDisplayDefinitions = claimDefinitions["vc.credentialSubject.\(claimReference)"] else
+        {
+            return VerifiedIdClaim(id: claimReference,
+                                   type: nil,
+                                   value: claimValue)
+        }
+        
+        if let localizedDefinition = claimDisplayDefinitions.getPreferredLocalizedDisplayDefinition(),
+           let label = localizedDefinition.name
+        {
+            return VerifiedIdClaim(id: label,
+                                   type: claimDisplayDefinitions.value_type,
+                                   value: claimValue)
+            
+        }
+        else
+        {
+            return VerifiedIdClaim(id: claimReference,
+                                   type: claimDisplayDefinitions.value_type,
+                                   value: claimValue)
+        }
     }
 }
