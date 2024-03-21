@@ -62,6 +62,8 @@ struct VCVerifiedId: InternalVerifiedId {
         case raw, contract
     }
     
+    /// Do not change this logic. This method determines how Verified IDs will be deserialized.
+    /// Developer are encouraged to use this logic to deserialize Verified IDs from their databases.
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let rawToken = try values.decode(String.self, forKey: .raw)
@@ -72,6 +74,8 @@ struct VCVerifiedId: InternalVerifiedId {
         try self.init(raw: raw, from: contract)
     }
     
+    /// Do not change this logic. This method determines how Verified IDs will be serialized.
+    /// Developer are encouraged to use this logic to serialize Verified IDs from their databases.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         let serializedToken = try raw.serialize()
@@ -79,22 +83,30 @@ struct VCVerifiedId: InternalVerifiedId {
         try container.encode(contract, forKey: .contract)
     }
     
-    public func getClaims() -> [VerifiedIdClaim] {
+    public func getClaims() -> [VerifiedIdClaim] 
+    {
         
-        guard let vcClaims = raw.content.vc?.credentialSubject else {
+        guard let vcClaims = raw.content.vc?.credentialSubject else 
+        {
             return []
         }
         
         let claimLabels = contract.display.claims
-        
         var verifiedIdClaims: [VerifiedIdClaim] = []
-        /// TODO: add casting to correct type from contract.
-        for (claim, value) in vcClaims {
-            if let claimStyle = claimLabels["vc.credentialSubject.\(claim)"] {
+
+        for (claim, value) in vcClaims 
+        {
+            if let claimStyle = claimLabels["vc.credentialSubject.\(claim)"]
+            {
                 verifiedIdClaims.append(VerifiedIdClaim(id: claimStyle.label,
+                                                        type: claimStyle.type,
                                                         value: value))
-            } else {
+            }
+            else
+            {
+                /// Default to String.
                 verifiedIdClaims.append(VerifiedIdClaim(id: claim,
+                                                        type: nil,
                                                         value: value))
             }
         }
