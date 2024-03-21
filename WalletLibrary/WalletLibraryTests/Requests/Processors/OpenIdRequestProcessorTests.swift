@@ -6,7 +6,7 @@
 import XCTest
 @testable import WalletLibrary
 
-class OpenIdRequestHandlerTests: XCTestCase {
+class OpenIdRequestProcessorTests: XCTestCase {
     
     enum ExpectedError: Error, Equatable {
         case expectedToBeThrown
@@ -14,7 +14,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         case expectedToBeUnableToMapRawContractToVerifiedIdContent
     }
     
-    func testHandlePresentationRequest_WithRawPresentationRequest_ReturnsVerifiedIdRequest() async throws {
+    func testProcessPresentationRequest_WithRawPresentationRequest_ReturnsVerifiedIdRequest() async throws {
         
         // Arrange
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
@@ -53,7 +53,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         XCTAssert(actualRequest.rootOfTrust.verified)
     }
     
-    func testHandlePresentationRequest_WithPresentationRequestInvalidMapping_ThrowsError() async throws {
+    func testProcessPresentationRequest_WithPresentationRequestInvalidMapping_ThrowsError() async throws {
         
         // Arrange
         func mockResults(objectToBeMapped: Any) throws -> Any? {
@@ -83,7 +83,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         }
     }
     
-    func testHandleIssuanceRequest_WithUnableToCaseRequirementToVerifiedIdRequirement_ThrowsError() async throws {
+    func testProcessIssuanceRequest_WithUnableToCaseRequirementToVerifiedIdRequirement_ThrowsError() async throws {
         
         // Arrange
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
@@ -122,7 +122,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         }
     }
     
-    func testHandleIssuanceRequest_WithNoIssuanceOptionsOnPresentationRequest_ThrowsError() async throws {
+    func testProcessIssuanceRequest_WithNoIssuanceOptionsOnPresentationRequest_ThrowsError() async throws {
         
         // Arrange
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
@@ -167,7 +167,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         }
     }
     
-    func testHandleIssuanceRequest_WithIssuanceOptionInvalidType_ThrowsError() async throws {
+    func testProcessIssuanceRequest_WithIssuanceOptionInvalidType_ThrowsError() async throws {
         
         // Arrange
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
@@ -212,7 +212,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         }
     }
     
-    func testHandleIssuanceRequest_WhenUnableToResolveContract_ThrowsError() async throws {
+    func testProcessIssuanceRequest_WhenUnableToResolveContract_ThrowsError() async throws {
         
         // Arrange
         let issuanceOptionURL = URL(string: "https://test.com")!
@@ -273,7 +273,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         }
     }
     
-    func testHandleIssuanceRequest_WhenUnableToMapRawContractToVerifiedIdRequestContent_ThrowsError() async throws {
+    func testProcessIssuanceRequest_WhenUnableToMapRawContractToVerifiedIdRequestContent_ThrowsError() async throws {
         
         // Arrange
         let issuanceOptionURL = URL(string: "https://test.com")!
@@ -327,7 +327,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         }
     }
     
-    func testHandleIssuanceRequest_WithValidContract_ReturnsVerifiedIdIssuanceRequest() async throws {
+    func testProcessIssuanceRequest_WithValidContract_ReturnsVerifiedIdIssuanceRequest() async throws {
         
         // Arrange
         let issuanceOptionURL = URL(string: "https://test.com")!
@@ -394,7 +394,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         XCTAssert(actualRequest.rootOfTrust.verified)
     }
     
-    func testHandleIssuanceRequest_WithValidContractAndIdTokenRequirement_ReturnsVerifiedIdIssuanceRequest() async throws {
+    func testProcessIssuanceRequest_WithValidContractAndIdTokenRequirement_ReturnsVerifiedIdIssuanceRequest() async throws {
         
         // Arrange
         let issuanceOptionURL = URL(string: "https://test.com")!
@@ -461,7 +461,7 @@ class OpenIdRequestHandlerTests: XCTestCase {
         XCTAssert(actualRequest.rootOfTrust.verified)
     }
     
-    func testHandleIssuanceRequest_WithValidContractAndInjectedIdToken_ReturnsVerifiedIdIssuanceRequest() async throws {
+    func testProcessIssuanceRequest_WithValidContractAndInjectedIdToken_ReturnsVerifiedIdIssuanceRequest() async throws {
         
         // Arrange
         let issuanceOptionURL = URL(string: "https://test.com")!

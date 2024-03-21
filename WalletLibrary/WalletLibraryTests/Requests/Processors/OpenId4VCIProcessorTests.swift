@@ -6,9 +6,9 @@
 import XCTest
 @testable import WalletLibrary
 
-class OpenId4VCIHandlerTests: XCTestCase 
+class OpenId4VCIProcessorTests: XCTestCase 
 {
-    func testCanHandle_WithInvalidRawRequest_ReturnsFalse() async throws
+    func testCanProcess_WithInvalidRawRequest_ReturnsFalse() async throws
     {
         // Arrange
         let invalidRawRequest = "invalid raw request"
@@ -19,7 +19,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         XCTAssertFalse(handler.canProcess(rawRequest: invalidRawRequest))
     }
     
-    func testCanHandle_WithInvalidJSONRequest_ReturnsFalse() async throws
+    func testCanProcess_WithInvalidJSONRequest_ReturnsFalse() async throws
     {
         // Arrange
         let invalidRawRequest = ["invalid": "request"]
@@ -30,7 +30,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         XCTAssertFalse(handler.canProcess(rawRequest: invalidRawRequest))
     }
     
-    func testCanHandle_WithValidJSONRequest_ReturnsTrue() async throws
+    func testCanProcess_WithValidJSONRequest_ReturnsTrue() async throws
     {
         // Arrange
         let rawRequest = createJSONCredentialOffer()
@@ -41,7 +41,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         XCTAssert(handler.canProcess(rawRequest: rawRequest))
     }
     
-    func testHandle_WithInvalidRawRequest_ThrowsError() async throws 
+    func testProcess_WithInvalidRawRequest_ThrowsError() async throws
     {
         // Arrange
         let invalidRawRequest = "invalid raw request"
@@ -63,7 +63,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         }
     }
     
-    func testHandle_WithCredentialMetadataNetworkIssue_ThrowsError() async throws
+    func testProcess_WithCredentialMetadataNetworkIssue_ThrowsError() async throws
     {
         // Arrange
         let rawRequest = createJSONCredentialOffer()
@@ -84,7 +84,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         }
     }
     
-    func testHandle_WithInvalidConfigIds_ThrowsError() async throws
+    func testProcess_WithInvalidConfigIds_ThrowsError() async throws
     {
         // Arrange
         let rawRequest = createJSONCredentialOffer()
@@ -109,7 +109,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         }
     }
     
-    func testHandle_WithMismatchedAuthServers_ThrowsError() async throws
+    func testProcess_WithMismatchedAuthServers_ThrowsError() async throws
     {
         // Arrange
         let rawRequest = createJSONCredentialOffer()
@@ -134,7 +134,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         }
     }
     
-    func testHandle_WithSignedMetadataProcessorError_ThrowsError() async throws
+    func testProcess_WithSignedMetadataProcessorError_ThrowsError() async throws
     {
         // Arrange
         let rawRequest = createJSONCredentialOffer()
@@ -162,7 +162,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         }
     }
     
-    func testHandle_WithNoScopeValue_ReturnsVerifiedId() async throws
+    func testProcess_WithNoScopeValue_ReturnsVerifiedId() async throws
     {
         // Arrange
         let rawRequest = createJSONCredentialOffer()
@@ -192,7 +192,7 @@ class OpenId4VCIHandlerTests: XCTestCase
         }
     }
     
-    func testHandle_WithRawRequest_ReturnsVerifiedId() async throws
+    func testProcess_WithRawRequest_ReturnsVerifiedId() async throws
     {
         // Arrange
         let rawRequest = createJSONCredentialOffer()
