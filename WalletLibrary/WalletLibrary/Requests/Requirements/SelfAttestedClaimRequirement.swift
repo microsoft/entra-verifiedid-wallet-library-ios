@@ -39,4 +39,11 @@ public class SelfAttestedClaimRequirement: Requirement {
     public func fulfill(with value: String) {
         self.value = value
     }
+    
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing,
+                             verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? 
+    {
+        throw VerifiedIdError(message: "Serialization not enabled for issuance",
+                              code: "unsupported_serialization_method")
+    }
 }

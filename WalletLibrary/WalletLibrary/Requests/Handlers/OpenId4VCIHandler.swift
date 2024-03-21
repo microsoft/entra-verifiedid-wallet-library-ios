@@ -6,8 +6,12 @@
 /**
  * Handles a Raw Request expected to be a Credential Offer and configures a VerifiedIdRequest object.
  */
-struct OpenId4VCIHandler: RequestHandling
+struct OpenId4VCIHandler: RequestProcessing
 {
+    typealias RawRequestType = Dictionary<String, Any>
+    
+    var requestProcessorExtensions: [any RequestProcessorExtendable] = []
+    
     private let configuration: LibraryConfiguration
     
     private let signedMetadataProcessor: SignedCredentialMetadataProcessing

@@ -5,13 +5,18 @@
 
 @testable import WalletLibrary
 
-class MockHandler: RequestHandling {
-
-    enum MockHandlerError: Error {
+class MockHandler: RequestProcessing 
+{
+    typealias RawRequestType = String
+    
+    enum MockHandlerError: Error 
+    {
         case nilMockHandlerMethod
     }
     
     let mockHandleRequest: (() throws -> any VerifiedIdRequest)?
+    
+    var requestProcessorExtensions: [any RequestProcessorExtendable] = []
     
     let mockCanHandle: Bool
     

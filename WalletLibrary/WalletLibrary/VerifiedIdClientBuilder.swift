@@ -18,7 +18,7 @@ public class VerifiedIdClientBuilder {
     
     private var requestResolvers: [any RequestResolving] = []
     
-    private var requestHandlers: [any RequestHandling] = []
+    private var requestHandlers: [any RequestProcessing] = []
     
     private var previewFeatureFlagsSupported: [String] = []
     
@@ -90,6 +90,12 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    public func with(extension: VerifiedIdExtendable) -> VerifiedIdClientBuilder {
+        // TODO: add prefer headers to requestResolverFactory
+        // TODO: add RequestProcessorExtendables to RequestProcessors
+        return self
+    }
+    
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
         let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(),
                                                          configuration: configuration)
@@ -100,7 +106,7 @@ public class VerifiedIdClientBuilder {
     {
         let issuanceService = IssuanceService(correlationVector: correlationHeader, urlSession: urlSession)
         let presentationService = PresentationService(correlationVector: correlationHeader, urlSession: urlSession)
-        let openIdHandler = OpenIdRequestHandler(configuration: configuration,
+        let openIdHandler = OpenIdRequestProcessor(configuration: configuration,
                                                  openIdResponder: presentationService,
                                                  manifestResolver: issuanceService,
                                                  verifiableCredentialRequester: issuanceService)
