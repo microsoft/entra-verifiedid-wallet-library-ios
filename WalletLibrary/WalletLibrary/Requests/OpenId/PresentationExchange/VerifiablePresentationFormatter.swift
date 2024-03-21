@@ -3,7 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-class VerifiablePresentationFormatter 
+/**
+ * Formats a Verifiable Presentation token in JWT format which adheres to the Presentation Exchange protocol.
+ */
+class VerifiablePresentationFormatter
 {
     private struct Constants 
     {
@@ -19,6 +22,7 @@ class VerifiablePresentationFormatter
         self.signer = signer
     }
     
+    /// The method signature from the old VC SDK implementation.
     func format(toWrap vcs: [RequestedVerifiableCredentialMapping],
                 audience: String,
                 nonce: String,
@@ -34,6 +38,8 @@ class VerifiablePresentationFormatter
                           signingKey: signingKey)
     }
     
+    /// Takes the serialized Verifiable Credentials and creates Verifiable Presentation token with other given input
+    /// Signed by the signing key which should belong to the identifier.
     func format(rawVCs: [String],
                 audience: String,
                 nonce: String,
@@ -61,7 +67,7 @@ class VerifiablePresentationFormatter
             throw TokenValidationError.UnableToCreateToken()
         }
         
-        try token.sign(using: self.signer, withSecret: signingKey.keyReference)
+        try token.sign(using: signer, withSecret: signingKey.keyReference)
         return token
     }
 }

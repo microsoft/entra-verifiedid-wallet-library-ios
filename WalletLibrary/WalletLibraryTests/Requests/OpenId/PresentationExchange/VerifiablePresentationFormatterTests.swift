@@ -29,6 +29,38 @@ class VerifiablePresentationFormatterTests: XCTestCase
         }
     }
     
+    func testFormat_WithRequestedVCMappings_ReturnsVPToken() throws
+    {
+        // Arrange
+        let mockSigner = MockSigner(doesSignThrow: false)
+        let formatter = VerifiablePresentationFormatter(signer: mockSigner)
+        let mockAudience = "mock audience"
+        let mockNonce = "mock nonce"
+        let mockIdentifier = "mock identifier"
+        let mockSigningKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
+        let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: [],
+                                                                         claims: [:],
+                                                                         issuer: "mockIssuer")
+        let mockRequestedVCs = [RequestedVerifiableCredentialMapping(id: "mockId",
+                                                                     verifiableCredential: mockVC)]
+        
+        // Act
+        let token = try formatter.format(toWrap: mockRequestedVCs,
+                                         audience: mockAudience,
+                                         nonce: mockNonce,
+                                         identifier: mockIdentifier,
+                                         signingKey: mockSigningKey)
+        
+        // Assert
+        XCTAssertEqual(token.content.audience, mockAudience)
+        XCTAssertEqual(token.content.nonce, mockNonce)
+        XCTAssertEqual(token.content.issuerOfVp, mockIdentifier)
+        XCTAssertEqual(token.content.verifiablePresentation.context, ["https://www.w3.org/2018/credentials/v1"])
+        XCTAssertEqual(token.content.verifiablePresentation.type, ["VerifiablePresentation"])
+        XCTAssertEqual(token.content.verifiablePresentation.verifiableCredential,
+                       try mockRequestedVCs.compactMap { try $0.vc.serialize() })
+    }
+    
     func testFormat_WithValidInput_ReturnsVPToken() throws
     {
         // Arrange
@@ -47,7 +79,7 @@ class VerifiablePresentationFormatterTests: XCTestCase
                                          identifier: mockIdentifier,
                                          signingKey: mockSigningKey)
         
-        print(token)
+        // Assert
         XCTAssertEqual(token.content.audience, mockAudience)
         XCTAssertEqual(token.content.nonce, mockNonce)
         XCTAssertEqual(token.content.issuerOfVp, mockIdentifier)
