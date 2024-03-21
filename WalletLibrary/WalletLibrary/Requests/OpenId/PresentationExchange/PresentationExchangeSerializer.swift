@@ -6,11 +6,21 @@
 /**
  * Visitor and builder used by RequestProcessors to serialize Requirements.
  */
-public protocol RequestProcessorSerializing
+class PresentationExchangeSerializer: RequestProcessorSerializing
 {
-    /**
-     * Processes and serializes this requirement using Requirement.serialize.
-     * note: Requirement.serialize must be called and is expected to call this method on any child requirements before returning.
-     */
+    private let configuration: LibraryConfiguration
+    
+    private let vpFormatter: VerifiablePresentationFormatter
+    
+    init(libraryConfiguration: LibraryConfiguration,
+         vpFormatter: VerifiablePresentationFormatter)
+    {
+        self.configuration = libraryConfiguration
+        self.vpFormatter = vpFormatter
+    }
+    
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
+    {
+        // TODO: implement serialize
+    }
 }

@@ -27,9 +27,9 @@ struct IssuanceResponseClaims: OIDCClaims {
     
     let pin: String?
     
-    let iat: Double?
+    let iat: Int?
     
-    let exp: Double?
+    let exp: Int?
     
     init(publicKeyThumbprint: String = "",
                 audience: String = "",
@@ -39,8 +39,8 @@ struct IssuanceResponseClaims: OIDCClaims {
                 jti: String = "",
                 attestations: AttestationResponseDescriptor? = nil,
                 pin: String? = nil,
-                iat: Double? = nil,
-                exp: Double? = nil) {
+                iat: Int? = nil,
+                exp: Int? = nil) {
         self.publicKeyThumbprint = publicKeyThumbprint
         self.audience = audience
         self.did = did

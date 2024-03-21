@@ -16,16 +16,16 @@ struct VCClaims: Claims {
     let jti: String?
     let iss: String?
     let sub: String?
-    let iat: Double?
-    let exp: Double?
+    let iat: Int?
+    let exp: Int?
     let vc: VerifiableCredentialDescriptor?
     
     init(jti: String?,
-                iss: String?,
-                sub: String?,
-                iat: Double?,
-                exp: Double?,
-                vc: VerifiableCredentialDescriptor?) {
+         iss: String?,
+         sub: String?,
+         iat: Int?,
+         exp: Int?,
+         vc: VerifiableCredentialDescriptor?) {
         self.jti = jti
         self.iss = iss
         self.sub = sub

@@ -229,8 +229,8 @@ class VCVerifiedIdTests: XCTestCase {
     }
     
     private func createVCEntitiesVC(expectedJti: String? = "1234",
-                                    expectedIat: Double? = 0,
-                                    expectedExp: Double? = 0,
+                                    expectedIat: Int? = 0,
+                                    expectedExp: Int? = 0,
                                     expectedClaims: [String: String] = [:]) -> VerifiableCredential {
         let claims = VCClaims(jti: expectedJti,
                               iss: "",

@@ -32,7 +32,7 @@ extension JwsToken
                                 keyId: "#\(String(components[1]))")
     }
     
-    func validateIatIfPresent(withClockSkew skew: Double = 300) throws
+    func validateIatIfPresent(withClockSkew skew: Int = 300) throws
     {
         if let iat = content.iat,
            getCurrentTimeInSeconds(skew: skew) <= iat
@@ -41,18 +41,18 @@ extension JwsToken
         }
     }
     
-    func validateExpIfPresent(withClockSkew skew: Double = 300) throws
+    func validateExpIfPresent(withClockSkew skew: Int = 300) throws
     {
         if let exp = content.exp,
-           getCurrentTimeInSeconds(skew: Double(-300)) >= exp
+           getCurrentTimeInSeconds(skew: -300) >= exp
         {
             throw TokenValidationError.TokenHasExpired()
         }
     }
     
-    private func getCurrentTimeInSeconds(skew: Double) -> Double
+    private func getCurrentTimeInSeconds(skew: Int) -> Int
     {
-        let currentTimeInSeconds = (Date().timeIntervalSince1970).rounded(.down)
+        let currentTimeInSeconds = Int((Date().timeIntervalSince1970).rounded(.down))
         return currentTimeInSeconds + skew
     }
 }

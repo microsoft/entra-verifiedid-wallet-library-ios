@@ -15,16 +15,16 @@ struct PresentationResponseClaims: OIDCClaims {
     
     let nonce: String?
     
-    let iat: Double?
+    let iat: Int?
     
-    let exp: Double?
+    let exp: Int?
     
     init(subject: String = "",
          audience: String = "",
          vpTokenDescription: [VPTokenResponseDescription] = [],
          nonce: String? = "",
-         iat: Double? = nil,
-         exp: Double? = nil) {
+         iat: Int? = nil,
+         exp: Int? = nil) {
         self.subject = subject
         self.audience = audience
         self.nonce = nonce
