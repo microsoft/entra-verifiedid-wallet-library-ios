@@ -9,11 +9,11 @@ struct MockClaims: Claims, Equatable
 {
     let key: String
     
-    let iat: Double?
+    let iat: Int?
     
-    let exp: Double?
+    let exp: Int?
     
-    init(key: String, iat: Double? = nil, exp: Double? = nil)
+    init(key: String, iat: Int? = nil, exp: Int? = nil)
     {
         self.key = key
         self.iat = iat

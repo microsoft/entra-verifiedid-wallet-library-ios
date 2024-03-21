@@ -77,7 +77,7 @@ struct PresentationRequestValidator: RequestValidating {
         throw PresentationRequestValidatorError.invalidSignature
     }
     
-    private func validate(expiration: Double?) throws {
+    private func validate(expiration: Int?) throws {
         guard let exp = expiration else { throw PresentationRequestValidatorError.noExpirationPresent }
         if getExpirationDeadlineInSeconds() > exp { throw PresentationRequestValidatorError.tokenExpired }
     }
@@ -103,8 +103,8 @@ struct PresentationRequestValidator: RequestValidating {
         }
     }
     
-    private func getExpirationDeadlineInSeconds(expirationCheckTimeOffsetInSeconds: Int = 300) -> Double {
-        let currentTimeInSeconds = (Date().timeIntervalSince1970).rounded(.down)
-        return currentTimeInSeconds - Double(expirationCheckTimeOffsetInSeconds)
+    private func getExpirationDeadlineInSeconds(expirationCheckTimeOffsetInSeconds: Int = 300) -> Int {
+        let currentTimeInSeconds = Int((Date().timeIntervalSince1970).rounded(.down))
+        return currentTimeInSeconds - expirationCheckTimeOffsetInSeconds
     }
 }

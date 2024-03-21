@@ -37,8 +37,8 @@ class JwsTokenExtensionTests: XCTestCase
     func testValidateExp_WithValidateProps_DoesNotThrow() throws
     {
         // Arrange
-        let exp = (Date().timeIntervalSince1970).rounded(.down)
-        let iat = (Date().timeIntervalSince1970).rounded(.down)
+        let exp = Int((Date().timeIntervalSince1970).rounded(.down))
+        let iat = Int((Date().timeIntervalSince1970).rounded(.down))
         let claims = MockClaims(key: "", iat: iat, exp: exp)
         let token = JwsToken(headers: Header(), content: claims)!
         
@@ -49,8 +49,8 @@ class JwsTokenExtensionTests: XCTestCase
     func testValidateExp_WithExpiredToken_DoesThrows() throws
     {
         // Arrange
-        let exp = (Date().timeIntervalSince1970).rounded(.down) - 6000
-        let iat = (Date().timeIntervalSince1970).rounded(.down)
+        let exp = Int((Date().timeIntervalSince1970).rounded(.down) - 6000)
+        let iat = Int((Date().timeIntervalSince1970).rounded(.down))
         let claims = MockClaims(key: "", iat: iat, exp: exp)
         let token = JwsToken(headers: Header(), content: claims)!
         
@@ -65,8 +65,8 @@ class JwsTokenExtensionTests: XCTestCase
     func testValidateIat_WithInvalidIat_DoesThrows() throws
     {
         // Arrange
-        let exp = (Date().timeIntervalSince1970).rounded(.down)
-        let iat = (Date().timeIntervalSince1970).rounded(.down) + 6000
+        let exp = Int((Date().timeIntervalSince1970).rounded(.down))
+        let iat = Int((Date().timeIntervalSince1970).rounded(.down) + 6000)
         let claims = MockClaims(key: "", iat: iat, exp: exp)
         let token = JwsToken(headers: Header(), content: claims)!
         
@@ -83,7 +83,7 @@ class JwsTokenExtensionTests: XCTestCase
     func testValidateIat_WithMissingIat_DoesNotThrows() throws
     {
         // Arrange
-        let exp = (Date().timeIntervalSince1970).rounded(.down)
+        let exp = Int((Date().timeIntervalSince1970).rounded(.down))
         let claims = MockClaims(key: "", exp: exp)
         let token = JwsToken(headers: Header(), content: claims)!
         
@@ -94,7 +94,7 @@ class JwsTokenExtensionTests: XCTestCase
     func testValidateExp_WithMissingExp_DoesThrows() throws
     {
         // Arrange
-        let iat = (Date().timeIntervalSince1970).rounded(.down)
+        let iat = Int((Date().timeIntervalSince1970).rounded(.down))
         let claims = MockClaims(key: "", iat: iat)
         let token = JwsToken(headers: Header(), content: claims)!
         
