@@ -17,7 +17,7 @@ class IssuanceVPFormatter {
     let signer: TokenSigning
     let headerFormatter = JwsHeaderFormatter()
     
-    init(signer: TokenSigning) {
+    init(signer: TokenSigning = Secp256k1Signer()) {
         self.signer = signer
     }
     
@@ -27,7 +27,8 @@ class IssuanceVPFormatter {
                 usingIdentifier identifier: Identifier,
                 andSignWith key: KeyContainer) throws -> VerifiablePresentation {
         
-        let headers = headerFormatter.formatHeaders(usingIdentifier: identifier, andSigningKey: identifier.didDocumentKeys.first!)
+        let headers = headerFormatter.formatHeaders(identifier: identifier.longFormDid,
+                                                    signingKey: key)
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: exp)
         let verifiablePresentationDescriptor = try self.createVerifiablePresentationDescriptor(toWrap: vc)
         
