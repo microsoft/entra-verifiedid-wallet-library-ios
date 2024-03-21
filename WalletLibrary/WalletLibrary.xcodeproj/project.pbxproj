@@ -382,6 +382,7 @@
 		5555F1AA2BAB3F4E00B41FD4 /* ExtensionWalletLibraryLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1A92BAB3F4E00B41FD4 /* ExtensionWalletLibraryLogger.swift */; };
 		5555F1AD2BAB48DE00B41FD4 /* ExtensionIdentifierManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1AC2BAB48DE00B41FD4 /* ExtensionIdentifierManagerTests.swift */; };
 		5555F1BC2BACAB2800B41FD4 /* PresentationExchangeSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1BB2BACAB2800B41FD4 /* PresentationExchangeSerializer.swift */; };
+		5555F1C52BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1C42BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift */; };
 		555FB16A2B73FBB000EE14BD /* CredentialOfferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */; };
 		555FB1B62B740A3000EE14BD /* OpenId4VCIProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1B52B740A3000EE14BD /* OpenId4VCIProcessorTests.swift */; };
 		555FB1D72B74400300EE14BD /* RootOfTrustResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */; };
@@ -944,6 +945,7 @@
 		5555F1A92BAB3F4E00B41FD4 /* ExtensionWalletLibraryLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionWalletLibraryLogger.swift; sourceTree = "<group>"; };
 		5555F1AC2BAB48DE00B41FD4 /* ExtensionIdentifierManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionIdentifierManagerTests.swift; sourceTree = "<group>"; };
 		5555F1BB2BACAB2800B41FD4 /* PresentationExchangeSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeSerializer.swift; sourceTree = "<group>"; };
+		5555F1C42BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationFormatterTests.swift; sourceTree = "<group>"; };
 		555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialOfferTests.swift; sourceTree = "<group>"; };
 		555FB1B52B740A3000EE14BD /* OpenId4VCIProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIProcessorTests.swift; sourceTree = "<group>"; };
 		555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootOfTrustResolving.swift; path = WalletLibrary/Protocols/RootOfTrust/RootOfTrustResolving.swift; sourceTree = SOURCE_ROOT; };
@@ -2418,6 +2420,14 @@
 			path = PresentationExchange;
 			sourceTree = "<group>";
 		};
+		5555F1C32BACC8A300B41FD4 /* PresentationExchange */ = {
+			isa = PBXGroup;
+			children = (
+				5555F1C42BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift */,
+			);
+			path = PresentationExchange;
+			sourceTree = "<group>";
+		};
 		555FB1662B73FB5500EE14BD /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -2807,6 +2817,7 @@
 		55DECC3B29BFE20E00D5C802 /* OpenId */ = {
 			isa = PBXGroup;
 			children = (
+				5555F1C32BACC8A300B41FD4 /* PresentationExchange */,
 				55DECC3C29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift */,
 			);
 			path = OpenId;
@@ -3657,6 +3668,7 @@
 				550A91A0299412790014D030 /* MockOpenIdRawRequest.swift in Sources */,
 				55DECC3329BFDB6200D5C802 /* GroupConstraintTests.swift in Sources */,
 				5552D85E29F2E43900B40302 /* PostPresentationResponseOperationTests.swift in Sources */,
+				5555F1C52BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift in Sources */,
 				559BD4F1299EEAEA00BD61AC /* PinRequirementTests.swift in Sources */,
 				5552D82129F2E25900B40302 /* MultihashTests.swift in Sources */,
 				5552D88929F2E58000B40302 /* MockIssuanceRequestValidator.swift in Sources */,
