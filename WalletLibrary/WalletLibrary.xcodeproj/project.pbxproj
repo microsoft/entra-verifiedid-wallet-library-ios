@@ -1134,7 +1134,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		550A9156299310D40014D030 /* Handlers */ = {
+		550A9156299310D40014D030 /* Processors */ = {
 			isa = PBXGroup;
 			children = (
 				55A81BE62991B2F3002C259A /* RequestHandlerFactory.swift */,
@@ -1142,7 +1142,7 @@
 				55FE70792B72E7C600CC3018 /* OpenId4VCIHandler.swift */,
 				555FB1DA2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift */,
 			);
-			path = Handlers;
+			path = Processors;
 			sourceTree = "<group>";
 		};
 		550A916D299310D40014D030 /* Resolvers */ = {
@@ -2890,7 +2890,7 @@
 				559BD3A9299ADEF300BD61AC /* Manifest */,
 				55E2F07B2995561E0008010D /* OpenId */,
 				550A91712993117B0014D030 /* Input */,
-				550A9156299310D40014D030 /* Handlers */,
+				550A9156299310D40014D030 /* Processors */,
 				550A916D299310D40014D030 /* Resolvers */,
 				55E336CF293FA6D900CD2ED7 /* Requirements */,
 				5534E5B42948FEB5005D0765 /* RootOfTrust.swift */,
