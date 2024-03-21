@@ -10,10 +10,10 @@
 protocol RequestProcessing: ExtendableRequestProcessing
 {
     /// Determines if Request Handler can handle the object.
-    func canHandle(rawRequest: Any) -> Bool
+    func canProcess(rawRequest: Any) -> Bool
     
     /// Validate and map an input to a verified id request.
-    func handle(rawRequest: Any) async throws -> any VerifiedIdRequest
+    func process(rawRequest: Any) async throws -> any VerifiedIdRequest
 }
 
 /**

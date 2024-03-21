@@ -53,7 +53,7 @@ public class VerifiedIdClientBuilder {
         registerSupportedRequestHandlers(with: configuration)
         
         let requestResolverFactory = RequestResolverFactory(resolvers: requestResolvers)
-        let requestHandlerFactory = RequestHandlerFactory(requestHandlers: requestHandlers)
+        let requestHandlerFactory = RequestProcessorFactory(requestHandlers: requestHandlers)
         return VerifiedIdClient(requestResolverFactory: requestResolverFactory,
                                 requestHandlerFactory: requestHandlerFactory,
                                 configuration: configuration)
@@ -112,7 +112,7 @@ public class VerifiedIdClientBuilder {
                                                  verifiableCredentialRequester: issuanceService)
         requestHandlers.append(openIdHandler)
         
-        let openId4VCIHandler = OpenId4VCIHandler(configuration: configuration)
+        let openId4VCIHandler = OpenId4VCIProcessor(configuration: configuration)
         requestHandlers.append(openId4VCIHandler)
     }
 }

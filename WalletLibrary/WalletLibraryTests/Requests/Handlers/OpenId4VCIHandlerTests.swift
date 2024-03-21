@@ -13,10 +13,10 @@ class OpenId4VCIHandlerTests: XCTestCase
         // Arrange
         let invalidRawRequest = "invalid raw request"
         let configuration = LibraryConfiguration()
-        let handler = OpenId4VCIHandler(configuration: configuration)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
         
         // Act / Assert
-        XCTAssertFalse(handler.canHandle(rawRequest: invalidRawRequest))
+        XCTAssertFalse(handler.canProcess(rawRequest: invalidRawRequest))
     }
     
     func testCanHandle_WithInvalidJSONRequest_ReturnsFalse() async throws
@@ -24,10 +24,10 @@ class OpenId4VCIHandlerTests: XCTestCase
         // Arrange
         let invalidRawRequest = ["invalid": "request"]
         let configuration = LibraryConfiguration()
-        let handler = OpenId4VCIHandler(configuration: configuration)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
         
         // Act / Assert
-        XCTAssertFalse(handler.canHandle(rawRequest: invalidRawRequest))
+        XCTAssertFalse(handler.canProcess(rawRequest: invalidRawRequest))
     }
     
     func testCanHandle_WithValidJSONRequest_ReturnsTrue() async throws
@@ -35,10 +35,10 @@ class OpenId4VCIHandlerTests: XCTestCase
         // Arrange
         let rawRequest = createJSONCredentialOffer()
         let configuration = LibraryConfiguration()
-        let handler = OpenId4VCIHandler(configuration: configuration)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
         
         // Act / Assert
-        XCTAssert(handler.canHandle(rawRequest: rawRequest))
+        XCTAssert(handler.canProcess(rawRequest: rawRequest))
     }
     
     func testHandle_WithInvalidRawRequest_ThrowsError() async throws 
@@ -46,12 +46,12 @@ class OpenId4VCIHandlerTests: XCTestCase
         // Arrange
         let invalidRawRequest = "invalid raw request"
         let configuration = LibraryConfiguration()
-        let handler = OpenId4VCIHandler(configuration: configuration)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
         
         do
         {
             // Act
-            let _ = try await handler.handle(rawRequest: invalidRawRequest)
+            let _ = try await handler.process(rawRequest: invalidRawRequest)
         }
         catch
         {
@@ -69,12 +69,12 @@ class OpenId4VCIHandlerTests: XCTestCase
         let rawRequest = createJSONCredentialOffer()
         let mockNetworking = MockLibraryNetworking.expectToThrow()
         let configuration = LibraryConfiguration(networking: mockNetworking)
-        let handler = OpenId4VCIHandler(configuration: configuration)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
         
         do
         {
             // Act
-            let _ = try await handler.handle(rawRequest: rawRequest)
+            let _ = try await handler.process(rawRequest: rawRequest)
         }
         catch
         {
@@ -92,12 +92,12 @@ class OpenId4VCIHandlerTests: XCTestCase
         let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
         let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
         let configuration = LibraryConfiguration(networking: mockNetworking)
-        let handler = OpenId4VCIHandler(configuration: configuration)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
         
         do
         {
             // Act
-            let _ = try await handler.handle(rawRequest: rawRequest)
+            let _ = try await handler.process(rawRequest: rawRequest)
         }
         catch
         {
@@ -117,12 +117,12 @@ class OpenId4VCIHandlerTests: XCTestCase
         let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
         let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
         let configuration = LibraryConfiguration(networking: mockNetworking)
-        let handler = OpenId4VCIHandler(configuration: configuration)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
         
         do
         {
             // Act
-            let _ = try await handler.handle(rawRequest: rawRequest)
+            let _ = try await handler.process(rawRequest: rawRequest)
         }
         catch
         {
@@ -146,13 +146,13 @@ class OpenId4VCIHandlerTests: XCTestCase
         
         let processor = MockSignedMetadataProcessor(shouldThrow: true)
         
-        let handler = OpenId4VCIHandler(configuration: configuration,
+        let handler = OpenId4VCIProcessor(configuration: configuration,
                                         signedMetadataProcessor: processor)
         
         do
         {
             // Act
-            let _ = try await handler.handle(rawRequest: rawRequest)
+            let _ = try await handler.process(rawRequest: rawRequest)
         }
         catch
         {
@@ -174,13 +174,13 @@ class OpenId4VCIHandlerTests: XCTestCase
         
         let processor = MockSignedMetadataProcessor(shouldThrow: false)
         
-        let handler = OpenId4VCIHandler(configuration: configuration,
+        let handler = OpenId4VCIProcessor(configuration: configuration,
                                         signedMetadataProcessor: processor)
         
         do
         {
             // Act
-            let _ = try await handler.handle(rawRequest: rawRequest)
+            let _ = try await handler.process(rawRequest: rawRequest)
         }
         catch
         {
@@ -204,11 +204,11 @@ class OpenId4VCIHandlerTests: XCTestCase
         
         let processor = MockSignedMetadataProcessor(shouldThrow: false)
         
-        let handler = OpenId4VCIHandler(configuration: configuration,
+        let handler = OpenId4VCIProcessor(configuration: configuration,
                                         signedMetadataProcessor: processor)
         
         // Act
-        let request = try await handler.handle(rawRequest: rawRequest)
+        let request = try await handler.process(rawRequest: rawRequest)
         
         
         // Assert

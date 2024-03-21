@@ -6,13 +6,13 @@
 import XCTest
 @testable import WalletLibrary
 
-class RequestHandlerFactoryTests: XCTestCase {
+class RequestProcessorFactoryTests: XCTestCase {
     
     func testOneHandlerRegistered() throws {
         
         let expectedHandler = MockHandler(mockCanHandle: true)
         
-        let factory = RequestHandlerFactory(requestHandlers: [expectedHandler])
+        let factory = RequestProcessorFactory(requestHandlers: [expectedHandler])
         
         let actualHandler = try factory.getHandler(from: "mock raw request")
         XCTAssertIdentical(expectedHandler as AnyObject, actualHandler as AnyObject)
@@ -24,7 +24,7 @@ class RequestHandlerFactoryTests: XCTestCase {
         let firstMockHandler = MockHandler()
         let secondMockHandler = MockHandler()
         
-        let factory = RequestHandlerFactory(requestHandlers: [expectedHandler, firstMockHandler, secondMockHandler])
+        let factory = RequestProcessorFactory(requestHandlers: [expectedHandler, firstMockHandler, secondMockHandler])
         
         let actualHandler = try factory.getHandler(from: "mock raw request")
         XCTAssertIdentical(expectedHandler as AnyObject, actualHandler as AnyObject)
@@ -34,7 +34,7 @@ class RequestHandlerFactoryTests: XCTestCase {
         
         let mockHandler = MockHandler()
         
-        let factory = RequestHandlerFactory(requestHandlers: [mockHandler])
+        let factory = RequestProcessorFactory(requestHandlers: [mockHandler])
         
         XCTAssertThrowsError(try factory.getHandler(from: "mock raw request")) { error in
             XCTAssert(error is RequestHandlerFactoryError)
@@ -44,7 +44,7 @@ class RequestHandlerFactoryTests: XCTestCase {
 
     func testNoResolversRegistered() throws {
         
-        let factory = RequestHandlerFactory(requestHandlers: [])
+        let factory = RequestProcessorFactory(requestHandlers: [])
         
         XCTAssertThrowsError(try factory.getHandler(from: "mock raw request")) { error in
             XCTAssert(error is RequestHandlerFactoryError)
