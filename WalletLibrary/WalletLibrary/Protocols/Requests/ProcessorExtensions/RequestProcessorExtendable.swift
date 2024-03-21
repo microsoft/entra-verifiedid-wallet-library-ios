@@ -11,7 +11,7 @@ public protocol RequestProcessorExtendable
     /**
      * Associated RequestProcessor this extension should be injected into.
      */
-    associatedtype RequestProcessor: RequestProcessing
+    associatedtype RequestProcessor: ExtendableRequestProcessing
     
     /**
      * Extension to parse additional information from the request. Extensions should return an updated form of the request.

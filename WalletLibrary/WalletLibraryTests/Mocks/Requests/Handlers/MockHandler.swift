@@ -26,11 +26,11 @@ class MockHandler: RequestProcessing
         self.mockHandleRequest = mockHandleRequest
     }
     
-    func canHandle(rawRequest: Any) -> Bool {
+    func canProcess(rawRequest: Any) -> Bool {
         return mockCanHandle
     }
     
-    func handle(rawRequest: Any) async throws -> any VerifiedIdRequest {
+    func process(rawRequest: Any) async throws -> any VerifiedIdRequest {
         
         guard let mockHandleRequest = mockHandleRequest else {
             throw MockHandlerError.nilMockHandlerMethod

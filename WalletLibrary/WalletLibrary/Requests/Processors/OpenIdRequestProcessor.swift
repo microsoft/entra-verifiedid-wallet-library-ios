@@ -13,7 +13,7 @@ enum OpenIdRequestHandlerError: Error
 /**
  * Processes a raw Open Id request and configures a VeriifedIdRequest object.
  */
-struct OpenIdRequestProcessor: RequestProcessing
+public struct OpenIdRequestProcessor: RequestProcessing
 {
     public typealias RawRequestType = Dictionary<String, Any>
     
@@ -38,7 +38,7 @@ struct OpenIdRequestProcessor: RequestProcessing
         self.verifiedIdRequester = verifiableCredentialRequester
     }
     
-    func canHandle(rawRequest: Any) -> Bool
+    func canProcess(rawRequest: Any) -> Bool
     {
         // TODO: once VC SDK logic is moved to handler and new resolver logic is implemented,
         // reimplement with new constraints.
@@ -46,7 +46,7 @@ struct OpenIdRequestProcessor: RequestProcessing
     }
     
     /// Create a VeriifiedIdRequest based on the Open Id raw request given.
-    func handle(rawRequest: Any) async throws -> any VerifiedIdRequest
+    func process(rawRequest: Any) async throws -> any VerifiedIdRequest
     {
         guard let request = rawRequest as? any OpenIdRawRequest else 
         {

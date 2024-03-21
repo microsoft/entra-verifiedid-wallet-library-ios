@@ -12,10 +12,10 @@ public class VerifiedIdClient {
     
     let requestResolverFactory: RequestResolverFactory
     
-    let requestHandlerFactory: RequestHandlerFactory
+    let requestHandlerFactory: RequestProcessorFactory
     
     init(requestResolverFactory: RequestResolverFactory,
-         requestHandlerFactory: RequestHandlerFactory,
+         requestHandlerFactory: RequestProcessorFactory,
          configuration: LibraryConfiguration) {
         self.requestResolverFactory = requestResolverFactory
         self.requestHandlerFactory = requestHandlerFactory
@@ -32,7 +32,7 @@ public class VerifiedIdClient {
             let resolver = try self.requestResolverFactory.getResolver(from: input)
             let rawRequest = try await resolver.resolve(input: input)
             let handler = try self.requestHandlerFactory.getHandler(from: rawRequest)
-            return try await handler.handle(rawRequest: rawRequest)
+            return try await handler.process(rawRequest: rawRequest)
         }
     }
     

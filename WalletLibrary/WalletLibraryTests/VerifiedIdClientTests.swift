@@ -22,7 +22,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         let mockInput = MockInput(mockData: "")
         
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper())
         
@@ -54,7 +54,7 @@ class VerifiedIdClientTests: XCTestCase {
         let mockInput = MockInput(mockData: "")
         
         let mockHandler = MockHandler()
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [mockHandler])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
@@ -85,7 +85,7 @@ class VerifiedIdClientTests: XCTestCase {
         let mockInput = MockInput(mockData: "")
         
         let mockHandler = MockHandler(mockCanHandle: false)
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [mockHandler])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
@@ -98,12 +98,9 @@ class VerifiedIdClientTests: XCTestCase {
             XCTFail("Should have thrown.")
         } catch {
             // Assert
-            XCTAssert(error is UnspecifiedVerifiedIdError)
-            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
-                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
-            let innerError = (error as! UnspecifiedVerifiedIdError).error
-            XCTAssert(innerError is RequestHandlerFactoryError)
-            XCTAssertEqual(innerError as? RequestHandlerFactoryError, .UnsupportedRawRequest)
+            XCTAssert(error is VerifiedIdError)
+            XCTAssertEqual((error as? VerifiedIdError)?.code, "unsupported_raw_request")
+            XCTAssertEqual((error as? VerifiedIdError)?.message, "Unsupported Raw Request")
         }
     }
     
@@ -117,7 +114,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         let mockHandler = MockHandler(mockCanHandle: true,
                                       mockHandleRequest: { throw ExpectedError.expectedToBeThrownInHandler })
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [mockHandler])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
@@ -151,7 +148,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         let mockHandler = MockHandler(mockCanHandle: true,
                                       mockHandleRequest: { return expectedRequest })
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [mockHandler])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let client = VerifiedIdClient(requestResolverFactory: resolverFactory,
@@ -176,7 +173,7 @@ class VerifiedIdClientTests: XCTestCase {
         
         let mockHandler = MockHandler(mockCanHandle: true,
                                       mockHandleRequest: { return expectedRequest })
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [mockHandler])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [mockHandler])
         let mockCorrelationHeader = MockCorrelationHeader()
         let walletLibraryNetworking = WalletLibraryNetworking(urlSession: URLSession.shared,
                                                               logger: WalletLibraryLogger(),
@@ -200,7 +197,7 @@ class VerifiedIdClientTests: XCTestCase {
     func testEncode_WithEncoderErrorThrown_ThrowsError() async throws {
         // Arrange
         let resolverFactory = RequestResolverFactory(resolvers: [])
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [])
         let mockVerifiedId = MockVerifiedId(id: "mock", issuedOn: Date())
         
         func mockEncode(verifiedId: VerifiedId) throws -> Data {
@@ -230,7 +227,7 @@ class VerifiedIdClientTests: XCTestCase {
     func testEncode_WithNoErrorsThrown_ReturnsData() async throws {
         // Arrange
         let resolverFactory = RequestResolverFactory(resolvers: [])
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [])
         let mockVerifiedId = MockVerifiedId(id: "mock", issuedOn: Date())
         let expectedEncodingResult = "mock encoding result".data(using: .utf8)!
         
@@ -256,7 +253,7 @@ class VerifiedIdClientTests: XCTestCase {
     func testDecode_WithDecoderErrorThrown_ThrowsError() async throws {
         // Arrange
         let resolverFactory = RequestResolverFactory(resolvers: [])
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [])
         let mockData = "mockInputData".data(using: .utf8)!
         
         func mockDecode(data: Data) throws -> VerifiedId {
@@ -286,7 +283,7 @@ class VerifiedIdClientTests: XCTestCase {
     func testDecode_WithNoErrorsThrown_ReturnsVerifiedId() async throws {
         // Arrange
         let resolverFactory = RequestResolverFactory(resolvers: [])
-        let handlerFactory = RequestHandlerFactory(requestHandlers: [])
+        let handlerFactory = RequestProcessorFactory(requestHandlers: [])
         let expectedVerifiedId = MockVerifiedId(id: "mock", issuedOn: Date())
         let mockData = "mock encoding result".data(using: .utf8)!
         
