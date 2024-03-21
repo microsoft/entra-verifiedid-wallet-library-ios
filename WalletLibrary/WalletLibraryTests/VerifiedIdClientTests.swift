@@ -98,12 +98,9 @@ class VerifiedIdClientTests: XCTestCase {
             XCTFail("Should have thrown.")
         } catch {
             // Assert
-            XCTAssert(error is UnspecifiedVerifiedIdError)
-            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.code,
-                           VerifiedIdErrors.ErrorCode.UnspecifiedError)
-            let innerError = (error as! UnspecifiedVerifiedIdError).error
-            XCTAssert(innerError is RequestHandlerFactoryError)
-            XCTAssertEqual(innerError as? RequestHandlerFactoryError, .UnsupportedRawRequest)
+            XCTAssert(error is VerifiedIdError)
+            XCTAssertEqual((error as? VerifiedIdError)?.code, "unsupported_raw_request")
+            XCTAssertEqual((error as? VerifiedIdError)?.message, "Unsupported Raw Request")
         }
     }
     

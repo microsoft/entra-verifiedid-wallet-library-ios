@@ -37,8 +37,9 @@ class RequestProcessorFactoryTests: XCTestCase {
         let factory = RequestProcessorFactory(requestHandlers: [mockHandler])
         
         XCTAssertThrowsError(try factory.getHandler(from: "mock raw request")) { error in
-            XCTAssert(error is RequestHandlerFactoryError)
-            XCTAssertEqual(error as? RequestHandlerFactoryError, .UnsupportedRawRequest)
+            XCTAssert(error is VerifiedIdError)
+            XCTAssertEqual((error as? VerifiedIdError)?.code, "unsupported_raw_request")
+            XCTAssertEqual((error as? VerifiedIdError)?.message, "Unsupported Raw Request")
         }
     }
 
@@ -47,8 +48,9 @@ class RequestProcessorFactoryTests: XCTestCase {
         let factory = RequestProcessorFactory(requestHandlers: [])
         
         XCTAssertThrowsError(try factory.getHandler(from: "mock raw request")) { error in
-            XCTAssert(error is RequestHandlerFactoryError)
-            XCTAssertEqual(error as? RequestHandlerFactoryError, .UnsupportedRawRequest)
+            XCTAssert(error is VerifiedIdError)
+            XCTAssertEqual((error as? VerifiedIdError)?.code, "unsupported_raw_request")
+            XCTAssertEqual((error as? VerifiedIdError)?.message, "Unsupported Raw Request")
         }
     }
 }
