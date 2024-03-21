@@ -26,9 +26,26 @@ class VerifiablePresentationFormatter
                 identifier: String,
                 signingKey: KeyContainer) throws -> VerifiablePresentation
     {
+        let rawVCs = try vcs.compactMap { try $0.vc.serialize() }
+        return try format(rawVCs: rawVCs,
+                          audience: audience,
+                          nonce: nonce,
+                          identifier: identifier,
+                          signingKey: signingKey)
+    }
+    
+    func format(rawVCs: [String],
+                audience: String,
+                nonce: String,
+                expiryInSeconds exp: Int = 3000,
+                identifier: String,
+                signingKey: KeyContainer) throws -> VerifiablePresentation
+    {
         let headers = headerFormatter.formatHeaders(identifier: identifier, signingKey: signingKey)
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: exp)
-        let verifiablePresentationDescriptor = try self.createVerifiablePresentationDescriptor(toWrap: vcs)
+        let verifiablePresentationDescriptor = VerifiablePresentationDescriptor(context: [Constants.Context],
+                                                                                type: [Constants.VerifiablePresentation],
+                                                                                verifiableCredential: rawVCs)
         
         let vpClaims = VerifiablePresentationClaims(vpId: UUID().uuidString,
                                                     verifiablePresentation: verifiablePresentationDescriptor,
@@ -46,12 +63,5 @@ class VerifiablePresentationFormatter
         
         try token.sign(using: self.signer, withSecret: signingKey.keyReference)
         return token
-    }
-    
-    private func createVerifiablePresentationDescriptor(toWrap vcs: [RequestedVerifiableCredentialMapping]) throws -> VerifiablePresentationDescriptor {
-        
-        return VerifiablePresentationDescriptor(context: [Constants.Context],
-                                                type: [Constants.VerifiablePresentation],
-                                                verifiableCredential: vcs.compactMap { vcMapping in vcMapping.vc.rawValue })
     }
 }
