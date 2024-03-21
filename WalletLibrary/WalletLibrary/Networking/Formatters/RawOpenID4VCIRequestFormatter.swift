@@ -78,14 +78,14 @@ struct RawOpenID4VCIRequestFormatter
     
     private func hash(accessToken: String) throws -> String
     {
-        guard let encodedAccessToken = accessToken.data(using: .utf8) else
+        guard let encodedAccessToken = accessToken.data(using: .ascii) else
         {
             let errorMessage = "Unable to hash access token."
             throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage)
         }
 
-        let hashedAccessToken = Sha256().hash(data: encodedAccessToken).base64URLEncodedString()
-        return hashedAccessToken
+        let hashedAccessToken = Sha256().hash(data: encodedAccessToken).prefix(16)
+        return hashedAccessToken.base64URLEncodedString()
     }
     
     private func createSerializedToken(headers: Header,
