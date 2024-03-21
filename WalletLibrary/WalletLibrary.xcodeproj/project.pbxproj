@@ -2690,7 +2690,7 @@
 			isa = PBXGroup;
 			children = (
 				55DECC3129BFDB4E00D5C802 /* Constraints */,
-				55E2F06D299553B40008010D /* Handlers */,
+				55E2F06D299553B40008010D /* Processors */,
 				553CC09429A96235005A5FD6 /* Manifest */,
 				55DECC3B29BFE20E00D5C802 /* OpenId */,
 				550A9193299402450014D030 /* Resolvers */,
@@ -2808,14 +2808,14 @@
 			path = OpenId;
 			sourceTree = "<group>";
 		};
-		55E2F06D299553B40008010D /* Handlers */ = {
+		55E2F06D299553B40008010D /* Processors */ = {
 			isa = PBXGroup;
 			children = (
 				55E2F06E299553B40008010D /* OpenIdRequestHandlerTests.swift */,
 				555FB1B52B740A3000EE14BD /* OpenId4VCIHandlerTests.swift */,
 				555FB20E2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift */,
 			);
-			path = Handlers;
+			path = Processors;
 			sourceTree = "<group>";
 		};
 		55E2F072299555280008010D /* Requirements */ = {
