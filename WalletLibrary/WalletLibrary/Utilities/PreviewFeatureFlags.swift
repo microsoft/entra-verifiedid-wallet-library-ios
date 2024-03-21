@@ -14,9 +14,18 @@ public struct PreviewFeatureFlags
     /// A preview feature for Pre Auth support from the OpenID4VCI protocol.
     public static let OpenID4VCIPreAuth = "OpenID4VCIPreAuth"
     
+    /// A preview feature to support building Presentation Exchange Response through Serialization
+    /// instead of using the old VC SDK
+    public static let PresentationExchangeSerializationSupport = "PresentationExchangeSerializationSupport"
+    
+    /// A preview feature to support protocol extensions.
+    public static let ProcessorExtensionSupport = "ProcessorExtensionSupport"
+    
     private var supportedPreviewFeatures: [String: Bool] = [
         OpenID4VCIAccessToken: false,
-        OpenID4VCIPreAuth: false
+        OpenID4VCIPreAuth: false,
+        PresentationExchangeSerializationSupport: false,
+        ProcessorExtensionSupport: false
     ]
     
     init(previewFeatureFlags: [String] = [])
