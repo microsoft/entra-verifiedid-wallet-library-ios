@@ -103,20 +103,28 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
     }
     
     private func createVerifiedIdClaim(claimReference: String, claimValue: Any) -> VerifiedIdClaim
-    {
-        if let claimDefinitions = configuration.credential_definition?.credential_subject,
-           let claimDisplayDefinitions = claimDefinitions["vc.credentialSubject.\(claimReference)"],
-           let localizedDefinition = claimDisplayDefinitions.getPreferredLocalizedDisplayDefinition(),
-           let label = localizedDefinition.name
-        {
-            return VerifiedIdClaim(id: label,
-                                   value: claimValue)
-            
-        }
-        else
-        {
-            return VerifiedIdClaim(id: claimReference,
-                                   value: claimValue)
-        }
-    }
+     {
+         guard let claimDefinitions = configuration.credential_definition?.credential_subject,
+            let claimDisplayDefinitions = claimDefinitions["vc.credentialSubject.\(claimReference)"] else
+         {
+             return VerifiedIdClaim(id: claimReference,
+                                    type: nil,
+                                    value: claimValue)
+         }
+         
+         if let localizedDefinition = claimDisplayDefinitions.getPreferredLocalizedDisplayDefinition(),
+            let label = localizedDefinition.name
+         {
+             return VerifiedIdClaim(id: label,
+                                    type: claimDisplayDefinitions.value_type,
+                                    value: claimValue)
+             
+         }
+         else
+         {
+             return VerifiedIdClaim(id: claimReference,
+                                    type: claimDisplayDefinitions.value_type,
+                                    value: claimValue)
+         }
+     }
 }

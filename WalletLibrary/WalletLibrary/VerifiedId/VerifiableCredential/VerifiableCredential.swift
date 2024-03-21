@@ -83,22 +83,30 @@ struct VCVerifiedId: InternalVerifiedId {
         try container.encode(contract, forKey: .contract)
     }
     
-    public func getClaims() -> [VerifiedIdClaim] {
+    public func getClaims() -> [VerifiedIdClaim] 
+    {
         
-        guard let vcClaims = raw.content.vc?.credentialSubject else {
+        guard let vcClaims = raw.content.vc?.credentialSubject else 
+        {
             return []
         }
         
         let claimLabels = contract.display.claims
-        
         var verifiedIdClaims: [VerifiedIdClaim] = []
-        /// TODO: add casting to correct type from contract.
-        for (claim, value) in vcClaims {
-            if let claimStyle = claimLabels["vc.credentialSubject.\(claim)"] {
+
+        for (claim, value) in vcClaims 
+        {
+            if let claimStyle = claimLabels["vc.credentialSubject.\(claim)"]
+            {
                 verifiedIdClaims.append(VerifiedIdClaim(id: claimStyle.label,
+                                                        type: claimStyle.type,
                                                         value: value))
-            } else {
+            }
+            else
+            {
+                /// Default to String.
                 verifiedIdClaims.append(VerifiedIdClaim(id: claim,
+                                                        type: nil,
                                                         value: value))
             }
         }

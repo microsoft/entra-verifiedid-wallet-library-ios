@@ -1,14 +1,14 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.txt in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import XCTest
 @testable import WalletLibrary
 
 class OpenID4VCIVerifiedIDTests: XCTestCase
 {
-    struct MockVerifiableCredential: Codable 
+    struct MockVerifiableCredential: Codable
     {
         let vc: String
         
@@ -202,6 +202,7 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         let claimsInVC = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
         
         let claimsInDisplay: [String: String] = [:]
+        let claimTypes = "mockClaimTypes"
         
         let mockIssuerDID = "mock issuer DID"
         let mockTypes = ["mockType1", "mockType2"]
@@ -212,7 +213,8 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
                                                                          jti: mockID)
         let rawVC = try mockVC.serialize()
         let mockIssuerName = "mock issuer name"
-        let mockConfig = createCredentialConfiguration(claims: claimsInDisplay)
+        let mockConfig = createCredentialConfiguration(claims: claimsInDisplay,
+                                                       claimTypes: claimTypes)
         
         let vc = try OpenID4VCIVerifiedId(raw: rawVC,
                                           issuerName: mockIssuerName,
@@ -224,14 +226,18 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         // Assert
         XCTAssertEqual(result.count, 2)
         XCTAssert(result.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey1", value: expectedValue1))
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey1",
+                                                                 type: nil,
+                                                                 value: expectedValue1))
         })
         XCTAssert(result.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey2", value: expectedValue2))
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey2",
+                                                                 type: nil,
+                                                                 value: expectedValue2))
         })
     }
     
-    func testGetClaims_WithDisplayClaims_ReturnsClaims() async throws
+    func testGetClaims_WithDisplayClaimsWithNilTypes_ReturnsClaims() async throws
     {
         // Arrange
         let expectedValue1 = "mockValue1"
@@ -263,16 +269,64 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         // Assert
         XCTAssertEqual(result.count, 2)
         XCTAssert(result.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", value: expectedValue1))
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1",
+                                                                 type: nil,
+                                                                 value: expectedValue1))
         })
         XCTAssert(result.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel2", value: expectedValue2))
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel2",
+                                                                 type: nil,
+                                                                 value: expectedValue2))
         })
     }
     
-    private func createCredentialConfiguration(claims: [String: String] = [:]) -> CredentialConfiguration
+    func testGetClaims_WithDisplayClaimsWithMockTypes_ReturnsClaims() async throws
     {
-        let displayDefinition = createDisplayDefinition(claims: claims)
+        // Arrange
+        let expectedValue1 = "mockValue1"
+        let expectedValue2 = "mockValue2"
+        
+        let claimsInVC = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
+        
+        let claimsInDisplay: [String: String] = ["mockKey1": "MockLabel1",
+                                                 "mockKey2": "MockLabel2"]
+        
+        let mockIssuerDID = "mock issuer DID"
+        let mockTypes = ["mockType1", "mockType2"]
+        let mockID = "mock ID"
+        let mockVC = MockVerifiableCredentialHelper().createVCEntitiesVC(expectedTypes: mockTypes,
+                                                                         claims: claimsInVC,
+                                                                         issuer: mockIssuerDID,
+                                                                         jti: mockID)
+        let rawVC = try mockVC.serialize()
+        let mockIssuerName = "mock issuer name"
+        let mockConfig = createCredentialConfiguration(claims: claimsInDisplay, claimTypes: "mockType")
+        
+        let vc = try OpenID4VCIVerifiedId(raw: rawVC,
+                                          issuerName: mockIssuerName,
+                                          configuration: mockConfig)
+        
+        // Act
+        let result = vc.getClaims()
+        
+        // Assert
+        XCTAssertEqual(result.count, 2)
+        XCTAssert(result.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1",
+                                                                 type: "mockType",
+                                                                 value: expectedValue1))
+        })
+        XCTAssert(result.contains {
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel2",
+                                                                 type: "mockType",
+                                                                 value: expectedValue2))
+        })
+    }
+    
+    private func createCredentialConfiguration(claims: [String: String] = [:],
+                                               claimTypes: String? = nil) -> CredentialConfiguration
+    {
+        let displayDefinition = createDisplayDefinition(claims: claims, claimTypes: claimTypes)
         let credentialDefinition = CredentialDefinition(type: nil,
                                                         credential_subject: displayDefinition)
         let config = CredentialConfiguration(format: nil,
@@ -285,7 +339,7 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         return config
     }
     
-    private func createDisplayDefinition(claims: [String: String]) -> [String: CredentialSubjectDefinition]
+    private func createDisplayDefinition(claims: [String: String], claimTypes: String?) -> [String: CredentialSubjectDefinition]
     {
         var result: [String: CredentialSubjectDefinition] = [:]
         claims.forEach { key, value in
@@ -297,13 +351,16 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
                                                                         background_color: nil,
                                                                         text_color: nil)
             let credentialSubjectDefinition = CredentialSubjectDefinition(display: [localizedDisplayDefinition],
-                                                                          value_type: nil)
+                                                                          value_type: claimTypes)
             result["vc.credentialSubject.\(key)"] = credentialSubjectDefinition
         }
         return result
     }
     
-    private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) -> Bool {
-        return (result.id == expected.id) && (result.value as! String == expected.value as! String)
+    private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) -> Bool
+    {
+        return (result.id == expected.id) &&
+        (result.value as! String == expected.value as! String) &&
+        (result.type == expected.type)
     }
 }
