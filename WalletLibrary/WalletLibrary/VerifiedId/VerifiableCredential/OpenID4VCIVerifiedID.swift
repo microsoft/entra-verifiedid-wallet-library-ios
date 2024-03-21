@@ -40,15 +40,15 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
         
         self.raw = vc
         self.configuration = configuration
-        self.issuedOn = Date(timeIntervalSince1970: issuedOn)
+        self.issuedOn = Date(timeIntervalSince1970: TimeInterval(issuedOn))
         self.id = id
         self.types = vc.content.vc?.type ?? []
         self.issuerName = issuerName
         
         if let expiresOn = vc.content.exp
         {
-            self.expiresOn = Date(timeIntervalSince1970: expiresOn)
-        } 
+            self.expiresOn = Date(timeIntervalSince1970: TimeInterval(expiresOn))
+        }
         else
         {
             self.expiresOn = nil

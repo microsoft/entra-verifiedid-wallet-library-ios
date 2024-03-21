@@ -21,7 +21,7 @@ struct MockVerifiableCredentialHelper {
                             claims: [String:String],
                             issuer: String,
                             jti: String? = "",
-                            iat: Double? = 0) -> VerifiableCredential {
+                            iat: Int? = 0) -> VerifiableCredential {
         let claims = VCClaims(jti: jti,
                               iss: issuer,
                               sub: "",

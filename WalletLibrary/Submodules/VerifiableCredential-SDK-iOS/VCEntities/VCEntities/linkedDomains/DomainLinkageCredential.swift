@@ -10,7 +10,7 @@
 struct DomainLinkageCredentialClaims: Claims {
     let subject: String
     let issuer: String
-    let notValidBefore: Double
+    let notValidBefore: Int
     let verifiableCredential: DomainLinkageCredentialContent
     
     enum CodingKeys: String, CodingKey {

@@ -129,7 +129,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
         let keyId = "#mockKeyId"
         let did = "did:test:mock"
         let credentialIssuer = "credentialIssuer"
-        let validTime = (Date().timeIntervalSince1970).rounded(.down)
+        let validTime = Int((Date().timeIntervalSince1970).rounded(.down))
         let mockDocumentResolver = MockIdentifierDocumentResolver(mockResolve: createMockResolve(keyId))
         let mockRootOfTrustResolver = MockRootOfTrustResolver()
         let processor = SignedCredentialMetadataProcessor(tokenVerifier: TokenVerifier(),
@@ -172,7 +172,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
         let keyId = "#mockKeyId"
         let did = "did:test:mock"
         let credentialIssuer = "credentialIssuer"
-        let validTime = (Date().timeIntervalSince1970).rounded(.down)
+        let validTime = Int((Date().timeIntervalSince1970).rounded(.down))
         let mockDocumentResolver = MockIdentifierDocumentResolver(mockResolve: createMockResolve(keyId))
         let mockRootOfTrustResolver = MockRootOfTrustResolver()
         let mockTokenVerifier = MockTokenVerifier(isTokenValid: false)
@@ -215,7 +215,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
         let keyId = "#mockKeyId"
         let did = "did:test:mock"
         let credentialIssuer = "credentialIssuer"
-        let validTime = (Date().timeIntervalSince1970).rounded(.down)
+        let validTime = Int((Date().timeIntervalSince1970).rounded(.down))
         let mockDocumentResolver = MockIdentifierDocumentResolver(mockResolve: createMockResolve(keyId))
         let mockRootOfTrustResolver = MockRootOfTrustResolver(shouldThrowError: true)
         let mockTokenVerifier = MockTokenVerifier(isTokenValid: true)
@@ -251,7 +251,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
         let keyId = "#mockKeyId"
         let did = "did:test:mock"
         let credentialIssuer = "credentialIssuer"
-        let validTime = (Date().timeIntervalSince1970).rounded(.down)
+        let validTime = Int((Date().timeIntervalSince1970).rounded(.down))
         let mockDocumentResolver = MockIdentifierDocumentResolver(mockResolve: createMockResolve(keyId))
         let mockRootOfTrustResolver = MockRootOfTrustResolver()
         let mockTokenVerifier = MockTokenVerifier(isTokenValid: true)

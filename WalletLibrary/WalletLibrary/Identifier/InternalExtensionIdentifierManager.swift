@@ -50,14 +50,13 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
             
             let tokenHeader = createTokenHeader(withKeyId: identifier.did + "#" + signingKey.keyId)
             
-            let now = round(Date().timeIntervalSince1970 * 1000)
-            let expiry = round(Date().addingTimeInterval(TimeInterval(5 * 60)).timeIntervalSince1970 * 1000) // 5 minutes
+            let timeConstraints = TokenTimeConstraints(expiryInSeconds: 300) // 5 minutes
             let token = JwsToken<VCClaims>(headers: tokenHeader,
                                            content: VCClaims(jti: UUID().uuidString,
                                                              iss: identifier.did,
                                                              sub: identifier.did,
-                                                             iat: now,
-                                                             exp: expiry,
+                                                             iat: timeConstraints.issuedAt,
+                                                             exp: timeConstraints.expiration,
                                                              vc: vcDescriptor))
             
             guard var vcToken = token else

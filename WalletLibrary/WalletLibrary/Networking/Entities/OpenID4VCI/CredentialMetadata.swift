@@ -118,11 +118,11 @@ struct SignedMetadataTokenClaims: Claims
     
     let iss: String?
     
-    let exp: Double?
+    let exp: Int?
     
-    let iat: Double?
+    let iat: Int?
     
-    init(sub: String?, iss: String?, exp: Double? = nil, iat: Double? = nil)
+    init(sub: String?, iss: String?, exp: Int? = nil, iat: Int? = nil)
     {
         self.sub = sub
         self.iss = iss

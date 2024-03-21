@@ -34,13 +34,13 @@ struct SelfSignedVerifiableCredential: InternalVerifiedId
                                                         propertyName: "iat")
         
         self.raw = vc
-        self.issuedOn = Date(timeIntervalSince1970: issuedOn)
+        self.issuedOn = Date(timeIntervalSince1970: TimeInterval(issuedOn))
         self.id = id
         self.types = vc.content.vc?.type ?? []
         
         if let expiresOn = vc.content.exp
         {
-            self.expiresOn = Date(timeIntervalSince1970: expiresOn)
+            self.expiresOn = Date(timeIntervalSince1970: TimeInterval(expiresOn))
         }
         else
         {

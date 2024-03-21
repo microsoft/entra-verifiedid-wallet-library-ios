@@ -40,7 +40,7 @@ struct OpenID4VCIJWTProofClaims: Claims
     let aud: String
     
     /// Identifies the time at which the JWT was issued.
-    let iat: String
+    let iat: Int
     
     /// Identifies the subject of the JWT.
     /// Should be equal to the user's DID.
@@ -54,7 +54,7 @@ struct OpenID4VCIJWTProofClaims: Claims
          accessTokenHash: String)
     {
         self.aud = credentialEndpoint
-        self.iat = String(Int(Date().timeIntervalSince1970))
+        self.iat = Int(Date().timeIntervalSince1970)
         self.sub = did
         self.at_hash = accessTokenHash
     }

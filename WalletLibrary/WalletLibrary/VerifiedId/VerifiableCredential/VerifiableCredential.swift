@@ -45,12 +45,12 @@ struct VCVerifiedId: InternalVerifiedId {
         
         self.raw = raw
         self.contract = contract
-        self.issuedOn = Date(timeIntervalSince1970: issuedOn)
+        self.issuedOn = Date(timeIntervalSince1970: TimeInterval(issuedOn))
         self.id = id
         self.types = raw.content.vc?.type ?? []
         
         if let expiresOn = raw.content.exp {
-            self.expiresOn = Date(timeIntervalSince1970: expiresOn)
+            self.expiresOn = Date(timeIntervalSince1970: TimeInterval(expiresOn))
         } else {
             self.expiresOn = nil
         }
