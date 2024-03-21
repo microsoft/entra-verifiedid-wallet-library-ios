@@ -8,8 +8,6 @@
  */
 class PresentationExchangeSerializer: RequestProcessorSerializing
 {
-    var submissionMap: [String: String] = [:]
-    
     private let configuration: LibraryConfiguration
     
     private let vpFormatter: VerifiablePresentationFormatter
@@ -23,17 +21,6 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
     {
-        guard let presentationExchangeRequirement = requirement as? PresentationExchangeVerifiedIdRequirement
-        else {
-            return
-        }
-        
-        if let rawVC = try requirement.serialize(protocolSerializer: self,
-                                                 verifiedIdSerializer: verifiedIdSerializer) as? String
-        {
-
-        }
+        // TODO: implement serialize
     }
-    
-    
 }
