@@ -3,13 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum OpenIdRequestHandlerError: Error 
-{
-    case UnsupportedRawRequestType
-    case NoIssuanceOptionsPresentToCreateIssuanceRequest
-    case UnableToCastRequirementToVerifiedIdRequirement
-}
-
 /**
  * Processes a raw Open Id request and configures a VeriifedIdRequest object.
  */
@@ -50,7 +43,7 @@ public struct OpenIdRequestProcessor: RequestProcessing
     {
         guard let request = rawRequest as? any OpenIdRawRequest else 
         {
-            throw OpenIdRequestHandlerError.UnsupportedRawRequestType
+            throw VerifiedIdErrors.MalformedInput(message: "Unsupported Raw Request Type: \(type(of: rawRequest))").error
         }
         
         let requestContent = try configuration.mapper.map(request)
@@ -59,17 +52,20 @@ public struct OpenIdRequestProcessor: RequestProcessing
             return try await handleIssuanceRequest(from: requestContent)
         }
         
-        return handlePresentationRequest(requestContent: requestContent, rawRequest: request)
+        return processPresentationRequest(requestContent: requestContent, rawRequest: request)
     }
     
-    private func handleIssuanceRequest(from presentationRequestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest {
-        
-        guard let verifiedIdRequirement = presentationRequestContent.requirement as? VerifiedIdRequirement else {
-            throw OpenIdRequestHandlerError.UnableToCastRequirementToVerifiedIdRequirement
+    private func handleIssuanceRequest(from presentationRequestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest 
+    {
+        guard let verifiedIdRequirement = presentationRequestContent.requirement as? VerifiedIdRequirement else 
+        {
+            let message = "Unsupported requirement: \(type(of: presentationRequestContent.requirement))"
+            throw VerifiedIdErrors.MalformedInput(message: message).error
         }
         
         guard let issuanceOption = verifiedIdRequirement.issuanceOptions.first as? VerifiedIdRequestURL else {
-            throw OpenIdRequestHandlerError.NoIssuanceOptionsPresentToCreateIssuanceRequest
+            let message = "No issuance options available on Presentation Request."
+            throw VerifiedIdErrors.MalformedInput(message: message).error
         }
         
         var rawContract: any RawManifest
@@ -123,11 +119,51 @@ public struct OpenIdRequestProcessor: RequestProcessing
         }
     }
     
-    private func handlePresentationRequest(requestContent: PresentationRequestContent,
-                                           rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest {
-        return OpenIdPresentationRequest(content: requestContent,
+    private func processPresentationRequest(requestContent: PresentationRequestContent,
+                                            rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest
+    {
+        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.ProcessorExtensionSupport)
+        {
+            return processPresentationRequestWithExtension(requestContent: requestContent,
+                                                           rawRequest: rawRequest)
+        }
+        else
+        {
+            return OpenIdPresentationRequest(content: requestContent,
+                                             rawRequest: rawRequest,
+                                             openIdResponder: openIdResponder,
+                                             configuration: configuration)
+        }
+    }
+    
+    private func processPresentationRequestWithExtension(requestContent: PresentationRequestContent,
+                                                         rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest
+    {
+        var partial = VerifiedIdPartialRequest(requesterStyle: requestContent.style,
+                                               requirement: requestContent.requirement,
+                                               rootOfTrust: requestContent.rootOfTrust)
+        
+        partial = requestProcessorExtensions.reduce(partial) { (partial, ext) in
+            self.parse(partial: partial,
+                       requestProcessorExtension: ext,
+                       rawRequest: rawRequest.claims)
+        }
+        
+        return OpenIdPresentationRequest(partialRequest: partial,
                                          rawRequest: rawRequest,
                                          openIdResponder: openIdResponder,
                                          configuration: configuration)
+        
+    }
+    
+    private func parse<Extension: RequestProcessorExtendable>(partial: VerifiedIdPartialRequest,
+                                                              requestProcessorExtension: Extension,
+                                                              rawRequest: RawRequestType) -> VerifiedIdPartialRequest
+    {
+        if let raw = rawRequest as? Extension.RequestProcessor.RawRequestType
+        {
+            return requestProcessorExtension.parse(rawRequest: raw,
+                                                   request: partial)
+        }
     }
 }
