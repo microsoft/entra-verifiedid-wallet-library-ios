@@ -30,4 +30,10 @@ extension PresentationRequest: OpenIdRawRequest {
             return nil
         }
     }
+    
+    var claims: [String : Any] {
+        // TODO: convert claims to Dictionary
+        self.content
+        return [:]
+    }
 }
