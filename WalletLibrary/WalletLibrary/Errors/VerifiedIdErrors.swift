@@ -17,7 +17,7 @@ enum VerifiedIdErrors {
     }
     
     /// Common Errors in Alphabetical Order.
-    case MalformedInput(error: Error, correlationId: String? = nil)
+    case MalformedInput(message: String, error: Error? = nil, correlationId: String? = nil)
     case NetworkingError(message: String, correlationId: String, statusCode: Int? = nil, innerError: Error? = nil)
     case VCNetworkingError(error: NetworkingError)
     case RequirementNotMet(message: String, errors: [Error]? = nil, correlationId: String? = nil)
@@ -26,8 +26,8 @@ enum VerifiedIdErrors {
     /// Mapping of the common error to value with given properties.
     var error: VerifiedIdError {
         switch self {
-        case .MalformedInput(let error, let correlationId):
-            return MalformedInputError(error: error, correlationId: correlationId)
+        case .MalformedInput(message: let message, error: let error, correlationId: let correlationId):
+            return MalformedInputError(message: message, error: error, correlationId: correlationId)
         case .NetworkingError(message: let message,
                               correlationId: let correlationId,
                               statusCode: let statusCode,
@@ -57,9 +57,9 @@ enum VerifiedIdErrors {
 /// Thrown when an input such as Data in decoding method is not properly formed.
 public class MalformedInputError: VerifiedIdError {
     
-    public let error: Error
+    public let error: Error?
     
-    fileprivate init(error: Error, correlationId: String?) {
+    fileprivate init(message: String, error: Error?, correlationId: String?) {
         self.error = error
         super.init(message: "Malformed Input.",
                    code: VerifiedIdErrors.ErrorCode.MalformedInputError,
@@ -72,7 +72,7 @@ public class MalformedInputError: VerifiedIdError {
     
     public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(String(describing: error), forKey: .error)
+        try container.encodeIfPresent(String(describing: error), forKey: .error)
         try super.encode(to: encoder)
     }
 }
@@ -95,7 +95,7 @@ public class RequirementNotMetError: VerifiedIdError {
     
     public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(String(describing: errors), forKey: .errors)
+        try container.encodeIfPresent(String(describing: errors), forKey: .errors)
         try super.encode(to: encoder)
     }
 }
