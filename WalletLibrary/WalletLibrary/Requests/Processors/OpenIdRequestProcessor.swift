@@ -165,5 +165,7 @@ public struct OpenIdRequestProcessor: RequestProcessing
             return requestProcessorExtension.parse(rawRequest: raw,
                                                    request: partial)
         }
+        
+        return partial
     }
 }

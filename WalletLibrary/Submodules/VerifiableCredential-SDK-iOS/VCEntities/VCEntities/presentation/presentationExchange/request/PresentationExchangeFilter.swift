@@ -16,7 +16,7 @@ struct PresentationExchangeFilter: Codable, Equatable {
     /// JSON Schema descriptor
     let pattern: NSRegularExpression?
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case type, pattern
     }
     
