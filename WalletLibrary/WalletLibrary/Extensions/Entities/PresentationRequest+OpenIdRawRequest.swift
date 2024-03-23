@@ -32,8 +32,6 @@ extension PresentationRequest: OpenIdRawRequest {
     }
     
     var claims: [String : Any] {
-        // TODO: convert claims to Dictionary
-        self.content
-        return [:]
+        return (try? self.content.map(using: Mapper())) ?? [:]
     }
 }
