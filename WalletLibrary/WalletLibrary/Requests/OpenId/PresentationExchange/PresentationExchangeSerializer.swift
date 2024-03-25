@@ -12,7 +12,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     
     private let vpFormatter: VerifiablePresentationFormatter
     
-    private var vpGroupings: [VPGroup]
+    private var vpBuilders: [VerifiablePresentationBuilder]
     
     private let state: String
     
@@ -29,7 +29,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         self.state = state
         self.configuration = libraryConfiguration
         self.vpFormatter = vpFormatter
-        self.vpGroupings = []
+        self.vpBuilders = []
     }
     
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
@@ -42,15 +42,15 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         if let rawVC = try requirement.serialize(protocolSerializer: self,
                                                  verifiedIdSerializer: verifiedIdSerializer) as? String
         {
-            let entry = PartialSubmissionMapEntry(rawVC: rawVC,
+            let entry = PartialInputDescriptor(rawVC: rawVC,
                                                   peRequirement: peRequirement)
             addToVPGroupings(entry: entry)
         }
     }
     
-    private func addToVPGroupings(entry: PartialSubmissionMapEntry)
+    private func addToVPGroupings(entry: PartialInputDescriptor)
     {
-        for group in vpGroupings
+        for group in vpBuilders
         {
             if group.canInclude(entry: entry)
             {
@@ -59,9 +59,9 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             }
         }
         
-        let newGroup = VPGroup(index: vpGroupings.count)
-        newGroup.add(entry: entry)
-        vpGroupings.append(newGroup)
+        let newBuilder = VerifiablePresentationBuilder(index: vpBuilders.count)
+        newBuilder.add(entry: entry)
+        vpBuilders.append(newBuilder)
     }
     
     func build() throws -> PresentationResponse
@@ -83,7 +83,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     
     private func buildIdToken() throws -> PresentationResponseToken
     {
-        let inputDescriptors = vpGroupings.flatMap { $0.buildInputDescriptors() }
+        let inputDescriptors = vpBuilders.flatMap { $0.buildInputDescriptors() }
         let submission = PresentationSubmission(id: UUID().uuidString,
                                                 definitionId: definitionId,
                                                 inputDescriptorMap: inputDescriptors)
@@ -94,7 +94,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     private func buildVpTokens(identifier: String,
                                signingKey: KeyContainer) throws -> [VerifiablePresentation]
     {
-        return try vpGroupings.map { vcGroup in
+        return try vpBuilders.map { vcGroup in
             let rawVcsInGroup = vcGroup.partials.map { $0.rawVC }
             return try vpFormatter.format(rawVCs: rawVcsInGroup,
                                           audience: audience,
@@ -102,82 +102,5 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
                                           identifier: identifier,
                                           signingKey: signingKey)
         }
-    }
-}
-
-struct PartialSubmissionMapEntry
-{
-    let rawVC: String
-    
-    let inputDescriptorId: String
-    
-    let peRequirement: PresentationExchangeRequirement
-    
-    init(rawVC: String, peRequirement: PresentationExchangeRequirement)
-    {
-        self.rawVC = rawVC
-        self.inputDescriptorId = peRequirement.inputDescriptorId
-        self.peRequirement = peRequirement
-    }
-    
-    func isCompatibleWith(entry: PartialSubmissionMapEntry) -> Bool
-    {
-        let nonCompatIdsFromEntry = entry.peRequirement.exclusivePresentationWith ?? []
-        let nonCompatIdsFromSelf = peRequirement.exclusivePresentationWith ?? []
-        let isEntryCompatWithId = nonCompatIdsFromEntry.contains(where: { $0 == inputDescriptorId })
-        let isSelfCompWithEntrysId = nonCompatIdsFromSelf.contains(where: { $0 == entry.inputDescriptorId })
-        return isEntryCompatWithId || isSelfCompWithEntrysId
-    }
-}
-
-class VPGroup
-{
-    private enum Constants
-    {
-        static let JwtVc = "jwt_vc"
-        static let JwtVp = "jwt_vp"
-    }
-    
-    let index: Int
-    
-    var partials: [PartialSubmissionMapEntry]
-    
-    init(index: Int)
-    {
-        self.index = index
-        partials = []
-    }
-    
-    func canInclude(entry: PartialSubmissionMapEntry) -> Bool
-    {
-        return partials.reduce(true) { result, partial in
-            result ? partial.isCompatibleWith(entry: entry) : result
-        }
-    }
-    
-    func add(entry: PartialSubmissionMapEntry)
-    {
-        partials.append(entry)
-    }
-    
-    func buildInputDescriptors() -> [InputDescriptorMapping]
-    {
-        let mappings = partials.enumerated().map { (vcIndex, entry) in
-            self.build(vcIndex: vcIndex, entry: entry)
-        }
-        return mappings
-    }
-    
-    private func build(vcIndex: Int, entry: PartialSubmissionMapEntry) -> InputDescriptorMapping
-    {
-        let vcPath = "$[\(index)].verifiableCredential[\(vcIndex)]"
-        let nestedInputDescriptorMapping = NestedInputDescriptorMapping(id: entry.peRequirement.inputDescriptorId,
-                                                                        format: Constants.JwtVc,
-                                                                        path: vcPath)
-        
-        return InputDescriptorMapping(id: entry.peRequirement.inputDescriptorId,
-                                      format: Constants.JwtVp,
-                                      path: "$[\(index)]",
-                                      pathNested: nestedInputDescriptorMapping)
     }
 }
