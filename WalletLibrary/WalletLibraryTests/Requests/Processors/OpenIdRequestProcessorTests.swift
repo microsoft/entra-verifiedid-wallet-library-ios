@@ -24,7 +24,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
                                                          requestState: "mock state",
-                                                         callbackUrl: URL(string: "https://test.com")!)
+                                                         callbackUrl: URL(string: "https://microsoft.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -93,7 +93,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
                                                          requestState: "mock state",
-                                                         callbackUrl: URL(string: "https://test.com")!)
+                                                         callbackUrl: URL(string: "https://microsoft.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -141,7 +141,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
                                                          requestState: "mock state",
-                                                         callbackUrl: URL(string: "https://test.com")!)
+                                                         callbackUrl: URL(string: "https://microsoft.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -195,7 +195,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
                                                          requestState: "mock state",
-                                                         callbackUrl: URL(string: "https://test.com")!)
+                                                         callbackUrl: URL(string: "https://microsoft.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -241,7 +241,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
                                                          requestState: "mock state",
-                                                         callbackUrl: URL(string: "https://test.com")!)
+                                                         callbackUrl: URL(string: "https://microsoft.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -287,7 +287,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
                                                          requestState: "mock state",
-                                                         callbackUrl: URL(string: "https://test.com")!)
+                                                         callbackUrl: URL(string: "https://microsoft.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -320,7 +320,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
     func testProcessIssuanceRequest_WhenUnableToResolveContract_ThrowsError() async throws {
         
         // Arrange
-        let issuanceOptionURL = URL(string: "https://test.com")!
+        let issuanceOptionURL = URL(string: "https://microsoft.com")!
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
         let mockState = "mock state"
         let expectedRequirement = VerifiedIdRequirement(encrypted: false,
@@ -335,7 +335,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
                                                          requestState: mockState,
-                                                         callbackUrl: URL(string: "https://test.com")!)
+                                                         callbackUrl: URL(string: "https://microsoft.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -381,7 +381,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
     func testProcessIssuanceRequest_WhenUnableToMapRawContractToVerifiedIdRequestContent_ThrowsError() async throws {
         
         // Arrange
-        let issuanceOptionURL = URL(string: "https://test.com")!
+        let issuanceOptionURL = URL(string: "https://microsoft.com")!
         let expectedStyle = MockRequesterStyle(requester: "mock requester")
         let expectedRequirement = VerifiedIdRequirement(encrypted: false,
                                                         required: true,
@@ -395,7 +395,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                          requirement: expectedRequirement,
                                                          rootOfTrust: expectedRootOfTrust,
                                                          requestState: "mock state",
-                                                         callbackUrl: URL(string: "https://test.com")!)
+                                                         callbackUrl: URL(string: "https://microsoft.com")!)
         
         func mockResults(objectToBeMapped: Any) throws -> Any? {
             if objectToBeMapped is MockOpenIdRawRequest {
@@ -435,10 +435,10 @@ class OpenIdRequestProcessorTests: XCTestCase {
     func testProcessIssuanceRequest_WithValidContract_ReturnsVerifiedIdIssuanceRequest() async throws {
         
         // Arrange
-        let issuanceOptionURL = URL(string: "https://test.com")!
+        let issuanceOptionURL = URL(string: "https://microsoft.com")!
         let expectedPresentationStyle = MockRequesterStyle(requester: "mock requester")
         let mockState = "mock state"
-        let mockCallbackUrl = URL(string: "https://test.com")!
+        let mockCallbackUrl = URL(string: "https://microsoft.com")!
         let expectedPresentationRequirement = VerifiedIdRequirement(encrypted: false,
                                                                     required: true,
                                                                     types: [],
@@ -502,10 +502,10 @@ class OpenIdRequestProcessorTests: XCTestCase {
     func testProcessIssuanceRequest_WithValidContractAndIdTokenRequirement_ReturnsVerifiedIdIssuanceRequest() async throws {
         
         // Arrange
-        let issuanceOptionURL = URL(string: "https://test.com")!
+        let issuanceOptionURL = URL(string: "https://microsoft.com")!
         let expectedPresentationStyle = MockRequesterStyle(requester: "mock requester")
         let mockState = "mock state"
-        let mockCallbackUrl = URL(string: "https://test.com")!
+        let mockCallbackUrl = URL(string: "https://microsoft.com")!
         let expectedPresentationRequirement = VerifiedIdRequirement(encrypted: false,
                                                                     required: true,
                                                                     types: [],
@@ -569,9 +569,9 @@ class OpenIdRequestProcessorTests: XCTestCase {
     func testProcessIssuanceRequest_WithValidContractAndInjectedIdToken_ReturnsVerifiedIdIssuanceRequest() async throws {
         
         // Arrange
-        let issuanceOptionURL = URL(string: "https://test.com")!
+        let issuanceOptionURL = URL(string: "https://microsoft.com")!
         let mockState = "mock state"
-        let mockCallbackUrl = URL(string: "https://test.com")!
+        let mockCallbackUrl = URL(string: "https://microsoft.com")!
         let expectedPresentationStyle = MockRequesterStyle(requester: "mock requester")
         let expectedPresentationRequirement = VerifiedIdRequirement(encrypted: false,
                                                                     required: true,
