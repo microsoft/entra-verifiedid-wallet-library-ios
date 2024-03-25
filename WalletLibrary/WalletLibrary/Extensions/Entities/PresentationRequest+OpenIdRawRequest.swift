@@ -32,14 +32,14 @@ extension PresentationRequest: OpenIdRawRequest {
     }
     
     var primitiveClaims: [String : Any] {
-
-//        return (try? self.content.map(using: Mapper())) ?? [:]
-        
-        if let serializedContent = try? JSONEncoder().encode(content)
+        do
         {
-            return (try? JSONSerialization.jsonObject(with: serializedContent) as? [String: Any]) ?? [:]
+            let serializedContent = try JSONEncoder().encode(content)
+            return try JSONSerialization.jsonObject(with: serializedContent) as? [String: Any] ?? [:]
         }
-        
-        return [:]
+        catch
+        {
+            return [:]
+        }
     }
 }
