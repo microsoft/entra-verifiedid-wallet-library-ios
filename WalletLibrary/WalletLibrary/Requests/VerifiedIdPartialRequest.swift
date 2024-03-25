@@ -28,7 +28,11 @@ public class VerifiedIdPartialRequest
      */
     public var rootOfTrust: RootOfTrust
     
-    init(requesterStyle: RequesterStyle, verifiedIdStyle: VerifiedIdStyle? = nil, requirement: Requirement, rootOfTrust: RootOfTrust) {
+    init(requesterStyle: RequesterStyle, 
+         verifiedIdStyle: VerifiedIdStyle? = nil,
+         requirement: Requirement,
+         rootOfTrust: RootOfTrust)
+    {
         self.requesterStyle = requesterStyle
         self.verifiedIdStyle = verifiedIdStyle
         self.requirement = requirement
