@@ -531,6 +531,38 @@ class PresentationRequestMappingTests: XCTestCase {
         XCTAssertIdentical(actualResult.injectedIdToken?.pin as AnyObject, expectedPinRequirement as AnyObject)
     }
     
+    func testGetPrimitiveClaims_WithValidContent_ReturnDictionary() throws
+    {
+        // Arrange
+        let mockRequesterName = "mockRequesterName235"
+        let expectedVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                                  required: false,
+                                                                  types: [],
+                                                                  purpose: nil,
+                                                                  issuanceOptions: [],
+                                                                  id: nil,
+                                                                  constraint: GroupConstraint(constraints: [],
+                                                                                              constraintOperator: .ALL))
+        let mockRegistration = RegistrationClaims(clientName: mockRequesterName,
+                                                  clientPurpose: nil,
+                                                  logoURI: "https://test.com",
+                                                  subjectIdentifierTypesSupported: nil,
+                                                  vpFormats: nil)
+        let token = createPresentationRequestToken(registration: mockRegistration)
+        
+        let linkedDomainResult = LinkedDomainResult.linkedDomainMissing
+        let presentationRequest = PresentationRequest(from: token,
+                                                      linkedDomainResult: linkedDomainResult)
+        
+        // Act
+        let actualResult = presentationRequest.primitiveClaims
+        
+        // Act
+        let encodedContent = try JSONEncoder().encode(presentationRequest.content)
+        let expected = try JSONSerialization.jsonObject(with: encodedContent) as? Dictionary<String, Any>
+        XCTAssertEqual(actualResult.keys, expected?.keys)
+    }
+    
     private func createPresentationRequestToken(requestedClaims: RequestedClaims? = nil,
                                                 registration: RegistrationClaims? = nil,
                                                 state: String? = "mockState",

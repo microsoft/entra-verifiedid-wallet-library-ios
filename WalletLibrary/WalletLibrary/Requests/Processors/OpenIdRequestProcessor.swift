@@ -146,7 +146,7 @@ public struct OpenIdRequestProcessor: RequestProcessing
         partial = requestProcessorExtensions.reduce(partial) { (partial, ext) in
             self.parse(partial: partial,
                        requestProcessorExtension: ext,
-                       rawRequest: rawRequest.claims)
+                       rawRequest: rawRequest.primitiveClaims)
         }
         
         return OpenIdPresentationRequest(partialRequest: partial,

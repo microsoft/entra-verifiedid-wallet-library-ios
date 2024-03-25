@@ -31,7 +31,7 @@ extension PresentationRequest: OpenIdRawRequest {
         }
     }
     
-    var claims: [String : Any] {
+    var primitiveClaims: [String : Any] {
 
 //        return (try? self.content.map(using: Mapper())) ?? [:]
         
