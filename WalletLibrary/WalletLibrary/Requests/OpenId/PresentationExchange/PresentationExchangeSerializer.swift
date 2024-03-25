@@ -109,7 +109,25 @@ struct PartialSubmissionMapEntry
 {
     let rawVC: String
     
+    let inputDescriptorId: String
+    
     let peRequirement: PresentationExchangeRequirement
+    
+    init(rawVC: String, peRequirement: PresentationExchangeRequirement)
+    {
+        self.rawVC = rawVC
+        self.inputDescriptorId = peRequirement.inputDescriptorId
+        self.peRequirement = peRequirement
+    }
+    
+    func isCompatibleWith(entry: PartialSubmissionMapEntry) -> Bool
+    {
+        let nonCompatIdsFromEntry = entry.peRequirement.exclusivePresentationWith ?? []
+        let nonCompatIdsFromSelf = peRequirement.exclusivePresentationWith ?? []
+        let isEntryCompatWithId = nonCompatIdsFromEntry.contains(where: { $0 == inputDescriptorId })
+        let isSelfCompWithEntrysId = nonCompatIdsFromSelf.contains(where: { $0 == entry.inputDescriptorId })
+        return isEntryCompatWithId || isSelfCompWithEntrysId
+    }
 }
 
 class VPGroup
@@ -132,8 +150,9 @@ class VPGroup
     
     func canInclude(entry: PartialSubmissionMapEntry) -> Bool
     {
-        // same subject and exclusive with
-        return true
+        return partials.reduce(true) { result, partial in
+            result ? partial.isCompatibleWith(entry: entry) : result
+        }
     }
     
     func add(entry: PartialSubmissionMapEntry)
