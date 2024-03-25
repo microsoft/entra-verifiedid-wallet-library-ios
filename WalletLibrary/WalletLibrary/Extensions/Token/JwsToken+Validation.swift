@@ -16,6 +16,19 @@ extension JwsToken
         let keyId: String
     }
     
+    var primitiveClaims: [String: Any]? {
+        
+        let protectedMessageParts = self.protectedMessage.split(separator: ".")
+        
+        guard protectedMessageParts.count == 2,
+              let encodedMessage = Data(base64URLEncoded: String(protectedMessageParts[1])) else
+        {
+            return nil
+        }
+        
+        return try? JSONSerialization.jsonObject(with: encodedMessage) as? [String: Any]
+    }
+    
     /// Extracts and separates the DID and Key ID from the token header's key identifier.
     /// - Returns: A `TokenHeaderKeyId` containing the DID and Key ID if the extraction is successful; otherwise, `nil`.
     func getKeyId() -> TokenHeaderKeyId?

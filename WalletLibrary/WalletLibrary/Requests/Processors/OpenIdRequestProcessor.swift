@@ -143,10 +143,13 @@ public struct OpenIdRequestProcessor: RequestProcessing
                                                requirement: requestContent.requirement,
                                                rootOfTrust: requestContent.rootOfTrust)
         
-        partial = requestProcessorExtensions.reduce(partial) { (partial, ext) in
-            self.parse(partial: partial,
-                       requestProcessorExtension: ext,
-                       rawRequest: rawRequest.primitiveClaims)
+        if let primitiveClaims = rawRequest.primitiveClaims
+        {
+            partial = requestProcessorExtensions.reduce(partial) { (partial, ext) in
+                self.parse(partial: partial,
+                           requestProcessorExtension: ext,
+                           rawRequest: primitiveClaims)
+            }
         }
         
         return OpenIdPresentationRequest(partialRequest: partial,

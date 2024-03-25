@@ -11,5 +11,5 @@ protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent
 {
     var type: RequestType { get }
     
-    var primitiveClaims: [String: Any] { get }
+    var primitiveClaims: [String: Any]? { get }
 }

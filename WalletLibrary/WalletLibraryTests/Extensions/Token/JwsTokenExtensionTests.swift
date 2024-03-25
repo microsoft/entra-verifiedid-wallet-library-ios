@@ -102,4 +102,33 @@ class JwsTokenExtensionTests: XCTestCase
         XCTAssertNoThrow(try token.validateExpIfPresent())
     }
     
+    func testPrimitiveClaims_WithValidToken_ReturnDictionary() throws
+    {
+        // Arrange
+        let claims = MockClaims(key: "mockKey", iat: 10, exp: 20)
+        let token = JwsToken(headers: Header(keyId: "mockKeyId"), content: claims)!
+        
+        // Act
+        let result = token.primitiveClaims
+        
+        // Assert
+        XCTAssertEqual(result?["key"] as? String, "mockKey")
+        XCTAssertEqual(result?["iat"] as? Int, 10)
+        XCTAssertEqual(result?["exp"] as? Int, 20)
+    }
+    
+    func testPrimitiveClaims_WithValidTokenDecoded_ReturnDictionary() throws
+    {
+        // Arrange
+        let encodedToken = "eyJraWQiOiJtb2NrS2V5SWQifQ.eyJrZXkiOiJtb2NrS2V5IiwiaWF0IjoxMCwiZXhwIjoyMH0.signature"
+        let token = JwsToken<MockClaims>(from: encodedToken)!
+        
+        // Act
+        let result = token.primitiveClaims
+        
+        // Assert
+        XCTAssertEqual(result?["key"] as? String, "mockKey")
+        XCTAssertEqual(result?["iat"] as? Int, 10)
+        XCTAssertEqual(result?["exp"] as? Int, 20)
+    }
 }

@@ -31,15 +31,7 @@ extension PresentationRequest: OpenIdRawRequest {
         }
     }
     
-    var primitiveClaims: [String : Any] {
-        do
-        {
-            let serializedContent = try JSONEncoder().encode(content)
-            return try JSONSerialization.jsonObject(with: serializedContent) as? [String: Any] ?? [:]
-        }
-        catch
-        {
-            return [:]
-        }
+    var primitiveClaims: [String : Any]? {
+        return token.primitiveClaims
     }
 }
