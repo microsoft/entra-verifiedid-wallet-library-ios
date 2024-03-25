@@ -117,8 +117,9 @@ class OpenIdRequestProcessorTests: XCTestCase {
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
-            XCTAssert(error is OpenIdRequestHandlerError)
-            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.UnableToCastRequirementToVerifiedIdRequirement)
+            XCTAssert(error is MalformedInputError)
+            XCTAssertEqual((error as? MalformedInputError)?.code, "malformed_input_error")
+            XCTAssertEqual((error as? MalformedInputError)?.message, "Unsupported requirement: MockRequirement")
         }
     }
     
@@ -162,8 +163,9 @@ class OpenIdRequestProcessorTests: XCTestCase {
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
-            XCTAssert(error is OpenIdRequestHandlerError)
-            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.NoIssuanceOptionsPresentToCreateIssuanceRequest)
+            XCTAssert(error is MalformedInputError)
+            XCTAssertEqual((error as? MalformedInputError)?.code, "malformed_input_error")
+            XCTAssertEqual((error as? MalformedInputError)?.message, "No issuance options available on Presentation Request.")
         }
     }
     
@@ -207,8 +209,9 @@ class OpenIdRequestProcessorTests: XCTestCase {
             XCTFail("handler did not throw an error.")
         } catch {
             // Assert
-            XCTAssert(error is OpenIdRequestHandlerError)
-            XCTAssertEqual(error as? OpenIdRequestHandlerError, OpenIdRequestHandlerError.NoIssuanceOptionsPresentToCreateIssuanceRequest)
+            XCTAssert(error is MalformedInputError)
+            XCTAssertEqual((error as? MalformedInputError)?.code, "malformed_input_error")
+            XCTAssertEqual((error as? MalformedInputError)?.message, "No issuance options available on Presentation Request.")
         }
     }
     

@@ -61,7 +61,7 @@ public class MalformedInputError: VerifiedIdError {
     
     fileprivate init(message: String, error: Error?, correlationId: String?) {
         self.error = error
-        super.init(message: "Malformed Input.",
+        super.init(message: message,
                    code: VerifiedIdErrors.ErrorCode.MalformedInputError,
                    correlationId: correlationId)
     }
