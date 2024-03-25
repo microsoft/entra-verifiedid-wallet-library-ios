@@ -160,7 +160,8 @@ public struct OpenIdRequestProcessor: RequestProcessing
                                                               requestProcessorExtension: Extension,
                                                               rawRequest: RawRequestType) -> VerifiedIdPartialRequest
     {
-        if let raw = rawRequest as? Extension.RequestProcessor.RawRequestType
+        if Extension.RequestProcessor.self == Self.self,
+           let raw = rawRequest as? Extension.RequestProcessor.RawRequestType
         {
             return requestProcessorExtension.parse(rawRequest: raw,
                                                    request: partial)

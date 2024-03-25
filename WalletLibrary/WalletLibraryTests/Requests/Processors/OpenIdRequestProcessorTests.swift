@@ -83,6 +83,108 @@ class OpenIdRequestProcessorTests: XCTestCase {
         }
     }
     
+    func testProcessPresentationRequest_WithOneExtension_ReturnsVerifiedIdRequest() async throws {
+        
+        // Arrange
+        let expectedStyle = MockRequesterStyle(requester: "mock requester")
+        let expectedRequirement = MockRequirement(id: "mockRequirement324")
+        let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
+        let expectedContent = PresentationRequestContent(style: expectedStyle,
+                                                         requirement: expectedRequirement,
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         requestState: "mock state",
+                                                         callbackUrl: URL(string: "https://test.com")!)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is MockOpenIdRawRequest {
+                return expectedContent
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
+        let mockRawRequest = MockOpenIdRawRequest(raw: Data())
+        
+        // Turn on feature flag
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.ProcessorExtensionSupport])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: mockMapper,
+                                                 previewFeatureFlags: previewFeatureFlags)
+        
+        var processor = OpenIdRequestProcessor(configuration: configuration,
+                                               openIdResponder: MockPresentationResponder(),
+                                               manifestResolver: MockManifestResolver(),
+                                               verifiableCredentialRequester: MockVerifiedIdRequester())
+        let mockExtension = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        processor.requestProcessorExtensions.append(mockExtension)
+        
+        // Act
+        let actualRequest = try await processor.process(rawRequest: mockRawRequest)
+        
+        // Assert
+        XCTAssert(actualRequest is OpenIdPresentationRequest)
+        XCTAssertEqual(actualRequest.style as? MockRequesterStyle, expectedStyle)
+        XCTAssertEqual(actualRequest.requirement as? MockRequirement, expectedRequirement)
+        XCTAssertEqual(actualRequest.rootOfTrust.source, expectedRootOfTrust.source)
+        XCTAssert(actualRequest.rootOfTrust.verified)
+        XCTAssert(mockExtension.wasParseCalled)
+    }
+    
+    func testProcessPresentationRequest_WithThreeExtensions_ReturnsVerifiedIdRequest() async throws {
+        
+        // Arrange
+        let expectedStyle = MockRequesterStyle(requester: "mock requester")
+        let expectedRequirement = MockRequirement(id: "mockRequirement324")
+        let expectedRootOfTrust = RootOfTrust(verified: true, source: "mock source")
+        let expectedContent = PresentationRequestContent(style: expectedStyle,
+                                                         requirement: expectedRequirement,
+                                                         rootOfTrust: expectedRootOfTrust,
+                                                         requestState: "mock state",
+                                                         callbackUrl: URL(string: "https://test.com")!)
+        
+        func mockResults(objectToBeMapped: Any) throws -> Any? {
+            if objectToBeMapped is MockOpenIdRawRequest {
+                return expectedContent
+            }
+            
+            return nil
+        }
+        
+        let mockMapper = MockMapper(mockResults: mockResults)
+        let mockRawRequest = MockOpenIdRawRequest(raw: Data())
+        
+        // Turn on feature flag
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.ProcessorExtensionSupport])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: mockMapper,
+                                                 previewFeatureFlags: previewFeatureFlags)
+        
+        var processor = OpenIdRequestProcessor(configuration: configuration,
+                                               openIdResponder: MockPresentationResponder(),
+                                               manifestResolver: MockManifestResolver(),
+                                               verifiableCredentialRequester: MockVerifiedIdRequester())
+        let mockExtension1 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let mockExtension2 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let mockExtensionShouldNotBeCalled = MockRequestProcessorExtension<OpenId4VCIProcessor>()
+        processor.requestProcessorExtensions.append(mockExtension1)
+        processor.requestProcessorExtensions.append(mockExtension2)
+        processor.requestProcessorExtensions.append(mockExtensionShouldNotBeCalled)
+        
+        // Act
+        let actualRequest = try await processor.process(rawRequest: mockRawRequest)
+        
+        // Assert
+        XCTAssert(actualRequest is OpenIdPresentationRequest)
+        XCTAssertEqual(actualRequest.style as? MockRequesterStyle, expectedStyle)
+        XCTAssertEqual(actualRequest.requirement as? MockRequirement, expectedRequirement)
+        XCTAssertEqual(actualRequest.rootOfTrust.source, expectedRootOfTrust.source)
+        XCTAssert(actualRequest.rootOfTrust.verified)
+        XCTAssert(mockExtension1.wasParseCalled)
+        XCTAssert(mockExtension2.wasParseCalled)
+        XCTAssertFalse(mockExtensionShouldNotBeCalled.wasParseCalled)
+    }
+    
     func testProcessIssuanceRequest_WithUnableToCaseRequirementToVerifiedIdRequirement_ThrowsError() async throws {
         
         // Arrange
