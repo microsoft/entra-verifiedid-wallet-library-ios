@@ -12,7 +12,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     
     private let vpFormatter: VerifiablePresentationFormatter
     
-    private var partialSubmissionMap: Set<PartialSubmissionMapEntry>
+    private var vpGroupings: [VPGroup]
     
     private let state: String
     
@@ -29,7 +29,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         self.state = state
         self.configuration = libraryConfiguration
         self.vpFormatter = vpFormatter
-        self.partialSubmissionMap = []
+        self.vpGroupings = []
     }
     
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
@@ -43,10 +43,25 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
                                                  verifiedIdSerializer: verifiedIdSerializer) as? String
         {
             let entry = PartialSubmissionMapEntry(rawVC: rawVC,
-                                                  peRequirement: peRequirement,
-                                                  inputDescriptorId: peRequirement.inputDescriptorId)
-            partialSubmissionMap.insert(entry)
+                                                  peRequirement: peRequirement)
+            addToVPGroupings(entry: entry)
         }
+    }
+    
+    private func addToVPGroupings(entry: PartialSubmissionMapEntry)
+    {
+        for group in vpGroupings
+        {
+            if group.canInclude(entry: entry)
+            {
+                group.add(entry: entry)
+                return
+            }
+        }
+        
+        let newGroup = VPGroup(index: vpGroupings.count)
+        newGroup.add(entry: entry)
+        vpGroupings.append(newGroup)
     }
     
     func build() throws -> PresentationResponse
@@ -59,8 +74,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         }
         
         let idToken = try buildIdToken()
-        let vpTokens = try buildVpTokens(rawVCs: [],
-                                         identifier: identifier.longFormDid,
+        let vpTokens = try buildVpTokens(identifier: identifier.longFormDid,
                                          signingKey: firstKey)
         return PresentationResponse(idToken: idToken,
                                     vpTokens: vpTokens,
@@ -69,30 +83,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     
     private func buildIdToken() throws -> PresentationResponseToken
     {
-        //1. sort VCs into VPs
-        var index = 0
-        let vpGroups = partialSubmissionMap.reduce([VPGroup(index: index)]) { partialGroups, entry in
-            
-            for group in partialGroups
-            {
-                if group.canInclude(entry: entry)
-                {
-                    group.add(entry: entry)
-                    return partialGroups
-                }
-            }
-            
-            index = index + 1
-            let newGroup = VPGroup(index: index)
-            newGroup.add(entry: entry)
-            var newGroups = partialGroups
-            newGroups.append(newGroup)
-            return newGroups
-        }
-        
-        let inputDescriptors = vpGroups.flatMap { $0.buildInputDescriptors() }
-        
-        
+        let inputDescriptors = vpGroupings.flatMap { $0.buildInputDescriptors() }
         let submission = PresentationSubmission(id: UUID().uuidString,
                                                 definitionId: definitionId,
                                                 inputDescriptorMap: inputDescriptors)
@@ -100,68 +91,25 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         throw VerifiedIdError(message: "", code: "")
     }
     
-    private func buildVpTokens(rawVCs: [String],
-                               identifier: String,
+    private func buildVpTokens(identifier: String,
                                signingKey: KeyContainer) throws -> [VerifiablePresentation]
     {
-        let vp = try vpFormatter.format(rawVCs: rawVCs,
-                                        audience: audience,
-                                        nonce: nonce,
-                                        identifier: identifier,
-                                        signingKey: signingKey)
-        return [vp]
+        return try vpGroupings.map { vcGroup in
+            let rawVcsInGroup = vcGroup.partials.map { $0.rawVC }
+            return try vpFormatter.format(rawVCs: rawVcsInGroup,
+                                          audience: audience,
+                                          nonce: nonce,
+                                          identifier: identifier,
+                                          signingKey: signingKey)
+        }
     }
-//    
-//    private func buildPresentationSubmission(presentationDefinitionId: String,
-//                                             presentationDefinitionIndex: Int,
-//                                             entry: [PartialSubmissionMapEntry]) -> PresentationSubmission {
-//        
-//        let inputDescriptorMap = entry.enumerated().map { (index, vcMapping) in
-//            buildInputDescriptorMapping(id: vcMapping.peRequirement.inputDescriptorId,
-//                                        presentationDefinitionIndex: presentationDefinitionIndex,
-//                                        vcIndex: index)
-//        }
-//        
-//        let submission = PresentationSubmission(id: UUID().uuidString,
-//                                                definitionId: presentationDefinitionId,
-//                                                inputDescriptorMap: inputDescriptorMap)
-//        
-//        return submission
-//    }
-//    
-//    // double check with services team about what this object looks like.
-//    private func buildInputDescriptorMapping(id: String,
-//                                             presentationDefinitionIndex: Int,
-//                                             vcIndex: Int) -> InputDescriptorMapping 
-//    {
-//        let nestedInputDescriptorMapping = NestedInputDescriptorMapping(id: id,
-//                                                                        format: Constants.JwtVc,
-//                                                                        path: "$.verifiableCredential[\(vcIndex)]")
-//        
-//        return InputDescriptorMapping(id: id,
-//                                      format: Constants.JwtVp,
-//                                      path: "\("Constants.SimplePath")[\(presentationDefinitionIndex)]",
-//                                      pathNested: nestedInputDescriptorMapping)
-//    }
 }
 
-struct PartialSubmissionMapEntry: Hashable
+struct PartialSubmissionMapEntry
 {
     let rawVC: String
     
     let peRequirement: PresentationExchangeRequirement
-    
-    let inputDescriptorId: String
-    
-    func hash(into hasher: inout Hasher) 
-    {
-        hasher.combine(inputDescriptorId)
-    }
-    
-    static func == (lhs: PartialSubmissionMapEntry, rhs: PartialSubmissionMapEntry) -> Bool
-    {
-        return lhs.inputDescriptorId == rhs.inputDescriptorId
-    }
 }
 
 class VPGroup
@@ -172,8 +120,6 @@ class VPGroup
         static let JwtVp = "jwt_vp"
     }
     
-    let id: UUID
-    
     let index: Int
     
     var partials: [PartialSubmissionMapEntry]
@@ -181,7 +127,6 @@ class VPGroup
     init(index: Int)
     {
         self.index = index
-        id = UUID()
         partials = []
     }
     
@@ -207,11 +152,11 @@ class VPGroup
     private func build(vcIndex: Int, entry: PartialSubmissionMapEntry) -> InputDescriptorMapping
     {
         let vcPath = "$[\(index)].verifiableCredential[\(vcIndex)]"
-        let nestedInputDescriptorMapping = NestedInputDescriptorMapping(id: entry.inputDescriptorId,
+        let nestedInputDescriptorMapping = NestedInputDescriptorMapping(id: entry.peRequirement.inputDescriptorId,
                                                                         format: Constants.JwtVc,
                                                                         path: vcPath)
         
-        return InputDescriptorMapping(id: entry.inputDescriptorId,
+        return InputDescriptorMapping(id: entry.peRequirement.inputDescriptorId,
                                       format: Constants.JwtVp,
                                       path: "$[\(index)]",
                                       pathNested: nestedInputDescriptorMapping)
