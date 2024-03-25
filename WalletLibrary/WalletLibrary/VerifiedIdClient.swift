@@ -42,7 +42,8 @@ public class VerifiedIdClient {
             let encodedVerifiedId = try configuration.verifiedIdEncoder.encode(verifiedId: verifiedId)
             return VerifiedIdResult.success(encodedVerifiedId)
         } catch {
-            return VerifiedIdErrors.MalformedInput(error: error).result()
+            let message = "Unable to encode Verified ID."
+            return VerifiedIdErrors.MalformedInput(message: message, error: error).result()
         }
     }
     
@@ -52,7 +53,8 @@ public class VerifiedIdClient {
             let verifiedId = try configuration.verifiedIdDecoder.decode(from: raw)
             return VerifiedIdResult.success(verifiedId)
         } catch {
-            return VerifiedIdErrors.MalformedInput(error: error).result()
+            let message = "Unable to decode Verified ID."
+            return VerifiedIdErrors.MalformedInput(message: message, error: error).result()
         }
     }
 }
