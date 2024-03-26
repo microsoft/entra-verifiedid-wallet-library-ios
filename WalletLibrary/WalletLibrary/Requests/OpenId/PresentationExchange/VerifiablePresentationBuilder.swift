@@ -4,9 +4,27 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Visitor and builder used by RequestProcessors to serialize Requirements.
+ * Defines the behavior of building a Verifiable Presentation in JWT format.
+ * (Protocol used to help with mocking in tests)
  */
-class VerifiablePresentationBuilder
+protocol VerifiablePresentationBuilding
+{
+    func canInclude(partialInputDescriptor: PartialInputDescriptor) -> Bool
+    
+    func add(partialInputDescriptor: PartialInputDescriptor)
+    
+    func buildInputDescriptors() -> [InputDescriptorMapping]
+    
+    func buildVerifiablePresentation(audience: String,
+                                     nonce: String,
+                                     identifier: String,
+                                     signingKey: KeyContainer) throws -> VerifiablePresentation
+}
+
+/**
+ * Builds a Verifiable Presentation in JWT format.
+ */
+class VerifiablePresentationBuilder: VerifiablePresentationBuilding
 {
     private enum Constants
     {
@@ -14,46 +32,63 @@ class VerifiablePresentationBuilder
         static let JwtVp = "jwt_vp"
     }
     
-    let index: Int
+    private let index: Int
     
-    var partials: [PartialInputDescriptor]
+    private var partialInputDescriptors: [PartialInputDescriptor]
+    
+    private let formatter = VerifiablePresentationFormatter()
     
     init(index: Int)
     {
         self.index = index
-        partials = []
+        partialInputDescriptors = []
     }
     
-    func canInclude(entry: PartialInputDescriptor) -> Bool
+    func canInclude(partialInputDescriptor: PartialInputDescriptor) -> Bool
     {
-        return partials.reduce(true) { result, partial in
-            result ? partial.isCompatibleWith(entry: entry) : result
+        return partialInputDescriptors.reduce(true) { result, partial in
+            result ? partial.isCompatibleWith(entry: partialInputDescriptor) : result
         }
     }
     
-    func add(entry: PartialInputDescriptor)
+    func add(partialInputDescriptor: PartialInputDescriptor)
     {
-        partials.append(entry)
+        partialInputDescriptors.append(partialInputDescriptor)
     }
     
     func buildInputDescriptors() -> [InputDescriptorMapping]
     {
-        let mappings = partials.enumerated().map { (vcIndex, entry) in
-            self.build(vcIndex: vcIndex, entry: entry)
+        let descriptors = partialInputDescriptors.enumerated().map { (vcIndex, partialInputDescriptor) in
+            self.buildInputDescriptorMapping(vcIndex: vcIndex,
+                                             partialInputDescriptor: partialInputDescriptor)
         }
-        return mappings
+        return descriptors
     }
     
-    private func build(vcIndex: Int, entry: PartialInputDescriptor) -> InputDescriptorMapping
+    func buildVerifiablePresentation(audience: String,
+                                     nonce: String,
+                                     identifier: String,
+                                     signingKey: KeyContainer) throws -> VerifiablePresentation
+    {
+        let rawVcsInGroup = partialInputDescriptors.map { $0.rawVC }
+        return try formatter.format(rawVCs: rawVcsInGroup,
+                                    audience: audience,
+                                    nonce: nonce,
+                                    identifier: identifier,
+                                    signingKey: signingKey)
+    }
+    
+    private func buildInputDescriptorMapping(vcIndex: Int,
+                                             partialInputDescriptor: PartialInputDescriptor) -> InputDescriptorMapping
     {
         let vcPath = "$[\(index)].verifiableCredential[\(vcIndex)]"
-        let nestedInputDescriptorMapping = NestedInputDescriptorMapping(id: entry.peRequirement.inputDescriptorId,
-                                                                        format: Constants.JwtVc,
-                                                                        path: vcPath)
+        let nestedInputDesc = NestedInputDescriptorMapping(id: partialInputDescriptor.peRequirement.inputDescriptorId,
+                                                           format: Constants.JwtVc,
+                                                           path: vcPath)
         
-        return InputDescriptorMapping(id: entry.peRequirement.inputDescriptorId,
+        return InputDescriptorMapping(id: partialInputDescriptor.peRequirement.inputDescriptorId,
                                       format: Constants.JwtVp,
                                       path: "$[\(index)]",
-                                      pathNested: nestedInputDescriptorMapping)
+                                      pathNested: nestedInputDesc)
     }
 }
