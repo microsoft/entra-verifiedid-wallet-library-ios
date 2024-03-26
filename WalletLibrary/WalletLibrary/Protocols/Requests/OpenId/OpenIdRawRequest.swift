@@ -12,4 +12,12 @@ protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent
     var type: RequestType { get }
     
     var primitiveClaims: [String: Any]? { get }
+    
+    var nonce: String? { get }
+    
+    var state: String? { get }
+    
+    var issuer: String? { get }
+    
+    var definitionId: String? { get }
 }
