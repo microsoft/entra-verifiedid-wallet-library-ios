@@ -3,6 +3,18 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+protocol TokenBuilderFactory
+{
+    func createTokenBuilder<T: TokenBuilding>(type: T.Type, props: T.Props) -> T
+}
+
+struct PETokenBuilderFactory
+{
+    func createTokenBuilder<T: TokenBuilding>(type: T.Type, props: T.Props) -> T
+    {
+        return T(props: props)
+    }
+}
 /**
  * Visitor and builder used by RequestProcessors to serialize Requirements.
  */
@@ -14,6 +26,8 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     
     private let idTokenBuilder: PresentationExchangeIdTokenBuilder
     
+    private let tokenBuildFactory: TokenBuilderFactory
+    
     private let state: String
     
     private let audience: String
@@ -22,19 +36,31 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     
     private let definitionId: String
     
-    init(definitionId: String,
-         state: String,
-         audience: String,
-         nonce: String,
-         libraryConfiguration: LibraryConfiguration)
+    init(request: any OpenIdRawRequest,
+         tokenBuilderFactory: TokenBuilderFactory,
+         libraryConfiguration: LibraryConfiguration) throws
     {
-        self.definitionId = definitionId
-        self.state = state
-        self.audience = audience
-        self.nonce = nonce
-        self.configuration = libraryConfiguration
-        self.idTokenBuilder = PresentationExchangeIdTokenBuilder()
-        self.vpBuilders = []
+        do
+        {
+            self.state = try request.getRequiredProperty(property: request.state,
+                                                         propertyName: "state")
+            self.audience = try request.getRequiredProperty(property: request.issuer,
+                                                            propertyName: "issuer")
+            self.nonce = try request.getRequiredProperty(property: request.nonce,
+                                                         propertyName: "nonce")
+            self.definitionId = try request.getRequiredProperty(property: request.definitionId,
+                                                                propertyName: "definitionId")
+            self.configuration = libraryConfiguration
+            self.tokenBuildFactory = tokenBuilderFactory
+            self.idTokenBuilder = tokenBuilderFactory.createTokenBuilder(type: PresentationExchangeIdTokenBuilder.self,
+                                                                         props: ())
+            self.vpBuilders = []
+        }
+        catch
+        {
+            throw RequestProcessorError.MissingRequiredProperty(message: "Unable to create serializer.",
+                                                                error: error)
+        }
     }
     
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
@@ -64,7 +90,8 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             }
         }
         
-        let newBuilder = VerifiablePresentationBuilder(index: vpBuilders.count)
+        let newBuilder = tokenBuildFactory.createTokenBuilder(type: VerifiablePresentationBuilder.self,
+                                                              props: vpBuilders.count)
         newBuilder.add(partialInputDescriptor: partialInputDescriptor)
         vpBuilders.append(newBuilder)
     }

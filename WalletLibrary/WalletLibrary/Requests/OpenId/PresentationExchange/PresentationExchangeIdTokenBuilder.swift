@@ -20,12 +20,16 @@ protocol PresentationExchangeIdTokenBuilding
 /**
  * Builds a Presentation Exchange Response Id Token in JWT format.
  */
-class PresentationExchangeIdTokenBuilder: PresentationExchangeIdTokenBuilding
+class PresentationExchangeIdTokenBuilder: PresentationExchangeIdTokenBuilding, TokenBuilding
 {
     private let signer: TokenSigning
     private let headerFormatter = JwsHeaderFormatter()
     
-    init(signer: TokenSigning = Secp256k1Signer())
+    required init(props: Void) {
+        self.signer = Secp256k1Signer()
+    }
+    
+    init(signer: TokenSigning)
     {
         self.signer = signer
     }

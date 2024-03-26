@@ -3,11 +3,18 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
+protocol TokenBuilding
+{
+    associatedtype Props
+    
+    init(props: Props)
+}
+
 /**
  * Defines the behavior of building a Verifiable Presentation in JWT format.
  * (Protocol used to help with mocking in tests)
  */
-protocol VerifiablePresentationBuilding
+protocol VerifiablePresentationBuilding: TokenBuilding
 {
     func canInclude(partialInputDescriptor: PartialInputDescriptor) -> Bool
     
@@ -38,9 +45,9 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
     
     private let formatter = VerifiablePresentationFormatter()
     
-    init(index: Int)
+    required init(props: Int)
     {
-        self.index = index
+        self.index = props
         partialInputDescriptors = []
     }
     
