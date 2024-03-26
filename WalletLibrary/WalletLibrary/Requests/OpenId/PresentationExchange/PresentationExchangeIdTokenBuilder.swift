@@ -4,20 +4,67 @@
  *--------------------------------------------------------------------------------------------*/
 
 /**
- * Formats a Verifiable Presentation token in JWT format which adheres to the Presentation Exchange protocol.
+ * Defines the behavior of building a Presentation Exchange Response Id Token in JWT format.
+ * (Protocol used to help with mocking in tests)
  */
-class PresentationExchangeIdTokenBuilder
+protocol PresentationExchangeIdTokenBuilding
 {
-    let signer: TokenSigning
-    let headerFormatter = JwsHeaderFormatter()
+    func build(inputDescriptors: [InputDescriptorMapping],
+               definitionId: String,
+               audience: String,
+               nonce: String,
+               identifier: String,
+               signingKey: KeyContainer) throws -> PresentationResponseToken
+}
+
+/**
+ * Builds a Presentation Exchange Response Id Token in JWT format.
+ */
+class PresentationExchangeIdTokenBuilder: PresentationExchangeIdTokenBuilding
+{
+    private let signer: TokenSigning
+    private let headerFormatter = JwsHeaderFormatter()
     
     init(signer: TokenSigning = Secp256k1Signer())
     {
         self.signer = signer
     }
     
-    func build() throws -> PresentationResponseToken
+    func build(inputDescriptors: [InputDescriptorMapping],
+               definitionId: String,
+               audience: String,
+               nonce: String,
+               identifier: String,
+               signingKey: KeyContainer) throws -> PresentationResponseToken
     {
-        throw VerifiedIdError(message: "", code: "")
+        let submission = PresentationSubmission(id: UUID().uuidString,
+                                                definitionId: definitionId,
+                                                inputDescriptorMap: inputDescriptors)
+        let timeConstraints = TokenTimeConstraints()
+        let vpTokenResponse = VPTokenResponseDescription(presentationSubmission: submission)
+        let claims = PresentationResponseClaims(subject: identifier,
+                                                audience: audience,
+                                                vpTokenDescription: [vpTokenResponse],
+                                                nonce: nonce,
+                                                iat: timeConstraints.issuedAt,
+                                                exp: timeConstraints.expiration)
+        return try createToken(content: claims, signingKey: signingKey)
+    }
+    
+    private func createToken(content: PresentationResponseClaims,
+                             signingKey: KeyContainer) throws -> PresentationResponseToken
+    {
+        let headers = headerFormatter.formatHeaders(identifier: content.subject,
+                                                    signingKey: signingKey)
+        
+        guard var token = JwsToken(headers: headers, content: content) else 
+        {
+            throw TokenValidationError.UnableToCreateToken(ofType: String(describing: PresentationResponseToken.self))
+        }
+        
+        try token.sign(using: signer,
+                       withSecret: signingKey.keyReference)
+        
+        return token
     }
 }
