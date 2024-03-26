@@ -10,25 +10,30 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
 {
     private let configuration: LibraryConfiguration
     
-    private let vpFormatter: VerifiablePresentationFormatter
-    
     private var vpBuilders: [VerifiablePresentationBuilder]
+    
+    private let idTokenBuilder: PresentationExchangeIdTokenBuilder
     
     private let state: String
     
-    private let audience: String = ""
+    private let audience: String
     
-    private let nonce: String = ""
+    private let nonce: String
     
-    private let definitionId: String = ""
+    private let definitionId: String
     
-    init(state: String,
-         libraryConfiguration: LibraryConfiguration,
-         vpFormatter: VerifiablePresentationFormatter)
+    init(definitionId: String,
+         state: String,
+         audience: String,
+         nonce: String,
+         libraryConfiguration: LibraryConfiguration)
     {
+        self.definitionId = definitionId
         self.state = state
+        self.audience = audience
+        self.nonce = nonce
         self.configuration = libraryConfiguration
-        self.vpFormatter = vpFormatter
+        self.idTokenBuilder = PresentationExchangeIdTokenBuilder()
         self.vpBuilders = []
     }
     
@@ -42,25 +47,25 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         if let rawVC = try requirement.serialize(protocolSerializer: self,
                                                  verifiedIdSerializer: verifiedIdSerializer) as? String
         {
-            let entry = PartialInputDescriptor(rawVC: rawVC,
-                                                  peRequirement: peRequirement)
-            addToVPGroupings(entry: entry)
+            let partialInputDescriptor = PartialInputDescriptor(rawVC: rawVC,
+                                                                peRequirement: peRequirement)
+            addToVPGroupings(partialInputDescriptor: partialInputDescriptor)
         }
     }
     
-    private func addToVPGroupings(entry: PartialInputDescriptor)
+    private func addToVPGroupings(partialInputDescriptor: PartialInputDescriptor)
     {
         for group in vpBuilders
         {
-            if group.canInclude(entry: entry)
+            if group.canInclude(partialInputDescriptor: partialInputDescriptor)
             {
-                group.add(entry: entry)
+                group.add(partialInputDescriptor: partialInputDescriptor)
                 return
             }
         }
         
         let newBuilder = VerifiablePresentationBuilder(index: vpBuilders.count)
-        newBuilder.add(entry: entry)
+        newBuilder.add(partialInputDescriptor: partialInputDescriptor)
         vpBuilders.append(newBuilder)
     }
     
@@ -73,7 +78,8 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             throw IdentifierError.NoKeysInDocument()
         }
         
-        let idToken = try buildIdToken()
+        let idToken = try buildIdToken(identifier: identifier.longFormDid,
+                                       signingKey: firstKey)
         let vpTokens = try buildVpTokens(identifier: identifier.longFormDid,
                                          signingKey: firstKey)
         return PresentationResponse(idToken: idToken,
@@ -81,26 +87,25 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
                                     state: state)
     }
     
-    private func buildIdToken() throws -> PresentationResponseToken
+    private func buildIdToken(identifier: String, signingKey: KeyContainer) throws -> PresentationResponseToken
     {
         let inputDescriptors = vpBuilders.flatMap { $0.buildInputDescriptors() }
-        let submission = PresentationSubmission(id: UUID().uuidString,
-                                                definitionId: definitionId,
-                                                inputDescriptorMap: inputDescriptors)
-        
-        throw VerifiedIdError(message: "", code: "")
+        return try idTokenBuilder.build(inputDescriptors: inputDescriptors,
+                                        definitionId: definitionId,
+                                        audience: audience,
+                                        nonce: nonce,
+                                        identifier: identifier,
+                                        signingKey: signingKey)
     }
     
     private func buildVpTokens(identifier: String,
                                signingKey: KeyContainer) throws -> [VerifiablePresentation]
     {
-        return try vpBuilders.map { vcGroup in
-            let rawVcsInGroup = vcGroup.partials.map { $0.rawVC }
-            return try vpFormatter.format(rawVCs: rawVcsInGroup,
-                                          audience: audience,
-                                          nonce: nonce,
-                                          identifier: identifier,
-                                          signingKey: signingKey)
+        return try vpBuilders.map { builder in
+            return try builder.buildVerifiablePresentation(audience: audience,
+                                                           nonce: nonce,
+                                                           identifier: identifier,
+                                                           signingKey: signingKey)
         }
     }
 }
