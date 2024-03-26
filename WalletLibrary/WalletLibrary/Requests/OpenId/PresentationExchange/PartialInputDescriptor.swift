@@ -27,6 +27,6 @@ struct PartialInputDescriptor
         let nonCompatIdsFromSelf = peRequirement.exclusivePresentationWith ?? []
         let isEntryCompatWithId = nonCompatIdsFromEntry.contains(where: { $0 == inputDescriptorId })
         let isSelfCompWithEntrysId = nonCompatIdsFromSelf.contains(where: { $0 == partialInputDescriptor.inputDescriptorId })
-        return isEntryCompatWithId || isSelfCompWithEntrysId
+        return isEntryCompatWithId && isSelfCompWithEntrysId
     }
 }

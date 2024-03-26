@@ -36,11 +36,13 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
     
     private var partialInputDescriptors: [PartialInputDescriptor]
     
-    private let formatter = VerifiablePresentationFormatter()
+    private let formatter: VerifiablePresentationFormatter
     
-    init(index: Int)
+    init(index: Int,
+         formatter: VerifiablePresentationFormatter = VerifiablePresentationFormatter())
     {
         self.index = index
+        self.formatter = formatter
         partialInputDescriptors = []
     }
     

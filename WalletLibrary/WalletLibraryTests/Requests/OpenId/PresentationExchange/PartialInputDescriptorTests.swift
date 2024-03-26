@@ -16,9 +16,9 @@ class PartialInputDescriptorTests: XCTestCase
         let descriptor = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
         
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
+        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
         
-        // Act
+        // Act / Assert
         XCTAssertFalse(descriptor.isCompatibleWith(partialInputDescriptor: input))
     }
     
@@ -31,9 +31,9 @@ class PartialInputDescriptorTests: XCTestCase
         
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2", 
                                                            exclusivePresentationWith: ["3", "1"])
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
+        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
         
-        // Act
+        // Act / Assert
         XCTAssertFalse(descriptor.isCompatibleWith(partialInputDescriptor: input))
     }
     
@@ -45,9 +45,9 @@ class PartialInputDescriptorTests: XCTestCase
         let descriptor = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
         
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
+        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
         
-        // Act
+        // Act / Assert
         XCTAssertFalse(descriptor.isCompatibleWith(partialInputDescriptor: input))
     }
 }
