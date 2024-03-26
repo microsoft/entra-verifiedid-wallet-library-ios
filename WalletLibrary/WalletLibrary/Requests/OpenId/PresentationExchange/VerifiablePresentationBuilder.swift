@@ -47,7 +47,7 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
     func canInclude(partialInputDescriptor: PartialInputDescriptor) -> Bool
     {
         return partialInputDescriptors.reduce(true) { result, partial in
-            result ? partial.isCompatibleWith(entry: partialInputDescriptor) : result
+            result ? partial.isCompatibleWith(partialInputDescriptor: partialInputDescriptor) : result
         }
     }
     

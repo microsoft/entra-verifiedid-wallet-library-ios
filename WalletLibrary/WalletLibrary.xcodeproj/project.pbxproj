@@ -470,6 +470,8 @@
 		55A638652BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */; };
 		55A638672BB3642D00BE2AF2 /* RequestProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638662BB3642D00BE2AF2 /* RequestProcessorError.swift */; };
 		55A638692BB36C7E00BE2AF2 /* PETokenBuilderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638682BB36C7D00BE2AF2 /* PETokenBuilderFactory.swift */; };
+		55A6386B2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */; };
+		55A6386D2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestProcessing.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -1039,6 +1041,8 @@
 		55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationBuilder.swift; sourceTree = "<group>"; };
 		55A638662BB3642D00BE2AF2 /* RequestProcessorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessorError.swift; sourceTree = "<group>"; };
 		55A638682BB36C7D00BE2AF2 /* PETokenBuilderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PETokenBuilderFactory.swift; sourceTree = "<group>"; };
+		55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialInputDescriptorTests.swift; sourceTree = "<group>"; };
+		55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresentationExchangeRequirement.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessing.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -2440,6 +2444,7 @@
 			isa = PBXGroup;
 			children = (
 				5555F1C42BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift */,
+				55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */,
 			);
 			path = PresentationExchange;
 			sourceTree = "<group>";
@@ -2863,6 +2868,7 @@
 			isa = PBXGroup;
 			children = (
 				55E2F073299555280008010D /* MockRequirement.swift */,
+				55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -3658,6 +3664,7 @@
 				55BA2DDB29CDFA6100BB8207 /* VerifiedIdEncoderTests.swift in Sources */,
 				55A81C0D2991BF86002C259A /* MockInput.swift in Sources */,
 				5552D89929F2E58000B40302 /* IssuanceServiceTests.swift in Sources */,
+				55A6386D2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift in Sources */,
 				55DECBED29BA29FB00D5C802 /* PresentationResponseContainerExtensionTests.swift in Sources */,
 				5552D86829F2E43900B40302 /* IssuanceResponseEncoderTests.swift in Sources */,
 				55F01CCF2ACDFF55000794B4 /* ES256Tests.swift in Sources */,
@@ -3739,6 +3746,7 @@
 				555FB2422B7BC97A00EE14BD /* CredentialMetadataTests.swift in Sources */,
 				5552D7D529F2E0AA00B40302 /* HmacSha512Tests.swift in Sources */,
 				5552D7D229F2E0AA00B40302 /* KeychainSecretStoreTests.swift in Sources */,
+				55A6386B2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift in Sources */,
 				5552D85529F2E43900B40302 /* MockNetworkOperation.swift in Sources */,
 				5552D82429F2E25900B40302 /* IdentifierFormatterTests.swift in Sources */,
 				552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */,

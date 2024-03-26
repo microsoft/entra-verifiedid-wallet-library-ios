@@ -17,6 +17,14 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     
     var primitiveClaims: [String : Any]?
     
+    var nonce: String?
+    
+    var state: String?
+    
+    var issuer: String?
+    
+    var definitionId: String?
+    
     init(raw: Data?, type: RequestType = .Presentation) {
         self.raw = raw
         self.type = type
