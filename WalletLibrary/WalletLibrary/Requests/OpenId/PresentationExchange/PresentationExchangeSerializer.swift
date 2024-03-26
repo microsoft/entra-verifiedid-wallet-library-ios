@@ -5,14 +5,21 @@
 
 protocol TokenBuilderFactory
 {
-    func createTokenBuilder<T: TokenBuilding>(type: T.Type, props: T.Props) -> T
+    func createPEIdTokenBuilder() -> any PresentationExchangeIdTokenBuilding
+    
+    func createVPTokenBuilder(index: Int) -> any VerifiablePresentationBuilding
 }
 
 struct PETokenBuilderFactory
 {
-    func createTokenBuilder<T: TokenBuilding>(type: T.Type, props: T.Props) -> T
+    func createPEIdTokenBuilder() -> any PresentationExchangeIdTokenBuilding
     {
-        return T(props: props)
+        return PresentationExchangeIdTokenBuilder()
+    }
+    
+    func createVPTokenBuilder(index: Int) -> any VerifiablePresentationBuilding
+    {
+        return VerifiablePresentationBuilder(index: index)
     }
 }
 /**
@@ -22,9 +29,9 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
 {
     private let configuration: LibraryConfiguration
     
-    private var vpBuilders: [VerifiablePresentationBuilder]
+    private var vpBuilders: [any VerifiablePresentationBuilding]
     
-    private let idTokenBuilder: PresentationExchangeIdTokenBuilder
+    private let idTokenBuilder: any PresentationExchangeIdTokenBuilding
     
     private let tokenBuildFactory: TokenBuilderFactory
     
@@ -52,8 +59,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
                                                                 propertyName: "definitionId")
             self.configuration = libraryConfiguration
             self.tokenBuildFactory = tokenBuilderFactory
-            self.idTokenBuilder = tokenBuilderFactory.createTokenBuilder(type: PresentationExchangeIdTokenBuilder.self,
-                                                                         props: ())
+            self.idTokenBuilder = tokenBuilderFactory.createPEIdTokenBuilder()
             self.vpBuilders = []
         }
         catch
@@ -90,8 +96,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             }
         }
         
-        let newBuilder = tokenBuildFactory.createTokenBuilder(type: VerifiablePresentationBuilder.self,
-                                                              props: vpBuilders.count)
+        let newBuilder = tokenBuildFactory.createVPTokenBuilder(index: vpBuilders.count)
         newBuilder.add(partialInputDescriptor: partialInputDescriptor)
         vpBuilders.append(newBuilder)
     }
