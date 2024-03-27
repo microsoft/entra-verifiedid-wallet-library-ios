@@ -54,6 +54,8 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     {
         guard let peRequirement = requirement as? PresentationExchangeRequirement else
         {
+            let message = "Unable to serialize requirement type: \(String(describing: requirement.self))"
+            configuration.logger.logVerbose(message: message)
             return
         }
         
@@ -63,6 +65,11 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             let partialInputDescriptor = PartialInputDescriptor(rawVC: rawVC,
                                                                 peRequirement: peRequirement)
             addToVPGroupings(partialInputDescriptor: partialInputDescriptor)
+        }
+        else
+        {
+            let message = "Verified ID serialized to incorrect type."
+            configuration.logger.logVerbose(message: message)
         }
     }
     
