@@ -43,8 +43,12 @@ extension PresentationRequest: OpenIdRawRequest
         return content.state
     }
     
-    var issuer: String? {
-        return content.issuer
+    var clientId: String? {
+        return content.clientID
+    }
+    
+    var responseURL: URL? {
+        return content.redirectURI.flatMap { URL(string: $0) }
     }
     
     /// Should only be one definition Id per request.

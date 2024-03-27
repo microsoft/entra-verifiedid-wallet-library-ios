@@ -17,8 +17,10 @@ protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent
     
     var state: String? { get }
     
-    var issuer: String? { get }
+    var clientId: String? { get }
     
     /// Should only be one definition Id per request.
     var definitionId: String? { get }
+    
+    var responseURL: URL? { get }
 }
