@@ -9,6 +9,7 @@
  */
 protocol PresentationExchangeIdTokenBuilding
 {
+    /// Builds Presentation Exchange Id Token from given input.
     func build(inputDescriptors: [InputDescriptorMapping],
                definitionId: String,
                audience: String,
@@ -22,7 +23,10 @@ protocol PresentationExchangeIdTokenBuilding
  */
 class PresentationExchangeIdTokenBuilder: PresentationExchangeIdTokenBuilding
 {
+    /// Signer used to sign token.
     private let signer: TokenSigning
+    
+    /// Formats token headers.
     private let headerFormatter = JwsHeaderFormatter()
     
     init(signer: TokenSigning = Secp256k1Signer())
@@ -30,6 +34,7 @@ class PresentationExchangeIdTokenBuilder: PresentationExchangeIdTokenBuilding
         self.signer = signer
     }
     
+    /// Builds Presentation Exchange Id Token from given input.
     func build(inputDescriptors: [InputDescriptorMapping],
                definitionId: String,
                audience: String,
