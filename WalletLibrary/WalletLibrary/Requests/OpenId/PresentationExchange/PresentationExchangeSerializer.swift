@@ -45,7 +45,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         }
         catch
         {
-            throw RequestProcessorError.MissingRequiredProperty(message: "Unable to create serializer.",
+            throw PresentationExchangeError.MissingRequiredProperty(message: "Unable to create serializer.",
                                                                 error: error)
         }
     }

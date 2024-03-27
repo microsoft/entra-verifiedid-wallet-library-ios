@@ -468,7 +468,7 @@
 		55A638622BB2468700BE2AF2 /* PresentationExchangeIdTokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638602BB2468700BE2AF2 /* PresentationExchangeIdTokenBuilder.swift */; };
 		55A638632BB2468700BE2AF2 /* PartialInputDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638612BB2468700BE2AF2 /* PartialInputDescriptor.swift */; };
 		55A638652BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */; };
-		55A638672BB3642D00BE2AF2 /* RequestProcessorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638662BB3642D00BE2AF2 /* RequestProcessorError.swift */; };
+		55A638672BB3642D00BE2AF2 /* PresentationExchangeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638662BB3642D00BE2AF2 /* PresentationExchangeError.swift */; };
 		55A638692BB36C7E00BE2AF2 /* PETokenBuilderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638682BB36C7D00BE2AF2 /* PETokenBuilderFactory.swift */; };
 		55A6386B2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */; };
 		55A6386D2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */; };
@@ -1042,7 +1042,7 @@
 		55A638602BB2468700BE2AF2 /* PresentationExchangeIdTokenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationExchangeIdTokenBuilder.swift; sourceTree = "<group>"; };
 		55A638612BB2468700BE2AF2 /* PartialInputDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialInputDescriptor.swift; sourceTree = "<group>"; };
 		55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationBuilder.swift; sourceTree = "<group>"; };
-		55A638662BB3642D00BE2AF2 /* RequestProcessorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessorError.swift; sourceTree = "<group>"; };
+		55A638662BB3642D00BE2AF2 /* PresentationExchangeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeError.swift; sourceTree = "<group>"; };
 		55A638682BB36C7D00BE2AF2 /* PETokenBuilderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PETokenBuilderFactory.swift; sourceTree = "<group>"; };
 		55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialInputDescriptorTests.swift; sourceTree = "<group>"; };
 		55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresentationExchangeRequirement.swift; sourceTree = "<group>"; };
@@ -2726,7 +2726,7 @@
 				555FB1FE2B75671300EE14BD /* TokenValidationError.swift */,
 				555FB20C2B75807700EE14BD /* OpenId4VCIValidationError.swift */,
 				5555F1A32BAA135600B41FD4 /* IdentifierError.swift */,
-				55A638662BB3642D00BE2AF2 /* RequestProcessorError.swift */,
+				55A638662BB3642D00BE2AF2 /* PresentationExchangeError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -3418,7 +3418,7 @@
 				5552D49029EF4AAB00B40302 /* KeyId.swift in Sources */,
 				5552D3C229EF489100B40302 /* IdentifierDocumentServiceEndpoint.swift in Sources */,
 				55EA17A829CA531F0085E29E /* BasicVerifiedIdStyle.swift in Sources */,
-				55A638672BB3642D00BE2AF2 /* RequestProcessorError.swift in Sources */,
+				55A638672BB3642D00BE2AF2 /* PresentationExchangeError.swift in Sources */,
 				5552D3C529EF489E00B40302 /* IdentifierDocumentSuffixDescriptor.swift in Sources */,
 				5552D44929EF4A8100B40302 /* PostPresentationResponseOperation.swift in Sources */,
 				558168E12BA8B5EE000E9CA5 /* RequestProcessing.swift in Sources */,

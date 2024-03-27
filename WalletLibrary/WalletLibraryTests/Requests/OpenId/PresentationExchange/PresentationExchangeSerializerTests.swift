@@ -399,10 +399,10 @@ class PresentationExchangeSerializerTests: XCTestCase
     
     private func assertPropertyNotFound(error: Error, property: String)
     {
-        XCTAssert(error is RequestProcessorError)
-        XCTAssertEqual((error as? RequestProcessorError)?.code, "missing_required_property")
-        XCTAssertEqual((error as? RequestProcessorError)?.message, "Unable to create serializer.")
-        if let innerError = (error as? RequestProcessorError)?.error
+        XCTAssert(error is PresentationExchangeError)
+        XCTAssertEqual((error as? PresentationExchangeError)?.code, "missing_required_property")
+        XCTAssertEqual((error as? PresentationExchangeError)?.message, "Unable to create serializer.")
+        if let innerError = (error as? PresentationExchangeError)?.error
         {
             print(innerError)
             XCTAssert(innerError is MappingError)

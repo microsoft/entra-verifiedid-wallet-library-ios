@@ -4,16 +4,16 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * This class is used to represent different types of validation errors related to the OpenId4VCI Protocol.
+ * This class is used to represent different types of errors related to the Presentation Exchange Protocol.
  */
-class RequestProcessorError: VerifiedIdError
+class PresentationExchangeError: VerifiedIdError
 {
     
-    /// Creates an instance of `RequestProcessorError` when missing required property.
+    /// Creates an instance of `PresentationExchangeError` when missing required property.
     static func MissingRequiredProperty(message: String,
-                                        error: Error? = nil) -> RequestProcessorError
+                                        error: Error? = nil) -> PresentationExchangeError
     {
-        return RequestProcessorError(message: message,
+        return PresentationExchangeError(message: message,
                                          code: "missing_required_property",
                                          error: error,
                                          correlationId: nil)
