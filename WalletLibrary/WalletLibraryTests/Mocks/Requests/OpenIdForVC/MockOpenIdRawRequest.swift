@@ -17,13 +17,15 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     
     var primitiveClaims: [String : Any]?
     
-    var nonce: String?
+    var nonce: String? = ""
     
-    var state: String?
+    var state: String? = ""
     
-    var issuer: String?
+    var clientId: String? = ""
     
-    var definitionId: String?
+    var definitionId: String? = ""
+    
+    var responseURL: URL? = URL(string: "https://microsoft.com")
     
     init(raw: Data?, type: RequestType = .Presentation) {
         self.raw = raw
@@ -31,11 +33,11 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
         self.primitiveClaims = [:]
     }
     
-    init(nonce: String?, state: String?, issuer: String?, definitionId: String?)
+    init(nonce: String?, state: String?, clientId: String?, definitionId: String?)
     {
         self.nonce = nonce
         self.state = state
-        self.issuer = issuer
+        self.clientId = clientId
         self.definitionId = definitionId
         self.type = .Presentation
     }
