@@ -31,6 +31,15 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
         self.primitiveClaims = [:]
     }
     
+    init(nonce: String?, state: String?, issuer: String?, definitionId: String?)
+    {
+        self.nonce = nonce
+        self.state = state
+        self.issuer = issuer
+        self.definitionId = definitionId
+        self.type = .Presentation
+    }
+    
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
         throw MockOpenIdRawRequestError.mappingNotSupported
     }

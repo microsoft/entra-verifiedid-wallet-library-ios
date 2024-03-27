@@ -47,7 +47,6 @@ class PresentationExchangeIdTokenBuilderTests: XCTestCase
                        descriptor.id)
         XCTAssertEqual(result.content.vpTokenDescription.first?.presentationSubmission.inputDescriptorMap.first?.path,
                        descriptor.path)
-
     }
     
     func testBuild_WhenSignerThrows_ThrowsError() throws

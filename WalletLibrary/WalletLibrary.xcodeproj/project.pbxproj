@@ -474,6 +474,7 @@
 		55A6386D2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */; };
 		55A6386F2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386E2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift */; };
 		55A638712BB3B05A00BE2AF2 /* PresentationExchangeIdTokenBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638702BB3B05A00BE2AF2 /* PresentationExchangeIdTokenBuilderTests.swift */; };
+		55A638732BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638722BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestProcessing.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -1047,6 +1048,7 @@
 		55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresentationExchangeRequirement.swift; sourceTree = "<group>"; };
 		55A6386E2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationBuilderTests.swift; sourceTree = "<group>"; };
 		55A638702BB3B05A00BE2AF2 /* PresentationExchangeIdTokenBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeIdTokenBuilderTests.swift; sourceTree = "<group>"; };
+		55A638722BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeSerializerTests.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessing.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -2451,6 +2453,7 @@
 				55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */,
 				55A6386E2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift */,
 				55A638702BB3B05A00BE2AF2 /* PresentationExchangeIdTokenBuilderTests.swift */,
+				55A638722BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift */,
 			);
 			path = PresentationExchange;
 			sourceTree = "<group>";
@@ -3652,6 +3655,7 @@
 				559BD4E5299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift in Sources */,
 				5552D89F29F2E58000B40302 /* PresentationServiceTests.swift in Sources */,
 				5552D7E729F2E1AF00B40302 /* MockClaims.swift in Sources */,
+				55A638732BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift in Sources */,
 				5552D89A29F2E58000B40302 /* DifWordListTests.swift in Sources */,
 				5552D86529F2E43900B40302 /* String+PercentEncodingTests.swift in Sources */,
 				5552D82829F2E25900B40302 /* IssuanceResponseClaimsTests.swift in Sources */,
