@@ -85,8 +85,6 @@ class VerifiablePresentationBuilderTests: XCTestCase
         let requirement3 = MockPresentationExchangeRequirement(inputDescriptorId: "2")
         let descriptor3 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement3)
         
-        let expected = [descriptor1, descriptor2, descriptor3]
-        
         let index = 1
         
         let builder = VerifiablePresentationBuilder(index: index)

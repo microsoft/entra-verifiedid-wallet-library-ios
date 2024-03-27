@@ -164,7 +164,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         
         let mockRequirement = MockPresentationExchangeRequirement(inputDescriptorId: "mock id")
         
-        // Act
+        // Act / Assert
         XCTAssertNoThrow(try serializer.serialize(requirement: mockRequirement,
                                                   verifiedIdSerializer: mockVerifiedIdSerializer))
     }
@@ -195,7 +195,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         
         let mockRequirement = MockPresentationExchangeRequirement(inputDescriptorId: "mock id")
         
-        // Act
+        // Act / Assert
         XCTAssertNoThrow(try serializer.serialize(requirement: mockRequirement,
                                                   verifiedIdSerializer: mockVerifiedIdSerializer))
         XCTAssert(didCreateVPBuilder)
@@ -228,7 +228,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         let mockRequirement = MockPresentationExchangeRequirement(inputDescriptorId: "1")
         let nonCompatReq = MockPresentationExchangeRequirement(inputDescriptorId: "2", exclusivePresentationWith: ["1"])
         
-        // Act
+        // Act / Assert
         XCTAssertNoThrow(try serializer.serialize(requirement: mockRequirement,
                                                   verifiedIdSerializer: mockVerifiedIdSerializer))
         XCTAssertNoThrow(try serializer.serialize(requirement: nonCompatReq,
@@ -263,7 +263,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         let mockRequirement = MockPresentationExchangeRequirement(inputDescriptorId: "1")
         let nonCompatReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
         
-        // Act
+        // Act / Assert
         XCTAssertNoThrow(try serializer.serialize(requirement: mockRequirement,
                                                   verifiedIdSerializer: mockVerifiedIdSerializer))
         XCTAssertNoThrow(try serializer.serialize(requirement: nonCompatReq,
@@ -285,7 +285,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             libraryConfiguration: configuration)
         
-        // Act
+        // Act / Assert
         XCTAssertThrowsError(try serializer.build()) { error in
             XCTAssert(error is MockIdentifierManager.ExpectedError)
             XCTAssertEqual((error as? MockIdentifierManager.ExpectedError), .ExpectedToThrow)
@@ -306,7 +306,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             libraryConfiguration: configuration)
         
-        // Act
+        // Act / Assert
         XCTAssertThrowsError(try serializer.build()) { error in
             XCTAssert(error is IdentifierError)
             XCTAssertEqual((error as? IdentifierError)?.code, "no_keys_found_in_document")
@@ -409,170 +409,5 @@ class PresentationExchangeSerializerTests: XCTestCase
             XCTAssertEqual((innerError as? MappingError), .PropertyNotPresent(property: property,
                                                                               in: "MockOpenIdRawRequest"))
         }
-    }
-}
-
-struct MockTokenBuilderFactory: TokenBuilderFactory
-{
-    private let vpTokenBuilderSpy: ((Int) -> ())?
-    
-    private let doesPEIdTokenBuilderThrow: Bool
-    
-    private let doesVPTokenBuilderThrow: Bool
-    
-    let expectedResultForPEIdToken: PresentationResponseToken
-    
-    let expectedResultForVPToken: VerifiablePresentation
-    
-    init(vpTokenBuilderSpy: ((Int) -> ())? = nil,
-         doesPEIdTokenBuilderThrow: Bool = false,
-         doesVPTokenBuilderThrow: Bool = false)
-    {
-        self.vpTokenBuilderSpy = vpTokenBuilderSpy
-        self.doesPEIdTokenBuilderThrow = doesPEIdTokenBuilderThrow
-        self.doesVPTokenBuilderThrow = doesVPTokenBuilderThrow
-        self.expectedResultForPEIdToken = PresentationResponseToken(headers: Header(),
-                                                                    content: PresentationResponseClaims())!
-        self.expectedResultForVPToken = VerifiablePresentation(headers: Header(),
-                                                               content: VerifiablePresentationClaims(verifiablePresentation: nil))!
-    }
-    
-    func createPresentationExchangeIdTokenBuilder() -> PresentationExchangeIdTokenBuilding
-    {
-        return MockPEIdTokenBuilder(doesThrow: doesPEIdTokenBuilderThrow, 
-                                    expectedResult: expectedResultForPEIdToken)
-    }
-    
-    func createVerifiablePresentationBuilder(index: Int) ->VerifiablePresentationBuilding
-    {
-        vpTokenBuilderSpy?(index)
-        return MockVPBuilder(index: index,
-                             doesThrow: doesVPTokenBuilderThrow,
-                             expectedResult: expectedResultForVPToken)
-    }
-    
-    
-}
-
-struct MockPEIdTokenBuilder: PresentationExchangeIdTokenBuilding
-{
-    enum ExpectedError: Error
-    {
-        case ExpectedToThrow
-        case ExpectedResultNotSet
-    }
-    
-    private let doesThrow: Bool
-    
-    private let expectedResult: PresentationResponseToken
-    
-    init(doesThrow: Bool = false, 
-         expectedResult: PresentationResponseToken)
-    {
-        self.doesThrow = doesThrow
-        self.expectedResult = expectedResult
-    }
-    
-    func build(inputDescriptors: [InputDescriptorMapping],
-               definitionId: String,
-               audience: String,
-               nonce: String,
-               identifier: String,
-               signingKey: KeyContainer) throws -> PresentationResponseToken
-    {
-        if doesThrow
-        {
-            throw ExpectedError.ExpectedToThrow
-        }
-        
-        return expectedResult
-    }
-}
-
-struct MockVPBuilder: VerifiablePresentationBuilding
-{
-    enum ExpectedError: Error
-    {
-        case ExpectedToThrow
-    }
-    
-    private let doesThrow: Bool
-    
-    private let expectedResult: VerifiablePresentation
-    
-    private let wrappedBuilder: VerifiablePresentationBuilder
-    
-    init(index: Int,
-         doesThrow: Bool = false,
-         expectedResult: VerifiablePresentation)
-    {
-        self.wrappedBuilder = VerifiablePresentationBuilder(index: index)
-        self.doesThrow = doesThrow
-        self.expectedResult = expectedResult
-    }
-    
-    func canInclude(partialInputDescriptor: PartialInputDescriptor) -> Bool
-    {
-        wrappedBuilder.canInclude(partialInputDescriptor: partialInputDescriptor)
-    }
-    
-    func add(partialInputDescriptor: PartialInputDescriptor) 
-    { 
-        wrappedBuilder.add(partialInputDescriptor: partialInputDescriptor)
-    }
-    
-    func buildInputDescriptors() -> [InputDescriptorMapping] 
-    {
-        wrappedBuilder.buildInputDescriptors()
-    }
-    
-    func buildVerifiablePresentation(audience: String, 
-                                     nonce: String,
-                                     identifier: String,
-                                     signingKey: KeyContainer) throws -> VerifiablePresentation
-    {
-        if doesThrow
-        {
-            throw ExpectedError.ExpectedToThrow
-        }
-        
-        return expectedResult
-    }
-}
-
-struct MockVerifiedIdSerializer<SerializedFormat>: VerifiedIdSerializing
-{
-    enum ExpectedError: Error
-    {
-        case SerializerShouldThrow
-        case ExpectedResultNotSet
-    }
-    
-    typealias SerializedFormat = SerializedFormat
-    
-    private let doesThrow: Bool
-    
-    private let expectedResult: SerializedFormat?
-    
-    init(doesThrow: Bool = false,
-         expectedResult: SerializedFormat? = nil)
-    {
-        self.doesThrow = doesThrow
-        self.expectedResult = expectedResult
-    }
-    
-    func serialize(verifiedId: WalletLibrary.VerifiedId) throws -> SerializedFormat 
-    {
-        if doesThrow
-        {
-            throw ExpectedError.SerializerShouldThrow
-        }
-        
-        if let expectedResult = expectedResult
-        {
-            return expectedResult
-        }
-        
-        throw ExpectedError.ExpectedResultNotSet
     }
 }
