@@ -22,18 +22,14 @@ class OpenIdPresentationRequestTests: XCTestCase {
         let mockRequirement = MockRequirement(id: "mockRequirement324",
                                               mockValidateCallback: { throw ExpectedError.expectedToBeThrown })
         
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
         let mockResponder = MockOpenIdResponder()
         
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: MockOpenIdRawRequest(raw: nil),
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
+        let request = try OpenIdPresentationRequest(style: mockStyle,
+                                                    requirement: mockRequirement,
+                                                    rootOfTrust: mockRootOfTrust,
+                                                    rawRequest: MockOpenIdRawRequest(raw: nil),
+                                                    responder: mockResponder,
+                                                    configuration: configuration)
         
         // Act
         let actualResult = request.isSatisfied()
@@ -50,18 +46,14 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let mockRequirement = MockRequirement(id: "mockRequirement324")
         
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
         let mockResponder = MockOpenIdResponder()
         
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: MockOpenIdRawRequest(raw: nil),
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
+        let request = try OpenIdPresentationRequest(style: mockStyle,
+                                                    requirement: mockRequirement,
+                                                    rootOfTrust: mockRootOfTrust,
+                                                    rawRequest: MockOpenIdRawRequest(raw: nil),
+                                                    responder: mockResponder,
+                                                    configuration: configuration)
         
         // Act
         let actualResult = request.isSatisfied()
@@ -78,18 +70,14 @@ class OpenIdPresentationRequestTests: XCTestCase {
         
         let mockRequirement = MockRequirement(id: "mockRequirement324")
         
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
         let mockResponder = MockOpenIdResponder()
         
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: MockOpenIdRawRequest(raw: nil),
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
+        let request = try OpenIdPresentationRequest(style: mockStyle,
+                                                    requirement: mockRequirement,
+                                                    rootOfTrust: mockRootOfTrust,
+                                                    rawRequest: MockOpenIdRawRequest(raw: nil),
+                                                    responder: mockResponder,
+                                                    configuration: configuration)
         
         // Act
         let actualResult = await request.complete()
@@ -112,21 +100,16 @@ class OpenIdPresentationRequestTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let mockRequirement = MockRequirement(id: "mockRequirement324")
-        
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
         let mockResponder = MockOpenIdResponder()
         
         let mockRawRequest = createMockPresentationRequest()
         
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: mockRawRequest,
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
+        let request = try OpenIdPresentationRequest(style: mockStyle,
+                                                    requirement: mockRequirement,
+                                                    rootOfTrust: mockRootOfTrust,
+                                                    rawRequest: mockRawRequest,
+                                                    responder: mockResponder,
+                                                    configuration: configuration)
         
         // Act
         let actualResult = await request.complete()
@@ -170,22 +153,18 @@ class OpenIdPresentationRequestTests: XCTestCase {
         let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
         try mockRequirement.fulfill(with: mockVC).get()
         
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
         func mockSend(response: RawPresentationResponse) async throws {
             throw ExpectedError.expectedToBeThrownInResponder
         }
         
         let mockResponder = MockOpenIdResponder(mockSend: mockSend)
         
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: mockPresentationRequest,
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
+        let request = try OpenIdPresentationRequest(style: mockStyle,
+                                                    requirement: mockRequirement,
+                                                    rootOfTrust: mockRootOfTrust,
+                                                    rawRequest: mockPresentationRequest,
+                                                    responder: mockResponder,
+                                                    configuration: configuration)
         
         // Act
         let actualResult = await request.complete()
@@ -229,18 +208,14 @@ class OpenIdPresentationRequestTests: XCTestCase {
         let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
         try mockRequirement.fulfill(with: mockVC).get()
         
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
         let mockResponder = MockOpenIdResponder()
         
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: mockPresentationRequest,
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
+        let request = try OpenIdPresentationRequest(style: mockStyle,
+                                                    requirement: mockRequirement,
+                                                    rootOfTrust: mockRootOfTrust,
+                                                    rawRequest: mockPresentationRequest,
+                                                    responder: mockResponder,
+                                                    configuration: configuration)
         
         // Act
         let actualResult = await request.complete()
@@ -255,13 +230,23 @@ class OpenIdPresentationRequestTests: XCTestCase {
     }
     
     private func createMockPresentationRequest(requestedVPTokens: [RequestedVPToken] = []) -> PresentationRequest {
+        
+        var claims = RequestedClaims(vpToken: requestedVPTokens)
+        if requestedVPTokens.isEmpty
+        {
+            let definition = PresentationDefinition(id: "mock id",
+                                                    inputDescriptors: nil,
+                                                    issuance: nil)
+            claims = RequestedClaims(vpToken: [RequestedVPToken(presentationDefinition: definition)])
+        }
+        
         let mockClaims = PresentationRequestClaims(jti: "",
                                                    clientID: "expectedAudienceDid",
                                                    redirectURI: "expectedAudienceUrl",
                                                    responseMode: "",
                                                    responseType: "",
-                                                   claims: RequestedClaims(vpToken: requestedVPTokens),
-                                                   state: "",
+                                                   claims: claims,
+                                                   state: "mockState",
                                                    nonce: "expectedNonce",
                                                    scope: "",
                                                    prompt: "",

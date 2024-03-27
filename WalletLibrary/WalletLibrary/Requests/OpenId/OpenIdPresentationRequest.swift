@@ -21,36 +21,33 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     /// The root of trust results between the request and the source of the request.
     let rootOfTrust: RootOfTrust
     
+    private let audience: URL
+    
     private let rawRequest: any OpenIdRawRequest
     
     private let responder: OpenIdResponder
     
     private let configuration: LibraryConfiguration
     
-    init(content: PresentationRequestContent,
-         rawRequest: any OpenIdRawRequest,
-         openIdResponder: OpenIdResponder,
-         configuration: LibraryConfiguration) 
-    {
-        self.style = content.style
-        self.requirement = content.requirement
-        self.rootOfTrust = content.rootOfTrust
-        self.rawRequest = rawRequest
-        self.responder = openIdResponder
-        self.configuration = configuration
-    }
+    private let presentationExchangeSerializer: PresentationExchangeSerializer
     
-    init(partialRequest: VerifiedIdPartialRequest,
+    init(style: RequesterStyle,
+         requirement: Requirement,
+         rootOfTrust: RootOfTrust,
          rawRequest: any OpenIdRawRequest,
-         openIdResponder: OpenIdResponder,
-         configuration: LibraryConfiguration)
+         responder: OpenIdResponder,
+         configuration: LibraryConfiguration) throws
     {
-        self.style = partialRequest.requesterStyle
-        self.requirement = partialRequest.requirement
-        self.rootOfTrust = partialRequest.rootOfTrust
+        self.style = style
+        self.requirement = requirement
+        self.rootOfTrust = rootOfTrust
         self.rawRequest = rawRequest
-        self.responder = openIdResponder
+        self.responder = responder
         self.configuration = configuration
+        self.presentationExchangeSerializer = try PresentationExchangeSerializer(request: rawRequest,
+                                                                                 libraryConfiguration: configuration)
+        self.audience = try rawRequest.getRequiredProperty(property: rawRequest.responseURL,
+                                                           propertyName: "responseURL")
     }
     
     /// Whether or not the request is satisfied on client side.
@@ -73,8 +70,23 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         }
     }
     
+    func completeWithSerializer() async -> VerifiedIdResult<Void>
+    {
+        return await VerifiedIdResult<Void>.getResult {
+            let verifiedIdSerializer = VerifiableCredentialSerializer()
+            try self.presentationExchangeSerializer.serialize(requirement: self.requirement,
+                                                              verifiedIdSerializer: verifiedIdSerializer)
+            let response = try self.presentationExchangeSerializer.build()
+            _ = try await self.configuration.networking.post(requestBody: response,
+                                                             url: self.audience,
+                                                             PostPresentationResponseOperation.self)
+        }
+    }
+    
     /// Cancel the request with an optional message.
-    func cancel(message: String?) async -> VerifiedIdResult<Void> {
-        return VerifiedIdError(message: message ?? "User Canceled.", code: VerifiedIdErrors.ErrorCode.UserCanceled).result()
+    func cancel(message: String?) async -> VerifiedIdResult<Void> 
+    {
+        return VerifiedIdError(message: message ?? "User Canceled.", 
+                               code: VerifiedIdErrors.ErrorCode.UserCanceled).result()
     }
 }
