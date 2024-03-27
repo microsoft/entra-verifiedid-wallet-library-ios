@@ -8,12 +8,17 @@ import XCTest
 
 class PresentationExchangeSerializerTests: XCTestCase
 {
+    private let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
+                                                            state: "mock state",
+                                                            clientId: "mock client id",
+                                                            definitionId: "mock definition id")
+    
     func testInit_WithMissingState_ThrowsError() throws
     {
         // Arrange
         let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
                                                         state: nil,
-                                                        issuer: "mock issuer",
+                                                        clientId: "mock client id",
                                                         definitionId: "mock definition id")
         let configuration = LibraryConfiguration()
         
@@ -29,14 +34,14 @@ class PresentationExchangeSerializerTests: XCTestCase
         // Arrange
         let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
                                                         state: "mock state",
-                                                        issuer: nil,
+                                                        clientId: nil,
                                                         definitionId: "mock definition id")
         let configuration = LibraryConfiguration()
         
         // Act / Assert
         XCTAssertThrowsError(try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                                 libraryConfiguration: configuration)) { error in
-            assertPropertyNotFound(error: error, property: "issuer")
+            assertPropertyNotFound(error: error, property: "client_id")
         }
     }
     
@@ -45,7 +50,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         // Arrange
         let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: nil,
                                                         state: "mock state",
-                                                        issuer: "mock issuer",
+                                                        clientId: "mock client id",
                                                         definitionId: "mock definition id")
         let configuration = LibraryConfiguration()
         
@@ -61,7 +66,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         // Arrange
         let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
                                                         state: "mock state",
-                                                        issuer: "mock issuer",
+                                                        clientId: "mock client id",
                                                         definitionId: nil)
         let configuration = LibraryConfiguration()
         
@@ -75,10 +80,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testInit_WithValidParams_ReturnsSerializer() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
         let configuration = LibraryConfiguration()
         
         // Act / Assert
@@ -89,11 +90,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testSerialize_WithInvalidRequirement_Returns() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>()
         
         let callback: ((TraceLevel, String, String, String, Int) -> ()) = { (tracelevel, message, _, _, _) in
@@ -118,11 +114,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testSerialize_WithRequirementSerializeThrows_ThrowsError() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(doesThrow: true)
         
         let configuration = LibraryConfiguration()
@@ -143,11 +134,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testSerialize_WithRequirementReturnsInvalidType_Returns() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<Int>(expectedResult: 3)
         
         let callback: ((TraceLevel, String, String, String, Int) -> ()) = { (tracelevel, message, _, _, _) in
@@ -172,11 +158,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testSerialize_WithValidRequirement_AddsBuilderToList() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         var didCreateVPBuilder = false
@@ -204,11 +185,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testSerialize_WithTwoNonCompatReqs_AddsTwoBuildersToList() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         var vpBuilderCreationCount = 0
@@ -239,11 +215,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testSerialize_WithTwoCompatReqs_AddsPartialToList() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         var vpBuilderCreationCount = 0
@@ -274,11 +245,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testBuild_WithUnableToFetchIdentifier_ThrowsError() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockIdentifierManager = MockIdentifierManager(doesThrow: true)
         let configuration = LibraryConfiguration(identifierManager: mockIdentifierManager)
         
@@ -295,11 +261,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testBuild_WithMissingKeyInIdentifierDocument_ThrowsError() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockIdentifierManager = MockIdentifierManager(mockKeyId: nil)
         let configuration = LibraryConfiguration(identifierManager: mockIdentifierManager)
         
@@ -317,11 +278,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testBuild_WithIdTokenBuilderThrows_ThrowsError() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockTokenBuilderFactory = MockTokenBuilderFactory(doesPEIdTokenBuilderThrow: true)
         let configuration = LibraryConfiguration()
         
@@ -339,11 +295,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testBuild_WithVPBuilderThrows_ThrowsError() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(doesVPTokenBuilderThrow: true)
@@ -367,11 +318,6 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testBuild_WithOneVP_ReturnsPresentationResponse() throws
     {
         // Arrange
-        let mockOpenIdRawRequest = MockOpenIdRawRequest(nonce: "mock nonce",
-                                                        state: "mock state",
-                                                        issuer: "mock issuer",
-                                                        definitionId: "mock definition id")
-        
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory()

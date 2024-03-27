@@ -40,8 +40,8 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         {
             self.state = try request.getRequiredProperty(property: request.state,
                                                          propertyName: "state")
-            self.audience = try request.getRequiredProperty(property: request.issuer,
-                                                            propertyName: "issuer")
+            self.audience = try request.getRequiredProperty(property: request.clientId,
+                                                            propertyName: "client_id")
             self.nonce = try request.getRequiredProperty(property: request.nonce,
                                                          propertyName: "nonce")
             self.definitionId = try request.getRequiredProperty(property: request.definitionId,
