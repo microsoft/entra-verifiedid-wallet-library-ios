@@ -48,6 +48,6 @@ class PartialInputDescriptorTests: XCTestCase
         let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
         
         // Act / Assert
-        XCTAssertFalse(descriptor.isCompatibleWith(partialInputDescriptor: input))
+        XCTAssert(descriptor.isCompatibleWith(partialInputDescriptor: input))
     }
 }

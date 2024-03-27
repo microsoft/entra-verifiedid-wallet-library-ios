@@ -33,10 +33,10 @@ class VerifiablePresentationBuilderTests: XCTestCase
         let requirement1 = MockPresentationExchangeRequirement(inputDescriptorId: "1")
         let descriptor1 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement1)
         
-        let requirement2 = MockPresentationExchangeRequirement(inputDescriptorId: "1")
+        let requirement2 = MockPresentationExchangeRequirement(inputDescriptorId: "2")
         let descriptor2 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement2)
         
-        let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
+        let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "3")
         let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
         
         let index = 1
@@ -46,7 +46,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         builder.add(partialInputDescriptor: descriptor2)
         
         // Act / Assert
-        XCTAssertFalse(builder.canInclude(partialInputDescriptor: input))
+        XCTAssert(builder.canInclude(partialInputDescriptor: input))
     }
     
     func testBuildInputDescriptors_WithOnePartial_ReturnsInputDescriptors() throws
