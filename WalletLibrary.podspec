@@ -94,4 +94,6 @@ Pod::Spec.new do |s|
       ]
       cs.dependency 'WalletLibrary/Secp256k1'
   end
+
+  s.xcconfig = { "ENABLE_USER_SCRIPT_SANDBOXING" => "NO" }
 end
