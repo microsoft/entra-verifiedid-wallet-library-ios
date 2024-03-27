@@ -469,7 +469,7 @@
 		55A638632BB2468700BE2AF2 /* PartialInputDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638612BB2468700BE2AF2 /* PartialInputDescriptor.swift */; };
 		55A638652BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */; };
 		55A638672BB3642D00BE2AF2 /* PresentationExchangeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638662BB3642D00BE2AF2 /* PresentationExchangeError.swift */; };
-		55A638692BB36C7E00BE2AF2 /* PETokenBuilderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638682BB36C7D00BE2AF2 /* PETokenBuilderFactory.swift */; };
+		55A638692BB36C7E00BE2AF2 /* TokenBuilderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638682BB36C7D00BE2AF2 /* TokenBuilderFactory.swift */; };
 		55A6386B2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */; };
 		55A6386D2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */; };
 		55A6386F2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6386E2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift */; };
@@ -1043,7 +1043,7 @@
 		55A638612BB2468700BE2AF2 /* PartialInputDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialInputDescriptor.swift; sourceTree = "<group>"; };
 		55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationBuilder.swift; sourceTree = "<group>"; };
 		55A638662BB3642D00BE2AF2 /* PresentationExchangeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeError.swift; sourceTree = "<group>"; };
-		55A638682BB36C7D00BE2AF2 /* PETokenBuilderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PETokenBuilderFactory.swift; sourceTree = "<group>"; };
+		55A638682BB36C7D00BE2AF2 /* TokenBuilderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenBuilderFactory.swift; sourceTree = "<group>"; };
 		55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialInputDescriptorTests.swift; sourceTree = "<group>"; };
 		55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPresentationExchangeRequirement.swift; sourceTree = "<group>"; };
 		55A6386E2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationBuilderTests.swift; sourceTree = "<group>"; };
@@ -2441,7 +2441,7 @@
 				55A638602BB2468700BE2AF2 /* PresentationExchangeIdTokenBuilder.swift */,
 				5555F1BB2BACAB2800B41FD4 /* PresentationExchangeSerializer.swift */,
 				5552D32929EF47EC00B40302 /* VerifiablePresentationFormatter.swift */,
-				55A638682BB36C7D00BE2AF2 /* PETokenBuilderFactory.swift */,
+				55A638682BB36C7D00BE2AF2 /* TokenBuilderFactory.swift */,
 			);
 			path = PresentationExchange;
 			sourceTree = "<group>";
@@ -3556,7 +3556,7 @@
 				55A0DA1C2A745E4200BC178E /* Dictionary+ValueExtraction.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
 				55BA2DD329CDFA1A00BB8207 /* EncodedVerifiedId.swift in Sources */,
-				55A638692BB36C7E00BE2AF2 /* PETokenBuilderFactory.swift in Sources */,
+				55A638692BB36C7E00BE2AF2 /* TokenBuilderFactory.swift in Sources */,
 				5552D28B29EF343700B40302 /* IdentifierDatabase.swift in Sources */,
 				55265AF42B6D765D00BAD6A2 /* CredentialOffer.swift in Sources */,
 				5552D3D029EF48B200B40302 /* ContractInputDescriptor.swift in Sources */,

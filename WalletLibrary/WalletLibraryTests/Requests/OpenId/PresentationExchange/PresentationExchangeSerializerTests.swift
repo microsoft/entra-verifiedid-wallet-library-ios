@@ -437,13 +437,13 @@ struct MockTokenBuilderFactory: TokenBuilderFactory
                                                                content: VerifiablePresentationClaims(verifiablePresentation: nil))!
     }
     
-    func createPEIdTokenBuilder() -> PresentationExchangeIdTokenBuilding
+    func createPresentationExchangeIdTokenBuilder() -> PresentationExchangeIdTokenBuilding
     {
         return MockPEIdTokenBuilder(doesThrow: doesPEIdTokenBuilderThrow, 
                                     expectedResult: expectedResultForPEIdToken)
     }
     
-    func createVPTokenBuilder(index: Int) ->VerifiablePresentationBuilding
+    func createVerifiablePresentationBuilder(index: Int) ->VerifiablePresentationBuilding
     {
         vpTokenBuilderSpy?(index)
         return MockVPBuilder(index: index,

@@ -25,7 +25,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     private let definitionId: String
     
     init(request: any OpenIdRawRequest,
-         tokenBuilderFactory: TokenBuilderFactory = PETokenBuilderFactory(),
+         tokenBuilderFactory: TokenBuilderFactory = DefaultTokenBuilderFactory(),
          libraryConfiguration: LibraryConfiguration) throws
     {
         do
@@ -40,7 +40,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
                                                                 propertyName: "definitionId")
             self.configuration = libraryConfiguration
             self.tokenBuildFactory = tokenBuilderFactory
-            self.idTokenBuilder = tokenBuilderFactory.createPEIdTokenBuilder()
+            self.idTokenBuilder = tokenBuilderFactory.createPresentationExchangeIdTokenBuilder()
             self.vpBuilders = []
         }
         catch
@@ -84,7 +84,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             }
         }
         
-        let newBuilder = tokenBuildFactory.createVPTokenBuilder(index: vpBuilders.count)
+        let newBuilder = tokenBuildFactory.createVerifiablePresentationBuilder(index: vpBuilders.count)
         newBuilder.add(partialInputDescriptor: partialInputDescriptor)
         vpBuilders.append(newBuilder)
     }
