@@ -4,24 +4,32 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Visitor and builder used by RequestProcessors to serialize Requirements.
+ * Handles serialization of Verified IDs from requirements and
+ * builds a Presentation Response according to the OpenID Presentation Exchange specification
  */
 class PresentationExchangeSerializer: RequestProcessorSerializing
 {
     private let configuration: LibraryConfiguration
     
+    /// A collection of builders for creating verifiable presentations.
     private var vpBuilders: [any VerifiablePresentationBuilding]
     
+    /// A builder for creating the ID token part of the presentation exchange response.
     private let idTokenBuilder: any PresentationExchangeIdTokenBuilding
     
+    /// Factory for creating token builders, facilitating the dynamic construction of presentation exchange components.
     private let tokenBuildFactory: TokenBuilderFactory
     
+    /// State parameter from the original OpenID request, to be echoed back in the response.
     private let state: String
     
+    /// Audience parameter indicating the intended recipient of the presentation exchange response.
     private let audience: String
     
+    /// A nonce value to ensure from the request.
     private let nonce: String
     
+    /// The Presentation Definition Id from the request.
     private let definitionId: String
     
     init(request: any OpenIdRawRequest,
@@ -46,10 +54,11 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         catch
         {
             throw PresentationExchangeError.MissingRequiredProperty(message: "Unable to create serializer.",
-                                                                error: error)
+                                                                    error: error)
         }
     }
     
+    /// Serializes a requirement into a partial input descriptor and adds it to the appropriate Verifiable Presentation builder.
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
     {
         guard let peRequirement = requirement as? PresentationExchangeRequirement else
@@ -89,6 +98,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         vpBuilders.append(newBuilder)
     }
     
+    /// Builds the final presentation response which includes the ID token and Verifiable Presentations.
     func build() throws -> PresentationResponse
     {
         let identifier = try configuration.identifierManager.fetchOrCreateMasterIdentifier()
