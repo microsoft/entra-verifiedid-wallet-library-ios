@@ -4,29 +4,51 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Visitor and builder used by RequestProcessors to serialize Requirements.
+ * Represents a partial input descriptor for a Presentation Exchange Response.
+ * This struct encapsulates the most of the essential information required for creating
+ * a Presentation Exchange input descriptor.
  */
 struct PartialInputDescriptor
 {
-    let rawVC: String
-    
-    let inputDescriptorId: String
-    
-    let peRequirement: PresentationExchangeRequirement
-    
-    init(rawVC: String, peRequirement: PresentationExchangeRequirement)
+    private enum Constants
     {
-        self.rawVC = rawVC
-        self.inputDescriptorId = peRequirement.inputDescriptorId
-        self.peRequirement = peRequirement
+        static let JwtVc = "jwt_vc"
+        static let JwtVp = "jwt_vp"
+    }
+    
+    let serializedVerifiedId: String
+    
+    private let inputDescriptorId: String
+    
+    private let requirement: PresentationExchangeRequirement
+    
+    init(serializedVerifiedId: String, requirement: PresentationExchangeRequirement)
+    {
+        self.serializedVerifiedId = serializedVerifiedId
+        self.inputDescriptorId = requirement.inputDescriptorId
+        self.requirement = requirement
     }
     
     func isCompatibleWith(partialInputDescriptor: PartialInputDescriptor) -> Bool
     {
-        let nonCompatIdsFromEntry = partialInputDescriptor.peRequirement.exclusivePresentationWith ?? []
-        let nonCompatIdsFromSelf = peRequirement.exclusivePresentationWith ?? []
+        let nonCompatIdsFromEntry = partialInputDescriptor.requirement.exclusivePresentationWith ?? []
+        let nonCompatIdsFromSelf = requirement.exclusivePresentationWith ?? []
         let isEntryCompatWithId = !nonCompatIdsFromEntry.contains(where: { $0 == inputDescriptorId })
         let isSelfCompWithEntrysId = !nonCompatIdsFromSelf.contains(where: { $0 == partialInputDescriptor.inputDescriptorId })
         return isEntryCompatWithId && isSelfCompWithEntrysId
+    }
+    
+    func buildInputDescriptor(vcIndex: Int,
+                              vpIndex: Int) -> InputDescriptorMapping
+    {
+        let vcPath = "$[\(vpIndex)].verifiableCredential[\(vcIndex)]"
+        let nestedInputDesc = NestedInputDescriptorMapping(id: inputDescriptorId,
+                                                           format: Constants.JwtVc,
+                                                           path: vcPath)
+        
+        return InputDescriptorMapping(id: inputDescriptorId,
+                                      format: Constants.JwtVp,
+                                      path: "$[\(vpIndex)]",
+                                      pathNested: nestedInputDesc)
     }
 }

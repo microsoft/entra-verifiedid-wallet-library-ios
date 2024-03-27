@@ -26,12 +26,6 @@ protocol VerifiablePresentationBuilding
  */
 class VerifiablePresentationBuilder: VerifiablePresentationBuilding
 {
-    private enum Constants
-    {
-        static let JwtVc = "jwt_vc"
-        static let JwtVp = "jwt_vp"
-    }
-    
     private let index: Int
     
     private var partialInputDescriptors: [PartialInputDescriptor]
@@ -61,8 +55,8 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
     func buildInputDescriptors() -> [InputDescriptorMapping]
     {
         let descriptors = partialInputDescriptors.enumerated().map { (vcIndex, partialInputDescriptor) in
-            self.buildInputDescriptorMapping(vcIndex: vcIndex,
-                                             partialInputDescriptor: partialInputDescriptor)
+            partialInputDescriptor.buildInputDescriptor(vcIndex: vcIndex,
+                                                        vpIndex: index)
         }
         return descriptors
     }
@@ -72,25 +66,11 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
                                      identifier: String,
                                      signingKey: KeyContainer) throws -> VerifiablePresentation
     {
-        let rawVcsInGroup = partialInputDescriptors.map { $0.rawVC }
+        let rawVcsInGroup = partialInputDescriptors.map { $0.serializedVerifiedId }
         return try formatter.format(rawVCs: rawVcsInGroup,
                                     audience: audience,
                                     nonce: nonce,
                                     identifier: identifier,
                                     signingKey: signingKey)
-    }
-    
-    private func buildInputDescriptorMapping(vcIndex: Int,
-                                             partialInputDescriptor: PartialInputDescriptor) -> InputDescriptorMapping
-    {
-        let vcPath = "$[\(index)].verifiableCredential[\(vcIndex)]"
-        let nestedInputDesc = NestedInputDescriptorMapping(id: partialInputDescriptor.peRequirement.inputDescriptorId,
-                                                           format: Constants.JwtVc,
-                                                           path: vcPath)
-        
-        return InputDescriptorMapping(id: partialInputDescriptor.peRequirement.inputDescriptorId,
-                                      format: Constants.JwtVp,
-                                      path: "$[\(index)]",
-                                      pathNested: nestedInputDesc)
     }
 }

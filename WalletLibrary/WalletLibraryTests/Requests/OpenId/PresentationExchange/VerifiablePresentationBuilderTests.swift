@@ -13,10 +13,10 @@ class VerifiablePresentationBuilderTests: XCTestCase
         // Arrange
         let requirement = MockPresentationExchangeRequirement(inputDescriptorId: "1",
                                                               exclusivePresentationWith: ["2"])
-        let descriptor = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
+        let descriptor = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement)
         
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
+        let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         let index = 1
         
@@ -31,13 +31,13 @@ class VerifiablePresentationBuilderTests: XCTestCase
     {
         // Arrange
         let requirement1 = MockPresentationExchangeRequirement(inputDescriptorId: "1")
-        let descriptor1 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement1)
+        let descriptor1 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement1)
         
         let requirement2 = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let descriptor2 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement2)
+        let descriptor2 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement2)
         
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "3")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
+        let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         let index = 1
         
@@ -53,7 +53,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
     {
         // Arrange
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
+        let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         let index = 1
         
@@ -76,14 +76,14 @@ class VerifiablePresentationBuilderTests: XCTestCase
     func testBuildInputDescriptors_WithThreePartials_ReturnsInputDescriptors() throws
     {
         // Arrange
-        let requirement1 = MockPresentationExchangeRequirement(inputDescriptorId: "1")
-        let descriptor1 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement1)
+        let requirement1 = MockPresentationExchangeRequirement(inputDescriptorId: "0")
+        let descriptor1 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement1)
         
-        let requirement2 = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let descriptor2 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement2)
+        let requirement2 = MockPresentationExchangeRequirement(inputDescriptorId: "1")
+        let descriptor2 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement2)
         
-        let requirement3 = MockPresentationExchangeRequirement(inputDescriptorId: "3")
-        let descriptor3 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement3)
+        let requirement3 = MockPresentationExchangeRequirement(inputDescriptorId: "2")
+        let descriptor3 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement3)
         
         let expected = [descriptor1, descriptor2, descriptor3]
         
@@ -102,10 +102,10 @@ class VerifiablePresentationBuilderTests: XCTestCase
         for (index, result) in results.enumerated()
         {
             XCTAssertEqual(result.format, "jwt_vp")
-            XCTAssertEqual(result.id, expected[index].inputDescriptorId)
+            XCTAssertEqual(result.id, String(index))
             XCTAssertEqual(result.path, "$[1]")
             XCTAssertEqual(result.pathNested?.format, "jwt_vc")
-            XCTAssertEqual(result.pathNested?.id, expected[index].inputDescriptorId)
+            XCTAssertEqual(result.pathNested?.id, String(index))
             XCTAssertEqual(result.pathNested?.path, "$[1].verifiableCredential[\(index)]")
         }
     }
@@ -118,7 +118,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         let mockIdentifier = "mock identifier"
         let mockKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
+        let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         let index = 1
         
@@ -136,7 +136,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         XCTAssertEqual(result.content.audience, mockAudience)
         XCTAssertEqual(result.content.issuerOfVp, mockIdentifier)
         XCTAssertEqual(result.content.nonce, mockNonce)
-        XCTAssertEqual(result.content.verifiablePresentation.verifiableCredential, [input.rawVC])
+        XCTAssertEqual(result.content.verifiablePresentation.verifiableCredential, [input.serializedVerifiedId])
     }
     
     func testBuildVerifiablePresentation_WithThreePartials_ReturnsVP() throws
@@ -147,13 +147,13 @@ class VerifiablePresentationBuilderTests: XCTestCase
         let mockIdentifier = "mock identifier"
         let mockKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
         let requirement1 = MockPresentationExchangeRequirement(inputDescriptorId: "1")
-        let descriptor1 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement1)
+        let descriptor1 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement1)
         
         let requirement2 = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let descriptor2 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement2)
+        let descriptor2 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement2)
         
         let requirement3 = MockPresentationExchangeRequirement(inputDescriptorId: "3")
-        let descriptor3 = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement3)
+        let descriptor3 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement3)
         
         let index = 1
         
@@ -174,7 +174,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         XCTAssertEqual(result.content.issuerOfVp, mockIdentifier)
         XCTAssertEqual(result.content.nonce, mockNonce)
         XCTAssertEqual(result.content.verifiablePresentation.verifiableCredential,
-                       [descriptor1.rawVC, descriptor2.rawVC, descriptor3.rawVC])
+                       [descriptor1.serializedVerifiedId, descriptor2.serializedVerifiedId, descriptor3.serializedVerifiedId])
     }
     
     func testBuildVerifiablePresentation_WithFormatterThrowing_ThrowsError() throws
@@ -185,7 +185,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         let mockIdentifier = "mock identifier"
         let mockKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
+        let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         let index = 1
         

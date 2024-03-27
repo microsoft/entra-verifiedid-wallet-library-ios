@@ -62,8 +62,8 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         if let rawVC = try requirement.serialize(protocolSerializer: self,
                                                  verifiedIdSerializer: verifiedIdSerializer) as? String
         {
-            let partialInputDescriptor = PartialInputDescriptor(rawVC: rawVC,
-                                                                peRequirement: peRequirement)
+            let partialInputDescriptor = PartialInputDescriptor(serializedVerifiedId: rawVC,
+                                                                requirement: peRequirement)
             addToVPGroupings(partialInputDescriptor: partialInputDescriptor)
         }
         else

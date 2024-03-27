@@ -2436,12 +2436,12 @@
 		5555F1BA2BACAB1100B41FD4 /* PresentationExchange */ = {
 			isa = PBXGroup;
 			children = (
-				55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */,
 				55A638612BB2468700BE2AF2 /* PartialInputDescriptor.swift */,
 				55A638602BB2468700BE2AF2 /* PresentationExchangeIdTokenBuilder.swift */,
 				5555F1BB2BACAB2800B41FD4 /* PresentationExchangeSerializer.swift */,
-				5552D32929EF47EC00B40302 /* VerifiablePresentationFormatter.swift */,
 				55A638682BB36C7D00BE2AF2 /* TokenBuilderFactory.swift */,
+				55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */,
+				5552D32929EF47EC00B40302 /* VerifiablePresentationFormatter.swift */,
 			);
 			path = PresentationExchange;
 			sourceTree = "<group>";

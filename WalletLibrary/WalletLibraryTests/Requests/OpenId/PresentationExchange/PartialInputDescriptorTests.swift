@@ -13,10 +13,11 @@ class PartialInputDescriptorTests: XCTestCase
         // Arrange
         let requirement = MockPresentationExchangeRequirement(inputDescriptorId: "1",
                                                               exclusivePresentationWith: ["2"])
-        let descriptor = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
+        let descriptor = PartialInputDescriptor(serializedVerifiedId: "mockVC",
+                                                requirement: requirement)
         
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
+        let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         // Act / Assert
         XCTAssertFalse(descriptor.isCompatibleWith(partialInputDescriptor: input))
@@ -27,11 +28,11 @@ class PartialInputDescriptorTests: XCTestCase
         // Arrange
         let requirement = MockPresentationExchangeRequirement(inputDescriptorId: "1",
                                                               exclusivePresentationWith: ["3", "4"])
-        let descriptor = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
+        let descriptor = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement)
         
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2", 
                                                            exclusivePresentationWith: ["3", "1"])
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
+        let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         // Act / Assert
         XCTAssertFalse(descriptor.isCompatibleWith(partialInputDescriptor: input))
@@ -42,10 +43,10 @@ class PartialInputDescriptorTests: XCTestCase
         // Arrange
         let requirement = MockPresentationExchangeRequirement(inputDescriptorId: "1",
                                                               exclusivePresentationWith: ["3", "4"])
-        let descriptor = PartialInputDescriptor(rawVC: "mockVC", peRequirement: requirement)
+        let descriptor = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement)
         
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
-        let input = PartialInputDescriptor(rawVC: "mockVC", peRequirement: inputReq)
+        let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         // Act / Assert
         XCTAssert(descriptor.isCompatibleWith(partialInputDescriptor: input))
