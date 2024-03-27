@@ -52,7 +52,7 @@ public struct OpenIdRequestProcessor: RequestProcessing
             return try await handleIssuanceRequest(from: requestContent)
         }
         
-        return processPresentationRequest(requestContent: requestContent, rawRequest: request)
+        return try processPresentationRequest(requestContent: requestContent, rawRequest: request)
     }
     
     private func handleIssuanceRequest(from presentationRequestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest 
@@ -120,24 +120,26 @@ public struct OpenIdRequestProcessor: RequestProcessing
     }
     
     private func processPresentationRequest(requestContent: PresentationRequestContent,
-                                            rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest
+                                            rawRequest: any OpenIdRawRequest) throws -> any VerifiedIdPresentationRequest
     {
         if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.ProcessorExtensionSupport)
         {
-            return processPresentationRequestWithExtension(requestContent: requestContent,
-                                                           rawRequest: rawRequest)
+            return try processPresentationRequestWithExtension(requestContent: requestContent,
+                                                               rawRequest: rawRequest)
         }
         else
         {
-            return OpenIdPresentationRequest(content: requestContent,
-                                             rawRequest: rawRequest,
-                                             openIdResponder: openIdResponder,
-                                             configuration: configuration)
+            return try OpenIdPresentationRequest(style: requestContent.style,
+                                                 requirement: requestContent.requirement,
+                                                 rootOfTrust: requestContent.rootOfTrust,
+                                                 rawRequest: rawRequest,
+                                                 responder: openIdResponder,
+                                                 configuration: configuration)
         }
     }
     
     private func processPresentationRequestWithExtension(requestContent: PresentationRequestContent,
-                                                         rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest
+                                                         rawRequest: any OpenIdRawRequest) throws -> any VerifiedIdPresentationRequest
     {
         var partial = VerifiedIdPartialRequest(requesterStyle: requestContent.style,
                                                requirement: requestContent.requirement,
@@ -152,10 +154,12 @@ public struct OpenIdRequestProcessor: RequestProcessing
             }
         }
         
-        return OpenIdPresentationRequest(partialRequest: partial,
-                                         rawRequest: rawRequest,
-                                         openIdResponder: openIdResponder,
-                                         configuration: configuration)
+        return try OpenIdPresentationRequest(style: partial.requesterStyle,
+                                             requirement: partial.requirement,
+                                             rootOfTrust: partial.rootOfTrust,
+                                             rawRequest: rawRequest,
+                                             responder: openIdResponder,
+                                             configuration: configuration)
         
     }
     
