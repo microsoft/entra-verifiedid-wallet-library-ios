@@ -5,8 +5,10 @@
 
 @testable import WalletLibrary
 
-struct MockPresentationExchangeRequirement: PresentationExchangeRequirement
+class MockPresentationExchangeRequirement: PresentationExchangeRequirement, Requirement
 {
+    var required: Bool = true
+    
     var inputDescriptorId: String
     
     var format: PresentationExchangeVerifiedIdFormat = .JWT_VC
@@ -17,5 +19,16 @@ struct MockPresentationExchangeRequirement: PresentationExchangeRequirement
     {
         self.inputDescriptorId = inputDescriptorId
         self.exclusivePresentationWith = exclusivePresentationWith
+    }
+    
+    func validate() -> WalletLibrary.VerifiedIdResult<Void> 
+    {
+        return VerifiedIdResult.success(())
+    }
+    
+    func serialize<T>(protocolSerializer: RequestProcessorSerializing,
+                      verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T? 
+    {
+        return try verifiedIdSerializer.serialize(verifiedId: MockVerifiedId(id: "", issuedOn: Date()))
     }
 }
