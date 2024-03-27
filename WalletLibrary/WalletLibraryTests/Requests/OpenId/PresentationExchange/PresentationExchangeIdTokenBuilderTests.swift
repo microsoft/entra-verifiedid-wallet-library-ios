@@ -66,7 +66,7 @@ class PresentationExchangeIdTokenBuilderTests: XCTestCase
         let mockSigner = MockSigner(doesSignThrow: true)
         let builder = PresentationExchangeIdTokenBuilder(signer: mockSigner)
         
-        // Act
+        // Act / Assert
         XCTAssertThrowsError(try builder.build(inputDescriptors: [descriptor],
                                                definitionId: mockDefinitionId,
                                                audience: mockAudience,

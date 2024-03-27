@@ -193,7 +193,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         let builder = VerifiablePresentationBuilder(index: index, formatter: formatter)
         builder.add(partialInputDescriptor: input)
         
-        // Act
+        // Act / Assert
         XCTAssertThrowsError(try builder.buildVerifiablePresentation(audience: mockAudience,
                                                                      nonce: mockNonce,
                                                                      identifier: mockIdentifier,

@@ -51,4 +51,26 @@ class PartialInputDescriptorTests: XCTestCase
         // Act / Assert
         XCTAssert(descriptor.isCompatibleWith(partialInputDescriptor: input))
     }
+    
+    func testBuildInputDescriptor_WithValidInput_ReturnsInputDescriptor() throws
+    {
+        // Arrange
+        let mockId = "mockId"
+        let requirement = MockPresentationExchangeRequirement(inputDescriptorId: mockId,
+                                                              exclusivePresentationWith: ["3", "4"])
+        let descriptor = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement)
+        let vcIndex = 13
+        let vpIndex = 42
+        
+        // Act
+        let result = descriptor.buildInputDescriptor(vcIndex: vcIndex, vpIndex: vpIndex)
+        
+        // Assert
+        XCTAssertEqual(result.format, "jwt_vp")
+        XCTAssertEqual(result.id, mockId)
+        XCTAssertEqual(result.path, "$[\(vpIndex)]")
+        XCTAssertEqual(result.pathNested?.format, "jwt_vc")
+        XCTAssertEqual(result.pathNested?.id, mockId)
+        XCTAssertEqual(result.pathNested?.path, "$[\(vpIndex)].verifiableCredential[\(vcIndex)]")
+    }
 }
