@@ -477,6 +477,7 @@
 		55A638732BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638722BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift */; };
 		55A638762BB4BEC200BE2AF2 /* MockTokenBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638752BB4BEC200BE2AF2 /* MockTokenBuilders.swift */; };
 		55A638782BB4BF6000BE2AF2 /* MockVerifiedIdSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638772BB4BF6000BE2AF2 /* MockVerifiedIdSerializer.swift */; };
+		55A6387A2BB4C31700BE2AF2 /* VerifiableCredentialSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638792BB4C31700BE2AF2 /* VerifiableCredentialSerializer.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestProcessing.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -1053,6 +1054,7 @@
 		55A638722BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeSerializerTests.swift; sourceTree = "<group>"; };
 		55A638752BB4BEC200BE2AF2 /* MockTokenBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTokenBuilders.swift; sourceTree = "<group>"; };
 		55A638772BB4BF6000BE2AF2 /* MockVerifiedIdSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdSerializer.swift; sourceTree = "<group>"; };
+		55A638792BB4C31700BE2AF2 /* VerifiableCredentialSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiableCredentialSerializer.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessing.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -2665,6 +2667,7 @@
 		559BD4B1299EDF9E00BD61AC /* VerifiableCredential */ = {
 			isa = PBXGroup;
 			children = (
+				55A638792BB4C31700BE2AF2 /* VerifiableCredentialSerializer.swift */,
 				559BD4B2299EDFB400BD61AC /* VerifiableCredential.swift */,
 				550AF6352B7BED6B00E5F305 /* OpenID4VCIVerifiedID.swift */,
 				5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */,
@@ -3406,6 +3409,7 @@
 				559BD3AB299ADEFF00BD61AC /* ContractIssuanceRequest.swift in Sources */,
 				5552D44229EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift in Sources */,
 				5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */,
+				55A6387A2BB4C31700BE2AF2 /* VerifiableCredentialSerializer.swift in Sources */,
 				555FB2162B75A2A900EE14BD /* IdentifierDocumentResolving.swift in Sources */,
 				555FB1D72B74400300EE14BD /* RootOfTrustResolving.swift in Sources */,
 				5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */,
