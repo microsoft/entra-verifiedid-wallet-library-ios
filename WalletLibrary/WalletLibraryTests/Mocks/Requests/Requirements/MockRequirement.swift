@@ -5,8 +5,8 @@
 
 @testable import WalletLibrary
 
-class MockRequirement: Requirement, Equatable {
-    
+class MockRequirement: Requirement, Equatable 
+{
     let required: Bool
     
     let id: String
@@ -30,5 +30,11 @@ class MockRequirement: Requirement, Equatable {
     
     static func == (lhs: MockRequirement, rhs: MockRequirement) -> Bool {
         return lhs.id.lowercased() == rhs.id.lowercased()
+    }
+    
+    func serialize<T>(protocolSerializer: RequestProcessorSerializing,
+                      verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
+    {
+        throw MockVerifiedIdError()
     }
 }

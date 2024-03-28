@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
  *  A VC Log Consumer that can be injected into the VC SDK and route to Wallet Library Logger.
  */

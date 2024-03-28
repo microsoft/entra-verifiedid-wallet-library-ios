@@ -40,15 +40,15 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
         
         self.raw = vc
         self.configuration = configuration
-        self.issuedOn = Date(timeIntervalSince1970: issuedOn)
+        self.issuedOn = Date(timeIntervalSince1970: TimeInterval(issuedOn))
         self.id = id
         self.types = vc.content.vc?.type ?? []
         self.issuerName = issuerName
         
         if let expiresOn = vc.content.exp
         {
-            self.expiresOn = Date(timeIntervalSince1970: expiresOn)
-        } 
+            self.expiresOn = Date(timeIntervalSince1970: TimeInterval(expiresOn))
+        }
         else
         {
             self.expiresOn = nil
@@ -62,7 +62,9 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
         case vc, configuration, issuerName
     }
     
-    public init(from decoder: Decoder) throws 
+    /// Do not change this logic. This method determines how Verified IDs will be deserialized.
+    /// Developer are encouraged to use this logic to deserialize Verified IDs from their databases.
+    public init(from decoder: Decoder) throws
     {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let rawToken = try values.decode(String.self, forKey: .vc)
@@ -71,7 +73,9 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
         try self.init(raw: rawToken, issuerName: issuerName, configuration: configuration)
     }
     
-    public func encode(to encoder: Encoder) throws 
+    /// Do not change this logic. This method determines how Verified IDs will be serialized.
+    /// Developer are encouraged to use this logic to serialize Verified IDs from their databases.
+    public func encode(to encoder: Encoder) throws
     {
         var container = encoder.container(keyedBy: CodingKeys.self)
         let serializedToken = try raw.serialize()
@@ -80,10 +84,47 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
         try container.encode(issuerName, forKey: .issuerName)
     }
     
-    /// TODO: implement in next PR.
     public func getClaims() -> [VerifiedIdClaim]
     {
+        guard let claims = raw.content.vc?.credentialSubject else
+        {
+            return []
+        }
+        
         var verifiedIdClaims: [VerifiedIdClaim] = []
+        for (claimReference, claimValue) in claims
+        {
+            let verifiedIdClaim = createVerifiedIdClaim(claimReference: claimReference,
+                                                        claimValue: claimValue)
+            verifiedIdClaims.append(verifiedIdClaim)
+        }
+        
         return verifiedIdClaims
     }
+    
+    private func createVerifiedIdClaim(claimReference: String, claimValue: Any) -> VerifiedIdClaim
+     {
+         guard let claimDefinitions = configuration.credential_definition?.credential_subject,
+            let claimDisplayDefinitions = claimDefinitions["vc.credentialSubject.\(claimReference)"] else
+         {
+             return VerifiedIdClaim(id: claimReference,
+                                    type: nil,
+                                    value: claimValue)
+         }
+         
+         if let localizedDefinition = claimDisplayDefinitions.getPreferredLocalizedDisplayDefinition(),
+            let label = localizedDefinition.name
+         {
+             return VerifiedIdClaim(id: label,
+                                    type: claimDisplayDefinitions.value_type,
+                                    value: claimValue)
+             
+         }
+         else
+         {
+             return VerifiedIdClaim(id: claimReference,
+                                    type: claimDisplayDefinitions.value_type,
+                                    value: claimValue)
+         }
+     }
 }

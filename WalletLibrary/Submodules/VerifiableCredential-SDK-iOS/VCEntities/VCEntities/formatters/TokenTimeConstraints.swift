@@ -4,12 +4,14 @@
 *--------------------------------------------------------------------------------------------*/
 
 
-struct TokenTimeConstraints {
-    let issuedAt: Double
-    let expiration: Double
+struct TokenTimeConstraints 
+{
+    let issuedAt: Int
+    let expiration: Int
     
-    init(expiryInSeconds: Int) {
-        self.issuedAt = (Date().timeIntervalSince1970).rounded(.down)
-        self.expiration = self.issuedAt + Double(expiryInSeconds)
+    init(expiryInSeconds: Int) 
+    {
+        self.issuedAt = Int((Date().timeIntervalSince1970).rounded(.down))
+        self.expiration = self.issuedAt + expiryInSeconds
     }
 }

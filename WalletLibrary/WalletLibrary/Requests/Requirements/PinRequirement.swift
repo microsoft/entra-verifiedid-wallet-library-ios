@@ -46,4 +46,11 @@ public class PinRequirement: Requirement {
     public func fulfill(with pin: String) {
         self.pin = pin
     }
+    
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing,
+                             verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
+    {
+        throw VerifiedIdError(message: "Serialization not enabled for issuance",
+                              code: "unsupported_serialization_method")
+    }
 }

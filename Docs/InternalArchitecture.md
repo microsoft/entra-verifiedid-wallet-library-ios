@@ -6,14 +6,14 @@
 classDiagram
 RequestResolver ..|> VerifiedIdRequestInput: uses
 RequestResolver ..|> Any: creates
-RequestHandler ..|> Any: uses
-RequestHandler ..|> VerifiedIdRequest: creates
+RequestProcessor ..|> Any: uses
+RequestProcessor ..|> VerifiedIdRequest: creates
 <<Interface>> RequestResolver
 class RequestResolver {
     ~canResolve(input: VerifiedIdClientInput) Bool
     ~resolve(input: VerifiedIdClientInput) Any
 }
-class RequestHandler{
+class RequestProcessor{
     ~canHandle(rawRequest: Any) Bool
     ~handle(rawRequest: Any) VerifiedIdRequest
 }
@@ -32,7 +32,7 @@ A Request Resolver resolves a raw request from a request input. A request resolv
 Ex: An `OpenIdURLRequestResolver` would know how to resolve a raw open id request token.
 
 ### Request Handler
-A request handler is used to process, validate and map it to a Verified Id Request. A request handler is protocol specific (e.g. `OpenIdRequestHandler`). 
+A request handler is used to process, validate and map it to a Verified Id Request. A request handler is protocol specific (e.g. `OpenIdRequestProcessor`). 
 
 ### Request Processor
 TODO 
@@ -41,22 +41,22 @@ TODO
 ```mermaid
 classDiagram
 VerifiedIdClient ..> RequestResolverFactory: uses
-VerifiedIdClient ..> RequestHandlerFactory: uses
+VerifiedIdClient ..> RequestProcessorFactory: uses
 VerifiedIdClient ..> VerifiedIdRequestInput: uses
 RequestResolverFactory ..> VerifiedIdRequestInput: uses
 RequestResolverFactory ..|> RequestResolver: creates
 RequestResolver ..|> Any: creates
-RequestHandlerFactory ..> Any: uses
-RequestHandlerFactory ..|> RequestHandler: creates
-RequestHandler ..|> VerifiedIdRequest: creates
+RequestProcessorFactory ..> Any: uses
+RequestProcessorFactory ..|> RequestProcessor: creates
+RequestProcessor ..|> VerifiedIdRequest: creates
 class VerifiedIdClient{
     +createRequest(from: VerifiedIdRequestInput) VerifiedIdRequest
 }
 class RequestResolverFactory{
     ~makeResolver(from: VerifiedIdRequestInput) RequestResolver
 }
-class RequestHandlerFactory{
-    ~makeHandler(from: RequestResolver) RequestHandler
+class RequestProcessorFactory{
+    ~makeHandler(from: RequestResolver) RequestProcessor
 }
 
 ```

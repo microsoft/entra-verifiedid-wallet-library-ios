@@ -53,4 +53,12 @@ class TokenValidationError: VerifiedIdError
                                     code: "signature_invalid",
                                     correlationId: nil)
     }
+    
+    static func UnableToCreateToken() -> TokenValidationError
+    {
+        let message = "Unable to create token."
+        return TokenValidationError(message: message,
+                                    code: "token_creation_error",
+                                    correlationId: nil)
+    }
 }

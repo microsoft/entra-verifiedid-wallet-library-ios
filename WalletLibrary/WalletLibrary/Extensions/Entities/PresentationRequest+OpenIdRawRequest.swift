@@ -30,4 +30,8 @@ extension PresentationRequest: OpenIdRawRequest {
             return nil
         }
     }
+    
+    var primitiveClaims: [String : Any]? {
+        return token.primitiveClaims
+    }
 }

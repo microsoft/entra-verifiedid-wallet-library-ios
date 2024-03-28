@@ -108,8 +108,37 @@ extension CredentialConfiguration
  */
 struct CredentialSubjectDefinition: Codable
 {
-    /// An array of ways to display the credential with different locales.
-    let display: [LocalizedDisplayDefinition]
+    /// An array of ways to display the claim with different locales.
+    let display: [LocalizedDisplayDefinition]?
+    
+    /// The type of the claim.
+    let value_type: String?
+}
+
+extension CredentialSubjectDefinition
+{
+    func getPreferredLocalizedDisplayDefinition() -> LocalizedDisplayDefinition?
+    {
+        guard let displayDefinitions = self.display else
+        {
+            return nil
+        }
+        
+        let preferredLanguages = Locale.preferredLanguages
+        
+        for language in preferredLanguages
+        {
+            for definition in displayDefinitions
+            {
+                if definition.locale == language
+                {
+                    return definition
+                }
+            }
+        }
+        
+        return displayDefinitions.first
+    }
 }
 
 /**
