@@ -18,7 +18,7 @@ extension IssuanceService: VerifiedIdRequester {
     func send<Request>(request: Request) async throws -> VerifiedId {
         
         guard let issuanceResponseContainer = request as? IssuanceResponseContainer else {
-            let requestType = String(describing: request.self)
+            let requestType = String(describing: type(of: request.self))
             throw IssuanceServiceVCRequesterError.unableToCastIssuanceResponseContainerFromType(requestType)
         }
         
@@ -32,7 +32,7 @@ extension IssuanceService: VerifiedIdRequester {
     func send<IssuanceResult>(result: IssuanceResult, to url: URL) async throws -> Void {
         
         guard let issuanceCompletionResponse = result as? IssuanceCompletionResponse else {
-            let resultType = String(describing: result.self)
+            let resultType = String(describing: type(of: result.self))
             throw IssuanceServiceVCRequesterError.unableToCastIssuanceCompletionResponseFromType(resultType)
         }
         

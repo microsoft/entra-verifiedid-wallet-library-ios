@@ -4,13 +4,15 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// Base Error Protocol. Every error that is returned from the library is a VerifiedIdError.
-public class VerifiedIdError: LocalizedError, CustomStringConvertible, Encodable {
-
+/// This class is open to enable Extensions to create VerifiedIdErrors.
+open class VerifiedIdError: LocalizedError, CustomStringConvertible, Encodable
+{
     public let message: String
     public let code: String
     public let correlationId: String?
     
-    init(message: String, code: String, correlationId: String? = nil) {
+    init(message: String, code: String, correlationId: String? = nil) 
+    {
         self.message = message
         self.code = code
         self.correlationId = correlationId
@@ -18,7 +20,8 @@ public class VerifiedIdError: LocalizedError, CustomStringConvertible, Encodable
     
     public var description: String {
         if let encodedObject = try? JSONEncoder().encode(self),
-           let description = String(data: encodedObject, encoding: .utf8) {
+           let description = String(data: encodedObject, encoding: .utf8) 
+        {
             return description
         }
         
@@ -34,7 +37,8 @@ public class VerifiedIdError: LocalizedError, CustomStringConvertible, Encodable
     }
     
     /// Helper function to wrap error in a VerifiedIdResult.
-    func result<T>() -> VerifiedIdResult<T> {
+    func result<T>() -> VerifiedIdResult<T> 
+    {
         return VerifiedIdResult(error: self)
     }
 }
