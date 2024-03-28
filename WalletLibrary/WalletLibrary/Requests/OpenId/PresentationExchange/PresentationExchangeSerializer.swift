@@ -63,7 +63,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     {
         guard let peRequirement = requirement as? PresentationExchangeRequirement else
         {
-            let message = "Unable to serialize requirement type: \(String(describing: requirement.self))"
+            let message = "Unable to serialize requirement type: \(String(describing: type(of: requirement.self)))"
             configuration.logger.logVerbose(message: message)
             return
         }
