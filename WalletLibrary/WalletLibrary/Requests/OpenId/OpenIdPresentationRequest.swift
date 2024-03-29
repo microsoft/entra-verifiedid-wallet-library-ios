@@ -58,6 +58,8 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         self.requirement = partialRequest.requirement
         self.rootOfTrust = partialRequest.rootOfTrust
         self.rawRequest = rawRequest
+        self.authority = rawRequest.authority
+        self.nonce = rawRequest.nonce
         self.responder = openIdResponder
         self.configuration = configuration
     }

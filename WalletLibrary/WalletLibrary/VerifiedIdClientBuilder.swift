@@ -130,10 +130,10 @@ public class VerifiedIdClientBuilder {
                                                       identifierService: configuration.identifierManager,
                                                       rootOfTrustResolver: rootOfTrustResolver,
                                                       urlSession: urlSession)
-        let openIdHandler = OpenIdRequestHandler(configuration: configuration,
-                                                 openIdResponder: presentationService,
-                                                 manifestResolver: issuanceService,
-                                                 verifiableCredentialRequester: issuanceService)
+        let openIdHandler = OpenIdRequestProcessor(configuration: configuration,
+                                                   openIdResponder: presentationService,
+                                                   manifestResolver: issuanceService,
+                                                   verifiableCredentialRequester: issuanceService)
         requestHandlers.append(openIdHandler)
         
         let openId4VCIHandler = OpenId4VCIProcessor(configuration: configuration)
