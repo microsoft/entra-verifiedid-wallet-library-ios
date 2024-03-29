@@ -16,6 +16,19 @@ extension JwsToken
         let keyId: String
     }
     
+    var primitiveClaims: [String: Any]? {
+        
+        let protectedMessageParts = self.protectedMessage.split(separator: ".")
+        
+        guard protectedMessageParts.count == 2,
+              let encodedMessage = Data(base64URLEncoded: String(protectedMessageParts[1])) else
+        {
+            return nil
+        }
+        
+        return try? JSONSerialization.jsonObject(with: encodedMessage) as? [String: Any]
+    }
+    
     /// Extracts and separates the DID and Key ID from the token header's key identifier.
     /// - Returns: A `TokenHeaderKeyId` containing the DID and Key ID if the extraction is successful; otherwise, `nil`.
     func getKeyId() -> TokenHeaderKeyId?
@@ -32,7 +45,7 @@ extension JwsToken
                                 keyId: "#\(String(components[1]))")
     }
     
-    func validateIatIfPresent(withClockSkew skew: Double = 300) throws
+    func validateIatIfPresent(withClockSkew skew: Int = 300) throws
     {
         if let iat = content.iat,
            getCurrentTimeInSeconds(skew: skew) <= iat
@@ -41,18 +54,18 @@ extension JwsToken
         }
     }
     
-    func validateExpIfPresent(withClockSkew skew: Double = 300) throws
+    func validateExpIfPresent(withClockSkew skew: Int = 300) throws
     {
         if let exp = content.exp,
-           getCurrentTimeInSeconds(skew: Double(-300)) >= exp
+           getCurrentTimeInSeconds(skew: -300) >= exp
         {
             throw TokenValidationError.TokenHasExpired()
         }
     }
     
-    private func getCurrentTimeInSeconds(skew: Double) -> Double
+    private func getCurrentTimeInSeconds(skew: Int) -> Int
     {
-        let currentTimeInSeconds = (Date().timeIntervalSince1970).rounded(.down)
+        let currentTimeInSeconds = Int((Date().timeIntervalSince1970).rounded(.down))
         return currentTimeInSeconds + skew
     }
 }

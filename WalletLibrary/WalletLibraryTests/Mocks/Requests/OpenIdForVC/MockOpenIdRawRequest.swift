@@ -19,12 +19,20 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     
     var nonce: String? = ""
     
+    var primitiveClaims: [String : Any]?
+    
     init(raw: Data?, type: RequestType = .Presentation) {
         self.raw = raw
         self.type = type
+        self.primitiveClaims = [:]
     }
     
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
         throw MockOpenIdRawRequestError.mappingNotSupported
+    }
+    
+    static func == (lhs: MockOpenIdRawRequest, rhs: MockOpenIdRawRequest) -> Bool 
+    {
+        return (lhs.raw != nil) && (rhs.raw != nil) && (lhs.raw! == rhs.raw!)
     }
 }

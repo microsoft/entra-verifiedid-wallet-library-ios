@@ -36,7 +36,7 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting {
     
     private func createToken(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier, andSignWith key: KeyContainer) throws -> IssuanceResponse {
         
-        let headers = headerFormatter.formatHeaders(usingIdentifier: identifier, andSigningKey: key)
+        let headers = headerFormatter.formatHeaders(identifier: identifier.longFormDid, signingKey: key)
         let content = try self.formatClaims(response: response, usingIdentifier: identifier, andSigningKey: key)
         
         guard var token = JwsToken(headers: headers, content: content) else {

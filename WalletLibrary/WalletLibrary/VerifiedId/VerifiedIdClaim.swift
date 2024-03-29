@@ -6,8 +6,8 @@
 /**
  * A mapping of the claims contained within a Verified Id.
  */
-public struct VerifiedIdClaim {
-    
+public struct VerifiedIdClaim 
+{
     /// The id of the claim. This id can be used as a label to display the claims.
     public let id: String
     

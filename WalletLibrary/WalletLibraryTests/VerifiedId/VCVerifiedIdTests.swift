@@ -92,8 +92,12 @@ class VCVerifiedIdTests: XCTestCase {
         // Arrange
         let expectedValue1 = "mockValue1"
         let expectedValue2 = "mockValue2"
-        let expectedClaim1 = VerifiedIdClaim(id: "mockKey1", type: "String", value: expectedValue1)
-        let expectedClaim2 = VerifiedIdClaim(id: "mockKey2", type: "String", value: expectedValue2)
+        let expectedClaim1 = VerifiedIdClaim(id: "mockKey1", 
+                                             type: nil,
+                                             value: expectedValue1)
+        let expectedClaim2 = VerifiedIdClaim(id: "mockKey2", 
+                                             type: nil,
+                                             value: expectedValue2)
         let mockVCClaimDictionary = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
         let mockVerifiableCredential = createVCEntitiesVC(expectedClaims: mockVCClaimDictionary)
         let mockContract = createMockSignedContract()
@@ -131,7 +135,9 @@ class VCVerifiedIdTests: XCTestCase {
         // Assert
         XCTAssertEqual(actualResult.count, 1)
         XCTAssert(actualResult.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", type: "String", value: expectedValue1))
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", 
+                                                                 type: "String",
+                                                                 value: expectedValue1))
         })
     }
     
@@ -156,10 +162,14 @@ class VCVerifiedIdTests: XCTestCase {
         // Assert
         XCTAssertEqual(actualResult.count, 2)
         XCTAssert(actualResult.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", type: "String", value: expectedValue1))
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", 
+                                                                 type: "String",
+                                                                 value: expectedValue1))
         })
         XCTAssert(actualResult.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey2", type: "String", value: expectedValue2))
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey2", 
+                                                                 type: nil,
+                                                                 value: expectedValue2))
         })
     }
     
@@ -219,8 +229,8 @@ class VCVerifiedIdTests: XCTestCase {
     }
     
     private func createVCEntitiesVC(expectedJti: String? = "1234",
-                                    expectedIat: Double? = 0,
-                                    expectedExp: Double? = 0,
+                                    expectedIat: Int? = 0,
+                                    expectedExp: Int? = 0,
                                     expectedClaims: [String: String] = [:]) -> VerifiableCredential {
         let claims = VCClaims(jti: expectedJti,
                               iss: "",
@@ -233,7 +243,10 @@ class VCVerifiedIdTests: XCTestCase {
         return VerifiableCredential(headers: Header(), content: claims)!
     }
     
-    private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) -> Bool {
-        return (result.id == expected.id) && (result.value as! String == expected.value as! String)
+    private func areClaimsEqual(result: VerifiedIdClaim, expected: VerifiedIdClaim) -> Bool
+    {
+        return (result.id == expected.id) &&
+        (result.value as! String == expected.value as! String) &&
+        (result.type == expected.type)
     }
 }

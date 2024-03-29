@@ -6,8 +6,12 @@
 /**
  * Handles a Raw Request expected to be a Credential Offer and configures a VerifiedIdRequest object.
  */
-struct OpenId4VCIHandler: RequestHandling
+struct OpenId4VCIProcessor: RequestProcessing
 {
+    typealias RawRequestType = Dictionary<String, Any>
+    
+    var requestProcessorExtensions: [any RequestProcessorExtendable] = []
+    
     private let configuration: LibraryConfiguration
     
     private let signedMetadataProcessor: SignedCredentialMetadataProcessing
@@ -25,7 +29,7 @@ struct OpenId4VCIHandler: RequestHandling
     /// a specific key (`credential_issuer`), indicating it is a valid request for processing.
     ///
     /// - Parameter rawRequest: The raw request to be evaluated, expected to be a dictionary.
-    func canHandle(rawRequest: Any) -> Bool
+    func canProcess(rawRequest: Any) -> Bool
     {
         guard let request = rawRequest as? [String: Any],
               let _ = try? configuration.mapper.map(request,
@@ -41,7 +45,7 @@ struct OpenId4VCIHandler: RequestHandling
     /// validates the request, and returns a `VerifiedIdRequest` object.
     ///
     /// - Parameter rawRequest: The raw request to be processed, expected to be a dictionary.
-    func handle(rawRequest: Any) async throws -> any VerifiedIdRequest
+    func process(rawRequest: Any) async throws -> any VerifiedIdRequest
     {
         guard let requestJson = rawRequest as? [String: Any] else
         {

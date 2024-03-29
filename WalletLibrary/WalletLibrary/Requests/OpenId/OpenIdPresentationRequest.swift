@@ -10,8 +10,8 @@ enum VerifiedIdPresentationRequestError: Error {
 /**
  * Presentation Requst that is Open Id specific.
  */
-class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
-
+class OpenIdPresentationRequest: VerifiedIdPresentationRequest 
+{
     /// The look and feel of the requester.
     let style: RequesterStyle
     
@@ -37,14 +37,27 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest {
     init(content: PresentationRequestContent,
          rawRequest: any OpenIdRawRequest,
          openIdResponder: OpenIdResponder,
-         configuration: LibraryConfiguration) {
-        
+         configuration: LibraryConfiguration) 
+    {
         self.style = content.style
         self.requirement = content.requirement
         self.rootOfTrust = content.rootOfTrust
         self.rawRequest = rawRequest
         self.authority = rawRequest.authority
         self.nonce = rawRequest.nonce
+        self.responder = openIdResponder
+        self.configuration = configuration
+    }
+    
+    init(partialRequest: VerifiedIdPartialRequest,
+         rawRequest: any OpenIdRawRequest,
+         openIdResponder: OpenIdResponder,
+         configuration: LibraryConfiguration)
+    {
+        self.style = partialRequest.requesterStyle
+        self.requirement = partialRequest.requirement
+        self.rootOfTrust = partialRequest.rootOfTrust
+        self.rawRequest = rawRequest
         self.responder = openIdResponder
         self.configuration = configuration
     }

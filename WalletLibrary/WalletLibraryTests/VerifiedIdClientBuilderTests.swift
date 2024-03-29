@@ -17,8 +17,8 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
@@ -39,8 +39,8 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssertEqual(actualResult.configuration.logger.consumers.count, 1)
@@ -65,8 +65,8 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssertEqual(actualResult.configuration.logger.consumers.count, 3)
@@ -89,8 +89,8 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
@@ -113,8 +113,8 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
@@ -139,8 +139,8 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
@@ -163,8 +163,8 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestHandler })
-        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIHandler })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
         XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
         XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)

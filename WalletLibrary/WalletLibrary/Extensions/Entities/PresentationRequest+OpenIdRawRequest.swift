@@ -38,4 +38,8 @@ extension PresentationRequest: OpenIdRawRequest {
     var nonce: String? {
         token.content.nonce
     }
+    
+    var primitiveClaims: [String : Any]? {
+        return token.primitiveClaims
+    }
 }

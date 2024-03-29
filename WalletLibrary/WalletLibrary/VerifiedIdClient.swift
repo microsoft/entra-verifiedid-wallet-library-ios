@@ -12,10 +12,10 @@ public class VerifiedIdClient {
     
     let requestResolverFactory: RequestResolverFactory
     
-    let requestHandlerFactory: RequestHandlerFactory
+    let requestHandlerFactory: RequestProcessorFactory
     
     init(requestResolverFactory: RequestResolverFactory,
-         requestHandlerFactory: RequestHandlerFactory,
+         requestHandlerFactory: RequestProcessorFactory,
          configuration: LibraryConfiguration) {
         self.requestResolverFactory = requestResolverFactory
         self.requestHandlerFactory = requestHandlerFactory
@@ -32,7 +32,7 @@ public class VerifiedIdClient {
             let resolver = try self.requestResolverFactory.getResolver(from: input)
             let rawRequest = try await resolver.resolve(input: input)
             let handler = try self.requestHandlerFactory.getHandler(from: rawRequest)
-            return try await handler.handle(rawRequest: rawRequest)
+            return try await handler.process(rawRequest: rawRequest)
         }
     }
     
@@ -42,7 +42,8 @@ public class VerifiedIdClient {
             let encodedVerifiedId = try configuration.verifiedIdEncoder.encode(verifiedId: verifiedId)
             return VerifiedIdResult.success(encodedVerifiedId)
         } catch {
-            return VerifiedIdErrors.MalformedInput(error: error).result()
+            let message = "Unable to encode Verified ID."
+            return VerifiedIdErrors.MalformedInput(message: message, error: error).result()
         }
     }
     
@@ -52,7 +53,8 @@ public class VerifiedIdClient {
             let verifiedId = try configuration.verifiedIdDecoder.decode(from: raw)
             return VerifiedIdResult.success(verifiedId)
         } catch {
-            return VerifiedIdErrors.MalformedInput(error: error).result()
+            let message = "Unable to decode Verified ID."
+            return VerifiedIdErrors.MalformedInput(message: message, error: error).result()
         }
     }
 }

@@ -90,4 +90,15 @@ public class VerifiedIdRequirement: Requirement {
         self.selectedVerifiedId = verifiedId
         return VerifiedIdResult.success(())
     }
+    
+    public func serialize<T>(protocolSerializer: RequestProcessorSerializing, 
+                             verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
+    {
+        guard let verifiedId = selectedVerifiedId else 
+        {
+            return nil
+        }
+        
+        return try verifiedIdSerializer.serialize(verifiedId: verifiedId)
+    }
 }

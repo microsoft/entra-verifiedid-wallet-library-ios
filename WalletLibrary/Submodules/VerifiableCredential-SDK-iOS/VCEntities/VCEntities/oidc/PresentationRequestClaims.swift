@@ -35,9 +35,9 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
     
     let idTokenHint: String?
     
-    let iat: Double?
+    let iat: Int?
     
-    let exp: Double?
+    let exp: Int?
     
     let pin: PinDescriptor?
     
@@ -62,8 +62,8 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
          prompt: String? = nil,
          registration: RegistrationClaims? = nil,
          idTokenHint: String? = nil,
-         iat: Double? = nil,
-         exp: Double? = nil,
+         iat: Int? = nil,
+         exp: Int? = nil,
          pin: PinDescriptor? = nil) {
         self.jti = jti
         self.clientID = clientID

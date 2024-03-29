@@ -18,7 +18,7 @@ public class VerifiedIdClientBuilder {
     
     private var requestResolvers: [any RequestResolving] = []
     
-    private var requestHandlers: [any RequestHandling] = []
+    private var requestHandlers: [any RequestProcessing] = []
     
     private var previewFeatureFlagsSupported: [String] = []
     
@@ -57,7 +57,7 @@ public class VerifiedIdClientBuilder {
         registerSupportedRequestHandlers(with: configuration)
         
         let requestResolverFactory = RequestResolverFactory(resolvers: requestResolvers)
-        let requestHandlerFactory = RequestHandlerFactory(requestHandlers: requestHandlers)
+        let requestHandlerFactory = RequestProcessorFactory(requestHandlers: requestHandlers)
         return VerifiedIdClient(requestResolverFactory: requestResolverFactory,
                                 requestHandlerFactory: requestHandlerFactory,
                                 configuration: configuration)
@@ -104,6 +104,12 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    public func with(extension: VerifiedIdExtendable) -> VerifiedIdClientBuilder {
+        // TODO: add prefer headers to requestResolverFactory
+        // TODO: add RequestProcessorExtendables to RequestProcessors
+        return self
+    }
+    
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
         let presentationService = PresentationService(correlationVector: correlationHeader,
                                                       identifierService: configuration.identifierManager,
@@ -130,7 +136,7 @@ public class VerifiedIdClientBuilder {
                                                  verifiableCredentialRequester: issuanceService)
         requestHandlers.append(openIdHandler)
         
-        let openId4VCIHandler = OpenId4VCIHandler(configuration: configuration)
+        let openId4VCIHandler = OpenId4VCIProcessor(configuration: configuration)
         requestHandlers.append(openId4VCIHandler)
     }
 }

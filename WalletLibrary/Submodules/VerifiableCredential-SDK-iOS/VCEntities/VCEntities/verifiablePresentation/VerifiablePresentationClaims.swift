@@ -16,11 +16,11 @@ struct VerifiablePresentationClaims: OIDCClaims {
     
     let audience: String
     
-    let iat: Double
+    let iat: Int
     
-    let nbf: Double
+    let nbf: Int
     
-    let exp: Double
+    let exp: Int
     
     let nonce: String?
     
@@ -36,9 +36,9 @@ struct VerifiablePresentationClaims: OIDCClaims {
          verifiablePresentation: VerifiablePresentationDescriptor?,
          issuerOfVp: String = "",
          audience: String = "",
-         iat: Double = 0,
-         nbf: Double = 0,
-         exp: Double = 0,
+         iat: Int = 0,
+         nbf: Int = 0,
+         exp: Int = 0,
          nonce: String? = "") {
         self.vpId = vpId
         self.verifiablePresentation = verifiablePresentation ?? VerifiablePresentationDescriptor(context: [], type: [], verifiableCredential: [])

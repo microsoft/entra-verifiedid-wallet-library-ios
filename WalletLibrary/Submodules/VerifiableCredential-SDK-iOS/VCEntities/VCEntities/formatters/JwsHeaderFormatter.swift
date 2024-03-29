@@ -7,11 +7,11 @@ struct JwsHeaderFormatter
 {
     static let jwtType = "JWT"
     
-    func formatHeaders(usingIdentifier identifier: Identifier, 
-                       andSigningKey key: KeyContainer,
-                       type: String = Self.jwtType) -> Header 
+    func formatHeaders(identifier: String,
+                       signingKey: KeyContainer,
+                       type: String = Self.jwtType) -> Header
     {
-        let keyId = identifier.longFormDid + "#" + key.keyId
-        return Header(type: type, algorithm: key.algorithm, keyId: keyId)
+        let keyId = identifier + "#" + signingKey.keyId
+        return Header(type: type, algorithm: signingKey.algorithm, keyId: keyId)
     }
 }

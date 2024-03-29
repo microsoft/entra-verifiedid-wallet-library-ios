@@ -66,8 +66,8 @@ struct RawOpenID4VCIRequestFormatter
                                               did: identifier.longFormDid,
                                               accessTokenHash: accessTokenHash)
         
-        let headers = headerFormatter.formatHeaders(usingIdentifier: identifier,
-                                                    andSigningKey: signingKey,
+        let headers = headerFormatter.formatHeaders(identifier: identifier.longFormDid,
+                                                    signingKey: signingKey,
                                                     type: "openid4vci-proof+jwt")
         
         let serializedToken = try createSerializedToken(headers: headers,
@@ -85,7 +85,6 @@ struct RawOpenID4VCIRequestFormatter
         }
 
         let hashedAccessToken = Sha256().hash(data: encodedAccessToken).prefix(16)
-        
         return hashedAccessToken.base64URLEncodedString()
     }
     

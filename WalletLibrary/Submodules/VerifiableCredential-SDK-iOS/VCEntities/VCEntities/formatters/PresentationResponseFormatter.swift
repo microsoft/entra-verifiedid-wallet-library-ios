@@ -56,7 +56,8 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
                                usingIdentifier identifier: Identifier,
                                andSignWith key: KeyContainer) throws -> JwsToken<PresentationResponseClaims> {
         
-        let headers = headerFormatter.formatHeaders(usingIdentifier: identifier, andSigningKey: key)
+        let headers = headerFormatter.formatHeaders(identifier: identifier.longFormDid,
+                                                    signingKey: key)
         let content = try self.formatClaims(from: response, usingIdentifier: identifier, andSignWith: key)
         
         guard var token = JwsToken(headers: headers, content: content) else {
@@ -74,11 +75,11 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
         
         return try response.requestVCMap.compactMap { presentationSubmissionId, mappings in
             try vpFormatter.format(toWrap: mappings,
-                                   withAudience: response.audienceDid,
-                                   withNonce: response.nonce,
-                                   withExpiryInSeconds: response.expiryInSeconds,
-                                   usingIdentifier: identifier,
-                                   andSignWith: key)
+                                   audience: response.audienceDid,
+                                   nonce: response.nonce,
+                                   expiryInSeconds: response.expiryInSeconds,
+                                   identifier: identifier.longFormDid,
+                                   signingKey: key)
         }
     }
     
