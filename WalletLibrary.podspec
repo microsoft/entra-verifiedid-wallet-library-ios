@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.source= {
     :git => 'https://github.com/microsoft/entra-verifiedid-wallet-library-ios.git',
     :submodules => true,
-    :tag => s.version
+    :branch => 'symorton/internal/release/pod'
   }
 
   vcsdkPath = 'WalletLibrary/Submodules/VerifiableCredential-SDK-iOS'
