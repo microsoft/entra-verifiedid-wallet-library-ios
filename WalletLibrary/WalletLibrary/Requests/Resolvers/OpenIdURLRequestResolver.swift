@@ -16,7 +16,7 @@ enum OpenIdURLRequestResolverError: Error
 /**
  * Resolves a raw Open Id request from a URL input.
  */
-struct OpenIdURLRequestResolver: RequestResolving 
+class OpenIdURLRequestResolver: RequestResolving
 {
     
     private struct Constants
@@ -24,7 +24,11 @@ struct OpenIdURLRequestResolver: RequestResolving
         static let OpenIdScheme = "openid-vc"
         static let RequestURI = "request_uri"
         static let CredentialOfferURI = "credential_offer_uri"
+        static let InteropProfileVersion = "oid4vci-interop-profile-version=0.0.1"
+        static let PreferHeaderField = "prefer"
     }
+    
+    var preferHeaders: [String] = []
     
     private let openIdResolver: OpenIdForVCResolver
     
@@ -60,17 +64,40 @@ struct OpenIdURLRequestResolver: RequestResolving
             throw OpenIdURLRequestResolverError.UnsupportedVerifiedIdRequestInputWith(type: String(describing: type(of: input)))
         }
         
-        // TODO: split access token and pre-auth token flows up.
+        var additionalHeaders = AdditionalHeaders()
+        var isFeatureFlagOn = false
+        
         if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIAccessToken)
         {
-            return try await resolveUsingOpenID4VCI(input: input)
+            additionalHeaders.addHeader(fieldName: Constants.PreferHeaderField,
+                                        value: Constants.InteropProfileVersion)
+            isFeatureFlagOn = true
         }
         
-        /// If preview features are not supported, fallback to VC SDK implementation.
-        return try await openIdResolver.getRequest(url: input.url.absoluteString)
+        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.ProcessorExtensionSupport)
+        {
+            for header in preferHeaders 
+            {
+                additionalHeaders.addHeader(fieldName: Constants.PreferHeaderField,
+                                            value: header)
+            }
+            isFeatureFlagOn = true
+        }
+        
+        if isFeatureFlagOn
+        {
+            return try await resolveUsingOpenID4VCI(input: input,
+                                                    additionalHeaders: additionalHeaders)
+        }
+        else
+        {
+            /// If preview features are not supported, fallback to VC SDK implementation.
+            return try await openIdResolver.getRequest(url: input.url.absoluteString)
+        }
     }
     
-    private func resolveUsingOpenID4VCI(input: VerifiedIdRequestURL) async throws -> Any
+    private func resolveUsingOpenID4VCI(input: VerifiedIdRequestURL,
+                                        additionalHeaders: AdditionalHeaders) async throws -> Any
     {
         guard let requestUri = getRequestUri(openIdURL: input.url) else
         {
@@ -79,7 +106,8 @@ struct OpenIdURLRequestResolver: RequestResolving
         
         /// Fetch a serialized request that could be OpenID Request or Credential Offer.
         let serializedRequest: Data = try await configuration.networking.fetch(url: requestUri,
-                                                                               OpenID4VCIRequestNetworkOperation.self)
+                                                                               OpenIDRequestFetchNetworkOperation.self,
+                                                                               additionalHeaders: additionalHeaders.getHeaders())
         do
         {
             /// If request is JSON, serialize the request.
@@ -112,5 +140,28 @@ struct OpenIdURLRequestResolver: RequestResolving
         }
         
         return nil
+    }
+}
+
+class AdditionalHeaders
+{
+    private var headers: [String: String] = [:]
+    
+    // If the header already exists, append the value to existing value.
+    func addHeader(fieldName: String, value: String)
+    {
+        if let headerValue = headers[fieldName]
+        {
+            headers[fieldName] = "\(headerValue),\(value)"
+        }
+        else
+        {
+            headers[fieldName] = value
+        }
+    }
+    
+    func getHeaders() -> [String: String]
+    {
+        return headers
     }
 }
