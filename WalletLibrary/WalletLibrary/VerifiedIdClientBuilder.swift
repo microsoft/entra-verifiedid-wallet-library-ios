@@ -152,7 +152,7 @@ public class VerifiedIdClientBuilder {
     {
         for var processor in requestProcessors
         {
-            if type(of: processor) == Ext.self
+            if type(of: processor) == Ext.RequestProcessor.self
             {
                 processor.requestProcessorExtensions.append(ext)
             }

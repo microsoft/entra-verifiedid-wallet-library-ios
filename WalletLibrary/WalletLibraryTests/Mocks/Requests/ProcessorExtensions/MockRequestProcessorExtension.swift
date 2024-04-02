@@ -11,6 +11,8 @@ class MockRequestProcessorExtension<Processor: RequestProcessing>: RequestProces
     
     var wasParseCalled: Bool
     
+    var id = UUID()
+    
     init()
     {
         wasParseCalled = false
