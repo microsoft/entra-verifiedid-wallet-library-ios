@@ -97,7 +97,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         // Arrange
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
         let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
-        let expectedNetworkResult = (expectedResponseBody, OpenID4VCIRequestNetworkOperation.self)
+        let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
         let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
@@ -121,7 +121,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         // Arrange
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
         let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
-        let expectedNetworkResult = (expectedResponseBody, OpenID4VCIRequestNetworkOperation.self)
+        let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
         let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
@@ -144,7 +144,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         
         // Arrange
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
-        let expectedNetworkResults = ("mockToken".data(using: .utf8), OpenID4VCIRequestNetworkOperation.self)
+        let expectedNetworkResults = ("mockToken".data(using: .utf8), OpenIDRequestFetchNetworkOperation.self)
         let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResults])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
