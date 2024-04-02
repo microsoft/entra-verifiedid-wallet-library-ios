@@ -404,6 +404,7 @@
 		555FB2422B7BC97A00EE14BD /* CredentialMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2412B7BC97A00EE14BD /* CredentialMetadataTests.swift */; };
 		555FB2442B7BCE4500EE14BD /* SignedCredentialMetadataProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2432B7BCE4500EE14BD /* SignedCredentialMetadataProcessing.swift */; };
 		555FB2462B7BD20100EE14BD /* MockSignedMetadataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2452B7BD20100EE14BD /* MockSignedMetadataProcessor.swift */; };
+		557538E12BBC5489009E1257 /* AdditionalHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557538E02BBC5489009E1257 /* AdditionalHeaders.swift */; };
 		558168E02BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DB2BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift */; };
 		558168E12BA8B5EE000E9CA5 /* RequestProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DC2BA8B5EE000E9CA5 /* RequestProcessing.swift */; };
 		558168E22BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DD2BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift */; };
@@ -968,6 +969,7 @@
 		555FB2412B7BC97A00EE14BD /* CredentialMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialMetadataTests.swift; sourceTree = "<group>"; };
 		555FB2432B7BCE4500EE14BD /* SignedCredentialMetadataProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataProcessing.swift; sourceTree = "<group>"; };
 		555FB2452B7BD20100EE14BD /* MockSignedMetadataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSignedMetadataProcessor.swift; sourceTree = "<group>"; };
+		557538E02BBC5489009E1257 /* AdditionalHeaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalHeaders.swift; sourceTree = "<group>"; };
 		558168DB2BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataProcessing.swift; sourceTree = "<group>"; };
 		558168DC2BA8B5EE000E9CA5 /* RequestProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProcessing.swift; sourceTree = "<group>"; };
 		558168DD2BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProcessorSerializing.swift; sourceTree = "<group>"; };
@@ -2946,6 +2948,7 @@
 		55E337632943747E00CD2ED7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				557538E02BBC5489009E1257 /* AdditionalHeaders.swift */,
 				5534E668294A0C3F005D0765 /* Mapper.swift */,
 				550E320B298B0F30004E7716 /* WalletLibraryLogConsumer.swift */,
 				550E320D298B0FAC004E7716 /* WalletLibraryLogger.swift */,
@@ -3441,6 +3444,7 @@
 				5552D3FD29EF48F700B40302 /* JwePasswordProtectionMethod.swift in Sources */,
 				5552D3F529EF48ED00B40302 /* UnprotectedBackupData.swift in Sources */,
 				5552D45629EF4A8100B40302 /* NetworkingConstants.swift in Sources */,
+				557538E12BBC5489009E1257 /* AdditionalHeaders.swift in Sources */,
 				55E3376829437E3500CD2ED7 /* OpenIdForVCResolver.swift in Sources */,
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
 				5552D3AD29EF484C00B40302 /* WellKnownConfigDocument.swift in Sources */,

@@ -142,26 +142,3 @@ class OpenIdURLRequestResolver: RequestResolving
         return nil
     }
 }
-
-class AdditionalHeaders
-{
-    private var headers: [String: String] = [:]
-    
-    // If the header already exists, append the value to existing value.
-    func addHeader(fieldName: String, value: String)
-    {
-        if let headerValue = headers[fieldName]
-        {
-            headers[fieldName] = "\(headerValue),\(value)"
-        }
-        else
-        {
-            headers[fieldName] = value
-        }
-    }
-    
-    func getHeaders() -> [String: String]
-    {
-        return headers
-    }
-}

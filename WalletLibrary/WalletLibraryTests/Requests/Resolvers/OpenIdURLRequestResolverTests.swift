@@ -95,10 +95,15 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testResolveOpenId4VCI_WithRequestURI_ReturnsDictionary() async throws {
         
         // Arrange
+        let additionalHeaderSpy: (([String: String]?) -> Void) = { headers in
+            XCTAssertNotNil(headers)
+            XCTAssertEqual(headers, ["prefer": "oid4vci-interop-profile-version=0.0.1"])
+        }
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
         let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
         let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
-        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult])
+        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult],
+                                                                 additionalHeaderSpy: additionalHeaderSpy)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
                                                  networking: mockLibraryNetworking,
@@ -119,10 +124,15 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testResolveOpenId4VCI_WithCredentialOfferURI_ReturnsDictionary() async throws {
         
         // Arrange
+        let additionalHeaderSpy: (([String: String]?) -> Void) = { headers in
+            XCTAssertNotNil(headers)
+            XCTAssertEqual(headers, ["prefer": "oid4vci-interop-profile-version=0.0.1"])
+        }
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.OpenID4VCIAccessToken])
         let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
         let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
-        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult])
+        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult],
+                                                                 additionalHeaderSpy: additionalHeaderSpy)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
                                                  networking: mockLibraryNetworking,
@@ -131,7 +141,102 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockURL = "openid-vc://mock.com/?credential_offer_uri=https://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), 
+                                                configuration: configuration)
+        
+        // Act
+        let actualRawRequest = try await resolver.resolve(input: mockInput)
+        
+        // Assert
+        XCTAssertEqual(actualRawRequest as? [String: String], getTestCredentialOffering())
+    }
+    
+    func testResolve_WithFeatureFlagsAndNoPreferHeaders_ExpectsHeaders() async throws {
+        
+        // Arrange
+        let additionalHeaderSpy: (([String: String]?) -> Void) = { headers in
+            XCTAssertNotNil(headers)
+            XCTAssertEqual(headers, ["prefer": "oid4vci-interop-profile-version=0.0.1"])
+        }
+        let featureFlags = [PreviewFeatureFlags.OpenID4VCIAccessToken, PreviewFeatureFlags.ProcessorExtensionSupport]
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: featureFlags)
+        let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
+        let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
+        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult],
+                                                                 additionalHeaderSpy: additionalHeaderSpy)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 networking: mockLibraryNetworking,
+                                                 previewFeatureFlags: previewFeatureFlags)
+        
+        let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
+        let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
+
         let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        
+        // Act
+        let actualRawRequest = try await resolver.resolve(input: mockInput)
+        
+        // Assert
+        XCTAssertEqual(actualRawRequest as? [String: String], getTestCredentialOffering())
+    }
+    
+    func testResolve_WithExtFeatureFlagAndPreferHeaders_ExpectsHeaders() async throws {
+        
+        // Arrange
+        let expectedHeaders = ["headerValue1", "headerValue2", "headerValue3"]
+        let additionalHeaderSpy: (([String: String]?) -> Void) = { headers in
+            XCTAssertNotNil(headers)
+            XCTAssertEqual(headers, ["prefer": "headerValue1,headerValue2,headerValue3"])
+        }
+        let featureFlags = [PreviewFeatureFlags.ProcessorExtensionSupport]
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: featureFlags)
+        let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
+        let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
+        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult],
+                                                                 additionalHeaderSpy: additionalHeaderSpy)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 networking: mockLibraryNetworking,
+                                                 previewFeatureFlags: previewFeatureFlags)
+        
+        let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
+        let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
+
+        var resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        resolver.preferHeaders.append(contentsOf: expectedHeaders)
+        
+        // Act
+        let actualRawRequest = try await resolver.resolve(input: mockInput)
+        
+        // Assert
+        XCTAssertEqual(actualRawRequest as? [String: String], getTestCredentialOffering())
+    }
+    
+    func testResolve_WithFeatureFlagsAndPreferHeaders_ExpectsHeaders() async throws {
+        
+        // Arrange
+        let expectedHeaders = ["headerValue1", "headerValue2", "headerValue3"]
+        let additionalHeaderSpy: (([String: String]?) -> Void) = { headers in
+            XCTAssertNotNil(headers)
+            XCTAssertEqual(headers, ["prefer": "oid4vci-interop-profile-version=0.0.1,headerValue1,headerValue2,headerValue3"])
+        }
+        let featureFlags = [PreviewFeatureFlags.OpenID4VCIAccessToken, PreviewFeatureFlags.ProcessorExtensionSupport]
+        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: featureFlags)
+        let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
+        let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
+        let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult],
+                                                                 additionalHeaderSpy: additionalHeaderSpy)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 networking: mockLibraryNetworking,
+                                                 previewFeatureFlags: previewFeatureFlags)
+        
+        let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
+        let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
+
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        resolver.preferHeaders.append(contentsOf: expectedHeaders)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
