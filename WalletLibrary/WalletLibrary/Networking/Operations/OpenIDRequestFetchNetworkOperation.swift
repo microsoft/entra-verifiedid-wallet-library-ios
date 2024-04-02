@@ -12,7 +12,7 @@ struct OpenID4VCINetworkConstants
 /**
  * The Network Operation to prefer the OpenID4VCI Request.
  */
-struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
+struct OpenIDRequestFetchNetworkOperation: WalletLibraryFetchOperation
 {
     typealias ResponseBody = Data
     typealias Decoder = ServiceResponseDecoder
@@ -33,10 +33,6 @@ struct OpenID4VCIRequestNetworkOperation: WalletLibraryFetchOperation
         self.urlSession = urlSession
         self.urlRequest = URLRequest(url: url)
         self.correlationVector = correlationVector
-        
-        /// Adds value to prefer header, appending if value already exists.
-        let preferHeader = [OpenID4VCINetworkConstants.PreferHeaderField: OpenID4VCINetworkConstants.InteropProfileVersion]
-        addHeadersToURLRequest(headers: preferHeader)
         
         addHeadersToURLRequest(headers: additionalHeaders)
     }
