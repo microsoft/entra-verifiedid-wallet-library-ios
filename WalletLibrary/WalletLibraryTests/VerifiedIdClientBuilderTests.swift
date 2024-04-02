@@ -328,21 +328,3 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
     }
 }
-
-struct MockVerifiedIdExtension: VerifiedIdExtendable
-{
-    var prefer: [String]
-    
-    var processors: [any RequestProcessorExtendable]
-    
-    init(prefer: [String], processors: [any RequestProcessorExtendable])
-    {
-        self.prefer = prefer
-        self.processors = processors
-    }
-    
-    func createRequestProcessorExtensions(configuration: ExtensionConfiguration) -> [any RequestProcessorExtendable]
-    {
-        return processors
-    }
-}
