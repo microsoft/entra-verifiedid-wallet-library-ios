@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name= 'WalletLibrary'
-  s.version= '1.0.0'
+  s.version= '1.0.1'
   s.license= 'MIT'
   s.summary= 'An SDK to manage your Decentralized Identities and Verifiable Credentials.'
   s.homepage= 'https://github.com/microsoft/entra-verifiedid-wallet-library-ios'
