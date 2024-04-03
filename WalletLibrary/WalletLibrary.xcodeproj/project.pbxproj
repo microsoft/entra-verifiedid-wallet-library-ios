@@ -406,6 +406,7 @@
 		555FB2462B7BD20100EE14BD /* MockSignedMetadataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB2452B7BD20100EE14BD /* MockSignedMetadataProcessor.swift */; };
 		557538E12BBC5489009E1257 /* AdditionalHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557538E02BBC5489009E1257 /* AdditionalHeaders.swift */; };
 		557538E32BBC6149009E1257 /* MockVerifiedIdExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557538E22BBC6149009E1257 /* MockVerifiedIdExtension.swift */; };
+		557539D82BBDEFF0009E1257 /* VerifiedIdPartialRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557539D72BBDEFF0009E1257 /* VerifiedIdPartialRequestTests.swift */; };
 		558168E02BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DB2BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift */; };
 		558168E12BA8B5EE000E9CA5 /* RequestProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DC2BA8B5EE000E9CA5 /* RequestProcessing.swift */; };
 		558168E22BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DD2BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift */; };
@@ -467,6 +468,8 @@
 		55A4BB332A29383A006836AB /* VerifiedIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB322A29383A006836AB /* VerifiedIdResult.swift */; };
 		55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */; };
 		55A6384B2BB1E0D600BE2AF2 /* MockRequestProcessorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A6384A2BB1E0D600BE2AF2 /* MockRequestProcessorExtension.swift */; };
+		55A638852BB5BFAA00BE2AF2 /* VerifiableCredentialSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638842BB5BFAA00BE2AF2 /* VerifiableCredentialSerializer.swift */; };
+		55A638882BB5BFE400BE2AF2 /* VerifiableCredentialSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A638872BB5BFE400BE2AF2 /* VerifiableCredentialSerializerTests.swift */; };
 		55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BC92991AB82002C259A /* RequestResolving.swift */; };
 		55A81BE12991AB96002C259A /* RequestProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE02991AB96002C259A /* RequestProcessing.swift */; };
 		55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */; };
@@ -972,6 +975,7 @@
 		555FB2452B7BD20100EE14BD /* MockSignedMetadataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSignedMetadataProcessor.swift; sourceTree = "<group>"; };
 		557538E02BBC5489009E1257 /* AdditionalHeaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalHeaders.swift; sourceTree = "<group>"; };
 		557538E22BBC6149009E1257 /* MockVerifiedIdExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdExtension.swift; sourceTree = "<group>"; };
+		557539D72BBDEFF0009E1257 /* VerifiedIdPartialRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdPartialRequestTests.swift; sourceTree = "<group>"; };
 		558168DB2BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataProcessing.swift; sourceTree = "<group>"; };
 		558168DC2BA8B5EE000E9CA5 /* RequestProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProcessing.swift; sourceTree = "<group>"; };
 		558168DD2BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProcessorSerializing.swift; sourceTree = "<group>"; };
@@ -1033,6 +1037,8 @@
 		55A4BB322A29383A006836AB /* VerifiedIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdResult.swift; sourceTree = "<group>"; };
 		55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdErrors.swift; sourceTree = "<group>"; };
 		55A6384A2BB1E0D600BE2AF2 /* MockRequestProcessorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRequestProcessorExtension.swift; sourceTree = "<group>"; };
+		55A638842BB5BFAA00BE2AF2 /* VerifiableCredentialSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiableCredentialSerializer.swift; sourceTree = "<group>"; };
+		55A638872BB5BFE400BE2AF2 /* VerifiableCredentialSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiableCredentialSerializerTests.swift; sourceTree = "<group>"; };
 		55A81BC92991AB82002C259A /* RequestResolving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolving.swift; sourceTree = "<group>"; };
 		55A81BE02991AB96002C259A /* RequestProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessing.swift; sourceTree = "<group>"; };
 		55A81BE42991B2E5002C259A /* RequestResolverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResolverFactory.swift; sourceTree = "<group>"; };
@@ -1449,6 +1455,7 @@
 		553CC09E29A97FD7005A5FD6 /* VerifiedId */ = {
 			isa = PBXGroup;
 			children = (
+				55A638862BB5BFCD00BE2AF2 /* Serializers */,
 				558CF1AC2B869CDD00AF5D82 /* OpenID4VCIVerifiedIDTests.swift */,
 				553CC09F29A98003005A5FD6 /* VCVerifiedIdTests.swift */,
 				55BA2DD829CDFA6100BB8207 /* VerifiedIdDecoderTests.swift */,
@@ -2715,6 +2722,22 @@
 			path = ProcessorExtensions;
 			sourceTree = "<group>";
 		};
+		55A638832BB5BF9800BE2AF2 /* Serializers */ = {
+			isa = PBXGroup;
+			children = (
+				55A638842BB5BFAA00BE2AF2 /* VerifiableCredentialSerializer.swift */,
+			);
+			path = Serializers;
+			sourceTree = "<group>";
+		};
+		55A638862BB5BFCD00BE2AF2 /* Serializers */ = {
+			isa = PBXGroup;
+			children = (
+				55A638872BB5BFE400BE2AF2 /* VerifiableCredentialSerializerTests.swift */,
+			);
+			path = Serializers;
+			sourceTree = "<group>";
+		};
 		55A81BF02991BB13002C259A /* Requests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2727,6 +2750,7 @@
 				55A81C062991BB2C002C259A /* RequestResolverFactoryTests.swift */,
 				55A81C082991BB3A002C259A /* RequestProcessorFactoryTests.swift */,
 				55DECBEE29BA2BEE00D5C802 /* IssuanceRequestContentTests.swift */,
+				557539D72BBDEFF0009E1257 /* VerifiedIdPartialRequestTests.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -2904,6 +2928,7 @@
 		55E336D2293FA74100CD2ED7 /* VerifiedId */ = {
 			isa = PBXGroup;
 			children = (
+				55A638832BB5BF9800BE2AF2 /* Serializers */,
 				559BD4B1299EDF9E00BD61AC /* VerifiableCredential */,
 				55BA2DD029CDFA1A00BB8207 /* EncodedVerifiedId.swift */,
 				55E336D3293FA75300CD2ED7 /* VerifiedId.swift */,
@@ -3560,6 +3585,7 @@
 				5552D44829EF4A8100B40302 /* NetworkOperation.swift in Sources */,
 				5524A60C29D634BC00C5F18D /* VerifiedIdLogo.swift in Sources */,
 				55A81BCA2991AB82002C259A /* RequestResolving.swift in Sources */,
+				55A638852BB5BFAA00BE2AF2 /* VerifiableCredentialSerializer.swift in Sources */,
 				5552D3C429EF489E00B40302 /* IONDocumentModel.swift in Sources */,
 				5552D48529EF4AAB00B40302 /* JWK.swift in Sources */,
 				A4B4FA622B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift in Sources */,
@@ -3606,6 +3632,7 @@
 				559BD455299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift in Sources */,
 				553CC0A029A98003005A5FD6 /* VCVerifiedIdTests.swift in Sources */,
 				55A81C132991C829002C259A /* MockHandler.swift in Sources */,
+				55A638882BB5BFE400BE2AF2 /* VerifiableCredentialSerializerTests.swift in Sources */,
 				559BD3072995ABD300BD61AC /* PresentationInputDescriptor+MappableTests.swift in Sources */,
 				5552D81A29F2E25900B40302 /* TestData.swift in Sources */,
 				558328582B97A866000CEC89 /* FormURLEncodedRequestEncoderTests.swift in Sources */,
@@ -3646,6 +3673,7 @@
 				55BA2DDB29CDFA6100BB8207 /* VerifiedIdEncoderTests.swift in Sources */,
 				55A81C0D2991BF86002C259A /* MockInput.swift in Sources */,
 				5552D89929F2E58000B40302 /* IssuanceServiceTests.swift in Sources */,
+				557539D82BBDEFF0009E1257 /* VerifiedIdPartialRequestTests.swift in Sources */,
 				55DECBED29BA29FB00D5C802 /* PresentationResponseContainerExtensionTests.swift in Sources */,
 				5552D86829F2E43900B40302 /* IssuanceResponseEncoderTests.swift in Sources */,
 				55F01CCF2ACDFF55000794B4 /* ES256Tests.swift in Sources */,
