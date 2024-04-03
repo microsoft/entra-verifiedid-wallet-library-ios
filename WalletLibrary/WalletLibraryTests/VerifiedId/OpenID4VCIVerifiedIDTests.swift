@@ -146,10 +146,6 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         let mockIssuerName = "mock issuer name"
         let mockConfig = createCredentialConfiguration()
         
-        let vc = try OpenID4VCIVerifiedId(raw: rawVC,
-                                          issuerName: mockIssuerName,
-                                          configuration: mockConfig)
-        
         let mockEncoded = MockVerifiableCredential(vc: rawVC,
                                                    configuration: mockConfig,
                                                    issuerName: mockIssuerName)
