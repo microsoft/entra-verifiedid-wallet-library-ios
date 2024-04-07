@@ -6,8 +6,8 @@
 /**
  * Information to describe Verified IDs required.
  */
-public class VerifiedIdRequirement: Requirement {
-    
+public class VerifiedIdRequirement: Requirement 
+{
     /// If requirement must be encrypted.
     let encrypted: Bool
     
@@ -31,7 +31,7 @@ public class VerifiedIdRequirement: Requirement {
     }
     
     /// Optional id of requirement defined by the request.
-    let id: String?
+    public let id: String?
     
     /// Constraint defines how the requirement can be fulfilled.
     let constraint: VerifiedIdConstraint
@@ -45,7 +45,8 @@ public class VerifiedIdRequirement: Requirement {
          purpose: String?,
          issuanceOptions: [VerifiedIdRequestInput],
          id: String?,
-         constraint: VerifiedIdConstraint) {
+         constraint: VerifiedIdConstraint) 
+    {
         self.encrypted = encrypted
         self.required = required
         self.types = types
@@ -56,15 +57,19 @@ public class VerifiedIdRequirement: Requirement {
     }
     
     /// Returns Failure Result is requirement constraint is not met.
-    public func validate() -> VerifiedIdResult<Void> {
-        
-        guard let selectedVerifiedId = self.selectedVerifiedId else {
+    public func validate() -> VerifiedIdResult<Void> 
+    {
+        guard let selectedVerifiedId = self.selectedVerifiedId else 
+        {
             return VerifiedIdErrors.RequirementNotMet(message: "Verified Id has not been set.").result()
         }
         
-        do {
+        do 
+        {
             try constraint.matches(verifiedId: selectedVerifiedId)
-        } catch {
+        } 
+        catch
+        {
             return VerifiedIdErrors.RequirementNotMet(message: "Verified Id Constraints do not match.", errors: [error]).result()
         }
         
@@ -72,18 +77,22 @@ public class VerifiedIdRequirement: Requirement {
     }
     
     /// Given a list of Verified Ids, return a filtered list of Verified Ids that satisfy the requirement.
-    public func getMatches(verifiedIds: [VerifiedId]) -> [VerifiedId] {
+    public func getMatches(verifiedIds: [VerifiedId]) -> [VerifiedId] 
+    {
         return verifiedIds.filter {
             constraint.doesMatch(verifiedId: $0)
         }
     }
     
     /// Fulfill the requirement with a VerifiedId. Returns Failure Result if Verified Id does not satisfy the requirement.
-    public func fulfill(with verifiedId: VerifiedId) -> VerifiedIdResult<Void> {
-        
-        do {
+    public func fulfill(with verifiedId: VerifiedId) -> VerifiedIdResult<Void> 
+    {
+        do 
+        {
             try constraint.matches(verifiedId: verifiedId)
-        } catch {
+        } 
+        catch
+        {
             return VerifiedIdErrors.RequirementNotMet(message: "Verified Id Constraints do not match.", errors: [error]).result()
         }
         
