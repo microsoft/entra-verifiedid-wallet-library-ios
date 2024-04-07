@@ -35,10 +35,6 @@ extension PresentationRequest: OpenIdRawRequest
         token.content.clientID ?? ""
     }
     
-    var nonce: String? {
-        token.content.nonce
-    }
-    
     var primitiveClaims: [String : Any]? {
         return token.primitiveClaims
     }
