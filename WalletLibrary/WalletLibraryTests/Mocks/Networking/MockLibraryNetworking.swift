@@ -18,9 +18,13 @@ struct MockLibraryNetworking: LibraryNetworking
 {
     let getExpectedResponseBodies: (any InternalNetworkOperation.Type) throws -> Any
     
-    init(getExpectedResponseBodies: @escaping (any InternalNetworkOperation.Type) throws -> Any)
+    let additionalHeaderSpy: (([String: String]?) -> Void)?
+    
+    init(getExpectedResponseBodies: @escaping (any InternalNetworkOperation.Type) throws -> Any,
+         additionalHeaderSpy: (([String: String]?) -> Void)? = nil)
     {
         self.getExpectedResponseBodies = getExpectedResponseBodies
+        self.additionalHeaderSpy = additionalHeaderSpy
     }
     
     /// Helper function to return MockLibraryNetworking that always throws.
@@ -31,7 +35,8 @@ struct MockLibraryNetworking: LibraryNetworking
     }
     
     /// Helper function to create a MockLibraryNetworking that returns response body given based on type.
-    static func create(expectedResults: [(Decodable, any InternalNetworkOperation.Type)]) -> MockLibraryNetworking
+    static func create(expectedResults: [(Decodable, any InternalNetworkOperation.Type)],
+                       additionalHeaderSpy: (([String: String]?) -> Void)? = nil) -> MockLibraryNetworking
     {
         let callback = { (input: any InternalNetworkOperation.Type) in
             
@@ -46,7 +51,8 @@ struct MockLibraryNetworking: LibraryNetworking
             throw MockLibraryNetworkingError.ExpectedError
         }
         
-        return MockLibraryNetworking(getExpectedResponseBodies: callback)
+        return MockLibraryNetworking(getExpectedResponseBodies: callback,
+                                     additionalHeaderSpy: additionalHeaderSpy)
     }
     
     func resetCorrelationHeader() { }
@@ -55,6 +61,7 @@ struct MockLibraryNetworking: LibraryNetworking
                                                        _ type: Operation.Type,
                                                        additionalHeaders: [String : String]?) async throws -> Operation.ResponseBody
     {
+        additionalHeaderSpy?(additionalHeaders)
         let expectedResponseBody = try getExpectedResponseBodies(type)
         
         if let responseBody = expectedResponseBody as? Operation.ResponseBody

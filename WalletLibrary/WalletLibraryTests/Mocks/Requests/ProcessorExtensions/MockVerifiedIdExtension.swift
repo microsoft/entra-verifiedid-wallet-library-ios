@@ -5,22 +5,20 @@
 
 @testable import WalletLibrary
 
-class MockRequestProcessorExtension<Processor: RequestProcessing>: RequestProcessorExtendable
+struct MockVerifiedIdExtension: VerifiedIdExtendable
 {
-    typealias RequestProcessor = Processor
+    var prefer: [String]
     
-    var wasParseCalled: Bool
+    var processors: [any RequestProcessorExtendable]
     
-    var id = UUID()
-    
-    init()
+    init(prefer: [String], processors: [any RequestProcessorExtendable])
     {
-        wasParseCalled = false
+        self.prefer = prefer
+        self.processors = processors
     }
     
-    func parse(rawRequest: Processor.RawRequestType, request: VerifiedIdPartialRequest) -> VerifiedIdPartialRequest
+    func createRequestProcessorExtensions(configuration: ExtensionConfiguration) -> [any RequestProcessorExtendable]
     {
-        wasParseCalled = true
-        return request
+        return processors
     }
 }
