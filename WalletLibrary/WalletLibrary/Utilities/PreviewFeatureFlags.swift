@@ -8,6 +8,13 @@
  */
 public struct PreviewFeatureFlags
 {
+    
+    /// A preview feature for serialization based on a visitor pattern across a requests' requirements.
+    public static let PresentationExchangeSerializationSupport = "PresentationExchangeSerializationSupport"
+    
+    /// A preview feature enabling extensions to the built in wallet library's capabilities.
+    public static let ProcessorExtensionSupport = "ProcessorExtensionSupport"
+    
     /// A preview feature for access token support from the OpenID4VCI protocol.
     public static let OpenID4VCIAccessToken = "OpenID4VCIAccessToken"
     
@@ -15,6 +22,8 @@ public struct PreviewFeatureFlags
     public static let OpenID4VCIPreAuth = "OpenID4VCIPreAuth"
     
     private var supportedPreviewFeatures: [String: Bool] = [
+        PresentationExchangeSerializationSupport: false,
+        ProcessorExtensionSupport: false,
         OpenID4VCIAccessToken: false,
         OpenID4VCIPreAuth: false
     ]
