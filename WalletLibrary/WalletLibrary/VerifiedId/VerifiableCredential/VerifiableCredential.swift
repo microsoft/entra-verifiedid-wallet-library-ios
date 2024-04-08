@@ -98,7 +98,8 @@ struct VCVerifiedId: InternalVerifiedId {
         {
             if let claimStyle = claimLabels["vc.credentialSubject.\(claim)"]
             {
-                verifiedIdClaims.append(VerifiedIdClaim(id: claimStyle.label,
+                verifiedIdClaims.append(VerifiedIdClaim(id: claim,
+                                                        label: claimStyle.label,
                                                         type: claimStyle.type,
                                                         value: value))
             }
@@ -106,6 +107,7 @@ struct VCVerifiedId: InternalVerifiedId {
             {
                 /// Default to String.
                 verifiedIdClaims.append(VerifiedIdClaim(id: claim,
+                                                        label: nil,
                                                         type: nil,
                                                         value: value))
             }
