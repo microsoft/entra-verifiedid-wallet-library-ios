@@ -36,7 +36,13 @@ extension PresentationInputDescriptor: Mappable {
         var constraints: [VerifiedIdConstraint] = []
         if let fields = self.constraints?.fields {
             for field in fields {
-                constraints.append(try mapper.map(field))
+                do {
+                    constraints.append(try mapper.map(field))
+                } catch PresentationExchangeFieldConstraintError.InvalidPatternOnThePresentationExchangeField
+                {
+                    // Currently only face-check photo constraints can do this
+                    // simply do not add the constraint
+                }
             }
         }
         
