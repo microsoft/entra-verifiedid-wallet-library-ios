@@ -223,11 +223,13 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         XCTAssertEqual(result.count, 2)
         XCTAssert(result.contains {
             areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey1",
+                                                                 label: nil,
                                                                  type: nil,
                                                                  value: expectedValue1))
         })
         XCTAssert(result.contains {
             areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey2",
+                                                                 label: nil,
                                                                  type: nil,
                                                                  value: expectedValue2))
         })
@@ -266,11 +268,13 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         XCTAssertEqual(result.count, 2)
         XCTAssert(result.contains {
             areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1",
+                                                                 label: nil,
                                                                  type: nil,
                                                                  value: expectedValue1))
         })
         XCTAssert(result.contains {
             areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel2",
+                                                                 label: nil,
                                                                  type: nil,
                                                                  value: expectedValue2))
         })
@@ -309,11 +313,13 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
         XCTAssertEqual(result.count, 2)
         XCTAssert(result.contains {
             areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1",
+                                                                 label: nil,
                                                                  type: "mockType",
                                                                  value: expectedValue1))
         })
         XCTAssert(result.contains {
             areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel2",
+                                                                 label: nil,
                                                                  type: "mockType",
                                                                  value: expectedValue2))
         })
