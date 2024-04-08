@@ -18,13 +18,17 @@ public class VerifiedIdClientBuilder {
     
     private var requestResolvers: [any RequestResolving] = []
     
-    private var requestHandlers: [any RequestProcessing] = []
+    private var requestProcessors: [any RequestProcessing] = []
+    
+    private var extensions: [VerifiedIdExtendable] = []
     
     private var previewFeatureFlagsSupported: [String] = []
     
     private var identifierManager: IdentifierManager?
     
     private var rootOfTrustResolver: RootOfTrustResolver?
+
+    private var preferHeaders: [String] = []
     
     public init() {
         logger = WalletLibraryLogger()
@@ -54,10 +58,11 @@ public class VerifiedIdClientBuilder {
                                                  previewFeatureFlags: previewFeatureFlags)
         
         registerSupportedResolvers(with: configuration)
-        registerSupportedRequestHandlers(with: configuration)
+        registerSupportedRequestProcessors(with: configuration)
+        registerVerifiedIdExtensions(with: configuration)
         
         let requestResolverFactory = RequestResolverFactory(resolvers: requestResolvers)
-        let requestHandlerFactory = RequestProcessorFactory(requestHandlers: requestHandlers)
+        let requestHandlerFactory = RequestProcessorFactory(requestHandlers: requestProcessors)
         return VerifiedIdClient(requestResolverFactory: requestResolverFactory,
                                 requestHandlerFactory: requestHandlerFactory,
                                 configuration: configuration)
@@ -104,9 +109,9 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
-    public func with(extension: VerifiedIdExtendable) -> VerifiedIdClientBuilder {
-        // TODO: add prefer headers to requestResolverFactory
-        // TODO: add RequestProcessorExtendables to RequestProcessors
+    public func with(verifiedIdExtension: VerifiedIdExtendable) -> VerifiedIdClientBuilder
+    {
+        self.extensions.append(verifiedIdExtension)
         return self
     }
     
@@ -120,7 +125,8 @@ public class VerifiedIdClientBuilder {
         requestResolvers.append(openIdURLResolver)
     }
     
-    private func registerSupportedRequestHandlers(with configuration: LibraryConfiguration) {
+    private func registerSupportedRequestProcessors(with configuration: LibraryConfiguration)
+    {
         // TODO: inject networking client into Services.
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
                                               identifierManager: configuration.identifierManager,
@@ -130,13 +136,49 @@ public class VerifiedIdClientBuilder {
                                                       identifierService: configuration.identifierManager,
                                                       rootOfTrustResolver: rootOfTrustResolver,
                                                       urlSession: urlSession)
-        let openIdHandler = OpenIdRequestProcessor(configuration: configuration,
-                                                   openIdResponder: presentationService,
-                                                   manifestResolver: issuanceService,
-                                                   verifiableCredentialRequester: issuanceService)
-        requestHandlers.append(openIdHandler)
         
-        let openId4VCIHandler = OpenId4VCIProcessor(configuration: configuration)
-        requestHandlers.append(openId4VCIHandler)
+        let openIdProcessor = OpenIdRequestProcessor(configuration: configuration,
+                                                     openIdResponder: presentationService,
+                                                     manifestResolver: issuanceService,
+                                                     verifiableCredentialRequester: issuanceService)
+        requestProcessors.append(openIdProcessor)
+        
+        let openId4VCIProcessor = OpenId4VCIProcessor(configuration: configuration)
+        requestProcessors.append(openId4VCIProcessor)
+    }
+    
+    private func registerVerifiedIdExtensions(with conf: LibraryConfiguration)
+    {
+        let extConfig = conf.createExtensionConfiguration()
+        var allProcessorExtensions: [any RequestProcessorExtendable] = []
+        var allPreferHeadersFromExtensions: [String] = []
+        for ext in extensions
+        {
+            allPreferHeadersFromExtensions.append(contentsOf: ext.prefer)
+            let processorExtensions = ext.createRequestProcessorExtensions(configuration: extConfig)
+            allProcessorExtensions.append(contentsOf: processorExtensions)
+        }
+        
+        for processorExtension in allProcessorExtensions
+        {
+            addExtensionToProcessors(ext: processorExtension)
+        }
+        
+        for var resolver in requestResolvers 
+        {
+            resolver.preferHeaders.append(contentsOf: allPreferHeadersFromExtensions)
+        }
+
+    }
+    
+    private func addExtensionToProcessors<Ext: RequestProcessorExtendable>(ext: Ext)
+    {
+        for var processor in requestProcessors
+        {
+            if type(of: processor) == Ext.RequestProcessor.self
+            {
+                processor.requestProcessorExtensions.append(ext)
+            }
+        }
     }
 }
