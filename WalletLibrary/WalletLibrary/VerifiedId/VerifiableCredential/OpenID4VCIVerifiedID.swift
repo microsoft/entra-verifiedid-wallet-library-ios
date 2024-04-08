@@ -108,6 +108,7 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
            let claimDisplayDefinitions = claimDefinitions["vc.credentialSubject.\(claimReference)"] else
         {
             return VerifiedIdClaim(id: claimReference,
+                                   label: nil,
                                    type: nil,
                                    value: claimValue)
         }
@@ -115,7 +116,8 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
         if let localizedDefinition = claimDisplayDefinitions.getPreferredLocalizedDisplayDefinition(),
            let label = localizedDefinition.name
         {
-            return VerifiedIdClaim(id: label,
+            return VerifiedIdClaim(id: claimReference,
+                                   label: label,
                                    type: claimDisplayDefinitions.value_type,
                                    value: claimValue)
             
@@ -123,6 +125,7 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
         else
         {
             return VerifiedIdClaim(id: claimReference,
+                                   label: nil,
                                    type: claimDisplayDefinitions.value_type,
                                    value: claimValue)
         }
