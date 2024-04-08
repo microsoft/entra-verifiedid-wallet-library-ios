@@ -9,7 +9,8 @@ struct TokenTimeConstraints
     let issuedAt: Int
     let expiration: Int
     
-    init(expiryInSeconds: Int) 
+    // 5 minutes default
+    init(expiryInSeconds: Int = 300)
     {
         self.issuedAt = Int((Date().timeIntervalSince1970).rounded(.down))
         self.expiration = self.issuedAt + expiryInSeconds

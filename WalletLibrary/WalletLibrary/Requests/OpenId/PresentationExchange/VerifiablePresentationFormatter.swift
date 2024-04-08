@@ -64,7 +64,7 @@ class VerifiablePresentationFormatter
         
         guard var token = JwsToken(headers: headers, content: vpClaims) else
         {
-            throw TokenValidationError.UnableToCreateToken()
+            throw TokenValidationError.UnableToCreateToken(ofType: String(describing: VerifiablePresentation.self))
         }
         
         try token.sign(using: signer, withSecret: signingKey.keyReference)

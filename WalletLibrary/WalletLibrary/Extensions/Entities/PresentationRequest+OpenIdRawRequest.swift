@@ -6,8 +6,8 @@
 /**
  * An extension of the VCEntities.PresentationRequest class.
  */
-extension PresentationRequest: OpenIdRawRequest {
-    
+extension PresentationRequest: OpenIdRawRequest 
+{
     /// If prompt equals create, the request is an issuance request.
     private var promptValueForIssuance: String {
         "create"
@@ -41,5 +41,26 @@ extension PresentationRequest: OpenIdRawRequest {
     
     var primitiveClaims: [String : Any]? {
         return token.primitiveClaims
+    }
+    
+    var nonce: String? {
+        return content.nonce
+    }
+    
+    var state: String? {
+        return content.state
+    }
+    
+    var clientId: String? {
+        return content.clientID
+    }
+    
+    var responseURL: URL? {
+        return content.redirectURI.flatMap { URL(string: $0) }
+    }
+    
+    /// Should only be one definition Id per request.
+    var definitionId: String? {
+        return content.claims?.vpToken.first?.presentationDefinition?.id
     }
 }
