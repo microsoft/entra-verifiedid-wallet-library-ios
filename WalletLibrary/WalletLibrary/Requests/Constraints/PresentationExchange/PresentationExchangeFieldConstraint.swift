@@ -33,7 +33,7 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
     
     private let paths: [String]
     
-    private let pattern: PresentationExchangePattern
+    private let pattern: PresentationExchangePattern?
     
     init(field: PresentationExchangeField) throws {
         
@@ -42,9 +42,11 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
             throw PresentationExchangeFieldConstraintError.NoPathsFoundOnPresentationExchangeField
         }
         
-        guard let patternStr = field.filter?.pattern?.pattern,
-              let pattern = PresentationExchangePattern(from: patternStr) else {
-            throw PresentationExchangeFieldConstraintError.InvalidPatternOnThePresentationExchangeField
+        let patternStr = field.filter?.pattern?.pattern
+        let pattern: PresentationExchangePattern? = if let patternStr = patternStr {
+            PresentationExchangePattern(from: patternStr)
+        } else {
+            nil
         }
         
         self.field = field
@@ -75,7 +77,7 @@ struct PresentationExchangeFieldConstraint: VerifiedIdConstraint {
             let value = vc.getValue(with: path)
             if let expectedValue = value as? String {
                 
-                if pattern.matches(in: expectedValue) {
+                if pattern?.matches(in: expectedValue) == true {
                     return
                 }
             }
