@@ -27,6 +27,8 @@ public class VerifiedIdClientBuilder {
     private var identifierManager: IdentifierManager?
     
     private var rootOfTrustResolver: RootOfTrustResolver?
+
+    private var preferHeaders: [String] = []
     
     public init() {
         logger = WalletLibraryLogger()
