@@ -19,8 +19,6 @@ protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent
     
     var primitiveClaims: [String: Any]? { get }
     
-    var nonce: String? { get }
-    
     var state: String? { get }
     
     var clientId: String? { get }

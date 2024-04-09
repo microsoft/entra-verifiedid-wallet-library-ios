@@ -43,10 +43,6 @@ extension PresentationRequest: OpenIdRawRequest
         return token.primitiveClaims
     }
     
-    var nonce: String? {
-        return content.nonce
-    }
-    
     var state: String? {
         return content.state
     }

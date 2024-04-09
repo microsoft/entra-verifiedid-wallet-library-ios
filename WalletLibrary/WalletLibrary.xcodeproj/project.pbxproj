@@ -406,6 +406,17 @@
 		557538E12BBC5489009E1257 /* AdditionalHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557538E02BBC5489009E1257 /* AdditionalHeaders.swift */; };
 		557538E32BBC6149009E1257 /* MockVerifiedIdExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557538E22BBC6149009E1257 /* MockVerifiedIdExtension.swift */; };
 		557539D82BBDEFF0009E1257 /* VerifiedIdPartialRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557539D72BBDEFF0009E1257 /* VerifiedIdPartialRequestTests.swift */; };
+		55753BE22BC48A10009E1257 /* VerifiableCredentialSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BE02BC48A10009E1257 /* VerifiableCredentialSerializer.swift */; };
+		55753BED2BC48A8E009E1257 /* PresentationExchangeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BEC2BC48A8E009E1257 /* PresentationExchangeError.swift */; };
+		55753BF22BC48AD0009E1257 /* PresentationExchangeIdTokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BEE2BC48AD0009E1257 /* PresentationExchangeIdTokenBuilder.swift */; };
+		55753BF32BC48AD0009E1257 /* VerifiablePresentationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BEF2BC48AD0009E1257 /* VerifiablePresentationBuilder.swift */; };
+		55753BF42BC48AD0009E1257 /* TokenBuilderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BF02BC48AD0009E1257 /* TokenBuilderFactory.swift */; };
+		55753BF52BC48AD0009E1257 /* PartialInputDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BF12BC48AD0009E1257 /* PartialInputDescriptor.swift */; };
+		55753BFA2BC48AF5009E1257 /* PresentationExchangeIdTokenBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BF62BC48AF5009E1257 /* PresentationExchangeIdTokenBuilderTests.swift */; };
+		55753BFB2BC48AF5009E1257 /* PresentationExchangeSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BF72BC48AF5009E1257 /* PresentationExchangeSerializerTests.swift */; };
+		55753BFC2BC48AF5009E1257 /* PartialInputDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BF82BC48AF5009E1257 /* PartialInputDescriptorTests.swift */; };
+		55753BFD2BC48AF5009E1257 /* VerifiablePresentationBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BF92BC48AF5009E1257 /* VerifiablePresentationBuilderTests.swift */; };
+		55753BFF2BC48B00009E1257 /* VerifiableCredentialSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55753BFE2BC48B00009E1257 /* VerifiableCredentialSerializerTests.swift */; };
 		558168E02BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DB2BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift */; };
 		558168E12BA8B5EE000E9CA5 /* RequestProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DC2BA8B5EE000E9CA5 /* RequestProcessing.swift */; };
 		558168E22BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558168DD2BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift */; };
@@ -976,6 +987,17 @@
 		557538E02BBC5489009E1257 /* AdditionalHeaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalHeaders.swift; sourceTree = "<group>"; };
 		557538E22BBC6149009E1257 /* MockVerifiedIdExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVerifiedIdExtension.swift; sourceTree = "<group>"; };
 		557539D72BBDEFF0009E1257 /* VerifiedIdPartialRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdPartialRequestTests.swift; sourceTree = "<group>"; };
+		55753BE02BC48A10009E1257 /* VerifiableCredentialSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiableCredentialSerializer.swift; sourceTree = "<group>"; };
+		55753BEC2BC48A8E009E1257 /* PresentationExchangeError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationExchangeError.swift; sourceTree = "<group>"; };
+		55753BEE2BC48AD0009E1257 /* PresentationExchangeIdTokenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationExchangeIdTokenBuilder.swift; sourceTree = "<group>"; };
+		55753BEF2BC48AD0009E1257 /* VerifiablePresentationBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationBuilder.swift; sourceTree = "<group>"; };
+		55753BF02BC48AD0009E1257 /* TokenBuilderFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilderFactory.swift; sourceTree = "<group>"; };
+		55753BF12BC48AD0009E1257 /* PartialInputDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialInputDescriptor.swift; sourceTree = "<group>"; };
+		55753BF62BC48AF5009E1257 /* PresentationExchangeIdTokenBuilderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationExchangeIdTokenBuilderTests.swift; sourceTree = "<group>"; };
+		55753BF72BC48AF5009E1257 /* PresentationExchangeSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationExchangeSerializerTests.swift; sourceTree = "<group>"; };
+		55753BF82BC48AF5009E1257 /* PartialInputDescriptorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartialInputDescriptorTests.swift; sourceTree = "<group>"; };
+		55753BF92BC48AF5009E1257 /* VerifiablePresentationBuilderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationBuilderTests.swift; sourceTree = "<group>"; };
+		55753BFE2BC48B00009E1257 /* VerifiableCredentialSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiableCredentialSerializerTests.swift; sourceTree = "<group>"; };
 		558168DB2BA8B5EE000E9CA5 /* SignedCredentialMetadataProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataProcessing.swift; sourceTree = "<group>"; };
 		558168DC2BA8B5EE000E9CA5 /* RequestProcessing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProcessing.swift; sourceTree = "<group>"; };
 		558168DD2BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProcessorSerializing.swift; sourceTree = "<group>"; };
@@ -1453,7 +1475,6 @@
 				55BA2DD529CDFA4600BB8207 /* MockVerifiedIdDecoder.swift */,
 				55BA2DD429CDFA4600BB8207 /* MockVerifiedIdEncoder.swift */,
 				55EA17A929CA57320085E29E /* MockVerifiedIdStyle.swift */,
-				55A638772BB4BF6000BE2AF2 /* MockVerifiedIdSerializer.swift */,
 			);
 			path = VerifiedId;
 			sourceTree = "<group>";
@@ -2433,11 +2454,11 @@
 		5555F1BA2BACAB1100B41FD4 /* PresentationExchange */ = {
 			isa = PBXGroup;
 			children = (
-				55A638612BB2468700BE2AF2 /* PartialInputDescriptor.swift */,
-				55A638602BB2468700BE2AF2 /* PresentationExchangeIdTokenBuilder.swift */,
+				55753BF02BC48AD0009E1257 /* TokenBuilderFactory.swift */,
+				55753BF12BC48AD0009E1257 /* PartialInputDescriptor.swift */,
+				55753BEE2BC48AD0009E1257 /* PresentationExchangeIdTokenBuilder.swift */,
+				55753BEF2BC48AD0009E1257 /* VerifiablePresentationBuilder.swift */,
 				5555F1BB2BACAB2800B41FD4 /* PresentationExchangeSerializer.swift */,
-				55A638682BB36C7D00BE2AF2 /* TokenBuilderFactory.swift */,
-				55A638642BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift */,
 				5552D32929EF47EC00B40302 /* VerifiablePresentationFormatter.swift */,
 			);
 			path = PresentationExchange;
@@ -2446,11 +2467,11 @@
 		5555F1C32BACC8A300B41FD4 /* PresentationExchange */ = {
 			isa = PBXGroup;
 			children = (
+				55753BF82BC48AF5009E1257 /* PartialInputDescriptorTests.swift */,
+				55753BF62BC48AF5009E1257 /* PresentationExchangeIdTokenBuilderTests.swift */,
+				55753BF72BC48AF5009E1257 /* PresentationExchangeSerializerTests.swift */,
+				55753BF92BC48AF5009E1257 /* VerifiablePresentationBuilderTests.swift */,
 				5555F1C42BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift */,
-				55A6386A2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift */,
-				55A6386E2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift */,
-				55A638702BB3B05A00BE2AF2 /* PresentationExchangeIdTokenBuilderTests.swift */,
-				55A638722BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift */,
 			);
 			path = PresentationExchange;
 			sourceTree = "<group>";
@@ -2536,7 +2557,7 @@
 		557539DB2BBDF263009E1257 /* Serializers */ = {
 			isa = PBXGroup;
 			children = (
-				557539DC2BBDF263009E1257 /* VerifiableCredentialSerializer.swift */,
+				55753BE02BC48A10009E1257 /* VerifiableCredentialSerializer.swift */,
 			);
 			path = Serializers;
 			sourceTree = "<group>";
@@ -2544,7 +2565,7 @@
 		557539DE2BBDF27C009E1257 /* Serializers */ = {
 			isa = PBXGroup;
 			children = (
-				557539DF2BBDF27C009E1257 /* VerifiableCredentialSerializerTests.swift */,
+				55753BFE2BC48B00009E1257 /* VerifiableCredentialSerializerTests.swift */,
 			);
 			path = Serializers;
 			sourceTree = "<group>";
@@ -2737,9 +2758,9 @@
 				55A4BB162A27A436006836AB /* VerifiedIdError.swift */,
 				55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */,
 				555FB1FE2B75671300EE14BD /* TokenValidationError.swift */,
+				55753BEC2BC48A8E009E1257 /* PresentationExchangeError.swift */,
 				555FB20C2B75807700EE14BD /* OpenId4VCIValidationError.swift */,
 				5555F1A32BAA135600B41FD4 /* IdentifierError.swift */,
-				55A638662BB3642D00BE2AF2 /* PresentationExchangeError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -2753,14 +2774,7 @@
 			path = ProcessorExtensions;
 			sourceTree = "<group>";
 		};
-		55A638742BB4BE9F00BE2AF2 /* OpenId */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Serializers;
-			sourceTree = "<group>";
-		};
-		55A638862BB5BFCD00BE2AF2 /* Serializers */ = {
+		55A638742BB4BE9F00BE2AF2 /* Serializers */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -2806,7 +2820,7 @@
 				55DECC3629BFE13500D5C802 /* Constraints */,
 				559BD4F6299EED4900BD61AC /* Manifest */,
 				55A81C112991C81A002C259A /* Handlers */,
-				55A638742BB4BE9F00BE2AF2 /* OpenId */,
+				55A638742BB4BE9F00BE2AF2 /* Serializers */,
 				550A919629940D810014D030 /* OpenIdForVC */,
 				55E2F072299555280008010D /* Requirements */,
 				55A81C0E2991C202002C259A /* Resolvers */,
@@ -2907,7 +2921,6 @@
 			isa = PBXGroup;
 			children = (
 				55E2F073299555280008010D /* MockRequirement.swift */,
-				55A6386C2BB3855200BE2AF2 /* MockPresentationExchangeRequirement.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -3311,6 +3324,7 @@
 				5552D3F029EF48E200B40302 /* VCTraceLevel.swift in Sources */,
 				5552D45529EF4A8100B40302 /* SimpleFailureHandler.swift in Sources */,
 				5552D3A829EF483900B40302 /* ResponseContaining.swift in Sources */,
+				55753BED2BC48A8E009E1257 /* PresentationExchangeError.swift in Sources */,
 				55DECC2E29BB8DA800D5C802 /* GroupConstraint.swift in Sources */,
 				5552D4D029EF4AC300B40302 /* VCSDKConfigurable.swift in Sources */,
 				5552D3C329EF489400B40302 /* IONDocumentPatch.swift in Sources */,
@@ -3322,7 +3336,6 @@
 				5552D40229EF490000B40302 /* InputDescriptorMapping.swift in Sources */,
 				5552D48729EF4AAB00B40302 /* JwsEncoder.swift in Sources */,
 				5552D3DB29EF48B200B40302 /* ContractServiceResponse.swift in Sources */,
-				55A638622BB2468700BE2AF2 /* PresentationExchangeIdTokenBuilder.swift in Sources */,
 				55E2F08129955A960008010D /* RequestType.swift in Sources */,
 				5552D3F229EF48E200B40302 /* PresentationRequest.swift in Sources */,
 				5552D40929EF490A00B40302 /* PresentationInputDescriptor.swift in Sources */,
@@ -3407,6 +3420,7 @@
 				550AF7432B7E8C9A00E5F305 /* RawOpenID4VCIRequestFormatter.swift in Sources */,
 				5552D45229EF4A8100B40302 /* String+PercentEncoding.swift in Sources */,
 				5552D45029EF4A8100B40302 /* FetchWellKnownConfigDocumentOperation.swift in Sources */,
+				55753BF22BC48AD0009E1257 /* PresentationExchangeIdTokenBuilder.swift in Sources */,
 				550A9173299311A10014D030 /* VerifiedIdRequestURL.swift in Sources */,
 				5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */,
 				55265AF62B6D765D00BAD6A2 /* RawOpenID4VCIRequest.swift in Sources */,
@@ -3423,11 +3437,9 @@
 				55A6390B2BB7110100BE2AF2 /* VerifiedIdDataModel.xcdatamodeld in Sources */,
 				5552D3B629EF486A00B40302 /* PresentationResponseFormatter.swift in Sources */,
 				5598CFE62AB1012C00EBDE87 /* RequestedClaims+Mappable.swift in Sources */,
-				55A638632BB2468700BE2AF2 /* PartialInputDescriptor.swift in Sources */,
 				559BD3AB299ADEFF00BD61AC /* ContractIssuanceRequest.swift in Sources */,
 				5552D44229EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift in Sources */,
 				5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */,
-				557539DD2BBDF263009E1257 /* VerifiableCredentialSerializer.swift in Sources */,
 				555FB2162B75A2A900EE14BD /* IdentifierDocumentResolving.swift in Sources */,
 				555FB1D72B74400300EE14BD /* RootOfTrustResolving.swift in Sources */,
 				5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */,
@@ -3441,6 +3453,7 @@
 				5552D3EA29EF48E200B40302 /* RequestedVerifiableCredentialMapping.swift in Sources */,
 				55265B062B6DA37700BAD6A2 /* WalletLibraryNetworkingOperations.swift in Sources */,
 				5552D4D229EF4AC300B40302 /* CryptoOperating.swift in Sources */,
+				55753BF32BC48AD0009E1257 /* VerifiablePresentationBuilder.swift in Sources */,
 				555FB2022B75674800EE14BD /* JwsToken+Validation.swift in Sources */,
 				5552D3CC29EF48B200B40302 /* IssuanceCompletionResponse.swift in Sources */,
 				55265AD62B6C188200BAD6A2 /* PreviewFeatureFlags.swift in Sources */,
@@ -3453,6 +3466,7 @@
 				A497435B2B8EA367004851C2 /* VerifiedIdPartialRequest.swift in Sources */,
 				5552D49029EF4AAB00B40302 /* KeyId.swift in Sources */,
 				5552D3C229EF489100B40302 /* IdentifierDocumentServiceEndpoint.swift in Sources */,
+				55753BF42BC48AD0009E1257 /* TokenBuilderFactory.swift in Sources */,
 				55EA17A829CA531F0085E29E /* BasicVerifiedIdStyle.swift in Sources */,
 				55A6390D2BB711CC00BE2AF2 /* RootOfTrustResolver.swift in Sources */,
 				5552D3C529EF489E00B40302 /* IdentifierDocumentSuffixDescriptor.swift in Sources */,
@@ -3516,7 +3530,6 @@
 				55A81BE52991B2E5002C259A /* RequestResolverFactory.swift in Sources */,
 				5552D3AD29EF484C00B40302 /* WellKnownConfigDocument.swift in Sources */,
 				55A4BB172A27A436006836AB /* VerifiedIdError.swift in Sources */,
-				55A638652BB246A200BE2AF2 /* VerifiablePresentationBuilder.swift in Sources */,
 				5552D3FC29EF48F700B40302 /* JwePasswordProtectedBackupData.swift in Sources */,
 				5552D3BB29EF487B00B40302 /* IssuanceVPFormatter.swift in Sources */,
 				5552D3F429EF48ED00B40302 /* Microsoft2020IdentifierBackup.swift in Sources */,
@@ -3527,6 +3540,7 @@
 				5552D4CC29EF4AC300B40302 /* Random32BytesSecret.swift in Sources */,
 				55EA178D29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift in Sources */,
 				5552D48C29EF4AAB00B40302 /* TokenVerifying.swift in Sources */,
+				55753BF52BC48AD0009E1257 /* PartialInputDescriptor.swift in Sources */,
 				5552D44E29EF4A8100B40302 /* FetchDIDDocumentOperation.swift in Sources */,
 				5552D45F29EF4A8100B40302 /* BasicServiceResponseDecoder.swift in Sources */,
 				5552D46529EF4A8100B40302 /* DIDDocumentNetworkCalls.swift in Sources */,
@@ -3577,6 +3591,7 @@
 				5534E677294A1FA0005D0765 /* AccessTokenDescriptor+Mappable.swift in Sources */,
 				5552D3AA29EF484500B40302 /* DomainLinkageCredential.swift in Sources */,
 				5552D3E329EF48C700B40302 /* ServiceDescriptor.swift in Sources */,
+				55753BE22BC48A10009E1257 /* VerifiableCredentialSerializer.swift in Sources */,
 				55E2F08A299576350008010D /* PresentationDefinition+Mappable.swift in Sources */,
 				5552D39F29EF481600B40302 /* ExchangeRequestClaims.swift in Sources */,
 				553CC09D29A97181005A5FD6 /* IssuanceResponseContaining.swift in Sources */,
@@ -3593,7 +3608,6 @@
 				55A0DA1C2A745E4200BC178E /* Dictionary+ValueExtraction.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
 				55BA2DD329CDFA1A00BB8207 /* EncodedVerifiedId.swift in Sources */,
-				55A638692BB36C7E00BE2AF2 /* TokenBuilderFactory.swift in Sources */,
 				5552D28B29EF343700B40302 /* IdentifierDatabase.swift in Sources */,
 				55265AF42B6D765D00BAD6A2 /* CredentialOffer.swift in Sources */,
 				5552D3D029EF48B200B40302 /* ContractInputDescriptor.swift in Sources */,
@@ -3656,20 +3670,20 @@
 				55E2F06F299553B40008010D /* OpenIdRequestProcessorTests.swift in Sources */,
 				5552D7EE29F2E1AF00B40302 /* ClaimsTest.swift in Sources */,
 				558CF1A92B8680F600AF5D82 /* RawOpenID4VCIRequestFormatterTests.swift in Sources */,
-				55A6386F2BB3863600BE2AF2 /* VerifiablePresentationBuilderTests.swift in Sources */,
 				5552D7F129F2E1AF00B40302 /* ECPublicJwkTests.swift in Sources */,
 				5534E6AD294AAFA6005D0765 /* PresentationDescriptor+MappableTests.swift in Sources */,
 				5552D7D129F2E0AA00B40302 /* PbkdfTests.swift in Sources */,
+				55753BFB2BC48AF5009E1257 /* PresentationExchangeSerializerTests.swift in Sources */,
 				559BD4ED299EEAD100BD61AC /* IdTokenRequirementTests.swift in Sources */,
 				558CF1AD2B869CDD00AF5D82 /* OpenID4VCIVerifiedIDTests.swift in Sources */,
 				5555F1AD2BAB48DE00B41FD4 /* ExtensionIdentifierManagerTests.swift in Sources */,
 				5552D81629F2E25900B40302 /* MockTokenVerifier.swift in Sources */,
 				55DECC3D29BFE22900D5C802 /* OpenIdPresentationRequestTests.swift in Sources */,
-				55A638762BB4BEC200BE2AF2 /* MockTokenBuilders.swift in Sources */,
 				55EA17AA29CA57320085E29E /* MockVerifiedIdStyle.swift in Sources */,
 				555FB2142B759FF100EE14BD /* MockRootOfTrustResolver.swift in Sources */,
 				55DECC4329C0CF5F00D5C802 /* MockOpenIdResponder.swift in Sources */,
 				5552D7D329F2E0AA00B40302 /* EdDSATests.swift in Sources */,
+				55753BFD2BC48AF5009E1257 /* VerifiablePresentationBuilderTests.swift in Sources */,
 				559BD455299D3E4800BD61AC /* IssuanceRequest+MappableTests.swift in Sources */,
 				553CC0A029A98003005A5FD6 /* VCVerifiedIdTests.swift in Sources */,
 				55A81C132991C829002C259A /* MockHandler.swift in Sources */,
@@ -3683,6 +3697,7 @@
 				557538E32BBC6149009E1257 /* MockVerifiedIdExtension.swift in Sources */,
 				559BD4EB299EEAC400BD61AC /* GroupRequirementTests.swift in Sources */,
 				55A81C072991BB2C002C259A /* RequestResolverFactoryTests.swift in Sources */,
+				55753BFF2BC48B00009E1257 /* VerifiableCredentialSerializerTests.swift in Sources */,
 				55508A542A3B954100186885 /* MockVerifiedIdError.swift in Sources */,
 				5552D81829F2E25900B40302 /* MockOIDCClaims.swift in Sources */,
 				553CC09B29A96ECD005A5FD6 /* MockIssuanceResponseContaining.swift in Sources */,
@@ -3694,7 +3709,6 @@
 				559BD4E5299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift in Sources */,
 				5552D89F29F2E58000B40302 /* PresentationServiceTests.swift in Sources */,
 				5552D7E729F2E1AF00B40302 /* MockClaims.swift in Sources */,
-				55A638732BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift in Sources */,
 				5552D89A29F2E58000B40302 /* DifWordListTests.swift in Sources */,
 				5552D86529F2E43900B40302 /* String+PercentEncodingTests.swift in Sources */,
 				5552D82829F2E25900B40302 /* IssuanceResponseClaimsTests.swift in Sources */,
@@ -3729,7 +3743,6 @@
 				5552D82D29F2E25900B40302 /* OIDCClaimsTests.swift in Sources */,
 				555FB20F2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift in Sources */,
 				55DECC4129BFEDE400D5C802 /* VerifiedIdRequirementTests.swift in Sources */,
-				557539E02BBDF27C009E1257 /* VerifiableCredentialSerializerTests.swift in Sources */,
 				5552D7D729F2E0AA00B40302 /* Secp256k1Tests.swift in Sources */,
 				559BD4F8299EED5700BD61AC /* MockRawManifest.swift in Sources */,
 				5552D89029F2E58000B40302 /* MockVCSDKConfiguration.swift in Sources */,
@@ -3758,6 +3771,7 @@
 				550A91A0299412790014D030 /* MockOpenIdRawRequest.swift in Sources */,
 				55DECC3329BFDB6200D5C802 /* GroupConstraintTests.swift in Sources */,
 				5552D85E29F2E43900B40302 /* PostPresentationResponseOperationTests.swift in Sources */,
+				55753BFC2BC48AF5009E1257 /* PartialInputDescriptorTests.swift in Sources */,
 				5555F1C52BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift in Sources */,
 				559BD4F1299EEAEA00BD61AC /* PinRequirementTests.swift in Sources */,
 				5552D82129F2E25900B40302 /* MultihashTests.swift in Sources */,
@@ -3768,7 +3782,6 @@
 				55E2F076299555280008010D /* MockRequirement.swift in Sources */,
 				553CC09229A957A3005A5FD6 /* PinDescriptor+MappableTests.swift in Sources */,
 				5552D7CF29F2E0AA00B40302 /* Secp256k1PublicKeyTests.swift in Sources */,
-				55A638782BB4BF6000BE2AF2 /* MockVerifiedIdSerializer.swift in Sources */,
 				55508A572A3B95E500186885 /* VerifiedIdErrorsTests.swift in Sources */,
 				5552D82029F2E25900B40302 /* JSONCodingKeysTests.swift in Sources */,
 				A4DC99822B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift in Sources */,
@@ -3778,6 +3791,7 @@
 				5552D81929F2E25900B40302 /* MockTokenSigner.swift in Sources */,
 				5552D82A29F2E25900B40302 /* VerifiableCredentialTests.swift in Sources */,
 				5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */,
+				55753BFA2BC48AF5009E1257 /* PresentationExchangeIdTokenBuilderTests.swift in Sources */,
 				5552D7C929F2E0AA00B40302 /* SigningMock.swift in Sources */,
 				553CC09629A96249005A5FD6 /* ContractIssuanceRequestTests.swift in Sources */,
 				5552D7CE29F2E0AA00B40302 /* CryptoOperationsTests.swift in Sources */,
@@ -3798,7 +3812,6 @@
 				555FB2422B7BC97A00EE14BD /* CredentialMetadataTests.swift in Sources */,
 				5552D7D529F2E0AA00B40302 /* HmacSha512Tests.swift in Sources */,
 				5552D7D229F2E0AA00B40302 /* KeychainSecretStoreTests.swift in Sources */,
-				55A6386B2BB382F200BE2AF2 /* PartialInputDescriptorTests.swift in Sources */,
 				5552D85529F2E43900B40302 /* MockNetworkOperation.swift in Sources */,
 				5552D82429F2E25900B40302 /* IdentifierFormatterTests.swift in Sources */,
 				552E50A0293E6AB200868F47 /* VerifiedIdClientTests.swift in Sources */,
@@ -3833,7 +3846,6 @@
 				555FB2462B7BD20100EE14BD /* MockSignedMetadataProcessor.swift in Sources */,
 				5552D7ED29F2E1AF00B40302 /* TokenVerifierTests.swift in Sources */,
 				559BD3112996D3CE00BD61AC /* MockVerifiedIdRequest.swift in Sources */,
-				55A638712BB3B05A00BE2AF2 /* PresentationExchangeIdTokenBuilderTests.swift in Sources */,
 				550A913D29930D970014D030 /* MockRawRequest.swift in Sources */,
 				55EA17AC29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift in Sources */,
 				559BD30B2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift in Sources */,
