@@ -16,7 +16,7 @@ enum PresentationInputDescriptorMappingError: Error {
  */
 extension PresentationInputDescriptor: Mappable {
     
-    func map(using mapper: Mapping) throws -> VerifiedIdRequirement {
+    func map(using mapper: Mapping) throws -> PresentationExchangeVerifiedIdRequirement {
         
         guard let types = schema?.compactMap({ $0.uri }),
               !types.isEmpty else {
@@ -53,13 +53,17 @@ extension PresentationInputDescriptor: Mappable {
                                                    constraintOperator: .ALL)
         }
         
-        return VerifiedIdRequirement(encrypted: false,
-                                     required: true,
-                                     types: types,
-                                     purpose: purpose,
-                                     issuanceOptions: issuanceOptions ?? [],
-                                     id: id,
-                                     constraint: verifiedIdConstraint)
+        // Fix exclusive presentation with.
+        return PresentationExchangeVerifiedIdRequirement(encrypted: false,
+                                                         required: true,
+                                                         types: types,
+                                                         purpose: purpose,
+                                                         issuanceOptions: issuanceOptions ?? [],
+                                                         id: id,
+                                                         constraint: verifiedIdConstraint,
+                                                         inputDescriptorId: id ?? "",
+                                                         format: "jwt_vc",
+                                                         exclusivePresentationWith: nil)
     }
     
     private func getTypeConstraint(from requestedTypes: [String]) -> VerifiedIdConstraint {
