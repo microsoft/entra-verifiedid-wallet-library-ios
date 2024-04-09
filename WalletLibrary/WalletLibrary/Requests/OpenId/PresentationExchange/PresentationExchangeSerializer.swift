@@ -61,25 +61,21 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     /// Serializes a requirement into a partial input descriptor and adds it to the appropriate Verifiable Presentation builder.
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
     {
-        guard let peRequirement = requirement as? PresentationExchangeRequirement else
-        {
-            let message = "Unable to serialize requirement type: \(String(describing: type(of: requirement.self)))"
-            configuration.logger.logVerbose(message: message)
-            return
-        }
+        let serializationResult = try requirement.serialize(protocolSerializer: self,
+                                                            verifiedIdSerializer: verifiedIdSerializer)
         
-        if let rawVC = try requirement.serialize(protocolSerializer: self,
-                                                 verifiedIdSerializer: verifiedIdSerializer) as? String
+        if let peRequirement = requirement as? PresentationExchangeRequirement,
+           let rawVC = serializationResult as? String
         {
             let partialInputDescriptor = PartialInputDescriptor(serializedVerifiedId: rawVC,
                                                                 requirement: peRequirement)
             addToVPGroupings(partialInputDescriptor: partialInputDescriptor)
         }
-        else
-        {
-            let message = "Verified ID serialized to incorrect type."
-            configuration.logger.logVerbose(message: message)
-        }
+//        else
+//        {
+//            let message = "Verified ID serialized to incorrect type."
+//            configuration.logger.logVerbose(message: message)
+//        }
     }
     
     private func addToVPGroupings(partialInputDescriptor: PartialInputDescriptor)

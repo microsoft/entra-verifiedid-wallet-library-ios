@@ -8,12 +8,11 @@
  */
 public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement, PresentationExchangeRequirement
 {
+    public var inputDescriptorId: String
     
-    var inputDescriptorId: String
+    public var format: String
     
-    var format: PresentationExchangeVerifiedIdFormat = .JWT_VC
-    
-    var exclusivePresentationWith: [String]?
+    public var exclusivePresentationWith: [String]?
     
     init(encrypted: Bool,
          required: Bool,
@@ -23,7 +22,7 @@ public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement, P
          id: String?,
          constraint: VerifiedIdConstraint,
          inputDescriptorId: String,
-         format: PresentationExchangeVerifiedIdFormat,
+         format: String,
          exclusivePresentationWith: [String]?
     ) {
         self.inputDescriptorId = inputDescriptorId
