@@ -64,7 +64,7 @@ class OpenIdURLRequestResolver: RequestResolving
             throw OpenIdURLRequestResolverError.UnsupportedVerifiedIdRequestInputWith(type: String(describing: type(of: input)))
         }
         
-        var additionalHeaders = AdditionalHeaders()
+        let additionalHeaders = AdditionalHeaders()
         var isFeatureFlagOn = false
         
         if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIAccessToken)
