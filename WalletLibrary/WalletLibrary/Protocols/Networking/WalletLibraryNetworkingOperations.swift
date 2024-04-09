@@ -6,10 +6,8 @@
 /**
  * The Wallet Library Fetch Operation.
  */
-protocol WalletLibraryFetchOperation: InternalNetworkOperation where ResponseBody: Decodable
+protocol WalletLibraryFetchOperation: InternalNetworkOperation
 {
-    associatedtype Decoder = SimpleDecoder<ResponseBody>
-    
     init(url: URL,
          additionalHeaders: [String: String]?,
          urlSession: URLSession,
@@ -20,8 +18,10 @@ protocol WalletLibraryFetchOperation: InternalNetworkOperation where ResponseBod
  * An extension for the `WalletLibraryFetchOperation` to have a simple decoder
  * that just decodes JSON by default.
  */
-extension WalletLibraryFetchOperation
+extension WalletLibraryFetchOperation where ResponseBody: Decodable
 {
+    typealias Decoder = SimpleDecoder<ResponseBody>
+    
     var decoder: SimpleDecoder<ResponseBody>
     {
         SimpleDecoder()
@@ -31,11 +31,8 @@ extension WalletLibraryFetchOperation
 /**
  * The Wallet Library Post Operation.
  */
-protocol WalletLibraryPostOperation: InternalPostOperation where ResponseBody: Decodable, RequestBody: Encodable
+protocol WalletLibraryPostOperation: InternalPostOperation
 {
-    associatedtype Encoder = SimpleEncoder<RequestBody>
-    associatedtype Decoder = SimpleDecoder<ResponseBody>
-
     init(requestBody: RequestBody,
          url: URL,
          additionalHeaders: [String: String]?,
@@ -47,8 +44,11 @@ protocol WalletLibraryPostOperation: InternalPostOperation where ResponseBody: D
  * An extension for the `WalletLibraryPostOperation`
  * to have a simple decoder and a simple encoder to handle JSON by default.
  */
-extension WalletLibraryPostOperation
+extension WalletLibraryPostOperation where ResponseBody: Decodable, RequestBody: Encodable
 {
+    typealias Encoder = SimpleEncoder<RequestBody>
+    typealias Decoder = SimpleDecoder<ResponseBody>
+    
     var encoder: SimpleEncoder<RequestBody>
     {
         SimpleEncoder()
