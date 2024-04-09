@@ -17,10 +17,29 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     
     var primitiveClaims: [String : Any]?
     
+    var nonce: String? = ""
+    
+    var state: String? = ""
+    
+    var clientId: String? = ""
+    
+    var definitionId: String? = ""
+    
+    var responseURL: URL? = URL(string: "https://microsoft.com")
+    
     init(raw: Data?, type: RequestType = .Presentation) {
         self.raw = raw
         self.type = type
         self.primitiveClaims = [:]
+    }
+    
+    init(nonce: String?, state: String?, clientId: String?, definitionId: String?)
+    {
+        self.nonce = nonce
+        self.state = state
+        self.clientId = clientId
+        self.definitionId = definitionId
+        self.type = .Presentation
     }
     
     func map(using mapper: Mapping) throws -> PresentationRequestContent {

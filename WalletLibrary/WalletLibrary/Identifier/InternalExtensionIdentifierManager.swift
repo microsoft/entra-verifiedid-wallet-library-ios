@@ -61,7 +61,7 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
             
             guard var vcToken = token else
             {
-                throw TokenValidationError.UnableToCreateToken()
+                throw TokenValidationError.UnableToCreateToken(ofType: String(describing: VerifiableCredential.self))
             }
             
             try vcToken.sign(using: tokenSigner, withSecret: signingKey.keyReference)
