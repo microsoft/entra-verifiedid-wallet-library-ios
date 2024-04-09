@@ -5,6 +5,7 @@
 
 enum VerifiedIdPresentationRequestError: Error {
     case cancelPresentationRequestIsUnsupported
+    case NoResponseURLOnRawRequest
 }
 
 /**
@@ -66,10 +67,38 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     
     /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
     func complete() async -> VerifiedIdResult<Void> {
+        
+        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.PresentationExchangeSerializationSupport)
+        {
+            return await completeWithProcessorExtensions()
+        }
+        
         return await VerifiedIdResult<Void>.getResult {
             var response = try PresentationResponseContainer(rawRequest: self.rawRequest)
             try response.add(requirement: self.requirement)
             try await self.responder.send(response: response)
+        }
+    }
+    
+    func completeWithProcessorExtensions() async -> VerifiedIdResult<Void> {
+        return await VerifiedIdResult<Void>.getResult {
+            
+            guard let responseURL = self.rawRequest.responseURL else
+            {
+                throw VerifiedIdPresentationRequestError.NoResponseURLOnRawRequest
+            }
+            
+            let serializer = VerifiableCredentialSerializer()
+            let peSerializer = try PresentationExchangeSerializer(request: self.rawRequest,
+                                                                  libraryConfiguration: self.configuration)
+            try peSerializer.serialize(requirement: self.requirement,
+                                       verifiedIdSerializer: serializer)
+            let response = try peSerializer.build()
+            _ = try await self.configuration.networking.post(requestBody: response,
+                                                             url: responseURL,
+                                                             PostPresentationResponseOperation.self,
+                                                             additionalHeaders: self.additionalHeaders)
+            
         }
     }
     
