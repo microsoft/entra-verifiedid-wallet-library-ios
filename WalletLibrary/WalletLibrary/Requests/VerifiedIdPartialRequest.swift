@@ -52,6 +52,32 @@ public class VerifiedIdPartialRequest
         return updatedRequirement
     }
     
+    /**
+     * Remove a `VerifiedIdRequirement` with given id in `Requirement` tree on the `VerifiedIdPartialRequest`.
+     * - Returns:
+     *   - Bool: whether the requirement was successfully removed or not.
+     */
+    public func removeRequirement(id: String) -> Bool
+    {
+        guard let groupRequirement = requirement as? GroupRequirement else
+        {
+            return false
+        }
+        
+        var wasRequirementRemoved = false
+        for (index, req) in groupRequirement.requirements.enumerated()
+        {
+            if let verifiedIdRequirement = req as? VerifiedIdRequirement,
+               verifiedIdRequirement.id == id
+            {
+                groupRequirement.requirements.remove(at: index)
+                wasRequirementRemoved = true
+            }
+        }
+        
+        return wasRequirementRemoved
+    }
+    
     /// Recurse through the requirements and if there is a VerifiedIdRequirement with given id,
     /// replace requirement using given transformer and return replaced requirement. Return nil if not requirement
     /// matching those constraints was found.
