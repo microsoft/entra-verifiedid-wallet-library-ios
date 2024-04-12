@@ -16,9 +16,6 @@ Pod::Spec.new do |s|
 
   vcsdkPath = 'WalletLibrary/Submodules/VerifiableCredential-SDK-iOS'
   submodulePath = 'WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/Submodules'
-
-  s.swift_version = '5.0'
-
   s.ios.deployment_target = '14.0'
   s.default_subspecs = 'Core'
 
