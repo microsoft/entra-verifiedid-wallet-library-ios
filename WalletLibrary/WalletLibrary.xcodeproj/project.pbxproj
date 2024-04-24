@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5507A40B2BD99986003646EE /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5507A40A2BD99986003646EE /* PrivacyInfo.xcprivacy */; };
 		550A913D29930D970014D030 /* MockRawRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A913C29930D970014D030 /* MockRawRequest.swift */; };
 		550A916F299310D40014D030 /* OpenIdRequestProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A9157299310D40014D030 /* OpenIdRequestProcessor.swift */; };
 		550A9170299310D40014D030 /* OpenIdURLRequestResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A916E299310D40014D030 /* OpenIdURLRequestResolver.swift */; };
@@ -584,6 +585,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5507A40A2BD99986003646EE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		550A913C29930D970014D030 /* MockRawRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRawRequest.swift; sourceTree = "<group>"; };
 		550A9157299310D40014D030 /* OpenIdRequestProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIdRequestProcessor.swift; sourceTree = "<group>"; };
 		550A916E299310D40014D030 /* OpenIdURLRequestResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIdURLRequestResolver.swift; sourceTree = "<group>"; };
@@ -1166,6 +1168,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5507A4092BD99986003646EE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5507A40A2BD99986003646EE /* PrivacyInfo.xcprivacy */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		550A9156299310D40014D030 /* Processors */ = {
 			isa = PBXGroup;
 			children = (
@@ -1306,6 +1316,7 @@
 		552E5088293E6AB100868F47 = {
 			isa = PBXGroup;
 			children = (
+				5507A4092BD99986003646EE /* Resources */,
 				5552D8A529F2F09E00B40302 /* Submodules */,
 				5552D49129EF4AC300B40302 /* VCCrypto */,
 				5552D46829EF4AAB00B40302 /* VCToken */,
@@ -3268,6 +3279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5507A40B2BD99986003646EE /* PrivacyInfo.xcprivacy in Resources */,
 				5552D28829EF340900B40302 /* difwordlist.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
