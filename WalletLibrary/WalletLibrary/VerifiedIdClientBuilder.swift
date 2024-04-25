@@ -24,8 +24,6 @@ public class VerifiedIdClientBuilder {
     
     private var previewFeatureFlagsSupported: [String] = []
     
-    private var preferHeaders: [String] = []
-    
     public init() {
         logger = WalletLibraryLogger()
     }
