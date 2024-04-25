@@ -11,6 +11,8 @@ class MockResolver: RequestResolving {
         case nilMockResolveMethod
     }
     
+    var preferHeaders: [String] = []
+    
     let canResolveUsingInput: Bool
     
     let mockResolve: ((VerifiedIdRequestInput) throws -> Any)?

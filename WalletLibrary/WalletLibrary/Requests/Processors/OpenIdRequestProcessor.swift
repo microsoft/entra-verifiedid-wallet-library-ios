@@ -6,7 +6,7 @@
 /**
  * Processes a raw Open Id request and configures a VeriifedIdRequest object.
  */
-public struct OpenIdRequestProcessor: RequestProcessing
+public class OpenIdRequestProcessor: RequestProcessing
 {
     public typealias RawRequestType = Dictionary<String, Any>
     
