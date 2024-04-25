@@ -11,8 +11,7 @@ open class VerifiedIdError: LocalizedError, CustomStringConvertible, Encodable
     public let code: String
     public let correlationId: String?
     
-    init(message: String, code: String, correlationId: String? = nil) 
-    {
+    public init(message: String, code: String, correlationId: String? = nil) {
         self.message = message
         self.code = code
         self.correlationId = correlationId

@@ -54,9 +54,9 @@ class TokenValidationError: VerifiedIdError
                                     correlationId: nil)
     }
     
-    static func UnableToCreateToken() -> TokenValidationError
+    static func UnableToCreateToken(ofType type: String) -> TokenValidationError
     {
-        let message = "Unable to create token."
+        let message = "Unable to create token of type: \(type)."
         return TokenValidationError(message: message,
                                     code: "token_creation_error",
                                     correlationId: nil)
