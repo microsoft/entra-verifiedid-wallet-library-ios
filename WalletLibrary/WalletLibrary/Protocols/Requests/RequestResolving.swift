@@ -9,6 +9,8 @@
  */
 protocol RequestResolving {
     
+    var preferHeaders: [String] { get set }
+    
     /// Whether or not the object can resolve the given input.
     func canResolve(input: VerifiedIdRequestInput) -> Bool
     

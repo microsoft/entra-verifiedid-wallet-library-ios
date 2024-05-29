@@ -12,4 +12,15 @@ protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent
     var type: RequestType { get }
     
     var primitiveClaims: [String: Any]? { get }
+    
+    var nonce: String? { get }
+    
+    var state: String? { get }
+    
+    var clientId: String? { get }
+    
+    /// Should only be one definition Id per request.
+    var definitionId: String? { get }
+    
+    var responseURL: URL? { get }
 }

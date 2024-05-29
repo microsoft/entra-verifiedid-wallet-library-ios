@@ -7,7 +7,7 @@
  * Utilities such as logger, mapper, httpclient (post private preview) that are configured in builder and
  * all of library will use.
  */
-class LibraryConfiguration 
+class LibraryConfiguration
 {
     let logger: WalletLibraryLogger
 
@@ -46,5 +46,11 @@ class LibraryConfiguration
     func isPreviewFeatureFlagSupported(_ featureFlag: String) -> Bool
     {
         return previewFeatureFlags.isPreviewFeatureSupported(featureFlag)
+    }
+    
+    func createExtensionConfiguration() -> ExtensionConfiguration
+    {
+        return ExtensionConfiguration(identifierManager: identifierManager,
+                                      libraryConfiguration: self)
     }
 }

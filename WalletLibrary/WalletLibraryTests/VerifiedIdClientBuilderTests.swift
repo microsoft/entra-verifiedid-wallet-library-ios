@@ -174,4 +174,157 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.isPreviewFeatureFlagSupported(mockPreviewFeature))
         XCTAssertFalse(actualResult.configuration.isPreviewFeatureFlagSupported(unsupportedPreviewFeature))
     }
+    
+    func testBuild_WithVerifiedIdExtensionInjection_ReturnsVerifiedIdClient() throws {
+        // Arrange
+        let expectedHeaders = ["headerValue1", "headerValue2"]
+        let expectedProcessor = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let mockProcessorExtension = MockVerifiedIdExtension(prefer: expectedHeaders,
+                                                             processors: [expectedProcessor])
+        
+        // Act
+        let builder = VerifiedIdClientBuilder()
+            .with(verifiedIdExtension: mockProcessorExtension)
+        let actualResult = builder.build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
+        
+        // Assert Processor Injection
+        let openIdRequestProcessor = actualResult.requestHandlerFactory.requestHandlers.first { $0 is OpenIdRequestProcessor }
+        let processorResults = openIdRequestProcessor?.requestProcessorExtensions as? [MockRequestProcessorExtension<OpenIdRequestProcessor>]
+        XCTAssertEqual(openIdRequestProcessor?.requestProcessorExtensions.count, 1)
+        XCTAssertEqual(processorResults?.first?.id, expectedProcessor.id)
+        
+        // Assert Prefer Header Injection
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.first?.preferHeaders, expectedHeaders)
+        
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+    }
+    
+    func testBuild_With3ProcessorExtensionInjection_ReturnsVerifiedIdClient() throws {
+        // Arrange
+        let expectedHeaders = ["headerValue1", "headerValue2"]
+        let expectedProcessor1 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let expectedProcessor2 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let expectedProcessor3 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let processors = [expectedProcessor1, expectedProcessor2, expectedProcessor3]
+        let mockProcessorExtension = MockVerifiedIdExtension(prefer: expectedHeaders,
+                                                             processors: processors)
+        
+        // Act
+        let builder = VerifiedIdClientBuilder()
+            .with(verifiedIdExtension: mockProcessorExtension)
+        let actualResult = builder.build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
+        
+        // Assert Processor Injection
+        let openIdRequestProcessor = actualResult.requestHandlerFactory.requestHandlers.first { $0 is OpenIdRequestProcessor }
+        let processorResults = openIdRequestProcessor?.requestProcessorExtensions as? [MockRequestProcessorExtension<OpenIdRequestProcessor>]
+        XCTAssertEqual(openIdRequestProcessor?.requestProcessorExtensions.count, 3)
+        XCTAssertEqual(processorResults?[0].id, expectedProcessor1.id)
+        XCTAssertEqual(processorResults?[1].id, expectedProcessor2.id)
+        XCTAssertEqual(processorResults?[2].id, expectedProcessor3.id)
+        
+        // Assert Prefer Header Injection
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.first?.preferHeaders, expectedHeaders)
+        
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+    }
+    
+    func testBuild_WithProcessorExtensionNotInjected_ReturnsVerifiedIdClient() throws {
+        // Arrange
+        let expectedHeaders = ["headerValue1", "headerValue2"]
+        let expectedProcessor = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let processorToNotBeInjected = MockRequestProcessorExtension<MockHandler>()
+        let mockProcessorExtension = MockVerifiedIdExtension(prefer: expectedHeaders,
+                                                             processors: [expectedProcessor,
+                                                                          processorToNotBeInjected])
+        
+        // Act
+        let builder = VerifiedIdClientBuilder()
+            .with(verifiedIdExtension: mockProcessorExtension)
+        let actualResult = builder.build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
+        
+        // Assert Processor Injection
+        let openIdRequestProcessor = actualResult.requestHandlerFactory.requestHandlers.first { $0 is OpenIdRequestProcessor }
+        let processorResults = openIdRequestProcessor?.requestProcessorExtensions as? [MockRequestProcessorExtension<OpenIdRequestProcessor>]
+        XCTAssertEqual(openIdRequestProcessor?.requestProcessorExtensions.count, 1)
+        XCTAssertEqual(processorResults?.first?.id, expectedProcessor.id)
+        
+        // Assert Prefer Header Injection
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.first?.preferHeaders, expectedHeaders)
+        
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+    }
+    
+    func testBuild_With3VerifiedIdExtensionInjection_ReturnsVerifiedIdClient() throws {
+        // Arrange
+        let expectedHeaders = ["headerValue1", "headerValue2"]
+        let expectedProcessor1 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let expectedProcessor2 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let expectedProcessor3 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
+        let mockProcessorExtension1 = MockVerifiedIdExtension(prefer: expectedHeaders,
+                                                             processors: [expectedProcessor1])
+        let mockProcessorExtension2 = MockVerifiedIdExtension(prefer: [],
+                                                             processors: [expectedProcessor2])
+        let mockProcessorExtension3 = MockVerifiedIdExtension(prefer: [],
+                                                             processors: [expectedProcessor3])
+        
+        // Act
+        let builder = VerifiedIdClientBuilder()
+            .with(verifiedIdExtension: mockProcessorExtension1)
+            .with(verifiedIdExtension: mockProcessorExtension2)
+            .with(verifiedIdExtension: mockProcessorExtension3)
+        let actualResult = builder.build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
+        
+        // Assert Processor Injection
+        let openIdRequestProcessor = actualResult.requestHandlerFactory.requestHandlers.first { $0 is OpenIdRequestProcessor }
+        let processorResults = openIdRequestProcessor?.requestProcessorExtensions as? [MockRequestProcessorExtension<OpenIdRequestProcessor>]
+        XCTAssertEqual(openIdRequestProcessor?.requestProcessorExtensions.count, 3)
+        XCTAssertEqual(processorResults?[0].id, expectedProcessor1.id)
+        XCTAssertEqual(processorResults?[1].id, expectedProcessor2.id)
+        XCTAssertEqual(processorResults?[2].id, expectedProcessor3.id)
+        
+        // Assert Prefer Header Injection
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.first?.preferHeaders, expectedHeaders)
+        
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+    }
 }
