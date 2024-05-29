@@ -21,8 +21,6 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     
     var primitiveClaims: [String : Any]?
     
-    var nonce: String? = ""
-    
     var state: String? = ""
     
     var clientId: String? = ""

@@ -14,15 +14,15 @@ class PresentationExchangeVerifiedIdRequirementTests: XCTestCase {
         let mockVerifiedId = MockVerifiedId(id: "mock verified id", issuedOn: Date())
         let mockConstraint = MockConstraint(doesMatchResult: true)
         let requirement = PresentationExchangeVerifiedIdRequirement(encrypted: false,
-                                                required: false,
-                                                types: ["mockType"],
-                                                purpose: nil,
-                                                issuanceOptions: [],
-                                                id: nil,
-                                                constraint: mockConstraint,
-                                                inputDescriptorId: expectedInputDescriptor,
-                                                format: .JWT_VC,
-                                                exclusivePresentationWith: nil)
+                                                                    required: false,
+                                                                    types: ["mockType"],
+                                                                    purpose: nil,
+                                                                    issuanceOptions: [],
+                                                                    id: nil,
+                                                                    constraint: mockConstraint,
+                                                                    inputDescriptorId: expectedInputDescriptor,
+                                                                    format: "mockFormat",
+                                                                    exclusivePresentationWith: nil)
         
         
         // Act
