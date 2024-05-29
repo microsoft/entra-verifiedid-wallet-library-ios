@@ -67,4 +67,11 @@ class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement, InternalAccess
                                                       errors: [error]).result()
         }
     }
+    
+    func serialize<T>(protocolSerializer: RequestProcessorSerializing, 
+                      verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
+    {
+        throw VerifiedIdError(message: "Serialization not enabled for issuance",
+                              code: "unsupported_serialization_method")
+    }
 }
