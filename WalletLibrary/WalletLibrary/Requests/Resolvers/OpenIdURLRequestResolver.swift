@@ -65,6 +65,7 @@ class OpenIdURLRequestResolver: RequestResolving
         }
         
         let additionalHeaders = AdditionalHeaders()
+        
         var isFeatureFlagOn = false
         
         if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIAccessToken)

@@ -2787,6 +2787,7 @@
 		55A638492BB1E0B900BE2AF2 /* ProcessorExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				5562C6212BDAB19C00D47AB8 /* MockVerifiedIdExtension.swift */,
 				55A6384A2BB1E0D600BE2AF2 /* MockRequestProcessorExtension.swift */,
 				557538E22BBC6149009E1257 /* MockVerifiedIdExtension.swift */,
 			);
@@ -3514,6 +3515,7 @@
 				5552D4D129EF4AC300B40302 /* Hashing.swift in Sources */,
 				5555F1BC2BACAB2800B41FD4 /* PresentationExchangeSerializer.swift in Sources */,
 				550E320A298B0EA4004E7716 /* VerifiedIdClient.swift in Sources */,
+				5562C6202BDAB17C00D47AB8 /* AdditionalHeaders.swift in Sources */,
 				A48C1EB62B8FF19000545FF6 /* VerifiedIdSerializing.swift in Sources */,
 				559BD45B299D587200BD61AC /* VerifiedIdManifestIssuerStyle.swift in Sources */,
 				55265B082B71718600BAD6A2 /* LibraryNetworking.swift in Sources */,
@@ -3836,6 +3838,7 @@
 				5552D7C529F2E0A900B40302 /* VCSDKConfigurationMock.swift in Sources */,
 				55E2F077299555280008010D /* MockRequesterStyle.swift in Sources */,
 				55F01CD42ACE100B000794B4 /* P256PublicKeyTests.swift in Sources */,
+				5562C6222BDAB19C00D47AB8 /* MockVerifiedIdExtension.swift in Sources */,
 				5552D89B29F2E58000B40302 /* CoreDataManagerTests.swift in Sources */,
 				5552D86D29F2E43A00B40302 /* IssuanceServiceResponseDecoderTests.swift in Sources */,
 				5552D7CB29F2E0AA00B40302 /* KeyManagementOperationsTests.swift in Sources */,

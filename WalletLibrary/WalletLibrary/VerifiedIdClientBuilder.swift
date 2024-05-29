@@ -127,7 +127,6 @@ public class VerifiedIdClientBuilder {
     
     private func registerSupportedRequestProcessors(with configuration: LibraryConfiguration)
     {
-        // TODO: inject networking client into Services.
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
                                               identifierManager: configuration.identifierManager,
                                               rootOfTrustResolver: rootOfTrustResolver,
