@@ -74,7 +74,7 @@ struct OpenId4VCIProcessor: RequestProcessing
         let verifiedIdStyle = credentialConfig.getLocalizedVerifiedIdStyle(withIssuerName: requesterStyle.name)
         
         /// Transform `CredentialMetadata` and `CredentialOffer` into Requirement.
-        let requirement = try getRequirement(scope: credentialConfig.scope, credentialOffer: credentialOffer)
+        let requirement = try await createRequirement(credentialOffer: credentialOffer, scope: credentialConfig.scope)
         
         return OpenId4VCIRequest(style: requesterStyle,
                                  verifiedIdStyle: verifiedIdStyle,
@@ -109,16 +109,29 @@ struct OpenId4VCIProcessor: RequestProcessing
         return rootOfTrust
     }
     
-    /// Transform `CredentialOffer` and `scope` from `CredentialMetadata` to `Requirement`.
-    /// note: only support Access Token Requirement.
-    private func getRequirement(scope: String?, credentialOffer: CredentialOffer) throws -> Requirement
+    private func createRequirement(credentialOffer: CredentialOffer, scope: String?) async throws -> Requirement
     {
-        guard let grant = credentialOffer.grants["authorization_code"] else
+        var requirements: [Requirement] = []
+        
+        if let grant = credentialOffer.grants["authorization_code"]
         {
-            let errorMessage = "Grants does not contain 'authorization_code' property."
-            throw OpenId4VCIValidationError.MalformedCredentialOffer(message: errorMessage)
+            let accessTokenRequirement = try createAccessTokenRequirement(grant: grant, scope: scope)
+            requirements.append(accessTokenRequirement)
         }
         
+        if let grant = credentialOffer.grants["urn:ietf:params:oauth:grant-type:pre-authorized_code"]
+        {
+            let preAuthRequirement = try await createPreAuthRequirement(grant: grant)
+            requirements.append(preAuthRequirement)
+        }
+        
+        let requirement = try requirements.reduce()
+        return requirement
+    }
+    
+    /// Transform `CredentialOffer` and `scope` from `CredentialMetadata` to `Requirement`.
+    private func createAccessTokenRequirement(grant: CredentialOfferGrant, scope: String?) throws -> Requirement
+    {
         guard let scope = scope else
         {
             let errorMessage = "Credential Configuration does not contain scope value."
@@ -129,5 +142,33 @@ struct OpenId4VCIProcessor: RequestProcessing
         return AccessTokenRequirement(configuration: grant.authorization_server,
                                       resourceId: scope,
                                       scope: "\(scope)/.default")
+    }
+    
+    private func createPreAuthRequirement(grant: CredentialOfferGrant) async throws -> Requirement
+    {
+        if grant.tx_code != nil
+        {
+            let preAuthCode = try CredentialOfferGrant.getRequiredProperty(property: grant.pre_authorized_code,
+                                                                           propertyName: "pre-authorized_code")
+            let requirement = OpenId4VCIRetryablePinRequirement(configuration: configuration,
+                                                                code: preAuthCode, 
+                                                                grant: grant)
+            return requirement
+        }
+        else
+        {
+            let accessTokenRequirement = try await fetchAccessTokenNoRequiredPin(grant: grant)
+            return accessTokenRequirement
+        }
+    }
+    
+    private func fetchAccessTokenNoRequiredPin(grant: CredentialOfferGrant) async throws -> Requirement
+    {
+        let tokenResolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)
+        let accessToken = try await tokenResolver.resolve(using: grant)
+        
+        let requirement = PrefilledAccessTokenRequirement(accessToken: accessToken)
+        requirement.accessToken = accessToken
+        return requirement
     }
 }

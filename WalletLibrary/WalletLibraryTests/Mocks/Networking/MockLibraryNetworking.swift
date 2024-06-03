@@ -73,4 +73,20 @@ struct MockLibraryNetworking: LibraryNetworking
             throw MockLibraryNetworkingError.MockingNotSupportedForOperation(String(describing: type))
         }
     }
+    
+    func post<Operation: WalletLibraryPostOperation>(requestBody: Operation.RequestBody,
+                                                     url: URL, _ type: Operation.Type, 
+                                                     additionalHeaders: [String : String]?) async throws -> Operation.ResponseBody
+    {
+        let expectedResponseBody = try getExpectedResponseBodies(type)
+        
+        if let responseBody = expectedResponseBody as? Operation.ResponseBody
+        {
+            return responseBody
+        }
+        else
+        {
+            throw MockLibraryNetworkingError.MockingNotSupportedForOperation(String(describing: type))
+        }
+    }
 }

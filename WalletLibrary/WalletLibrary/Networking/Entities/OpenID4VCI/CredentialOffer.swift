@@ -39,9 +39,56 @@ struct CredentialOfferGrant: Codable
      */
     let authorization_server: String
     
+    /**
+     * The code representing the Credential Issuer's authorization for the Wallet to obtain Credentials of a certain type.
+     * This code MUST be short lived and single use. If the Wallet decides to use the Pre-Authorized Code Flow,
+     * this parameter value MUST be included in the subsequent Token Request with the Pre-Authorized Code Flow.
+     */
+    let pre_authorized_code: String?
+    
+    /// The user pin requirements.
+    let tx_code: CredentialOfferGrantCode?
+    
     enum CodingKeys: String, CodingKey
     {
+        case pre_authorized_code = "pre-authorized_code"
         case authorization_server
+        case tx_code
+    }
+    
+    init(authorization_server: String, 
+         pre_authorized_code: String? = nil,
+         tx_code: CredentialOfferGrantCode? = nil) 
+    {
+        self.authorization_server = authorization_server
+        self.pre_authorized_code = pre_authorized_code
+        self.tx_code = tx_code
+    }
+}
+
+struct CredentialOfferGrantCode: Codable, MappableTarget
+{
+    /// The length of the expected pin.
+    let length: Int
+    
+    /// The type of the pin such as alphanumeric or numeric.
+    let input_mode: String
+    
+    enum CodingKeys: String, CodingKey
+    {
+        case length
+        case input_mode
+    }
+    
+    static func map(_ object: Dictionary<String, Any>, using mapper: Mapping) throws -> CredentialOfferGrantCode
+    {
+        let length: Int = try validateValueExists(CodingKeys.length.rawValue,
+                                                  in: object)
+        
+        let input_mode: String = try validateValueExists(CodingKeys.input_mode.rawValue,
+                                                         in: object)
+        
+        return CredentialOfferGrantCode(length: length, input_mode: input_mode)
     }
 }
 
@@ -84,6 +131,18 @@ extension CredentialOfferGrant: MappableTarget
     {
         let authorizationServer: String = try validateValueExists(CodingKeys.authorization_server.rawValue,
                                                                   in: object)
-        return CredentialOfferGrant(authorization_server: authorizationServer)
+        
+        let preAuthCode: String? = object[CodingKeys.pre_authorized_code.rawValue] as? String
+        
+        var code: CredentialOfferGrantCode? = nil
+        if let txCode = object[CodingKeys.tx_code.rawValue] as? Dictionary<String, Any>
+        {
+            code = try mapper.map(txCode,
+                                  type: CredentialOfferGrantCode.self)
+        }
+        
+        return CredentialOfferGrant(authorization_server: authorizationServer, 
+                                    pre_authorized_code: preAuthCode,
+                                    tx_code: code)
     }
 }
