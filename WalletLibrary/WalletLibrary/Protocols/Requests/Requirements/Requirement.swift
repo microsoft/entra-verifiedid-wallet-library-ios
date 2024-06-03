@@ -20,6 +20,41 @@ public protocol Requirement: AnyObject
      * MUST call the protocolSerializer's serialize function on all used requirements.
      * returns the raw format for a given SerializedFormat type (if it has output).
      */
-    func serialize<T>(protocolSerializer: RequestProcessorSerializing, 
+    func serialize<T>(protocolSerializer: RequestProcessorSerializing,
                       verifiedIdSerializer: any VerifiedIdSerializing<T>) throws -> T?
+}
+
+/**
+ * An internal object that describes an access token requirement to be used a the BEARER token in an issuance request.
+ */
+protocol InternalAccessTokenRequirement: Requirement
+{
+    var accessToken: String? { get set }
+}
+
+/**
+ * A helper method to be used to reduce a list of requirements into a `GroupRequirement`.
+ */
+extension [Requirement]
+{
+    func reduce() throws -> Requirement
+    {
+        if count == 1,
+           let onlyRequirement = first
+        {
+            return onlyRequirement
+        }
+        else if count > 1
+        {
+            let groupRequirement = GroupRequirement(required: true,
+                                                    requirements: self,
+                                                    requirementOperator: .ALL)
+            return groupRequirement
+        }
+        else
+        {
+            let errorMessage = "Requirement List is empty."
+            throw VerifiedIdError(message: errorMessage, code: "unable_to_reduce_requirements")
+        }
+    }
 }
