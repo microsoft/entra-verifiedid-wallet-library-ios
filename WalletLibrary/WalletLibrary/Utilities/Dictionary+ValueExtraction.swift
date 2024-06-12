@@ -16,11 +16,21 @@ extension Dictionary
             if let key = key as? String,
                let value = value as? String
             {
-                let part = "\(key)=\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                let part = "\(urlEncode(key))=\(urlEncode(value))"
                 parts.append(part)
             }
         }
         return parts.joined(separator: "&")
+    }
+    
+    func urlEncode(_ string: String) -> String 
+    {
+        // Define the allowed characters according to RFC 3986
+        var allowedCharacterSet = CharacterSet.alphanumerics
+        allowedCharacterSet.insert(charactersIn: "-._*")
+
+        // Perform percent encoding, replacing spaces with `+`
+        return string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet)?.replacingOccurrences(of: " ", with: "+") ?? ""
     }
 }
 

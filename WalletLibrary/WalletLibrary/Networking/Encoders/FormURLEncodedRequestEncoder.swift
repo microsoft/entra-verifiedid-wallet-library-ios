@@ -16,7 +16,7 @@ struct FormURLEncodedRequestEncoder: Encoding
     {
         let encodedString = value.allProperties().toURLEncodedString()
         
-        let data = try Data.getRequiredProperty(property: encodedString.data(using: .ascii),
+        let data = try Data.getRequiredProperty(property: encodedString.data(using: .utf8),
                                                 propertyName: "encoded_string")
         
         return data

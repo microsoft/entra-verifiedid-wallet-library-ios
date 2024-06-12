@@ -6,10 +6,10 @@
 /**
  * Information to describe a pin that is required.
  */
-public class PinRequirement: Requirement {
+public class PinRequirement: UserInputPinRequirement {
     
     /// If the requirement is required or not.
-    public let required: Bool
+    public var required: Bool
     
     /// The length of the pin to display.
     public let length: Int

@@ -47,6 +47,14 @@ class OpenId4VCIValidationError: VerifiedIdError
                                          correlationId: nil)
     }
     
+    /// Creates an instance of `OpenId4VCIProtocolValidationError` during Pre-Auth flow.
+    static func PreAuthError(message: String) -> OpenId4VCIValidationError
+    {
+        return OpenId4VCIValidationError(message: message,
+                                         code: "preauth_issuance_error",
+                                         correlationId: nil)
+    }
+    
     /// Optional nested error.
     let error: Error?
     

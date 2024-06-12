@@ -4,16 +4,16 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The Raw OpenID4VCI Response Data Model to received from the token endpoint.
+ * The Raw OpenID4VCI Well-Known Configuration Response Data Model received from the token endpoint.
  */
-struct PreAuthTokenResponse: Decodable
+struct OpenIDWellKnownConfiguration: Decodable
 {
-    /// The access token.
-    let access_token: String?
+    /// The issuer name.
+    let issuer: String?
     
-    /// The type of token received (ex. `bearer`).
-    let token_type: String?
+    /// The token endpoint URL.
+    let token_endpoint: String?
     
-    /// When the token expires.
-    let expires_in: Int?
+    /// What Grant Types are supported.
+    let grant_types_supported: [String]?
 }
