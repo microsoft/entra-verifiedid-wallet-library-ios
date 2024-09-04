@@ -23,7 +23,7 @@ extension Dictionary
         return parts.joined(separator: "&")
     }
     
-    func urlEncode(_ string: String) -> String 
+    private func urlEncode(_ string: String) -> String 
     {
         // Define the allowed characters according to RFC 3986
         var allowedCharacterSet = CharacterSet.alphanumerics
