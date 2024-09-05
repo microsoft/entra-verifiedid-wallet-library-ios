@@ -24,10 +24,10 @@ struct OpenID4VCIPreAuthTokenResolver
     func resolve(using credentialOfferGrant: CredentialOfferGrant,
                  pin: String? = nil) async throws -> String
     {
-        let tokenEndpoint = try await getTokenEndpoint(authorizationServer: credentialOfferGrant.authorization_server)
-        
         let code = try CredentialOfferGrant.getRequiredProperty(property: credentialOfferGrant.pre_authorized_code,
                                                                 propertyName: "pre-authorized_code")
+        
+        let tokenEndpoint = try await getTokenEndpoint(authorizationServer: credentialOfferGrant.authorization_server)
         
         let request = PreAuthTokenRequest(grant_type: Constants.GrantType,
                                           pre_authorized_code: code,
