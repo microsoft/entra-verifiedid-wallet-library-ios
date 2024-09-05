@@ -137,8 +137,8 @@ class VCVerifiedIdTests: XCTestCase {
         // Assert
         XCTAssertEqual(actualResult.count, 1)
         XCTAssert(actualResult.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", 
-                                                                 label: nil,
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey1",
+                                                                 label: "MockLabel1",
                                                                  type: "String",
                                                                  value: expectedValue1))
         })
@@ -165,8 +165,8 @@ class VCVerifiedIdTests: XCTestCase {
         // Assert
         XCTAssertEqual(actualResult.count, 2)
         XCTAssert(actualResult.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1", 
-                                                                 label: nil,
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey1",
+                                                                 label: "MockLabel1",
                                                                  type: "String",
                                                                  value: expectedValue1))
         })

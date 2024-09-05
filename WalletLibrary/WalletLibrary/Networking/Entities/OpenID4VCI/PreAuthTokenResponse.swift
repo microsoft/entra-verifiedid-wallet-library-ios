@@ -14,6 +14,6 @@ struct PreAuthTokenResponse: Decodable
     /// The type of token received (ex. `bearer`).
     let token_type: String?
     
-    /// When the token expires.
+    /// When the token expires in seconds.
     let expires_in: Int?
 }
