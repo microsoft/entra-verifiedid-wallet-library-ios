@@ -64,7 +64,8 @@ class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement, InternalAccess
         {
             let message = "Unable to fetch access token using pin \(pin)."
             return VerifiedIdErrors.RequirementNotMet(message: message,
-                                                      errors: [error]).result()
+                                                      errors: [error],
+                                                      code: "invalid_pin").result()
         }
     }
     
