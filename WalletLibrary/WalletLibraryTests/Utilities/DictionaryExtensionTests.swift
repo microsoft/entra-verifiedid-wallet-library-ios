@@ -49,7 +49,7 @@ class DictionaryExtensionTests: XCTestCase {
         let emptyDictionary: Dictionary<String, String?> = [:]
         
         // Act / Assert
-        XCTAssertEqual(emptyDictionary.toURLEncodedString(), "")
+        XCTAssertEqual(try emptyDictionary.toURLEncodedString(), "")
         
     }
     
@@ -59,7 +59,7 @@ class DictionaryExtensionTests: XCTestCase {
         let emptyDictionary: Dictionary<String, String?> = ["key": "value"]
         
         // Act / Assert
-        XCTAssertEqual(emptyDictionary.toURLEncodedString(), "key=value")
+        XCTAssertEqual(try emptyDictionary.toURLEncodedString(), "key=value")
         
     }
     
@@ -73,7 +73,7 @@ class DictionaryExtensionTests: XCTestCase {
         ]
         
         // Act
-        let result = emptyDictionary.toURLEncodedString()
+        let result = try emptyDictionary.toURLEncodedString()
         
         // Assert
         let parts = result.split(separator: "&")
@@ -93,7 +93,7 @@ class DictionaryExtensionTests: XCTestCase {
         ]
         
         // Act
-        let result = emptyDictionary.toURLEncodedString()
+        let result = try emptyDictionary.toURLEncodedString()
         
         // Assert
         let parts = result.split(separator: "&")

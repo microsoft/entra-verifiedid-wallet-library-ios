@@ -14,7 +14,7 @@ struct FormURLEncodedRequestEncoder: Encoding
     /// Encode the Request Body in the form of a URLEncoded String.
     func encode(value: RequestBody) throws -> Data
     {
-        let encodedString = value.allProperties().toURLEncodedString()
+        let encodedString = try value.allProperties().toURLEncodedString()
         
         let data = try Data.getRequiredProperty(property: encodedString.data(using: .utf8),
                                                 propertyName: "encoded_string")
