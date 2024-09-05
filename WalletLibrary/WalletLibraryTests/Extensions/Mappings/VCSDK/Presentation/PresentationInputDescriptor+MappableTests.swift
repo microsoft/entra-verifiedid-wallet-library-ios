@@ -312,30 +312,6 @@ class PresentationInputDescriptorMappingTests: XCTestCase {
         }
     }
     
-    // Face Check Constraints allows for this error and just passes through, so remove test case.
-//    func testMap_WithInvalidPresentationExchangeFilterPatternConstraint_ThrowsError() throws {
-//        // Arrange
-//        let mockMapper = MockMapper()
-//        let mockSchema = InputDescriptorSchema(uri: "mockType")
-//        let invalidField = PresentationExchangeField(path: ["mock path"],
-//                                                     purpose: nil,
-//                                                     filter: nil)
-//        let constraint = PresentationExchangeConstraints(fields: [invalidField])
-//        let presentationInputDescriptor = PresentationInputDescriptor(id: nil,
-//                                                                      schema: [mockSchema],
-//                                                                      issuanceMetadata: nil,
-//                                                                      name: nil,
-//                                                                      purpose: nil,
-//                                                                      constraints: constraint)
-//        
-//        // Act
-//        XCTAssertThrowsError(try mockMapper.map(presentationInputDescriptor)) { error in
-//            // Assert
-//            XCTAssert(error is PresentationExchangeFieldConstraintError)
-//            XCTAssertEqual(error as? PresentationExchangeFieldConstraintError, .InvalidPatternOnThePresentationExchangeField)
-//        }
-//    }
-    
     func testMap_WitOnePresentationExchangeFieldConstraint_ReturnsVerifiedIdRequirement() throws {
         // Arrange
         let mockMapper = MockMapper()
