@@ -94,7 +94,7 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     
     private func sendIssuanceRequest() async throws -> RawOpenID4VCIResponse
     {
-        guard let accessTokenRequirement = requirement as? AccessTokenRequirement,
+        guard let accessTokenRequirement = requirement as? InternalAccessTokenRequirement,
               let accessToken = accessTokenRequirement.accessToken else
         {
             let errorMessage = "Access token not defined on requirement."

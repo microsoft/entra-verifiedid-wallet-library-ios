@@ -107,8 +107,10 @@ class PresentationExchangeSerializerTests: XCTestCase
         let mockRequirement = MockRequirement(id: "mock id")
         
         // Act
-        try serializer.serialize(requirement: mockRequirement, 
-                                 verifiedIdSerializer: mockVerifiedIdSerializer)
+        XCTAssertThrowsError(try serializer.serialize(requirement: mockRequirement,
+                                                      verifiedIdSerializer: mockVerifiedIdSerializer)) { error in
+            XCTAssert(error is MockVerifiedIdError)
+        }
     }
     
     func testSerialize_WithRequirementSerializeThrows_ThrowsError() throws

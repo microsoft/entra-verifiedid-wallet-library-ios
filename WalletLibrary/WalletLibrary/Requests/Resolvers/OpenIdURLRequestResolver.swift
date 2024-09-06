@@ -68,7 +68,8 @@ class OpenIdURLRequestResolver: RequestResolving
         
         var isFeatureFlagOn = false
         
-        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIAccessToken)
+        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIAccessToken) ||
+            configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIPreAuth)
         {
             additionalHeaders.addHeader(fieldName: Constants.PreferHeaderField,
                                         value: Constants.InteropProfileVersion)

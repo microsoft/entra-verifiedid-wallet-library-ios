@@ -6,7 +6,7 @@
 /**
  * Information to describe a pin that is required.
  */
-public class PinRequirement: Requirement {
+public class PinRequirement: UserInputPinRequirement {
     
     /// If the requirement is required or not.
     public let required: Bool
