@@ -51,13 +51,94 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         }
     }
     
+    func testResolve_WithInvalidGrantType_ThrowsError() async throws
+    {
+        // Arrange
+        let mockAccessToken = "mock access token"
+        let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
+                                                    token_type: nil,
+                                                    expires_in: nil)
+        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
+                                                              token_endpoint: "",
+                                                              grant_types_supported: ["invalidGrantType"])
+        let expectedResults: [(any Decodable, any InternalNetworkOperation.Type)] =
+        [
+            (expectedResponse, OpenID4VCIPreAuthTokenPostOperation.self),
+            (oidcConfigResponse, OpenIDWellKnownConfigFetchOperation.self)
+        ]
+        let mockNetworking = MockLibraryNetworking.create(expectedResults: expectedResults)
+        let configuration = LibraryConfiguration(networking: mockNetworking)
+        let resolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)
+        let grant = CredentialOfferGrant(authorization_server: "https://microsoft.com",
+                                         pre_authorized_code: "mockCode")
+        
+        // Act / Assert
+        do
+        {
+            let _ = try await resolver.resolve(using: grant)
+            XCTFail()
+        }
+        catch
+        {
+            XCTAssert(error is OpenId4VCIValidationError)
+            let validationError = error as! OpenId4VCIValidationError
+            XCTAssertEqual(validationError.message, "Grant type not included in well-known configuration.")
+            XCTAssertEqual(validationError.code, "preauth_issuance_error")
+        }
+    }
+    
+    func testResolve_WithMissingTokenEndpoint_ThrowsError() async throws
+    {
+        // Arrange
+        let mockAccessToken = "mock access token"
+        let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
+        let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
+                                                    token_type: nil,
+                                                    expires_in: nil)
+        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
+                                                              token_endpoint: nil,
+                                                              grant_types_supported: [expectedGrantType])
+        let expectedResults: [(any Decodable, any InternalNetworkOperation.Type)] =
+        [
+            (expectedResponse, OpenID4VCIPreAuthTokenPostOperation.self),
+            (oidcConfigResponse, OpenIDWellKnownConfigFetchOperation.self)
+        ]
+        let mockNetworking = MockLibraryNetworking.create(expectedResults: expectedResults)
+        let configuration = LibraryConfiguration(networking: mockNetworking)
+        let resolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)
+        let grant = CredentialOfferGrant(authorization_server: "https://microsoft.com",
+                                         pre_authorized_code: "mockCode")
+        
+        // Act / Assert
+        do
+        {
+            let _ = try await resolver.resolve(using: grant)
+            XCTFail()
+        }
+        catch
+        {
+            XCTAssert(error is OpenId4VCIValidationError)
+            let validationError = error as! OpenId4VCIValidationError
+            XCTAssertEqual(validationError.message, "Missing token endpoint in well-known configuration.")
+            XCTAssertEqual(validationError.code, "preauth_issuance_error")
+        }
+    }
+    
     func testResolve_WithDoesNotReturnToken_ThrowsError() async throws
     {
         // Arrange
+        let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
         let expectedResponse = PreAuthTokenResponse(access_token: nil,
                                                     token_type: nil,
                                                     expires_in: nil)
-        let expectedResults = [(expectedResponse, OpenID4VCIPreAuthTokenPostOperation.self)]
+        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
+                                                              token_endpoint: "https://microsoft.com",
+                                                              grant_types_supported: [expectedGrantType])
+        let expectedResults: [(any Decodable, any InternalNetworkOperation.Type)] =
+        [
+            (expectedResponse, OpenID4VCIPreAuthTokenPostOperation.self),
+            (oidcConfigResponse, OpenIDWellKnownConfigFetchOperation.self)
+        ]
         let mockNetworking = MockLibraryNetworking.create(expectedResults: expectedResults)
         let configuration = LibraryConfiguration(networking: mockNetworking)
         let resolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)
@@ -82,10 +163,18 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
     {
         // Arrange
         let mockAccessToken = "mock access token"
+        let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
         let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
                                                     token_type: nil,
                                                     expires_in: nil)
-        let expectedResults = [(expectedResponse, OpenID4VCIPreAuthTokenPostOperation.self)]
+        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
+                                                              token_endpoint: "https://microsoft.com",
+                                                              grant_types_supported: [expectedGrantType])
+        let expectedResults: [(any Decodable, any InternalNetworkOperation.Type)] =
+        [
+            (expectedResponse, OpenID4VCIPreAuthTokenPostOperation.self),
+            (oidcConfigResponse, OpenIDWellKnownConfigFetchOperation.self)
+        ]
         let mockNetworking = MockLibraryNetworking.create(expectedResults: expectedResults)
         let configuration = LibraryConfiguration(networking: mockNetworking)
         let resolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)

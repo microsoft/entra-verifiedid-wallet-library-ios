@@ -56,7 +56,7 @@ class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement, InternalAccess
         do
         {
             let resolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)
-            let accessToken = try await resolver.resolve(using: grant)
+            let accessToken = try await resolver.resolve(using: grant, pin: pin)
             self.accessToken = accessToken
             return VerifiedIdResult.success(())
         }
@@ -64,7 +64,8 @@ class OpenId4VCIRetryablePinRequirement: RetryablePinRequirement, InternalAccess
         {
             let message = "Unable to fetch access token using pin \(pin)."
             return VerifiedIdErrors.RequirementNotMet(message: message,
-                                                      errors: [error]).result()
+                                                      errors: [error],
+                                                      code: "invalid_pin").result()
         }
     }
     

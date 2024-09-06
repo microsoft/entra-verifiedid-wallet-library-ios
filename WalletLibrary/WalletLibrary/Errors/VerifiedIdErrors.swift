@@ -20,7 +20,7 @@ enum VerifiedIdErrors {
     case MalformedInput(message: String, error: Error? = nil, correlationId: String? = nil)
     case NetworkingError(message: String, correlationId: String, statusCode: Int? = nil, innerError: Error? = nil)
     case VCNetworkingError(error: NetworkingError)
-    case RequirementNotMet(message: String, errors: [Error]? = nil, correlationId: String? = nil)
+    case RequirementNotMet(message: String, errors: [Error]? = nil, correlationId: String? = nil, code: String? = nil)
     case UnspecifiedError(error: Error, correlationId: String? = nil)
     
     /// Mapping of the common error to value with given properties.
@@ -39,8 +39,8 @@ enum VerifiedIdErrors {
                                              innerError: error)
         case .VCNetworkingError(error: let error):
             return VerifiedIdNetworkingError(from: error)
-        case .RequirementNotMet(let message, let errors, let correlationId):
-            return RequirementNotMetError(message: message, errors: errors, correlationId: correlationId)
+        case .RequirementNotMet(let message, let errors, let correlationId, let code):
+            return RequirementNotMetError(message: message, errors: errors, correlationId: correlationId, code: code)
         case .UnspecifiedError(error: let error, let correlationId):
             return UnspecifiedVerifiedIdError(error: error, correlationId: correlationId)
         }
@@ -82,10 +82,10 @@ public class RequirementNotMetError: VerifiedIdError {
     
     public let errors: [Error]?
     
-    fileprivate init(message: String, errors: [Error]? = nil, correlationId: String?) {
+    fileprivate init(message: String, errors: [Error]? = nil, correlationId: String?, code: String?) {
         self.errors = errors
         super.init(message: message,
-                   code: VerifiedIdErrors.ErrorCode.RequirementNotMet,
+                   code: code ?? VerifiedIdErrors.ErrorCode.RequirementNotMet,
                    correlationId: correlationId)
     }
     

@@ -8,7 +8,7 @@
  */
 extension Dictionary
 {
-    func toURLEncodedString() -> String
+    func toURLEncodedString() throws -> String
     {
         var parts: [String] = []
         for (key, value) in self
@@ -16,11 +16,26 @@ extension Dictionary
             if let key = key as? String,
                let value = value as? String
             {
-                let part = "\(key)=\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                let part = "\(try urlEncode(key))=\(try urlEncode(value))"
                 parts.append(part)
             }
         }
         return parts.joined(separator: "&")
+    }
+    
+    private func urlEncode(_ string: String) throws -> String
+    {
+        // Define the allowed characters according to RFC 3986
+        var allowedCharacterSet = CharacterSet.alphanumerics
+        allowedCharacterSet.insert(charactersIn: "$-_.!*'(),")
+
+        // Perform percent encoding, replacing spaces with `+`
+        guard let percentEncodedString = string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) else
+        {
+            throw VerifiedIdError(message: "Unable to URL Encode input", code: "encoding_error")
+        }
+        
+        return percentEncodedString
     }
 }
 
