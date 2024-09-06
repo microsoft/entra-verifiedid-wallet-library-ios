@@ -3,10 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/**
- * Defines the behavior of resolving the Root of Trust (aka Linked Domain Result).
- */
-//protocol RootOfTrustResolving
-//{
-//    func resolve(using identifier: IdentifierDocument) async throws -> RootOfTrust
-//}
+/// Allows a different way of resolving the root of trust (aka Linked Domain Result)
+/// that can be injected into Issuance and Presentation Service.
+public protocol RootOfTrustResolver 
+{
+    func resolve(from identifier: IdentifierMetadata) async throws -> RootOfTrust
+}

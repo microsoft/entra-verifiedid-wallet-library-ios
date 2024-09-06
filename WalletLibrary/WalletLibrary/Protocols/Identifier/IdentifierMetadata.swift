@@ -3,14 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/// Allows a different way of resolving the root of trust (aka Linked Domain Result)
-/// that can be injected into Issuance and Presentation Service.
-public protocol RootOfTrustResolver {
-    func resolve(from identifier: IdentifierMetadata) async throws -> RootOfTrust
-}
-
-public protocol IdentifierMetadata {
+/// Describes the metadata for an Identifier object.
+public protocol IdentifierMetadata
+{
+    /// The identifying string for this object. (for example: did:web:microsoft.com)
     var id: String { get }
 }
-
-
