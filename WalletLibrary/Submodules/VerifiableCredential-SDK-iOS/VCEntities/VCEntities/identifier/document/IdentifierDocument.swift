@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-struct IdentifierDocument: Codable, Equatable {
+struct IdentifierDocument: Codable, Equatable, IdentifierMetadata {
     let id: String
     let service: [IdentifierDocumentServiceEndpointDescriptor]?
     let verificationMethod: [IdentifierDocumentPublicKey]?
