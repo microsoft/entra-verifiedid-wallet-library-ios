@@ -30,13 +30,14 @@ struct LinkedDomainResolver: RootOfTrustResolver
     /// Resolves the Root of Trust through Linked Domains.
     /// - Parameters:
     ///   - identifier: An identifier used to resolve the Linked Domains. This should be the `IdentifierDocument` in this case.
-    func resolve(from identifier: AIdentifier) async throws -> RootOfTrust
+    func resolve(from identifier: IdentifierMetadata) async throws -> RootOfTrust
     {
-        guard let identifier = identifier as? AIdentifierDocument else
+        guard let identifierDocument = identifier as? IdentifierDocument else
         {
             throw VerifiedIdError(message: "", code: "")
         }
-        let linkedDomain = try await linkedDomainService.validateLinkedDomain(from: identifier.document)
+        
+        let linkedDomain = try await linkedDomainService.validateLinkedDomain(from: identifierDocument)
         return try configuration.mapper.map(linkedDomain)
     }
 }

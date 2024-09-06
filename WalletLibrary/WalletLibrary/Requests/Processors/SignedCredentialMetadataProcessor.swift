@@ -73,8 +73,7 @@ struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
                                                                          error: error)
         }
         
-        let identifier = AIdentifierDocument(id: kid.did, document: identifierDocument)
-        return try await rootOfTrustResolver.resolve(from: identifier)
+        return try await rootOfTrustResolver.resolve(from: identifierDocument)
     }
     
     private func validateSignature(signedMetadata: SignedMetadata, using key: JWK) throws

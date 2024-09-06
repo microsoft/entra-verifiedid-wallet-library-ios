@@ -6,18 +6,11 @@
 /// Allows a different way of resolving the root of trust (aka Linked Domain Result)
 /// that can be injected into Issuance and Presentation Service.
 public protocol RootOfTrustResolver {
-    func resolve(from identifier: AIdentifier) async throws -> RootOfTrust
+    func resolve(from identifier: IdentifierMetadata) async throws -> RootOfTrust
 }
 
-public protocol AIdentifier {
+public protocol IdentifierMetadata {
     var id: String { get }
-}
-
-struct AIdentifierDocument: AIdentifier
-{
-    let id: String
-    
-    let document: IdentifierDocument
 }
 
 
