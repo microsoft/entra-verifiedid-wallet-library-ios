@@ -12,22 +12,22 @@ struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
     
     private let identifierDocumentResolver: IdentifierDocumentResolving
     
-    private let rootOfTrustResolver: RootOfTrustResolving
+    private let rootOfTrustResolver: RootOfTrustResolver
     
     init(tokenVerifier: TokenVerifying, 
          identifierDocumentResolver: IdentifierDocumentResolving,
-         rootOfTrustResolver: RootOfTrustResolving)
+         rootOfTrustResolver: RootOfTrustResolver)
     {
         self.tokenVerifier = tokenVerifier
         self.identifierDocumentResolver = identifierDocumentResolver
         self.rootOfTrustResolver = rootOfTrustResolver
     }
     
-    init(configuration: LibraryConfiguration)
+    init(configuration: LibraryConfiguration, rootOfTrustResolver: RootOfTrustResolver? = nil)
     {
         self.init(tokenVerifier: TokenVerifier(),
                   identifierDocumentResolver: DIDDocumentResolver(configuration: configuration),
-                  rootOfTrustResolver: LinkedDomainResolver(configuration: configuration))
+                  rootOfTrustResolver: rootOfTrustResolver ?? LinkedDomainResolver(configuration: configuration))
     }
     
     /// Processes the signed metadata, verifying its integrity and authenticity, and resolving the root of trust.
@@ -73,7 +73,8 @@ struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
                                                                          error: error)
         }
         
-        return try await rootOfTrustResolver.resolve(using: identifierDocument)
+        let identifier = AIdentifierDocument(id: kid.did, document: identifierDocument)
+        return try await rootOfTrustResolver.resolve(from: identifier)
     }
     
     private func validateSignature(signedMetadata: SignedMetadata, using key: JWK) throws

@@ -6,7 +6,7 @@
 /**
  * Defines the behavior of resolving the Root of Trust (aka Linked Domain Result).
  */
-protocol RootOfTrustResolving
-{
-    func resolve(using identifier: IdentifierDocument) async throws -> RootOfTrust
-}
+//protocol RootOfTrustResolving
+//{
+//    func resolve(using identifier: IdentifierDocument) async throws -> RootOfTrust
+//}

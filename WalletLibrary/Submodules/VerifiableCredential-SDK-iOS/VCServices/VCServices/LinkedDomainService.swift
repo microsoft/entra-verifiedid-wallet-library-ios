@@ -29,8 +29,9 @@ class LinkedDomainService {
     func validateLinkedDomain(from identifierDocument: IdentifierDocument) async throws -> LinkedDomainResult {
         
         /// Try to resolve root of trust using root of trust resolver, fallback to old implementation if fails.
+        let identifier = AIdentifierDocument(id: identifierDocument.id, document: identifierDocument)
         if let rootOfTrustResolver = self.rootOfTrustResolver,
-           let rootOfTrust = try? await rootOfTrustResolver.resolve(did: identifierDocument.id)
+           let rootOfTrust = try? await rootOfTrustResolver.resolve(from: identifier)
         {
             return self.getLinkedDomainResult(from: rootOfTrust)
         }
