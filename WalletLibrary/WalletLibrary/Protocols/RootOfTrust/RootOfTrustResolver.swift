@@ -3,9 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/// Allows a different way of resolving the root of trust (aka Linked Domain Result)
-/// that can be injected into Issuance and Presentation Service.
+/**
+ * Defines the behavior of resolving the Root of Trust.
+ * An implementation of this protocol can be injected into the VerifiedIdClient.
+ */
 public protocol RootOfTrustResolver 
 {
+    /// Resolve the `RootOfTrust` from the given `IdentifierMetadata` to determine whether the
+    /// identifier can be trusted. (for example: Linked Domain)
     func resolve(from identifier: IdentifierMetadata) async throws -> RootOfTrust
 }
