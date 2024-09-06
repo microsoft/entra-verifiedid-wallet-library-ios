@@ -118,7 +118,9 @@ public class VerifiedIdClientBuilder {
                                                      verifiableCredentialRequester: issuanceService)
         requestProcessors.append(openIdProcessor)
         
-        let openId4VCIProcessor = OpenId4VCIProcessor(configuration: configuration)
+        let credMetadataProcessor = SignedCredentialMetadataProcessor(configuration: configuration,
+                                                                      rootOfTrustResolver: rootOfTrustResolver)
+        let openId4VCIProcessor = OpenId4VCIProcessor(configuration: configuration, signedMetadataProcessor: credMetadataProcessor)
         requestProcessors.append(openId4VCIProcessor)
     }
     

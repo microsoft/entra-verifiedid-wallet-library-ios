@@ -4,9 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Defines the behavior of resolving the Root of Trust (aka Linked Domain Result).
+ * Defines the metadata for an Identifier object.
+ * This metadata might be an Identifier Document or used to determine the root of trust.
  */
-protocol RootOfTrustResolving
+public protocol IdentifierMetadata
 {
-    func resolve(using identifier: IdentifierDocument) async throws -> RootOfTrust
+    /// The identifying string for this object. (for example: did:web:microsoft.com)
+    var id: String { get }
 }
