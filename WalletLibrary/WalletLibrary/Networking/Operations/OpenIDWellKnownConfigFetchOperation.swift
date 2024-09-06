@@ -38,7 +38,7 @@ struct OpenIDWellKnownConfigFetchOperation: WalletLibraryFetchOperation
     private static func buildWellKnownEndpoint(url: URL) -> URL
     {
         let suffix = "/.well-known/openid-configuration"
-        if url.path.contains(suffix)
+        if url.path.hasSuffix(suffix)
         {
             return url
         }

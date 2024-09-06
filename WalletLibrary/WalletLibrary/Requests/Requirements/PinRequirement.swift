@@ -9,7 +9,7 @@
 public class PinRequirement: UserInputPinRequirement {
     
     /// If the requirement is required or not.
-    public var required: Bool
+    public let required: Bool
     
     /// The length of the pin to display.
     public let length: Int
