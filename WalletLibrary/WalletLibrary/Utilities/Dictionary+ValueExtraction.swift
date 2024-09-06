@@ -27,7 +27,7 @@ extension Dictionary
     {
         // Define the allowed characters according to RFC 3986
         var allowedCharacterSet = CharacterSet.alphanumerics
-        allowedCharacterSet.insert(charactersIn: "$-_.+!*'(),")
+        allowedCharacterSet.insert(charactersIn: "$-_.!*'(),")
 
         // Perform percent encoding, replacing spaces with `+`
         guard let percentEncodedString = string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) else
