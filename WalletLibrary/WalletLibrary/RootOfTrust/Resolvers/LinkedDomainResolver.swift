@@ -34,7 +34,7 @@ struct LinkedDomainResolver: RootOfTrustResolver
     {
         guard let identifierDocument = identifier as? IdentifierDocument else
         {
-            throw VerifiedIdError(message: "", code: "")
+            throw VerifiedIdErrors.MalformedInput(message: "Expected an Identifier Document to resolve Root of Trust.").error
         }
         
         let linkedDomain = try await linkedDomainService.validateLinkedDomain(from: identifierDocument)
