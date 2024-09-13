@@ -49,6 +49,27 @@ struct CredentialDefinition: Codable
     
     /// A mapping to describe how to display the claims in the credential.
     let credential_subject: [String: CredentialSubjectDefinition]?
+    
+    let credentialSubject: [String: CredentialSubjectDefinition]?
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.type = try container.decodeIfPresent([String].self, forKey: .type)
+        
+        var cs: [String : CredentialSubjectDefinition] = [:]
+        if let credentialSubject = try? container.decodeIfPresent([String : CredentialSubjectDefinition].self,
+                                                                   forKey: .credential_subject)
+        {
+            cs = credentialSubject
+        }
+        else if let credentialSubject = try container.decodeIfPresent([String : CredentialSubjectDefinition].self, forKey: .credentialSubject)
+        {
+            cs = credentialSubject
+        }
+        
+        self.credential_subject = cs
+        self.credentialSubject = cs
+    }
 }
 
 extension CredentialConfiguration
