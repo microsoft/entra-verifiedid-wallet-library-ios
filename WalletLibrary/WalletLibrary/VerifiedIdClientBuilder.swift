@@ -107,7 +107,10 @@ public class VerifiedIdClientBuilder {
     }
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
-        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(),
+        let presentationService = PresentationService(correlationVector: correlationHeader,
+                                                      rootOfTrustResolver: rootOfTrustResolver,
+                                                      urlSession: urlSession)
+        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: presentationService,
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
@@ -115,8 +118,10 @@ public class VerifiedIdClientBuilder {
     private func registerSupportedRequestProcessors(with configuration: LibraryConfiguration)
     {
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
+                                              rootOfTrustResolver: rootOfTrustResolver,
                                               urlSession: urlSession)
         let presentationService = PresentationService(correlationVector: correlationHeader,
+                                                      rootOfTrustResolver: rootOfTrustResolver,
                                                       urlSession: urlSession)
         
         let openIdProcessor = OpenIdRequestProcessor(configuration: configuration,

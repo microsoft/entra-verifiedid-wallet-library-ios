@@ -16,6 +16,7 @@ enum PresentationServiceError: Error {
     case noIssuerIdentifierInRequest
 }
 
+// TODO: replace during FIPS work.
 class PresentationService {
     
     let formatter: PresentationResponseFormatting
@@ -27,7 +28,8 @@ class PresentationService {
     private let sdkLog: VCSDKLog
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
-                     urlSession: URLSession = URLSession.shared) {
+                     rootOfTrustResolver: RootOfTrustResolver?,
+                     urlSession: URLSession) {
         self.init(formatter: PresentationResponseFormatter(sdkLog: VCSDKLog.sharedInstance),
                   presentationApiCalls: PresentationNetworkCalls(correlationVector: correlationVector,
                                                                  urlSession: urlSession),
@@ -35,6 +37,7 @@ class PresentationService {
                                                                         urlSession: urlSession),
                   requestValidator: PresentationRequestValidator(),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
+                                                           rootOfTrustResolver: rootOfTrustResolver,
                                                            urlSession: urlSession),
                   identifierService: IdentifierService(),
                   sdkLog: VCSDKLog.sharedInstance)
