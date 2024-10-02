@@ -71,6 +71,7 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    /// Optional method to add a custom Root of Trust Resolver to the VerifiedIdClient.
     public func with(rootOfTrustResolver: RootOfTrustResolver) -> VerifiedIdClientBuilder {
         self.rootOfTrustResolver = rootOfTrustResolver
         return self
@@ -100,6 +101,7 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    /// Optional method to add a custom Verified Id Extension to the VerifiedIdClient.
     public func with(verifiedIdExtension: VerifiedIdExtendable) -> VerifiedIdClientBuilder
     {
         self.extensions.append(verifiedIdExtension)
