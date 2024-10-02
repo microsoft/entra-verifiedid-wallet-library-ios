@@ -20,6 +20,8 @@ public class VerifiedIdClientBuilder {
     
     private var requestProcessors: [any RequestProcessing] = []
     
+    private var rootOfTrustResolver: RootOfTrustResolver?
+    
     private var extensions: [VerifiedIdExtendable] = []
     
     private var previewFeatureFlagsSupported: [String] = []
@@ -66,6 +68,11 @@ public class VerifiedIdClientBuilder {
     public func with(previewFeatureFlags: [String]) -> VerifiedIdClientBuilder
     {
         previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
+        return self
+    }
+    
+    public func with(rootOfTrustResolver: RootOfTrustResolver) -> VerifiedIdClientBuilder {
+        self.rootOfTrustResolver = rootOfTrustResolver
         return self
     }
 

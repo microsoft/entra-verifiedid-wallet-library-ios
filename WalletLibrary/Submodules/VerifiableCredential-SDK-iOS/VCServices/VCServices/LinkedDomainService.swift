@@ -7,17 +7,22 @@ class LinkedDomainService {
     
     private let wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking
     private let validator: DomainLinkageCredentialValidating
+    private let rootOfTrustResolver: RootOfTrustResolver?
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
+                     rootOfTrustResolver: RootOfTrustResolver? = nil,
                      urlSession: URLSession) {
         self.init(wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworkCalls(correlationVector: correlationVector,
                                                                                  urlSession: urlSession),
+                  rootOfTrustResolver: rootOfTrustResolver,
                   domainLinkageValidator: DomainLinkageCredentialValidator())
     }
     
     init(wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking,
+         rootOfTrustResolver: RootOfTrustResolver? = nil,
          domainLinkageValidator: DomainLinkageCredentialValidating) {
         self.wellKnownDocumentApiCalls = wellKnownDocumentApiCalls
+        self.rootOfTrustResolver = rootOfTrustResolver
         self.validator = domainLinkageValidator
     }
     
@@ -43,6 +48,20 @@ class LinkedDomainService {
         } catch {
             return .linkedDomainUnverified(domainUrl: domainUrl)
         }
+    }
+    
+    private func getLinkedDomainResult(from rootOfTrust: RootOfTrust) -> LinkedDomainResult
+    {
+        if rootOfTrust.verified
+        {
+            return .linkedDomainVerified(domainUrl: rootOfTrust.source ?? "")
+        }
+        else if let source = rootOfTrust.source
+        {
+            return .linkedDomainUnverified(domainUrl: source)
+        }
+        
+        return .linkedDomainMissing
     }
     
     // TODO: Only looking for the well-known document in the first entry for now.
