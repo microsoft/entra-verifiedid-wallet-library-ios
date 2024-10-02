@@ -67,6 +67,15 @@ struct JwsToken<T: Claims> {
         self.signature = try signer.sign(token: self, withSecret: secret)
     }
     
+    mutating func sign(using identifier: VerifiedIdIdentifier) throws
+    {
+        guard let messageData = protectedMessage.data(using: .ascii) else {
+            throw VCTokenError.unableToParseData
+        }
+        
+        self.signature = try identifier.sign(message: messageData)
+    }
+    
     func verify(using verifier: TokenVerifying, withPublicKey key: JWK) throws -> Bool {
         return try verifier.verify(token: self, usingPublicKey: key)
     }

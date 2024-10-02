@@ -15,3 +15,41 @@ protocol OpenIdResponder {
     /// If unsuccessful, throws an error.
     func send(response: RawPresentationResponse) async throws -> Void
 }
+
+class TestOpenIdResponder: OpenIdResponder
+{
+    private let identifier: VerifiedIdIdentifier
+    
+    private let configuration: LibraryConfiguration
+    
+    private let formatter: PresentationResponseFormatter
+    
+    init(identifier: VerifiedIdIdentifier,
+         configuration: LibraryConfiguration,
+         formatter: PresentationResponseFormatter)
+    {
+        self.identifier = identifier
+        self.configuration = configuration
+        self.formatter = formatter
+    }
+    
+    func send(response: RawPresentationResponse) async throws -> Void
+    {
+        guard let presentationResponseContainer = response as? PresentationResponseContainer else
+        {
+            throw PresentationServiceExtensionError.unableToCastOpenIdForVCResponseToPresentationResponseContainer
+        }
+        
+        let audienceURL = try URL.getRequiredProperty(property: URL(string: presentationResponseContainer.audienceUrl),
+                                                      propertyName: "audience_url")
+        
+        let formattedResponse = try formatter.format(response: presentationResponseContainer,
+                                                     usingIdentifier: identifier)
+        
+        let _ = try await configuration.networking.post(requestBody: formattedResponse,
+                                                        url: audienceURL,
+                                                        PostPresentationResponseOperation.self,
+                                                        additionalHeaders: nil)
+        
+    }
+}

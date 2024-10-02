@@ -3,16 +3,34 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-class PostPresentationResponseOperation: InternalPostNetworkOperation {
+struct PostPresentationResponseOperation: WalletLibraryPostOperation {
+    
     typealias Encoder = PresentationResponseEncoder
     typealias RequestBody = PresentationResponse
     typealias ResponseBody = String?
     
     let decoder = BasicServiceResponseDecoder()
-    let encoder = PresentationResponseEncoder()
+    let encoder = FormURLEncodedRequestEncoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
     var correlationVector: VerifiedIdCorrelationHeader?
+    
+    init(requestBody: PresentationResponse,
+         url: URL,
+         additionalHeaders: [String : String]?,
+         urlSession: URLSession,
+         correlationVector: (any VerifiedIdCorrelationHeader)?) throws
+    {
+        self.urlSession = urlSession
+        self.correlationVector = correlationVector
+        self.urlRequest = URLRequest(url: url)
+        self.urlRequest.httpMethod = Constants.POST
+        self.urlRequest.httpBody = try self.encoder.encode(value: requestBody)
+        self.urlRequest.setValue(Constants.FORM_URLENCODED,
+                                 forHTTPHeaderField: Constants.CONTENT_TYPE)
+        
+        addHeadersToURLRequest(headers: additionalHeaders)
+    }
     
     init(usingUrl urlStr: String,
          withBody body: PresentationResponse,

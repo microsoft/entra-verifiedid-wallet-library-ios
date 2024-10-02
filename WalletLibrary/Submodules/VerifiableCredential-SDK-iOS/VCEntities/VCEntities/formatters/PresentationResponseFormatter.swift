@@ -4,7 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 
 protocol PresentationResponseFormatting {
-    func format(response: PresentationResponseContainer, usingIdentifier identifier: Identifier) throws -> PresentationResponse
+    func format(response: PresentationResponseContainer, 
+                usingIdentifier identifier: Identifier) throws -> PresentationResponse
+    
+    func format(response: PresentationResponseContainer, 
+                usingIdentifier identifier: VerifiedIdIdentifier) throws -> PresentationResponse
 }
 
 class PresentationResponseFormatter: PresentationResponseFormatting {
@@ -52,13 +56,58 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
                                     state: state)
     }
     
+    func format(response: PresentationResponseContainer,
+                usingIdentifier identifier: VerifiedIdIdentifier) throws -> PresentationResponse
+    {
+        guard let state = response.request?.content.state else {
+            throw FormatterError.noStateInRequest
+        }
+        
+        let vpTokens = try createVpTokens(from: response,
+                                          identifier: identifier)
+        
+        let idToken = try createIdToken(response: response,
+                                        identifier: identifier)
+        
+        return PresentationResponse(idToken: idToken,
+                                    vpTokens: vpTokens,
+                                    state: state)
+    }
+    
+    private func createIdToken(response: PresentationResponseContainer,
+                               identifier: VerifiedIdIdentifier) throws -> JwsToken<PresentationResponseClaims>
+    {
+        let headers = headerFormatter.formatHeaders(identifier: identifier)
+        let content = try formatClaims(from: response, identifier: identifier.id)
+        
+        guard var token = JwsToken(headers: headers, content: content) else {
+            throw FormatterError.unableToFormToken
+        }
+        
+        try token.sign(using: identifier)
+        
+        return token
+    }
+    
+    private func createVpTokens(from response: PresentationResponseContainer,
+                                identifier: VerifiedIdIdentifier) throws -> [VerifiablePresentation]
+    {
+        return try response.requestVCMap.compactMap { presentationSubmissionId, mappings in
+            try vpFormatter.format(toWrap: mappings,
+                                   audience: response.audienceDid,
+                                   nonce: response.nonce,
+                                   expiryInSeconds: response.expiryInSeconds,
+                                   identifier: identifier)
+        }
+    }
+    
     private func createIdToken(from response: PresentationResponseContainer,
                                usingIdentifier identifier: Identifier,
                                andSignWith key: KeyContainer) throws -> JwsToken<PresentationResponseClaims> {
         
         let headers = headerFormatter.formatHeaders(identifier: identifier.longFormDid,
                                                     signingKey: key)
-        let content = try self.formatClaims(from: response, usingIdentifier: identifier, andSignWith: key)
+        let content = try self.formatClaims(from: response, identifier: identifier.longFormDid)
         
         guard var token = JwsToken(headers: headers, content: content) else {
             throw FormatterError.unableToFormToken
@@ -83,7 +132,8 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
         }
     }
     
-    private func formatClaims(from response: PresentationResponseContainer, usingIdentifier identifier: Identifier, andSignWith key: KeyContainer) throws -> PresentationResponseClaims {
+    private func formatClaims(from response: PresentationResponseContainer,
+                              identifier: String) throws -> PresentationResponseClaims {
         
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: response.expiryInSeconds)
         
@@ -97,7 +147,7 @@ class PresentationResponseFormatter: PresentationResponseFormatting {
             return vpTokenResponse
         }
         
-        return PresentationResponseClaims(subject: identifier.longFormDid,
+        return PresentationResponseClaims(subject: identifier,
                                           audience: response.audienceDid,
                                           vpTokenDescription: vpTokensResponses,
                                           nonce: response.nonce,

@@ -3,7 +3,7 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-struct PresentationResponse {
+struct PresentationResponse: PropertyIterable {
     
     let idToken: PresentationResponseToken
     
@@ -17,5 +17,14 @@ struct PresentationResponse {
         self.idToken = idToken
         self.vpTokens = vpTokens
         self.state = state
+    }
+    
+    func encode(to encoder: any Encoder) throws 
+    {
+        
+    }
+    
+    func allProperties() -> [String : String?] {
+        [:]
     }
 }
