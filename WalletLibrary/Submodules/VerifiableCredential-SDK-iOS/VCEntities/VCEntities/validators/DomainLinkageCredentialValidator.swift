@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCToken)
-    import VCToken
-#endif
-
 enum DomainLinkageCredentialValidatorError: Error, Equatable {
     case invalidSignature
     case tokenExpired
@@ -22,8 +18,8 @@ enum DomainLinkageCredentialValidatorError: Error, Equatable {
 
 protocol DomainLinkageCredentialValidating {
     func validate(credential: DomainLinkageCredential,
-                         usingDocument document: IdentifierDocument,
-                         andSourceDomainUrl url: String) throws
+                  usingDocument document: IdentifierDocument,
+                  andSourceDomainUrl url: String) throws
 }
 
 struct DomainLinkageCredentialValidator: DomainLinkageCredentialValidating {
@@ -35,8 +31,8 @@ struct DomainLinkageCredentialValidator: DomainLinkageCredentialValidating {
     }
     
     func validate(credential: DomainLinkageCredential,
-                         usingDocument document: IdentifierDocument,
-                         andSourceDomainUrl url: String) throws {
+                  usingDocument document: IdentifierDocument,
+                  andSourceDomainUrl url: String) throws {
         
         let credentialSubjectDid = credential.content.verifiableCredential.credentialSubject.did
         let wellknownDocumentDomainUrl = credential.content.verifiableCredential.credentialSubject.domainUrl

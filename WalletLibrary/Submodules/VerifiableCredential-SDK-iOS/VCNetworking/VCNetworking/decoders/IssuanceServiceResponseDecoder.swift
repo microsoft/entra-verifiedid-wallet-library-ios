@@ -5,10 +5,6 @@
 
 import Foundation
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 struct IssuanceServiceResponseDecoder: Decoding {
     
     private let jsonDecoder = JSONDecoder()

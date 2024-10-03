@@ -4,9 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 import Foundation
-#if canImport(VCToken)
-    import VCToken
-#endif
 
 class WalletMetadata: Codable {
     enum CodingKeys: String, CodingKey {

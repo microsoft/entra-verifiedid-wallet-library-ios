@@ -6,10 +6,6 @@
 import Foundation
 import CoreData
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 enum CoreDataManagerError: Error {
     case unableToCreatePersistentContainer
     case persistentStoreNotLoaded
