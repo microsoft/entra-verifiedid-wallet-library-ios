@@ -4,12 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 import Foundation
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-#if canImport(VCToken)
-    import VCToken
-#endif
 
 enum JwePasswordProtectionError : Error {
     case invalidContentType
