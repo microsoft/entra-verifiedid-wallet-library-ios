@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-
 enum Secp256k1SignerError: Error {
     case unableToCastPublicKeyToSecp256K1PublicKey
 }
