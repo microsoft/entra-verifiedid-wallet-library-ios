@@ -16,6 +16,7 @@ enum PresentationServiceError: Error {
     case noIssuerIdentifierInRequest
 }
 
+// TODO: replace during FIPS work.
 class PresentationService {
     
     let formatter: PresentationResponseFormatting

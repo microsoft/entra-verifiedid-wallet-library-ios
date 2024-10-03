@@ -52,6 +52,14 @@ struct CredentialDefinition: Codable
     
     let credentialSubject: [String: CredentialSubjectDefinition]?
     
+    init(type: [String]? = nil,
+         credentialSubject:  [String: CredentialSubjectDefinition]? = nil)
+    {
+        self.type = type
+        self.credentialSubject = credentialSubject
+        self.credential_subject = credentialSubject
+    }
+    
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.type = try container.decodeIfPresent([String].self, forKey: .type)

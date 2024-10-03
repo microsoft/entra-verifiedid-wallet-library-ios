@@ -4,8 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Defines the metadata for an Identifier object.
- * This metadata might be an Identifier Document or used to determine the root of trust.
+ * Defines the metadata for an public Identifier object that defines an issuer/verifier.
+ * This metadata might be an Identifier Document and can be used to determine the root of trust.
  */
 public protocol IdentifierMetadata
 {
