@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockRootOfTrustResolver: RootOfTrustResolving
+struct MockRootOfTrustResolver: RootOfTrustResolver
 {
     enum ExpectedError: Error
     {
@@ -19,7 +19,7 @@ struct MockRootOfTrustResolver: RootOfTrustResolving
         self.shouldThrowError = shouldThrowError
     }
     
-    func resolve(using identifier: IdentifierDocument) async throws -> RootOfTrust
+    func resolve(from identifier: IdentifierMetadata) async throws -> RootOfTrust
     {
         if shouldThrowError
         {

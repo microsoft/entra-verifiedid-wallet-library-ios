@@ -28,6 +28,8 @@
 		550E3210298B113C004E7716 /* VerifiedIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E320F298B113C004E7716 /* VerifiedIdRequest.swift */; };
 		550E3212298B1150004E7716 /* VerifiedIdRequestInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */; };
 		550E3217298B1236004E7716 /* RequesterStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550E3216298B1236004E7716 /* RequesterStyle.swift */; };
+		551B9EC72CADC2EA0007CE2B /* RootOfTrustResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9EC62CADC2EA0007CE2B /* RootOfTrustResolver.swift */; };
+		551B9EC92CADC33C0007CE2B /* IdentifierMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B9EC82CADC33C0007CE2B /* IdentifierMetadata.swift */; };
 		5524A53D29D2370E00C5F18D /* VerifiedIdDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA2DD829CDFA6100BB8207 /* VerifiedIdDecoderTests.swift */; };
 		5524A59F29D5FDA500C5F18D /* WalletLibraryVCSDKLogConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524A59E29D5FDA500C5F18D /* WalletLibraryVCSDKLogConsumer.swift */; };
 		5524A5B629D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */; };
@@ -385,7 +387,6 @@
 		5555F1C52BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1C42BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift */; };
 		555FB16A2B73FBB000EE14BD /* CredentialOfferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */; };
 		555FB1B62B740A3000EE14BD /* OpenId4VCIProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1B52B740A3000EE14BD /* OpenId4VCIProcessorTests.swift */; };
-		555FB1D72B74400300EE14BD /* RootOfTrustResolving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */; };
 		555FB1DB2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1DA2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift */; };
 		555FB1F72B75657900EE14BD /* DIDDocumentResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1F62B75657900EE14BD /* DIDDocumentResolver.swift */; };
 		555FB1FD2B75660500EE14BD /* LinkedDomainResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555FB1FC2B75660500EE14BD /* LinkedDomainResolver.swift */; };
@@ -611,6 +612,8 @@
 		550E320F298B113C004E7716 /* VerifiedIdRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequest.swift; sourceTree = "<group>"; };
 		550E3211298B1150004E7716 /* VerifiedIdRequestInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdRequestInput.swift; sourceTree = "<group>"; };
 		550E3216298B1236004E7716 /* RequesterStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequesterStyle.swift; sourceTree = "<group>"; };
+		551B9EC62CADC2EA0007CE2B /* RootOfTrustResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootOfTrustResolver.swift; path = WalletLibrary/Protocols/RootOfTrust/RootOfTrustResolver.swift; sourceTree = SOURCE_ROOT; };
+		551B9EC82CADC33C0007CE2B /* IdentifierMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IdentifierMetadata.swift; path = WalletLibrary/Protocols/Identifier/IdentifierMetadata.swift; sourceTree = SOURCE_ROOT; };
 		5524A59E29D5FDA500C5F18D /* WalletLibraryVCSDKLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryVCSDKLogConsumer.swift; sourceTree = "<group>"; };
 		5524A5B529D6016500C5F18D /* WalletLibraryVCSDKLogConsumerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryVCSDKLogConsumerTests.swift; sourceTree = "<group>"; };
 		5524A5F629D634BC00C5F18D /* VerifiedIdLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdLogo.swift; sourceTree = "<group>"; };
@@ -970,7 +973,6 @@
 		5555F1C42BACC8B700B41FD4 /* VerifiablePresentationFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiablePresentationFormatterTests.swift; sourceTree = "<group>"; };
 		555FB1692B73FBB000EE14BD /* CredentialOfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialOfferTests.swift; sourceTree = "<group>"; };
 		555FB1B52B740A3000EE14BD /* OpenId4VCIProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIProcessorTests.swift; sourceTree = "<group>"; };
-		555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RootOfTrustResolving.swift; path = WalletLibrary/Protocols/RootOfTrust/RootOfTrustResolving.swift; sourceTree = SOURCE_ROOT; };
 		555FB1DA2B74406400EE14BD /* SignedCredentialMetadataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedCredentialMetadataProcessor.swift; sourceTree = "<group>"; };
 		555FB1F62B75657900EE14BD /* DIDDocumentResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDDocumentResolver.swift; sourceTree = "<group>"; };
 		555FB1FC2B75660500EE14BD /* LinkedDomainResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedDomainResolver.swift; sourceTree = "<group>"; };
@@ -2453,6 +2455,7 @@
 		5555F19E2BA9F66400B41FD4 /* Identifier */ = {
 			isa = PBXGroup;
 			children = (
+				551B9EC82CADC33C0007CE2B /* IdentifierMetadata.swift */,
 				5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */,
 				55265ACE2B61B0D600BAD6A2 /* IdentifierManager.swift */,
 			);
@@ -2539,7 +2542,7 @@
 		555FB1F92B7565BA00EE14BD /* RootOfTrust */ = {
 			isa = PBXGroup;
 			children = (
-				555FB1D62B74400300EE14BD /* RootOfTrustResolving.swift */,
+				551B9EC62CADC2EA0007CE2B /* RootOfTrustResolver.swift */,
 				555FB2152B75A2A900EE14BD /* IdentifierDocumentResolving.swift */,
 			);
 			path = RootOfTrust;
@@ -3477,7 +3480,6 @@
 				5534E5B52948FEB5005D0765 /* RootOfTrust.swift in Sources */,
 				557539DD2BBDF263009E1257 /* VerifiableCredentialSerializer.swift in Sources */,
 				555FB2162B75A2A900EE14BD /* IdentifierDocumentResolving.swift in Sources */,
-				555FB1D72B74400300EE14BD /* RootOfTrustResolving.swift in Sources */,
 				5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */,
 				5552D3B929EF487600B40302 /* FormatterError.swift in Sources */,
 				555FB1FD2B75660500EE14BD /* LinkedDomainResolver.swift in Sources */,
@@ -3555,6 +3557,7 @@
 				5552D3FB29EF48F100B40302 /* BackupProtectionMethod.swift in Sources */,
 				5552D3E929EF48E200B40302 /* PresentationResponseClaims.swift in Sources */,
 				5552D40629EF490A00B40302 /* InputDescriptorSchema.swift in Sources */,
+				551B9EC92CADC33C0007CE2B /* IdentifierMetadata.swift in Sources */,
 				55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */,
 				55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */,
 				5552D48129EF4AAB00B40302 /* VCTokenError.swift in Sources */,
@@ -3591,6 +3594,7 @@
 				55A81BE12991AB96002C259A /* RequestProcessing.swift in Sources */,
 				5552D40029EF490000B40302 /* VPTokenResponseDescription.swift in Sources */,
 				55E2F071299554110008010D /* LibraryConfiguration.swift in Sources */,
+				551B9EC72CADC2EA0007CE2B /* RootOfTrustResolver.swift in Sources */,
 				55265B012B6D938800BAD6A2 /* OpenIDRequestFetchNetworkOperation.swift in Sources */,
 				5552D4CE29EF4AC300B40302 /* SecretStoring.swift in Sources */,
 				550E3209298B0EA4004E7716 /* VerifiedIdClientBuilder.swift in Sources */,
