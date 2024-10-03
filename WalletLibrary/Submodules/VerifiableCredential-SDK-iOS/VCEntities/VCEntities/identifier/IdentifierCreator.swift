@@ -3,13 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-#if canImport(VCToken)
-    import VCToken
-#endif
-
 enum IdentifierCreaterError: Error {
     case unableToCasePublicKeyToECPublicKey
 }

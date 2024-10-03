@@ -5,10 +5,6 @@
 
 import Foundation
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 struct IssuanceCompletionResponseEncoder: Encoding {
     
     func encode(value: IssuanceCompletionResponse) throws -> Data {

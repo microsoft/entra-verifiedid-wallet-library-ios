@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-
 struct VCSDKConfiguration: VCSDKConfigurable {
     
     static var sharedInstance = VCSDKConfiguration()

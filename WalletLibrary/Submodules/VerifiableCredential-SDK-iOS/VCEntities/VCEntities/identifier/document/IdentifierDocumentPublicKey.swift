@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCToken)
-    import VCToken
-#endif
-
 struct IdentifierDocumentPublicKey: Codable, Equatable {
     let id: String?
     let type: String
