@@ -5,10 +5,6 @@
 
 import Foundation
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 class PostIssuanceCompletionResponseOperation: InternalPostNetworkOperation {
     
     typealias Encoder = IssuanceCompletionResponseEncoder
