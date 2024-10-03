@@ -19,11 +19,11 @@ struct PresentationDescriptor: Codable, Equatable {
     }
     
     init(encrypted: Bool? = nil,
-                claims: [ClaimDescriptor],
-                presentationRequired: Bool? = nil,
-                credentialType: String,
-                issuers: [IssuerDescriptor]? = nil,
-                contracts: [String]? = nil) {
+         claims: [ClaimDescriptor],
+         presentationRequired: Bool? = nil,
+         credentialType: String,
+         issuers: [IssuerDescriptor]? = nil,
+         contracts: [String]? = nil) {
         self.encrypted = encrypted
         self.claims = claims
         self.presentationRequired = presentationRequired

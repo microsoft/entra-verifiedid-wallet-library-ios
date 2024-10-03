@@ -16,12 +16,12 @@ struct Identifier {
             return longFormDid
         }
     }
-
+    
     init(longFormDid: String,
-                didDocumentKeys: [KeyContainer],
-                updateKey: KeyContainer,
-                recoveryKey: KeyContainer,
-                alias: String) {
+         didDocumentKeys: [KeyContainer],
+         updateKey: KeyContainer,
+         recoveryKey: KeyContainer,
+         alias: String) {
         self.longFormDid = longFormDid
         self.didDocumentKeys = didDocumentKeys
         self.updateKey = updateKey
