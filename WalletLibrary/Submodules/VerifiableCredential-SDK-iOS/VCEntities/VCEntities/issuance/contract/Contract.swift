@@ -3,10 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCToken)
-    import VCToken
-#endif
-
 struct Contract: Claims, Equatable {
     
     let id: String
@@ -14,8 +10,8 @@ struct Contract: Claims, Equatable {
     let input: ContractInputDescriptor
     
     init(id: String,
-                display: DisplayDescriptor,
-                input: ContractInputDescriptor) {
+         display: DisplayDescriptor,
+         input: ContractInputDescriptor) {
         self.id = id
         self.display = display
         self.input = input
