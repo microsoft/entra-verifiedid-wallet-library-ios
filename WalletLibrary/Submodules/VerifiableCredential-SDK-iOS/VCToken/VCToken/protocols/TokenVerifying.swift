@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
-
 protocol TokenVerifying {
     
     func verify<T>(token: JwsToken<T>, usingPublicKey key: JWK) throws -> Bool

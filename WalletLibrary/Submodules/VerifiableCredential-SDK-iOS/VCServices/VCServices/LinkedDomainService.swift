@@ -8,20 +8,34 @@ class LinkedDomainService {
     private let wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking
     private let validator: DomainLinkageCredentialValidating
     
+    /// An optional Root of Trust Resolver that if injected, will be used first before trying to resolve using the Linked Domain mechanism.
+    private let rootOfTrustResolver: RootOfTrustResolver?
+    
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
+                     rootOfTrustResolver: RootOfTrustResolver? = nil,
                      urlSession: URLSession) {
         self.init(wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworkCalls(correlationVector: correlationVector,
                                                                                  urlSession: urlSession),
+                  rootOfTrustResolver: rootOfTrustResolver,
                   domainLinkageValidator: DomainLinkageCredentialValidator())
     }
     
     init(wellKnownDocumentApiCalls: WellKnownConfigDocumentNetworking,
+         rootOfTrustResolver: RootOfTrustResolver? = nil,
          domainLinkageValidator: DomainLinkageCredentialValidating) {
         self.wellKnownDocumentApiCalls = wellKnownDocumentApiCalls
+        self.rootOfTrustResolver = rootOfTrustResolver
         self.validator = domainLinkageValidator
     }
     
-    func validateLinkedDomain(from identifierDocument: IdentifierDocument) async throws -> LinkedDomainResult {
+    func validateLinkedDomain(from identifierDocument: IdentifierDocument) async throws -> LinkedDomainResult 
+    {
+        /// Try to resolve root of trust using root of trust resolver, fallback to old implementation if fails.
+        if let rootOfTrustResolver = self.rootOfTrustResolver,
+           let rootOfTrust = try? await rootOfTrustResolver.resolve(from: identifierDocument)
+        {
+            return self.getLinkedDomainResult(from: rootOfTrust)
+        }
         
         guard let service = identifierDocument.service,
               let domainUrl = getLinkedDomainUrl(from: service) else {
@@ -36,6 +50,20 @@ class LinkedDomainService {
         } catch {
             return .linkedDomainUnverified(domainUrl: domainUrl)
         }
+    }
+    
+    private func getLinkedDomainResult(from rootOfTrust: RootOfTrust) -> LinkedDomainResult
+    {
+        if rootOfTrust.verified
+        {
+            return .linkedDomainVerified(domainUrl: rootOfTrust.source ?? "")
+        }
+        else if let source = rootOfTrust.source
+        {
+            return .linkedDomainUnverified(domainUrl: source)
+        }
+        
+        return .linkedDomainMissing
     }
     
     // TODO: Only looking for the well-known document in the first entry for now.

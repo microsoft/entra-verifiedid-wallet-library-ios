@@ -20,6 +20,8 @@ public class VerifiedIdClientBuilder {
     
     private var requestProcessors: [any RequestProcessing] = []
     
+    private var rootOfTrustResolver: RootOfTrustResolver?
+    
     private var extensions: [VerifiedIdExtendable] = []
     
     private var previewFeatureFlagsSupported: [String] = []
@@ -68,6 +70,12 @@ public class VerifiedIdClientBuilder {
         previewFeatureFlagsSupported.append(contentsOf: previewFeatureFlags)
         return self
     }
+    
+    /// Optional method to add a custom Root of Trust Resolver to the VerifiedIdClient.
+    public func with(rootOfTrustResolver: RootOfTrustResolver) -> VerifiedIdClientBuilder {
+        self.rootOfTrustResolver = rootOfTrustResolver
+        return self
+    }
 
     /// Optional method to add a custom log consumer to VerifiedIdClient.
     public func with(logConsumer: WalletLibraryLogConsumer) -> VerifiedIdClientBuilder {
@@ -93,6 +101,7 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
+    /// Optional method to add a custom Verified Id Extension to the VerifiedIdClient.
     public func with(verifiedIdExtension: VerifiedIdExtendable) -> VerifiedIdClientBuilder
     {
         self.extensions.append(verifiedIdExtension)
@@ -100,7 +109,10 @@ public class VerifiedIdClientBuilder {
     }
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
-        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: PresentationService(),
+        let presentationService = PresentationService(correlationVector: correlationHeader,
+                                                      rootOfTrustResolver: rootOfTrustResolver,
+                                                      urlSession: urlSession)
+        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: presentationService,
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
@@ -108,8 +120,10 @@ public class VerifiedIdClientBuilder {
     private func registerSupportedRequestProcessors(with configuration: LibraryConfiguration)
     {
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
+                                              rootOfTrustResolver: rootOfTrustResolver,
                                               urlSession: urlSession)
         let presentationService = PresentationService(correlationVector: correlationHeader,
+                                                      rootOfTrustResolver: rootOfTrustResolver,
                                                       urlSession: urlSession)
         
         let openIdProcessor = OpenIdRequestProcessor(configuration: configuration,
@@ -118,7 +132,9 @@ public class VerifiedIdClientBuilder {
                                                      verifiableCredentialRequester: issuanceService)
         requestProcessors.append(openIdProcessor)
         
-        let openId4VCIProcessor = OpenId4VCIProcessor(configuration: configuration)
+        let credMetadataProcessor = SignedCredentialMetadataProcessor(configuration: configuration,
+                                                                      rootOfTrustResolver: rootOfTrustResolver)
+        let openId4VCIProcessor = OpenId4VCIProcessor(configuration: configuration, signedMetadataProcessor: credMetadataProcessor)
         requestProcessors.append(openId4VCIProcessor)
     }
     

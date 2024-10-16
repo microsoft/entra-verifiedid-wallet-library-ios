@@ -4,12 +4,6 @@
 *--------------------------------------------------------------------------------------------*/
 
 import Foundation
-#if canImport(VCToken)
-    import VCToken
-#endif
-#if canImport(VCCrypto)
-    import VCCrypto
-#endif
 
 enum RawIdentityError: Error {
     case signingKeyNotFound

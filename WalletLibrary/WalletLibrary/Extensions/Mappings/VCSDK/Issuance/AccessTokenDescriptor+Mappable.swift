@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCEntities)
-    import VCEntities
-#endif
-
 /**
  * An extension of the VCEntities.AccessTokenDescriptor class to be able
  * to map AccessTokenDescriptor to AccessTokenRequirement.

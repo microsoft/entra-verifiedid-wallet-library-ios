@@ -3,10 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-#if canImport(VCToken)
-    import VCToken
-#endif
-
 struct IssuanceResponseClaims: OIDCClaims {
     
     let issuer: String = VCEntitiesConstants.SELF_ISSUED
@@ -32,15 +28,15 @@ struct IssuanceResponseClaims: OIDCClaims {
     let exp: Int?
     
     init(publicKeyThumbprint: String = "",
-                audience: String = "",
-                did: String = "",
-                publicJwk: ECPublicJwk? = nil,
-                contract: String = "",
-                jti: String = "",
-                attestations: AttestationResponseDescriptor? = nil,
-                pin: String? = nil,
-                iat: Int? = nil,
-                exp: Int? = nil) {
+         audience: String = "",
+         did: String = "",
+         publicJwk: ECPublicJwk? = nil,
+         contract: String = "",
+         jti: String = "",
+         attestations: AttestationResponseDescriptor? = nil,
+         pin: String? = nil,
+         iat: Int? = nil,
+         exp: Int? = nil) {
         self.publicKeyThumbprint = publicKeyThumbprint
         self.audience = audience
         self.did = did
