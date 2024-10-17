@@ -473,6 +473,8 @@
 		55A0DA4C2A74868100BC178E /* DictionaryExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA4B2A74868100BC178E /* DictionaryExtensionTests.swift */; };
 		55A268A02CC1A47A00A8EA9C /* VerifiedIdIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2689F2CC1A47A00A8EA9C /* VerifiedIdIdentifier.swift */; };
 		55A268A22CC1A5B200A8EA9C /* KeychainIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A268A12CC1A5B200A8EA9C /* KeychainIdentifier.swift */; };
+		55A268A42CC1A70600A8EA9C /* IdentifierFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A268A32CC1A70600A8EA9C /* IdentifierFactory.swift */; };
+		55A268A62CC1A8EB00A8EA9C /* CryptoRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A268A52CC1A8EB00A8EA9C /* CryptoRequirement.swift */; };
 		55A4BB172A27A436006836AB /* VerifiedIdError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB162A27A436006836AB /* VerifiedIdError.swift */; };
 		55A4BB332A29383A006836AB /* VerifiedIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB322A29383A006836AB /* VerifiedIdResult.swift */; };
 		55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */; };
@@ -1061,6 +1063,8 @@
 		55A0DA4B2A74868100BC178E /* DictionaryExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionTests.swift; sourceTree = "<group>"; };
 		55A2689F2CC1A47A00A8EA9C /* VerifiedIdIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdIdentifier.swift; sourceTree = "<group>"; };
 		55A268A12CC1A5B200A8EA9C /* KeychainIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainIdentifier.swift; sourceTree = "<group>"; };
+		55A268A32CC1A70600A8EA9C /* IdentifierFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierFactory.swift; sourceTree = "<group>"; };
+		55A268A52CC1A8EB00A8EA9C /* CryptoRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoRequirement.swift; sourceTree = "<group>"; };
 		55A4BB162A27A436006836AB /* VerifiedIdError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdError.swift; sourceTree = "<group>"; };
 		55A4BB322A29383A006836AB /* VerifiedIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdResult.swift; sourceTree = "<group>"; };
 		55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdErrors.swift; sourceTree = "<group>"; };
@@ -2763,6 +2767,7 @@
 			children = (
 				559C4E582C078F2B00BA7888 /* Requirement.swift */,
 				559C4E592C078F2B00BA7888 /* RetryablePinRequirement.swift */,
+				55A268A52CC1A8EB00A8EA9C /* CryptoRequirement.swift */,
 			);
 			path = Requirements;
 			sourceTree = "<group>";
@@ -3175,6 +3180,7 @@
 			children = (
 				A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */,
 				55A268A12CC1A5B200A8EA9C /* KeychainIdentifier.swift */,
+				55A268A32CC1A70600A8EA9C /* IdentifierFactory.swift */,
 			);
 			path = Identifier;
 			sourceTree = "<group>";
@@ -3460,6 +3466,7 @@
 				5552D3F329EF48E200B40302 /* PresentationResponseContainer.swift in Sources */,
 				5552D3D129EF48B200B40302 /* IssuanceServiceResponse.swift in Sources */,
 				5552D3FE29EF490000B40302 /* PresentationInputDescriptorMapping.swift in Sources */,
+				55A268A62CC1A8EB00A8EA9C /* CryptoRequirement.swift in Sources */,
 				5552D39E29EF481100B40302 /* ResponseMappings.swift in Sources */,
 				559BD453299D3DD800BD61AC /* IssuanceRequest+Mappable.swift in Sources */,
 				550AF7432B7E8C9A00E5F305 /* RawOpenID4VCIRequestFormatter.swift in Sources */,
@@ -3490,6 +3497,7 @@
 				5552D3B929EF487600B40302 /* FormatterError.swift in Sources */,
 				555FB1FD2B75660500EE14BD /* LinkedDomainResolver.swift in Sources */,
 				550E320E298B0FAC004E7716 /* WalletLibraryLogger.swift in Sources */,
+				55A268A42CC1A70600A8EA9C /* IdentifierFactory.swift in Sources */,
 				559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */,
 				55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */,
 				5552D3D929EF48B200B40302 /* IssuanceResponseContainer.swift in Sources */,
