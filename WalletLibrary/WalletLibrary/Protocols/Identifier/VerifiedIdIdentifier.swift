@@ -9,7 +9,7 @@ protocol HolderIdentifier
     /// The unique identifier (ex. did:web:microsoft.com).
     var id: String { get }
 
-    /// The algorithm used for cryptographic operations, such as signing.
+    /// The algorithm used for cryptographic operations, such as signing (ex. ES256 defined in  https://datatracker.ietf.org/doc/html/rfc7518#section-3.1 ).
     var algorithm: String { get }
 
     /// The specific method for this identifier (ex. `did:jwk`).
