@@ -24,25 +24,25 @@ class JweDecoder {
         }
         
         guard let headerData = Data(base64URLEncoded: components[0]) else {
-            throw VCTokenError.unableToParseData
+            throw TokenError.UnableToParseToken(component: "header")
         }
         let headers = try json.decode(Header.self, from: headerData)
         
         guard let aad = components[0].data(using: .nonLossyASCII) else {
-            throw VCTokenError.unableToParseData
+            throw TokenError.UnableToParseToken(component: "aad")
         }
 
         guard let encryptedCek = Data(base64URLEncoded: components[1]) else {
-            throw VCTokenError.unableToParseData
+            throw TokenError.UnableToParseToken(component: "encryptedCek")
         }
         guard let iv = Data(base64URLEncoded: components[2]) else {
-            throw VCTokenError.unableToParseData
+            throw TokenError.UnableToParseToken(component: "iv")
         }
         guard let cipherText = Data(base64URLEncoded: components[3]) else {
-            throw VCTokenError.unableToParseData
+            throw TokenError.UnableToParseToken(component: "cipherText")
         }
         guard let authenticationTag = Data(base64URLEncoded: components[4]) else {
-            throw VCTokenError.unableToParseData
+            throw TokenError.UnableToParseToken(component: "authenticationTag")
         }
 
         // Wrap it all up

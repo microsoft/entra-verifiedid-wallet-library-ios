@@ -65,8 +65,9 @@ struct JwsToken<T: Claims> {
     
     mutating func sign(using identifier: HolderIdentifier) throws
     {
-        guard let messageData = protectedMessage.data(using: .ascii) else {
-            throw VCTokenError.unableToParseData
+        guard let messageData = protectedMessage.data(using: .ascii) else 
+        {
+            throw TokenError.UnableToParseToken(component: "message")
         }
 
         self.signature = try identifier.sign(message: messageData)
