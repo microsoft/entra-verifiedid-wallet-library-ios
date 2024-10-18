@@ -72,7 +72,7 @@ struct ECPublicJwk: Codable, Equatable {
         let hashAlgorithm = Sha256()
         
         guard let encodedJwk = self.getMinimumAlphabeticJwk().data(using: .utf8) else {
-            throw VCTokenError.unableToParseString
+            throw TokenError.UnableToParseToken(component: "encodedJwk")
         }
         
         let hash = hashAlgorithm.hash(data: encodedJwk)

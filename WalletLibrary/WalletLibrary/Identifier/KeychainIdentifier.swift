@@ -19,7 +19,7 @@ class KeychainIdentifier: HolderIdentifier
     let keyReference: String
 
     /// A private instance of `CryptoOperations` responsible for handling cryptographic functions.
-    private let cryptoOperations: CryptoOperations
+    private let cryptoOperations: CryptoOperating
 
     /// A private reference to the cryptographic key secret, conforming to `VCCryptoSecret`, used in signing operations.
     private let keyReferenceSecret: any VCCryptoSecret
@@ -38,7 +38,7 @@ class KeychainIdentifier: HolderIdentifier
          method: String,
          keyReference: String,
          keyReferenceSecret: any VCCryptoSecret,
-         cryptoOperations: CryptoOperations)
+         cryptoOperations: CryptoOperating)
     {
         self.id = id
         self.algorithm = algorithm

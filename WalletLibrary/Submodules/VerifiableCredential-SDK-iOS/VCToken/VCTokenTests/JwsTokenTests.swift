@@ -91,5 +91,18 @@ class JwsTokenTests: XCTestCase {
         let expectedValue = encodedHeader + "." + encodedContent
         XCTAssertEqual(actualValue, expectedValue)
     }
-
+    
+    func testSign_WithHolderIdentifier_SignsToken() throws
+    {
+        // Arrange
+        var token = JwsToken(headers: expectedHeader, content: expectedContent, signature: nil)!
+        let mockSignature = "testSignature".data(using: .ascii)
+        let mockHolder = MockHolderIdentifier(expectedSignature: mockSignature)
+        
+        // Act
+        try token.sign(using: mockHolder)
+        
+        // Assert
+        XCTAssertEqual(token.signature, mockSignature)
+    }
 }

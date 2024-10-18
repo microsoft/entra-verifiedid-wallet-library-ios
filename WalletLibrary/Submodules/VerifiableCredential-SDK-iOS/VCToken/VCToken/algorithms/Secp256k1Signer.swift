@@ -21,7 +21,7 @@ struct Secp256k1Signer: TokenSigning {
         let encodedMessage = token.protectedMessage
 
         guard let messageData = encodedMessage.data(using: .ascii) else {
-            throw VCTokenError.unableToParseData
+            throw TokenError.UnableToParseToken(component: "message")
         }
         
         return try cryptoOperations.sign(message: messageData,
