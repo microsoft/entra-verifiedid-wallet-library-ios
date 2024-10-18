@@ -23,6 +23,10 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     
     private let configuration: LibraryConfiguration
     
+    private let requestProcessorSerializer: RequestProcessorSerializing?
+    
+    private let verifiedIdSerializer: (any VerifiedIdSerializing)?
+    
     init(content: PresentationRequestContent,
          rawRequest: any OpenIdRawRequest,
          openIdResponder: OpenIdResponder,
@@ -34,12 +38,16 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         self.rawRequest = rawRequest
         self.responder = openIdResponder
         self.configuration = configuration
+        self.requestProcessorSerializer = nil
+        self.verifiedIdSerializer = nil
     }
     
     init(partialRequest: VerifiedIdPartialRequest,
          rawRequest: any OpenIdRawRequest,
          openIdResponder: OpenIdResponder,
-         configuration: LibraryConfiguration)
+         configuration: LibraryConfiguration,
+         requestProcessorSerializer: RequestProcessorSerializing,
+         verifiedIdSerializer: any VerifiedIdSerializing)
     {
         self.style = partialRequest.requesterStyle
         self.requirement = partialRequest.requirement
@@ -47,6 +55,8 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         self.rawRequest = rawRequest
         self.responder = openIdResponder
         self.configuration = configuration
+        self.requestProcessorSerializer = requestProcessorSerializer
+        self.verifiedIdSerializer = verifiedIdSerializer
     }
     
     /// Whether or not the request is satisfied on client side.
@@ -75,21 +85,30 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         }
     }
     
-    private func completeWithProcessorExtensions() async -> VerifiedIdResult<Void> 
+    private func completeWithProcessorExtensions() async -> VerifiedIdResult<Void>
     {
         return await VerifiedIdResult<Void>.getResult {
+            
+            /// Only support Verifiable Credential Serializer for now.
+            guard let verifiedIdSerializer = self.verifiedIdSerializer as? VerifiableCredentialSerializer else
+            {
+                throw PresentationExchangeError.MissingRequiredProperty(message: "Verifiable Credential Serializer is invalid or nil.")
+            }
+            
+            /// Only support Presentation Exchange Serializer for now.
+            guard let requestProcessorSerializer = self.requestProcessorSerializer as? PresentationExchangeSerializer else
+            {
+                throw PresentationExchangeError.MissingRequiredProperty(message: "Presentation Exchange Serializer is invalid or nil.")
+            }
             
             guard let responseURL = self.rawRequest.responseURL else
             {
                 throw PresentationExchangeError.MissingRequiredProperty(message: "Missing response URL on request.")
             }
             
-            let serializer = VerifiableCredentialSerializer()
-            let peSerializer = try PresentationExchangeSerializer(request: self.rawRequest,
-                                                                  libraryConfiguration: self.configuration)
-            try peSerializer.serialize(requirement: self.requirement,
-                                       verifiedIdSerializer: serializer)
-            let response = try peSerializer.build()
+            try requestProcessorSerializer.serialize(requirement: self.requirement,
+                                                     verifiedIdSerializer: verifiedIdSerializer)
+            let response = try requestProcessorSerializer.build()
             _ = try await self.configuration.networking.post(requestBody: response,
                                                              url: responseURL,
                                                              PostPresentationResponseOperation.self)
