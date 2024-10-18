@@ -52,7 +52,7 @@ public class OpenIdRequestProcessor: RequestProcessing
             return try await handleIssuanceRequest(from: requestContent)
         }
         
-        return processPresentationRequest(requestContent: requestContent, rawRequest: request)
+        return try processPresentationRequest(requestContent: requestContent, rawRequest: request)
     }
     
     private func handleIssuanceRequest(from presentationRequestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest 
@@ -120,12 +120,12 @@ public class OpenIdRequestProcessor: RequestProcessing
     }
     
     private func processPresentationRequest(requestContent: PresentationRequestContent,
-                                            rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest
+                                            rawRequest: any OpenIdRawRequest) throws -> any VerifiedIdPresentationRequest
     {
         if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.ProcessorExtensionSupport)
         {
-            return processPresentationRequestWithExtension(requestContent: requestContent,
-                                                           rawRequest: rawRequest)
+            return try processPresentationRequestWithExtension(requestContent: requestContent,
+                                                               rawRequest: rawRequest)
         }
         else
         {
@@ -137,7 +137,7 @@ public class OpenIdRequestProcessor: RequestProcessing
     }
     
     private func processPresentationRequestWithExtension(requestContent: PresentationRequestContent,
-                                                         rawRequest: any OpenIdRawRequest) -> any VerifiedIdPresentationRequest
+                                                         rawRequest: any OpenIdRawRequest) throws -> any VerifiedIdPresentationRequest
     {
         var partial = VerifiedIdPartialRequest(requesterStyle: requestContent.style,
                                                requirement: requestContent.requirement,
@@ -152,10 +152,16 @@ public class OpenIdRequestProcessor: RequestProcessing
             }
         }
         
+        /// Only support PE and VC Serializers for now. TODO: extend to support other serializers.
+        let peSerializer = try PresentationExchangeSerializer(request: rawRequest, libraryConfiguration: configuration)
+        let vcSerializer = VerifiableCredentialSerializer()
+        
         return OpenIdPresentationRequest(partialRequest: partial,
                                          rawRequest: rawRequest,
                                          openIdResponder: openIdResponder,
-                                         configuration: configuration)
+                                         configuration: configuration,
+                                         requestProcessorSerializer: peSerializer,
+                                         verifiedIdSerializer: vcSerializer)
         
     }
     
