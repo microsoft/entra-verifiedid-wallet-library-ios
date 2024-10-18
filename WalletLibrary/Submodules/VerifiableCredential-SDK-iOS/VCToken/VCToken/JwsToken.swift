@@ -63,6 +63,7 @@ struct JwsToken<T: Claims> {
         self.signature = try signer.sign(token: self, withSecret: secret)
     }
     
+    /// Signs the protected message using the provided `HolderIdentifier`.
     mutating func sign(using identifier: HolderIdentifier) throws
     {
         guard let messageData = protectedMessage.data(using: .ascii) else 

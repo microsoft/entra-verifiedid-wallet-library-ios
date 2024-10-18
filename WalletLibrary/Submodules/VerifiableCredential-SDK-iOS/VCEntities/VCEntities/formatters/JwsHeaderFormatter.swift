@@ -15,6 +15,7 @@ struct JwsHeaderFormatter
         return Header(type: type, algorithm: signingKey.algorithm, keyId: keyId)
     }
     
+    /// Formats the JWT headers using the provided `HolderIdentifier` and the specified type.
     func formatHeaders(identifier: HolderIdentifier,
                        type: String = Self.jwtType) -> Header
     {
