@@ -3,11 +3,6 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum VerifiedIdPresentationRequestError: Error {
-    case cancelPresentationRequestIsUnsupported
-    case NoResponseURLOnRawRequest
-}
-
 /**
  * Presentation Requst that is Open Id specific.
  */
@@ -66,8 +61,8 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     }
     
     /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
-    func complete() async -> VerifiedIdResult<Void> {
-        
+    func complete() async -> VerifiedIdResult<Void> 
+    {
         if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.PresentationExchangeSerializationSupport)
         {
             return await completeWithProcessorExtensions()
@@ -80,12 +75,13 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         }
     }
     
-    func completeWithProcessorExtensions() async -> VerifiedIdResult<Void> {
+    private func completeWithProcessorExtensions() async -> VerifiedIdResult<Void> 
+    {
         return await VerifiedIdResult<Void>.getResult {
             
             guard let responseURL = self.rawRequest.responseURL else
             {
-                throw VerifiedIdPresentationRequestError.NoResponseURLOnRawRequest
+                throw PresentationExchangeError.MissingRequiredProperty(message: "Missing response URL on request.")
             }
             
             let serializer = VerifiableCredentialSerializer()
@@ -96,8 +92,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
             let response = try peSerializer.build()
             _ = try await self.configuration.networking.post(requestBody: response,
                                                              url: responseURL,
-                                                             PostPresentationResponseOperation.self,
-                                                             additionalHeaders: self.additionalHeaders)
+                                                             PostPresentationResponseOperation.self)
             
         }
     }
