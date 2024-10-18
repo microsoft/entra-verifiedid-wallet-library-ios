@@ -254,10 +254,222 @@ class OpenIdPresentationRequestTests: XCTestCase {
         }
     }
     
-    private func createMockPresentationRequest(requestedVPTokens: [RequestedVPToken] = []) -> PresentationRequest {
+    func testComplete_WithSerializationFFOnNoRedirectURL_ThrowsError() async throws
+    {
+        // Arrange
+        let mockRawOpenIdRequest = createMockRawOpenIdRequest(responseURL: nil)
+        
+        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        
+        let peSerializer = try PresentationExchangeSerializer(request: mockRawOpenIdRequest,
+                                                              libraryConfiguration: configuration)
+        
+        let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
+                                                rawRequest: mockRawOpenIdRequest,
+                                                openIdResponder: MockOpenIdResponder(),
+                                                configuration: configuration,
+                                                requestProcessorSerializer: peSerializer,
+                                                verifiedIdSerializer: VerifiableCredentialSerializer())
+        
+        // Act
+        let actualResult = await request.complete()
+        
+        // Assert
+        switch (actualResult) 
+        {
+        case .success(_):
+            XCTFail()
+        case .failure(let error):
+            guard let peError = error as? PresentationExchangeError else
+            {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(peError.code, "missing_required_property")
+            XCTAssertEqual(peError.message, "Missing response URL on request.")
+        }
+    }
+    
+    func testComplete_WithSerializationWithInvalidPESerializer_ThrowsError() async throws
+    {
+        // Arrange
+        let mockRawOpenIdRequest = createMockRawOpenIdRequest()
+        
+        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        
+        let mockRequestSerializer = MockRequestProcessorSerializer()
+        
+        let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
+                                                rawRequest: mockRawOpenIdRequest,
+                                                openIdResponder: MockOpenIdResponder(),
+                                                configuration: configuration,
+                                                requestProcessorSerializer: mockRequestSerializer,
+                                                verifiedIdSerializer: VerifiableCredentialSerializer())
+        
+        // Act
+        let actualResult = await request.complete()
+        
+        // Assert
+        switch (actualResult)
+        {
+        case .success(_):
+            XCTFail()
+        case .failure(let error):
+            guard let peError = error as? PresentationExchangeError else
+            {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(peError.code, "missing_required_property")
+            XCTAssertEqual(peError.message, "Presentation Exchange Serializer is invalid or nil.")
+        }
+    }
+    
+    func testComplete_WithSerializationWithInvalidVerifiedIdSerializer_ThrowsError() async throws
+    {
+        // Arrange
+        let mockRawOpenIdRequest = createMockRawOpenIdRequest()
+        
+        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        
+        let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>()
+        
+        let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
+                                                rawRequest: mockRawOpenIdRequest,
+                                                openIdResponder: MockOpenIdResponder(),
+                                                configuration: configuration,
+                                                requestProcessorSerializer: MockRequestProcessorSerializer(),
+                                                verifiedIdSerializer: mockVerifiedIdSerializer)
+        
+        // Act
+        let actualResult = await request.complete()
+        
+        // Assert
+        switch (actualResult)
+        {
+        case .success(_):
+            XCTFail()
+        case .failure(let error):
+            guard let peError = error as? PresentationExchangeError else
+            {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(peError.code, "missing_required_property")
+            XCTAssertEqual(peError.message, "Verifiable Credential Serializer is invalid or nil.")
+        }
+    }
+    
+    func testComplete_WithSerializationAndSerializerThrows_ThrowsError() async throws
+    {
+        // Arrange
+        let mockRawOpenIdRequest = createMockRawOpenIdRequest()
+        
+        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        
+        let expectedError = VerifiedIdError(message: "expected to throw.", code: "expected_to_throw")
+        let peSerializer = try MockPresentationExchangeSerializer(expectedSerializationErrorToThrow: expectedError)
+        
+        let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
+                                                rawRequest: mockRawOpenIdRequest,
+                                                openIdResponder: MockOpenIdResponder(),
+                                                configuration: configuration,
+                                                requestProcessorSerializer: peSerializer,
+                                                verifiedIdSerializer: VerifiableCredentialSerializer())
+        
+        // Act
+        let actualResult = await request.complete()
+        
+        // Assert
+        switch (actualResult)
+        {
+        case .success(_):
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(expectedError.message, error.message)
+            XCTAssertEqual(expectedError.code, error.code)
+        }
+    }
+    
+    func testComplete_WithSerializationAndBuildThrows_ThrowsError() async throws
+    {
+        // Arrange
+        let mockRawOpenIdRequest = createMockRawOpenIdRequest()
+        
+        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        
+        let expectedError = VerifiedIdError(message: "expected to throw.", code: "expected_to_throw")
+        let peSerializer = try MockPresentationExchangeSerializer(expectedBuildErrorToThrow: expectedError)
+        
+        let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
+                                                rawRequest: mockRawOpenIdRequest,
+                                                openIdResponder: MockOpenIdResponder(),
+                                                configuration: configuration,
+                                                requestProcessorSerializer: peSerializer,
+                                                verifiedIdSerializer: VerifiableCredentialSerializer())
+        
+        // Act
+        let actualResult = await request.complete()
+        
+        // Assert
+        switch (actualResult)
+        {
+        case .success(_):
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(expectedError.message, error.message)
+            XCTAssertEqual(expectedError.code, error.code)
+        }
+    }
+    
+    func testComplete_WithSerializationAndSucceeds_ReturnsVoid() async throws
+    {
+        // Arrange
+        let mockRawOpenIdRequest = createMockRawOpenIdRequest()
+        
+        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
+        let mockNetworkingLayer = MockLibraryNetworking.create(expectedResults: [("", PostPresentationResponseOperation.self)])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 networking: mockNetworkingLayer,
+                                                 previewFeatureFlags: previewFlags)
+        
+        let peSerializer = try MockPresentationExchangeSerializer()
+        
+        let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
+                                                rawRequest: mockRawOpenIdRequest,
+                                                openIdResponder: MockOpenIdResponder(),
+                                                configuration: configuration,
+                                                requestProcessorSerializer: peSerializer,
+                                                verifiedIdSerializer: VerifiableCredentialSerializer())
+        
+        // Act
+        let actualResult = await request.complete()
+        
+        // Assert
+        switch (actualResult)
+        {
+        case .success(_):
+            XCTAssert(true)
+        case .failure(let error):
+            XCTFail()
+        }
+    }
+    
+    private func createMockPresentationRequest(requestedVPTokens: [RequestedVPToken] = [],
+                                               expectedRedirectURL: String? = "expectedAudienceUrl") -> PresentationRequest
+    {
         let mockClaims = PresentationRequestClaims(jti: "",
                                                    clientID: "expectedAudienceDid",
-                                                   redirectURI: "expectedAudienceUrl",
+                                                   redirectURI: expectedRedirectURL,
                                                    responseMode: "",
                                                    responseType: "",
                                                    claims: RequestedClaims(vpToken: requestedVPTokens),
@@ -272,5 +484,73 @@ class OpenIdPresentationRequestTests: XCTestCase {
         let mockToken = PresentationRequestToken(headers: Header(), content: mockClaims)!
         let rawPresentationRequest = PresentationRequest(from: mockToken, linkedDomainResult: LinkedDomainResult.linkedDomainMissing)
         return rawPresentationRequest
+    }
+    
+    private func createMockRawOpenIdRequest(responseURL: URL? = URL(string: "microsoft.com")) -> any OpenIdRawRequest
+    {
+        return MockOpenIdRawRequest(nonce: "mockNonce",
+                                    state: "mockState",
+                                    clientId: "mockClientId",
+                                    definitionId: "mockDefinitionId",
+                                    responseURL: responseURL)
+    }
+    
+    private func createMockPartialRequest() -> VerifiedIdPartialRequest
+    {
+        let mockPartialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: "mockRequester"),
+                                                          requirement: MockRequirement(id: "mockRequirement"),
+                                                          rootOfTrust: RootOfTrust(verified: false, source: nil))
+        return mockPartialRequest
+    }
+}
+
+struct MockRequestProcessorSerializer: RequestProcessorSerializing
+{
+    func serialize<T>(requirement: any WalletLibrary.Requirement, 
+                      verifiedIdSerializer: any WalletLibrary.VerifiedIdSerializing<T>) throws { }
+}
+
+class MockPresentationExchangeSerializer: PresentationExchangeSerializer
+{
+    private let expectedSerializationErrorToThrow: Error?
+    
+    private let expectedBuildErrorToThrow: Error?
+    
+    private let expectedBuildResult: PresentationResponse?
+    
+    init(expectedSerializationErrorToThrow: Error? = nil,
+         expectedBuildErrorToThrow: Error? = nil,
+         expectedBuildResult: PresentationResponse? = nil) throws
+    {
+        self.expectedSerializationErrorToThrow = expectedSerializationErrorToThrow
+        self.expectedBuildErrorToThrow = expectedBuildErrorToThrow
+        self.expectedBuildResult = expectedBuildResult
+        let mockRequest = MockOpenIdRawRequest(raw: nil)
+        try super.init(request: mockRequest, libraryConfiguration: LibraryConfiguration())
+    }
+    
+    override func serialize<T>(requirement: any Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
+    {
+        if let expectedSerializationErrorToThrow = expectedSerializationErrorToThrow
+        {
+            throw expectedSerializationErrorToThrow
+        }
+    }
+    
+    override func build() throws -> PresentationResponse 
+    {
+        if let expectedBuildErrorToThrow = expectedBuildErrorToThrow
+        {
+            throw expectedBuildErrorToThrow
+        }
+        else if let result = expectedBuildResult
+        {
+            return result
+        }
+        
+        let header = Header(type: "type", algorithm: "alg", jsonWebKey: "key", keyId: "kid")
+        let claims = PresentationResponseClaims(nonce: "nonce")
+        let idToken = PresentationResponseToken(headers: header, content: claims)!
+        return PresentationResponse(idToken: idToken, vpTokens: [], state: "state")
     }
 }
