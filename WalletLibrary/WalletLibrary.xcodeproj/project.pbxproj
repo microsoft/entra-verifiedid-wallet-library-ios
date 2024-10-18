@@ -487,6 +487,10 @@
 		55A0DA482A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA472A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift */; };
 		55A0DA4A2A74862A00BC178E /* PresentationExchangePatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA492A74862A00BC178E /* PresentationExchangePatternTests.swift */; };
 		55A0DA4C2A74868100BC178E /* DictionaryExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DA4B2A74868100BC178E /* DictionaryExtensionTests.swift */; };
+		55A269102CC3174C00A8EA9C /* IdentifierFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2690E2CC3174C00A8EA9C /* IdentifierFactory.swift */; };
+		55A269112CC3174C00A8EA9C /* KeychainIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2690F2CC3174C00A8EA9C /* KeychainIdentifier.swift */; };
+		55A269132CC3175C00A8EA9C /* VerifiedIdIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A269122CC3175C00A8EA9C /* VerifiedIdIdentifier.swift */; };
+		55A269152CC3176400A8EA9C /* CryptoRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A269142CC3176400A8EA9C /* CryptoRequirement.swift */; };
 		55A4BB172A27A436006836AB /* VerifiedIdError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB162A27A436006836AB /* VerifiedIdError.swift */; };
 		55A4BB332A29383A006836AB /* VerifiedIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB322A29383A006836AB /* VerifiedIdResult.swift */; };
 		55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */; };
@@ -1081,6 +1085,10 @@
 		55A0DA472A74848D00BC178E /* PresentationExchangeFieldConstraintTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeFieldConstraintTests.swift; sourceTree = "<group>"; };
 		55A0DA492A74862A00BC178E /* PresentationExchangePatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangePatternTests.swift; sourceTree = "<group>"; };
 		55A0DA4B2A74868100BC178E /* DictionaryExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionTests.swift; sourceTree = "<group>"; };
+		55A2690E2CC3174C00A8EA9C /* IdentifierFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierFactory.swift; sourceTree = "<group>"; };
+		55A2690F2CC3174C00A8EA9C /* KeychainIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainIdentifier.swift; sourceTree = "<group>"; };
+		55A269122CC3175C00A8EA9C /* VerifiedIdIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdIdentifier.swift; sourceTree = "<group>"; };
+		55A269142CC3176400A8EA9C /* CryptoRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoRequirement.swift; sourceTree = "<group>"; };
 		55A4BB162A27A436006836AB /* VerifiedIdError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdError.swift; sourceTree = "<group>"; };
 		55A4BB322A29383A006836AB /* VerifiedIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdResult.swift; sourceTree = "<group>"; };
 		55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdErrors.swift; sourceTree = "<group>"; };
@@ -1290,6 +1298,7 @@
 		55255F1E2C0E49AF0092CFC3 /* Requirements */ = {
 			isa = PBXGroup;
 			children = (
+				55A269142CC3176400A8EA9C /* CryptoRequirement.swift */,
 				55255F1F2C0E49AF0092CFC3 /* Requirement.swift */,
 				55255F202C0E49AF0092CFC3 /* RetryablePinRequirement.swift */,
 			);
@@ -2501,6 +2510,7 @@
 		5555F19E2BA9F66400B41FD4 /* Identifier */ = {
 			isa = PBXGroup;
 			children = (
+				55A269122CC3175C00A8EA9C /* VerifiedIdIdentifier.swift */,
 				5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */,
 				55265ACE2B61B0D600BAD6A2 /* IdentifierManager.swift */,
 				551B9D512C8B94870007CE2B /* IdentifierMetadata.swift */,
@@ -3201,6 +3211,8 @@
 		A4B4FA602B924E3C00F0AAF3 /* Identifier */ = {
 			isa = PBXGroup;
 			children = (
+				55A2690E2CC3174C00A8EA9C /* IdentifierFactory.swift */,
+				55A2690F2CC3174C00A8EA9C /* KeychainIdentifier.swift */,
 				A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */,
 			);
 			path = Identifier;
@@ -3378,6 +3390,7 @@
 				5552D3BA29EF487800B40302 /* JwsHeaderFormatter.swift in Sources */,
 				55E2F08C299576730008010D /* GroupRequirement.swift in Sources */,
 				5552D48029EF4AAB00B40302 /* JweDecoder.swift in Sources */,
+				55A269132CC3175C00A8EA9C /* VerifiedIdIdentifier.swift in Sources */,
 				5552D3CB29EF489E00B40302 /* IONDocumentDeltaDescriptor.swift in Sources */,
 				550E3212298B1150004E7716 /* VerifiedIdRequestInput.swift in Sources */,
 				5552D3E129EF48B800B40302 /* PinClaims.swift in Sources */,
@@ -3474,6 +3487,7 @@
 				5552D3F929EF48ED00B40302 /* WalletMetadata.swift in Sources */,
 				55DECBE729B92E3900D5C802 /* RawPresentationResponse.swift in Sources */,
 				5552D48929EF4AAB00B40302 /* JweToken.swift in Sources */,
+				55A269102CC3174C00A8EA9C /* IdentifierFactory.swift in Sources */,
 				55265AF82B6D765D00BAD6A2 /* CredentialConfiguration.swift in Sources */,
 				5552D3A029EF481A00B40302 /* ExchangeRequestContainer.swift in Sources */,
 				5555F1A42BAA135600B41FD4 /* IdentifierError.swift in Sources */,
@@ -3486,6 +3500,7 @@
 				553CC09029A955E6005A5FD6 /* PinDescriptor+Mappable.swift in Sources */,
 				551B9D522C8B94870007CE2B /* IdentifierMetadata.swift in Sources */,
 				55255F292C1793810092CFC3 /* OpenIDWellKnownConfiguration.swift in Sources */,
+				55A269112CC3174C00A8EA9C /* KeychainIdentifier.swift in Sources */,
 				55265AF52B6D765D00BAD6A2 /* CredentialMetadata.swift in Sources */,
 				5552D4B829EF4AC300B40302 /* Aes.swift in Sources */,
 				55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */,
@@ -3731,6 +3746,7 @@
 				5552D4C529EF4AC300B40302 /* Data+Base64.swift in Sources */,
 				5552D44529EF4A8100B40302 /* NoRetry.swift in Sources */,
 				5552D3F129EF48E200B40302 /* PresentationResponse.swift in Sources */,
+				55A269152CC3176400A8EA9C /* CryptoRequirement.swift in Sources */,
 				55E2F07D2995561E0008010D /* OpenIdPresentationRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
