@@ -475,6 +475,8 @@
 		55A268A22CC1A5B200A8EA9C /* KeychainIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A268A12CC1A5B200A8EA9C /* KeychainIdentifier.swift */; };
 		55A268A42CC1A70600A8EA9C /* IdentifierFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A268A32CC1A70600A8EA9C /* IdentifierFactory.swift */; };
 		55A268A62CC1A8EB00A8EA9C /* CryptoRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A268A52CC1A8EB00A8EA9C /* CryptoRequirement.swift */; };
+		55A2691D2CC31DEE00A8EA9C /* OpenIDWellKnownConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2691C2CC31DEE00A8EA9C /* OpenIDWellKnownConfiguration.swift */; };
+		55A2691F2CC320F200A8EA9C /* OpenIDWellKnownConfigFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A2691E2CC320F200A8EA9C /* OpenIDWellKnownConfigFetchOperation.swift */; };
 		55A4BB172A27A436006836AB /* VerifiedIdError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB162A27A436006836AB /* VerifiedIdError.swift */; };
 		55A4BB332A29383A006836AB /* VerifiedIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB322A29383A006836AB /* VerifiedIdResult.swift */; };
 		55A4BB3F2A2A5576006836AB /* VerifiedIdErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */; };
@@ -1065,6 +1067,8 @@
 		55A268A12CC1A5B200A8EA9C /* KeychainIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainIdentifier.swift; sourceTree = "<group>"; };
 		55A268A32CC1A70600A8EA9C /* IdentifierFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierFactory.swift; sourceTree = "<group>"; };
 		55A268A52CC1A8EB00A8EA9C /* CryptoRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoRequirement.swift; sourceTree = "<group>"; };
+		55A2691C2CC31DEE00A8EA9C /* OpenIDWellKnownConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIDWellKnownConfiguration.swift; sourceTree = "<group>"; };
+		55A2691E2CC320F200A8EA9C /* OpenIDWellKnownConfigFetchOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIDWellKnownConfigFetchOperation.swift; sourceTree = "<group>"; };
 		55A4BB162A27A436006836AB /* VerifiedIdError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdError.swift; sourceTree = "<group>"; };
 		55A4BB322A29383A006836AB /* VerifiedIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdResult.swift; sourceTree = "<group>"; };
 		55A4BB3E2A2A5576006836AB /* VerifiedIdErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdErrors.swift; sourceTree = "<group>"; };
@@ -1287,7 +1291,7 @@
 			isa = PBXGroup;
 			children = (
 				55265ADE2B6C34B500BAD6A2 /* OpenID4VCI */,
-				55255F282C1793810092CFC3 /* OpenIDWellKnownConfiguration.swift */,
+				55A2691C2CC31DEE00A8EA9C /* OpenIDWellKnownConfiguration.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1309,11 +1313,11 @@
 		55265AFF2B6D936900BAD6A2 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				55A2691E2CC320F200A8EA9C /* OpenIDWellKnownConfigFetchOperation.swift */,
 				550AF6332B7BE74800E5F305 /* OpenID4VCIPostOperation.swift */,
 				55265B002B6D938800BAD6A2 /* OpenIDRequestFetchNetworkOperation.swift */,
 				55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */,
 				558328432B968AD0000CEC89 /* OpenID4VCIPreAuthTokenPostOperation.swift */,
-				55255F2A2C1794080092CFC3 /* OpenIDWellKnownConfigFetchOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -2509,7 +2513,6 @@
 		555FB1662B73FB5500EE14BD /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				551B9D4F2C8A31390007CE2B /* Resolvers */,
 				558328562B97A83A000CEC89 /* Encoders */,
 				558CF1A72B8680E100AF5D82 /* Formatters */,
 				555FB1672B73FB6300EE14BD /* Entities */,
@@ -3423,10 +3426,10 @@
 				5552D3B729EF486C00B40302 /* TokenTimeConstraints.swift in Sources */,
 				5552D3B229EF485E00B40302 /* RequestedVPToken.swift in Sources */,
 				5552D28329EF33EF00B40302 /* PresentationService.swift in Sources */,
-				55255F2B2C1794080092CFC3 /* OpenIDWellKnownConfigFetchOperation.swift in Sources */,
 				5552D3B329EF486000B40302 /* RegistrationClaims.swift in Sources */,
 				550E320C298B0F30004E7716 /* WalletLibraryLogConsumer.swift in Sources */,
 				5552D44A29EF4A8100B40302 /* PostNetworkOperation.swift in Sources */,
+				55A2691F2CC320F200A8EA9C /* OpenIDWellKnownConfigFetchOperation.swift in Sources */,
 				558168E22BA8B5EE000E9CA5 /* RequestProcessorSerializing.swift in Sources */,
 				5552D28529EF33FF00B40302 /* ServicesConstants.swift in Sources */,
 				5552D3CD29EF48B200B40302 /* AttestationResponseDescriptor.swift in Sources */,
@@ -3463,10 +3466,10 @@
 				55E336D6293FA78C00CD2ED7 /* VerifiedIdClaim.swift in Sources */,
 				5552D3C729EF489E00B40302 /* IONDocumentInitialState.swift in Sources */,
 				553CC09029A955E6005A5FD6 /* PinDescriptor+Mappable.swift in Sources */,
-				55255F292C1793810092CFC3 /* OpenIDWellKnownConfiguration.swift in Sources */,
 				55265AF52B6D765D00BAD6A2 /* CredentialMetadata.swift in Sources */,
 				559C4E5E2C078F9700BA7888 /* OpenID4VCIPreAuthTokenResolver.swift in Sources */,
 				5552D4B829EF4AC300B40302 /* Aes.swift in Sources */,
+				55A2691D2CC31DEE00A8EA9C /* OpenIDWellKnownConfiguration.swift in Sources */,
 				55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */,
 				5552D3F329EF48E200B40302 /* PresentationResponseContainer.swift in Sources */,
 				5552D3D129EF48B200B40302 /* IssuanceServiceResponse.swift in Sources */,
@@ -3839,7 +3842,6 @@
 				5552D88929F2E58000B40302 /* MockIssuanceRequestValidator.swift in Sources */,
 				559BD30F2996C1C500BD61AC /* MockLogConsumer.swift in Sources */,
 				555FB2122B759FC200EE14BD /* MockIdentifierDocumentResolver.swift in Sources */,
-				551B9D502C8A31390007CE2B /* OpenID4VCIPreAuthTokenResolverTests.swift in Sources */,
 				5552D86A29F2E43A00B40302 /* ContractDecoderTests.swift in Sources */,
 				55E2F076299555280008010D /* MockRequirement.swift in Sources */,
 				553CC09229A957A3005A5FD6 /* PinDescriptor+MappableTests.swift in Sources */,
