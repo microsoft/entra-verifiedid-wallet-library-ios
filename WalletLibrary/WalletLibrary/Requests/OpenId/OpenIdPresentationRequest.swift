@@ -27,6 +27,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     
     private let verifiedIdSerializer: (any VerifiedIdSerializing)?
     
+    /// Old init not used anymore. TODO: clean up in next PR.
     init(content: PresentationRequestContent,
          rawRequest: any OpenIdRawRequest,
          openIdResponder: OpenIdResponder,
@@ -73,6 +74,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
     func complete() async -> VerifiedIdResult<Void> 
     {
+        /// TODO: remove feature flag in next PR.
         if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.PresentationExchangeSerializationSupport)
         {
             return await completeWithProcessorExtensions()
