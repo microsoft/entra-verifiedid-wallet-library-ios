@@ -19,12 +19,12 @@ public struct PreviewFeatureFlags
     /// public static let PresentationExchangeSerializationSupport = "PresentationExchangeSerializationSupport"
     
     /// A preview feature to support processor extensions.
-    public static let ProcessorExtensionSupport = "ProcessorExtensionSupport"
+    /// Default in on.
+    /// public static let ProcessorExtensionSupport = "ProcessorExtensionSupport"
     
     private var supportedPreviewFeatures: [String: Bool] = [
         OpenID4VCIAccessToken: false,
         OpenID4VCIPreAuth: false,
-        ProcessorExtensionSupport: false
     ]
     
     init(previewFeatureFlags: [String] = [])
