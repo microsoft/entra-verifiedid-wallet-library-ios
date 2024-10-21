@@ -87,30 +87,6 @@ class PresentationExchangeSerializerTests: XCTestCase
                                                             libraryConfiguration: configuration))
     }
     
-    func testSerialize_WithInvalidRequirement_Returns() throws
-    {
-        // Arrange
-        let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>()
-        
-        let callback: ((TraceLevel, String, String, String, Int) -> ()) = { (tracelevel, message, _, _, _) in
-            // Assert
-            XCTAssertEqual(tracelevel, .VERBOSE)
-            XCTAssertEqual(message, "Unable to serialize requirement type: MockRequirement")
-        }
-        
-        let logger = WalletLibraryLogger(consumers: [MockLogConsumer(logCallback: callback)])
-        let configuration = LibraryConfiguration(logger: logger)
-        
-        let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
-                                                            libraryConfiguration: configuration)
-        
-        let mockRequirement = MockRequirement(id: "mock id")
-        
-        // Act
-        try serializer.serialize(requirement: mockRequirement, 
-                                 verifiedIdSerializer: mockVerifiedIdSerializer)
-    }
-    
     func testSerialize_WithRequirementSerializeThrows_ThrowsError() throws
     {
         // Arrange

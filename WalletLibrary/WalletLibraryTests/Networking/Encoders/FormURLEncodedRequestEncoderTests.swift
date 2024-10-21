@@ -20,7 +20,7 @@ class FormURLEncodedRequestEncoderTests: XCTestCase
         let encodedRequest = try encoder.encode(value: request)
         
         // Assert
-        XCTAssertEqual(String(data: encodedRequest, encoding: .ascii),
-                       request.allProperties().toURLEncodedString())
+        XCTAssertEqual(String(data: encodedRequest, encoding: .utf8),
+                       try request.allProperties().toURLEncodedString())
     }
 }
