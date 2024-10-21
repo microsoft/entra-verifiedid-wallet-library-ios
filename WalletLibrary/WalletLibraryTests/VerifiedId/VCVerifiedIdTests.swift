@@ -93,9 +93,11 @@ class VCVerifiedIdTests: XCTestCase {
         let expectedValue1 = "mockValue1"
         let expectedValue2 = "mockValue2"
         let expectedClaim1 = VerifiedIdClaim(id: "mockKey1", 
+                                             label: nil,
                                              type: nil,
                                              value: expectedValue1)
         let expectedClaim2 = VerifiedIdClaim(id: "mockKey2", 
+                                             label: nil,
                                              type: nil,
                                              value: expectedValue2)
         let mockVCClaimDictionary = ["mockKey1": expectedValue1, "mockKey2": expectedValue2]
@@ -135,7 +137,8 @@ class VCVerifiedIdTests: XCTestCase {
         // Assert
         XCTAssertEqual(actualResult.count, 1)
         XCTAssert(actualResult.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1",
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey1", 
+                                                                 label: "MockLabel1",
                                                                  type: "String",
                                                                  value: expectedValue1))
         })
@@ -162,12 +165,14 @@ class VCVerifiedIdTests: XCTestCase {
         // Assert
         XCTAssertEqual(actualResult.count, 2)
         XCTAssert(actualResult.contains {
-            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "MockLabel1",
+            areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey1",
+                                                                 label: "MockLabel1",
                                                                  type: "String",
                                                                  value: expectedValue1))
         })
         XCTAssert(actualResult.contains {
             areClaimsEqual(result: $0, expected: VerifiedIdClaim(id: "mockKey2", 
+                                                                 label: nil,
                                                                  type: nil,
                                                                  value: expectedValue2))
         })
