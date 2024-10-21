@@ -70,197 +70,12 @@ class OpenIdPresentationRequestTests: XCTestCase {
         XCTAssert(actualResult)
     }
     
-    func testComplete_WithPresentationResponseContainerThrows_ReturnsFailureResult() async throws {
-        // Arrange
-        let mockStyle = MockRequesterStyle(requester: "mock requester")
-        let mockRootOfTrust = RootOfTrust(verified: true, source: "")
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        
-        let mockRequirement = MockRequirement(id: "mockRequirement324")
-        
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
-        let mockResponder = MockOpenIdResponder()
-        
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: MockOpenIdRawRequest(raw: nil),
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
-        
-        // Act
-        let actualResult = await request.complete()
-        
-        // Assert
-        switch (actualResult) {
-        case .success(_):
-            XCTFail()
-        case .failure(let error):
-            XCTAssert(error is UnspecifiedVerifiedIdError)
-            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? PresentationResponseContainerError,
-                           .unableToCastVCSDKPresentationRequestFromRawRequestOfType("MockOpenIdRawRequest"))
-        }
-    }
-    
-    func testComplete_WithAddRequirementToPresentationResponseThrows_ReturnsFailureResult() async throws {
-        // Arrange
-        let mockStyle = MockRequesterStyle(requester: "mock requester")
-        let mockRootOfTrust = RootOfTrust(verified: true, source: "")
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        
-        let mockRequirement = MockRequirement(id: "mockRequirement324")
-        
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
-        let mockResponder = MockOpenIdResponder()
-        
-        let mockRawRequest = createMockPresentationRequest()
-        
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: mockRawRequest,
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
-        
-        // Act
-        let actualResult = await request.complete()
-        
-        // Assert
-        switch (actualResult) {
-        case .success(_):
-            XCTFail()
-        case .failure(let error):
-            XCTAssert(error is UnspecifiedVerifiedIdError)
-            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? PresentationResponseContainerError,
-                           .unsupportedRequirementOfType("MockRequirement"))
-        }
-    }
-    
-    func testComplete_WithResponderThrows_ReturnsFailureResult() async throws {
-        // Arrange
-        let mockInputDescriptor = PresentationInputDescriptor(id: "mockId",
-                                                              schema: [],
-                                                              issuanceMetadata: [],
-                                                              name: nil,
-                                                              purpose: nil,
-                                                              constraints: nil)
-        let mockPresentationDefinition = PresentationDefinition(id: "mock id",
-                                                                inputDescriptors: [mockInputDescriptor],
-                                                                issuance: nil)
-        let requestedVpToken = RequestedVPToken(presentationDefinition: mockPresentationDefinition)
-        let mockPresentationRequest = createMockPresentationRequest(requestedVPTokens: [requestedVpToken])
-        
-        let mockStyle = MockRequesterStyle(requester: "mock requester")
-        let mockRootOfTrust = RootOfTrust(verified: true, source: "")
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        
-        let mockRequirement = VerifiedIdRequirement(encrypted: false,
-                                                    required: true,
-                                                    types: [],
-                                                    purpose: nil,
-                                                    issuanceOptions: [],
-                                                    id: "mockId",
-                                                    constraint: MockConstraint(doesMatchResult: true))
-        let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
-        try mockRequirement.fulfill(with: mockVC).get()
-        
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
-        func mockSend(response: RawPresentationResponse) async throws {
-            throw ExpectedError.expectedToBeThrownInResponder
-        }
-        
-        let mockResponder = MockOpenIdResponder(mockSend: mockSend)
-        
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: mockPresentationRequest,
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
-        
-        // Act
-        let actualResult = await request.complete()
-        
-        // Assert
-        switch (actualResult) {
-        case .success(_):
-            XCTFail()
-        case .failure(let error):
-            XCTAssert(error is UnspecifiedVerifiedIdError)
-            XCTAssertEqual((error as? UnspecifiedVerifiedIdError)?.error as? ExpectedError,
-                           .expectedToBeThrownInResponder)
-        }
-    }
-    
-    func testComplete_WithValidInput_ReturnsSuccessResult() async throws {
-        // Arrange
-        let mockInputDescriptor = PresentationInputDescriptor(id: "mockId",
-                                                              schema: [],
-                                                              issuanceMetadata: [],
-                                                              name: nil,
-                                                              purpose: nil,
-                                                              constraints: nil)
-        let mockPresentationDefinition = PresentationDefinition(id: "mock id",
-                                                                inputDescriptors: [mockInputDescriptor],
-                                                                issuance: nil)
-        let requestedVpToken = RequestedVPToken(presentationDefinition: mockPresentationDefinition)
-        let mockPresentationRequest = createMockPresentationRequest(requestedVPTokens: [requestedVpToken])
-        
-        let mockStyle = MockRequesterStyle(requester: "mock requester")
-        let mockRootOfTrust = RootOfTrust(verified: true, source: "")
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        
-        let mockRequirement = VerifiedIdRequirement(encrypted: false,
-                                                    required: true,
-                                                    types: [],
-                                                    purpose: nil,
-                                                    issuanceOptions: [],
-                                                    id: "mockId",
-                                                    constraint: MockConstraint(doesMatchResult: true))
-        let mockVC = MockVerifiableCredentialHelper().createMockVerifiableCredential()
-        try mockRequirement.fulfill(with: mockVC).get()
-        
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
-        let mockResponder = MockOpenIdResponder()
-        
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: mockPresentationRequest,
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
-        
-        // Act
-        let actualResult = await request.complete()
-        
-        // Assert
-        switch (actualResult) {
-        case .success(_):
-            XCTAssert(true)
-        case .failure(let error):
-            XCTFail(String(describing: error))
-        }
-    }
-    
     func testComplete_WithSerializationFFOnNoRedirectURL_ThrowsError() async throws
     {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest(responseURL: nil)
         
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let peSerializer = try PresentationExchangeSerializer(request: mockRawOpenIdRequest,
                                                               libraryConfiguration: configuration)
@@ -296,9 +111,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
     {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
-        
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let mockRequestSerializer = MockRequestProcessorSerializer()
         
@@ -334,8 +147,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
         
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>()
         
@@ -371,8 +183,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
         
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let expectedError = VerifiedIdError(message: "expected to throw.", code: "expected_to_throw")
         let peSerializer = try MockPresentationExchangeSerializer(expectedSerializationErrorToThrow: expectedError)
@@ -402,9 +213,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
     {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
-        
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let expectedError = VerifiedIdError(message: "expected to throw.", code: "expected_to_throw")
         let peSerializer = try MockPresentationExchangeSerializer(expectedBuildErrorToThrow: expectedError)
@@ -435,12 +245,10 @@ class OpenIdPresentationRequestTests: XCTestCase {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
         
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
         let mockNetworkingLayer = MockLibraryNetworking.create(expectedResults: [("", PostPresentationResponseOperation.self)])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
-                                                 networking: mockNetworkingLayer,
-                                                 previewFeatureFlags: previewFlags)
+                                                 networking: mockNetworkingLayer)
         
         let peSerializer = try MockPresentationExchangeSerializer()
         
@@ -460,7 +268,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case .success(_):
             XCTAssert(true)
         case .failure(let error):
-            XCTFail()
+            XCTFail(String(describing: error))
         }
     }
     

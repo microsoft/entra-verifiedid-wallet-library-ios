@@ -122,18 +122,9 @@ public class OpenIdRequestProcessor: RequestProcessing
     private func processPresentationRequest(requestContent: PresentationRequestContent,
                                             rawRequest: any OpenIdRawRequest) throws -> any VerifiedIdPresentationRequest
     {
-        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.ProcessorExtensionSupport)
-        {
-            return try processPresentationRequestWithExtension(requestContent: requestContent,
-                                                               rawRequest: rawRequest)
-        }
-        else
-        {
-            return OpenIdPresentationRequest(content: requestContent,
-                                             rawRequest: rawRequest,
-                                             openIdResponder: openIdResponder,
-                                             configuration: configuration)
-        }
+        // Default to process with extensions.
+        return try processPresentationRequestWithExtension(requestContent: requestContent,
+                                                           rawRequest: rawRequest)
     }
     
     private func processPresentationRequestWithExtension(requestContent: PresentationRequestContent,

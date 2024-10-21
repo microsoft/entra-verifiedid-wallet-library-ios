@@ -17,20 +17,30 @@ struct MockHolderIdentifier: HolderIdentifier
     
     private let expectedSignature: Data?
     
+    private let expectedErrorToBeThrown: Error?
+    
     init(expectedSignature: Data? = nil,
+         expectedErrorToBeThrown: Error? = nil,
          id: String = "",
          algorithm: String = "",
          method: String = "",
-         keyReference: String = "") {
+         keyReference: String = "") 
+    {
         self.id = id
         self.algorithm = algorithm
         self.method = method
         self.keyReference = keyReference
         self.expectedSignature = expectedSignature
+        self.expectedErrorToBeThrown = expectedErrorToBeThrown
     }
     
     func sign(message: Data) throws -> Data 
     {
+        if let expectedErrorToBeThrown = expectedErrorToBeThrown
+        {
+            throw expectedErrorToBeThrown
+        }
+        
         return expectedSignature ?? Data()
     }
 }

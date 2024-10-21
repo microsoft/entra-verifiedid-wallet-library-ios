@@ -28,4 +28,20 @@ struct Identifier {
         self.recoveryKey = recoveryKey
         self.alias = alias
     }
+    
+    /// Temporary method to convert this old Identifier data model to the new one.
+    func toHolderIdentifier(cryptoOperations: CryptoOperating) throws -> HolderIdentifier
+    {
+        guard let firstKey = didDocumentKeys.first else
+        {
+            throw IdentifierError.NoKeysInDocument()
+        }
+        
+        return KeychainIdentifier(id: did,
+                                  algorithm: firstKey.algorithm,
+                                  method: "did:ion",
+                                  keyReference: firstKey.keyId,
+                                  keyReferenceSecret: firstKey.keyReference,
+                                  cryptoOperations: cryptoOperations)
+    }
 }
