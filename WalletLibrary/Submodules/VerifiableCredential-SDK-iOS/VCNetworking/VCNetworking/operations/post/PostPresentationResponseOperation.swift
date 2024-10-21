@@ -3,7 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-class PostPresentationResponseOperation: InternalPostNetworkOperation {
+class PostPresentationResponseOperation: InternalPostNetworkOperation, WalletLibraryPostOperation
+{
     typealias Encoder = PresentationResponseEncoder
     typealias RequestBody = PresentationResponse
     typealias ResponseBody = String?
@@ -30,5 +31,25 @@ class PostPresentationResponseOperation: InternalPostNetworkOperation {
         
         self.urlSession = urlSession
         self.correlationVector = cv
+    }
+    
+    required init(requestBody: RequestBody,
+                  url: URL,
+                  additionalHeaders: [String: String]?,
+                  urlSession: URLSession,
+                  correlationVector: VerifiedIdCorrelationHeader?) throws
+    {
+        self.urlRequest = URLRequest(url: url)
+        self.urlRequest.httpMethod = Constants.POST
+        self.urlRequest.httpBody = try self.encoder.encode(value: requestBody)
+        self.urlRequest.setValue(Constants.FORM_URLENCODED, forHTTPHeaderField: Constants.CONTENT_TYPE)
+        
+        self.urlSession = urlSession
+        self.correlationVector = correlationVector
+        
+        for header in (additionalHeaders ?? [:])
+        {
+            self.urlRequest.addValue(header.value, forHTTPHeaderField: header.key)
+        }
     }
 }

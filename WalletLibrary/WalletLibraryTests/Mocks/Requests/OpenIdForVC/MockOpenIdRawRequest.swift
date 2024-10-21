@@ -33,13 +33,14 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
         self.primitiveClaims = [:]
     }
     
-    init(nonce: String?, state: String?, clientId: String?, definitionId: String?)
+    init(nonce: String?, state: String?, clientId: String?, definitionId: String?, responseURL: URL? = nil)
     {
         self.nonce = nonce
         self.state = state
         self.clientId = clientId
         self.definitionId = definitionId
         self.type = .Presentation
+        self.responseURL = responseURL
     }
     
     func map(using mapper: Mapping) throws -> PresentationRequestContent {
