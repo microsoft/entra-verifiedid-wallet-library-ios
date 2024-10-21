@@ -18,11 +18,9 @@ protocol VerifiablePresentationBuilding
     /// Builds the Verifiable Presentation using the added `PartialInputDescriptor`s and additional parameters.
     func buildInputDescriptors() -> [InputDescriptorMapping]
     
-    /// Builds the Verifiable Presentation using the added `PartialInputDescriptor`s and additional parameters.
     func buildVerifiablePresentation(audience: String,
                                      nonce: String,
-                                     identifier: String,
-                                     signingKey: KeyContainer) throws -> VerifiablePresentation
+                                     identifier: HolderIdentifier) throws -> VerifiablePresentation
 }
 
 /**
@@ -36,14 +34,14 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
     /// A collection of PartialInputDescriptors that will be included in the Verifiable Presentation.
     private var partialInputDescriptors: [PartialInputDescriptor]
     
-    /// The formatter used to generate the final Verifiable Presentation.
-    private let formatter: VerifiablePresentationFormatter
+    /// Formats headers for a JWS token.
+    private let headerFormatter: JwsHeaderFormatter
     
     init(index: Int,
-         formatter: VerifiablePresentationFormatter = VerifiablePresentationFormatter())
+         headerFormatter: JwsHeaderFormatter = JwsHeaderFormatter())
     {
         self.index = index
-        self.formatter = formatter
+        self.headerFormatter = headerFormatter
         partialInputDescriptors = []
     }
     
@@ -71,17 +69,41 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
         return descriptors
     }
     
-    /// Builds the Verifiable Presentation using the added `PartialInputDescriptor`s and additional parameters.
     func buildVerifiablePresentation(audience: String,
                                      nonce: String,
-                                     identifier: String,
-                                     signingKey: KeyContainer) throws -> VerifiablePresentation
+                                     identifier: HolderIdentifier) throws -> VerifiablePresentation
     {
         let serializedVerifiedIds = partialInputDescriptors.map { $0.serializedVerifiedId }
-        return try formatter.format(rawVCs: serializedVerifiedIds,
-                                    audience: audience,
-                                    nonce: nonce,
-                                    identifier: identifier,
-                                    signingKey: signingKey)
+        return try build(rawVCs: serializedVerifiedIds,
+                         audience: audience,
+                         nonce: nonce,
+                         identifier: identifier)
+    }
+    
+    private func build(rawVCs: [String],
+                       audience: String,
+                       nonce: String,
+                       identifier: HolderIdentifier) throws -> VerifiablePresentation
+    {
+        let headers = headerFormatter.formatHeaders(identifier: identifier)
+        let timeConstraints = TokenTimeConstraints(expiryInSeconds: 3000)
+        let vpDescriptor = VerifiablePresentationDescriptor(verifiableCredential: rawVCs)
+        
+        let vpClaims = VerifiablePresentationClaims(vpId: UUID().uuidString,
+                                                    verifiablePresentation: vpDescriptor,
+                                                    issuerOfVp: identifier.id,
+                                                    audience: audience,
+                                                    iat: timeConstraints.issuedAt,
+                                                    nbf: timeConstraints.issuedAt,
+                                                    exp: timeConstraints.expiration,
+                                                    nonce: nonce)
+        
+        guard var token = JwsToken(headers: headers, content: vpClaims) else
+        {
+            throw TokenValidationError.UnableToCreateToken(ofType: String(describing: VerifiablePresentation.self))
+        }
+        
+        try token.sign(using: identifier)
+        return token
     }
 }
