@@ -75,8 +75,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest(responseURL: nil)
         
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let peSerializer = try PresentationExchangeSerializer(request: mockRawOpenIdRequest,
                                                               libraryConfiguration: configuration)
@@ -112,9 +111,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
     {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
-        
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let mockRequestSerializer = MockRequestProcessorSerializer()
         
@@ -150,8 +147,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
         
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>()
         
@@ -187,8 +183,7 @@ class OpenIdPresentationRequestTests: XCTestCase {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
         
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let expectedError = VerifiedIdError(message: "expected to throw.", code: "expected_to_throw")
         let peSerializer = try MockPresentationExchangeSerializer(expectedSerializationErrorToThrow: expectedError)
@@ -218,9 +213,8 @@ class OpenIdPresentationRequestTests: XCTestCase {
     {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
-        
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(), previewFeatureFlags: previewFlags)
+
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         
         let expectedError = VerifiedIdError(message: "expected to throw.", code: "expected_to_throw")
         let peSerializer = try MockPresentationExchangeSerializer(expectedBuildErrorToThrow: expectedError)
@@ -251,12 +245,10 @@ class OpenIdPresentationRequestTests: XCTestCase {
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
         
-        let previewFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.PresentationExchangeSerializationSupport])
         let mockNetworkingLayer = MockLibraryNetworking.create(expectedResults: [("", PostPresentationResponseOperation.self)])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
-                                                 networking: mockNetworkingLayer,
-                                                 previewFeatureFlags: previewFlags)
+                                                 networking: mockNetworkingLayer)
         
         let peSerializer = try MockPresentationExchangeSerializer()
         
