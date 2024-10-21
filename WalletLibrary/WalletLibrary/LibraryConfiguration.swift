@@ -21,6 +21,8 @@ class LibraryConfiguration
     
     let identifierManager: IdentifierManager
     
+    let identifierFactory: IdentifierFactory
+    
     let previewFeatureFlags: PreviewFeatureFlags
 
     init(logger: WalletLibraryLogger = WalletLibraryLogger(),
@@ -29,7 +31,8 @@ class LibraryConfiguration
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          identifierManager: IdentifierManager? = nil,
-         previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags()) 
+         previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags(),
+         identifiers: [HolderIdentifier] = [])
     {
         self.logger = logger
         self.mapper = mapper
@@ -40,6 +43,17 @@ class LibraryConfiguration
         self.verifiedIdEncoder = verifiedIdEncoder
         self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
         self.previewFeatureFlags = previewFeatureFlags
+        
+        var defaultIdentifier = try? identifierManager?.fetchOrCreateMasterIdentifier()
+        let holder = try? defaultIdentifier?.toHolderIdentifier(cryptoOperations: CryptoOperations())
+        
+        var allIdentifiers = identifiers
+        if let holder = holder
+        {
+            allIdentifiers.append(holder)
+        }
+
+        self.identifierFactory = IdentifierFactory(identifiers: allIdentifiers)
     }
     
     /// Helper function to determine if a preview feature flag is supported

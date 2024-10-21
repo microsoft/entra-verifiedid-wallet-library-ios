@@ -6,8 +6,8 @@
 /**
  * The VerifiedIdClientBuilder configures VerifiedIdClient with any additional options.
  */
-public class VerifiedIdClientBuilder {
-
+public class VerifiedIdClientBuilder 
+{
     var keychainAccessGroupIdentifier: String?
     
     private var correlationHeader: VerifiedIdCorrelationHeader?
@@ -26,20 +26,20 @@ public class VerifiedIdClientBuilder {
     
     private var previewFeatureFlagsSupported: [String] = []
     
+    private var identifiers: [HolderIdentifier] = []
+    
     public init() {
         logger = WalletLibraryLogger()
     }
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
-    public func build() -> VerifiedIdClient {
+    public func build() -> VerifiedIdClient 
+    {
 
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: previewFeatureFlagsSupported)
         let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
         let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
                                                    accessGroupIdentifier: keychainAccessGroupIdentifier)
-        
-        /// TODO: update to new Identifier logic once designed.
-        let identifierManager: IdentifierManager = VerifiableCredentialSDK.identifierService
         
         let walletLibraryNetworking = WalletLibraryNetworking(urlSession: urlSession,
                                                               logger: logger,
@@ -50,8 +50,8 @@ public class VerifiedIdClientBuilder {
                                                  networking: walletLibraryNetworking,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
-                                                 identifierManager: identifierManager,
-                                                 previewFeatureFlags: previewFeatureFlags)
+                                                 previewFeatureFlags: previewFeatureFlags,
+                                                 identifiers: identifiers)
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestProcessors(with: configuration)
@@ -64,6 +64,13 @@ public class VerifiedIdClientBuilder {
                                 configuration: configuration)
     }
     
+    /// Optional method to add new Identifiers to Wallet Library..
+    public func with(identifier: HolderIdentifier) -> VerifiedIdClientBuilder
+    {
+        identifiers.append(identifier)
+        return self
+    }
+    
     /// Optional method to add support for preview features.
     public func with(previewFeatureFlags: [String]) -> VerifiedIdClientBuilder
     {
@@ -72,31 +79,36 @@ public class VerifiedIdClientBuilder {
     }
     
     /// Optional method to add a custom Root of Trust Resolver to the VerifiedIdClient.
-    public func with(rootOfTrustResolver: RootOfTrustResolver) -> VerifiedIdClientBuilder {
+    public func with(rootOfTrustResolver: RootOfTrustResolver) -> VerifiedIdClientBuilder 
+    {
         self.rootOfTrustResolver = rootOfTrustResolver
         return self
     }
 
     /// Optional method to add a custom log consumer to VerifiedIdClient.
-    public func with(logConsumer: WalletLibraryLogConsumer) -> VerifiedIdClientBuilder {
+    public func with(logConsumer: WalletLibraryLogConsumer) -> VerifiedIdClientBuilder 
+    {
         logger.add(consumer: logConsumer)
         return self
     }
     
     /// Optional method to add a custom Correlation Header to the VerifiedIdClient.
-    public func with(verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader) -> VerifiedIdClientBuilder {
+    public func with(verifiedIdCorrelationHeader: VerifiedIdCorrelationHeader) -> VerifiedIdClientBuilder 
+    {
         self.correlationHeader = verifiedIdCorrelationHeader
         return self
     }
     
     /// Optional method to add a custom URLSession to the VerifiedIdClient.
-    public func with(urlSession: URLSession) -> VerifiedIdClientBuilder {
+    public func with(urlSession: URLSession) -> VerifiedIdClientBuilder 
+    {
         self.urlSession = urlSession
         return self
     }
     
     /// Optional method to use the given value to specify what Keychain Access Group keys should be stored in.
-    public func with(keychainAccessGroupIdentifier: String) -> VerifiedIdClientBuilder {
+    public func with(keychainAccessGroupIdentifier: String) -> VerifiedIdClientBuilder 
+    {
         self.keychainAccessGroupIdentifier = keychainAccessGroupIdentifier
         return self
     }
@@ -108,7 +120,8 @@ public class VerifiedIdClientBuilder {
         return self
     }
     
-    private func registerSupportedResolvers(with configuration: LibraryConfiguration) {
+    private func registerSupportedResolvers(with configuration: LibraryConfiguration) 
+    {
         let presentationService = PresentationService(correlationVector: correlationHeader,
                                                       rootOfTrustResolver: rootOfTrustResolver,
                                                       urlSession: urlSession)
@@ -134,7 +147,8 @@ public class VerifiedIdClientBuilder {
         
         let credMetadataProcessor = SignedCredentialMetadataProcessor(configuration: configuration,
                                                                       rootOfTrustResolver: rootOfTrustResolver)
-        let openId4VCIProcessor = OpenId4VCIProcessor(configuration: configuration, signedMetadataProcessor: credMetadataProcessor)
+        let openId4VCIProcessor = OpenId4VCIProcessor(configuration: configuration, 
+                                                      signedMetadataProcessor: credMetadataProcessor)
         requestProcessors.append(openId4VCIProcessor)
     }
     
