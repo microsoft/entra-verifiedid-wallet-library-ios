@@ -14,24 +14,25 @@ class PresentationExchangeIdTokenBuilderTests: XCTestCase
         let mockDefinitionId = "mock defintion id"
         let mockAudience = "mock audience"
         let mockNonce = "mock nonce"
+
         let mockIdentifier = "mock identifier"
-        let mockKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
+        let mockSignature = "mock signature".data(using: .ascii)
+        let mockHolderIdentifier = MockHolderIdentifier(expectedSignature: mockSignature,
+                                                        id: mockIdentifier)
         
         let descriptor = InputDescriptorMapping(id: "mockId",
                                                 format: "mockFormat",
                                                 path: "mockPath",
                                                 pathNested: nil)
         
-        let mockSigner = MockSigner(doesSignThrow: false)
-        let builder = PresentationExchangeIdTokenBuilder(signer: mockSigner)
+        let builder = PresentationExchangeIdTokenBuilder()
         
         // Act
         let result = try builder.build(inputDescriptors: [descriptor],
                                        definitionId: mockDefinitionId,
                                        audience: mockAudience,
                                        nonce: mockNonce,
-                                       identifier: mockIdentifier,
-                                       signingKey: mockKey)
+                                       identifier: mockHolderIdentifier)
         
         // Assert
         XCTAssertEqual(result.content.audience, mockAudience)
@@ -49,32 +50,34 @@ class PresentationExchangeIdTokenBuilderTests: XCTestCase
                        descriptor.path)
     }
     
-    func testBuild_WhenSignerThrows_ThrowsError() throws
+    func testBuild_WhenSigningThrows_ThrowsError() throws
     {
         // Arrange
         let mockDefinitionId = "mock defintion id"
         let mockAudience = "mock audience"
         let mockNonce = "mock nonce"
-        let mockIdentifier = "mock identifier"
-        let mockKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
+
+        let expectedError = VerifiedIdError(message: "expectedError", code: "expected_error")
+        let mockHolderIdentifier = MockHolderIdentifier(expectedErrorToBeThrown: expectedError)
         
         let descriptor = InputDescriptorMapping(id: "mockId",
                                                 format: "mockFormat",
                                                 path: "mockPath",
                                                 pathNested: nil)
         
-        let mockSigner = MockSigner(doesSignThrow: true)
-        let builder = PresentationExchangeIdTokenBuilder(signer: mockSigner)
+
+        let builder = PresentationExchangeIdTokenBuilder()
         
         // Act / Assert
         XCTAssertThrowsError(try builder.build(inputDescriptors: [descriptor],
                                                definitionId: mockDefinitionId,
                                                audience: mockAudience,
                                                nonce: mockNonce,
-                                               identifier: mockIdentifier,
-                                               signingKey: mockKey)) { error in
-            XCTAssert(error is MockSigner.ExpectedError)
-            XCTAssertEqual((error as? MockSigner.ExpectedError), .SignExpectedToThrow)
+                                               identifier: mockHolderIdentifier)) { error in
+            
+            XCTAssert(error is VerifiedIdError)
+            XCTAssertEqual((error as? VerifiedIdError)?.message, "expectedError")
+            XCTAssertEqual((error as? VerifiedIdError)?.code, "expected_error")
         }
     }
 }
