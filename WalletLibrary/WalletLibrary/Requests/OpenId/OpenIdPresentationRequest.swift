@@ -74,17 +74,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
     func complete() async -> VerifiedIdResult<Void> 
     {
-        /// TODO: remove feature flag in next PR.
-        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.PresentationExchangeSerializationSupport)
-        {
             return await completeWithProcessorExtensions()
-        }
-        
-        return await VerifiedIdResult<Void>.getResult {
-            var response = try PresentationResponseContainer(rawRequest: self.rawRequest)
-            try response.add(requirement: self.requirement)
-            try await self.responder.send(response: response)
-        }
     }
     
     private func completeWithProcessorExtensions() async -> VerifiedIdResult<Void>
