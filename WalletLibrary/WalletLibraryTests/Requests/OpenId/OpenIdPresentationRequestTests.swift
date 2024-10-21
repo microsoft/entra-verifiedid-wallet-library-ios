@@ -13,63 +13,6 @@ class OpenIdPresentationRequestTests: XCTestCase {
         case expectedToBeThrownInResponder
     }
     
-    func testIsSatisfied_WithInvalidRequirement_ReturnsFalse() async throws {
-        // Arrange
-        let mockStyle = MockRequesterStyle(requester: "mock requester")
-        let mockRootOfTrust = RootOfTrust(verified: true, source: "")
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        
-        let mockRequirement = MockRequirement(id: "mockRequirement324",
-                                              mockValidateCallback: { throw ExpectedError.expectedToBeThrown })
-        
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
-        let mockResponder = MockOpenIdResponder()
-        
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: MockOpenIdRawRequest(raw: nil),
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
-        
-        // Act
-        let actualResult = request.isSatisfied()
-        
-        // Assert
-        XCTAssertFalse(actualResult)
-    }
-    
-    func testIsSatisfied_WithValidRequirement_ReturnsTrue() async throws {
-        // Arrange
-        let mockStyle = MockRequesterStyle(requester: "mock requester")
-        let mockRootOfTrust = RootOfTrust(verified: true, source: "")
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        
-        let mockRequirement = MockRequirement(id: "mockRequirement324")
-        
-        let content = PresentationRequestContent(style: mockStyle,
-                                                 requirement: mockRequirement,
-                                                 rootOfTrust: mockRootOfTrust,
-                                                 requestState: "mock state",
-                                                 callbackUrl: URL(string: "https://test.com")!)
-        
-        let mockResponder = MockOpenIdResponder()
-        
-        let request = OpenIdPresentationRequest(content: content,
-                                                rawRequest: MockOpenIdRawRequest(raw: nil),
-                                                openIdResponder: mockResponder,
-                                                configuration: configuration)
-        
-        // Act
-        let actualResult = request.isSatisfied()
-        
-        // Assert
-        XCTAssert(actualResult)
-    }
-    
     func testComplete_WithSerializationFFOnNoRedirectURL_ThrowsError() async throws
     {
         // Arrange

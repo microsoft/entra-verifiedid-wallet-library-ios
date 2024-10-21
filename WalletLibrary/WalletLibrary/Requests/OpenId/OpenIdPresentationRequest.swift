@@ -17,6 +17,9 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     /// The root of trust results between the request and the source of the request.
     let rootOfTrust: RootOfTrust
     
+    /// The nonce from the request.
+    let nonce: String?
+    
     private let rawRequest: any OpenIdRawRequest
     
     private let responder: OpenIdResponder
@@ -26,22 +29,6 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     private let requestProcessorSerializer: RequestProcessorSerializing?
     
     private let verifiedIdSerializer: (any VerifiedIdSerializing)?
-    
-    /// Old init not used anymore. TODO: clean up in next PR.
-    init(content: PresentationRequestContent,
-         rawRequest: any OpenIdRawRequest,
-         openIdResponder: OpenIdResponder,
-         configuration: LibraryConfiguration) 
-    {
-        self.style = content.style
-        self.requirement = content.requirement
-        self.rootOfTrust = content.rootOfTrust
-        self.rawRequest = rawRequest
-        self.responder = openIdResponder
-        self.configuration = configuration
-        self.requestProcessorSerializer = nil
-        self.verifiedIdSerializer = nil
-    }
     
     init(partialRequest: VerifiedIdPartialRequest,
          rawRequest: any OpenIdRawRequest,
@@ -54,6 +41,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         self.requirement = partialRequest.requirement
         self.rootOfTrust = partialRequest.rootOfTrust
         self.rawRequest = rawRequest
+        self.nonce = rawRequest.nonce
         self.responder = openIdResponder
         self.configuration = configuration
         self.requestProcessorSerializer = requestProcessorSerializer
