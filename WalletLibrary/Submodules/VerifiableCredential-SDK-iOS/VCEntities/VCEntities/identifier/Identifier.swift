@@ -29,6 +29,7 @@ struct Identifier {
         self.alias = alias
     }
     
+    /// Temporary method to convert this old Identifier data model to the new one.
     func toHolderIdentifier(cryptoOperations: CryptoOperating) throws -> HolderIdentifier
     {
         guard let firstKey = didDocumentKeys.first else
