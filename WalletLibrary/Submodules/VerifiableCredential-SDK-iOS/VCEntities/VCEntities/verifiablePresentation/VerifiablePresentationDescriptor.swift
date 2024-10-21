@@ -3,7 +3,13 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-struct VerifiablePresentationDescriptor: Codable {
+struct VerifiablePresentationDescriptor: Codable 
+{
+    private struct Constants
+    {
+        static let Context = "https://www.w3.org/2018/credentials/v1"
+        static let VerifiablePresentation = "VerifiablePresentation"
+    }
     
     let context: [String]
     
@@ -11,7 +17,17 @@ struct VerifiablePresentationDescriptor: Codable {
     
     let verifiableCredential: [String]
     
-    enum CodingKeys: String, CodingKey {
+    init(context: [String] = [Constants.Context],
+         type: [String] = [Constants.VerifiablePresentation],
+         verifiableCredential: [String])
+    {
+        self.context = context
+        self.type = type
+        self.verifiableCredential = verifiableCredential
+    }
+    
+    enum CodingKeys: String, CodingKey 
+    {
         case context = "@context"
         case type, verifiableCredential
     }

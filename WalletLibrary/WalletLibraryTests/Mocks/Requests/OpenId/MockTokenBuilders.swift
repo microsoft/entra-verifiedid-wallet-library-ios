@@ -68,8 +68,7 @@ struct MockPEIdTokenBuilder: PresentationExchangeIdTokenBuilding
                definitionId: String,
                audience: String,
                nonce: String,
-               identifier: String,
-               signingKey: KeyContainer) throws -> PresentationResponseToken
+               identifier: HolderIdentifier) throws -> PresentationResponseToken
     {
         if doesThrow
         {
@@ -119,8 +118,7 @@ struct MockVPBuilder: VerifiablePresentationBuilding
     
     func buildVerifiablePresentation(audience: String,
                                      nonce: String,
-                                     identifier: String,
-                                     signingKey: KeyContainer) throws -> VerifiablePresentation
+                                     identifier: HolderIdentifier) throws -> VerifiablePresentation
     {
         if doesThrow
         {

@@ -97,41 +97,32 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     /// Builds the final presentation response which includes the ID token and Verifiable Presentations.
     func build() throws -> PresentationResponse
     {
-        let identifier = try configuration.identifierManager.fetchOrCreateMasterIdentifier()
+        let oldIdentifierModel = try configuration.identifierManager.fetchOrCreateMasterIdentifier()
+        let identifier = try oldIdentifierModel.toHolderIdentifier(cryptoOperations: CryptoOperations())
         
-        guard let firstKey = identifier.didDocumentKeys.first else
-        {
-            throw IdentifierError.NoKeysInDocument()
-        }
-        
-        let idToken = try buildIdToken(identifier: identifier.longFormDid,
-                                       signingKey: firstKey)
-        let vpTokens = try buildVpTokens(identifier: identifier.longFormDid,
-                                         signingKey: firstKey)
+        let idToken = try buildIdToken(identifier: identifier)
+        let vpTokens = try buildVpTokens(identifier: identifier)
         return PresentationResponse(idToken: idToken,
                                     vpTokens: vpTokens,
                                     state: state)
     }
     
-    private func buildIdToken(identifier: String, signingKey: KeyContainer) throws -> PresentationResponseToken
+    private func buildIdToken(identifier: HolderIdentifier) throws -> PresentationResponseToken
     {
         let inputDescriptors = vpBuilders.flatMap { $0.buildInputDescriptors() }
         return try idTokenBuilder.build(inputDescriptors: inputDescriptors,
                                         definitionId: definitionId,
                                         audience: audience,
                                         nonce: nonce,
-                                        identifier: identifier,
-                                        signingKey: signingKey)
+                                        identifier: identifier)
     }
     
-    private func buildVpTokens(identifier: String,
-                               signingKey: KeyContainer) throws -> [VerifiablePresentation]
+    private func buildVpTokens(identifier: HolderIdentifier) throws -> [VerifiablePresentation]
     {
         return try vpBuilders.map { builder in
             return try builder.buildVerifiablePresentation(audience: audience,
                                                            nonce: nonce,
-                                                           identifier: identifier,
-                                                           signingKey: signingKey)
+                                                           identifier: identifier)
         }
     }
 }

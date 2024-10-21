@@ -57,7 +57,7 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         let mockAccessToken = "mock access token"
         let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
                                                     token_type: nil,
-                                                    time_to_live_in_seconds: nil)
+                                                    expires_in: nil)
         let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
                                                               token_endpoint: "",
                                                               grant_types_supported: ["invalidGrantType"])
@@ -94,7 +94,7 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
         let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
                                                     token_type: nil,
-                                                    time_to_live_in_seconds: nil)
+                                                    expires_in: nil)
         let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
                                                               token_endpoint: nil,
                                                               grant_types_supported: [expectedGrantType])
@@ -130,7 +130,7 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
         let expectedResponse = PreAuthTokenResponse(access_token: nil,
                                                     token_type: nil,
-                                                    time_to_live_in_seconds: nil)
+                                                    expires_in: nil)
         let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
                                                               token_endpoint: "https://microsoft.com",
                                                               grant_types_supported: [expectedGrantType])
@@ -166,7 +166,7 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
         let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
                                                     token_type: nil,
-                                                    time_to_live_in_seconds: nil)
+                                                    expires_in: nil)
         let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
                                                               token_endpoint: "https://microsoft.com",
                                                               grant_types_supported: [expectedGrantType])

@@ -58,4 +58,24 @@ class PostPresentationResponseOperation: InternalPostNetworkOperation, WalletLib
             self.urlRequest.addValue(header.value, forHTTPHeaderField: header.key)
         }
     }
+    
+    required init(requestBody: RequestBody,
+                  url: URL,
+                  additionalHeaders: [String: String]?,
+                  urlSession: URLSession,
+                  correlationVector: VerifiedIdCorrelationHeader?) throws
+    {
+        self.urlRequest = URLRequest(url: url)
+        self.urlRequest.httpMethod = Constants.POST
+        self.urlRequest.httpBody = try self.encoder.encode(value: requestBody)
+        self.urlRequest.setValue(Constants.FORM_URLENCODED, forHTTPHeaderField: Constants.CONTENT_TYPE)
+        
+        self.urlSession = urlSession
+        self.correlationVector = correlationVector
+        
+        for header in (additionalHeaders ?? [:])
+        {
+            self.urlRequest.addValue(header.value, forHTTPHeaderField: header.key)
+        }
+    }
 }

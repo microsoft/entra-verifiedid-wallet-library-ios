@@ -3,7 +3,10 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-enum VCTokenError: Error, Equatable {
-    case unableToParseData
-    case unableToParseString
+@testable import WalletLibrary
+
+struct MockRequestProcessorSerializer: RequestProcessorSerializing
+{
+    func serialize<T>(requirement: any WalletLibrary.Requirement,
+                      verifiedIdSerializer: any WalletLibrary.VerifiedIdSerializing<T>) throws { }
 }
