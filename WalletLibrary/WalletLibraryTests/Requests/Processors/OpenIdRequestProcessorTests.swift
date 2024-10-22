@@ -110,7 +110,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: mockMapper)
         
-        let processor = OpenIdRequestProcessor(configuration: configuration,
+        var processor = OpenIdRequestProcessor(configuration: configuration,
                                                openIdResponder: MockPresentationResponder(),
                                                manifestResolver: MockManifestResolver(),
                                                verifiableCredentialRequester: MockVerifiedIdRequester())
@@ -155,7 +155,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: mockMapper)
         
-        let processor = OpenIdRequestProcessor(configuration: configuration,
+        var processor = OpenIdRequestProcessor(configuration: configuration,
                                                openIdResponder: MockPresentationResponder(),
                                                manifestResolver: MockManifestResolver(),
                                                verifiableCredentialRequester: MockVerifiedIdRequester())

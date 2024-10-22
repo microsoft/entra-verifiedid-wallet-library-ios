@@ -6,11 +6,63 @@
 import XCTest
 @testable import WalletLibrary
 
-class OpenIdPresentationRequestTests: XCTestCase {
-    
-    enum ExpectedError: Error, Equatable {
+class OpenIdPresentationRequestTests: XCTestCase 
+{
+    enum ExpectedError: Error, Equatable 
+    {
         case expectedToBeThrown
         case expectedToBeThrownInResponder
+    }
+    
+    func testIsSatisfied_WithInvalidRequirement_ReturnsFalse() async throws
+    {
+        // Arrange
+        let mockRawOpenIdRequest = createMockRawOpenIdRequest(responseURL: nil)
+        
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
+        
+        let peSerializer = try PresentationExchangeSerializer(request: mockRawOpenIdRequest,
+                                                              libraryConfiguration: configuration)
+        
+        let requirement = MockRequirement(id: "test",
+                                          mockValidateCallback: { throw ExpectedError.expectedToBeThrown })
+        
+        let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(requirement),
+                                                rawRequest: mockRawOpenIdRequest,
+                                                openIdResponder: MockOpenIdResponder(),
+                                                configuration: configuration,
+                                                requestProcessorSerializer: peSerializer,
+                                                verifiedIdSerializer: VerifiableCredentialSerializer())
+        
+        // Act
+        let actualResult = request.isSatisfied()
+        
+        // Assert
+        XCTAssertFalse(actualResult)
+    }
+    
+    func testIsSatisfied_WithValidRequirement_ReturnsTrue() async throws 
+    {
+        // Arrange
+        let mockRawOpenIdRequest = createMockRawOpenIdRequest(responseURL: nil)
+        
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
+        
+        let peSerializer = try PresentationExchangeSerializer(request: mockRawOpenIdRequest,
+                                                              libraryConfiguration: configuration)
+        
+        let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
+                                                rawRequest: mockRawOpenIdRequest,
+                                                openIdResponder: MockOpenIdResponder(),
+                                                configuration: configuration,
+                                                requestProcessorSerializer: peSerializer,
+                                                verifiedIdSerializer: VerifiableCredentialSerializer())
+        
+        // Act
+        let actualResult = request.isSatisfied()
+        
+        // Assert
+        XCTAssert(actualResult)
     }
     
     func testComplete_WithSerializationFFOnNoRedirectURL_ThrowsError() async throws
@@ -246,10 +298,10 @@ class OpenIdPresentationRequestTests: XCTestCase {
                                     responseURL: responseURL)
     }
     
-    private func createMockPartialRequest() -> VerifiedIdPartialRequest
+    private func createMockPartialRequest(_ requirement: Requirement? = nil) -> VerifiedIdPartialRequest
     {
         let mockPartialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: "mockRequester"),
-                                                          requirement: MockRequirement(id: "mockRequirement"),
+                                                          requirement: requirement ?? MockRequirement(id: "mockRequirement"),
                                                           rootOfTrust: RootOfTrust(verified: false, source: nil))
         return mockPartialRequest
     }
