@@ -19,7 +19,7 @@ public struct PreviewFeatureFlags
     /// public static let PresentationExchangeSerializationSupport = "PresentationExchangeSerializationSupport"
     
     /// A preview feature to support processor extensions.
-    /// Default in on.
+    /// Default is on.
     /// public static let ProcessorExtensionSupport = "ProcessorExtensionSupport"
     
     private var supportedPreviewFeatures: [String: Bool] = [

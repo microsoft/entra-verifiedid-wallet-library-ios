@@ -64,18 +64,17 @@ public class VerifiedIdPartialRequest
             return false
         }
 
-        var wasRequirementRemoved = false
         for (index, req) in groupRequirement.requirements.enumerated()
         {
             if let verifiedIdRequirement = req as? VerifiedIdRequirement,
                verifiedIdRequirement.id == id
             {
                 groupRequirement.requirements.remove(at: index)
-                wasRequirementRemoved = true
+                return true
             }
         }
 
-        return wasRequirementRemoved
+        return false
     }
     
     /// Recurse through the requirements and if there is a VerifiedIdRequirement with given id,

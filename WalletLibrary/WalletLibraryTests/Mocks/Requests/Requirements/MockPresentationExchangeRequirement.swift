@@ -11,7 +11,7 @@ class MockPresentationExchangeRequirement: PresentationExchangeRequirement, Requ
     
     var inputDescriptorId: String
     
-    var format: PresentationExchangeVerifiedIdFormat = .JWT_VC
+    var format: String = "jwt_vc"
     
     var exclusivePresentationWith: [String]?
     
