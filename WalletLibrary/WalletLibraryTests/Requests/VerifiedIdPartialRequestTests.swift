@@ -10,6 +10,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
 {
     func testReplaceRequirement_WithRequirementNotMatching_ReturnsNil() async throws
     {
+        // Arrange
         var wasCalled = false
         
         let mockTransformer: ((VerifiedIdRequirement) -> Requirement) = { req in
@@ -17,7 +18,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return MockRequirement(id: "wrongId23")
         }
         
-        // Arrange
         let mockReq = MockRequirement(id: "notMatchingId")
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: mockReq,
@@ -30,6 +30,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testReplaceRequirement_WithRequirementMatching_ReturnsUpdatedRequirement() async throws
     {
+        // Arrange
         let id = "expectedId"
         var wasCalled = false
         let expectedRequirement = VerifiedIdRequirement(encrypted: false,
@@ -47,7 +48,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return expectedResult
         }
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: expectedRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -64,6 +64,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testReplaceRequirement_WithGroupRequirement_ReturnsUpdatedRequirement() async throws
     {
+        // Arrange
         let id = "expectedId"
         var wasCalled = false
         let expectedRequirement = VerifiedIdRequirement(encrypted: false,
@@ -89,7 +90,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return expectedResult
         }
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: groupRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -111,6 +111,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testReplaceRequirement_WithGroupRequirementAndNoMatches_ReturnsNil() async throws
     {
+        // Arrange
         let id = "expectedId"
         var wasCalled = false
         let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
@@ -136,7 +137,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return expectedResult
         }
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: groupRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -158,6 +158,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testReplaceRequirement_With2GroupRequirements_ReturnsUpdatedRequirement() async throws
     {
+        // Arrange
         let id = "expectedId"
         var wasCalled = false
         let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
@@ -186,7 +187,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return expectedResult
         }
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: groupRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -211,10 +211,10 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testRemoveRequirement_WithMockRequirement_ReturnsFalse() async throws
     {
+        // Arrange
         let mockId = "mockId"
         let mockRequirement = MockRequirement(id: "mockId")
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: mockRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -228,6 +228,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testRemoveRequirement_WithNoMatchingId_ReturnsFalse() async throws
     {
+        // Arrange
         let id = "expectedId"
         let mockRequirement1 = MockRequirement(id: "wrongId")
         let mockRequirement2 = MockRequirement(id: "wrongId2")
@@ -235,8 +236,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
         let groupRequirement = GroupRequirement(required: true,
                                                 requirements: [mockRequirement1, mockRequirement2],
                                                 requirementOperator: .ALL)
-        
-        // Arrange
+
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: groupRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -251,6 +251,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testRemoveRequirement_WithMatchingId_ReturnsTrueAndRemovesReq() async throws
     {
+        // Arrange
         let id = "expectedId"
         let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
                                                         required: true,
@@ -266,7 +267,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
                                                                mockRequirement2],
                                                 requirementOperator: .ALL)
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: groupRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
