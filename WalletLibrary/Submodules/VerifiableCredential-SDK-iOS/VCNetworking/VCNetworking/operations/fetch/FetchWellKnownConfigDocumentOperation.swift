@@ -17,16 +17,18 @@ class FetchWellKnownConfigDocumentOperation: InternalNetworkOperation {
         
         /// If endpoint doesn't end with / add one.
         guard let baseUrl = URL(unsafeString: urlStr),
-              var urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: true) else {
-            throw NetworkingError.invalidUrl(withUrl: urlStr)
+              var urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: true) else 
+        {
+            throw VerifiedIdErrors.MalformedInput(message: "Invalid url: \(urlStr).").error
         }
         
         /// replace path and remove query items.
         urlComponents.path = Constants.WELL_KNOWN_SUBDOMAIN
         urlComponents.queryItems = nil
         
-        guard let url = urlComponents.url else {
-            throw NetworkingError.invalidUrl(withUrl: urlStr)
+        guard let url = urlComponents.url else 
+        {
+            throw VerifiedIdErrors.MalformedInput(message: "Invalid url: \(urlComponents.url?.absoluteString ?? "").").error
         }
         
         self.urlRequest = URLRequest(url: url)

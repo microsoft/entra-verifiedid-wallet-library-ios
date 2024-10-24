@@ -15,8 +15,9 @@ class FetchContractOperation: InternalNetworkOperation {
          andCorrelationVector correlationVector: VerifiedIdCorrelationHeader? = nil,
          session: URLSession) throws {
         
-        guard let url = URL(unsafeString: urlStr) else {
-            throw NetworkingError.invalidUrl(withUrl: urlStr)
+        guard let url = URL(unsafeString: urlStr) else 
+        {
+            throw VerifiedIdErrors.MalformedInput(message: "Invalid url: \(urlStr).").error
         }
         
         self.urlSession = session

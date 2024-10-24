@@ -15,15 +15,17 @@ class FetchDIDDocumentOperation: InternalNetworkOperation {
          andCorrelationVector correlationVector: VerifiedIdCorrelationHeader? = nil,
          session: URLSession) throws {
         
-        guard var urlComponents = URLComponents(string: VCSDKConfiguration.sharedInstance.discoveryUrl) else {
-            throw NetworkingError.invalidUrl(withUrl: VCSDKConfiguration.sharedInstance.discoveryUrl)
+        guard var urlComponents = URLComponents(string: VCSDKConfiguration.sharedInstance.discoveryUrl) else 
+        {
+            throw VerifiedIdErrors.MalformedInput(message: "Invalid url: \(VCSDKConfiguration.sharedInstance.discoveryUrl).").error
         }
         
         let pathSuffix = urlComponents.path.last == "/" ? identifier : "/" + identifier
         urlComponents.path = urlComponents.path + pathSuffix
         
-        guard let url = urlComponents.url else {
-            throw NetworkingError.invalidUrl(withUrl: urlComponents.string ?? VCSDKConfiguration.sharedInstance.discoveryUrl)
+        guard let url = urlComponents.url else 
+        {
+            throw VerifiedIdErrors.MalformedInput(message: "Invalid url: \(urlComponents.string ?? "").").error
         }
         
         self.urlRequest = URLRequest(url: url)
