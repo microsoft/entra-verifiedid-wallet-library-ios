@@ -194,7 +194,6 @@
 		5552D40829EF490A00B40302 /* PresentationExchangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D37829EF47EC00B40302 /* PresentationExchangeFilter.swift */; };
 		5552D40929EF490A00B40302 /* PresentationInputDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D37529EF47EC00B40302 /* PresentationInputDescriptor.swift */; };
 		5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D37A29EF47EC00B40302 /* PresentationExchangeConstraints.swift */; };
-		5552D43F29EF4A8100B40302 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D40C29EF4A8100B40302 /* NetworkingError.swift */; };
 		5552D44229EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */; };
 		5552D44329EF4A8100B40302 /* SimpleSuccessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41229EF4A8100B40302 /* SimpleSuccessHandler.swift */; };
 		5552D44429EF4A8100B40302 /* SuccessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D41329EF4A8100B40302 /* SuccessHandler.swift */; };
@@ -792,7 +791,6 @@
 		5552D38529EF47EC00B40302 /* VCSDKLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCSDKLog.swift; sourceTree = "<group>"; };
 		5552D38629EF47EC00B40302 /* VCTraceLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTraceLevel.swift; sourceTree = "<group>"; };
 		5552D38729EF47EC00B40302 /* DefaultLogConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLogConsumer.swift; sourceTree = "<group>"; };
-		5552D40C29EF4A8100B40302 /* NetworkingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WellKnownConfigDocumentNetworkCalls.swift; sourceTree = "<group>"; };
 		5552D41229EF4A8100B40302 /* SimpleSuccessHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSuccessHandler.swift; sourceTree = "<group>"; };
 		5552D41329EF4A8100B40302 /* SuccessHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessHandler.swift; sourceTree = "<group>"; };
@@ -1917,7 +1915,6 @@
 				5552D43C29EF4A8100B40302 /* DIDDocumentNetworkCalls.swift */,
 				5552D41729EF4A8100B40302 /* IssuanceNetworkCalls.swift */,
 				5552D43229EF4A8100B40302 /* PresentationNetworkCalls.swift */,
-				5552D40C29EF4A8100B40302 /* NetworkingError.swift */,
 				5552D41029EF4A8100B40302 /* WellKnownConfigDocumentNetworkCalls.swift */,
 			);
 			name = VCNetworking;
@@ -3661,7 +3658,6 @@
 				5552D4C029EF4AC300B40302 /* ES256k.swift in Sources */,
 				5552D44C29EF4A8100B40302 /* PostIssuanceCompletionResponse.swift in Sources */,
 				55265A3D2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift in Sources */,
-				5552D43F29EF4A8100B40302 /* NetworkingError.swift in Sources */,
 				A4D9F9C92B7AF528006D074E /* VerifiedIdExtending.swift in Sources */,
 				5552D45829EF4A8100B40302 /* PresentationResponseEncoder.swift in Sources */,
 				5552D3D729EF48B200B40302 /* Contract.swift in Sources */,
