@@ -19,7 +19,6 @@ enum VerifiedIdErrors {
     /// Common Errors in Alphabetical Order.
     case MalformedInput(message: String, error: Error? = nil, correlationId: String? = nil)
     case NetworkingError(message: String, correlationId: String, statusCode: Int? = nil, innerError: Error? = nil)
-    case VCNetworkingError(error: NetworkingError)
     case RequirementNotMet(message: String, errors: [Error]? = nil, correlationId: String? = nil, code: String? = nil)
     case UnspecifiedError(error: Error, correlationId: String? = nil)
     
@@ -37,8 +36,6 @@ enum VerifiedIdErrors {
                                              correlationId: correlationId,
                                              statusCode: statusCode,
                                              innerError: error)
-        case .VCNetworkingError(error: let error):
-            return VerifiedIdNetworkingError(from: error)
         case .RequirementNotMet(let message, let errors, let correlationId, let code):
             return RequirementNotMetError(message: message, errors: errors, correlationId: correlationId, code: code)
         case .UnspecifiedError(error: let error, let correlationId):
@@ -152,40 +149,5 @@ public class VerifiedIdNetworkingError: VerifiedIdError {
         try container.encode(String(describing: innerError), forKey: .innerError)
         try container.encode(retryable, forKey: .retryable)
         try super.encode(to: encoder)
-    }
-    
-    convenience init(from vcNetworkingError: NetworkingError, correlationId: String? = nil) {
-        
-        var message: String = "Unknown Networking Error"
-        var statusCode: Int?
-        
-        switch vcNetworkingError {
-        case .badRequest(withBody: _, statusCode: let code):
-            message = "Bad Request"
-            statusCode = code
-        case .forbidden(withBody: _, statusCode: let code):
-            message = "Forbidden"
-            statusCode = code
-        case .notFound(withBody: _, statusCode: let code):
-            message = "Not Found"
-            statusCode = code
-        case .serverError(withBody: _, statusCode: let code):
-            message = "Server Error"
-            statusCode = code
-        case .unauthorized(withBody: _, statusCode: let code):
-            message = "Unauthorized"
-            statusCode = code
-        case .unknownNetworkingError(withBody: _, statusCode: let code):
-            statusCode = code
-        default:
-            statusCode = nil
-        }
-        
-        self.init(message: message,
-                  code: VerifiedIdErrors.ErrorCode.NetworkingError,
-                  correlationId: correlationId,
-                  statusCode: statusCode,
-                  innerError: vcNetworkingError,
-                  retryable: false)
     }
 }

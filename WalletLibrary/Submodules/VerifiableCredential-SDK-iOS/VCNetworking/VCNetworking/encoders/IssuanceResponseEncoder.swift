@@ -5,13 +5,12 @@
 
 import Foundation
 
-struct IssuanceResponseEncoder: Encoding {
-    
-    func encode(value: IssuanceResponse) throws -> Data {
-        
-        guard let encodedToken = try value.serialize().data(using: .ascii) else {
-            throw NetworkingError.unableToParseString
-        }
+struct IssuanceResponseEncoder: Encoding 
+{
+    func encode(value: IssuanceResponse) throws -> Data 
+    {
+        let encodedToken = try Data.getRequiredProperty(property: try value.serialize().data(using: .ascii),
+                                                        propertyName: "encodedToken")
         
         return encodedToken
     }

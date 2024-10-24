@@ -6,5 +6,5 @@
 import Foundation
 
 protocol FailureHandler {
-    func onFailure(data: Data, response: HTTPURLResponse) throws -> NetworkingError
+    func onFailure(data: Data, response: HTTPURLResponse) throws -> VerifiedIdError
 }
