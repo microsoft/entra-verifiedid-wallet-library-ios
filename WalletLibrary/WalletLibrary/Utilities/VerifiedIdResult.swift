@@ -21,18 +21,21 @@ extension VerifiedIdResult where Failure == VerifiedIdError {
         }
 }
 
-extension VerifiedIdResult {
-    
-    // TODO: Inject the correlation id into this result.
-    static func getResult<T>(callback: @escaping () async throws -> T) async -> VerifiedIdResult<T> {
-        do {
+extension VerifiedIdResult 
+{
+    static func getResult<T>(callback: @escaping () async throws -> T) async -> VerifiedIdResult<T> 
+    {
+        do
+        {
             let result = try await callback()
             return VerifiedIdResult.success(result)
-        } catch let error as VerifiedIdError {
+        } 
+        catch let error as VerifiedIdError
+        {
             return error.result()
-        } catch let error as NetworkingError {
-            return VerifiedIdErrors.VCNetworkingError(error: error).result()
-        } catch {
+        } 
+        catch
+        {
             return VerifiedIdErrors.UnspecifiedError(error: error).result()
         }
     }
