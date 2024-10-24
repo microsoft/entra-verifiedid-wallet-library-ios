@@ -8,19 +8,22 @@ import XCTest
 
 @testable import WalletLibrary
 
-class NetworkOperationTests: XCTestCase {
+class NetworkOperationTests: XCTestCase 
+{
     private var mockNetworkOperation: MockNetworkOperation!
     private let expectedUrl = "https://testcontract.com/4235"
     private let expectedHttpResponse = MockObject(id: "test")
     private var serializedExpectedResponse: String!
     
-    override func setUpWithError() throws {
+    override func setUpWithError() throws 
+    {
         self.mockNetworkOperation = MockNetworkOperation()
         let encodedResponse = try JSONEncoder().encode(expectedHttpResponse)
         self.serializedExpectedResponse = String(data: encodedResponse, encoding: .utf8)!
     }
     
-    func testSuccessfulFetchOperation() async throws {
+    func testSuccessfulFetchOperation() async throws 
+    {
         // Arrange
         try UrlProtocolMock.createMockResponse(httpResponse: self.expectedHttpResponse, url: expectedUrl, statusCode: 200)
         
@@ -31,17 +34,24 @@ class NetworkOperationTests: XCTestCase {
         XCTAssertEqual(response, expectedHttpResponse)
     }
     
-    func testFailedFetchOperationBadRequestBody() async throws {
+    func testFailedFetchOperationBadRequestBody() async throws 
+    {
         // Arrange
         try UrlProtocolMock.createMockResponse(httpResponse: self.expectedHttpResponse, url: expectedUrl, statusCode: 400)
         
-        do {
+        do 
+        {
             // Act
             let _ = try await self.mockNetworkOperation.fire()
             XCTFail()
-        } catch {
+        } 
+        catch
+        {
             // Assert
-            XCTAssertEqual(error as! NetworkingError, NetworkingError.badRequest(withBody: self.serializedExpectedResponse, statusCode: 400))
+            XCTAssert(error is VerifiedIdError)
+            let networkingError = error as! VerifiedIdError
+            XCTAssertEqual(networkingError.message, "{\"id\":\"test\"}")
+            XCTAssertEqual(networkingError.code, "networking_error")
         }
     }
 }
