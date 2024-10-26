@@ -162,7 +162,7 @@ class IssuanceRequestContentTests: XCTestCase {
         let groupRequirement = GroupRequirement(required: false,
                                                 requirements: [mockRequirement, idTokenRequirement],
                                                 requirementOperator: .ALL)
-        var issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
+        let issuanceRequestContent = IssuanceRequestContent(style: VerifiedIdManifestIssuerStyle(name: "mockIssuerName"),
                                                             verifiedIdStyle: MockVerifiedIdStyle(),
                                                             requirement: groupRequirement,
                                                             rootOfTrust: RootOfTrust(verified: false, source: nil))

@@ -11,21 +11,30 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     func testResolve_WithURLInput_ReturnsRawRequest() async throws {
         
         // Arrange
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
-        let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com")!)
+        let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com?request_uri=microsoft.com")!)
         let expectedRawData = "test data".data(using: .utf8)!
         let expectedRawRequest = MockOpenIdRawRequest(raw: expectedRawData)
+        
         let mockCallback = { (url: String) in
             return expectedRawRequest
         }
+        
+        let expectedResults = (expectedRawData, OpenIDRequestFetchNetworkOperation.self)
+        let networkingLayer = MockLibraryNetworking.create(expectedResults: [expectedResults])
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: Mapper(),
+                                                 networking: networkingLayer)
+        
+
         let openIdResolver = MockOpenIdForVCResolver(mockGetRequestCallback: mockCallback)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: openIdResolver, configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(openIdResolver: openIdResolver,
+                                                configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
         
         // Assert
-        XCTAssertEqual(actualRawRequest as? MockOpenIdRawRequest, expectedRawRequest)
+        XCTAssertEqual((actualRawRequest as? MockOpenIdRawRequest), expectedRawRequest)
     }
     
     func testResolveOpenId4VCI_WithMalformedURLInput_ThrowsError() async throws {
@@ -151,14 +160,14 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         XCTAssertEqual(actualRawRequest as? [String: String], getTestCredentialOffering())
     }
     
-    func testResolve_WithFeatureFlagsAndNoPreferHeaders_ExpectsHeaders() async throws {
+    func testResolve_WithNoPreferHeaders_ExpectsHeaders() async throws {
         
         // Arrange
         let additionalHeaderSpy: (([String: String]?) -> Void) = { headers in
             XCTAssertNotNil(headers)
             XCTAssertEqual(headers, ["prefer": "oid4vci-interop-profile-version=0.0.1"])
         }
-        let featureFlags = [PreviewFeatureFlags.OpenID4VCIAccessToken, PreviewFeatureFlags.ProcessorExtensionSupport]
+        let featureFlags = [PreviewFeatureFlags.OpenID4VCIAccessToken]
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: featureFlags)
         let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
         let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
@@ -181,7 +190,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         XCTAssertEqual(actualRawRequest as? [String: String], getTestCredentialOffering())
     }
     
-    func testResolve_WithExtFeatureFlagAndPreferHeaders_ExpectsHeaders() async throws {
+    func testResolve_WithPreferHeaders_ExpectsHeaders() async throws {
         
         // Arrange
         let expectedHeaders = ["headerValue1", "headerValue2", "headerValue3"]
@@ -189,21 +198,20 @@ class OpenIdURLRequestResolverTests: XCTestCase {
             XCTAssertNotNil(headers)
             XCTAssertEqual(headers, ["prefer": "headerValue1,headerValue2,headerValue3"])
         }
-        let featureFlags = [PreviewFeatureFlags.ProcessorExtensionSupport]
-        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: featureFlags)
+
         let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
         let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)
         let mockLibraryNetworking = MockLibraryNetworking.create(expectedResults: [expectedNetworkResult],
                                                                  additionalHeaderSpy: additionalHeaderSpy)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
-                                                 networking: mockLibraryNetworking,
-                                                 previewFeatureFlags: previewFeatureFlags)
+                                                 networking: mockLibraryNetworking)
         
         let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
-        var resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(),
+                                                configuration: configuration)
         resolver.preferHeaders.append(contentsOf: expectedHeaders)
         
         // Act
@@ -219,9 +227,9 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let expectedHeaders = ["headerValue1", "headerValue2", "headerValue3"]
         let additionalHeaderSpy: (([String: String]?) -> Void) = { headers in
             XCTAssertNotNil(headers)
-            XCTAssertEqual(headers, ["prefer": "oid4vci-interop-profile-version=0.0.1,headerValue1,headerValue2,headerValue3"])
+            XCTAssertEqual(headers, ["prefer": "headerValue1,headerValue2,headerValue3,oid4vci-interop-profile-version=0.0.1"])
         }
-        let featureFlags = [PreviewFeatureFlags.OpenID4VCIAccessToken, PreviewFeatureFlags.ProcessorExtensionSupport]
+        let featureFlags = [PreviewFeatureFlags.OpenID4VCIAccessToken]
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: featureFlags)
         let expectedResponseBody = try JSONEncoder().encode(getTestCredentialOffering())
         let expectedNetworkResult = (expectedResponseBody, OpenIDRequestFetchNetworkOperation.self)

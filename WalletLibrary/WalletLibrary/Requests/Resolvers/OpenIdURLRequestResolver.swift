@@ -65,40 +65,26 @@ class OpenIdURLRequestResolver: RequestResolving
         }
         
         var additionalHeaders = AdditionalHeaders()
-        var isFeatureFlagOn = false
+        
+        for header in preferHeaders
+        {
+            additionalHeaders.addHeader(fieldName: Constants.PreferHeaderField,
+                                        value: header)
+        }
         
         if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIAccessToken) ||
             configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.OpenID4VCIPreAuth)
         {
             additionalHeaders.addHeader(fieldName: Constants.PreferHeaderField,
                                         value: Constants.InteropProfileVersion)
-            isFeatureFlagOn = true
         }
         
-        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.ProcessorExtensionSupport)
-        {
-            for header in preferHeaders 
-            {
-                additionalHeaders.addHeader(fieldName: Constants.PreferHeaderField,
-                                            value: header)
-            }
-            isFeatureFlagOn = true
-        }
-        
-        if isFeatureFlagOn
-        {
-            return try await resolveUsingOpenID4VCI(input: input,
-                                                    additionalHeaders: additionalHeaders)
-        }
-        else
-        {
-            /// If preview features are not supported, fallback to VC SDK implementation.
-            return try await openIdResolver.getRequest(url: input.url.absoluteString)
-        }
+        return try await resolve(input: input,
+                                 additionalHeaders: additionalHeaders)
     }
     
-    private func resolveUsingOpenID4VCI(input: VerifiedIdRequestURL,
-                                        additionalHeaders: AdditionalHeaders) async throws -> Any
+    private func resolve(input: VerifiedIdRequestURL,
+                         additionalHeaders: AdditionalHeaders) async throws -> Any
     {
         guard let requestUri = getRequestUri(openIdURL: input.url) else
         {

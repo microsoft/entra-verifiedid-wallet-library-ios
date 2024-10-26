@@ -107,10 +107,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         
         // Turn on feature flag
-        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.ProcessorExtensionSupport])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
-                                                 mapper: mockMapper,
-                                                 previewFeatureFlags: previewFeatureFlags)
+                                                 mapper: mockMapper)
         
         var processor = OpenIdRequestProcessor(configuration: configuration,
                                                openIdResponder: MockPresentationResponder(),
@@ -154,11 +152,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         
-        // Turn on feature flag
-        let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: [PreviewFeatureFlags.ProcessorExtensionSupport])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
-                                                 mapper: mockMapper,
-                                                 previewFeatureFlags: previewFeatureFlags)
+                                                 mapper: mockMapper)
         
         var processor = OpenIdRequestProcessor(configuration: configuration,
                                                openIdResponder: MockPresentationResponder(),

@@ -113,28 +113,31 @@ class VerifiablePresentationBuilderTests: XCTestCase
         // Arrange
         let mockAudience = "mock audience"
         let mockNonce = "mock nonce"
+        
         let mockIdentifier = "mock identifier"
-        let mockKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
+        let mockSignature = "mock signature".data(using: .ascii)
+        let mockHolderIdentifier = MockHolderIdentifier(expectedSignature: mockSignature, 
+                                                        id: mockIdentifier)
+        
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
         let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         let index = 1
         
-        let formatter = VerifiablePresentationFormatter(signer: MockSigner(doesSignThrow: false))
-        let builder = VerifiablePresentationBuilder(index: index, formatter: formatter)
+        let builder = VerifiablePresentationBuilder(index: index)
         builder.add(partialInputDescriptor: input)
         
         // Act
         let result = try builder.buildVerifiablePresentation(audience: mockAudience,
                                                              nonce: mockNonce,
-                                                             identifier: mockIdentifier,
-                                                             signingKey: mockKey)
+                                                             identifier: mockHolderIdentifier)
         
         // Assert
         XCTAssertEqual(result.content.audience, mockAudience)
         XCTAssertEqual(result.content.issuerOfVp, mockIdentifier)
         XCTAssertEqual(result.content.nonce, mockNonce)
         XCTAssertEqual(result.content.verifiablePresentation.verifiableCredential, [input.serializedVerifiedId])
+        XCTAssertEqual(result.signature, mockSignature)
     }
     
     func testBuildVerifiablePresentation_WithThreePartials_ReturnsVP() throws
@@ -142,8 +145,12 @@ class VerifiablePresentationBuilderTests: XCTestCase
         // Arrange
         let mockAudience = "mock audience"
         let mockNonce = "mock nonce"
+        
         let mockIdentifier = "mock identifier"
-        let mockKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
+        let mockSignature = "mock signature".data(using: .ascii)
+        let mockHolderIdentifier = MockHolderIdentifier(expectedSignature: mockSignature,
+                                                        id: mockIdentifier)
+        
         let requirement1 = MockPresentationExchangeRequirement(inputDescriptorId: "1")
         let descriptor1 = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: requirement1)
         
@@ -155,8 +162,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         
         let index = 1
         
-        let formatter = VerifiablePresentationFormatter(signer: MockSigner(doesSignThrow: false))
-        let builder = VerifiablePresentationBuilder(index: index, formatter: formatter)
+        let builder = VerifiablePresentationBuilder(index: index)
         builder.add(partialInputDescriptor: descriptor1)
         builder.add(partialInputDescriptor: descriptor2)
         builder.add(partialInputDescriptor: descriptor3)
@@ -164,8 +170,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         // Act
         let result = try builder.buildVerifiablePresentation(audience: mockAudience,
                                                              nonce: mockNonce,
-                                                             identifier: mockIdentifier,
-                                                             signingKey: mockKey)
+                                                             identifier: mockHolderIdentifier)
         
         // Assert
         XCTAssertEqual(result.content.audience, mockAudience)
@@ -173,6 +178,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         XCTAssertEqual(result.content.nonce, mockNonce)
         XCTAssertEqual(result.content.verifiablePresentation.verifiableCredential,
                        [descriptor1.serializedVerifiedId, descriptor2.serializedVerifiedId, descriptor3.serializedVerifiedId])
+        XCTAssertEqual(result.signature, mockSignature)
     }
     
     func testBuildVerifiablePresentation_WithFormatterThrowing_ThrowsError() throws
@@ -180,24 +186,25 @@ class VerifiablePresentationBuilderTests: XCTestCase
         // Arrange
         let mockAudience = "mock audience"
         let mockNonce = "mock nonce"
-        let mockIdentifier = "mock identifier"
-        let mockKey = KeyContainer(keyReference: MockCryptoSecret(id: UUID()), keyId: "mockKeyId")
+        
+        let expectedError = VerifiedIdError(message: "expectedError", code: "expected_error")
+        let mockHolderIdentifier = MockHolderIdentifier(expectedErrorToBeThrown: expectedError)
+        
         let inputReq = MockPresentationExchangeRequirement(inputDescriptorId: "2")
         let input = PartialInputDescriptor(serializedVerifiedId: "mockVC", requirement: inputReq)
         
         let index = 1
         
-        let formatter = VerifiablePresentationFormatter(signer: MockSigner(doesSignThrow: true))
-        let builder = VerifiablePresentationBuilder(index: index, formatter: formatter)
+        let builder = VerifiablePresentationBuilder(index: index)
         builder.add(partialInputDescriptor: input)
         
         // Act / Assert
         XCTAssertThrowsError(try builder.buildVerifiablePresentation(audience: mockAudience,
                                                                      nonce: mockNonce,
-                                                                     identifier: mockIdentifier,
-                                                                     signingKey: mockKey)) { error in
-            XCTAssert(error is MockSigner.ExpectedError)
-            XCTAssertEqual((error as? MockSigner.ExpectedError), .SignExpectedToThrow)
+                                                                     identifier: mockHolderIdentifier)) { error in
+            XCTAssert(error is VerifiedIdError)
+            XCTAssertEqual((error as? VerifiedIdError)?.message, "expectedError")
+            XCTAssertEqual((error as? VerifiedIdError)?.code, "expected_error")
         }
     }
 }

@@ -14,8 +14,7 @@ protocol PresentationExchangeIdTokenBuilding
                definitionId: String,
                audience: String,
                nonce: String,
-               identifier: String,
-               signingKey: KeyContainer) throws -> PresentationResponseToken
+               identifier: HolderIdentifier) throws -> PresentationResponseToken
 }
 
 /**
@@ -23,15 +22,12 @@ protocol PresentationExchangeIdTokenBuilding
  */
 class PresentationExchangeIdTokenBuilder: PresentationExchangeIdTokenBuilding
 {
-    /// Signer used to sign token.
-    private let signer: TokenSigning
-    
     /// Formats token headers.
-    private let headerFormatter = JwsHeaderFormatter()
+    private let headerFormatter: JwsHeaderFormatter
     
-    init(signer: TokenSigning = Secp256k1Signer())
+    init()
     {
-        self.signer = signer
+        self.headerFormatter = JwsHeaderFormatter()
     }
     
     /// Builds Presentation Exchange Id Token from given input.
@@ -39,8 +35,21 @@ class PresentationExchangeIdTokenBuilder: PresentationExchangeIdTokenBuilding
                definitionId: String,
                audience: String,
                nonce: String,
-               identifier: String,
-               signingKey: KeyContainer) throws -> PresentationResponseToken
+               identifier: HolderIdentifier) throws -> PresentationResponseToken
+    {
+        let content = createTokenContent(inputDescriptors: inputDescriptors,
+                                         definitionId: definitionId,
+                                         audience: audience,
+                                         nonce: nonce,
+                                         identifier: identifier.id)
+        return try createToken(content: content, holderIdentifier: identifier)
+    }
+    
+    private func createTokenContent(inputDescriptors: [InputDescriptorMapping],
+                                    definitionId: String,
+                                    audience: String,
+                                    nonce: String,
+                                    identifier: String) -> PresentationResponseClaims
     {
         let submission = PresentationSubmission(id: UUID().uuidString,
                                                 definitionId: definitionId,
@@ -53,22 +62,20 @@ class PresentationExchangeIdTokenBuilder: PresentationExchangeIdTokenBuilding
                                                 nonce: nonce,
                                                 iat: timeConstraints.issuedAt,
                                                 exp: timeConstraints.expiration)
-        return try createToken(content: claims, signingKey: signingKey)
+        return claims
     }
     
     private func createToken(content: PresentationResponseClaims,
-                             signingKey: KeyContainer) throws -> PresentationResponseToken
+                             holderIdentifier: HolderIdentifier) throws -> PresentationResponseToken
     {
-        let headers = headerFormatter.formatHeaders(identifier: content.subject,
-                                                    signingKey: signingKey)
+        let headers = headerFormatter.formatHeaders(identifier: holderIdentifier)
         
-        guard var token = JwsToken(headers: headers, content: content) else 
+        guard var token = JwsToken(headers: headers, content: content) else
         {
             throw TokenValidationError.UnableToCreateToken(ofType: String(describing: PresentationResponseToken.self))
         }
         
-        try token.sign(using: signer,
-                       withSecret: signingKey.keyReference)
+        try token.sign(using: holderIdentifier)
         
         return token
     }

@@ -6,12 +6,12 @@
 /**
  * Verified ID Requirement with additional information required for Presentation Exchange RequestProcessor
  */
-public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement, PresentationExchangeRequirement
+class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement, PresentationExchangeRequirement
 {
     
     var inputDescriptorId: String
     
-    var format: PresentationExchangeVerifiedIdFormat = .JWT_VC
+    var format: String
     
     var exclusivePresentationWith: [String]?
     
@@ -23,7 +23,7 @@ public class PresentationExchangeVerifiedIdRequirement: VerifiedIdRequirement, P
          id: String?,
          constraint: VerifiedIdConstraint,
          inputDescriptorId: String,
-         format: PresentationExchangeVerifiedIdFormat,
+         format: String,
          exclusivePresentationWith: [String]?
     ) {
         self.inputDescriptorId = inputDescriptorId

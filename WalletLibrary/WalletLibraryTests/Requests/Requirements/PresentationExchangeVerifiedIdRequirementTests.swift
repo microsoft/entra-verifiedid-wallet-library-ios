@@ -21,7 +21,7 @@ class PresentationExchangeVerifiedIdRequirementTests: XCTestCase {
                                                 id: nil,
                                                 constraint: mockConstraint,
                                                 inputDescriptorId: expectedInputDescriptor,
-                                                format: .JWT_VC,
+                                                format: "jwt_vc",
                                                 exclusivePresentationWith: nil)
         
         

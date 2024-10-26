@@ -10,6 +10,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
 {
     func testReplaceRequirement_WithRequirementNotMatching_ReturnsNil() async throws
     {
+        // Arrange
         var wasCalled = false
         
         let mockTransformer: ((VerifiedIdRequirement) -> Requirement) = { req in
@@ -17,7 +18,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return MockRequirement(id: "wrongId23")
         }
         
-        // Arrange
         let mockReq = MockRequirement(id: "notMatchingId")
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: mockReq,
@@ -30,6 +30,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testReplaceRequirement_WithRequirementMatching_ReturnsUpdatedRequirement() async throws
     {
+        // Arrange
         let id = "expectedId"
         var wasCalled = false
         let expectedRequirement = VerifiedIdRequirement(encrypted: false,
@@ -47,7 +48,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return expectedResult
         }
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: expectedRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -64,6 +64,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testReplaceRequirement_WithGroupRequirement_ReturnsUpdatedRequirement() async throws
     {
+        // Arrange
         let id = "expectedId"
         var wasCalled = false
         let expectedRequirement = VerifiedIdRequirement(encrypted: false,
@@ -89,7 +90,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return expectedResult
         }
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: groupRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -111,6 +111,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testReplaceRequirement_WithGroupRequirementAndNoMatches_ReturnsNil() async throws
     {
+        // Arrange
         let id = "expectedId"
         var wasCalled = false
         let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
@@ -136,7 +137,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return expectedResult
         }
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: groupRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -158,6 +158,7 @@ class VerifiedIdPartialRequestTests: XCTestCase
     
     func testReplaceRequirement_With2GroupRequirements_ReturnsUpdatedRequirement() async throws
     {
+        // Arrange
         let id = "expectedId"
         var wasCalled = false
         let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
@@ -186,7 +187,6 @@ class VerifiedIdPartialRequestTests: XCTestCase
             return expectedResult
         }
         
-        // Arrange
         let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
                                                       requirement: groupRequirement,
                                                       rootOfTrust: RootOfTrust(verified: false, source: nil))
@@ -207,5 +207,75 @@ class VerifiedIdPartialRequestTests: XCTestCase
         XCTAssertEqual(nestedRequirementResult?.requirements[1] as? MockRequirement,
                        mockRequirement1)
         XCTAssertEqual(result as? MockRequirement, expectedResult)
+    }
+    
+    func testRemoveRequirement_WithMockRequirement_ReturnsFalse() async throws
+    {
+        // Arrange
+        let mockId = "mockId"
+        let mockRequirement = MockRequirement(id: "mockId")
+        
+        let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
+                                                      requirement: mockRequirement,
+                                                      rootOfTrust: RootOfTrust(verified: false, source: nil))
+        
+        // Act
+        let result = partialRequest.removeRequirement(id: mockId)
+        
+        // Assert
+        XCTAssertFalse(result)
+    }
+    
+    func testRemoveRequirement_WithNoMatchingId_ReturnsFalse() async throws
+    {
+        // Arrange
+        let id = "expectedId"
+        let mockRequirement1 = MockRequirement(id: "wrongId")
+        let mockRequirement2 = MockRequirement(id: "wrongId2")
+        
+        let groupRequirement = GroupRequirement(required: true,
+                                                requirements: [mockRequirement1, mockRequirement2],
+                                                requirementOperator: .ALL)
+
+        let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
+                                                      requirement: groupRequirement,
+                                                      rootOfTrust: RootOfTrust(verified: false, source: nil))
+        
+        // Act
+        let result = partialRequest.removeRequirement(id: id)
+        
+        // Assert
+        XCTAssertFalse(result)
+        XCTAssertEqual(groupRequirement.requirements.count, 2)
+    }
+    
+    func testRemoveRequirement_WithMatchingId_ReturnsTrueAndRemovesReq() async throws
+    {
+        // Arrange
+        let id = "expectedId"
+        let verifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
+                                                        required: true,
+                                                        types: [],
+                                                        purpose: nil,
+                                                        issuanceOptions: [],
+                                                        id: id,
+                                                        constraint: MockConstraint(doesMatchResult: true))
+        let mockRequirement2 = MockRequirement(id: "wrongId2")
+        
+        let groupRequirement = GroupRequirement(required: true,
+                                                requirements: [verifiedIdRequirement,
+                                                               mockRequirement2],
+                                                requirementOperator: .ALL)
+        
+        let partialRequest = VerifiedIdPartialRequest(requesterStyle: MockRequesterStyle(requester: ""),
+                                                      requirement: groupRequirement,
+                                                      rootOfTrust: RootOfTrust(verified: false, source: nil))
+        
+        // Act
+        let result = partialRequest.removeRequirement(id: id)
+        
+        // Assert
+        XCTAssert(result)
+        XCTAssertEqual(groupRequirement.requirements.count, 1)
     }
 }
