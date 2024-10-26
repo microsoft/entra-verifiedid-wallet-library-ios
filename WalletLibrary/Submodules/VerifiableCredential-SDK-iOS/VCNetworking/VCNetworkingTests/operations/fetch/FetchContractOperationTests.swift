@@ -32,7 +32,10 @@ class FetchContractTests: XCTestCase {
     func testInvalidUrlInit() {
         let invalidUrl = ""
         XCTAssertThrowsError(try FetchContractOperation(withUrl: invalidUrl, session: URLSession.shared)) { error in
-            XCTAssertEqual(error as! NetworkingError, NetworkingError.invalidUrl(withUrl: invalidUrl))
+            XCTAssert(error is VerifiedIdError)
+            let networkingError = error as! VerifiedIdError
+            XCTAssertEqual(networkingError.message, "Invalid url: .")
+            XCTAssertEqual(networkingError.code, "malformed_input_error")
         }
     }
 }
