@@ -53,26 +53,25 @@ struct RawOpenID4VCIRequestFormatter
                              credentialEndpoint: String,
                              accessToken: String) throws -> String
     {
-        guard let identifier = try? configuration.identifierManager.fetchOrCreateMasterIdentifier(),
-              let signingKey = identifier.didDocumentKeys.first else
+        guard let tempIdentifier = try? configuration.identifierManager.fetchOrCreateMasterIdentifier(),
+              let identifier = try? tempIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations()) else
         {
-            let errorMessage = "Unable to fetch user's signing key reference."
+            let errorMessage = "Unable to fetch holder identifier."
             throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage)
         }
 
         let accessTokenHash = try hash(accessToken: accessToken)
         
         let claims = OpenID4VCIJWTProofClaims(credentialEndpoint: credentialEndpoint,
-                                              did: identifier.longFormDid,
+                                              did: identifier.id,
                                               accessTokenHash: accessTokenHash)
         
-        let headers = headerFormatter.formatHeaders(identifier: identifier.longFormDid,
-                                                    signingKey: signingKey,
+        let headers = headerFormatter.formatHeaders(identifier: identifier,
                                                     type: "openid4vci-proof+jwt")
         
         let serializedToken = try createSerializedToken(headers: headers,
                                                         claims: claims,
-                                                        keyReference: signingKey.keyReference)
+                                                        identifier: identifier)
         return serializedToken
     }
     
@@ -90,7 +89,7 @@ struct RawOpenID4VCIRequestFormatter
     
     private func createSerializedToken(headers: Header,
                                        claims: OpenID4VCIJWTProofClaims,
-                                       keyReference: VCCryptoSecret) throws -> String
+                                       identifier: HolderIdentifier) throws -> String
     {
         guard var jwt = JwsToken(headers: headers, content: claims) else
         {
@@ -100,7 +99,7 @@ struct RawOpenID4VCIRequestFormatter
         
         do
         {
-            try jwt.sign(using: signer, withSecret: keyReference)
+            try jwt.sign(using: identifier)
             return try jwt.serialize()
         }
         catch

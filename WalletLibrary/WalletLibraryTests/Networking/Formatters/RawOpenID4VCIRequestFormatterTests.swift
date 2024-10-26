@@ -47,7 +47,7 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
             XCTAssert(error is OpenId4VCIValidationError)
             let validationError = error as! OpenId4VCIValidationError
             XCTAssertEqual(validationError.code, "request_creation_error")
-            XCTAssertEqual(validationError.message, "Unable to fetch user's signing key reference.")
+            XCTAssertEqual(validationError.message, "Unable to fetch holder identifier.")
         }
     }
     
@@ -71,7 +71,7 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
             let validationError = error as! OpenId4VCIValidationError
             XCTAssertEqual(validationError.code, "request_creation_error")
             XCTAssertEqual(validationError.message, "Unable to format the Proof Token.")
-            XCTAssertEqual(validationError.error as? MockSigner.ExpectedError,
+            XCTAssertEqual(validationError.error,
                            MockSigner.ExpectedError.SignExpectedToThrow)
         }
     }
