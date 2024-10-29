@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockHolderIdentifier: HolderIdentifier
+struct MockHolderIdentifier: HolderIdentifier, Equatable
 {
     var id: String
     
@@ -42,5 +42,10 @@ struct MockHolderIdentifier: HolderIdentifier
         }
         
         return expectedSignature ?? Data()
+    }
+    
+    static func == (lhs: MockHolderIdentifier, rhs: MockHolderIdentifier) -> Bool 
+    {
+        return lhs.id == rhs.id
     }
 }
