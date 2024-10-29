@@ -46,7 +46,7 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
             XCTAssert(error is VerifiedIdError)
             let validationError = error as! VerifiedIdError
             XCTAssertEqual(validationError.code, "no_holder_identifier_found.")
-            XCTAssertEqual(validationError.message, "No Holder Identifier matches requirements.")
+            XCTAssertEqual(validationError.message, "No Holder Identifiers found.")
         }
     }
     
