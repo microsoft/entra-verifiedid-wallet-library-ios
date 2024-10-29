@@ -39,7 +39,10 @@ class PostIssuanceResponseOperationTests: XCTestCase {
         XCTAssertThrowsError(try PostIssuanceResponseOperation(usingUrl: invalidUrl,
                                                                withBody: expectedRequestBody,
                                                                urlSession: URLSession.shared)) { error in
-            XCTAssertEqual(error as! NetworkingError, NetworkingError.invalidUrl(withUrl: invalidUrl))
+            XCTAssert(error is VerifiedIdError)
+            let networkingError = error as! VerifiedIdError
+            XCTAssertEqual(networkingError.message, "Invalid url: .")
+            XCTAssertEqual(networkingError.code, "malformed_input_error")
         }
     }
 }

@@ -19,7 +19,10 @@ class LibraryConfiguration
     
     let networking: LibraryNetworking
     
+    /// TODO: remove when all flows transitiion to IdentifierFactory.
     let identifierManager: IdentifierManager
+    
+    let identifierFactory: IdentifierFactory
     
     let previewFeatureFlags: PreviewFeatureFlags
 
@@ -29,7 +32,8 @@ class LibraryConfiguration
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          identifierManager: IdentifierManager? = nil,
-         previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags()) 
+         previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags(),
+         identifiers: [HolderIdentifier] = [])
     {
         self.logger = logger
         self.mapper = mapper
@@ -38,8 +42,20 @@ class LibraryConfiguration
                                                                 correlationHeader: nil)
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
-        self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
         self.previewFeatureFlags = previewFeatureFlags
+        
+        /// TODO: remove `IdentifierManager` to only use `IdentifierFactory` once all flows are using `HolderIdentifier`s.
+        self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
+        
+        /// Append default identifier to the end of the list of Identifiers.
+        var allIdentifiers = identifiers
+        if let defaultIdentifier = try? VerifiableCredentialSDK.identifierService.fetchOrCreateMasterIdentifier(),
+           let holderIdentifier = try? defaultIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
+        {
+            allIdentifiers.append(holderIdentifier)
+        }
+
+        self.identifierFactory = IdentifierFactory(identifiers: allIdentifiers)
     }
     
     /// Helper function to determine if a preview feature flag is supported

@@ -22,8 +22,9 @@ class PostIssuanceResponseOperation: InternalPostNetworkOperation {
          andCorrelationVector cv: VerifiedIdCorrelationHeader? = nil,
          urlSession: URLSession) throws {
         
-        guard let url = URL(unsafeString: urlStr) else {
-            throw NetworkingError.invalidUrl(withUrl: urlStr)
+        guard let url = URL(unsafeString: urlStr) else 
+        {
+            throw VerifiedIdErrors.MalformedInput(message: "Invalid url: \(urlStr).").error
         }
         
         self.urlRequest = URLRequest(url: url)

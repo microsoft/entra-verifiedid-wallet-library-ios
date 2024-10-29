@@ -327,4 +327,32 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
     }
+    
+    func testBuild_WithIdentifierHolderInjection_ReturnsVerifiedIdClient() throws 
+    {
+        // Arrange
+        let builder = VerifiedIdClientBuilder()
+        let _ = VerifiableCredentialSDK.initialize()
+        let mockHolder1 = MockHolderIdentifier(id: "mock1")
+        let mockHolder2 = MockHolderIdentifier(id: "mock2")
+        
+        // Act
+        let actualResult = builder
+            .with(identifier: mockHolder1)
+            .with(identifier: mockHolder2)
+            .build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers[0] as? MockHolderIdentifier, mockHolder1)
+        XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers[1] as? MockHolderIdentifier, mockHolder2)
+    }
 }
