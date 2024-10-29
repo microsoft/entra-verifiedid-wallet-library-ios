@@ -66,19 +66,3 @@ class IdentifierFactoryTests: XCTestCase
         XCTAssertEqual(result as? MockHolderIdentifier, mockHolder)
     }
 }
-
-struct MockCryptoRequirement: CryptoRequirement
-{
-    
-    let expectedIdentifierId: String
-    
-    init(expectedIdentifierId: String = "")
-    {
-        self.expectedIdentifierId = expectedIdentifierId
-    }
-    
-    func isSupported(identifier: HolderIdentifier) -> Bool
-    {
-        expectedIdentifierId == identifier.id
-    }
-}
