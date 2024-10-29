@@ -8,19 +8,14 @@
  */
 struct RawOpenID4VCIRequestFormatter
 {
-    /// Used to sign the proof token.
-    private let signer: TokenSigning
-    
     /// Formats the headers for the token.
     private let headerFormatter = JwsHeaderFormatter()
     
     /// Configuration settings for the library
     private let configuration: LibraryConfiguration
     
-    init(signer: TokenSigning = Secp256k1Signer(),
-         configuration: LibraryConfiguration)
+    init(configuration: LibraryConfiguration)
     {
-        self.signer = signer
         self.configuration = configuration
     }
     

@@ -12,8 +12,7 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
     func testFormat_WithInvalidConfigIds_ThrowsError() async throws
     {
         // Arrange
-        let formatter = RawOpenID4VCIRequestFormatter(signer: MockSigner(),
-                                                      configuration: LibraryConfiguration())
+        let formatter = RawOpenID4VCIRequestFormatter(configuration: LibraryConfiguration())
         let mockAccessToken = "mock access token"
         let mockEndpoint = "mock endpoint"
         let mockCredentialOffer = createCredentialOffer(configIds: [])
@@ -33,8 +32,7 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
     {
         // Arrange
         let libraryConfig = LibraryConfiguration()
-        let formatter = RawOpenID4VCIRequestFormatter(signer: MockSigner(),
-                                                      configuration: libraryConfig)
+        let formatter = RawOpenID4VCIRequestFormatter(configuration: libraryConfig)
         let mockAccessToken = "mock access token"
         let mockEndpoint = "mock endpoint"
         let mockCredentialOffer = createCredentialOffer()
