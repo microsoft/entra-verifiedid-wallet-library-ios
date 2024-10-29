@@ -21,15 +21,21 @@ class IdentifierFactory
     ///
     /// - Parameter cryptoRequirement: The cryptographic requirement to be met. If `nil`, pick the first one on the list.
     /// - Returns: A `HolderIdentifier` that supports the given requirement, or `nil` if none is found.
-    func getIdentifier(for cryptoRequirement: CryptoRequirement? = nil) -> HolderIdentifier?
+    func getIdentifier(for cryptoRequirement: CryptoRequirement? = nil) throws -> HolderIdentifier
     {
-        guard let cryptoRequirement = cryptoRequirement else
+        if let cryptoRequirement = cryptoRequirement,
+           let identifier = identifiers.filter({ cryptoRequirement.isSupported(identifier: $0) }).first
         {
-            return identifiers.first
+            return identifier
         }
-        
-        return identifiers.filter {
-            cryptoRequirement.isSupported(identifier: $0)
-        }.first
+        else if let identifier = identifiers.first
+        {
+            return identifier
+        }
+        else
+        {
+            throw VerifiedIdError(message: "No Holder Identifier matches requirements.",
+                                  code: "no_holder_identifier_found.")
+        }
     }
 }

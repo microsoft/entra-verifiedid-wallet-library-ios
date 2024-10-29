@@ -53,25 +53,20 @@ struct RawOpenID4VCIRequestFormatter
                              credentialEndpoint: String,
                              accessToken: String) throws -> String
     {
-        guard let tempIdentifier = try? configuration.identifierManager.fetchOrCreateMasterIdentifier(),
-              let identifier = try? tempIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations()) else
-        {
-            let errorMessage = "Unable to fetch holder identifier."
-            throw OpenId4VCIValidationError.OpenID4VCIRequestCreationError(message: errorMessage)
-        }
+        let holderIdentifier = try configuration.identifierFactory.getIdentifier()
 
         let accessTokenHash = try hash(accessToken: accessToken)
         
         let claims = OpenID4VCIJWTProofClaims(credentialEndpoint: credentialEndpoint,
-                                              did: identifier.id,
+                                              did: holderIdentifier.id,
                                               accessTokenHash: accessTokenHash)
         
-        let headers = headerFormatter.formatHeaders(identifier: identifier,
+        let headers = headerFormatter.formatHeaders(identifier: holderIdentifier,
                                                     type: "openid4vci-proof+jwt")
         
         let serializedToken = try createSerializedToken(headers: headers,
                                                         claims: claims,
-                                                        identifier: identifier)
+                                                        identifier: holderIdentifier)
         return serializedToken
     }
     
