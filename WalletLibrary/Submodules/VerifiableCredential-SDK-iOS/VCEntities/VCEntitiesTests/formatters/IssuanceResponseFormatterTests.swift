@@ -16,7 +16,7 @@ class IssuanceResponseFormatterTests: XCTestCase {
     
     override func setUpWithError() throws {
         let signer = MockTokenSigner(x: "x", y: "y")
-        self.formatter = IssuanceResponseFormatter(signer: signer)
+        self.formatter = IssuanceResponseFormatter(logger: WalletLibraryLogger())
         
         let encodedContract = TestData.aiContract.rawValue.data(using: .utf8)!
         self.contract = try JSONDecoder().decode(Contract.self, from: encodedContract)
@@ -31,7 +31,8 @@ class IssuanceResponseFormatterTests: XCTestCase {
     }
     
     func testFormatToken() throws {
-        let formattedToken = try formatter.format(response: self.mockResponse, usingIdentifier: self.mockIdentifier)
+        let formattedToken = try formatter.format(response: mockResponse,
+                                                  identifier: MockHolderIdentifier())
         XCTAssertEqual(formattedToken.content.did, self.mockIdentifier.longFormDid)
         XCTAssertEqual(formattedToken.content.contract, self.mockResponse.contractUri)
         XCTAssertEqual(formattedToken.content.audience, self.mockResponse.audienceUrl)

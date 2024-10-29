@@ -15,7 +15,8 @@ class PresentationResponseFormatterTests: XCTestCase {
     let expectedContractUrl = "https://portableidentitycards.azure-api.net/v1.0/9c59be8b-bd18-45d9-b9d9-082bc07c094f/portableIdentities/contracts/AIEngineerCert"
     let expectedCredentialType = "test435"
     
-    override func setUpWithError() throws {
+    override func setUpWithError() throws 
+    {
         let signer = MockTokenSigner(x: "x", y: "y")
         self.formatter = PresentationResponseFormatter(signer: signer, sdkLog: VCSDKLog.sharedInstance)
         

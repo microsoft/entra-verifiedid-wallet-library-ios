@@ -11,30 +11,11 @@ enum PresentationServiceExtensionError: Error
 /**
  * An extension of the VCServices.PresentationService class.
  */
-extension PresentationService: OpenIdForVCResolver, OpenIdResponder 
+extension OpenIdPresentationRequestValidator: OpenIdRequestValidating
 {
-    
     func validateRequest(data: Data) async throws -> any OpenIdRawRequest 
     {
         let request = try PresentationRequestDecoder().decode(data: data)
         return try await validate(request: request)
-    }
-    
-    /// Fetches and validates the presentation request.
-    func getRequest(url: String) async throws -> any OpenIdRawRequest 
-    {
-        return try await self.getRequest(usingUrl: url)
-    }
-    
-    /// Sends the presentation response container and if successful, returns void,
-    /// If unsuccessful, throws an error.
-    func send(response: RawPresentationResponse) async throws -> Void 
-    {
-        guard let presentationResponseContainer = response as? PresentationResponseContainer else 
-        {
-            throw PresentationServiceExtensionError.unableToCastOpenIdForVCResponseToPresentationResponseContainer
-        }
-        
-        try await self.send(response: presentationResponseContainer)
     }
 }

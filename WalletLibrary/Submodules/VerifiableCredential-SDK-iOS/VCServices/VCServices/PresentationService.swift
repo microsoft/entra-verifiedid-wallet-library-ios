@@ -17,8 +17,8 @@ enum PresentationServiceError: Error {
 }
 
 // TODO: replace during FIPS work.
-class PresentationService {
-    
+class OpenIdPresentationRequestValidator
+{
     let formatter: PresentationResponseFormatting
     let presentationApiCalls: PresentationNetworking
     private let didDocumentDiscoveryApiCalls: DiscoveryNetworking
@@ -59,13 +59,13 @@ class PresentationService {
         self.sdkLog = sdkLog
     }
     
-    func getRequest(usingUrl urlStr: String) async throws -> PresentationRequest {
-        return try await logTime(name: "Presentation getRequest") {
-            let requestUri = try self.getRequestUri(from: urlStr)
-            let request = try await self.presentationApiCalls.getRequest(withUrl: requestUri)
-            return try await self.validate(request: request)
-        }
-    }
+//    func getRequest(usingUrl urlStr: String) async throws -> PresentationRequest {
+//        return try await logTime(name: "Presentation getRequest") {
+//            let requestUri = try self.getRequestUri(from: urlStr)
+//            let request = try await self.presentationApiCalls.getRequest(withUrl: requestUri)
+//            return try await self.validate(request: request)
+//        }
+//    }
     
     func validate(request: PresentationRequestToken) async throws -> PresentationRequest {
         
@@ -81,29 +81,29 @@ class PresentationService {
         return PresentationRequest(from: request, linkedDomainResult: result)
     }
     
-    func send(response: PresentationResponseContainer) async throws {
-        try await logTime(name: "Presentation sendResponse") {
-            let formattedResponse = try self.formatPresentationResponse(response: response)
-            try await self.presentationApiCalls.sendResponse(usingUrl: response.audienceUrl,
-                                                             withBody: formattedResponse)
-        }
-    }
+//    func send(response: PresentationResponseContainer) async throws {
+//        try await logTime(name: "Presentation sendResponse") {
+//            let formattedResponse = try self.formatPresentationResponse(response: response)
+//            try await self.presentationApiCalls.sendResponse(usingUrl: response.audienceUrl,
+//                                                             withBody: formattedResponse)
+//        }
+//    }
     
-    private func getRequestUri(from urlStr: String) throws -> String {
-        
-        guard let urlComponents = URLComponents(string: urlStr) else { throw PresentationServiceError.inputStringNotUri }
-        guard let queryItems = urlComponents.percentEncodedQueryItems else { throw PresentationServiceError.noQueryParametersOnUri }
-        
-        for queryItem in queryItems {
-            if queryItem.name == ServicesConstants.REQUEST_URI {
-                guard let value = queryItem.value?.removingPercentEncoding
-                else { throw PresentationServiceError.noValueForRequestUriQueryParameter }
-                return value
-            }
-        }
-        
-        throw PresentationServiceError.noRequestUriQueryParameter
-    }
+//    private func getRequestUri(from urlStr: String) throws -> String {
+//        
+//        guard let urlComponents = URLComponents(string: urlStr) else { throw PresentationServiceError.inputStringNotUri }
+//        guard let queryItems = urlComponents.percentEncodedQueryItems else { throw PresentationServiceError.noQueryParametersOnUri }
+//        
+//        for queryItem in queryItems {
+//            if queryItem.name == ServicesConstants.REQUEST_URI {
+//                guard let value = queryItem.value?.removingPercentEncoding
+//                else { throw PresentationServiceError.noValueForRequestUriQueryParameter }
+//                return value
+//            }
+//        }
+//        
+//        throw PresentationServiceError.noRequestUriQueryParameter
+//    }
     
     private func getIdentifierDocument(from token: PresentationRequestToken) async throws -> IdentifierDocument {
         let did = try getDIDFromHeader(request: token)

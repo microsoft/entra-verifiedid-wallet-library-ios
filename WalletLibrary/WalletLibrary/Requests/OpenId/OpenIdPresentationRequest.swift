@@ -22,8 +22,6 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     
     private let rawRequest: any OpenIdRawRequest
     
-    private let responder: OpenIdResponder
-    
     private let configuration: LibraryConfiguration
     
     private let requestProcessorSerializer: RequestProcessorSerializing?
@@ -32,7 +30,6 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     
     init(partialRequest: VerifiedIdPartialRequest,
          rawRequest: any OpenIdRawRequest,
-         openIdResponder: OpenIdResponder,
          configuration: LibraryConfiguration,
          requestProcessorSerializer: RequestProcessorSerializing,
          verifiedIdSerializer: any VerifiedIdSerializing)
@@ -42,7 +39,6 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         self.rootOfTrust = partialRequest.rootOfTrust
         self.rawRequest = rawRequest
         self.nonce = rawRequest.nonce
-        self.responder = openIdResponder
         self.configuration = configuration
         self.requestProcessorSerializer = requestProcessorSerializer
         self.verifiedIdSerializer = verifiedIdSerializer

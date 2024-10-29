@@ -3,51 +3,44 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-protocol IssuanceResponseFormatting {
-    func format(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier) throws -> IssuanceResponse
+protocol IssuanceResponseFormatting
+{
+    func format(response: IssuanceResponseContainer, identifier: HolderIdentifier) throws -> IssuanceResponse
 }
 
-class IssuanceResponseFormatter: IssuanceResponseFormatting {
-    
-    private let signer: TokenSigning
-    private let sdkLog: VCSDKLog
-    private let headerFormatter = JwsHeaderFormatter()
+class IssuanceResponseFormatter: IssuanceResponseFormatting 
+{
+    private let logger: WalletLibraryLogger
+    private let headerFormatter: JwsHeaderFormatter
     private let vpFormatter: IssuanceVPFormatter
     
-    init(signer: TokenSigning = Secp256k1Signer(),
-                sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
-        self.signer = signer
-        self.vpFormatter = IssuanceVPFormatter(signer: signer)
-        self.sdkLog = sdkLog
+    init(logger: WalletLibraryLogger,
+         headerFormatter: JwsHeaderFormatter = JwsHeaderFormatter(),
+         vpFormatter: IssuanceVPFormatter = IssuanceVPFormatter())
+    {
+        self.logger = logger
+        self.headerFormatter = headerFormatter
+        self.vpFormatter = vpFormatter
     }
     
-    func format(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier) throws -> IssuanceResponse {
-        
-        guard let signingKey = identifier.didDocumentKeys.first else {
-            throw FormatterError.noSigningKeyFound
-        }
-        
-        return try createToken(response: response, usingIdentifier: identifier, andSignWith: signingKey)
-    }
-    
-    private func createToken(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier, andSignWith key: KeyContainer) throws -> IssuanceResponse {
-        
-        let headers = headerFormatter.formatHeaders(identifier: identifier.longFormDid, signingKey: key)
-        let content = try self.formatClaims(response: response, usingIdentifier: identifier, andSigningKey: key)
+    func format(response: IssuanceResponseContainer, identifier: HolderIdentifier) throws -> IssuanceResponse
+    {
+        let headers = headerFormatter.formatHeaders(identifier: identifier)
+        let content = try self.formatClaims(response: response, identifier: identifier)
         
         guard var token = JwsToken(headers: headers, content: content) else {
             throw FormatterError.unableToFormToken
         }
         
-        try token.sign(using: self.signer, withSecret: key.keyReference)
+        try token.sign(using: identifier)
         return token
     }
-    
-    private func formatClaims(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier, andSigningKey key: KeyContainer) throws -> IssuanceResponseClaims {
-        
-        let publicKey = try signer.getPublicJwk(from: key.keyReference, withKeyId: key.keyId)
+ 
+    private func formatClaims(response: IssuanceResponseContainer, identifier: HolderIdentifier) throws -> IssuanceResponseClaims
+    {
+        let publicKey = try getPublicKey()
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: response.expiryInSeconds)
-        let attestations = try self.formatAttestations(response: response, usingIdentifier: identifier, andSignWith: key)
+        let attestations = try self.formatAttestations(response: response, identifier: identifier)
         
         var pin: String? = nil
         if response.issuanceIdToken != nil
@@ -57,7 +50,7 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting {
         
         return IssuanceResponseClaims(publicKeyThumbprint: try publicKey.getThumbprint(),
                                       audience: response.audienceUrl,
-                                      did: identifier.longFormDid,
+                                      did: identifier.id,
                                       publicJwk: publicKey,
                                       contract: response.contractUri,
                                       jti: UUID().uuidString,
@@ -67,8 +60,13 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting {
                                       exp: timeConstraints.expiration)
     }
     
-    private func formatAttestations(response: IssuanceResponseContainer, usingIdentifier identifier: Identifier, andSignWith key: KeyContainer) throws -> AttestationResponseDescriptor? {
-        
+    private func getPublicKey() throws -> ECPublicJwk
+    {
+        throw VerifiedIdError(message: "", code: "")
+    }
+    
+    private func formatAttestations(response: IssuanceResponseContainer, identifier: HolderIdentifier) throws -> AttestationResponseDescriptor?
+    {
         var accessTokenMap: RequestedAccessTokenMap? = nil
         if !response.requestedAccessTokenMap.isEmpty {
             accessTokenMap = response.requestedAccessTokenMap
@@ -91,9 +89,9 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting {
             idTokenMap?[VCEntitiesConstants.SELF_ISSUED] = response.issuanceIdToken
         }
 
-        let presentationsMap = try createPresentations(from: response, usingIdentifier: identifier, andSignWith: key)
+        let presentationsMap = try createPresentations(from: response, identifier: identifier)
         
-        sdkLog.logVerbose(message: """
+        logger.logVerbose(message: """
             Creating Issuance Response with:
             access_tokens: \(accessTokenMap?.count ?? 0)
             id_tokens: \(idTokenMap?.count ?? 0)
@@ -107,9 +105,10 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting {
                                              selfIssued: selfIssuedMap)
     }
     
-    private func createPresentations(from response: IssuanceResponseContainer, usingIdentifier identifier: Identifier, andSignWith key: KeyContainer) throws -> [String: String]? {
-        
-        guard !response.requestVCMap.isEmpty else {
+    private func createPresentations(from response: IssuanceResponseContainer, identifier: HolderIdentifier) throws -> [String: String]?
+    {
+        guard !response.requestVCMap.isEmpty else 
+        {
             return nil
         }
         
@@ -117,8 +116,7 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting {
             try self.createVerifiablePresentation(requestedVCMapping: requestedVCMapping,
                                                   issuer: response.contract.input.issuer,
                                                   expiration: response.expiryInSeconds,
-                                                  identifier: identifier,
-                                                  key: key)
+                                                  identifier: identifier)
             
         }) { first, _ in first }
     }
@@ -126,14 +124,12 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting {
     private func createVerifiablePresentation(requestedVCMapping: RequestedVerifiableCredentialMapping,
                                               issuer: String,
                                               expiration: Int,
-                                              identifier: Identifier,
-                                              key: KeyContainer) throws -> (String, String) {
+                                              identifier: HolderIdentifier) throws -> (String, String) {
         
         let vp = try self.vpFormatter.format(toWrap: requestedVCMapping.vc,
                                              withAudience: issuer,
                                              withExpiryInSeconds: expiration,
-                                             usingIdentifier: identifier,
-                                             andSignWith: key)
+                                             usingIdentifier: identifier)
         
         return (requestedVCMapping.inputDescriptorId, try vp.serialize())
         

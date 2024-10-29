@@ -122,10 +122,10 @@ public class VerifiedIdClientBuilder
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) 
     {
-        let presentationService = PresentationService(correlationVector: correlationHeader,
-                                                      rootOfTrustResolver: rootOfTrustResolver,
-                                                      urlSession: urlSession)
-        let openIdURLResolver = OpenIdURLRequestResolver(openIdResolver: presentationService,
+        let presentationService = OpenIdPresentationRequestValidator(correlationVector: correlationHeader,
+                                                                     rootOfTrustResolver: rootOfTrustResolver,
+                                                                     urlSession: urlSession)
+        let openIdURLResolver = OpenIdURLRequestResolver(validator: presentationService,
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)
     }
@@ -133,14 +133,12 @@ public class VerifiedIdClientBuilder
     private func registerSupportedRequestProcessors(with configuration: LibraryConfiguration)
     {
         let issuanceService = IssuanceService(correlationVector: correlationHeader,
-                                              rootOfTrustResolver: rootOfTrustResolver,
+                                              rootOfTrustResolver: rootOfTrustResolver, 
+                                              identifierFactory: configuration.identifierFactory,
+                                              logger: configuration.logger, 
                                               urlSession: urlSession)
-        let presentationService = PresentationService(correlationVector: correlationHeader,
-                                                      rootOfTrustResolver: rootOfTrustResolver,
-                                                      urlSession: urlSession)
         
         let openIdProcessor = OpenIdRequestProcessor(configuration: configuration,
-                                                     openIdResponder: presentationService,
                                                      manifestResolver: issuanceService,
                                                      verifiableCredentialRequester: issuanceService)
         requestProcessors.append(openIdProcessor)
