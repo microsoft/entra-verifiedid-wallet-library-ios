@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// An object that describes the holder of Verified IDs.
-protocol HolderIdentifier
+public protocol HolderIdentifier
 {
     /// The unique identifier (ex. did:web:microsoft.com).
     var id: String { get }

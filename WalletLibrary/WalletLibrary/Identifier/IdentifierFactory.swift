@@ -19,10 +19,15 @@ class IdentifierFactory
     
     /// Retrieves an identifier that meets the specified cryptographic requirements.
     ///
-    /// - Parameter cryptoRequirement: The cryptographic requirement to be met.
+    /// - Parameter cryptoRequirement: The cryptographic requirement to be met. If `nil`, pick the first one on the list.
     /// - Returns: A `HolderIdentifier` that supports the given requirement, or `nil` if none is found.
-    func getIdentifier(for cryptoRequirement: CryptoRequirement) -> HolderIdentifier?
+    func getIdentifier(for cryptoRequirement: CryptoRequirement? = nil) -> HolderIdentifier?
     {
+        guard let cryptoRequirement = cryptoRequirement else
+        {
+            return identifiers.first
+        }
+        
         return identifiers.filter {
             cryptoRequirement.isSupported(identifier: $0)
         }.first
