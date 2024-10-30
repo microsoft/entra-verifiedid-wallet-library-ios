@@ -53,7 +53,8 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest
         {
             try requirement.validate().get()
             return true
-        } catch 
+        } 
+        catch 
         {
             return false
         }

@@ -51,7 +51,7 @@ class OpenIdPresentationRequestValidator: OpenIdRequestValidating
         
         guard let publicKeys = document.verificationMethod else
         {
-            throw VerifiedIdErrors.MalformedInput(message: "No Public Keys in Identifier Document").error
+            throw VerifiedIdErrors.MalformedInput(message: "No Public Keys in Identifier Document.").error
         }
         
         try self.requestValidator.validate(request: request, usingKeys: publicKeys)
