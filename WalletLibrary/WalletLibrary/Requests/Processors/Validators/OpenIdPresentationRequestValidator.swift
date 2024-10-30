@@ -6,7 +6,7 @@
 /// A validator class responsible for validating OpenID presentation requests.
 /// It interacts with various services to ensure the request is properly verified
 /// and trusted before proceeding with further actions.
-class OpenIdPresentationRequestValidator
+class OpenIdPresentationRequestValidator: OpenIdRequestValidating
 {
     /// API for making discovery calls to fetch DID documents. TODO use new networking layer for this.
     private let didDocumentDiscoveryApiCalls: DiscoveryNetworking
@@ -44,9 +44,9 @@ class OpenIdPresentationRequestValidator
     /// - Parameter request: The token representing the presentation request.
     /// - Returns: A validated `PresentationRequest` if successful.
     /// - Throws: An error if validation fails at any step.
-    func validate(request: PresentationRequestToken) async throws -> PresentationRequest
+    func validateRequest(data: Data) async throws -> any OpenIdRawRequest
     {
-        
+        let request = try PresentationRequestDecoder().decode(data: data)
         let document = try await self.getIdentifierDocument(from: request)
         
         guard let publicKeys = document.verificationMethod else

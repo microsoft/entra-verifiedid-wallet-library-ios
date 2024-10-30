@@ -551,7 +551,6 @@
 		55E3370C293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */; };
 		55E3376829437E3500CD2ED7 /* OpenIdRequestValidating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3376729437E3500CD2ED7 /* OpenIdRequestValidating.swift */; };
 		55E337B52948B4B000CD2ED7 /* PinRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337B32948B4B000CD2ED7 /* PinRequirement.swift */; };
-		55E337BC2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */; };
 		55EA178D29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */; };
 		55EA17A429CA4F590085E29E /* VerifiedIdStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A329CA4F590085E29E /* VerifiedIdStyle.swift */; };
 		55EA17A629CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EA17A529CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift */; };
@@ -1148,7 +1147,6 @@
 		55E3370B293FD61E00CD2ED7 /* SelfAttestedClaimRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttestedClaimRequirement.swift; sourceTree = "<group>"; };
 		55E3376729437E3500CD2ED7 /* OpenIdRequestValidating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdRequestValidating.swift; sourceTree = "<group>"; };
 		55E337B32948B4B000CD2ED7 /* PinRequirement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinRequirement.swift; path = WalletLibrary/Requests/Requirements/PinRequirement.swift; sourceTree = SOURCE_ROOT; };
-		55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PresentationService+OpenIdForVC.swift"; sourceTree = "<group>"; };
 		55EA178C29CA4F120085E29E /* VerifiedIdIssuanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdIssuanceRequest.swift; sourceTree = "<group>"; };
 		55EA17A329CA4F590085E29E /* VerifiedIdStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdStyle.swift; sourceTree = "<group>"; };
 		55EA17A529CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardDisplayDescriptor+Mappable.swift"; sourceTree = "<group>"; };
@@ -1438,7 +1436,6 @@
 			children = (
 				559BD3A2299AD95200BD61AC /* IssuanceService+ManifestResolver.swift */,
 				559BD4B4299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift */,
-				55E337BB2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -3692,7 +3689,6 @@
 				550A919E29940ED70014D030 /* OpenIdRawRequest.swift in Sources */,
 				5552D40129EF490000B40302 /* NestedInputDescriptorMapping.swift in Sources */,
 				5552D48629EF4AAB00B40302 /* Header.swift in Sources */,
-				55E337BC2948B5FE00CD2ED7 /* PresentationService+OpenIdForVC.swift in Sources */,
 				5552D48A29EF4AAB00B40302 /* JwsDecoder.swift in Sources */,
 				55A0DA1C2A745E4200BC178E /* Dictionary+ValueExtraction.swift in Sources */,
 				55E336D4293FA75300CD2ED7 /* VerifiedId.swift in Sources */,
