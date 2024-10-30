@@ -77,7 +77,7 @@
 		55508A6F2A3BCB5100186885 /* WalletLibraryVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55508A6E2A3BCB5000186885 /* WalletLibraryVersion.swift */; };
 		5552D28129EF33E900B40302 /* VerifiableCredentialSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27D29EF335600B40302 /* VerifiableCredentialSDK.swift */; };
 		5552D28229EF33EC00B40302 /* IssuanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27F29EF335600B40302 /* IssuanceService.swift */; };
-		5552D28329EF33EF00B40302 /* PresentationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D28029EF335600B40302 /* PresentationService.swift */; };
+		5552D28329EF33EF00B40302 /* OpenIdPresentationRequestValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D28029EF335600B40302 /* OpenIdPresentationRequestValidator.swift */; };
 		5552D28429EF33FD00B40302 /* LinkedDomainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27929EF335500B40302 /* LinkedDomainService.swift */; };
 		5552D28529EF33FF00B40302 /* ServicesConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27A29EF335600B40302 /* ServicesConstants.swift */; };
 		5552D28629EF340200B40302 /* IdentifierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D26F29EF335500B40302 /* IdentifierService.swift */; };
@@ -682,7 +682,7 @@
 		5552D27B29EF335600B40302 /* DifWordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifWordList.swift; sourceTree = "<group>"; };
 		5552D27D29EF335600B40302 /* VerifiableCredentialSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiableCredentialSDK.swift; sourceTree = "<group>"; };
 		5552D27F29EF335600B40302 /* IssuanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuanceService.swift; sourceTree = "<group>"; };
-		5552D28029EF335600B40302 /* PresentationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationService.swift; sourceTree = "<group>"; };
+		5552D28029EF335600B40302 /* OpenIdPresentationRequestValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenIdPresentationRequestValidator.swift; sourceTree = "<group>"; };
 		5552D30029EF47EC00B40302 /* ResponseMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMappings.swift; sourceTree = "<group>"; };
 		5552D30429EF47EC00B40302 /* ExchangeRequestClaims.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRequestClaims.swift; sourceTree = "<group>"; };
 		5552D30529EF47EC00B40302 /* ExchangeRequestContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRequestContainer.swift; sourceTree = "<group>"; };
@@ -1551,7 +1551,7 @@
 				5552D26F29EF335500B40302 /* IdentifierService.swift */,
 				5552D27F29EF335600B40302 /* IssuanceService.swift */,
 				5552D27929EF335500B40302 /* LinkedDomainService.swift */,
-				5552D28029EF335600B40302 /* PresentationService.swift */,
+				5552D28029EF335600B40302 /* OpenIdPresentationRequestValidator.swift */,
 				5552D27D29EF335600B40302 /* VerifiableCredentialSDK.swift */,
 			);
 			name = VCServices;
@@ -3455,7 +3455,7 @@
 				5552D3F829EF48ED00B40302 /* Microsoft2020UnprotectedBackup.swift in Sources */,
 				5552D3B729EF486C00B40302 /* TokenTimeConstraints.swift in Sources */,
 				5552D3B229EF485E00B40302 /* RequestedVPToken.swift in Sources */,
-				5552D28329EF33EF00B40302 /* PresentationService.swift in Sources */,
+				5552D28329EF33EF00B40302 /* OpenIdPresentationRequestValidator.swift in Sources */,
 				5552D3B329EF486000B40302 /* RegistrationClaims.swift in Sources */,
 				550E320C298B0F30004E7716 /* WalletLibraryLogConsumer.swift in Sources */,
 				5552D44A29EF4A8100B40302 /* PostNetworkOperation.swift in Sources */,
