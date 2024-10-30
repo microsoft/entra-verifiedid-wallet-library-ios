@@ -1217,6 +1217,7 @@
 		550A9156299310D40014D030 /* Processors */ = {
 			isa = PBXGroup;
 			children = (
+				55C422D72CD2D73C0013F44F /* Validators */,
 				55A81BE62991B2F3002C259A /* RequestProcessorFactory.swift */,
 				550A9157299310D40014D030 /* OpenIdRequestProcessor.swift */,
 				55FE70792B72E7C600CC3018 /* OpenId4VCIProcessor.swift */,
@@ -1551,7 +1552,6 @@
 				5552D26F29EF335500B40302 /* IdentifierService.swift */,
 				5552D27F29EF335600B40302 /* IssuanceService.swift */,
 				5552D27929EF335500B40302 /* LinkedDomainService.swift */,
-				5552D28029EF335600B40302 /* OpenIdPresentationRequestValidator.swift */,
 				5552D27D29EF335600B40302 /* VerifiableCredentialSDK.swift */,
 			);
 			name = VCServices;
@@ -2940,6 +2940,14 @@
 				A48C1EB52B8FF19000545FF6 /* VerifiedIdSerializing.swift */,
 			);
 			path = VerifiedId;
+			sourceTree = "<group>";
+		};
+		55C422D72CD2D73C0013F44F /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+				5552D28029EF335600B40302 /* OpenIdPresentationRequestValidator.swift */,
+			);
+			path = Validators;
 			sourceTree = "<group>";
 		};
 		55DECC1429BB8C7800D5C802 /* Constraints */ = {
