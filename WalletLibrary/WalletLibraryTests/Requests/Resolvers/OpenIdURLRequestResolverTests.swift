@@ -15,11 +15,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let expectedRawData = "test data".data(using: .utf8)!
         let expectedRawRequest = MockOpenIdRawRequest(raw: expectedRawData)
         let mockValidator = MockOpenIdRequestValidator(expectedResult: expectedRawRequest)
-        
-        let mockCallback = { (url: String) in
-            return expectedRawRequest
-        }
-        
+
         let expectedResults = (expectedRawData, OpenIDRequestFetchNetworkOperation.self)
         let networkingLayer = MockLibraryNetworking.create(expectedResults: [expectedResults])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
@@ -342,29 +338,5 @@ class OpenIdURLRequestResolverTests: XCTestCase {
     private func getTestCredentialOffering() -> [String: String]
     {
         return ["credentialOffering": "testData", "mock": "1"]
-    }
-}
-
-struct MockOpenIdRequestValidator: OpenIdRequestValidating
-{
-    
-    private let expectedResult: MockOpenIdRawRequest
-    
-    private let expectedError: Error?
-    
-    init(expectedResult: MockOpenIdRawRequest? = nil, expectedError: Error? = nil)
-    {
-        self.expectedResult = expectedResult ?? MockOpenIdRawRequest(raw: nil)
-        self.expectedError = expectedError
-    }
-    
-    func validateRequest(data: Data) async throws -> any OpenIdRawRequest
-    {
-        if let error = expectedError
-        {
-            throw error
-        }
-        
-        return expectedResult
     }
 }
