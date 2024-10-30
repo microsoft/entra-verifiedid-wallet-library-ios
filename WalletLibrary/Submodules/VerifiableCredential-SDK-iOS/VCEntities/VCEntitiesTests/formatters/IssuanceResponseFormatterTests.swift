@@ -30,14 +30,21 @@ class IssuanceResponseFormatterTests: XCTestCase {
         self.mockIdentifier = Identifier(longFormDid: "longFormDid", didDocumentKeys: [keyContainer], updateKey: keyContainer, recoveryKey: keyContainer, alias: "testAlias")
     }
     
-    func testFormatToken() throws {
+    func testFormat_withHolder_ReturnsToken() throws
+    {
+        // Arrange
+        let mockSignature = "mockSignature".data(using: .utf8)
+        let identifier = MockHolderIdentifier(expectedSignature: mockSignature, id: "mockId")
+        
+        // Act
         let formattedToken = try formatter.format(response: mockResponse,
-                                                  identifier: MockHolderIdentifier())
-        XCTAssertEqual(formattedToken.content.did, self.mockIdentifier.longFormDid)
+                                                  identifier: identifier)
+        
+        // Assert
+        XCTAssertEqual(formattedToken.content.did, identifier.id)
         XCTAssertEqual(formattedToken.content.contract, self.mockResponse.contractUri)
         XCTAssertEqual(formattedToken.content.audience, self.mockResponse.audienceUrl)
-        XCTAssert(MockTokenSigner.wasSignCalled)
-        XCTAssert(MockTokenSigner.wasGetPublicJwkCalled)
+        XCTAssertEqual(formattedToken.signature, mockSignature)
     }
     
 }

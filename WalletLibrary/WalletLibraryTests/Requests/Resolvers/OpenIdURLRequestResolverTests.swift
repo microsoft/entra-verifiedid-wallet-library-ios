@@ -14,6 +14,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com?request_uri=microsoft.com")!)
         let expectedRawData = "test data".data(using: .utf8)!
         let expectedRawRequest = MockOpenIdRawRequest(raw: expectedRawData)
+        let mockValidator = MockOpenIdRequestValidator(expectedResult: expectedRawRequest)
         
         let mockCallback = { (url: String) in
             return expectedRawRequest
@@ -25,7 +26,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
                                                  mapper: Mapper(),
                                                  networking: networkingLayer)
         
-        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: mockValidator, configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
@@ -261,7 +262,8 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com/?credential_offer_uri=https://mock.com")!)
         let expectedRawData = "test data".data(using: .utf8)!
         let expectedRawRequest = MockOpenIdRawRequest(raw: expectedRawData)
-        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
+        let mockValidator = MockOpenIdRequestValidator(expectedResult: expectedRawRequest)
+        let resolver = OpenIdURLRequestResolver(validator: mockValidator, configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
@@ -345,8 +347,24 @@ class OpenIdURLRequestResolverTests: XCTestCase {
 
 struct MockOpenIdRequestValidator: OpenIdRequestValidating
 {
+    
+    private let expectedResult: MockOpenIdRawRequest
+    
+    private let expectedError: Error?
+    
+    init(expectedResult: MockOpenIdRawRequest? = nil, expectedError: Error? = nil)
+    {
+        self.expectedResult = expectedResult ?? MockOpenIdRawRequest(raw: nil)
+        self.expectedError = expectedError
+    }
+    
     func validateRequest(data: Data) async throws -> any OpenIdRawRequest
     {
-        throw VerifiedIdError(message: "", code: "")
+        if let error = expectedError
+        {
+            throw error
+        }
+        
+        return expectedResult
     }
 }

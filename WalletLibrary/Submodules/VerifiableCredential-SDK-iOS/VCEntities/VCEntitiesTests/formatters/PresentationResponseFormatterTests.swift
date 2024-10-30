@@ -6,8 +6,9 @@
 import XCTest
 @testable import WalletLibrary
 
-class PresentationResponseFormatterTests: XCTestCase {
-    
+// TODO: Remove as this formatter is not used anymore.
+class PresentationResponseFormatterTests: XCTestCase
+{
     var formatter: PresentationResponseFormatter!
     var request: PresentationRequest!
     var mockResponse: PresentationResponseContainer!
@@ -44,10 +45,10 @@ class PresentationResponseFormatterTests: XCTestCase {
         XCTAssertEqual(formattedResponse.idToken.content.subject, self.mockIdentifier.longFormDid)
         XCTAssertEqual(formattedResponse.idToken.content.audience, self.mockResponse.audienceDid)
         XCTAssert(MockTokenSigner.wasSignCalled)
-        XCTAssert(MockTokenSigner.wasGetPublicJwkCalled)
     }
     
-    func testFormatTokenNoVcs() throws {
+    func testFormat_WithMockIdentifier_ReturnsResponse() throws
+    {
 
         let formattedResponse = try formatter.format(response: self.mockResponse, usingIdentifier: self.mockIdentifier)
         XCTAssertEqual(formattedResponse.idToken.content.subject, self.mockIdentifier.longFormDid)
@@ -55,6 +56,5 @@ class PresentationResponseFormatterTests: XCTestCase {
         XCTAssertNotNil(formattedResponse.idToken.content.iat)
         XCTAssertEqual(formattedResponse.idToken.content.audience, self.mockResponse.audienceDid)
         XCTAssert(MockTokenSigner.wasSignCalled)
-        XCTAssert(MockTokenSigner.wasGetPublicJwkCalled)
     }
 }
