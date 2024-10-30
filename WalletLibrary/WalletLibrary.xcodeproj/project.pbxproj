@@ -369,7 +369,7 @@
 		5552D89B29F2E58000B40302 /* CoreDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88329F2E58000B40302 /* CoreDataManagerTests.swift */; };
 		5552D89C29F2E58000B40302 /* LinkedDomainServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88429F2E58000B40302 /* LinkedDomainServiceTests.swift */; };
 		5552D89E29F2E58000B40302 /* IdentifierDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */; };
-		5552D89F29F2E58000B40302 /* PresentationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88729F2E58000B40302 /* PresentationServiceTests.swift */; };
+		5552D89F29F2E58000B40302 /* OpenIdPresentationRequestValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88729F2E58000B40302 /* OpenIdPresentationRequestValidatorTests.swift */; };
 		5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27B29EF335600B40302 /* DifWordList.swift */; };
 		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
 		5555F1A02BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */; };
@@ -967,7 +967,7 @@
 		5552D88329F2E58000B40302 /* CoreDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTests.swift; sourceTree = "<group>"; };
 		5552D88429F2E58000B40302 /* LinkedDomainServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedDomainServiceTests.swift; sourceTree = "<group>"; };
 		5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierDatabaseTests.swift; sourceTree = "<group>"; };
-		5552D88729F2E58000B40302 /* PresentationServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationServiceTests.swift; sourceTree = "<group>"; };
+		5552D88729F2E58000B40302 /* OpenIdPresentationRequestValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIdPresentationRequestValidatorTests.swift; sourceTree = "<group>"; };
 		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
 		5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionIdentifierManager.swift; sourceTree = "<group>"; };
 		5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSignedVerifiableCredential.swift; sourceTree = "<group>"; };
@@ -2430,7 +2430,6 @@
 				5552D88329F2E58000B40302 /* CoreDataManagerTests.swift */,
 				5552D88429F2E58000B40302 /* LinkedDomainServiceTests.swift */,
 				5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */,
-				5552D88729F2E58000B40302 /* PresentationServiceTests.swift */,
 			);
 			name = VCServicesTests;
 			path = "Submodules/VerifiableCredential-SDK-iOS/VCServices/VCServicesTests";
@@ -2952,6 +2951,14 @@
 			path = Validators;
 			sourceTree = "<group>";
 		};
+		55C422DD2CD2DCE10013F44F /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+				5552D88729F2E58000B40302 /* OpenIdPresentationRequestValidatorTests.swift */,
+			);
+			path = Validators;
+			sourceTree = "<group>";
+		};
 		55DECC1429BB8C7800D5C802 /* Constraints */ = {
 			isa = PBXGroup;
 			children = (
@@ -3000,6 +3007,7 @@
 		55E2F06D299553B40008010D /* Processors */ = {
 			isa = PBXGroup;
 			children = (
+				55C422DD2CD2DCE10013F44F /* Validators */,
 				55E2F06E299553B40008010D /* OpenIdRequestProcessorTests.swift */,
 				555FB1B52B740A3000EE14BD /* OpenId4VCIProcessorTests.swift */,
 				555FB20E2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift */,
@@ -3811,7 +3819,7 @@
 				55A81C102991C211002C259A /* MockResolver.swift in Sources */,
 				5552D7CC29F2E0AA00B40302 /* Sha512Tests.swift in Sources */,
 				559BD4E5299EEA3000BD61AC /* IssuanceResponseContainerExtensionTests.swift in Sources */,
-				5552D89F29F2E58000B40302 /* PresentationServiceTests.swift in Sources */,
+				5552D89F29F2E58000B40302 /* OpenIdPresentationRequestValidatorTests.swift in Sources */,
 				5552D7E729F2E1AF00B40302 /* MockClaims.swift in Sources */,
 				55A638732BB46B8A00BE2AF2 /* PresentationExchangeSerializerTests.swift in Sources */,
 				5552D89A29F2E58000B40302 /* DifWordListTests.swift in Sources */,

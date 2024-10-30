@@ -46,7 +46,10 @@ class OpenIdPresentationRequestValidator: OpenIdRequestValidating
     /// - Throws: An error if validation fails at any step.
     func validateRequest(data: Data) async throws -> any OpenIdRawRequest
     {
-        let request = try PresentationRequestDecoder().decode(data: data)
+        guard let request = PresentationRequestToken(from: data) else {
+            throw VerifiedIdErrors.MalformedInput(message: "Input is not a Presentation Request Token.").error
+        }
+        
         let document = try await self.getIdentifierDocument(from: request)
         
         guard let publicKeys = document.verificationMethod else
