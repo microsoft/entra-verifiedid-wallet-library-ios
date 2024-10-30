@@ -38,10 +38,13 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting
  
     private func formatClaims(response: IssuanceResponseContainer, identifier: HolderIdentifier) throws -> IssuanceResponseClaims
     {
-        guard let publicKey = try (identifier as? JWKExportable)?.exportPublicKey() else
+        
+        guard let jwkExportableIdentifier = identifier as? JWKExportable else
         {
-            throw VerifiedIdError(message: "", code: "")
+            throw VerifiedIdErrors.MalformedInput(message: "Unable to export JWK from Holder Identifier.").error
         }
+        
+        let publicKey = try jwkExportableIdentifier.exportPublicKey()
         
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: response.expiryInSeconds)
         let attestations = try self.formatAttestations(response: response, identifier: identifier)
