@@ -38,7 +38,11 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting
  
     private func formatClaims(response: IssuanceResponseContainer, identifier: HolderIdentifier) throws -> IssuanceResponseClaims
     {
-        let publicKey = try getPublicKey()
+        guard let publicKey = try (identifier as? JWKExportable)?.exportPublicKey() else
+        {
+            throw VerifiedIdError(message: "", code: "")
+        }
+        
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: response.expiryInSeconds)
         let attestations = try self.formatAttestations(response: response, identifier: identifier)
         
@@ -58,11 +62,6 @@ class IssuanceResponseFormatter: IssuanceResponseFormatting
                                       pin: pin,
                                       iat: timeConstraints.issuedAt,
                                       exp: timeConstraints.expiration)
-    }
-    
-    private func getPublicKey() throws -> ECPublicJwk
-    {
-        throw VerifiedIdError(message: "", code: "")
     }
     
     private func formatAttestations(response: IssuanceResponseContainer, identifier: HolderIdentifier) throws -> AttestationResponseDescriptor?

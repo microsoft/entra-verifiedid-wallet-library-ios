@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// A holder identifier that stores the private key in keychain handled by the VCCryptoSecret.
-class KeychainIdentifier: HolderIdentifier
+class KeychainIdentifier: HolderIdentifier, JWKExportable
 {
     /// The unique identifier (ex. did:web:microsoft.com).
     let id: String
@@ -58,5 +58,19 @@ class KeychainIdentifier: HolderIdentifier
         try cryptoOperations.sign(message: message,
                                   usingSecret: keyReferenceSecret,
                                   algorithm: algorithm)
+    }
+    
+    // TODO: Refactor to support other PublicKey types for FIPS work.
+    func exportPublicKey() throws -> ECPublicJwk
+    {
+        let publicKey = try cryptoOperations.getPublicKey(fromSecret: keyReferenceSecret,
+                                                          algorithm: algorithm)
+        
+        guard let key = publicKey as? Secp256k1PublicKey else {
+            throw Secp256k1SignerError.unableToCastPublicKeyToSecp256K1PublicKey
+        }
+        
+        return ECPublicJwk(withPublicKey: key, 
+                           withKeyId: keyReference)
     }
 }

@@ -14,8 +14,8 @@ class IssuanceResponseFormatterTests: XCTestCase {
     var mockIdentifier: Identifier!
     let expectedContractUrl = "https://portableidentitycards.azure-api.net/v1.0/9c59be8b-bd18-45d9-b9d9-082bc07c094f/portableIdentities/contracts/AIEngineerCert"
     
-    override func setUpWithError() throws {
-        let signer = MockTokenSigner(x: "x", y: "y")
+    override func setUpWithError() throws
+    {
         self.formatter = IssuanceResponseFormatter(logger: WalletLibraryLogger())
         
         let encodedContract = TestData.aiContract.rawValue.data(using: .utf8)!

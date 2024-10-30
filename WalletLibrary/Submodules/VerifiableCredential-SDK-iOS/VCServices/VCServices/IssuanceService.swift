@@ -102,11 +102,7 @@ class IssuanceService {
     
     private func formatIssuanceResponse(response: IssuanceResponseContainer) throws -> IssuanceResponse
     {
-        guard let identifier = identifierFactory.getIdentifier() else
-        {
-            throw VerifiedIdError(message: "", code: "")
-        }
-        
+        let identifier = try identifierFactory.getIdentifier()
         return try self.formatter.format(response: response, identifier: identifier)
     }
 }

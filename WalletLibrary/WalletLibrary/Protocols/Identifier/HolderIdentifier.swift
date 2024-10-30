@@ -24,3 +24,8 @@ public protocol HolderIdentifier
     /// - Throws: An error if the signing process fails.
     func sign(message: Data) throws -> Data
 }
+
+protocol JWKExportable
+{
+    func exportPublicKey() throws -> ECPublicJwk
+}
