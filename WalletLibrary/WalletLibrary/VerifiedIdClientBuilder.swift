@@ -45,13 +45,25 @@ public class VerifiedIdClientBuilder
                                                               logger: logger,
                                                               correlationHeader: correlationHeader)
         
+        /// Append default identifier to the end of the list of Identifiers.
+        var allIdentifiers = identifiers
+        if let defaultIdentifier = try? VerifiableCredentialSDK.identifierService.fetchOrCreateMasterIdentifier(),
+           let holderIdentifier = try? defaultIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
+        {
+            allIdentifiers.append(holderIdentifier)
+        }
+        else
+        {
+            logger.logError(message: "Unable to load default Identifier.")
+        }
+        
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
                                                  networking: walletLibraryNetworking,
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
                                                  previewFeatureFlags: previewFeatureFlags,
-                                                 identifiers: identifiers)
+                                                 identifiers: allIdentifiers)
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestProcessors(with: configuration)

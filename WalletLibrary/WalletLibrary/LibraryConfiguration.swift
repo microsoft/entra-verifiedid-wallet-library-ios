@@ -46,16 +46,8 @@ class LibraryConfiguration
         
         /// TODO: remove `IdentifierManager` to only use `IdentifierFactory` once all flows are using `HolderIdentifier`s.
         self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
-        
-        /// Append default identifier to the end of the list of Identifiers.
-        var allIdentifiers = identifiers
-        if let defaultIdentifier = try? VerifiableCredentialSDK.identifierService.fetchOrCreateMasterIdentifier(),
-           let holderIdentifier = try? defaultIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
-        {
-            allIdentifiers.append(holderIdentifier)
-        }
 
-        self.identifierFactory = IdentifierFactory(identifiers: allIdentifiers)
+        self.identifierFactory = IdentifierFactory(identifiers: identifiers)
     }
     
     /// Helper function to determine if a preview feature flag is supported
