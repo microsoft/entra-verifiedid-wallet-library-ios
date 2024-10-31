@@ -7,5 +7,6 @@
 enum SupportedCurve: String {
     case ED25519 = "ED25519"
     case Secp256k1 = "SECP256K1"
+    case ES256K = "ES256K"
     case P256 = "P-256"
 }

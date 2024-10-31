@@ -12,6 +12,10 @@ struct SupportedSigningAlgorithms {
                                       algorithm: ES256k(),
                                       supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
         
+        let es256k2 = SigningAlgorithm(curve: SupportedCurve.ES256K.rawValue,
+                                      algorithm: ES256k(),
+                                      supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
+        
         let edDSA = SigningAlgorithm(curve: SupportedCurve.ED25519.rawValue,
                                      algorithm: EdDSA(),
                                      supportedSigningOperations: [.Verification])
@@ -21,6 +25,7 @@ struct SupportedSigningAlgorithms {
                                     supportedSigningOperations: [.Verification])
         return [
             es256k.curve: es256k,
+            es256k2.curve: es256k2,
             edDSA.curve: edDSA,
             p256.curve: p256
         ]
