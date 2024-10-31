@@ -3,9 +3,9 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/// A protocol for objects that can export their public key in JWK (JSON Web Key) format.
+/// A protocol for objects that can be represented by a JWK (JSON Web Key).
 /// Types conforming to this protocol provide a way to expose their public key representation.
-protocol JWKExportable
+protocol JWKRepresentable
 {
     /// Exports the public key in `ECPublicJwk` format.
     ///
