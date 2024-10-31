@@ -6,12 +6,17 @@
 /**
  * Root of Trust such as Linked Domain Verified for the request.
  */
-public struct RootOfTrust: Equatable {
-    
+public struct RootOfTrust: Equatable 
+{
     /// Whether root of trust is verified or not (for example, if the linked domain check succeeded.
     public let verified: Bool
     
     /// The source of the root of trust (could be the well-known endpoint url or a hub perhaps).
     public let source: String?
     
+    public init(verified: Bool, source: String?) 
+    {
+        self.verified = verified
+        self.source = source
+    }
 }
