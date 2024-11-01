@@ -4,13 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * Protocol is used as a wrapper to wrap the VC SDK get presentation response method.
+ * Protocol is used to validate an open id presentaiton request.
  */
-protocol OpenIdForVCResolver 
+protocol OpenIdRequestValidating 
 {
-    /// Fetches and validates the presentation request.
-    func getRequest(url: String) async throws -> any OpenIdRawRequest
-    
     /// Validates the serialized presentation request.
     func validateRequest(data: Data) async throws -> any OpenIdRawRequest
 }

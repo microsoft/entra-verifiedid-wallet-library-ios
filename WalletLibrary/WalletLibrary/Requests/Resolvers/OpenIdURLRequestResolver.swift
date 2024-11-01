@@ -30,13 +30,14 @@ class OpenIdURLRequestResolver: RequestResolving
     
     var preferHeaders: [String] = []
     
-    private let openIdResolver: OpenIdForVCResolver
+    private let validator: OpenIdRequestValidating
     
     private let configuration: LibraryConfiguration
     
-    init(openIdResolver: OpenIdForVCResolver, configuration: LibraryConfiguration) 
+    init(validator: OpenIdRequestValidating,
+         configuration: LibraryConfiguration)
     {
-        self.openIdResolver = openIdResolver
+        self.validator = validator
         self.configuration = configuration
     }
     
@@ -64,7 +65,7 @@ class OpenIdURLRequestResolver: RequestResolving
             throw OpenIdURLRequestResolverError.UnsupportedVerifiedIdRequestInputWith(type: String(describing: type(of: input)))
         }
         
-        var additionalHeaders = AdditionalHeaders()
+        let additionalHeaders = AdditionalHeaders()
         
         for header in preferHeaders
         {
@@ -104,7 +105,7 @@ class OpenIdURLRequestResolver: RequestResolving
         catch
         {
             /// If unable to parse JSON, fallback to VC SDK implementation.
-            let presentationRequest = try await openIdResolver.validateRequest(data: serializedRequest)
+            let presentationRequest = try await validator.validateRequest(data: serializedRequest)
             return presentationRequest
         }
     }

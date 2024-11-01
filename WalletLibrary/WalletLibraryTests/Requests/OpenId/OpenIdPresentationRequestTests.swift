@@ -29,7 +29,6 @@ class OpenIdPresentationRequestTests: XCTestCase
         
         let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(requirement),
                                                 rawRequest: mockRawOpenIdRequest,
-                                                openIdResponder: MockOpenIdResponder(),
                                                 configuration: configuration,
                                                 requestProcessorSerializer: peSerializer,
                                                 verifiedIdSerializer: VerifiableCredentialSerializer())
@@ -53,7 +52,6 @@ class OpenIdPresentationRequestTests: XCTestCase
         
         let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
                                                 rawRequest: mockRawOpenIdRequest,
-                                                openIdResponder: MockOpenIdResponder(),
                                                 configuration: configuration,
                                                 requestProcessorSerializer: peSerializer,
                                                 verifiedIdSerializer: VerifiableCredentialSerializer())
@@ -77,7 +75,6 @@ class OpenIdPresentationRequestTests: XCTestCase
         
         let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
                                                 rawRequest: mockRawOpenIdRequest,
-                                                openIdResponder: MockOpenIdResponder(),
                                                 configuration: configuration,
                                                 requestProcessorSerializer: peSerializer,
                                                 verifiedIdSerializer: VerifiableCredentialSerializer())
@@ -112,7 +109,6 @@ class OpenIdPresentationRequestTests: XCTestCase
         
         let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
                                                 rawRequest: mockRawOpenIdRequest,
-                                                openIdResponder: MockOpenIdResponder(),
                                                 configuration: configuration,
                                                 requestProcessorSerializer: mockRequestSerializer,
                                                 verifiedIdSerializer: VerifiableCredentialSerializer())
@@ -148,7 +144,6 @@ class OpenIdPresentationRequestTests: XCTestCase
         
         let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
                                                 rawRequest: mockRawOpenIdRequest,
-                                                openIdResponder: MockOpenIdResponder(),
                                                 configuration: configuration,
                                                 requestProcessorSerializer: MockRequestProcessorSerializer(),
                                                 verifiedIdSerializer: mockVerifiedIdSerializer)
@@ -185,7 +180,6 @@ class OpenIdPresentationRequestTests: XCTestCase
         
         let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
                                                 rawRequest: mockRawOpenIdRequest,
-                                                openIdResponder: MockOpenIdResponder(),
                                                 configuration: configuration,
                                                 requestProcessorSerializer: peSerializer,
                                                 verifiedIdSerializer: VerifiableCredentialSerializer())
@@ -216,7 +210,6 @@ class OpenIdPresentationRequestTests: XCTestCase
         
         let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
                                                 rawRequest: mockRawOpenIdRequest,
-                                                openIdResponder: MockOpenIdResponder(),
                                                 configuration: configuration,
                                                 requestProcessorSerializer: peSerializer,
                                                 verifiedIdSerializer: VerifiableCredentialSerializer())
@@ -249,7 +242,6 @@ class OpenIdPresentationRequestTests: XCTestCase
         
         let request = OpenIdPresentationRequest(partialRequest: createMockPartialRequest(),
                                                 rawRequest: mockRawOpenIdRequest,
-                                                openIdResponder: MockOpenIdResponder(),
                                                 configuration: configuration,
                                                 requestProcessorSerializer: peSerializer,
                                                 verifiedIdSerializer: VerifiableCredentialSerializer())

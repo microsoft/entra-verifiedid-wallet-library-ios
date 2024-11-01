@@ -14,9 +14,9 @@ class IssuanceResponseFormatterTests: XCTestCase {
     var mockIdentifier: Identifier!
     let expectedContractUrl = "https://portableidentitycards.azure-api.net/v1.0/9c59be8b-bd18-45d9-b9d9-082bc07c094f/portableIdentities/contracts/AIEngineerCert"
     
-    override func setUpWithError() throws {
-        let signer = MockTokenSigner(x: "x", y: "y")
-        self.formatter = IssuanceResponseFormatter(signer: signer)
+    override func setUpWithError() throws
+    {
+        self.formatter = IssuanceResponseFormatter(logger: WalletLibraryLogger())
         
         let encodedContract = TestData.aiContract.rawValue.data(using: .utf8)!
         self.contract = try JSONDecoder().decode(Contract.self, from: encodedContract)
@@ -30,13 +30,21 @@ class IssuanceResponseFormatterTests: XCTestCase {
         self.mockIdentifier = Identifier(longFormDid: "longFormDid", didDocumentKeys: [keyContainer], updateKey: keyContainer, recoveryKey: keyContainer, alias: "testAlias")
     }
     
-    func testFormatToken() throws {
-        let formattedToken = try formatter.format(response: self.mockResponse, usingIdentifier: self.mockIdentifier)
-        XCTAssertEqual(formattedToken.content.did, self.mockIdentifier.longFormDid)
+    func testFormat_withHolder_ReturnsToken() throws
+    {
+        // Arrange
+        let mockSignature = "mockSignature".data(using: .utf8)
+        let identifier = MockHolderIdentifier(expectedSignature: mockSignature, id: "mockId")
+        
+        // Act
+        let formattedToken = try formatter.format(response: mockResponse,
+                                                  identifier: identifier)
+        
+        // Assert
+        XCTAssertEqual(formattedToken.content.did, identifier.id)
         XCTAssertEqual(formattedToken.content.contract, self.mockResponse.contractUri)
         XCTAssertEqual(formattedToken.content.audience, self.mockResponse.audienceUrl)
-        XCTAssert(MockTokenSigner.wasSignCalled)
-        XCTAssert(MockTokenSigner.wasGetPublicJwkCalled)
+        XCTAssertEqual(formattedToken.signature, mockSignature)
     }
     
 }
