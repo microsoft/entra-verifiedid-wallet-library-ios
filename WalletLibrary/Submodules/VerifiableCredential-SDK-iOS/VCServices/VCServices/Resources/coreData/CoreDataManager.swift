@@ -16,8 +16,8 @@ class CoreDataManager {
     
     private struct Constants {
         static let bundleId = "com.microsoft.VCUseCase"
-        static let model = "VerifiableCredentialDataModel"
-        static let identifierModel = "IdentifierModel"
+        static let model = "VerifiedIdDataModel"
+        static let identifierModel = "IdentifierDataModel"
         static let extensionType = "momd"
         static let sqliteDescription = "sqlite"
     }
@@ -36,19 +36,19 @@ class CoreDataManager {
     }
     
     func saveIdentifier(longformDid: String,
-                               signingKeyId: UUID,
-                               recoveryKeyId: UUID,
-                               updateKeyId: UUID,
-                               alias: String,
-                               signingKeyAlias: String? = nil,
-                               recoveryKeyAlias: String? = nil,
-                               updateKeyAlias: String? = nil) throws {
+                        signingKeyId: UUID,
+                        recoveryKeyId: UUID,
+                        updateKeyId: UUID,
+                        alias: String,
+                        signingKeyAlias: String? = nil,
+                        recoveryKeyAlias: String? = nil,
+                        updateKeyAlias: String? = nil) throws {
         guard let persistentContainer = persistentContainer else {
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
         
         let model = NSEntityDescription.insertNewObject(forEntityName: Constants.identifierModel,
-                                                        into: persistentContainer.viewContext) as! IdentifierModel
+                                                        into: persistentContainer.viewContext) as! IdentifierDataModel
         
         model.did = longformDid
         model.recoveryKeyId = recoveryKeyId
@@ -62,12 +62,12 @@ class CoreDataManager {
         try persistentContainer.viewContext.save()
     }
     
-    func fetchIdentifiers() throws -> [IdentifierModel] {
+    public func fetchIdentifiers() throws -> [IdentifierDataModel] {
         guard let persistentContainer = persistentContainer else {
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
         
-        let fetchRequest: NSFetchRequest<IdentifierModel> = IdentifierModel.fetchRequest()
+        let fetchRequest: NSFetchRequest<IdentifierDataModel> = IdentifierDataModel.fetchRequest()
         return try persistentContainer.viewContext.fetch(fetchRequest)
     }
     
@@ -76,7 +76,7 @@ class CoreDataManager {
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
         
-        let fetchRequest: NSFetchRequest<IdentifierModel> = IdentifierModel.fetchRequest()
+        let fetchRequest: NSFetchRequest<IdentifierDataModel> = IdentifierDataModel.fetchRequest()
         let models = try persistentContainer.viewContext.fetch(fetchRequest)
         
         for model in models {
@@ -86,7 +86,7 @@ class CoreDataManager {
         try persistentContainer.viewContext.save()
     }
     
-    func deleteIdentifer(_ model:IdentifierModel) {
+    public func deleteIdentifer(_ model:IdentifierDataModel) {
         persistentContainer?.viewContext.delete(model)
     }
     
@@ -100,6 +100,12 @@ class CoreDataManager {
         }
         
         let container = NSPersistentContainer(name: Constants.model, managedObjectModel: managedObjectModel)
+        
+        let description = NSPersistentStoreDescription()
+        description.shouldMigrateStoreAutomatically = true
+        description.shouldInferMappingModelAutomatically = true
+        container.persistentStoreDescriptions.append(description)
+        container.viewContext.mergePolicy = NSMergePolicy.overwrite
         
         container.loadPersistentStores {
             [weak self] (storeDescription, error) in
