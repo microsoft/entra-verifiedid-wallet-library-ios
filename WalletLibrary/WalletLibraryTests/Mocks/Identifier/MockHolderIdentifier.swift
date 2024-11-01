@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockHolderIdentifier: HolderIdentifier, JWKExportable, Equatable
+struct MockHolderIdentifier: HolderIdentifier, JWKRepresentable, Equatable
 {
     var id: String
     

@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// A holder identifier that stores the private key in keychain handled by the VCCryptoSecret.
-class KeychainIdentifier: HolderIdentifier, JWKExportable
+class KeychainIdentifier: HolderIdentifier, JWKRepresentable
 {
     /// The unique identifier (ex. did:web:microsoft.com).
     let id: String
