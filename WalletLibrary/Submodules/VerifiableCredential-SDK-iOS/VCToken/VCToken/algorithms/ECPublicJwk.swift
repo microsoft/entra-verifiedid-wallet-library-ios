@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// TODO: deprecate entity for JWK
-struct ECPublicJwk: Codable, Equatable {
+public struct ECPublicJwk: Codable, Equatable {
     let keyType: String
     let keyId: String?
     let use: String?
@@ -23,7 +23,7 @@ struct ECPublicJwk: Codable, Equatable {
         case use, x, y
     }
     
-    init(x: String, y: String, keyId: String) {
+    public init(x: String, y: String, keyId: String) {
         self.keyType = "EC"
         self.keyId = keyId
         self.use = "sig"

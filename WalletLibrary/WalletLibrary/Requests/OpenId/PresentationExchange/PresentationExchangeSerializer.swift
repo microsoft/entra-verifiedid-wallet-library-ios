@@ -101,9 +101,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     /// Builds the final presentation response which includes the ID token and Verifiable Presentations.
     func build() throws -> PresentationResponse
     {
-        let oldIdentifierModel = try configuration.identifierManager.fetchOrCreateMasterIdentifier()
-        let identifier = try oldIdentifierModel.toHolderIdentifier(cryptoOperations: CryptoOperations())
-        
+        let identifier = try configuration.identifierFactory.getIdentifier()
         let idToken = try buildIdToken(identifier: identifier)
         let vpTokens = try buildVpTokens(identifier: identifier)
         return PresentationResponse(idToken: idToken,
