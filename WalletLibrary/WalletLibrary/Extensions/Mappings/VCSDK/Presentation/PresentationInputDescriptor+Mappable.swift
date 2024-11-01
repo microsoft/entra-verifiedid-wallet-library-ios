@@ -16,8 +16,8 @@ enum PresentationInputDescriptorMappingError: Error {
  */
 extension PresentationInputDescriptor: Mappable {
     
-    func map(using mapper: Mapping) throws -> VerifiedIdRequirement {
-        
+    func map(using mapper: Mapping) throws -> PresentationExchangeVerifiedIdRequirement 
+    {
         guard let types = schema?.compactMap({ $0.uri }),
               !types.isEmpty else {
             throw PresentationInputDescriptorMappingError.noVerifiedIdTypeInPresentationInputDescriptor
@@ -36,7 +36,13 @@ extension PresentationInputDescriptor: Mappable {
         var constraints: [VerifiedIdConstraint] = []
         if let fields = self.constraints?.fields {
             for field in fields {
-                constraints.append(try mapper.map(field))
+                do {
+                    constraints.append(try mapper.map(field))
+                } catch PresentationExchangeFieldConstraintError.InvalidPatternOnThePresentationExchangeField
+                {
+                    // Currently only face-check photo constraints can do this
+                    // simply do not add the constraint
+                }
             }
         }
         
@@ -47,13 +53,17 @@ extension PresentationInputDescriptor: Mappable {
                                                    constraintOperator: .ALL)
         }
         
-        return VerifiedIdRequirement(encrypted: false,
-                                     required: true,
-                                     types: types,
-                                     purpose: purpose,
-                                     issuanceOptions: issuanceOptions ?? [],
-                                     id: id,
-                                     constraint: verifiedIdConstraint)
+        // Fix exclusive presentation with.
+        return PresentationExchangeVerifiedIdRequirement(encrypted: false,
+                                                         required: true,
+                                                         types: types,
+                                                         purpose: purpose,
+                                                         issuanceOptions: issuanceOptions ?? [],
+                                                         id: id,
+                                                         constraint: verifiedIdConstraint,
+                                                         inputDescriptorId: id ?? "",
+                                                         format: "jwt_vc",
+                                                         exclusivePresentationWith: nil)
     }
     
     private func getTypeConstraint(from requestedTypes: [String]) -> VerifiedIdConstraint {
@@ -72,8 +82,8 @@ extension PresentationInputDescriptor: Mappable {
     }
 }
 
-extension PresentationExchangeField: Mappable {
-    
+extension PresentationExchangeField: Mappable 
+{
     func map(using mapper: Mapping) throws -> VerifiedIdConstraint {
         return try PresentationExchangeFieldConstraint(field: self)
     }
