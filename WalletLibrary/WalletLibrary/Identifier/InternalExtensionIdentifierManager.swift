@@ -8,27 +8,17 @@
  */
 class InternalExtensionIdentifierManager: ExtensionIdentifierManager
 {
-    private let identifierManager: IdentifierManager
-    
     private let configuration: LibraryConfiguration
-    
-    private let tokenSigner: TokenSigning
     
     internal struct Constants
     {
-        static let SelfSignedType = "JWT"
-        static let SelfSignedAlg = "ES256K"
         static let VCDataModelContext = "https://www.w3.org/2018/credentials/v1"
         static let VCDataModelType = "VerifiableCredential"
     }
     
-    init(identifierManager: IdentifierManager,
-         libraryConfiguration: LibraryConfiguration,
-         tokenSigner: TokenSigning? = nil)
+    init(libraryConfiguration: LibraryConfiguration)
     {
-        self.identifierManager = identifierManager
         self.configuration = libraryConfiguration
-        self.tokenSigner = tokenSigner ?? Secp256k1Signer()
     }
     
     /// Given claims and types, append the claims and types to defaults, and create a self-signed Verified ID (Verifiable Credential).
@@ -42,19 +32,16 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
             let vcDescriptor = VerifiableCredentialDescriptor(context: [Constants.VCDataModelContext],
                                                               type: vcTypes,
                                                               credentialSubject: claims)
-            let identifier = try self.identifierManager.fetchOrCreateMasterIdentifier()
-            guard let signingKey = identifier.didDocumentKeys.first else
-            {
-                throw IdentifierError.NoKeysInDocument()
-            }
             
-            let tokenHeader = createTokenHeader(withKeyId: identifier.did + "#" + signingKey.keyId)
+            let identifier = try configuration.identifierFactory.getIdentifier()
+            
+            let tokenHeader = JwsHeaderFormatter().formatHeaders(identifier: identifier)
             
             let timeConstraints = TokenTimeConstraints(expiryInSeconds: 300) // 5 minutes
             let token = JwsToken<VCClaims>(headers: tokenHeader,
                                            content: VCClaims(jti: UUID().uuidString,
-                                                             iss: identifier.did,
-                                                             sub: identifier.did,
+                                                             iss: identifier.id,
+                                                             sub: identifier.id,
                                                              iat: timeConstraints.issuedAt,
                                                              exp: timeConstraints.expiration,
                                                              vc: vcDescriptor))
@@ -64,7 +51,7 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
                 throw TokenValidationError.UnableToCreateToken(ofType: String(describing: VerifiableCredential.self))
             }
             
-            try vcToken.sign(using: tokenSigner, withSecret: signingKey.keyReference)
+            try vcToken.sign(using: identifier)
             let verifiedId = try SelfSignedVerifiableCredential(raw: try vcToken.serialize())
             return verifiedId
         }
@@ -73,17 +60,5 @@ class InternalExtensionIdentifierManager: ExtensionIdentifierManager
             self.configuration.logger.logError(message: String(describing: error))
             throw IdentifierError.UnableToCreateSelfSignedVerifiedId(error: error)
         }
-    }
-    
-    private func createTokenHeader(withKeyId keyId: String) -> Header
-    {
-        return Header(type: Constants.SelfSignedType,
-                      algorithm: Constants.SelfSignedAlg,
-                      encryptionMethod: nil,
-                      jsonWebKey: nil,
-                      keyId: keyId,
-                      contentType: nil,
-                      pbes2SaltInput: nil,
-                      pbes2Count: nil)
     }
 }

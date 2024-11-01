@@ -36,7 +36,6 @@
 		5524A60C29D634BC00C5F18D /* VerifiedIdLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524A5F629D634BC00C5F18D /* VerifiedIdLogo.swift */; };
 		5524A60E29D635A700C5F18D /* WalletLibraryLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524A60D29D635A700C5F18D /* WalletLibraryLoggerTests.swift */; };
 		55265A3D2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265A3C2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift */; };
-		55265ACF2B61B0D600BAD6A2 /* IdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265ACE2B61B0D600BAD6A2 /* IdentifierManager.swift */; };
 		55265AD12B61B2B800BAD6A2 /* DataExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD02B61B2B800BAD6A2 /* DataExtensionTests.swift */; };
 		55265AD32B61B6DE00BAD6A2 /* NonceCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */; };
 		55265AD62B6C188200BAD6A2 /* PreviewFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55265AD52B6C188200BAD6A2 /* PreviewFeatureFlags.swift */; };
@@ -630,7 +629,6 @@
 		5524A5F629D634BC00C5F18D /* VerifiedIdLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifiedIdLogo.swift; sourceTree = "<group>"; };
 		5524A60D29D635A700C5F18D /* WalletLibraryLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletLibraryLoggerTests.swift; sourceTree = "<group>"; };
 		55265A3C2B619DBB00BAD6A2 /* Data+Base64URLEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Base64URLEncoding.swift"; sourceTree = "<group>"; };
-		55265ACE2B61B0D600BAD6A2 /* IdentifierManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierManager.swift; sourceTree = "<group>"; };
 		55265AD02B61B2B800BAD6A2 /* DataExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTests.swift; sourceTree = "<group>"; };
 		55265AD22B61B6DE00BAD6A2 /* NonceCreatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonceCreatorTests.swift; sourceTree = "<group>"; };
 		55265AD52B6C188200BAD6A2 /* PreviewFeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewFeatureFlags.swift; sourceTree = "<group>"; };
@@ -2475,7 +2473,6 @@
 			children = (
 				551B9EC82CADC33C0007CE2B /* IdentifierMetadata.swift */,
 				5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */,
-				55265ACE2B61B0D600BAD6A2 /* IdentifierManager.swift */,
 				55A2689F2CC1A47A00A8EA9C /* HolderIdentifier.swift */,
 				55C422D82CD2DB2D0013F44F /* JWKRepresentable.swift */,
 			);
@@ -3494,7 +3491,6 @@
 				5552D3E229EF48B800B40302 /* IssuanceResponseClaims.swift in Sources */,
 				55E336D1293FA6F400CD2ED7 /* VerifiedIdRequirement.swift in Sources */,
 				5552D3D629EF48B200B40302 /* SelfIssuedClaimsDescriptor.swift in Sources */,
-				55265ACF2B61B0D600BAD6A2 /* IdentifierManager.swift in Sources */,
 				5552D3B429EF486300B40302 /* SupportedVerifiablePresentationFormats.swift in Sources */,
 				5552D28629EF340200B40302 /* IdentifierService.swift in Sources */,
 				5552D47F29EF4AAB00B40302 /* JweEncoder.swift in Sources */,

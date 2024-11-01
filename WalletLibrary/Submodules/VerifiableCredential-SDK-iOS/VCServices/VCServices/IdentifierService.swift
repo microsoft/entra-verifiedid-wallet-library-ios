@@ -9,7 +9,7 @@ enum IdentifierServiceError: Error {
     case noKeysSavedForIdentifier
 }
 
-class IdentifierService: IdentifierManager {
+class IdentifierService {
     
     private let identifierDB: IdentifierDatabase
     private let identifierCreator: IdentifierCreator

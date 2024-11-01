@@ -19,9 +19,6 @@ class LibraryConfiguration
     
     let networking: LibraryNetworking
     
-    /// TODO: remove when all flows transitiion to IdentifierFactory.
-    let identifierManager: IdentifierManager
-    
     let identifierFactory: IdentifierFactory
     
     let previewFeatureFlags: PreviewFeatureFlags
@@ -31,7 +28,6 @@ class LibraryConfiguration
          networking: LibraryNetworking? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
-         identifierManager: IdentifierManager? = nil,
          previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags(),
          identifiers: [HolderIdentifier] = [])
     {
@@ -43,10 +39,6 @@ class LibraryConfiguration
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
         self.previewFeatureFlags = previewFeatureFlags
-        
-        /// TODO: remove `IdentifierManager` to only use `IdentifierFactory` once all flows are using `HolderIdentifier`s.
-        self.identifierManager = identifierManager ?? VerifiableCredentialSDK.identifierService
-
         self.identifierFactory = IdentifierFactory(identifiers: identifiers)
     }
     
@@ -58,7 +50,6 @@ class LibraryConfiguration
     
     func createExtensionConfiguration() -> ExtensionConfiguration
     {
-        return ExtensionConfiguration(identifierManager: identifierManager,
-                                      libraryConfiguration: self)
+        return ExtensionConfiguration(libraryConfiguration: self)
     }
 }
