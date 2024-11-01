@@ -61,7 +61,7 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable
     }
     
     // TODO: Refactor to support other PublicKey types for FIPS work.
-    func exportPublicKey() throws -> ECPublicJwk
+    func getPublicKey() throws -> ECPublicJwk
     {
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: keyReferenceSecret,
                                                           algorithm: algorithm)
