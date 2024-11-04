@@ -413,7 +413,7 @@
 		5585BDE729A6C38C0059710B /* InjectedIdToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5585BDE629A6C38C0059710B /* InjectedIdToken.swift */; };
 		558CF1A92B8680F600AF5D82 /* RawOpenID4VCIRequestFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558CF1A82B8680F600AF5D82 /* RawOpenID4VCIRequestFormatterTests.swift */; };
 		558CF1AD2B869CDD00AF5D82 /* OpenID4VCIVerifiedIDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558CF1AC2B869CDD00AF5D82 /* OpenID4VCIVerifiedIDTests.swift */; };
-		559764CD2CD9685600CE6504 /* VerifiedIdDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 559764CA2CD9685600CE6504 /* VerifiedIdDataModel.xcdatamodeld */; };
+		559764D12CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 559764CE2CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
 		5598CFD42AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */; };
@@ -1008,8 +1008,8 @@
 		5585BDE629A6C38C0059710B /* InjectedIdToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedIdToken.swift; sourceTree = "<group>"; };
 		558CF1A82B8680F600AF5D82 /* RawOpenID4VCIRequestFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawOpenID4VCIRequestFormatterTests.swift; sourceTree = "<group>"; };
 		558CF1AC2B869CDD00AF5D82 /* OpenID4VCIVerifiedIDTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenID4VCIVerifiedIDTests.swift; sourceTree = "<group>"; };
-		559764CB2CD9685600CE6504 /* Identifier 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Identifier 2.0.xcdatamodel"; sourceTree = "<group>"; };
-		559764CC2CD9685600CE6504 /* Identifier.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Identifier.xcdatamodel; sourceTree = "<group>"; };
+		559764CF2CD970FB00CE6504 /* Identifier 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Identifier 2.0.xcdatamodel"; sourceTree = "<group>"; };
+		559764D02CD970FB00CE6504 /* Identifier.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Identifier.xcdatamodel; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
 		5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseEncoderTests.swift; sourceTree = "<group>"; };
@@ -1556,7 +1556,7 @@
 		5552D27429EF335500B40302 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
-				559764CA2CD9685600CE6504 /* VerifiedIdDataModel.xcdatamodeld */,
+				559764CE2CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld */,
 				5552D27529EF335500B40302 /* CoreDataManager.swift */,
 				5552D27829EF335500B40302 /* IdentifierDatabase.swift */,
 			);
@@ -3558,7 +3558,7 @@
 				5552D49029EF4AAB00B40302 /* KeyId.swift in Sources */,
 				5552D3C229EF489100B40302 /* IdentifierDocumentServiceEndpoint.swift in Sources */,
 				55EA17A829CA531F0085E29E /* BasicVerifiedIdStyle.swift in Sources */,
-				559764CD2CD9685600CE6504 /* VerifiedIdDataModel.xcdatamodeld in Sources */,
+				559764D12CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld in Sources */,
 				55A638672BB3642D00BE2AF2 /* PresentationExchangeError.swift in Sources */,
 				5552D3C529EF489E00B40302 /* IdentifierDocumentSuffixDescriptor.swift in Sources */,
 				5552D44929EF4A8100B40302 /* PostPresentationResponseOperation.swift in Sources */,
@@ -4341,15 +4341,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		559764CA2CD9685600CE6504 /* VerifiedIdDataModel.xcdatamodeld */ = {
+		559764CE2CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				559764CB2CD9685600CE6504 /* Identifier 2.0.xcdatamodel */,
-				559764CC2CD9685600CE6504 /* Identifier.xcdatamodel */,
+				559764CF2CD970FB00CE6504 /* Identifier 2.0.xcdatamodel */,
+				559764D02CD970FB00CE6504 /* Identifier.xcdatamodel */,
 			);
-			currentVersion = 559764CB2CD9685600CE6504 /* Identifier 2.0.xcdatamodel */;
-			name = VerifiedIdDataModel.xcdatamodeld;
-			path = "/Users/sydneymorton/Projects/Microsoft-Authenticator/AD-MFA-phonefactor-phoneApp-iPhone/PhoneFactor/VerifiableCredentialWallet/Submodules/WalletLibrary/WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/VCServices/VCServices/Resources/coreData/VerifiedIdDataModel.xcdatamodeld";
+			currentVersion = 559764CF2CD970FB00CE6504 /* Identifier 2.0.xcdatamodel */;
+			path = VerifiedIdDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
