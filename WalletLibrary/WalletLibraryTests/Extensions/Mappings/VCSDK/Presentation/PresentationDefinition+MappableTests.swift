@@ -68,28 +68,21 @@ class PresentationDefinitionMappingTests: XCTestCase {
     func testMap_WithMultipleInputDescriptorPresent_ReturnsGroupRequirement() throws {
         
         // Arrange
-        let mockVerifiedIdRequirement = VerifiedIdRequirement(encrypted: false,
-                                                              required: false,
-                                                              types: [],
-                                                              purpose: nil,
-                                                              issuanceOptions: [],
-                                                              id: nil,
-                                                              constraint: GroupConstraint(constraints: [],
-                                                                                          constraintOperator: .ALL))
-        let firstMockInputDescriptor = PresentationInputDescriptor(id: nil,
-                                                                   schema: nil,
+        let mockSchema = InputDescriptorSchema(uri: "mockType")
+        let firstMockInputDescriptor = PresentationInputDescriptor(id: "mock",
+                                                                   schema: [mockSchema],
                                                                    issuanceMetadata: nil,
                                                                    name: nil,
                                                                    purpose: nil,
                                                                    constraints: nil)
         let secondMockInputDescriptor = PresentationInputDescriptor(id: nil,
-                                                                    schema: nil,
+                                                                    schema: [mockSchema],
                                                                     issuanceMetadata: nil,
                                                                     name: nil,
                                                                     purpose: nil,
                                                                     constraints: nil)
         let thirdMockInputDescriptor = PresentationInputDescriptor(id: nil,
-                                                                   schema: nil,
+                                                                   schema: [mockSchema],
                                                                    issuanceMetadata: nil,
                                                                    name: nil,
                                                                    purpose: nil,
@@ -99,26 +92,13 @@ class PresentationDefinitionMappingTests: XCTestCase {
                                                             inputDescriptors: inputDescriptors,
                                                             issuance: nil)
         
-        var requirementCount = 0
-        func mockResults(objectToBeMapped: Any) throws -> Any? {
-            if objectToBeMapped is PresentationInputDescriptor {
-                requirementCount = requirementCount + 1
-                return mockVerifiedIdRequirement
-            }
-            
-            return nil
-        }
-        
-        let mockMapper = MockMapper(mockResults: mockResults)
+        let mockMapper = Mapper()
         
         // Act
         let actualResult = try mockMapper.map(presentationDefinition)
         
         // Assert
         XCTAssert(actualResult is [VerifiedIdRequirement])
-        XCTAssertEqual(actualResult.count, requirementCount)
-        XCTAssertIdentical(actualResult.first as AnyObject, mockVerifiedIdRequirement as AnyObject)
-        XCTAssertIdentical(actualResult[1] as AnyObject, mockVerifiedIdRequirement as AnyObject)
-        XCTAssertIdentical(actualResult[2] as AnyObject, mockVerifiedIdRequirement as AnyObject)
+        XCTAssertEqual(actualResult.count, 3)
     }
 }

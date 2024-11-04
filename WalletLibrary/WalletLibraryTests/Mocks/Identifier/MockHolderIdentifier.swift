@@ -44,7 +44,7 @@ struct MockHolderIdentifier: HolderIdentifier, JWKRepresentable, Equatable
         return expectedSignature ?? Data()
     }
     
-    func exportPublicKey() throws -> ECPublicJwk 
+    func getPublicKey() throws -> ECPublicJwk 
     {
         return ECPublicJwk(x: "x", y: "y", keyId: keyReference)
     }

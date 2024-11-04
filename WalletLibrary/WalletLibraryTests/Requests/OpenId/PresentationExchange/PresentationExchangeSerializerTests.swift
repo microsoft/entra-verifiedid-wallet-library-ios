@@ -114,8 +114,9 @@ class PresentationExchangeSerializerTests: XCTestCase
         
         let callback: ((TraceLevel, String, String, String, Int) -> ()) = { (tracelevel, message, _, _, _) in
             // Assert
-            XCTAssertEqual(tracelevel, .VERBOSE)
-            XCTAssertEqual(message, "Verified ID serialized to incorrect type.")
+            XCTAssertEqual(tracelevel, .WARN)
+            XCTAssertEqual(message,
+                           "Unable to add requirement to VP grouping: MockPresentationExchangeRequirement")
         }
         
         let logger = WalletLibraryLogger(consumers: [MockLogConsumer(logCallback: callback)])
@@ -274,7 +275,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(doesVPTokenBuilderThrow: true)
-        let configuration = LibraryConfiguration()
+        let configuration = LibraryConfiguration(identifiers: [MockHolderIdentifier(id: "mockId")])
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
@@ -297,7 +298,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory()
-        let configuration = LibraryConfiguration()
+        let configuration = LibraryConfiguration(identifiers: [MockHolderIdentifier(id: "testDid")])
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
