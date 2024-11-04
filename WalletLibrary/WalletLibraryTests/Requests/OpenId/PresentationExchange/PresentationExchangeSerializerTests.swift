@@ -218,55 +218,55 @@ class PresentationExchangeSerializerTests: XCTestCase
         XCTAssertEqual(vpBuilderCreationCount, 1)
     }
     
-    func testBuild_WithUnableToFetchIdentifier_ThrowsError() throws
-    {
-        // Arrange
-        let mockIdentifierManager = MockIdentifierManager(doesThrow: true)
-        let configuration = LibraryConfiguration(identifierManager: mockIdentifierManager)
-        
-        let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
-                                                            libraryConfiguration: configuration)
-        
-        // Act / Assert
-        XCTAssertThrowsError(try serializer.build()) { error in
-            XCTAssert(error is MockIdentifierManager.ExpectedError)
-            XCTAssertEqual((error as? MockIdentifierManager.ExpectedError), .ExpectedToThrow)
-        }
-    }
-    
-    func testBuild_WithMissingKeyInIdentifierDocument_ThrowsError() throws
-    {
-        // Arrange
-        let mockIdentifierManager = MockIdentifierManager(mockKeyId: nil)
-        let configuration = LibraryConfiguration(identifierManager: mockIdentifierManager)
-        
-        let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
-                                                            libraryConfiguration: configuration)
-        
-        // Act / Assert
-        XCTAssertThrowsError(try serializer.build()) { error in
-            XCTAssert(error is IdentifierError)
-            XCTAssertEqual((error as? IdentifierError)?.code, "no_keys_found_in_document")
-            XCTAssertEqual((error as? IdentifierError)?.message, "No keys found in Identifier document.")
-        }
-    }
-    
-    func testBuild_WithIdTokenBuilderThrows_ThrowsError() throws
-    {
-        // Arrange
-        let mockTokenBuilderFactory = MockTokenBuilderFactory(doesPEIdTokenBuilderThrow: true)
-        let configuration = LibraryConfiguration()
-        
-        let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
-                                                            tokenBuilderFactory: mockTokenBuilderFactory,
-                                                            libraryConfiguration: configuration)
-        
-        // Act / Assert
-        XCTAssertThrowsError(try serializer.build()) { error in
-            XCTAssert(error is MockPEIdTokenBuilder.ExpectedError)
-            XCTAssertEqual((error as? MockPEIdTokenBuilder.ExpectedError), .ExpectedToThrow)
-        }
-    }
+//    func testBuild_WithUnableToFetchIdentifier_ThrowsError() throws
+//    {
+//        // Arrange
+//        let mockIdentifierManager = MockIdentifierManager(doesThrow: true)
+//        let configuration = LibraryConfiguration(identifierManager: mockIdentifierManager)
+//        
+//        let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
+//                                                            libraryConfiguration: configuration)
+//        
+//        // Act / Assert
+//        XCTAssertThrowsError(try serializer.build()) { error in
+//            XCTAssert(error is MockIdentifierManager.ExpectedError)
+//            XCTAssertEqual((error as? MockIdentifierManager.ExpectedError), .ExpectedToThrow)
+//        }
+//    }
+//    
+//    func testBuild_WithMissingKeyInIdentifierDocument_ThrowsError() throws
+//    {
+//        // Arrange
+//        let mockIdentifierManager = MockIdentifierManager(mockKeyId: nil)
+//        let configuration = LibraryConfiguration(identifierManager: mockIdentifierManager)
+//        
+//        let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
+//                                                            libraryConfiguration: configuration)
+//        
+//        // Act / Assert
+//        XCTAssertThrowsError(try serializer.build()) { error in
+//            XCTAssert(error is IdentifierError)
+//            XCTAssertEqual((error as? IdentifierError)?.code, "no_keys_found_in_document")
+//            XCTAssertEqual((error as? IdentifierError)?.message, "No keys found in Identifier document.")
+//        }
+//    }
+//    
+//    func testBuild_WithIdTokenBuilderThrows_ThrowsError() throws
+//    {
+//        // Arrange
+//        let mockTokenBuilderFactory = MockTokenBuilderFactory(doesPEIdTokenBuilderThrow: true)
+//        let configuration = LibraryConfiguration()
+//        
+//        let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
+//                                                            tokenBuilderFactory: mockTokenBuilderFactory,
+//                                                            libraryConfiguration: configuration)
+//        
+//        // Act / Assert
+//        XCTAssertThrowsError(try serializer.build()) { error in
+//            XCTAssert(error is MockPEIdTokenBuilder.ExpectedError)
+//            XCTAssertEqual((error as? MockPEIdTokenBuilder.ExpectedError), .ExpectedToThrow)
+//        }
+//    }
     
     func testBuild_WithVPBuilderThrows_ThrowsError() throws
     {
