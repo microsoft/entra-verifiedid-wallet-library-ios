@@ -20,6 +20,9 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     /// The nonce from the request.
     let nonce: String?
     
+    /// The authority of the request.
+    let authority: String?
+    
     private let rawRequest: any OpenIdRawRequest
     
     private let configuration: LibraryConfiguration
@@ -39,6 +42,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
         self.rootOfTrust = partialRequest.rootOfTrust
         self.rawRequest = rawRequest
         self.nonce = rawRequest.nonce
+        self.authority = rawRequest.clientId
         self.configuration = configuration
         self.requestProcessorSerializer = requestProcessorSerializer
         self.verifiedIdSerializer = verifiedIdSerializer

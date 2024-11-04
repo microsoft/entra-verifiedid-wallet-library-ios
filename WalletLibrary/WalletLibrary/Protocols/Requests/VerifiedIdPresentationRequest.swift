@@ -11,4 +11,7 @@ public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void
 {
     /// The nonce on the request. Nonce must be public for the Id Token Issuance Flow.
     var nonce: String? { get }
+    
+    /// The authority who initiated the request. For example, `did:web:microsoft.com`
+    var authority: String? { get }
 }
