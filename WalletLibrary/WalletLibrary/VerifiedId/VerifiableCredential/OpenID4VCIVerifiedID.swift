@@ -104,7 +104,7 @@ struct OpenID4VCIVerifiedId: InternalVerifiedId
     
     private func createVerifiedIdClaim(claimReference: String, claimValue: Any) -> VerifiedIdClaim
     {
-        guard let claimDefinitions = configuration.credential_definition?.credential_subject,
+        guard let claimDefinitions = configuration.credential_definition?.credentialSubject,
            let claimDisplayDefinitions = claimDefinitions["vc.credentialSubject.\(claimReference)"] else
         {
             return VerifiedIdClaim(id: claimReference,

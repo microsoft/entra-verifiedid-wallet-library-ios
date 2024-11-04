@@ -48,7 +48,7 @@ struct CredentialDefinition: Codable
     let type: [String]?
     
     /// A mapping to describe how to display the claims in the credential.
-    let credential_subject: [String: CredentialSubjectDefinition]?
+    let credentialSubject: [String: CredentialSubjectDefinition]?
 }
 
 extension CredentialConfiguration
