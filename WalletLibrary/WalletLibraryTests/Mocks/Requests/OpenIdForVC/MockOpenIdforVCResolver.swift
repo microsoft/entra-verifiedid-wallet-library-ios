@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockOpenIdForVCResolver: OpenIdForVCResolver {
+struct MockOpenIdForVCResolver: OpenIdRequestValidating {
     
     enum MockOpenIdForVCResolverError: Error {
         case nilCallback

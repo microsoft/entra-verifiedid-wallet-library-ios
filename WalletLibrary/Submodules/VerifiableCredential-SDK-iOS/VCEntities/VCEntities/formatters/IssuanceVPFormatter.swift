@@ -4,34 +4,34 @@
  *--------------------------------------------------------------------------------------------*/
 
 
-class IssuanceVPFormatter {
+class IssuanceVPFormatter 
+{
     
-    private struct Constants {
+    private struct Constants 
+    {
         static let Context = "https://www.w3.org/2018/credentials/v1"
         static let VerifiablePresentation = "VerifiablePresentation"
     }
+
+    private let headerFormatter: JwsHeaderFormatter
     
-    let signer: TokenSigning
-    let headerFormatter = JwsHeaderFormatter()
-    
-    init(signer: TokenSigning = Secp256k1Signer()) {
-        self.signer = signer
+    init() 
+    {
+        self.headerFormatter = JwsHeaderFormatter()
     }
     
     func format(toWrap vc: VerifiableCredential,
                 withAudience audience: String,
                 withExpiryInSeconds exp: Int,
-                usingIdentifier identifier: Identifier,
-                andSignWith key: KeyContainer) throws -> VerifiablePresentation {
-        
-        let headers = headerFormatter.formatHeaders(identifier: identifier.longFormDid,
-                                                    signingKey: key)
+                usingIdentifier identifier: HolderIdentifier) throws -> VerifiablePresentation
+    {
+        let headers = headerFormatter.formatHeaders(identifier: identifier)
         let timeConstraints = TokenTimeConstraints(expiryInSeconds: exp)
         let verifiablePresentationDescriptor = try self.createVerifiablePresentationDescriptor(toWrap: vc)
         
         let vpClaims = VerifiablePresentationClaims(vpId: UUID().uuidString,
                                                     verifiablePresentation: verifiablePresentationDescriptor,
-                                                    issuerOfVp: identifier.longFormDid,
+                                                    issuerOfVp: identifier.id,
                                                     audience: audience,
                                                     iat: timeConstraints.issuedAt,
                                                     nbf: timeConstraints.issuedAt,
@@ -42,13 +42,14 @@ class IssuanceVPFormatter {
             throw FormatterError.unableToFormToken
         }
         
-        try token.sign(using: self.signer, withSecret: key.keyReference)
+        try token.sign(using: identifier)
         return token
     }
     
-    private func createVerifiablePresentationDescriptor(toWrap vc: VerifiableCredential) throws -> VerifiablePresentationDescriptor {
-        
-        guard let rawVC = vc.rawValue else {
+    private func createVerifiablePresentationDescriptor(toWrap vc: VerifiableCredential) throws -> VerifiablePresentationDescriptor 
+    {
+        guard let rawVC = vc.rawValue else 
+        {
             throw FormatterError.unableToGetRawValueOfVerifiableCredential
         }
         

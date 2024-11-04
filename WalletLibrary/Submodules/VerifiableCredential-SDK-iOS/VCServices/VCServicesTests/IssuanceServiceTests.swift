@@ -17,19 +17,17 @@ class IssuanceServiceTests: XCTestCase {
 
     override func setUpWithError() throws {
         let formatter = MockIssuanceResponseFormatter(shouldSucceed: true)
+        let mockIdentifier = MockHolderIdentifier()
         service = IssuanceService(formatter: formatter,
                                   apiCalls: MockIssuanceApiCalls(),
                                   discoveryApiCalls: MockDiscoveryApiCalls(),
                                   requestValidator: MockIssuanceRequestValidator(),
-                                  identifierService: IdentifierService(),
-                                  linkedDomainService: LinkedDomainService(urlSession: URLSession.shared))
+                                  identifierFactory: IdentifierFactory(identifiers: [mockIdentifier]),
+                                  linkedDomainService: LinkedDomainService(urlSession: URLSession.shared),
+                                  logger: WalletLibraryLogger())
         
         let encodedContract = TestData.aiContract.rawValue.data(using: .utf8)!
         self.contract = try JSONDecoder().decode(Contract.self, from: encodedContract)
-        
-        self.mockIdentifier = try identifierCreator.create(forId: "master", andRelyingParty: "master")
-        
-        try identifierDB.saveIdentifier(identifier: mockIdentifier)
         
         MockIssuanceResponseFormatter.wasFormatCalled = false
         MockIssuanceRequestValidator.wasValidateCalled = false
@@ -44,7 +42,9 @@ class IssuanceServiceTests: XCTestCase {
     
     func testPublicInit() {
         // Act
-        let service = IssuanceService(urlSession: URLSession.shared)
+        let service = IssuanceService(identifierFactory: IdentifierFactory(identifiers: []),
+                                      logger: WalletLibraryLogger(),
+                                      urlSession: URLSession.shared)
         
         // Assert
         XCTAssertNotNil(service.formatter)
@@ -79,22 +79,28 @@ class IssuanceServiceTests: XCTestCase {
         }
     }
     
-    func testSendResponseFailedToFormat() async throws {
+    func testSendResponseFailedToFormat() async throws 
+    {
         // Arrange
         let formatter = MockIssuanceResponseFormatter(shouldSucceed: false)
+        let mockIdentifier = MockHolderIdentifier()
         let service = IssuanceService(formatter: formatter,
                                       apiCalls: MockIssuanceApiCalls(),
                                       discoveryApiCalls: MockDiscoveryApiCalls(),
                                       requestValidator: MockIssuanceRequestValidator(),
-                                      identifierService: IdentifierService(),
-                                      linkedDomainService: LinkedDomainService(urlSession: URLSession.shared))
+                                      identifierFactory: IdentifierFactory(identifiers: [mockIdentifier]),
+                                      linkedDomainService: LinkedDomainService(urlSession: URLSession.shared),
+                                      logger: WalletLibraryLogger())
         
-        do {
+        do 
+        {
             // Act
             let response = try IssuanceResponseContainer(from: contract, contractUri: expectedUrl)
             let _ = try await service.send(response: response)
             XCTFail()
-        } catch {
+        } 
+        catch
+        {
             // Assert
             XCTAssert(MockIssuanceResponseFormatter.wasFormatCalled)
             XCTAssertFalse(MockIssuanceApiCalls.wasPostResponseCalled)

@@ -12,8 +12,7 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
     func testFormat_WithInvalidConfigIds_ThrowsError() async throws
     {
         // Arrange
-        let formatter = RawOpenID4VCIRequestFormatter(signer: MockSigner(),
-                                                      configuration: LibraryConfiguration())
+        let formatter = RawOpenID4VCIRequestFormatter(configuration: LibraryConfiguration())
         let mockAccessToken = "mock access token"
         let mockEndpoint = "mock endpoint"
         let mockCredentialOffer = createCredentialOffer(configIds: [])
@@ -32,10 +31,8 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
     func testFormat_WhenUnableToFetchIdentifier_ThrowsError() async throws
     {
         // Arrange
-        let mockIdentifierManager = MockIdentifierManager(doesThrow: true)
-        let libraryConfig = LibraryConfiguration(identifierManager: mockIdentifierManager)
-        let formatter = RawOpenID4VCIRequestFormatter(signer: MockSigner(),
-                                                      configuration: libraryConfig)
+        let libraryConfig = LibraryConfiguration()
+        let formatter = RawOpenID4VCIRequestFormatter(configuration: libraryConfig)
         let mockAccessToken = "mock access token"
         let mockEndpoint = "mock endpoint"
         let mockCredentialOffer = createCredentialOffer()
@@ -44,21 +41,20 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
         XCTAssertThrowsError(try formatter.format(credentialOffer: mockCredentialOffer,
                                                   credentialEndpoint: mockEndpoint,
                                                   accessToken: mockAccessToken)) { error in
-            XCTAssert(error is OpenId4VCIValidationError)
-            let validationError = error as! OpenId4VCIValidationError
-            XCTAssertEqual(validationError.code, "request_creation_error")
-            XCTAssertEqual(validationError.message, "Unable to fetch user's signing key reference.")
+            XCTAssert(error is VerifiedIdError)
+            let validationError = error as! VerifiedIdError
+            XCTAssertEqual(validationError.code, "no_holder_identifier_found.")
+            XCTAssertEqual(validationError.message, "No Holder Identifiers found.")
         }
     }
     
     func testFormat_WhenSigningThrowsError_ThrowsError() async throws
     {
         // Arrange
-        let mockSigner = MockSigner(doesSignThrow: true)
-        let mockIdentifierManager = MockIdentifierManager()
-        let libraryConfig = LibraryConfiguration(identifierManager: mockIdentifierManager)
-        let formatter = RawOpenID4VCIRequestFormatter(signer: mockSigner,
-                                                      configuration: libraryConfig)
+        let expectedError = VerifiedIdError(message: "expected error", code: "expected_error")
+        let mockIdentifier = MockHolderIdentifier(expectedErrorToBeThrown: expectedError)
+        let libraryConfig = LibraryConfiguration(identifiers: [mockIdentifier])
+        let formatter = RawOpenID4VCIRequestFormatter(configuration: libraryConfig)
         let mockAccessToken = "mock access token"
         let mockEndpoint = "mock endpoint"
         let mockCredentialOffer = createCredentialOffer()
@@ -71,19 +67,15 @@ class RawOpenID4VCIRequestFormatterTests: XCTestCase
             let validationError = error as! OpenId4VCIValidationError
             XCTAssertEqual(validationError.code, "request_creation_error")
             XCTAssertEqual(validationError.message, "Unable to format the Proof Token.")
-            XCTAssertEqual(validationError.error as? MockSigner.ExpectedError,
-                           MockSigner.ExpectedError.SignExpectedToThrow)
         }
     }
     
     func testFormat_WhenWithValidInput_ReturnsRequest() async throws
     {
         // Arrange
-        let mockSigner = MockSigner()
-        let mockIdentifierManager = MockIdentifierManager()
-        let libraryConfig = LibraryConfiguration(identifierManager: mockIdentifierManager)
-        let formatter = RawOpenID4VCIRequestFormatter(signer: mockSigner,
-                                                      configuration: libraryConfig)
+        let mockIdentifier = MockHolderIdentifier(id: "did:test:1234")
+        let libraryConfig = LibraryConfiguration(identifiers: [mockIdentifier])
+        let formatter = RawOpenID4VCIRequestFormatter(configuration: libraryConfig)
         let mockAccessToken = "mock access token"
         let mockEndpoint = "mock endpoint"
         let mockConfigurationId = "mock config id"

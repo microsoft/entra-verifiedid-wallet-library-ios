@@ -16,40 +16,43 @@ class IssuanceService {
     let apiCalls: IssuanceNetworking
     private let discoveryApiCalls: DiscoveryNetworking
     private let requestValidator: IssuanceRequestValidating
-    private let identifierService: IdentifierService
+    private let identifierFactory: IdentifierFactory
     private let linkedDomainService: LinkedDomainService
-    private let sdkLog: VCSDKLog
+    private let logger: WalletLibraryLogger
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                      rootOfTrustResolver: RootOfTrustResolver? = nil,
+                     identifierFactory: IdentifierFactory,
+                     logger: WalletLibraryLogger,
                      urlSession: URLSession) {
-        self.init(formatter: IssuanceResponseFormatter(),
+        self.init(formatter: IssuanceResponseFormatter(logger: logger),
                   apiCalls: IssuanceNetworkCalls(correlationVector: correlationVector,
                                                  urlSession: urlSession),
                   discoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
                                                              urlSession: urlSession),
                   requestValidator: IssuanceRequestValidator(),
-                  identifierService: IdentifierService(),
+                  identifierFactory: identifierFactory,
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
                                                            rootOfTrustResolver: rootOfTrustResolver,
                                                            urlSession: urlSession),
-                  sdkLog: VCSDKLog.sharedInstance)
+                  logger: logger)
     }
     
     init(formatter: IssuanceResponseFormatting,
          apiCalls: IssuanceNetworking,
          discoveryApiCalls: DiscoveryNetworking,
          requestValidator: IssuanceRequestValidating,
-         identifierService: IdentifierService,
+         identifierFactory: IdentifierFactory,
          linkedDomainService: LinkedDomainService,
-         sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
+         logger: WalletLibraryLogger)
+    {
         self.formatter = formatter
         self.apiCalls = apiCalls
         self.discoveryApiCalls = discoveryApiCalls
         self.requestValidator = requestValidator
-        self.identifierService = identifierService
+        self.identifierFactory = identifierFactory
         self.linkedDomainService = linkedDomainService
-        self.sdkLog = sdkLog
+        self.logger = logger
     }
     
     func getRequest(usingUrl url: String) async throws -> IssuanceRequest {
@@ -97,11 +100,9 @@ class IssuanceService {
         return String(did)
     }
     
-    private func formatIssuanceResponse(response: IssuanceResponseContainer) throws -> IssuanceResponse {
-        /// fetch or create master identifier
-        let identifier = try identifierService.fetchOrCreateMasterIdentifier()
-        sdkLog.logVerbose(message: "Signing Issuance Response with Identifier")
-        
-        return try self.formatter.format(response: response, usingIdentifier: identifier)
+    private func formatIssuanceResponse(response: IssuanceResponseContainer) throws -> IssuanceResponse
+    {
+        let identifier = try identifierFactory.getIdentifier()
+        return try self.formatter.format(response: response, identifier: identifier)
     }
 }

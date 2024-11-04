@@ -14,21 +14,15 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com?request_uri=microsoft.com")!)
         let expectedRawData = "test data".data(using: .utf8)!
         let expectedRawRequest = MockOpenIdRawRequest(raw: expectedRawData)
-        
-        let mockCallback = { (url: String) in
-            return expectedRawRequest
-        }
-        
+        let mockValidator = MockOpenIdRequestValidator(expectedResult: expectedRawRequest)
+
         let expectedResults = (expectedRawData, OpenIDRequestFetchNetworkOperation.self)
         let networkingLayer = MockLibraryNetworking.create(expectedResults: [expectedResults])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
                                                  networking: networkingLayer)
         
-
-        let openIdResolver = MockOpenIdForVCResolver(mockGetRequestCallback: mockCallback)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: openIdResolver,
-                                                configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: mockValidator, configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
@@ -50,7 +44,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockURL = "openid-vc://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         do
         {
@@ -85,7 +79,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         do
         {
@@ -121,7 +115,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
@@ -150,8 +144,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockURL = "openid-vc://mock.com/?credential_offer_uri=https://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), 
-                                                configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
@@ -181,7 +174,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
@@ -210,8 +203,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(),
-                                                configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         resolver.preferHeaders.append(contentsOf: expectedHeaders)
         
         // Act
@@ -243,7 +235,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockURL = "openid-vc://mock.com/?request_uri=https://mock.com"
         let mockInput = VerifiedIdRequestURL(url: URL(string: mockURL)!)
 
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         resolver.preferHeaders.append(contentsOf: expectedHeaders)
         
         // Act
@@ -266,11 +258,8 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com/?credential_offer_uri=https://mock.com")!)
         let expectedRawData = "test data".data(using: .utf8)!
         let expectedRawRequest = MockOpenIdRawRequest(raw: expectedRawData)
-        let mockCallback = { (url: String) in
-            return expectedRawRequest
-        }
-        let openIdResolver = MockOpenIdForVCResolver(mockGetRequestCallback: mockCallback)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: openIdResolver, configuration: configuration)
+        let mockValidator = MockOpenIdRequestValidator(expectedResult: expectedRawRequest)
+        let resolver = OpenIdURLRequestResolver(validator: mockValidator, configuration: configuration)
         
         // Act
         let actualRawRequest = try await resolver.resolve(input: mockInput)
@@ -285,7 +274,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockData = "test data"
         let mockInput = MockInput(mockData: mockData)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         // Act
         do {
@@ -309,7 +298,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         // Arrange
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockInput = MockInput(mockData: "mock data")
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         // Act
         let actualResult = resolver.canResolve(input: mockInput)
@@ -323,7 +312,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         // Arrange
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockInput = VerifiedIdRequestURL(url: URL(string: "https://mock.com")!)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         // Act
         let actualResult = resolver.canResolve(input: mockInput)
@@ -337,7 +326,7 @@ class OpenIdURLRequestResolverTests: XCTestCase {
         // Arrange
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper())
         let mockInput = VerifiedIdRequestURL(url: URL(string: "openid-vc://mock.com")!)
-        let resolver = OpenIdURLRequestResolver(openIdResolver: MockOpenIdForVCResolver(), configuration: configuration)
+        let resolver = OpenIdURLRequestResolver(validator: MockOpenIdRequestValidator(), configuration: configuration)
         
         // Act
         let actualResult = resolver.canResolve(input: mockInput)

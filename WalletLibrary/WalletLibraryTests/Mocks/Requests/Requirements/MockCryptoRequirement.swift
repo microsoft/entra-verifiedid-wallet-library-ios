@@ -3,15 +3,20 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-import Foundation
+@testable import WalletLibrary
 
-struct IssuanceResponseEncoder: Encoding 
+struct MockCryptoRequirement: CryptoRequirement
 {
-    func encode(value: IssuanceResponse) throws -> Data 
+    
+    let expectedIdentifierId: String
+    
+    init(expectedIdentifierId: String = "")
     {
-        let encodedToken = try Data.getRequiredProperty(property: try value.serialize().data(using: .ascii),
-                                                        propertyName: "encodedToken")
-        
-        return encodedToken
+        self.expectedIdentifierId = expectedIdentifierId
+    }
+    
+    func isSupported(identifier: HolderIdentifier) -> Bool
+    {
+        expectedIdentifierId == identifier.id
     }
 }

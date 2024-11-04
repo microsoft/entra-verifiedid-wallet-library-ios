@@ -13,7 +13,8 @@ final class MockNetworkOperation: InternalNetworkOperation {
     
     let decoder: MockDecoder = MockDecoder()
     let successHandler: SuccessHandler = SimpleSuccessHandler()
-    let failureHandler: FailureHandler = SimpleFailureHandler()
+    let failureHandler: FailureHandler = SimpleFailureHandler(sdkLog: VCSDKLog.sharedInstance, 
+                                                              correlationVector: nil)
     let retryHandler: RetryHandler = NoRetry()
     let urlSession: URLSession
     var urlRequest: URLRequest

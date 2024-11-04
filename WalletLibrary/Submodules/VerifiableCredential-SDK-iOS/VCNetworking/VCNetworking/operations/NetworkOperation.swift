@@ -32,7 +32,7 @@ extension InternalNetworkOperation {
     }
     
     var failureHandler: FailureHandler {
-        return SimpleFailureHandler()
+        return SimpleFailureHandler(sdkLog: sdkLog, correlationVector: correlationVector)
     }
     
     var retryHandler: RetryHandler {
@@ -72,8 +72,9 @@ extension InternalNetworkOperation {
     
     private func handleResponse(data: Data, response: URLResponse) throws -> ResponseBody {
         
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkingError.unableToParseData
+        guard let httpResponse = response as? HTTPURLResponse else 
+        {
+            throw VerifiedIdErrors.MalformedInput(message: "Malformed HTTP Response").error
         }
         
         if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {

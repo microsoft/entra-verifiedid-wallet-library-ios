@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-struct MockHolderIdentifier: HolderIdentifier
+struct MockHolderIdentifier: HolderIdentifier, JWKRepresentable, Equatable
 {
     var id: String
     
@@ -42,5 +42,15 @@ struct MockHolderIdentifier: HolderIdentifier
         }
         
         return expectedSignature ?? Data()
+    }
+    
+    func exportPublicKey() throws -> ECPublicJwk 
+    {
+        return ECPublicJwk(x: "x", y: "y", keyId: keyReference)
+    }
+    
+    static func == (lhs: MockHolderIdentifier, rhs: MockHolderIdentifier) -> Bool 
+    {
+        return lhs.id == rhs.id
     }
 }

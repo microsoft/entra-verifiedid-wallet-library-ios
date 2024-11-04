@@ -14,19 +14,15 @@ public class OpenIdRequestProcessor: RequestProcessing
     
     private let configuration: LibraryConfiguration
     
-    private let openIdResponder: OpenIdResponder
-    
     private let manifestResolver: ManifestResolver
     
     private let verifiedIdRequester: VerifiedIdRequester
     
     init(configuration: LibraryConfiguration,
-         openIdResponder: OpenIdResponder,
          manifestResolver: ManifestResolver,
          verifiableCredentialRequester: VerifiedIdRequester) 
     {
         self.configuration = configuration
-        self.openIdResponder = openIdResponder
         self.manifestResolver = manifestResolver
         self.verifiedIdRequester = verifiableCredentialRequester
     }
@@ -149,7 +145,6 @@ public class OpenIdRequestProcessor: RequestProcessing
         
         return OpenIdPresentationRequest(partialRequest: partial,
                                          rawRequest: rawRequest,
-                                         openIdResponder: openIdResponder,
                                          configuration: configuration,
                                          requestProcessorSerializer: peSerializer,
                                          verifiedIdSerializer: vcSerializer)

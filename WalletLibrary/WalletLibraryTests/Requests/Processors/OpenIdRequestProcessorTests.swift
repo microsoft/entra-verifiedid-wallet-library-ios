@@ -38,9 +38,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                             manifestResolver: MockManifestResolver(),
+                                             verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         let actualRequest = try await handler.process(rawRequest: mockRawRequest)
@@ -68,9 +67,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data())
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                             manifestResolver: MockManifestResolver(),
+                                             verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -111,7 +109,6 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                  mapper: mockMapper)
         
         var processor = OpenIdRequestProcessor(configuration: configuration,
-                                               openIdResponder: MockPresentationResponder(),
                                                manifestResolver: MockManifestResolver(),
                                                verifiableCredentialRequester: MockVerifiedIdRequester())
         let mockExtension = MockRequestProcessorExtension<OpenIdRequestProcessor>()
@@ -156,7 +153,6 @@ class OpenIdRequestProcessorTests: XCTestCase {
                                                  mapper: mockMapper)
         
         var processor = OpenIdRequestProcessor(configuration: configuration,
-                                               openIdResponder: MockPresentationResponder(),
                                                manifestResolver: MockManifestResolver(),
                                                verifiableCredentialRequester: MockVerifiedIdRequester())
         let mockExtension1 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
@@ -204,7 +200,6 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
                                            manifestResolver: MockManifestResolver(),
                                            verifiableCredentialRequester: MockVerifiedIdRequester())
         
@@ -250,9 +245,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                             manifestResolver: MockManifestResolver(),
+                                             verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -296,9 +290,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                             manifestResolver: MockManifestResolver(),
+                                             verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -357,9 +350,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: mockVCRequester)
+                                             manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
+                                             verifiableCredentialRequester: mockVCRequester)
         
         // Act
         do {
@@ -412,9 +404,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                             manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
+                                             verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         do {
@@ -477,9 +468,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                             manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
+                                             verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         let actualRequest = try await handler.process(rawRequest: mockRawRequest)
@@ -544,9 +534,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                             manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
+                                             verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         let actualRequest = try await handler.process(rawRequest: mockRawRequest)
@@ -613,9 +602,8 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
         let handler = OpenIdRequestProcessor(configuration: configuration,
-                                           openIdResponder: MockPresentationResponder(),
-                                           manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
-                                           verifiableCredentialRequester: MockVerifiedIdRequester())
+                                             manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
+                                             verifiableCredentialRequester: MockVerifiedIdRequester())
         
         // Act
         let actualRequest = try await handler.process(rawRequest: mockRawRequest)

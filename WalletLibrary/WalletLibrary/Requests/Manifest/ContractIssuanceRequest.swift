@@ -11,8 +11,8 @@ enum VerifiedIdIssuanceRequestError: Error {
 /**
  * Issuance Request that is Contract specific.
  */
-class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
-    
+class ContractIssuanceRequest: VerifiedIdIssuanceRequest 
+{
     public let style: RequesterStyle
     
     public let verifiedIdStyle: VerifiedIdStyle
@@ -34,7 +34,8 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     init(content: IssuanceRequestContent,
          issuanceResponseContainer: IssuanceResponseContaining,
          verifiedIdRequester: VerifiedIdRequester,
-         configuration: LibraryConfiguration) {
+         configuration: LibraryConfiguration) 
+    {
         self.style = content.style
         self.verifiedIdStyle = content.verifiedIdStyle
         self.requirement = content.requirement
@@ -46,17 +47,21 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
         self.configuration = configuration
     }
     
-    public func isSatisfied() -> Bool {
-        do {
+    public func isSatisfied() -> Bool 
+    {
+        do 
+        {
             try requirement.validate().get()
             return true
-        } catch {
+        } 
+        catch 
+        {
             return false
         }
     }
     
-    public func complete() async -> VerifiedIdResult<VerifiedId> {
-        
+    public func complete() async -> VerifiedIdResult<VerifiedId> 
+    {
         let result = await VerifiedIdResult<VerifiedId>.getResult {
             try self.responseContainer.add(requirement: self.requirement)
             return try await self.verifiedIdRequester.send(request: self.responseContainer)
@@ -67,10 +72,13 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     }
     
     /// Send the result back to the original requester. If call fails, fail silently, and log result.
-    private func sendResultIfCallbackAndStateExist(result: VerifiedIdResult<VerifiedId>) async {
-        do {
+    private func sendResultIfCallbackAndStateExist(result: VerifiedIdResult<VerifiedId>) async 
+    {
+        do 
+        {
             guard let requestState = requestState,
-                  let issuanceResultCallbackUrl = issuanceResultCallbackUrl else {
+                  let issuanceResultCallbackUrl = issuanceResultCallbackUrl else 
+            {
                 return
             }
             
@@ -89,7 +97,9 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
                                                     andDetails: errorDetails)
             
             try await verifiedIdRequester.send(result: result, to: issuanceResultCallbackUrl)
-        } catch {
+        } 
+        catch
+        {
             configuration.logger.logError(message: "Unable to send issuance result back to requester with error: \(String(describing: error))")
         }
     }
@@ -97,13 +107,17 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest {
     /// Send the issuance result back to the original requester.
     /// TODO: Add support for injecting cancel message into callback. Right now "user canceled"
     /// will be the message sent back.
-    public func cancel(message: String? = nil) async -> VerifiedIdResult<Void> {
+    public func cancel(message: String? = nil) async -> VerifiedIdResult<Void> 
+    {
         return await VerifiedIdResult<Void>.getResult {
-            guard let requestState = self.requestState else {
+            
+            guard let requestState = self.requestState else
+            {
                 throw VerifiedIdIssuanceRequestError.missingRequestStateForIssuanceResultCallback
             }
             
-            guard let issuanceResultCallbackUrl = self.issuanceResultCallbackUrl else {
+            guard let issuanceResultCallbackUrl = self.issuanceResultCallbackUrl else 
+            {
                 throw VerifiedIdIssuanceRequestError.missingCallbackURLForIssuanceResultCallback
             }
             

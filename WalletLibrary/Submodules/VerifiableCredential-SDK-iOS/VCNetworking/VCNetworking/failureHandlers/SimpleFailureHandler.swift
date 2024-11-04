@@ -5,43 +5,45 @@
 
 import Foundation
 
-class SimpleFailureHandler: FailureHandler {
-    
+class SimpleFailureHandler: FailureHandler 
+{
     private let sdkLog: VCSDKLog
     
-    init(sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
+    private let correlationVector: VerifiedIdCorrelationHeader?
+    
+    init(sdkLog: VCSDKLog, correlationVector: VerifiedIdCorrelationHeader? = nil)
+    {
         self.sdkLog = sdkLog
+        self.correlationVector = correlationVector
     }
     
-    func onFailure(data: Data, response: HTTPURLResponse) throws -> NetworkingError {
-        
-        guard let responseBody = String(data: data, encoding: .utf8) else {
-            throw NetworkingError.unableToParseData
+    func onFailure(data: Data, response: HTTPURLResponse) throws -> VerifiedIdError 
+    {
+        var cvValue = ""
+        if let cvName = correlationVector?.name
+        {
+            cvValue = response.allHeaderFields[cvName] as? String ?? ""
+        }
+
+        guard let responseBody = String(data: data, encoding: .utf8) else
+        {
+            throw VerifiedIdErrors.NetworkingError(message: "Unable to parse response body.",
+                                                   correlationId: cvValue,
+                                                   statusCode: response.statusCode).error
         }
         
-        var error: NetworkingError
-        switch response.statusCode {
-        case 400:
-            error = NetworkingError.badRequest(withBody: responseBody, statusCode: response.statusCode)
-        case 401:
-            error = NetworkingError.unauthorized(withBody: responseBody, statusCode: response.statusCode)
-        case 403:
-            error = NetworkingError.forbidden(withBody: responseBody, statusCode: response.statusCode)
-        case 404:
-            error = NetworkingError.notFound(withBody: responseBody, statusCode: response.statusCode)
-        case 500...599:
-            error = NetworkingError.serverError(withBody: responseBody, statusCode: response.statusCode)
-        default:
-            error = NetworkingError.unknownNetworkingError(withBody: responseBody, statusCode: response.statusCode)
-        }
+        let networkingError = VerifiedIdErrors.NetworkingError(message: responseBody,
+                                                               correlationId: cvValue,
+                                                               statusCode: response.statusCode).error
         
-        self.logNetworkingError(error: error)
-        return error
+        self.logNetworkingError(error: networkingError)
+        return networkingError
     }
     
-    private func logNetworkingError(error: NetworkingError) {
+    private func logNetworkingError(error: VerifiedIdError)
+    {
         sdkLog.logError(message: """
-            Networking Error: \(error.self)
+            Networking Error: \(String(describing: error))
             """)
     }
 }
