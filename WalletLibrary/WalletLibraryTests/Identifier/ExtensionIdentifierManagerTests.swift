@@ -8,120 +8,77 @@ import XCTest
 
 class ExtensionIdentifierManagerTests: XCTestCase
 {
-//    func testCreatedSelfSignedVerifiedId_WhenIdentifierManagerThrows_ThrowError() async throws
-//    {
-//        // Arrange
-//        let mockIdentifierManager = MockIdentifierManager(doesThrow: true)
-//        let config = LibraryConfiguration()
-//        let extensionIdentifierManager = InternalExtensionIdentifierManager(identifierManager: mockIdentifierManager,
-//                                                                            libraryConfiguration: config)
-//        let mockClaims: [String: String] = [:]
-//        let mockTypes: [String] = []
-//        
-//        // Act
-//        XCTAssertThrowsError(try extensionIdentifierManager.createEphemeralSelfSignedVerifiedId(claims: mockClaims,
-//                                                                                                types: mockTypes)) { error in
-//            print(error)
-//            XCTAssert(error is IdentifierError)
-//            
-//            guard let identifierError = error as? IdentifierError else
-//            {
-//                XCTFail()
-//                return
-//            }
-//            
-//            XCTAssertEqual(identifierError.code, "verified_id_creation_error")
-//            XCTAssertEqual(identifierError.message, "Unable to create self signed Verified ID.")
-//            XCTAssertEqual(identifierError.error as? MockIdentifierManager.ExpectedError,
-//                           MockIdentifierManager.ExpectedError.ExpectedToThrow)
-//        }
-//    }
-//    
-//    func testCreatedSelfSignedVerifiedId_WhenMissingKeysInIdentifierDocument_ThrowError() async throws
-//    {
-//        // Arrange
-//        let mockIdentifierManager = MockIdentifierManager(mockKeyId: nil)
-//        let config = LibraryConfiguration()
-//        let extensionIdentifierManager = InternalExtensionIdentifierManager(identifierManager: mockIdentifierManager,
-//                                                                            libraryConfiguration: config)
-//        let mockClaims: [String: String] = [:]
-//        let mockTypes: [String] = []
-//        
-//        // Act
-//        XCTAssertThrowsError(try extensionIdentifierManager.createEphemeralSelfSignedVerifiedId(claims: mockClaims,
-//                                                                                                types: mockTypes)) { error in
-//            XCTAssert(error is IdentifierError)
-//            
-//            guard let identifierError = error as? IdentifierError else
-//            {
-//                XCTFail()
-//                return
-//            }
-//            
-//            XCTAssertEqual(identifierError.code, "verified_id_creation_error")
-//            XCTAssertEqual(identifierError.message, "Unable to create self signed Verified ID.")
-//            XCTAssert(identifierError.error is IdentifierError)
-//            
-//            guard let nestedError = identifierError.error as? IdentifierError else
-//            {
-//                XCTFail()
-//                return
-//            }
-//            
-//            XCTAssertEqual(nestedError.code, "no_keys_found_in_document")
-//            XCTAssertEqual(nestedError.message, "No keys found in Identifier document.")
-//        }
-//    }
-//    
-//    func testCreatedSelfSignedVerifiedId_WhenErrorWhileSigning_ThrowError() async throws
-//    {
-//        // Arrange
-//        let mockIdentifierManager = MockIdentifierManager(mockKeyId: "mockKeyId")
-//        let config = LibraryConfiguration()
-//        let mockSigner = MockSigner(doesSignThrow: true)
-//        let extensionIdentifierManager = InternalExtensionIdentifierManager(identifierManager: mockIdentifierManager,
-//                                                                            libraryConfiguration: config,
-//                                                                            tokenSigner: mockSigner)
-//        let mockClaims: [String: String] = [:]
-//        let mockTypes: [String] = []
-//        
-//        // Act
-//        XCTAssertThrowsError(try extensionIdentifierManager.createEphemeralSelfSignedVerifiedId(claims: mockClaims,
-//                                                                                                types: mockTypes)) { error in
-//            print(error)
-//            XCTAssert(error is IdentifierError)
-//            
-//            guard let identifierError = error as? IdentifierError else
-//            {
-//                XCTFail()
-//                return
-//            }
-//            
-//            XCTAssertEqual(identifierError.code, "verified_id_creation_error")
-//            XCTAssertEqual(identifierError.message, "Unable to create self signed Verified ID.")
-//            XCTAssertEqual(identifierError.error as? MockSigner.ExpectedError,
-//                           MockSigner.ExpectedError.SignExpectedToThrow)
-//        }
-//    }
-//    
-//    func testCreatedSelfSignedVerifiedId_WhenValidInput_ReturnsVerifiedId() async throws
-//    {
-//        // Arrange
-//        let mockIdentifierManager = MockIdentifierManager(mockKeyId: "mockKeyId")
-//        let config = LibraryConfiguration()
-//        let mockSigner = MockSigner(doesSignThrow: false)
-//        let extensionIdentifierManager = InternalExtensionIdentifierManager(identifierManager: mockIdentifierManager,
-//                                                                            libraryConfiguration: config,
-//                                                                            tokenSigner: mockSigner)
-//        let mockClaims: [String: String] = [:]
-//        let mockTypes: [String] = []
-//        
-//        // Act
-//        let verifiedId = try extensionIdentifierManager.createEphemeralSelfSignedVerifiedId(claims: mockClaims,
-//                                                                                            types: mockTypes)
-//        
-//        // Assert
-//        XCTAssert(verifiedId is SelfSignedVerifiableCredential)
-//        // TODO: add test to see if claims are added after getClaims() PR is in.
-//    }
+    func testCreatedSelfSignedVerifiedId_WhenUnableToFetchIdentifier_ThrowError() async throws
+    {
+        // Arrange
+        let config = LibraryConfiguration()
+        let manager = InternalExtensionIdentifierManager(libraryConfiguration: config)
+        let mockClaims: [String: String] = [:]
+        let mockTypes: [String] = []
+        
+        // Act
+        XCTAssertThrowsError(try manager.createEphemeralSelfSignedVerifiedId(claims: mockClaims,
+                                                                             types: mockTypes)) { error in
+            XCTAssert(error is IdentifierError)
+            
+            guard let identifierError = error as? IdentifierError else
+            {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(identifierError.code, "verified_id_creation_error")
+            XCTAssertEqual(identifierError.message, "Unable to create self signed Verified ID.")
+            XCTAssertEqual((identifierError.error as? VerifiedIdError)?.code, "no_holder_identifier_found.")
+            XCTAssertEqual((identifierError.error as? VerifiedIdError)?.message, "No Holder Identifiers found.")
+        }
+    }
+    
+    func testCreatedSelfSignedVerifiedId_WhenIdentifierThrows_ThrowError() async throws
+    {
+        // Arrange
+        let expectedError = VerifiedIdError(message: "expectedError", code: "expected_error")
+        let mockIdentifier = MockHolderIdentifier(expectedErrorToBeThrown: expectedError)
+        let config = LibraryConfiguration(identifiers: [mockIdentifier])
+        let manager = InternalExtensionIdentifierManager(libraryConfiguration: config)
+        let mockClaims: [String: String] = [:]
+        let mockTypes: [String] = []
+        
+        // Act
+        XCTAssertThrowsError(try manager.createEphemeralSelfSignedVerifiedId(claims: mockClaims,
+                                                                             types: mockTypes)) { error in
+            
+            
+            XCTAssert(error is IdentifierError)
+            
+            guard let identifierError = error as? IdentifierError else
+            {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(identifierError.code, "verified_id_creation_error")
+            XCTAssertEqual(identifierError.message, "Unable to create self signed Verified ID.")
+            XCTAssertEqual((identifierError.error as? VerifiedIdError)?.code, "expected_error")
+            XCTAssertEqual((identifierError.error as? VerifiedIdError)?.message, "expectedError")
+        }
+    }
+    
+    func testCreatedSelfSignedVerifiedId_WhenValidInput_ReturnsVerifiedId() async throws
+    {
+        // Arrange
+        let mockIdentifier = MockHolderIdentifier(id: "mockId")
+        let config = LibraryConfiguration(identifiers: [mockIdentifier])
+        let extensionIdentifierManager = InternalExtensionIdentifierManager(libraryConfiguration: config)
+        let mockClaims: [String: String] = [:]
+        let mockTypes: [String] = []
+        
+        // Act
+        let verifiedId = try extensionIdentifierManager.createEphemeralSelfSignedVerifiedId(claims: mockClaims,
+                                                                                            types: mockTypes)
+        
+        // Assert
+        XCTAssert(verifiedId is SelfSignedVerifiableCredential)
+        // TODO: add test to see if claims are added after getClaims() PR is in.
+    }
 }
