@@ -6,13 +6,15 @@
 import Foundation
 import CryptoKit
 
-enum ES256Error: Error, Equatable
+class ES256Error: VerifiedIdError
 {
-    case InvalidKeyMaterialInJWK
-    case JWKContainsInvalidKeyType(String)
-    case JWKContainsInvalidCurveAlgorithm(String?)
-    case MissingKeyMaterialInJWK
-    case NotImplemented
+    static let InvalidSecretType = ES256Error(message: "Invalid Secret Type", code: "invalid_secret_type")
+    static let InvalidSecretSize = ES256Error(message: "Invalid Secret Size", code: "invalid_secret_size")
+//    case InvalidKeyMaterialInJWK
+//    case JWKContainsInvalidKeyType(String)
+//    case JWKContainsInvalidCurveAlgorithm(String?)
+//    case MissingKeyMaterialInJWK
+//    case NotImplemented
 }
 
 /// ECDSA using P-256 and SHA-256.
@@ -25,7 +27,28 @@ struct ES256: Signing {
     
     /// Not Implemented.
     func sign(message: Data, withSecret secret: VCCryptoSecret) throws -> Data {
-        throw ES256Error.NotImplemented
+        
+        guard let secret = secret as? Secret else
+        {
+            throw ES256Error.InvalidSecretType
+        }
+        
+        var rawSignature = Data()
+        try secret.withUnsafeBytes { (secretPtr) in
+            
+            let rawKey = secretPtr.bindMemory(to: UInt8.self)
+            
+            guard rawKey.count == 32 else
+            {
+                throw ES256Error.InvalidSecretSize
+            }
+            
+            let privateKey = try CryptoKit.P256.Signing.PrivateKey(rawRepresentation: rawKey)
+            let signature = try privateKey.signature(for: message)
+            rawSignature = signature.rawRepresentation
+        }
+        
+        return rawSignature
     }
     
     /// Validates the signature for a given message using the given public key.
@@ -38,28 +61,62 @@ struct ES256: Signing {
         return pubKey.isValidSignature(ecdaSignature, for: message)
     }
     
-    /// Not Implemented.
-    func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey {
-        throw ES256Error.NotImplemented
+    func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey 
+    {
+        guard let secret = secret as? Secret else
+        {
+            throw ES256Error.InvalidSecretType
+        }
+        
+        var publicKey: P256PublicKey? = nil
+        try secret.withUnsafeBytes { (secretPtr) in
+            
+            let rawKey = secretPtr.bindMemory(to: UInt8.self)
+            
+            guard rawKey.count == 32 else
+            {
+                throw ES256Error.InvalidSecretSize
+            }
+            
+            let privateKey = try CryptoKit.P256.Signing.PrivateKey(rawRepresentation: rawKey)
+            let rawPublicKey = privateKey.publicKey.rawRepresentation
+            
+            // The first byte is 0x04 for uncompressed point format (indicating x and y follow)
+            let x = rawPublicKey[1..<33] // 32 bytes for x
+            let y = rawPublicKey[33..<65] // 32 bytes for y
+            publicKey = P256PublicKey(x: x, y: y)
+        }
+        
+        guard let publicKey = publicKey else
+        {
+            throw ES256Error(message: "", code: "")
+        }
+        
+        
+        return publicKey
     }
     
     /// Creates a public key from JWK format.
-    func createPublicKey(fromJWK key: JWK) throws -> PublicKey {
-        
-        guard key.keyType == Constants.KeyType else {
-            throw ES256Error.JWKContainsInvalidKeyType(key.keyType)
+    func createPublicKey(fromJWK key: JWK) throws -> PublicKey 
+    {
+        guard key.keyType == Constants.KeyType else 
+        {
+            throw ES256Error(message: "JWK contains invalid key type: \(key.keyType).",
+                             code: "invalid_keytype")
         }
         
-        guard key.curve == Constants.Curve else {
-            throw ES256Error.JWKContainsInvalidCurveAlgorithm(key.curve)
+        guard key.curve == Constants.Curve else 
+        {
+            throw ES256Error(message: "JWK contains invalid curve type: \(String(describing: key.curve)).",
+                             code: "invalid_curve")
         }
 
-        guard let x = key.x, let y = key.y else {
-            throw ES256Error.MissingKeyMaterialInJWK
-        }
-        
-        guard let publicKey = P256PublicKey(x: x, y: y) else {
-            throw ES256Error.InvalidKeyMaterialInJWK
+        guard let x = key.x, 
+              let y = key.y,
+              let publicKey = P256PublicKey(x: x, y: y) else
+        {
+            throw ES256Error(message: "Missing Key Material in JWK.",
+                             code: "missing_key_material")
         }
         
         return publicKey
