@@ -20,9 +20,14 @@ struct ES256: Signing {
         static let Curve = "P-256"
     }
     
-    /// Not Implemented.
-    func sign(message: Data, withSecret secret: VCCryptoSecret) throws -> Data {
-        
+    /// Signs a given message using a cryptographic secret.
+    /// - Parameters:
+    ///   - message: The `Data` object representing the message that needs to be signed.
+    ///   - secret: A `VCCryptoSecret` object used to perform the cryptographic signing.
+    /// - Returns: A `Data` object containing the signed message.
+    /// - Throws: An error if the signing operation fails.
+    func sign(message: Data, withSecret secret: VCCryptoSecret) throws -> Data 
+    {
         guard let secret = secret as? Secret else
         {
             throw ES256Error.InvalidSecretType
@@ -46,17 +51,27 @@ struct ES256: Signing {
         return rawSignature
     }
     
-    /// Validates the signature for a given message using the given public key.
+    /// Verifies if the given signature is valid for a specified message using a provided public key using ES256 algorithm.
+    /// - Parameters:
+    ///   - signature: A `Data` object representing the cryptographic signature to be validated.
+    ///   - message: A `Data` object containing the original message that was signed.
+    ///   - publicKey: A `PublicKey` used to verify the authenticity of the signature.
+    /// - Returns: A `Bool` value indicating whether the signature is valid (`true`) or not (`false`).
+    /// - Throws: An error if the verification process fails.
     func isValidSignature(signature: Data,
                           forMessage message: Data,
-                          usingPublicKey publicKey: PublicKey) throws -> Bool {
-
+                          usingPublicKey publicKey: PublicKey) throws -> Bool 
+    {
         let pubKey = try CryptoKit.P256.Signing.PublicKey(rawRepresentation: publicKey.uncompressedValue)
         let ecdaSignature = try CryptoKit.P256.Signing.ECDSASignature(rawRepresentation: signature)
         return pubKey.isValidSignature(ecdaSignature, for: message)
     }
     
-    func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey 
+    /// Generates a ES256 public key corresponding to the given cryptographic secret.
+    /// - Parameter secret: A `VCCryptoSecret` instance used to derive the public key.
+    /// - Returns: A `PublicKey` object derived from the provided secret.
+    /// - Throws: An error if the public key creation fails.
+    func createPublicKey(forSecret secret: VCCryptoSecret) throws -> PublicKey
     {
         guard let secret = secret as? Secret else
         {
