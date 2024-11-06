@@ -330,7 +330,7 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
     {
         let displayDefinition = createDisplayDefinition(claims: claims, claimTypes: claimTypes)
         let credentialDefinition = CredentialDefinition(type: nil,
-                                                        credential_subject: displayDefinition)
+                                                        credentialSubject: displayDefinition)
         let config = CredentialConfiguration(format: nil,
                                              scope: nil,
                                              cryptographic_binding_methods_supported: nil,

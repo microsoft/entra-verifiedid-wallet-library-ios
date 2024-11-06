@@ -19,11 +19,9 @@ public class ExtensionConfiguration
      */
     public let identifierManager: ExtensionIdentifierManager
     
-    init(identifierManager: IdentifierManager,
-         libraryConfiguration: LibraryConfiguration)
+    init(libraryConfiguration: LibraryConfiguration)
     {
         self.logger = libraryConfiguration.logger
-        self.identifierManager = InternalExtensionIdentifierManager(identifierManager: identifierManager,
-                                                                    libraryConfiguration: libraryConfiguration)
+        self.identifierManager = InternalExtensionIdentifierManager(libraryConfiguration: libraryConfiguration)
     }
 }

@@ -8,7 +8,7 @@
 struct SupportedSigningAlgorithms {
     
     func algorithms() -> [String: SigningAlgorithm] {
-        let es256k = SigningAlgorithm(curve: SupportedCurve.Secp256k1.rawValue,
+        let es256k = SigningAlgorithm(curve: SupportedCurve.ES256K.rawValue,
                                       algorithm: ES256k(),
                                       supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
         

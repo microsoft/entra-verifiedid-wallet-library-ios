@@ -13,7 +13,7 @@ class Secp256k1PublicKey: PublicKey {
     let x: Data
     let y: Data
     
-    let algorithm = SupportedCurve.Secp256k1.rawValue
+    let algorithm = SupportedCurve.ES256K.rawValue
     
     var uncompressedValue: Data {
         var value = Data()

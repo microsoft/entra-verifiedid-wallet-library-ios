@@ -58,7 +58,7 @@ class CredentialMetadataTests: XCTestCase
                                                            background_color: "expectedBackground",
                                                            text_color: "expectedTextColor")
         let definition = CredentialDefinition(type: nil,
-                                              credential_subject: nil)
+                                              credentialSubject: nil)
         let emptyConfig = CredentialConfiguration(format: nil,
                                                   scope: nil,
                                                   cryptographic_binding_methods_supported: nil,
@@ -99,7 +99,7 @@ class CredentialMetadataTests: XCTestCase
                                                             background_color: "unsupportedBackground",
                                                             text_color: "unsupportedextColor")
         let definition = CredentialDefinition(type: nil,
-                                              credential_subject: nil)
+                                              credentialSubject: nil)
         let emptyConfig = CredentialConfiguration(format: nil,
                                                   scope: nil,
                                                   cryptographic_binding_methods_supported: nil,

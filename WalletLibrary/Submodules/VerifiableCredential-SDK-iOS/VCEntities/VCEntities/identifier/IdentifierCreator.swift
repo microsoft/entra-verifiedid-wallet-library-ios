@@ -54,7 +54,7 @@ struct IdentifierCreator {
     
     private func generatePublicJwk(for keyMapping: KeyContainer) throws -> ECPublicJwk {
         guard let publicKey = try cryptoOperations.getPublicKey(fromSecret: keyMapping.keyReference,
-                                                                algorithm: SupportedCurve.Secp256k1.rawValue) as? Secp256k1PublicKey else {
+                                                                algorithm: SupportedCurve.ES256K.rawValue) as? Secp256k1PublicKey else {
             throw IdentifierCreaterError.unableToCasePublicKeyToECPublicKey
         }
         return ECPublicJwk(withPublicKey: publicKey, withKeyId: keyMapping.keyId)

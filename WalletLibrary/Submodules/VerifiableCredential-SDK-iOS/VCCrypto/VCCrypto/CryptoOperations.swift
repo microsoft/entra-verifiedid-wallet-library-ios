@@ -29,7 +29,7 @@ struct CryptoOperations: CryptoOperating {
     /// Only supports Secp256k1 signing.
     func sign(message: Data,
               usingSecret secret: VCCryptoSecret,
-              algorithm: String = SupportedCurve.Secp256k1.rawValue) throws -> Data {
+              algorithm: String = SupportedCurve.ES256K.rawValue) throws -> Data {
         
         guard let signingAlgo = signingAlgorithms[algorithm.uppercased()] else {
             throw CryptoOperationsError.signingAlgorithmNotSupported(algorithm)
@@ -44,7 +44,7 @@ struct CryptoOperations: CryptoOperating {
     
     /// Only support Secp256k1 public key retrieval.
     func getPublicKey(fromSecret secret: VCCryptoSecret,
-                      algorithm: String = SupportedCurve.Secp256k1.rawValue) throws -> PublicKey {
+                      algorithm: String = SupportedCurve.ES256K.rawValue) throws -> PublicKey {
         
         guard let signingAlgo = signingAlgorithms[algorithm.uppercased()] else {
             throw CryptoOperationsError.signingAlgorithmNotSupported(algorithm)

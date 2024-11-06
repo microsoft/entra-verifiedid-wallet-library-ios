@@ -59,17 +59,14 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     }
     
     /// Serializes a requirement into a partial input descriptor and adds it to the appropriate Verifiable Presentation builder.
+    /// Serializes a requirement into a partial input descriptor and adds it to the appropriate Verifiable Presentation builder.
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
     {
-        guard let peRequirement = requirement as? PresentationExchangeRequirement else
-        {
-            let message = "Unable to serialize requirement type: \(String(describing: type(of: requirement.self)))"
-            configuration.logger.logVerbose(message: message)
-            return
-        }
+        let serializationResult = try requirement.serialize(protocolSerializer: self,
+                                                            verifiedIdSerializer: verifiedIdSerializer)
         
-        if let rawVC = try requirement.serialize(protocolSerializer: self,
-                                                 verifiedIdSerializer: verifiedIdSerializer) as? String
+        if let peRequirement = requirement as? PresentationExchangeRequirement,
+           let rawVC = serializationResult as? String
         {
             let partialInputDescriptor = PartialInputDescriptor(serializedVerifiedId: rawVC,
                                                                 requirement: peRequirement)
@@ -77,8 +74,8 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         }
         else
         {
-            let message = "Verified ID serialized to incorrect type."
-            configuration.logger.logVerbose(message: message)
+            let message = "Unable to add requirement to VP grouping: \(type(of: requirement))"
+            configuration.logger.logWarning(message: message)
         }
     }
     
@@ -101,11 +98,9 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     /// Builds the final presentation response which includes the ID token and Verifiable Presentations.
     func build() throws -> PresentationResponse
     {
-        let oldIdentifierModel = try configuration.identifierManager.fetchOrCreateMasterIdentifier()
-        let identifier = try oldIdentifierModel.toHolderIdentifier(cryptoOperations: CryptoOperations())
-        
-        let idToken = try buildIdToken(identifier: identifier)
-        let vpTokens = try buildVpTokens(identifier: identifier)
+        let holderIdentifier = try configuration.identifierFactory.getIdentifier()
+        let idToken = try buildIdToken(identifier: holderIdentifier)
+        let vpTokens = try buildVpTokens(identifier: holderIdentifier)
         return PresentationResponse(idToken: idToken,
                                     vpTokens: vpTokens,
                                     state: state)

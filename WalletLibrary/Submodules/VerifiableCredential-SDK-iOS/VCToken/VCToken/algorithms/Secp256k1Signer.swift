@@ -26,13 +26,13 @@ struct Secp256k1Signer: TokenSigning {
         
         return try cryptoOperations.sign(message: messageData,
                                          usingSecret: secret,
-                                         algorithm: SupportedCurve.Secp256k1.rawValue)
+                                         algorithm: SupportedCurve.ES256K.rawValue)
     }
     
     func getPublicJwk(from secret: VCCryptoSecret, withKeyId keyId: String) throws -> ECPublicJwk {
         
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: secret,
-                                                          algorithm: SupportedCurve.Secp256k1.rawValue)
+                                                          algorithm: SupportedCurve.ES256K.rawValue)
         
         guard let key = publicKey as? Secp256k1PublicKey else {
             throw Secp256k1SignerError.unableToCastPublicKeyToSecp256K1PublicKey

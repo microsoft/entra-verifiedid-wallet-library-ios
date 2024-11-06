@@ -91,7 +91,7 @@ public class OpenIdRequestProcessor: RequestProcessing
         issuanceRequestContent.add(requestState: requestContent.requestState)
         issuanceRequestContent.add(issuanceResultCallbackUrl: requestContent.callbackUrl)
         
-        if let did = try? configuration.identifierManager.fetchOrCreateMasterIdentifier().longFormDid,
+        if let did = try? configuration.identifierFactory.getIdentifier().id,
            let nonce = NonceCreator().createNonce(fromIdentifier: did)
         {
             issuanceRequestContent.addNonceToIdTokenRequirementIfPresent(nonce: nonce)

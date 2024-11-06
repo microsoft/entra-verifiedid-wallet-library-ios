@@ -114,8 +114,9 @@ class PresentationExchangeSerializerTests: XCTestCase
         
         let callback: ((TraceLevel, String, String, String, Int) -> ()) = { (tracelevel, message, _, _, _) in
             // Assert
-            XCTAssertEqual(tracelevel, .VERBOSE)
-            XCTAssertEqual(message, "Verified ID serialized to incorrect type.")
+            XCTAssertEqual(tracelevel, .WARN)
+            XCTAssertEqual(message,
+                           "Unable to add requirement to VP grouping: MockPresentationExchangeRequirement")
         }
         
         let logger = WalletLibraryLogger(consumers: [MockLogConsumer(logCallback: callback)])
@@ -221,41 +222,25 @@ class PresentationExchangeSerializerTests: XCTestCase
     func testBuild_WithUnableToFetchIdentifier_ThrowsError() throws
     {
         // Arrange
-        let mockIdentifierManager = MockIdentifierManager(doesThrow: true)
-        let configuration = LibraryConfiguration(identifierManager: mockIdentifierManager)
+        let configuration = LibraryConfiguration()
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             libraryConfiguration: configuration)
         
         // Act / Assert
         XCTAssertThrowsError(try serializer.build()) { error in
-            XCTAssert(error is MockIdentifierManager.ExpectedError)
-            XCTAssertEqual((error as? MockIdentifierManager.ExpectedError), .ExpectedToThrow)
+            XCTAssertEqual((error as? VerifiedIdError)?.code, "no_holder_identifier_found.")
+            XCTAssertEqual((error as? VerifiedIdError)?.message, "No Holder Identifiers found.")
         }
     }
-    
-    func testBuild_WithMissingKeyInIdentifierDocument_ThrowsError() throws
-    {
-        // Arrange
-        let mockIdentifierManager = MockIdentifierManager(mockKeyId: nil)
-        let configuration = LibraryConfiguration(identifierManager: mockIdentifierManager)
-        
-        let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
-                                                            libraryConfiguration: configuration)
-        
-        // Act / Assert
-        XCTAssertThrowsError(try serializer.build()) { error in
-            XCTAssert(error is IdentifierError)
-            XCTAssertEqual((error as? IdentifierError)?.code, "no_keys_found_in_document")
-            XCTAssertEqual((error as? IdentifierError)?.message, "No keys found in Identifier document.")
-        }
-    }
+
     
     func testBuild_WithIdTokenBuilderThrows_ThrowsError() throws
     {
         // Arrange
         let mockTokenBuilderFactory = MockTokenBuilderFactory(doesPEIdTokenBuilderThrow: true)
-        let configuration = LibraryConfiguration()
+        let mockIdentifier = MockHolderIdentifier(id: "mockId")
+        let configuration = LibraryConfiguration(identifiers: [mockIdentifier])
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
@@ -274,7 +259,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(doesVPTokenBuilderThrow: true)
-        let configuration = LibraryConfiguration()
+        let configuration = LibraryConfiguration(identifiers: [MockHolderIdentifier(id: "mockId")])
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
@@ -297,7 +282,7 @@ class PresentationExchangeSerializerTests: XCTestCase
         let mockVerifiedIdSerializer = MockVerifiedIdSerializer<String>(expectedResult: "serializedVC")
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory()
-        let configuration = LibraryConfiguration()
+        let configuration = LibraryConfiguration(identifiers: [MockHolderIdentifier(id: "testDid")])
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,

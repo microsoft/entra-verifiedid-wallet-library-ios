@@ -108,7 +108,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: mockMapper)
         
-        var processor = OpenIdRequestProcessor(configuration: configuration,
+        let processor = OpenIdRequestProcessor(configuration: configuration,
                                                manifestResolver: MockManifestResolver(),
                                                verifiableCredentialRequester: MockVerifiedIdRequester())
         let mockExtension = MockRequestProcessorExtension<OpenIdRequestProcessor>()
@@ -152,7 +152,7 @@ class OpenIdRequestProcessorTests: XCTestCase {
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: mockMapper)
         
-        var processor = OpenIdRequestProcessor(configuration: configuration,
+        let processor = OpenIdRequestProcessor(configuration: configuration,
                                                manifestResolver: MockManifestResolver(),
                                                verifiableCredentialRequester: MockVerifiedIdRequester())
         let mockExtension1 = MockRequestProcessorExtension<OpenIdRequestProcessor>()
@@ -532,7 +532,9 @@ class OpenIdRequestProcessorTests: XCTestCase {
         
         let mockMapper = MockMapper(mockResults: mockResults)
         let mockRawRequest = MockOpenIdRawRequest(raw: Data(), type: .Issuance)
-        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: mockMapper)
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
+                                                 mapper: mockMapper,
+                                                 identifiers: [MockHolderIdentifier(id: "testDid")])
         let handler = OpenIdRequestProcessor(configuration: configuration,
                                              manifestResolver: MockManifestResolver(mockGetRequestCallback: mockResolveContract),
                                              verifiableCredentialRequester: MockVerifiedIdRequester())
