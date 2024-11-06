@@ -6,7 +6,7 @@
 import XCTest
 @testable import WalletLibrary
 
-class P256PublicKeyTests: XCTestCase {
+class ES256PublicKeyTests: XCTestCase {
     
     func testPublicKeyFromUncompressedData() {
         // Arrange
@@ -18,7 +18,7 @@ class P256PublicKeyTests: XCTestCase {
         uncompressedPublicKey.append(y)
         
         // Act
-        let publicKey = P256PublicKey(uncompressedPublicKey: uncompressedPublicKey)!
+        let publicKey = ES256PublicKey(uncompressedPublicKey: uncompressedPublicKey)!
         
         // Assert
         XCTAssertEqual(publicKey.x, x)
@@ -31,7 +31,7 @@ class P256PublicKeyTests: XCTestCase {
         let y = Data(hexString: "07775510DB8ED040293D9AC69F7430DBBA7DADE63CE982299E04B79D227873D1")
         
         // Act
-        let publicKey = P256PublicKey(x: x, y: y)!
+        let publicKey = ES256PublicKey(x: x, y: y)!
         
         // Assert
         XCTAssertEqual(publicKey.x, x)
@@ -40,7 +40,7 @@ class P256PublicKeyTests: XCTestCase {
     
     func testInvalidPublicKey () {
         // Arrange / Act
-        let publicKey = P256PublicKey(uncompressedPublicKey: Data(repeating: 1, count: 65))
+        let publicKey = ES256PublicKey(uncompressedPublicKey: Data(repeating: 1, count: 65))
         
         // Assert
         XCTAssertNil(publicKey)

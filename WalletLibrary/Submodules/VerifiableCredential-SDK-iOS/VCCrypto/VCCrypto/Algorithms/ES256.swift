@@ -68,7 +68,7 @@ struct ES256: Signing {
             throw ES256Error.InvalidSecretType
         }
         
-        var publicKey: P256PublicKey? = nil
+        var publicKey: ES256PublicKey? = nil
         try secret.withUnsafeBytes { (secretPtr) in
             
             let rawKey = secretPtr.bindMemory(to: UInt8.self)
@@ -84,7 +84,7 @@ struct ES256: Signing {
             // The first byte is 0x04 for uncompressed point format (indicating x and y follow)
             let x = rawPublicKey[1..<33] // 32 bytes for x
             let y = rawPublicKey[33..<65] // 32 bytes for y
-            publicKey = P256PublicKey(x: x, y: y)
+            publicKey = ES256PublicKey(x: x, y: y)
         }
         
         guard let publicKey = publicKey else
@@ -113,7 +113,7 @@ struct ES256: Signing {
 
         guard let x = key.x, 
               let y = key.y,
-              let publicKey = P256PublicKey(x: x, y: y) else
+              let publicKey = ES256PublicKey(x: x, y: y) else
         {
             throw ES256Error(message: "Missing Key Material in JWK.",
                              code: "missing_key_material")

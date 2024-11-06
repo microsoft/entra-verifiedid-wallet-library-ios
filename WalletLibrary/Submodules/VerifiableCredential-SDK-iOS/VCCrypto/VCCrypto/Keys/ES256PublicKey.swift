@@ -4,15 +4,16 @@
  *--------------------------------------------------------------------------------------------*/
 
 /// A P256 Public Key.
-class P256PublicKey: PublicKey {
-   
-    let algorithm = SupportedCurve.P256.rawValue
+class ES256PublicKey: PublicKey 
+{
+    let algorithm = "ES256"
     
     let x: Data
     let y: Data
     let uncompressedValue: Data
     
-    init?(uncompressedPublicKey: Data) {
+    init?(uncompressedPublicKey: Data) 
+    {
         // Check if the data is long enough to represent a P-256 public key (64 bytes)
         if uncompressedPublicKey.count != 64 {
             return nil
@@ -24,7 +25,8 @@ class P256PublicKey: PublicKey {
         self.uncompressedValue = uncompressedPublicKey
     }
     
-    init?(x: Data, y: Data) {
+    init?(x: Data, y: Data) 
+    {
         guard x.count == 32 else { return nil }
         guard y.count == 32 else { return nil }
         

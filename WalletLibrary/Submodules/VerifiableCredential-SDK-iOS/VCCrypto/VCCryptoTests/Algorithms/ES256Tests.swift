@@ -86,10 +86,10 @@ class ES256Tests: XCTestCase
         let publicKey = try algorithm.createPublicKey(forSecret: secret)
         
         // Assert
-        XCTAssert(publicKey is P256PublicKey)
-        XCTAssertEqual((publicKey as? P256PublicKey)?.x.count, 32)
-        XCTAssertEqual((publicKey as? P256PublicKey)?.y.count, 32)
-        XCTAssertEqual((publicKey as? P256PublicKey)?.algorithm, "P-256")
+        XCTAssert(publicKey is ES256PublicKey)
+        XCTAssertEqual((publicKey as? ES256PublicKey)?.x.count, 32)
+        XCTAssertEqual((publicKey as? ES256PublicKey)?.y.count, 32)
+        XCTAssertEqual((publicKey as? ES256PublicKey)?.algorithm, "ES256")
     }
     
     func testIsValidSignature_WithMatchingMessage_ReturnsTrue()
@@ -100,7 +100,7 @@ class ES256Tests: XCTestCase
         let signature = try! privateKey.signature(for: message)
         
         let rawRepresentation = privateKey.publicKey.rawRepresentation
-        let publicKey = P256PublicKey(uncompressedPublicKey: rawRepresentation)!
+        let publicKey = ES256PublicKey(uncompressedPublicKey: rawRepresentation)!
         let algorithm = ES256()
         
         do {
@@ -125,7 +125,7 @@ class ES256Tests: XCTestCase
         let incorrectSignatureEncoded = Data(base64Encoded: incorrectSignature)!
         
         let rawRepresentation = privateKey.publicKey.rawRepresentation
-        let publicKey = P256PublicKey(uncompressedPublicKey: rawRepresentation)!
+        let publicKey = ES256PublicKey(uncompressedPublicKey: rawRepresentation)!
         let algorithm = ES256()
         
         do {
@@ -149,7 +149,7 @@ class ES256Tests: XCTestCase
         let signature = try! privateKey.signature(for: message)
         
         let rawRepresentation = privateKey.publicKey.rawRepresentation
-        let publicKey = P256PublicKey(uncompressedPublicKey: rawRepresentation)!
+        let publicKey = ES256PublicKey(uncompressedPublicKey: rawRepresentation)!
         let algorithm = ES256()
         
         do {
@@ -294,11 +294,13 @@ class ES256Tests: XCTestCase
             let publicKey = try algorithm.createPublicKey(fromJWK: jwk)
             
             // Assert
-            XCTAssert(publicKey is P256PublicKey)
-            XCTAssertEqual(publicKey.algorithm, "P-256")
-            XCTAssertEqual((publicKey as? P256PublicKey)?.x, mockX)
-            XCTAssertEqual((publicKey as? P256PublicKey)?.y, mockY)
-        } catch {
+            XCTAssert(publicKey is ES256PublicKey)
+            XCTAssertEqual(publicKey.algorithm, "ES256")
+            XCTAssertEqual((publicKey as? ES256PublicKey)?.x, mockX)
+            XCTAssertEqual((publicKey as? ES256PublicKey)?.y, mockY)
+        } 
+        catch
+        {
             XCTFail("Signature verification failed: \(error)")
         }
     }
