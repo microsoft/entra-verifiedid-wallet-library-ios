@@ -18,7 +18,9 @@ class ES256Tests: XCTestCase
         
         // Act / Assert
         XCTAssertThrowsError(try algorithm.sign(message: mockMessage, withSecret: mockSecret)) { error in
-            XCTAssert(error is VerifiedIdError)
+            XCTAssert(error is ES256Error)
+            XCTAssertEqual((error as? ES256Error)?.code, "invalid_secret_type")
+            XCTAssertEqual((error as? ES256Error)?.message, "Invalid Secret Type")
         }
     }
     
@@ -31,7 +33,9 @@ class ES256Tests: XCTestCase
         
         // Act / Assert
         XCTAssertThrowsError(try algorithm.sign(message: mockMessage, withSecret: mockSecret)) { error in
-            XCTAssert(error is VerifiedIdError)
+            XCTAssert(error is ES256Error)
+            XCTAssertEqual((error as? ES256Error)?.code, "invalid_secret_size")
+            XCTAssertEqual((error as? ES256Error)?.message, "Invalid Secret Size")
         }
     }
     
@@ -59,7 +63,9 @@ class ES256Tests: XCTestCase
         
         // Act / Assert
         XCTAssertThrowsError(try algorithm.createPublicKey(forSecret: mockSecret)) { error in
-            XCTAssert(error is VerifiedIdError)
+            XCTAssert(error is ES256Error)
+            XCTAssertEqual((error as? ES256Error)?.code, "invalid_secret_type")
+            XCTAssertEqual((error as? ES256Error)?.message, "Invalid Secret Type")
         }
     }
     
@@ -71,7 +77,10 @@ class ES256Tests: XCTestCase
         
         // Act / Assert
         XCTAssertThrowsError(try algorithm.createPublicKey(forSecret: mockSecret)) { error in
-            XCTAssert(error is VerifiedIdError)
+            
+            XCTAssert(error is ES256Error)
+            XCTAssertEqual((error as? ES256Error)?.code, "invalid_secret_size")
+            XCTAssertEqual((error as? ES256Error)?.message, "Invalid Secret Size")
         }
     }
     
@@ -187,9 +196,12 @@ class ES256Tests: XCTestCase
             
             // Assert
             XCTFail()
-        } catch {
+        } 
+        catch
+        {
             XCTAssert(error is ES256Error)
-//            XCTAssertEqual(error as? ES256Error, .JWKContainsInvalidKeyType(mockInvalidKeyType))
+            XCTAssertEqual((error as? ES256Error)?.code, "invalid_keytype")
+            XCTAssertEqual((error as? ES256Error)?.message, "JWK contains invalid key type: Invalid Key Type.")
         }
     }
     
@@ -215,9 +227,13 @@ class ES256Tests: XCTestCase
             
             // Assert
             XCTFail()
-        } catch {
+        } 
+        catch
+        {
             XCTAssert(error is ES256Error)
-//            XCTAssertEqual(error as? ES256Error, .JWKContainsInvalidCurveAlgorithm(mockInvalidAlgorithm))
+            XCTAssertEqual((error as? ES256Error)?.code, "invalid_curve")
+            XCTAssertEqual((error as? ES256Error)?.message,
+                           "JWK contains invalid curve type: Invalid Algorithm.")
         }
     }
     
@@ -241,9 +257,12 @@ class ES256Tests: XCTestCase
             
             // Assert
             XCTFail()
-        } catch {
+        } 
+        catch
+        {
             XCTAssert(error is ES256Error)
-//            XCTAssertEqual(error as? ES256Error, .MissingKeyMaterialInJWK)
+            XCTAssertEqual((error as? ES256Error)?.code, "missing_key_material")
+            XCTAssertEqual((error as? ES256Error)?.message, "Missing Key Material in JWK.")
         }
     }
     
@@ -268,9 +287,12 @@ class ES256Tests: XCTestCase
             
             // Assert
             XCTFail()
-        } catch {
+        } 
+        catch
+        {
             XCTAssert(error is ES256Error)
-//            XCTAssertEqual(error as? ES256Error, .InvalidKeyMaterialInJWK)
+            XCTAssertEqual((error as? ES256Error)?.code, "missing_key_material")
+            XCTAssertEqual((error as? ES256Error)?.message, "Missing Key Material in JWK.")
         }
     }
     

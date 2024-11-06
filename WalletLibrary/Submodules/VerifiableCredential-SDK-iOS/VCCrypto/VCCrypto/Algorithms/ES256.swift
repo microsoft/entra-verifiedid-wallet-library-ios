@@ -107,7 +107,7 @@ struct ES256: Signing {
         
         guard key.curve == Constants.Curve else 
         {
-            throw ES256Error(message: "JWK contains invalid curve type: \(String(describing: key.curve)).",
+            throw ES256Error(message: "JWK contains invalid curve type: \(key.curve ?? "").",
                              code: "invalid_curve")
         }
 
