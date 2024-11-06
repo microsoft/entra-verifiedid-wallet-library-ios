@@ -10,11 +10,6 @@ class ES256Error: VerifiedIdError
 {
     static let InvalidSecretType = ES256Error(message: "Invalid Secret Type", code: "invalid_secret_type")
     static let InvalidSecretSize = ES256Error(message: "Invalid Secret Size", code: "invalid_secret_size")
-//    case InvalidKeyMaterialInJWK
-//    case JWKContainsInvalidKeyType(String)
-//    case JWKContainsInvalidCurveAlgorithm(String?)
-//    case MissingKeyMaterialInJWK
-//    case NotImplemented
 }
 
 /// ECDSA using P-256 and SHA-256.
@@ -89,7 +84,8 @@ struct ES256: Signing {
         
         guard let publicKey = publicKey else
         {
-            throw ES256Error(message: "", code: "")
+            throw ES256Error(message: "Unable to create public key.",
+                             code: "Unable to create public key.")
         }
         
         
