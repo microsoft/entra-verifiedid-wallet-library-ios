@@ -414,6 +414,8 @@
 		558CF1A92B8680F600AF5D82 /* RawOpenID4VCIRequestFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558CF1A82B8680F600AF5D82 /* RawOpenID4VCIRequestFormatterTests.swift */; };
 		558CF1AD2B869CDD00AF5D82 /* OpenID4VCIVerifiedIDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558CF1AC2B869CDD00AF5D82 /* OpenID4VCIVerifiedIDTests.swift */; };
 		559764D12CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 559764CE2CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld */; };
+		559764F02CDD502600CE6504 /* DIDBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559764EF2CDD502600CE6504 /* DIDBuilder.swift */; };
+		559764F32CDD50C600CE6504 /* EllipticCurvePublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559764F22CDD50C600CE6504 /* EllipticCurvePublicKey.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
 		5598CFD42AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */; };
@@ -1010,6 +1012,8 @@
 		558CF1AC2B869CDD00AF5D82 /* OpenID4VCIVerifiedIDTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenID4VCIVerifiedIDTests.swift; sourceTree = "<group>"; };
 		559764CF2CD970FB00CE6504 /* Identifier 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Identifier 2.0.xcdatamodel"; sourceTree = "<group>"; };
 		559764D02CD970FB00CE6504 /* Identifier.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Identifier.xcdatamodel; sourceTree = "<group>"; };
+		559764EF2CDD502600CE6504 /* DIDBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDBuilder.swift; sourceTree = "<group>"; };
+		559764F22CDD50C600CE6504 /* EllipticCurvePublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipticCurvePublicKey.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
 		5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseEncoderTests.swift; sourceTree = "<group>"; };
@@ -2098,7 +2102,6 @@
 				5552D4A729EF4AC300B40302 /* EphemeralSecret.swift */,
 				5552D4A829EF4AC300B40302 /* ED25519PublicKey.swift */,
 				55F01CD02ACE002E000794B4 /* ES256PublicKey.swift */,
-				5552D4A629EF4AC300B40302 /* PublicKey.swift */,
 				5552D4A929EF4AC300B40302 /* Secret.swift */,
 				5552D4AA29EF4AC300B40302 /* Random32BytesSecret.swift */,
 				5552D4AB29EF4AC300B40302 /* Secp256k1PublicKey.swift */,
@@ -2109,6 +2112,7 @@
 		5552D4AD29EF4AC300B40302 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				559764F12CDD50AD00CE6504 /* PublicKeys */,
 				5552D4AE29EF4AC300B40302 /* Signing.swift */,
 				5552D4AF29EF4AC300B40302 /* VCSDKConfigurable.swift */,
 				5552D4B029EF4AC300B40302 /* Hashing.swift */,
@@ -2630,6 +2634,15 @@
 				558CF1A82B8680F600AF5D82 /* RawOpenID4VCIRequestFormatterTests.swift */,
 			);
 			path = Formatters;
+			sourceTree = "<group>";
+		};
+		559764F12CDD50AD00CE6504 /* PublicKeys */ = {
+			isa = PBXGroup;
+			children = (
+				5552D4A629EF4AC300B40302 /* PublicKey.swift */,
+				559764F22CDD50C600CE6504 /* EllipticCurvePublicKey.swift */,
+			);
+			path = PublicKeys;
 			sourceTree = "<group>";
 		};
 		5598CFCA2AAF8DBC00EBDE87 /* oidc */ = {
@@ -3221,6 +3234,7 @@
 				A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */,
 				55A268A12CC1A5B200A8EA9C /* KeychainIdentifier.swift */,
 				55A268A32CC1A70600A8EA9C /* IdentifierFactory.swift */,
+				559764EF2CDD502600CE6504 /* DIDBuilder.swift */,
 			);
 			path = Identifier;
 			sourceTree = "<group>";
@@ -3504,6 +3518,7 @@
 				559C4E5E2C078F9700BA7888 /* OpenID4VCIPreAuthTokenResolver.swift in Sources */,
 				5552D4B829EF4AC300B40302 /* Aes.swift in Sources */,
 				55EA17AE29CA693C0085E29E /* VerifiedIdPresentationRequest.swift in Sources */,
+				559764F32CDD50C600CE6504 /* EllipticCurvePublicKey.swift in Sources */,
 				5552D3F329EF48E200B40302 /* PresentationResponseContainer.swift in Sources */,
 				5552D3D129EF48B200B40302 /* IssuanceServiceResponse.swift in Sources */,
 				5552D3FE29EF490000B40302 /* PresentationInputDescriptorMapping.swift in Sources */,
@@ -3725,6 +3740,7 @@
 				A4D9F9C72B7AF2BF006D074E /* RequestProcessorExtendable.swift in Sources */,
 				5552D40529EF490A00B40302 /* IssuanceMetadata.swift in Sources */,
 				5552D3E729EF48E200B40302 /* VCSDKLog.swift in Sources */,
+				559764F02CDD502600CE6504 /* DIDBuilder.swift in Sources */,
 				555FB1FF2B75671300EE14BD /* TokenValidationError.swift in Sources */,
 				559BD4B5299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift in Sources */,
 				5552D3DA29EF48B200B40302 /* CardDisplayDescriptor.swift in Sources */,
