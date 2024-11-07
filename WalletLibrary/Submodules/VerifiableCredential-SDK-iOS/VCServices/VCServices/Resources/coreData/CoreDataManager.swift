@@ -165,10 +165,3 @@ class CoreDataManager: HolderIdentifierStorage
         }
     }
 }
-
-protocol HolderIdentifierStorage
-{
-    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierDataModel]
-    
-    func storeHolderIdentifier(holder: HolderIdentifier, keyId: UUID) throws
-}

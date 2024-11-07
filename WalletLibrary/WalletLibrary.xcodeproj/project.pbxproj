@@ -417,6 +417,10 @@
 		559764F02CDD502600CE6504 /* DIDBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559764EF2CDD502600CE6504 /* DIDBuilder.swift */; };
 		559764F32CDD50C600CE6504 /* EllipticCurvePublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559764F22CDD50C600CE6504 /* EllipticCurvePublicKey.swift */; };
 		559764F52CDD531400CE6504 /* DIDBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559764F42CDD531400CE6504 /* DIDBuilderTests.swift */; };
+		5597650A2CDD5D8B00CE6504 /* HolderIdentifierStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559765092CDD5D8B00CE6504 /* HolderIdentifierStorage.swift */; };
+		5597650D2CDD5D9600CE6504 /* HolderIdentifierDataModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597650B2CDD5D9600CE6504 /* HolderIdentifierDataModel+CoreDataClass.swift */; };
+		559765102CDD5DB900CE6504 /* DIDJWKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597650E2CDD5DB900CE6504 /* DIDJWKProvider.swift */; };
+		559765122CDD5E1B00CE6504 /* DIDJWKProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559765112CDD5E1B00CE6504 /* DIDJWKProviderTests.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
 		5598CFD42AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */; };
@@ -1016,6 +1020,10 @@
 		559764EF2CDD502600CE6504 /* DIDBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDBuilder.swift; sourceTree = "<group>"; };
 		559764F22CDD50C600CE6504 /* EllipticCurvePublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipticCurvePublicKey.swift; sourceTree = "<group>"; };
 		559764F42CDD531400CE6504 /* DIDBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDBuilderTests.swift; sourceTree = "<group>"; };
+		559765092CDD5D8B00CE6504 /* HolderIdentifierStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HolderIdentifierStorage.swift; sourceTree = "<group>"; };
+		5597650B2CDD5D9600CE6504 /* HolderIdentifierDataModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HolderIdentifierDataModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5597650E2CDD5DB900CE6504 /* DIDJWKProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIDJWKProvider.swift; sourceTree = "<group>"; };
+		559765112CDD5E1B00CE6504 /* DIDJWKProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIDJWKProviderTests.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
 		5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseEncoderTests.swift; sourceTree = "<group>"; };
@@ -1392,6 +1400,7 @@
 				55E337BA2948B5E700CD2ED7 /* Extensions */,
 				55E3375B294231F000CD2ED7 /* Protocols */,
 				55E3370F293FDDF400CD2ED7 /* Requests */,
+				5597650C2CDD5D9600CE6504 /* Storage */,
 				55E336D2293FA74100CD2ED7 /* VerifiedId */,
 				55E337632943747E00CD2ED7 /* Utilities */,
 				55E2F070299554110008010D /* LibraryConfiguration.swift */,
@@ -2478,6 +2487,7 @@
 		5555F1AB2BAB48AA00B41FD4 /* Identifier */ = {
 			isa = PBXGroup;
 			children = (
+				559765112CDD5E1B00CE6504 /* DIDJWKProviderTests.swift */,
 				5555F1AC2BAB48DE00B41FD4 /* ExtensionIdentifierManagerTests.swift */,
 				55C422C72CD1745B0013F44F /* IdentifierFactoryTests.swift */,
 				559764F42CDD531400CE6504 /* DIDBuilderTests.swift */,
@@ -2646,6 +2656,30 @@
 				559764F22CDD50C600CE6504 /* EllipticCurvePublicKey.swift */,
 			);
 			path = PublicKeys;
+			sourceTree = "<group>";
+		};
+		559764FA2CDD568600CE6504 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				559765092CDD5D8B00CE6504 /* HolderIdentifierStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		5597650C2CDD5D9600CE6504 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				5597650B2CDD5D9600CE6504 /* HolderIdentifierDataModel+CoreDataClass.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		5597650F2CDD5DB900CE6504 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				5597650E2CDD5DB900CE6504 /* DIDJWKProvider.swift */,
+			);
+			path = Providers;
 			sourceTree = "<group>";
 		};
 		5598CFCA2AAF8DBC00EBDE87 /* oidc */ = {
@@ -3115,6 +3149,7 @@
 				55265B042B6DA36400BAD6A2 /* Networking */,
 				5534E665294A0B55005D0765 /* Extensions */,
 				55E337B62948B4F900CD2ED7 /* Requests */,
+				559764FA2CDD568600CE6504 /* Storage */,
 				550E3215298B1224004E7716 /* Styles */,
 				5534E66C294A0F76005D0765 /* Utilities */,
 				55BA2DB429CDF9E000BB8207 /* VerifiedId */,
@@ -3234,6 +3269,7 @@
 		A4B4FA602B924E3C00F0AAF3 /* Identifier */ = {
 			isa = PBXGroup;
 			children = (
+				5597650F2CDD5DB900CE6504 /* Providers */,
 				A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */,
 				55A268A12CC1A5B200A8EA9C /* KeychainIdentifier.swift */,
 				55A268A32CC1A70600A8EA9C /* IdentifierFactory.swift */,
@@ -3554,6 +3590,7 @@
 				5552D40A29EF490A00B40302 /* PresentationExchangeConstraints.swift in Sources */,
 				5552D3B929EF487600B40302 /* FormatterError.swift in Sources */,
 				555FB1FD2B75660500EE14BD /* LinkedDomainResolver.swift in Sources */,
+				5597650A2CDD5D8B00CE6504 /* HolderIdentifierStorage.swift in Sources */,
 				550E320E298B0FAC004E7716 /* WalletLibraryLogger.swift in Sources */,
 				55A268A42CC1A70600A8EA9C /* IdentifierFactory.swift in Sources */,
 				559BD3032995993700BD61AC /* PresentationInputDescriptor+Mappable.swift in Sources */,
@@ -3569,6 +3606,7 @@
 				55A0DA1A2A7446B000BC178E /* PresentationExchangeFieldConstraint.swift in Sources */,
 				559BD3A6299AD9BD00BD61AC /* ManifestResolver.swift in Sources */,
 				55BA2DCD29CDF9E000BB8207 /* VerifiedIdEncoding.swift in Sources */,
+				559765102CDD5DB900CE6504 /* DIDJWKProvider.swift in Sources */,
 				5552D3A629EF483400B40302 /* VerifiedIdCorrelationHeader.swift in Sources */,
 				5552D3DF29EF48B200B40302 /* ClaimDisplayDescriptor.swift in Sources */,
 				55EA17A629CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift in Sources */,
@@ -3578,6 +3616,7 @@
 				55EA17A829CA531F0085E29E /* BasicVerifiedIdStyle.swift in Sources */,
 				559764D12CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld in Sources */,
 				55A638672BB3642D00BE2AF2 /* PresentationExchangeError.swift in Sources */,
+				5597650D2CDD5D9600CE6504 /* HolderIdentifierDataModel+CoreDataClass.swift in Sources */,
 				5552D3C529EF489E00B40302 /* IdentifierDocumentSuffixDescriptor.swift in Sources */,
 				5552D44929EF4A8100B40302 /* PostPresentationResponseOperation.swift in Sources */,
 				558168E12BA8B5EE000E9CA5 /* RequestProcessing.swift in Sources */,
@@ -3969,6 +4008,7 @@
 				5552D7ED29F2E1AF00B40302 /* TokenVerifierTests.swift in Sources */,
 				559BD3112996D3CE00BD61AC /* MockVerifiedIdRequest.swift in Sources */,
 				55A638712BB3B05A00BE2AF2 /* PresentationExchangeIdTokenBuilderTests.swift in Sources */,
+				559765122CDD5E1B00CE6504 /* DIDJWKProviderTests.swift in Sources */,
 				550A913D29930D970014D030 /* MockRawRequest.swift in Sources */,
 				55EA17AC29CA5C1F0085E29E /* CardDisplayDescriptor+MappableTests.swift in Sources */,
 				559BD30B2995B1B500BD61AC /* LinkedDomainResult+MappableTests.swift in Sources */,

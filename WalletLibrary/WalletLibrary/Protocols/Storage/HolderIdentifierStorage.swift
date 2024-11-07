@@ -3,12 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-/// Public Key protocol for verification of signatures.
-protocol PublicKey {
+protocol HolderIdentifierStorage
+{
+    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierDataModel]
     
-    /// algorithm identifier.
-    var algorithm: String { get }
-    
-    /// Uncompressed value of the public key.
-    var uncompressedValue: Data { get }
+    func storeHolderIdentifier(holder: HolderIdentifier, keyId: UUID) throws
 }

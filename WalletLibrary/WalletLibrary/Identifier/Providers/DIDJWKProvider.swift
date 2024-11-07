@@ -3,19 +3,27 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-struct HolderIdentifierCreator
+protocol HolderIdentifierCreating
+{
+    func createHolderIdentifier(didMethod: String,
+                                keyId: UUID?,
+                                keyReference: String,
+                                algorithm: String) throws -> HolderIdentifier
+}
+
+struct HolderIdentifierCreator: HolderIdentifierCreating
 {
     private let keyManagementOperations: KeyManagementOperating
     
     private let cryptoOperations: CryptoOperating
     
-    private let didCreator: DIDCreator
+    private let didBuilder: DIDBuilder
     
     init(keyManagementOperations: KeyManagementOperating, cryptoOperations: CryptoOperating) 
     {
         self.keyManagementOperations = keyManagementOperations
         self.cryptoOperations = cryptoOperations
-        self.didCreator = DIDCreator()
+        self.didBuilder = DIDBuilder()
     }
     
     func createHolderIdentifier(didMethod: String,
@@ -33,7 +41,7 @@ struct HolderIdentifierCreator
         
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: key, algorithm: algorithm)
         
-        let did = try didCreator.createDID(from: publicKey, method: didMethod)
+        let did = try didBuilder.build(from: publicKey, method: didMethod)
         
         let identifier = KeychainIdentifier(id: did,
                                             algorithm: algorithm,
@@ -58,13 +66,13 @@ struct HolderIdentifierCreator
     }
 }
 
-class HolderIdentifierProvider
+class HolderIdentifierRepository
 {
-    private let creator: HolderIdentifierCreator
+    private let creator: HolderIdentifierCreating
     
-    private let storage: CoreDataManager
+    private let storage: HolderIdentifierStorage
     
-    init(creator: HolderIdentifierCreator, storage: CoreDataManager) 
+    init(creator: HolderIdentifierCreating, storage: HolderIdentifierStorage)
     {
         self.creator = creator
         self.storage = storage
@@ -74,12 +82,15 @@ class HolderIdentifierProvider
     {
         let storedHolderIdentifiers = try storage.fetchStoredHolderIdentifiers()
         let holderIdentifiers = try storedHolderIdentifiers.map {
-            try mapStoredIdentifierToHolderIdentifier(storedIdentifier: $0)
+            try mapToHolderIdentifier(storedIdentifier: $0)
         }
         
         if holderIdentifiers.isEmpty
         {
-            let mainIdentifier = try creator.createHolderIdentifier(didMethod: "did:jwk", keyReference: "main", algorithm: "ES256")
+            let mainIdentifier = try creator.createHolderIdentifier(didMethod: "did:jwk",
+                                                                    keyId: nil,
+                                                                    keyReference: "main",
+                                                                    algorithm: "ES256")
             return [mainIdentifier]
         }
         else
@@ -88,41 +99,20 @@ class HolderIdentifierProvider
         }
     }
     
-    func mapStoredIdentifierToHolderIdentifier(storedIdentifier: HolderIdentifierDataModel) throws -> HolderIdentifier
+    private func mapToHolderIdentifier(storedIdentifier: HolderIdentifierDataModel) throws -> HolderIdentifier
     {
-        let method = try String.getRequiredProperty(property: storedIdentifier.didMethod, propertyName: "didMethod")
-        let algorithm = try String.getRequiredProperty(property: storedIdentifier.algorithm, propertyName: "algorithm")
-        let keyId = try UUID.getRequiredProperty(property: storedIdentifier.keyId, propertyName: "KeyId")
-        let keyReference = try String.getRequiredProperty(property: storedIdentifier.keyReference, propertyName: "keyReference")
+        let method = try String.getRequiredProperty(property: storedIdentifier.didMethod,
+                                                    propertyName: "didMethod")
+        let algorithm = try String.getRequiredProperty(property: storedIdentifier.algorithm,
+                                                       propertyName: "algorithm")
+        let keyId = try UUID.getRequiredProperty(property: storedIdentifier.keyId,
+                                                 propertyName: "KeyId")
+        let keyReference = try String.getRequiredProperty(property: storedIdentifier.keyReference,
+                                                          propertyName: "keyReference")
         
         return try creator.createHolderIdentifier(didMethod: method,
                                                   keyId: keyId,
                                                   keyReference: keyReference,
                                                   algorithm: algorithm)
-    }
-}
-
-struct DIDCreator
-{
-    func createDID(from publicKey: PublicKey, method: String) throws -> String
-    {
-        // Only support ES256 keys and did:jwk method for now.
-        guard let ecPublicKey = publicKey as? ES256PublicKey,
-              method == "did:jwk" else
-        {
-            throw VerifiedIdError(message: "", code: "")
-        }
-        
-        let jwk: [String: String] =
-        [
-            "crv": ecPublicKey.curve,
-            "kty": ecPublicKey.keyType,
-            "x": ecPublicKey.x.base64URLEncodedString(),
-            "y": ecPublicKey.y.base64URLEncodedString()
-        ]
-        
-        let serializedJWK = try JSONSerialization.data(withJSONObject: jwk)
-        let base64EncodedJWK = serializedJWK.base64URLEncodedString()
-        return "did:jwk:\(base64EncodedJWK)"
     }
 }
