@@ -7,7 +7,7 @@ import Foundation
 import CoreData
 
 @objc(HolderIdentifierDataModel)
-public class HolderIdentifierDataModel: NSManagedObject 
+public class HolderIdentifierDataModel: NSManagedObject, StoredHolderIdentifierProperties
 {
     convenience init(keyId: UUID,
                      holderIdentifier: HolderIdentifier,
@@ -19,5 +19,15 @@ public class HolderIdentifierDataModel: NSManagedObject
         self.algorithm = holderIdentifier.algorithm
         self.keyReference = holderIdentifier.keyReference
     }
+}
 
+protocol StoredHolderIdentifierProperties
+{
+    var keyId: UUID? { get }
+    
+    var didMethod: String? { get }
+    
+    var algorithm: String? { get }
+    
+    var keyReference: String? { get }
 }

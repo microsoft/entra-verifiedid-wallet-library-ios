@@ -40,11 +40,21 @@ class IdentifierRepository: HolderIdentifierRepository
                                                                    keyId: nil,
                                                                    keyReference: "main",
                                                                    algorithm: "ES256")
+            
+            guard let mainIdentifier = mainIdentifier as? KeychainIdentifier else
+            {
+                throw IdentifierError(message: "Identifier type not supported: \(type(of: mainIdentifier)).",
+                                      code: "identifier_type_not_supported")
+            }
+            
+            let keyId = mainIdentifier.getKeyId()
+            try storage.storeHolderIdentifier(holder: mainIdentifier, keyId: keyId)
+            
             return mainIdentifier
         }
     }
     
-    private func mapToHolderIdentifier(storedIdentifier: HolderIdentifierDataModel) throws -> HolderIdentifier
+    private func mapToHolderIdentifier(storedIdentifier: StoredHolderIdentifierProperties) throws -> HolderIdentifier
     {
         let method = try String.getRequiredProperty(property: storedIdentifier.didMethod,
                                                     propertyName: "didMethod")

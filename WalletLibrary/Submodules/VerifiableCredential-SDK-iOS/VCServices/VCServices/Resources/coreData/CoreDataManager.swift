@@ -50,7 +50,7 @@ class CoreDataManager: HolderIdentifierStorage
         try persistentContainerContext.save()
     }
     
-    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierDataModel]
+    func fetchStoredHolderIdentifiers() throws -> [StoredHolderIdentifierProperties]
     {
         guard let persistentContainerContext = persistentContainer?.viewContext else
         {

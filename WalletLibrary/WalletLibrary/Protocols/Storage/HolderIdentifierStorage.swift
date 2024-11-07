@@ -5,7 +5,7 @@
 
 protocol HolderIdentifierStorage
 {
-    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierDataModel]
+    func fetchStoredHolderIdentifiers() throws -> [StoredHolderIdentifierProperties]
     
     func storeHolderIdentifier(holder: HolderIdentifier, keyId: UUID) throws
 }

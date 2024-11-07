@@ -62,8 +62,8 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
             XCTAssertEqual(error as? MappingError,
-                           .PropertyNotPresent(property: "configuration",
-                                               in: String(describing: AccessTokenDescriptor.self)))
+                           MappingError.PropertyNotPresent(property: "configuration",
+                                                           in: String(describing: AccessTokenDescriptor.self)))
         }
     }
     
@@ -79,8 +79,8 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
             XCTAssertEqual(error as? MappingError,
-                           .PropertyNotPresent(property: "resourceId",
-                                               in: String(describing: AccessTokenDescriptor.self)))
+                           MappingError.PropertyNotPresent(property: "resourceId",
+                                                           in: String(describing: AccessTokenDescriptor.self)))
         }
     }
     
@@ -96,8 +96,8 @@ class AccessTokenDescriptorMappingTests: XCTestCase {
         XCTAssertThrowsError(try mapper.map(input)) { error in
             XCTAssert(error is MappingError)
             XCTAssertEqual(error as? MappingError,
-                           .PropertyNotPresent(property: "oboScope",
-                                               in: String(describing: AccessTokenDescriptor.self)))
+                           MappingError.PropertyNotPresent(property: "oboScope",
+                                                           in: String(describing: AccessTokenDescriptor.self)))
         }
     }
     

@@ -75,4 +75,9 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable
         return ECPublicJwk(withPublicKey: key, 
                            withKeyId: keyReference)
     }
+    
+    func getKeyId() -> UUID
+    {
+        return keyReferenceSecret.id
+    }
 }

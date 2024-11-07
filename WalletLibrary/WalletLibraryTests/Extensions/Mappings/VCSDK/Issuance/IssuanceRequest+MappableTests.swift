@@ -25,7 +25,8 @@ class IssuanceRequestMappingTests: XCTestCase {
             // Assert
             XCTAssert(error is MappingError)
             XCTAssertEqual(error as? MappingError,
-                           .PropertyNotPresent(property: "attestations", in: String(describing: IssuanceRequest.self)))
+                           MappingError.PropertyNotPresent(property: "attestations",
+                                                           in: String(describing: IssuanceRequest.self)))
         }
     }
     

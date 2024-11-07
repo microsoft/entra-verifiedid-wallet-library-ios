@@ -6,9 +6,24 @@
 /**
  * Errors pertaining to mapping one data model to another using the Mappable protocol.
  */
-enum MappingError: Error, Equatable {
-    case PropertyNotPresent(property: String, in: String)
-    case InvalidProperty(property: String, in: String)
+class MappingError: VerifiedIdError, Equatable
+{
+    static func PropertyNotPresent(property: String, in: String) -> MappingError
+    {
+        return MappingError(message: "Property Not Present: \(property).",
+                            code: "property_not_present")
+    }
+    
+    static func InvalidProperty(property: String, in: String) -> MappingError
+    {
+        return MappingError(message: "Property Invalid: \(property).",
+                            code: "property_not_present")
+    }
+    
+    static func == (lhs: MappingError, rhs: MappingError) -> Bool 
+    {
+        return lhs.code == rhs.code && lhs.message == rhs.message
+    }
 }
 
 /**
