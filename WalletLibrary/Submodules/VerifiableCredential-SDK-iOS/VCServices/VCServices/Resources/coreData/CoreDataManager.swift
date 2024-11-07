@@ -35,6 +35,41 @@ class CoreDataManager {
         loadPersistentContainer(sdkLog: sdkLog)
     }
     
+    func saveIdentifier(holder: HolderIdentifier, keyId: UUID) throws
+    {
+        guard let persistentContainerContext = persistentContainer?.viewContext else
+        {
+            throw CoreDataManagerError.persistentStoreNotLoaded
+        }
+        
+        let storedIdentifier = HolderIdentifierDataModel(keyId: keyId,
+                                                         holderIdentifier: holder,
+                                                         context: persistentContainerContext)
+        
+        try persistentContainerContext.obtainPermanentIDs(for: [storedIdentifier])
+        try persistentContainerContext.save()
+    }
+    
+    func saveIdentifier(did: String, keyId: UUID) throws
+    {
+        guard let persistentContainer = persistentContainer else 
+        {
+            throw CoreDataManagerError.persistentStoreNotLoaded
+        }
+        
+        let model = NSEntityDescription.insertNewObject(forEntityName: Constants.identifierModel,
+                                                                  into: persistentContainer.viewContext)
+        
+        guard let identifierModel = model as? IdentifierDataModel else
+        {
+            throw VerifiedIdError(message: "", code: "")
+        }
+        
+        identifierModel.did = did
+        identifierModel.signingKeyId = keyId
+        try persistentContainer.viewContext.save()
+    }
+    
     func saveIdentifier(longformDid: String,
                         signingKeyId: UUID,
                         recoveryKeyId: UUID,
@@ -62,13 +97,24 @@ class CoreDataManager {
         try persistentContainer.viewContext.save()
     }
     
-    public func fetchIdentifiers() throws -> [IdentifierDataModel] {
+    func fetchIdentifiers() throws -> [IdentifierDataModel] {
         guard let persistentContainer = persistentContainer else {
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
         
         let fetchRequest: NSFetchRequest<IdentifierDataModel> = IdentifierDataModel.fetchRequest()
         return try persistentContainer.viewContext.fetch(fetchRequest)
+    }
+    
+    func fetchStoredHolderIdentifierDataModels() throws -> [HolderIdentifierDataModel]
+    {
+        guard let persistentContainerContext = persistentContainer?.viewContext else
+        {
+            throw CoreDataManagerError.persistentStoreNotLoaded
+        }
+        
+        let fetchRequest: NSFetchRequest<HolderIdentifierDataModel> = HolderIdentifierDataModel.fetchRequest()
+        return try persistentContainerContext.fetch(fetchRequest)
     }
     
     func deleteAllIdentifiers() throws {
@@ -86,7 +132,7 @@ class CoreDataManager {
         try persistentContainer.viewContext.save()
     }
     
-    public func deleteIdentifer(_ model:IdentifierDataModel) {
+    func deleteIdentifer(_ model:IdentifierDataModel) {
         persistentContainer?.viewContext.delete(model)
     }
     

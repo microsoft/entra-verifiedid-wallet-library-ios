@@ -12,3 +12,22 @@ protocol PublicKey {
     /// Uncompressed value of the public key.
     var uncompressedValue: Data { get }
 }
+
+protocol EllipticCurvePublicKey: PublicKey
+{
+    var x: Data { get }
+    
+    var y: Data { get }
+    
+    var curve: String { get }
+    
+    var keyType: String { get }
+}
+
+extension EllipticCurvePublicKey
+{
+    var keyType: String
+    {
+        return "EC"
+    }
+}
