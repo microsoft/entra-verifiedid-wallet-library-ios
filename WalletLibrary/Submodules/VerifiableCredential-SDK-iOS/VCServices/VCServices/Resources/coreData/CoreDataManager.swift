@@ -61,26 +61,6 @@ class CoreDataManager: HolderIdentifierStorage
         return try persistentContainerContext.fetch(fetchRequest)
     }
     
-    func storeHolderIdentifier(did: String, keyId: UUID) throws
-    {
-        guard let persistentContainer = persistentContainer else 
-        {
-            throw CoreDataManagerError.persistentStoreNotLoaded
-        }
-        
-        let model = NSEntityDescription.insertNewObject(forEntityName: Constants.identifierModel,
-                                                                  into: persistentContainer.viewContext)
-        
-        guard let identifierModel = model as? IdentifierDataModel else
-        {
-            throw VerifiedIdError(message: "", code: "")
-        }
-        
-        identifierModel.did = did
-        identifierModel.signingKeyId = keyId
-        try persistentContainer.viewContext.save()
-    }
-    
     func saveIdentifier(longformDid: String,
                         signingKeyId: UUID,
                         recoveryKeyId: UUID,
