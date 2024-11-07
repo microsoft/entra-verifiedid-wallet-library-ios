@@ -419,8 +419,11 @@
 		559764F52CDD531400CE6504 /* DIDBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559764F42CDD531400CE6504 /* DIDBuilderTests.swift */; };
 		5597650A2CDD5D8B00CE6504 /* HolderIdentifierStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559765092CDD5D8B00CE6504 /* HolderIdentifierStorage.swift */; };
 		5597650D2CDD5D9600CE6504 /* HolderIdentifierDataModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597650B2CDD5D9600CE6504 /* HolderIdentifierDataModel+CoreDataClass.swift */; };
-		559765102CDD5DB900CE6504 /* DIDJWKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597650E2CDD5DB900CE6504 /* DIDJWKProvider.swift */; };
+		559765102CDD5DB900CE6504 /* KeychainHolderIdentifierBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597650E2CDD5DB900CE6504 /* KeychainHolderIdentifierBuilder.swift */; };
 		559765122CDD5E1B00CE6504 /* DIDJWKProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559765112CDD5E1B00CE6504 /* DIDJWKProviderTests.swift */; };
+		5597657C2CDD639500CE6504 /* HolderIdentifierRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597657B2CDD639500CE6504 /* HolderIdentifierRepository.swift */; };
+		5597657E2CDD65F800CE6504 /* IdentifierRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597657D2CDD65F800CE6504 /* IdentifierRepository.swift */; };
+		559765802CDD677E00CE6504 /* HolderIdentifierBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597657F2CDD677E00CE6504 /* HolderIdentifierBuilder.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
 		5598CFD42AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */; };
@@ -1022,8 +1025,11 @@
 		559764F42CDD531400CE6504 /* DIDBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDBuilderTests.swift; sourceTree = "<group>"; };
 		559765092CDD5D8B00CE6504 /* HolderIdentifierStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HolderIdentifierStorage.swift; sourceTree = "<group>"; };
 		5597650B2CDD5D9600CE6504 /* HolderIdentifierDataModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HolderIdentifierDataModel+CoreDataClass.swift"; sourceTree = "<group>"; };
-		5597650E2CDD5DB900CE6504 /* DIDJWKProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIDJWKProvider.swift; sourceTree = "<group>"; };
+		5597650E2CDD5DB900CE6504 /* KeychainHolderIdentifierBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainHolderIdentifierBuilder.swift; sourceTree = "<group>"; };
 		559765112CDD5E1B00CE6504 /* DIDJWKProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIDJWKProviderTests.swift; sourceTree = "<group>"; };
+		5597657B2CDD639500CE6504 /* HolderIdentifierRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderIdentifierRepository.swift; sourceTree = "<group>"; };
+		5597657D2CDD65F800CE6504 /* IdentifierRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierRepository.swift; sourceTree = "<group>"; };
+		5597657F2CDD677E00CE6504 /* HolderIdentifierBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderIdentifierBuilder.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
 		5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseEncoderTests.swift; sourceTree = "<group>"; };
@@ -1399,6 +1405,7 @@
 				55A4BB3D2A2A5560006836AB /* Errors */,
 				55E337BA2948B5E700CD2ED7 /* Extensions */,
 				55E3375B294231F000CD2ED7 /* Protocols */,
+				559765132CDD632100CE6504 /* Repositories */,
 				55E3370F293FDDF400CD2ED7 /* Requests */,
 				5597650C2CDD5D9600CE6504 /* Storage */,
 				55E336D2293FA74100CD2ED7 /* VerifiedId */,
@@ -2480,6 +2487,7 @@
 				5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */,
 				55A2689F2CC1A47A00A8EA9C /* HolderIdentifier.swift */,
 				55C422D82CD2DB2D0013F44F /* JWKRepresentable.swift */,
+				5597657F2CDD677E00CE6504 /* HolderIdentifierBuilder.swift */,
 			);
 			path = Identifier;
 			sourceTree = "<group>";
@@ -2674,12 +2682,28 @@
 			path = Storage;
 			sourceTree = "<group>";
 		};
-		5597650F2CDD5DB900CE6504 /* Providers */ = {
+		5597650F2CDD5DB900CE6504 /* Builders */ = {
 			isa = PBXGroup;
 			children = (
-				5597650E2CDD5DB900CE6504 /* DIDJWKProvider.swift */,
+				5597650E2CDD5DB900CE6504 /* KeychainHolderIdentifierBuilder.swift */,
 			);
-			path = Providers;
+			path = Builders;
+			sourceTree = "<group>";
+		};
+		559765132CDD632100CE6504 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				5597657D2CDD65F800CE6504 /* IdentifierRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		5597657A2CDD634500CE6504 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				5597657B2CDD639500CE6504 /* HolderIdentifierRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		5598CFCA2AAF8DBC00EBDE87 /* oidc */ = {
@@ -3149,6 +3173,7 @@
 				55265B042B6DA36400BAD6A2 /* Networking */,
 				5534E665294A0B55005D0765 /* Extensions */,
 				55E337B62948B4F900CD2ED7 /* Requests */,
+				5597657A2CDD634500CE6504 /* Repositories */,
 				559764FA2CDD568600CE6504 /* Storage */,
 				550E3215298B1224004E7716 /* Styles */,
 				5534E66C294A0F76005D0765 /* Utilities */,
@@ -3269,7 +3294,7 @@
 		A4B4FA602B924E3C00F0AAF3 /* Identifier */ = {
 			isa = PBXGroup;
 			children = (
-				5597650F2CDD5DB900CE6504 /* Providers */,
+				5597650F2CDD5DB900CE6504 /* Builders */,
 				A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */,
 				55A268A12CC1A5B200A8EA9C /* KeychainIdentifier.swift */,
 				55A268A32CC1A70600A8EA9C /* IdentifierFactory.swift */,
@@ -3507,6 +3532,7 @@
 				55BA2DCC29CDF9E000BB8207 /* VerifiedIdDecoding.swift in Sources */,
 				5552D3FA29EF48ED00B40302 /* RawIdentity.swift in Sources */,
 				5552D4BF29EF4AC300B40302 /* HmacSha2AesCbc.swift in Sources */,
+				5597657C2CDD639500CE6504 /* HolderIdentifierRepository.swift in Sources */,
 				5552D3F629EF48ED00B40302 /* ProtectedBackupData.swift in Sources */,
 				5552D4CA29EF4AC300B40302 /* ED25519PublicKey.swift in Sources */,
 				5552D3FF29EF490000B40302 /* PresentationSubmission.swift in Sources */,
@@ -3570,6 +3596,7 @@
 				550A9173299311A10014D030 /* VerifiedIdRequestURL.swift in Sources */,
 				5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */,
 				55265AF62B6D765D00BAD6A2 /* RawOpenID4VCIRequest.swift in Sources */,
+				559765802CDD677E00CE6504 /* HolderIdentifierBuilder.swift in Sources */,
 				5552D3E429EF48C700B40302 /* VCClaims.swift in Sources */,
 				55A4BB332A29383A006836AB /* VerifiedIdResult.swift in Sources */,
 				5552D48429EF4AAB00B40302 /* Secp256k1Signer.swift in Sources */,
@@ -3606,7 +3633,7 @@
 				55A0DA1A2A7446B000BC178E /* PresentationExchangeFieldConstraint.swift in Sources */,
 				559BD3A6299AD9BD00BD61AC /* ManifestResolver.swift in Sources */,
 				55BA2DCD29CDF9E000BB8207 /* VerifiedIdEncoding.swift in Sources */,
-				559765102CDD5DB900CE6504 /* DIDJWKProvider.swift in Sources */,
+				559765102CDD5DB900CE6504 /* KeychainHolderIdentifierBuilder.swift in Sources */,
 				5552D3A629EF483400B40302 /* VerifiedIdCorrelationHeader.swift in Sources */,
 				5552D3DF29EF48B200B40302 /* ClaimDisplayDescriptor.swift in Sources */,
 				55EA17A629CA52D30085E29E /* CardDisplayDescriptor+Mappable.swift in Sources */,
@@ -3717,6 +3744,7 @@
 				5552D3DE29EF48B200B40302 /* IdTokenDescriptor.swift in Sources */,
 				5552D4C729EF4AC300B40302 /* CryptoOperations.swift in Sources */,
 				55DECC3029BB8E5C00D5C802 /* VCTypeConstraint.swift in Sources */,
+				5597657E2CDD65F800CE6504 /* IdentifierRepository.swift in Sources */,
 				5552D44629EF4A8100B40302 /* RetryHandler.swift in Sources */,
 				5552D3A429EF482E00B40302 /* VCEntitiesConstants.swift in Sources */,
 				5552D45429EF4A8100B40302 /* FailureHandler.swift in Sources */,
