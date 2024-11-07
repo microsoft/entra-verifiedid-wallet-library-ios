@@ -72,7 +72,7 @@ class HolderIdentifierProvider
     
     func provideHolderIdentifiers() throws -> [HolderIdentifier]
     {
-        let storedHolderIdentifiers = try storage.fetchStoredHolderIdentifierDataModels()
+        let storedHolderIdentifiers = try storage.fetchStoredHolderIdentifiers()
         let holderIdentifiers = try storedHolderIdentifiers.map {
             try mapStoredIdentifierToHolderIdentifier(storedIdentifier: $0)
         }
