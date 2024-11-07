@@ -24,10 +24,10 @@ class IdentifierError: VerifiedIdError
     /// Optional nested error.
     let error: Error?
     
-    fileprivate init(message: String,
-                     code: String,
-                     error: Error? = nil,
-                     correlationId: String? = nil)
+    init(message: String,
+         code: String,
+         error: Error? = nil,
+         correlationId: String? = nil)
     {
         self.error = error
         super.init(message: message,

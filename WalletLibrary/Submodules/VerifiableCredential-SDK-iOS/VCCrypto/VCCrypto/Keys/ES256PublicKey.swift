@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 /// A P256 Public Key.
-class ES256PublicKey: PublicKey, EllipticCurvePublicKey
+class ES256PublicKey: EllipticCurvePublicKey
 {
     let algorithm = "ES256"
     
