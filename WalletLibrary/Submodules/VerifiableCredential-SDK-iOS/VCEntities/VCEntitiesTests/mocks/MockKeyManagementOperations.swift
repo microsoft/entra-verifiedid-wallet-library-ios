@@ -13,12 +13,21 @@ struct MockKeyManagementOperations: KeyManagementOperating {
     let keyManagementOperations: KeyManagementOperating
     let secretStore: SecretStoring
     
-    init(secretStore: SecretStoring) {
+    private let expectedGenerateKeyError: Error?
+    
+    init(secretStore: SecretStoring, expectedGenerateKeyError: Error? = nil) {
         self.secretStore = secretStore
+        self.expectedGenerateKeyError = expectedGenerateKeyError
         self.keyManagementOperations = KeyManagementOperations(secretStore: secretStore, sdkConfiguration: VCSDKConfiguration.sharedInstance)
     }
     
     func generateKey() throws -> VCCryptoSecret {
+        
+        if let error = expectedGenerateKeyError
+        {
+            throw error
+        }
+        
         MockKeyManagementOperations.generateKeyCallCount += 1
         return try self.keyManagementOperations.generateKey()
     }

@@ -4,8 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * A class esponsible for building `HolderIdentifier` instances using key management and cryptographic operations.
- * This class  implements the `HolderIdentifierBuilder` protocol.
+ * A class responsible for building `HolderIdentifier` instances using key management and cryptographic operations.
+ * This class implements the `HolderIdentifierBuilder` protocol.
  */
 class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
 {

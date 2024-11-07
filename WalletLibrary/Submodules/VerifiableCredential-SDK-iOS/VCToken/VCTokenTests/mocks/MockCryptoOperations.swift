@@ -5,7 +5,7 @@
 
 @testable import WalletLibrary
 
-enum MockCryptoError: Error {
+enum MockCryptoError: Error, Equatable {
     case ExpectedToThrow
 }
 
@@ -46,7 +46,13 @@ class MockCryptoOperations: CryptoOperating {
         return signingResult ?? Data()
     }
     
-    func getPublicKey(fromSecret secret: VCCryptoSecret, algorithm: String = "mock") throws -> PublicKey {
+    func getPublicKey(fromSecret secret: VCCryptoSecret, algorithm: String = "mock") throws -> PublicKey 
+    {
+        if throwWhenGettingPublicKey
+        {
+            throw MockCryptoError.ExpectedToThrow
+        }
+        
         Self.wasGetPublicKeyCalled = true
         return publicKey ?? Secp256k1PublicKey(x: Data(count: 32), y: Data(count: 32))!
     }
