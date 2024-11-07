@@ -3,15 +3,30 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * A struct responsible for building DIDs (Decentralized Identifiers) from public keys.
+ */
 struct DIDBuilder
 {
+    /// Builds a DID from a given public key and method.
+    /// - Parameters:
+    ///   - publicKey: The public key to be used for building the DID. It must be compatible with ES256 (P-256 curve).
+    ///   - method: The DID method to be used, currently supporting "did:jwk".
+    /// - Throws: Throws an error if the public key is not an ES256PublicKey or if the method is not "did:jwk".
+    /// - Returns: A string representing the generated DID in the format "did:jwk:<base64url-encoded JWK>".
     func build(from publicKey: PublicKey, method: String) throws -> String
     {
         // Only support ES256 keys and did:jwk method for now.
-        guard let ecPublicKey = publicKey as? ES256PublicKey,
-              method == "did:jwk" else
+        guard let ecPublicKey = publicKey as? ES256PublicKey else
         {
-            throw VerifiedIdError(message: "", code: "")
+            throw IdentifierError(message: "Invalid Key Type: \(type(of: publicKey)).",
+                                  code: "invalid_public_key")
+        }
+        
+        guard method == "did:jwk" else
+        {
+            throw IdentifierError(message: "Unsupported DID Method: \(method).",
+                                  code: "unsupported_did_method")
         }
         
         let jwk: [String: String] =
