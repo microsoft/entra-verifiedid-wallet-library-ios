@@ -11,7 +11,6 @@ enum CoreDataManagerError: Error {
     case persistentStoreNotLoaded
 }
 
-/// Temporary Until Deterministic Keys are implemented.
 class CoreDataManager: HolderIdentifierStorage
 {
     private struct Constants {
@@ -35,22 +34,29 @@ class CoreDataManager: HolderIdentifierStorage
         loadPersistentContainer(sdkLog: sdkLog)
     }
     
-    func storeHolderIdentifier(holder: HolderIdentifier, keyId: UUID) throws
+    /// Stores a `HolderIdentifierStoredProperties` object in the persistent storage.
+    /// - Parameters:
+    ///   - holder: The `HolderIdentifier` object to be stored.
+    ///   - keyId: A `UUID` that uniquely identifies the holder in persistent storage.
+    /// - Throws: A `CoreDataManagerError.persistentStoreNotLoaded` error if the persistent store is not loaded.
+    func storeHolderIdentifier(holderIdentifier: HolderIdentifierStoredProperties) throws
     {
         guard let persistentContainerContext = persistentContainer?.viewContext else
         {
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
         
-        let storedIdentifier = HolderIdentifierDataModel(keyId: keyId,
-                                                         holderIdentifier: holder,
+        let storedIdentifier = HolderIdentifierDataModel(holderIdentifier: holderIdentifier,
                                                          context: persistentContainerContext)
         
         try persistentContainerContext.obtainPermanentIDs(for: [storedIdentifier])
         try persistentContainerContext.save()
     }
     
-    func fetchStoredHolderIdentifiers() throws -> [StoredHolderIdentifierProperties]
+    /// Fetches all stored holder identifiers from the persistent storage.
+    /// - Returns: An array of `HolderIdentifierStoredProperties` objects, representing the stored holder identifiers.
+    /// - Throws: A `CoreDataManagerError.persistentStoreNotLoaded` error if the persistent store is not loaded.
+    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierStoredProperties]
     {
         guard let persistentContainerContext = persistentContainer?.viewContext else
         {

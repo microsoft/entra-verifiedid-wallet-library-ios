@@ -40,21 +40,13 @@ class IdentifierRepository: HolderIdentifierRepository
                                                                    keyId: nil,
                                                                    keyReference: "main",
                                                                    algorithm: "ES256")
-            
-            guard let mainIdentifier = mainIdentifier as? KeychainIdentifier else
-            {
-                throw IdentifierError(message: "Identifier type not supported: \(type(of: mainIdentifier)).",
-                                      code: "identifier_type_not_supported")
-            }
-            
-            let keyId = mainIdentifier.getKeyId()
-            try storage.storeHolderIdentifier(holder: mainIdentifier, keyId: keyId)
+            try storeNewIdentifier(identifier: mainIdentifier)
             
             return mainIdentifier
         }
     }
     
-    private func mapToHolderIdentifier(storedIdentifier: StoredHolderIdentifierProperties) throws -> HolderIdentifier
+    private func mapToHolderIdentifier(storedIdentifier: HolderIdentifierStoredProperties) throws -> HolderIdentifier
     {
         let method = try String.getRequiredProperty(property: storedIdentifier.didMethod,
                                                     propertyName: "didMethod")
@@ -69,6 +61,18 @@ class IdentifierRepository: HolderIdentifierRepository
                                                  keyId: keyId,
                                                  keyReference: keyReference,
                                                  algorithm: algorithm)
+    }
+    
+    private func storeNewIdentifier(identifier: HolderIdentifier) throws
+    {
+        guard let mappableIdentifier = identifier as? any Mappable,
+              let storedProperties = try? Mapper().map(mappableIdentifier) as? HolderIdentifierStoredProperties else
+        {
+            throw IdentifierError(message: "Identifier type not supported: \(type(of: identifier)).",
+                                  code: "identifier_type_not_supported")
+        }
+        
+        try storage.storeHolderIdentifier(holderIdentifier: storedProperties)
     }
 }
 

@@ -5,7 +5,12 @@
 
 protocol HolderIdentifierStorage
 {
-    func fetchStoredHolderIdentifiers() throws -> [StoredHolderIdentifierProperties]
+    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierStoredProperties]
     
-    func storeHolderIdentifier(holder: HolderIdentifier, keyId: UUID) throws
+    /// Stores a `HolderIdentifier` object in the persistent storage.
+    /// - Parameters:
+    ///   - holder: The `HolderIdentifier` object to be stored.
+    ///   - keyId: A `UUID` that uniquely identifies the holder in persistent storage.
+    /// - Throws: A `CoreDataManagerError.persistentStoreNotLoaded` error if the persistent store is not loaded, or other errors related to saving the context.
+    func storeHolderIdentifier(holderIdentifier: HolderIdentifierStoredProperties) throws
 }

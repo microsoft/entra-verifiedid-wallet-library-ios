@@ -325,7 +325,7 @@ class IdentifierRepositoryTests: XCTestCase
     }
 }
 
-struct MockStoredHolderIdentifierProperties: StoredHolderIdentifierProperties
+struct MockStoredHolderIdentifierProperties: HolderIdentifierStoredProperties
 {
     let keyId: UUID?
     

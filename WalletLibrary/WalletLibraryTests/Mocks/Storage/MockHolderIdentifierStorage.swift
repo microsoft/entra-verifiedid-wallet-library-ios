@@ -11,18 +11,18 @@ struct MockHolderIdentifierStorage: HolderIdentifierStorage
     
     private let expectedErrorToThrowForStoring: Error?
     
-    private let expectedHolderIdentifierProperties: [StoredHolderIdentifierProperties]
+    private let expectedHolderIdentifierProperties: [HolderIdentifierStoredProperties]
     
     init(expectedErrorToThrowForFetching: Error?,
          expectedErrorToThrowForStoring: Error?,
-         expectedHolderIdentifierProperties: [StoredHolderIdentifierProperties] = [])
+         expectedHolderIdentifierProperties: [HolderIdentifierStoredProperties] = [])
     {
         self.expectedErrorToThrowForFetching = expectedErrorToThrowForFetching
         self.expectedErrorToThrowForStoring = expectedErrorToThrowForStoring
         self.expectedHolderIdentifierProperties = expectedHolderIdentifierProperties
     }
     
-    func fetchStoredHolderIdentifiers() throws -> [StoredHolderIdentifierProperties]
+    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierStoredProperties]
     {
         if let error = expectedErrorToThrowForFetching
         {
@@ -32,7 +32,7 @@ struct MockHolderIdentifierStorage: HolderIdentifierStorage
         return expectedHolderIdentifierProperties
     }
     
-    func storeHolderIdentifier(holder: any WalletLibrary.HolderIdentifier, keyId: UUID) throws 
+    func storeHolderIdentifier(holderIdentifier: HolderIdentifierStoredProperties) throws
     {
         if let error = expectedErrorToThrowForStoring
         {

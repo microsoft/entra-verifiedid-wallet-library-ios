@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 
 /// A holder identifier that stores the private key in keychain handled by the VCCryptoSecret.
-class KeychainIdentifier: HolderIdentifier, JWKRepresentable
+class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
 {
     /// The unique identifier (ex. did:web:microsoft.com).
     let id: String
@@ -76,8 +76,33 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable
                            withKeyId: keyReference)
     }
     
-    func getKeyId() -> UUID
+    func map(using mapper: any Mapping) throws -> HolderIdentifierStoredProperties
     {
-        return keyReferenceSecret.id
+        return KeychainHolderIdentifierStoredProperties(keyId: keyReferenceSecret.id,
+                                                        didMethod: method,
+                                                        algorithm: algorithm,
+                                                        keyReference: keyReference)
+    }
+    
+    private struct KeychainHolderIdentifierStoredProperties: HolderIdentifierStoredProperties
+    {
+        var keyId: UUID?
+        
+        var didMethod: String?
+        
+        var algorithm: String?
+        
+        var keyReference: String?
+        
+        init(keyId: UUID,
+             didMethod: String,
+             algorithm: String,
+             keyReference: String)
+        {
+            self.keyId = keyId
+            self.didMethod = didMethod
+            self.algorithm = algorithm
+            self.keyReference = keyReference
+        }
     }
 }

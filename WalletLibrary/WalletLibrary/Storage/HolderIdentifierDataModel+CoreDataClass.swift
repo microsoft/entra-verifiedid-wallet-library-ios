@@ -7,21 +7,20 @@ import Foundation
 import CoreData
 
 @objc(HolderIdentifierDataModel)
-public class HolderIdentifierDataModel: NSManagedObject, StoredHolderIdentifierProperties
+public class HolderIdentifierDataModel: NSManagedObject, HolderIdentifierStoredProperties
 {
-    convenience init(keyId: UUID,
-                     holderIdentifier: HolderIdentifier,
+    convenience init(holderIdentifier: HolderIdentifierStoredProperties,
                      context: NSManagedObjectContext)
     {
         self.init(context: context)
-        self.keyId = keyId
-        self.didMethod = holderIdentifier.method
+        self.keyId = holderIdentifier.keyId
+        self.didMethod = holderIdentifier.didMethod
         self.algorithm = holderIdentifier.algorithm
         self.keyReference = holderIdentifier.keyReference
     }
 }
 
-protocol StoredHolderIdentifierProperties
+protocol HolderIdentifierStoredProperties
 {
     var keyId: UUID? { get }
     
