@@ -25,7 +25,7 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
         self.didBuilder = DIDBuilder()
     }
     
-    /// Builds a `HolderIdentifier` based on the provided parameters.
+    /// Builds a `HolderIdentifier` based on the provided parameters. If keyId is nil, generate a new key.
     /// - Parameters:
     ///   - didMethod: The method used for constructing the DID (e.g., "did:jwk").
     ///   - keyId: An optional UUID representing a unique identifier for the key.

@@ -5,6 +5,7 @@
 
 /**
  * A protocol that defines a repository responsible for managing and retrieving `HolderIdentifier` instances.
+ * We only support one stored Identifier as of now.
  */
 protocol HolderIdentifierRepository
 {

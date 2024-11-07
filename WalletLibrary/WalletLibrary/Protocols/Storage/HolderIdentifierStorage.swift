@@ -3,11 +3,17 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+/**
+ * A protocol that defines a storage interface for managing `HolderIdentifier` properties.
+ */
 protocol HolderIdentifierStorage
 {
+    /// Fetches all stored `HolderIdentifierStoredProperties` from storage.
+    /// - Throws: An error if there is an issue retrieving the stored identifiers.
+    /// - Returns: An array of `HolderIdentifierStoredProperties`, representing the properties of each stored identifier.
     func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierStoredProperties]
     
-    /// Stores a `HolderIdentifier` object in the persistent storage.
+    /// Stores a `HolderIdentifierStoredProperties` object.
     /// - Parameters:
     ///   - holder: The `HolderIdentifier` object to be stored.
     ///   - keyId: A `UUID` that uniquely identifies the holder in persistent storage.

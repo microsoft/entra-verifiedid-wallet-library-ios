@@ -19,14 +19,3 @@ public class HolderIdentifierDataModel: NSManagedObject, HolderIdentifierStoredP
         self.keyReference = holderIdentifier.keyReference
     }
 }
-
-protocol HolderIdentifierStoredProperties
-{
-    var keyId: UUID? { get }
-    
-    var didMethod: String? { get }
-    
-    var algorithm: String? { get }
-    
-    var keyReference: String? { get }
-}
