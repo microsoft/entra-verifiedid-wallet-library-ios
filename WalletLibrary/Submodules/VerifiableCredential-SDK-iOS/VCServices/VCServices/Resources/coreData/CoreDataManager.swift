@@ -12,8 +12,8 @@ enum CoreDataManagerError: Error {
 }
 
 /// Temporary Until Deterministic Keys are implemented.
-class CoreDataManager {
-    
+class CoreDataManager: HolderIdentifierStorage
+{
     private struct Constants {
         static let bundleId = "com.microsoft.VCUseCase"
         static let model = "VerifiedIdDataModel"
@@ -35,7 +35,7 @@ class CoreDataManager {
         loadPersistentContainer(sdkLog: sdkLog)
     }
     
-    func saveIdentifier(holder: HolderIdentifier, keyId: UUID) throws
+    func storeHolderIdentifier(holder: HolderIdentifier, keyId: UUID) throws
     {
         guard let persistentContainerContext = persistentContainer?.viewContext else
         {
@@ -50,7 +50,18 @@ class CoreDataManager {
         try persistentContainerContext.save()
     }
     
-    func saveIdentifier(did: String, keyId: UUID) throws
+    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierDataModel]
+    {
+        guard let persistentContainerContext = persistentContainer?.viewContext else
+        {
+            throw CoreDataManagerError.persistentStoreNotLoaded
+        }
+        
+        let fetchRequest: NSFetchRequest<HolderIdentifierDataModel> = HolderIdentifierDataModel.fetchRequest()
+        return try persistentContainerContext.fetch(fetchRequest)
+    }
+    
+    func storeHolderIdentifier(did: String, keyId: UUID) throws
     {
         guard let persistentContainer = persistentContainer else 
         {
@@ -106,17 +117,6 @@ class CoreDataManager {
         return try persistentContainer.viewContext.fetch(fetchRequest)
     }
     
-    func fetchStoredHolderIdentifierDataModels() throws -> [HolderIdentifierDataModel]
-    {
-        guard let persistentContainerContext = persistentContainer?.viewContext else
-        {
-            throw CoreDataManagerError.persistentStoreNotLoaded
-        }
-        
-        let fetchRequest: NSFetchRequest<HolderIdentifierDataModel> = HolderIdentifierDataModel.fetchRequest()
-        return try persistentContainerContext.fetch(fetchRequest)
-    }
-    
     func deleteAllIdentifiers() throws {
         guard let persistentContainer = persistentContainer else {
             throw CoreDataManagerError.persistentStoreNotLoaded
@@ -164,4 +164,11 @@ class CoreDataManager {
             self?.persistentContainer = container
         }
     }
+}
+
+protocol HolderIdentifierStorage
+{
+    func fetchStoredHolderIdentifiers() throws -> [HolderIdentifierDataModel]
+    
+    func storeHolderIdentifier(holder: HolderIdentifier, keyId: UUID) throws
 }
