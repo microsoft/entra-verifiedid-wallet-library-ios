@@ -79,7 +79,7 @@ struct JwsToken<T: Claims> {
     }
     
     /// Temporary: TODO: remove support for ECPublicJwk data model for JWK.
-    func verify(using verifier: TokenVerifying, withPublicKey key: ECPublicJwk) throws -> Bool {
+    func verify(using verifier: TokenVerifying, withPublicKey key: PublicJWK) throws -> Bool {
         return try verify(using: verifier, withPublicKey: key.toJWK())
     }
     

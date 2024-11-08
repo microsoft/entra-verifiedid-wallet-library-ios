@@ -11,6 +11,6 @@ public protocol JWKRepresentable
     ///
     /// - Returns: An `ECPublicJwk` object representing the public key.
     /// - Throws: An error if the public key cannot be exported (e.g., due to missing or malformed data).
-    func getPublicKey() throws -> ECPublicJwk
+    func getPublicKey() throws -> PublicJWK
 }
 

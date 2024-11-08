@@ -13,7 +13,7 @@ struct ExchangeRequestClaims: OIDCClaims {
     
     let did: String
     
-    let publicJwk: ECPublicJwk?
+    let publicJwk: PublicJWK?
     
     let jti: String
     
@@ -28,7 +28,7 @@ struct ExchangeRequestClaims: OIDCClaims {
     init(publicKeyThumbprint: String = "",
                 audience: String = "",
                 did: String = "",
-                publicJwk: ECPublicJwk? = nil,
+                publicJwk: PublicJWK? = nil,
                 jti: String = "",
                 iat: Double? = nil,
                 exp: Double? = nil,

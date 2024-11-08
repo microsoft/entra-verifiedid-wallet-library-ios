@@ -44,9 +44,14 @@ struct MockHolderIdentifier: HolderIdentifier, JWKRepresentable, Equatable
         return expectedSignature ?? Data()
     }
     
-    func getPublicKey() throws -> ECPublicJwk 
+    func getPublicKey() throws -> PublicJWK
     {
-        return ECPublicJwk(x: "x", y: "y", keyId: keyReference)
+        return PublicJWK(x: "x",
+                         y: "y",
+                         keyType: "EC",
+                         keyId: "keyId",
+                         algorithm: "mockAlgorithm",
+                         curve: "mockCurve")
     }
     
     static func == (lhs: MockHolderIdentifier, rhs: MockHolderIdentifier) -> Bool 

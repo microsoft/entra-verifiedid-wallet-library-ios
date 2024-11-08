@@ -279,7 +279,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
     private func createMockResolve(_ keyId: String = "#invalidId") -> ((String) throws -> IdentifierDocument)
     {
         let secpKey = Secp256k1PublicKey(x: Data(count: 32), y: Data(count: 32))!
-        let publicJwk = ECPublicJwk(withPublicKey: secpKey, withKeyId: keyId)
+        let publicJwk = PublicJWK(withPublicKey: secpKey, withKeyId: keyId)
         let publicKey = IdentifierDocumentPublicKey(id: keyId,
                                                     type: "mock",
                                                     controller: nil,

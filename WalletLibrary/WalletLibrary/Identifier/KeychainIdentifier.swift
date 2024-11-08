@@ -61,7 +61,7 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
     }
     
     // TODO: Refactor to support other PublicKey types for FIPS work.
-    func getPublicKey() throws -> ECPublicJwk
+    func getPublicKey() throws -> PublicJWK
     {
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: keyReferenceSecret,
                                                           algorithm: algorithm)
@@ -72,7 +72,7 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
             throw VerifiedIdErrors.MalformedInput(message: "Unable to case public to EllipticCurvePublicKey.").error
         }
         
-        return ECPublicJwk(withPublicKey: key, 
+        return PublicJWK(withPublicKey: key, 
                            withKeyId: keyReference)
     }
     
