@@ -18,7 +18,8 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
     /// An instance of `DIDBuilder` used for creating decentralized identifiers (DIDs).
     private let didBuilder: DIDBuilder
     
-    init(keyManagementOperations: KeyManagementOperating, cryptoOperations: CryptoOperating) 
+    init(keyManagementOperations: KeyManagementOperating = KeyManagementOperations(),
+         cryptoOperations: CryptoOperating = CryptoOperations())
     {
         self.keyManagementOperations = keyManagementOperations
         self.cryptoOperations = cryptoOperations

@@ -15,8 +15,8 @@ class IdentifierRepository: HolderIdentifierRepository
     /// An object responsible for storing and retrieving holder identifiers.
     private let storage: HolderIdentifierStorage
     
-    init(builder: HolderIdentifierBuilder,
-         storage: HolderIdentifierStorage)
+    init(builder: HolderIdentifierBuilder = KeychainHolderIdentifierBuilder(),
+         storage: HolderIdentifierStorage = CoreDataManager.sharedInstance)
     {
         self.builder = builder
         self.storage = storage
