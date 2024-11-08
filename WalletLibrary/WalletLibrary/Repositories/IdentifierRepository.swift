@@ -37,10 +37,10 @@ class IdentifierRepository: HolderIdentifierRepository
         else
         {
             // If there are no identifiers in storage, create default one using FIPS compliant keys
-            // and "did:jwk" method.
+            // and "did:jwk" method. The key reference is always "0" for "did:jwk" dids.
             let mainIdentifier = try builder.buildHolderIdentifier(didMethod: "did:jwk",
                                                                    keyId: nil,
-                                                                   keyReference: "main",
+                                                                   keyReference: "0",
                                                                    algorithm: "ES256")
             try storeNewIdentifier(identifier: mainIdentifier)
             
