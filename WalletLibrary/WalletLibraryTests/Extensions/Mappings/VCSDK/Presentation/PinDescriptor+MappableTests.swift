@@ -22,7 +22,8 @@ class PinDescriptorMappingTests: XCTestCase {
         XCTAssertThrowsError(try mockMapper.map(pinDescriptor)) { error in
             // Assert
             XCTAssert(error is MappingError)
-            XCTAssertEqual(error as? MappingError, .PropertyNotPresent(property: "type", in: "PinDescriptor"))
+            XCTAssertEqual(error as? MappingError,
+                           MappingError.PropertyNotPresent(property: "type", in: "PinDescriptor"))
         }
     }
     

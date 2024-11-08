@@ -29,7 +29,7 @@ class OpenID4VCIVerifiedIDTests: XCTestCase
                                                       issuerName: mockIssuerName,
                                                       configuration: mockConfig)) { error in
             XCTAssert(error is MappingError)
-            XCTAssertEqual(error as? MappingError, .InvalidProperty(property: "rawToken", in: "raw"))
+            XCTAssertEqual(error as? MappingError, MappingError.InvalidProperty(property: "rawToken", in: "raw"))
         }
     }
     
