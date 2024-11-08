@@ -23,21 +23,27 @@ public struct ECPublicJwk: Codable, Equatable {
         case use, x, y
     }
     
-    public init(x: String, y: String, keyId: String) {
+    public init(x: String,
+                y: String,
+                keyId: String,
+                algorithm: String,
+                curve: String)
+    {
         self.keyType = "EC"
         self.keyId = keyId
         self.use = "sig"
         self.keyOperations = ["verify"]
-        self.algorithm = "ES256K"
-        self.curve = "secp256k1"
+        self.algorithm = algorithm
+        self.curve = curve
         self.x = x
         self.y = y
     }
     
-    init(withPublicKey key: Secp256k1PublicKey, withKeyId kid: String) {
+    init(withPublicKey key: EllipticCurvePublicKey, withKeyId kid: String) 
+    {
         let x = key.x.base64URLEncodedString()
         let y = key.y.base64URLEncodedString()
-        self.init(x: x, y: y, keyId: kid)
+        self.init(x: x, y: y, keyId: kid, algorithm: key.algorithm, curve: key.curve)
     }
     
     func toJWK() -> JWK
