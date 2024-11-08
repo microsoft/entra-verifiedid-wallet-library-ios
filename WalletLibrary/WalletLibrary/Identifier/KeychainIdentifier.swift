@@ -66,10 +66,10 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: keyReferenceSecret,
                                                           algorithm: algorithm)
         
-        guard let key = publicKey as? EllipticCurvePublicKey else
+        guard let key = publicKey as? Secp256k1PublicKey else
         {
-            // TODO: support other key types for FIPS compliance.
-            throw VerifiedIdErrors.MalformedInput(message: "Unable to case public to EllipticCurvePublicKey.").error
+            // Will fix in JWK Refactor PR.
+            throw VerifiedIdErrors.MalformedInput(message: "Unable to cast to Secp256K1PublicKey.").error
         }
         
         return ECPublicJwk(withPublicKey: key, 

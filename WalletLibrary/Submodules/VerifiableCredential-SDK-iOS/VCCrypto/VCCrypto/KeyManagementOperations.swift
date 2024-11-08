@@ -10,7 +10,7 @@ struct KeyManagementOperations: KeyManagementOperating {
     
     private let sdkConfiguration: VCSDKConfigurable
     
-    init(sdkConfiguration: VCSDKConfigurable) {
+    init(sdkConfiguration: VCSDKConfigurable = VCSDKConfiguration.sharedInstance) {
         self.init(secretStore: KeychainSecretStore(), sdkConfiguration: sdkConfiguration)
     }
     

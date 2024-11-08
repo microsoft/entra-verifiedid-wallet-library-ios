@@ -355,4 +355,30 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers[0] as? MockHolderIdentifier, mockHolder1)
         XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers[1] as? MockHolderIdentifier, mockHolder2)
     }
+    
+    func testBuild_WithFIPSCompliantPreviewFeatureFlag_ReturnsVerifiedIdClient() throws
+    {
+        // Arrange
+        let mockHolderIdentifier = MockHolderIdentifier(id: "mockHolder1")
+        let mockRepository = MockIdentifierRepository(expectedIdentifier: mockHolderIdentifier)
+        let builder = VerifiedIdClientBuilder(identifierRepository: mockRepository)
+        
+        // Act
+        let actualResult = builder
+            .with(previewFeatureFlags: [PreviewFeatureFlags.FIPSCompliantIdentifier])
+            .build()
+        
+        // Assert
+        XCTAssertEqual(actualResult.requestHandlerFactory.requestHandlers.count, 2)
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenIdRequestProcessor })
+        XCTAssert(actualResult.requestHandlerFactory.requestHandlers.contains { $0 is OpenId4VCIProcessor })
+        XCTAssertEqual(actualResult.requestResolverFactory.resolvers.count, 1)
+        XCTAssert(actualResult.requestResolverFactory.resolvers.contains { $0 is OpenIdURLRequestResolver })
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
+        XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
+        XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers[0] as? MockHolderIdentifier,
+                       mockHolderIdentifier)
+    }
 }
