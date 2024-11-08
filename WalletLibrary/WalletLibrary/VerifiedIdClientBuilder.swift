@@ -106,7 +106,7 @@ public class VerifiedIdClientBuilder
         }
         catch
         {
-            logger.logError(message: "Unable to get main Holder Identifier from repository.")
+            logger.logError(message: "Unable to get main Holder Identifier from repository, \(String(describing: error))")
             return nil
         }
     }
