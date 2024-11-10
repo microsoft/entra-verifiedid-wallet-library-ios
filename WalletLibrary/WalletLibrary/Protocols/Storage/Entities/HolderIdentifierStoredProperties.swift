@@ -9,6 +9,9 @@
  */
 protocol HolderIdentifierStoredProperties
 {
+    ///
+    var id: String? { get }
+    
     /// A unique identifier (UUID) for the private key that ties this holder to the key in key storage.
     var keyId: UUID? { get }
 

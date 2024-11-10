@@ -79,6 +79,7 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
     func map(using mapper: any Mapping) throws -> HolderIdentifierStoredProperties
     {
         return KeychainHolderIdentifierStoredProperties(keyId: keyReferenceSecret.id,
+                                                        id: id,
                                                         didMethod: method,
                                                         algorithm: algorithm,
                                                         keyReference: keyReference)
@@ -86,6 +87,8 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
     
     private struct KeychainHolderIdentifierStoredProperties: HolderIdentifierStoredProperties
     {
+        var id: String?
+        
         var keyId: UUID?
         
         var didMethod: String?
@@ -95,11 +98,13 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
         var keyReference: String?
         
         init(keyId: UUID,
+             id: String,
              didMethod: String,
              algorithm: String,
              keyReference: String)
         {
             self.keyId = keyId
+            self.id = id
             self.didMethod = didMethod
             self.algorithm = algorithm
             self.keyReference = keyReference

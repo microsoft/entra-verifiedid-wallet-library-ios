@@ -14,6 +14,7 @@ public class HolderIdentifierDataModel: NSManagedObject, HolderIdentifierStoredP
     {
         self.init(context: context)
         self.keyId = holderIdentifier.keyId
+        self.id = holderIdentifier.id
         self.didMethod = holderIdentifier.didMethod
         self.algorithm = holderIdentifier.algorithm
         self.keyReference = holderIdentifier.keyReference

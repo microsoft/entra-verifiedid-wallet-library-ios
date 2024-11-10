@@ -29,12 +29,14 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
     /// Builds a `HolderIdentifier` based on the provided parameters. If keyId is nil, generate a new key.
     /// - Parameters:
     ///   - didMethod: The method used for constructing the DID (e.g., "did:jwk").
+    ///   - id: The Id of the identifier (e.g. "did:jwk:123"). If not present, constructed in builder.
     ///   - keyId: An optional UUID representing a unique identifier for the key.
     ///   - keyReference: A string reference for identifying the key.
     ///   - algorithm: The algorithm used for cryptographic operations (e.g., "ES256").
     /// - Throws: An error if the building process fails.
     /// - Returns: A `HolderIdentifier` constructed with the specified parameters.
     func buildHolderIdentifier(didMethod: String,
+                               id: String? = nil,
                                keyId: UUID? = nil,
                                keyReference: String,
                                algorithm: String) throws -> HolderIdentifier
@@ -50,7 +52,9 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
         
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: key, algorithm: algorithm)
         
-        let did = try didBuilder.build(from: publicKey, method: didMethod)
+        let did = try buildDIDIfNeeded(id: id,
+                                       didMethod: didMethod,
+                                       publicKey: publicKey)
         
         let identifier = KeychainIdentifier(id: did,
                                             algorithm: algorithm,
@@ -60,6 +64,18 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
                                             cryptoOperations: cryptoOperations)
         
         return identifier
+    }
+    
+    private func buildDIDIfNeeded(id: String?, 
+                                  didMethod: String,
+                                  publicKey: PublicKey) throws -> String
+    {
+        if let id = id
+        {
+            return id
+        }
+        
+        return try didBuilder.build(from: publicKey, method: didMethod)
     }
     
     private func retrieveOrGenerateNewKey(keyId: UUID?) throws -> VCCryptoSecret
