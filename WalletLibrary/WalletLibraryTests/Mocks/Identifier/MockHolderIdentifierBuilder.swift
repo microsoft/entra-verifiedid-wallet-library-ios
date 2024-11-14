@@ -19,6 +19,7 @@ struct MockHolderIdentifierBuilder: HolderIdentifierBuilder
     }
     
     func buildHolderIdentifier(didMethod: String,
+                               id: String?,
                                keyId: UUID?,
                                keyReference: String,
                                algorithm: String) throws -> HolderIdentifier
