@@ -28,8 +28,19 @@ public class VerifiedIdClientBuilder
     
     private var identifiers: [HolderIdentifier] = []
     
-    public init() {
+    private let identifierRepository: HolderIdentifierRepository
+    
+    public init() 
+    {
         logger = WalletLibraryLogger()
+        self.identifierRepository = IdentifierRepository()
+    }
+    
+    /// Internal init to help with testing.
+    init(identifierRepository: HolderIdentifierRepository)
+    {
+        self.logger = WalletLibraryLogger()
+        self.identifierRepository = identifierRepository
     }
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
@@ -45,17 +56,7 @@ public class VerifiedIdClientBuilder
                                                               logger: logger,
                                                               correlationHeader: correlationHeader)
         
-        /// Append default identifier to the end of the list of Identifiers.
-        var allIdentifiers = identifiers
-        if let defaultIdentifier = try? VerifiableCredentialSDK.identifierService.fetchOrCreateMasterIdentifier(),
-           let holderIdentifier = try? defaultIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
-        {
-            allIdentifiers.append(holderIdentifier)
-        }
-        else
-        {
-            logger.logError(message: "Unable to load default Identifier.")
-        }
+        let identifiers = getAllIdentifiers(previewFeatureFlags: previewFeatureFlags)
         
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
@@ -63,7 +64,7 @@ public class VerifiedIdClientBuilder
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
                                                  previewFeatureFlags: previewFeatureFlags,
-                                                 identifiers: allIdentifiers)
+                                                 identifiers: identifiers)
         
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestProcessors(with: configuration)
@@ -74,6 +75,40 @@ public class VerifiedIdClientBuilder
         return VerifiedIdClient(requestResolverFactory: requestResolverFactory,
                                 requestHandlerFactory: requestHandlerFactory,
                                 configuration: configuration)
+    }
+    
+    private func getAllIdentifiers(previewFeatureFlags: PreviewFeatureFlags) -> [HolderIdentifier]
+    {
+        if previewFeatureFlags.isPreviewFeatureSupported(PreviewFeatureFlags.FIPSCompliantIdentifier),
+           let holderIdentifier = getMainHolderIdentifier()
+        {
+            identifiers.append(holderIdentifier)
+        }
+        else if let defaultIdentifier = try? VerifiableCredentialSDK.identifierService.fetchOrCreateMasterIdentifier(),
+                let holderIdentifier = try? defaultIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
+        {
+            identifiers.append(holderIdentifier)
+        }
+        else
+        {
+            logger.logError(message: "Unable to load default Identifiers.")
+        }
+        
+        return identifiers
+    }
+    
+    private func getMainHolderIdentifier() -> HolderIdentifier?
+    {
+        do
+        {
+            let holderIdentifier = try identifierRepository.getMainHolderIdentifier()
+            return holderIdentifier
+        }
+        catch
+        {
+            logger.logError(message: "Unable to get main Holder Identifier from repository, \(String(describing: error))")
+            return nil
+        }
     }
     
     /// Optional method to add new Identifiers to Wallet Library..

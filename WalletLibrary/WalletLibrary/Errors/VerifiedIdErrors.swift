@@ -104,7 +104,7 @@ public class UnspecifiedVerifiedIdError: VerifiedIdError {
     
     init(error: Error, correlationId: String?) {
         self.error = error
-        super.init(message: "Unspecified Error.",
+        super.init(message: String(describing: error),
                    code: VerifiedIdErrors.ErrorCode.UnspecifiedError,
                    correlationId: correlationId)
     }
