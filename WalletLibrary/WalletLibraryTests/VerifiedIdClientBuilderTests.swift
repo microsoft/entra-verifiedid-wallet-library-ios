@@ -378,6 +378,7 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers.count, 1)
         XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers[0] as? MockHolderIdentifier,
                        mockHolderIdentifier)
     }
