@@ -424,6 +424,7 @@
 		559765882CDD6FA300CE6504 /* MockHolderIdentifierBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559765872CDD6FA300CE6504 /* MockHolderIdentifierBuilder.swift */; };
 		5597658B2CDD704900CE6504 /* MockHolderIdentifierStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597658A2CDD704900CE6504 /* MockHolderIdentifierStorage.swift */; };
 		5597658E2CDD885900CE6504 /* HolderIdentifierStoredProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597658D2CDD885900CE6504 /* HolderIdentifierStoredProperties.swift */; };
+		5597662C2CDEC74300CE6504 /* MockIdentifierRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5597662B2CDEC74300CE6504 /* MockIdentifierRepository.swift */; };
 		5598CFCD2AAF8DD600EBDE87 /* RequestedClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */; };
 		5598CFD22AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */; };
 		5598CFD42AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */; };
@@ -1030,6 +1031,7 @@
 		559765872CDD6FA300CE6504 /* MockHolderIdentifierBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHolderIdentifierBuilder.swift; sourceTree = "<group>"; };
 		5597658A2CDD704900CE6504 /* MockHolderIdentifierStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHolderIdentifierStorage.swift; sourceTree = "<group>"; };
 		5597658D2CDD885900CE6504 /* HolderIdentifierStoredProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolderIdentifierStoredProperties.swift; sourceTree = "<group>"; };
+		5597662B2CDEC74300CE6504 /* MockIdentifierRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIdentifierRepository.swift; sourceTree = "<group>"; };
 		5598CFCC2AAF8DD600EBDE87 /* RequestedClaimsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestedClaimsTests.swift; sourceTree = "<group>"; };
 		5598CFD12AAF8E7500EBDE87 /* PresentationResponseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseContainerTests.swift; sourceTree = "<group>"; };
 		5598CFD32AAF931E00EBDE87 /* PresentationResponseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationResponseEncoderTests.swift; sourceTree = "<group>"; };
@@ -2736,6 +2738,14 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
+		5597662A2CDEC73200CE6504 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				5597662B2CDEC74300CE6504 /* MockIdentifierRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 		5598CFCA2AAF8DBC00EBDE87 /* oidc */ = {
 			isa = PBXGroup;
 			children = (
@@ -2964,6 +2974,7 @@
 		55A81C0A2991BF6C002C259A /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				5597662A2CDEC73200CE6504 /* Repositories */,
 				55A268AA2CC1BDEB00A8EA9C /* Identifier */,
 				555FB2102B759FA700EE14BD /* RootOfTrust */,
 				55265B0D2B71908300BAD6A2 /* Networking */,
@@ -3962,6 +3973,7 @@
 				5552D82D29F2E25900B40302 /* OIDCClaimsTests.swift in Sources */,
 				555FB20F2B75874A00EE14BD /* SignedCredentialMetadataProcessorTests.swift in Sources */,
 				55DECC4129BFEDE400D5C802 /* VerifiedIdRequirementTests.swift in Sources */,
+				5597662C2CDEC74300CE6504 /* MockIdentifierRepository.swift in Sources */,
 				557539E02BBDF27C009E1257 /* VerifiableCredentialSerializerTests.swift in Sources */,
 				5552D7D729F2E0AA00B40302 /* Secp256k1Tests.swift in Sources */,
 				559BD4F8299EED5700BD61AC /* MockRawManifest.swift in Sources */,

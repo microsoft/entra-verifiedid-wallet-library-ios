@@ -28,8 +28,19 @@ public class VerifiedIdClientBuilder
     
     private var identifiers: [HolderIdentifier] = []
     
-    public init() {
+    private let identifierRepository: HolderIdentifierRepository
+    
+    public init() 
+    {
         logger = WalletLibraryLogger()
+        self.identifierRepository = IdentifierRepository()
+    }
+    
+    /// Internal init to help with testing.
+    init(identifierRepository: HolderIdentifierRepository)
+    {
+        self.logger = WalletLibraryLogger()
+        self.identifierRepository = identifierRepository
     }
 
     /// Builds the VerifiedIdClient with the set configuration from the builder.
@@ -88,7 +99,6 @@ public class VerifiedIdClientBuilder
     
     private func getMainHolderIdentifier() -> HolderIdentifier?
     {
-        let identifierRepository = IdentifierRepository()
         do
         {
             let holderIdentifier = try identifierRepository.getMainHolderIdentifier()
@@ -96,7 +106,7 @@ public class VerifiedIdClientBuilder
         }
         catch
         {
-            print(error)
+            logger.logError(message: "Unable to get main Holder Identifier from repository, \(String(describing: error))")
             return nil
         }
     }
