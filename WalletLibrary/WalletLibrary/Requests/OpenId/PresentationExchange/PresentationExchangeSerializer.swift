@@ -101,9 +101,17 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         let holderIdentifier = try configuration.identifierFactory.getIdentifier()
         let idToken = try buildIdToken(identifier: holderIdentifier)
         let vpTokens = try buildVpTokens(identifier: holderIdentifier)
-        return PresentationResponse(idToken: idToken,
-                                    vpTokens: vpTokens,
-                                    state: state)
+        let response = PresentationResponse(idToken: idToken,
+                                            vpTokens: vpTokens,
+                                            state: state)
+        // Once object is built, reset Serializer.
+        reset()
+        return response
+    }
+    
+    private func reset()
+    {
+        vpBuilders.removeAll()
     }
     
     private func buildIdToken(identifier: HolderIdentifier) throws -> PresentationResponseToken
