@@ -9,7 +9,7 @@
  */
 protocol HolderIdentifierStoredProperties
 {
-    ///
+    /// The Id of the identifier (e.g. "did:jwk:123").
     var id: String? { get }
     
     /// A unique identifier (UUID) for the private key that ties this holder to the key in key storage.

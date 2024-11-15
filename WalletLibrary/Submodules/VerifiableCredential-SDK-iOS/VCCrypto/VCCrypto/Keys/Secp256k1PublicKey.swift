@@ -9,8 +9,8 @@ enum PublicKeyFormat: UInt8 {
     case uncompressed = 0x04
 }
 
-class Secp256k1PublicKey: EllipticCurvePublicKey {
-    
+class Secp256k1PublicKey: EllipticCurvePublicKey 
+{
     let curve: String = "secp256k1"
     
     let x: Data

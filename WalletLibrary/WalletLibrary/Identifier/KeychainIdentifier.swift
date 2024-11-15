@@ -60,7 +60,10 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
                                   algorithm: algorithm)
     }
     
-    // TODO: Refactor to support other PublicKey types for FIPS work.
+    /// Represents the public key in `PublicJWK` format.
+    ///
+    /// - Returns: An `PublicJWK` object representing the public key.
+    /// - Throws: An error if the public key cannot be exported (e.g., due to missing or malformed data).
     func getPublicKey() throws -> PublicJWK
     {
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: keyReferenceSecret,
@@ -72,8 +75,8 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
             throw VerifiedIdErrors.MalformedInput(message: "Unable to case public to EllipticCurvePublicKey.").error
         }
         
-        return PublicJWK(withPublicKey: key, 
-                           withKeyId: keyReference)
+        return PublicJWK(withPublicKey: key,
+                         withKeyId: keyReference)
     }
     
     func map(using mapper: any Mapping) throws -> HolderIdentifierStoredProperties
