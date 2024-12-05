@@ -584,6 +584,8 @@
 		A497435B2B8EA367004851C2 /* VerifiedIdPartialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497435A2B8EA367004851C2 /* VerifiedIdPartialRequest.swift */; };
 		A497435F2B8EB29B004851C2 /* PresentationExchangeRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497435E2B8EB29B004851C2 /* PresentationExchangeRequirement.swift */; };
 		A4A2D8422B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A2D8412B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift */; };
+		A4B25B032D021E2F00119DD4 /* VerifiableCredentialDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A4B25B012D021E2F00119DD4 /* VerifiableCredentialDataModel.xcdatamodeld */; };
+		A4B25B052D022CF200119DD4 /* IdentifierModel+IdentifierDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B25B042D022CD500119DD4 /* IdentifierModel+IdentifierDataModel.swift */; };
 		A4B4FA622B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */; };
 		A4D9F9C72B7AF2BF006D074E /* RequestProcessorExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D9F9C62B7AF2BF006D074E /* RequestProcessorExtendable.swift */; };
 		A4D9F9C92B7AF528006D074E /* VerifiedIdExtending.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D9F9C82B7AF528006D074E /* VerifiedIdExtending.swift */; };
@@ -1197,6 +1199,8 @@
 		A497435A2B8EA367004851C2 /* VerifiedIdPartialRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdPartialRequest.swift; sourceTree = "<group>"; };
 		A497435E2B8EB29B004851C2 /* PresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeRequirement.swift; sourceTree = "<group>"; };
 		A4A2D8412B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeVerifiedIdRequirement.swift; sourceTree = "<group>"; };
+		A4B25B022D021E2F00119DD4 /* Identifier.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Identifier.xcdatamodel; sourceTree = "<group>"; };
+		A4B25B042D022CD500119DD4 /* IdentifierModel+IdentifierDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IdentifierModel+IdentifierDataModel.swift"; sourceTree = "<group>"; };
 		A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalExtensionIdentifierManager.swift; sourceTree = "<group>"; };
 		A4D9F9C62B7AF2BF006D074E /* RequestProcessorExtendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessorExtendable.swift; sourceTree = "<group>"; };
 		A4D9F9C82B7AF528006D074E /* VerifiedIdExtending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdExtending.swift; sourceTree = "<group>"; };
@@ -1591,6 +1595,8 @@
 		5552D27429EF335500B40302 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
+				A4B25B042D022CD500119DD4 /* IdentifierModel+IdentifierDataModel.swift */,
+				A4B25B012D021E2F00119DD4 /* VerifiableCredentialDataModel.xcdatamodeld */,
 				559764CE2CD970FB00CE6504 /* VerifiedIdDataModel.xcdatamodeld */,
 				5552D27529EF335500B40302 /* CoreDataManager.swift */,
 				5552D27829EF335500B40302 /* IdentifierDatabase.swift */,
@@ -3869,6 +3875,7 @@
 				5552D40529EF490A00B40302 /* IssuanceMetadata.swift in Sources */,
 				5552D3E729EF48E200B40302 /* VCSDKLog.swift in Sources */,
 				559764F02CDD502600CE6504 /* DIDBuilder.swift in Sources */,
+				A4B25B052D022CF200119DD4 /* IdentifierModel+IdentifierDataModel.swift in Sources */,
 				555FB1FF2B75671300EE14BD /* TokenValidationError.swift in Sources */,
 				559BD4B5299EE10800BD61AC /* IssuanceService+VerifiableCredentialRequester.swift in Sources */,
 				5552D3DA29EF48B200B40302 /* CardDisplayDescriptor.swift in Sources */,
@@ -3889,6 +3896,7 @@
 				5552D4BC29EF4AC300B40302 /* EdDSA.swift in Sources */,
 				55E33708293FD25900CD2ED7 /* AccessTokenRequirement.swift in Sources */,
 				55A268FC2CC30E9000A8EA9C /* TokenError.swift in Sources */,
+				A4B25B032D021E2F00119DD4 /* VerifiableCredentialDataModel.xcdatamodeld in Sources */,
 				5552D44B29EF4A8100B40302 /* PostIssuanceResponseOperation.swift in Sources */,
 				5552D40329EF490A00B40302 /* PresentationExchangeField.swift in Sources */,
 				5552D4C529EF4AC300B40302 /* Data+Base64.swift in Sources */,
@@ -4501,6 +4509,16 @@
 			);
 			currentVersion = 559764CF2CD970FB00CE6504 /* Identifier 2.0.xcdatamodel */;
 			path = VerifiedIdDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		A4B25B012D021E2F00119DD4 /* VerifiableCredentialDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A4B25B022D021E2F00119DD4 /* Identifier.xcdatamodel */,
+			);
+			currentVersion = A4B25B022D021E2F00119DD4 /* Identifier.xcdatamodel */;
+			path = VerifiableCredentialDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

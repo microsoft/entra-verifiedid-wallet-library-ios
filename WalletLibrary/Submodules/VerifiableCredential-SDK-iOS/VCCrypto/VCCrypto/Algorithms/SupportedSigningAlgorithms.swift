@@ -8,6 +8,10 @@
 struct SupportedSigningAlgorithms {
     
     func algorithms() -> [String: SigningAlgorithm] {
+        let secp256k1 = SigningAlgorithm(curve: SupportedCurve.SECP256K1.rawValue,
+                                         algorithm: ES256k(),
+                                         supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
+        
         let es256k = SigningAlgorithm(curve: SupportedCurve.ES256K.rawValue,
                                       algorithm: ES256k(),
                                       supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
@@ -20,6 +24,7 @@ struct SupportedSigningAlgorithms {
                                     algorithm: WalletLibrary.ES256(),
                                     supportedSigningOperations: [.Verification])
         return [
+            secp256k1.curve: secp256k1,
             es256k.curve: es256k,
             edDSA.curve: edDSA,
             p256.curve: p256

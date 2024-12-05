@@ -13,10 +13,12 @@ enum CoreDataManagerError: Error {
 
 class CoreDataManager: HolderIdentifierStorage
 {
-    private struct Constants {
+    internal struct Constants {
         static let bundleId = "com.microsoft.VCUseCase"
         static let model = "VerifiedIdDataModel"
+        static let oldModel = "VerifiableCredentialDataModel"
         static let identifierModel = "IdentifierDataModel"
+        static let oldIDentifierModel = "Identifier"
         static let extensionType = "momd"
         static let sqliteDescription = "sqlite"
     }
@@ -25,13 +27,23 @@ class CoreDataManager: HolderIdentifierStorage
     
     private var persistentContainer: NSPersistentContainer?
     
+    private var oldPersistentContainer: NSPersistentContainer?
+    
     let sdkLog: VCSDKLog
     
     private init(sdkLog: VCSDKLog = VCSDKLog.sharedInstance) {
         
         self.sdkLog = sdkLog
         
-        loadPersistentContainer(sdkLog: sdkLog)
+        loadPersistentContainer(sdkLog: sdkLog, model: Constants.model, loader: {
+            [weak self] persistentContainer in
+            self?.persistentContainer = persistentContainer
+        })
+        
+        loadPersistentContainer(sdkLog: sdkLog, model: Constants.oldModel, loader: {
+            [weak self] persistentContainer in
+            self?.oldPersistentContainer = persistentContainer
+        })
     }
     
     /// Stores a `HolderIdentifierStoredProperties` object in the persistent storage.
@@ -94,13 +106,30 @@ class CoreDataManager: HolderIdentifierStorage
         try persistentContainer.viewContext.save()
     }
     
-    func fetchIdentifiers() throws -> [IdentifierDataModel] {
-        guard let persistentContainer = persistentContainer else {
+    func fetchIdentifiers() throws -> [IdentifierDataModel]
+    {
+        guard let persistentContainer = persistentContainer else
+        {
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
         
         let fetchRequest: NSFetchRequest<IdentifierDataModel> = IdentifierDataModel.fetchRequest()
-        return try persistentContainer.viewContext.fetch(fetchRequest)
+        var results = try persistentContainer.viewContext.fetch(fetchRequest)
+        
+        let oldFetchRequest: NSFetchRequest<IdentifierModel> = IdentifierModel.fetchRequest()
+        let oldResults = try oldPersistentContainer?.viewContext.fetch(oldFetchRequest)
+        
+        let convertedOldModels = oldResults?.map
+        {
+            identifierModel in identifierModel.toIdentifierDataModel(identityDataModelContainer: persistentContainer)
+        }
+        
+        if let convertedOldModels
+        {
+            results.append(contentsOf: convertedOldModels)
+        }
+        
+        return results
     }
     
     func deleteAllIdentifiers() throws {
@@ -122,16 +151,16 @@ class CoreDataManager: HolderIdentifierStorage
         persistentContainer?.viewContext.delete(model)
     }
     
-    private func loadPersistentContainer(sdkLog: VCSDKLog) {
+    private func loadPersistentContainer(sdkLog: VCSDKLog, model: String, loader: @escaping (NSPersistentContainer) -> Void) {
         
         let messageKitBundle = Bundle(for: Self.self)
         
-        guard let modelURL = messageKitBundle.url(forResource: Constants.model, withExtension: Constants.extensionType),
+        guard let modelURL = messageKitBundle.url(forResource: model, withExtension: Constants.extensionType),
               let managedObjectModel =  NSManagedObjectModel(contentsOf: modelURL) else {
             return
         }
         
-        let container = NSPersistentContainer(name: Constants.model, managedObjectModel: managedObjectModel)
+        let container = NSPersistentContainer(name: model, managedObjectModel: managedObjectModel)
         
         let description = NSPersistentStoreDescription()
         description.shouldMigrateStoreAutomatically = true
@@ -140,14 +169,14 @@ class CoreDataManager: HolderIdentifierStorage
         container.viewContext.mergePolicy = NSMergePolicy.overwrite
         
         container.loadPersistentStores {
-            [weak self] (storeDescription, error) in
+            (storeDescription, error) in
             
             if let err = error?.localizedDescription {
                 sdkLog.logError(message: err)
                 return
             }
-
-            self?.persistentContainer = container
+            
+            loader(container)
         }
     }
 }
