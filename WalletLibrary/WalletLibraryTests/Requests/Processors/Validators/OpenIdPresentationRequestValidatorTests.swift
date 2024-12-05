@@ -8,6 +8,13 @@ import XCTest
 
 class OpenIdPresentationRequestValidatorTests: XCTestCase
 {
+    let mockPublicKey = PublicJWK(x: "x",
+                                  y: "y",
+                                  keyType: "EC",
+                                  keyId: "keyId",
+                                  algorithm: "mockAlgorithm",
+                                  curve: "mockCurve")
+    
     func testValidateRequest_WithMalformedRequest_ThrowsError() async throws
     {
         // Arrange
@@ -144,9 +151,7 @@ class OpenIdPresentationRequestValidatorTests: XCTestCase
         let identifierDocumentPublicKey = IdentifierDocumentPublicKey(id: nil,
                                                                       type: "type",
                                                                       controller: nil,
-                                                                      publicKeyJwk: ECPublicJwk(x: "x",
-                                                                                                y: "y",
-                                                                                                keyId: "keyId"),
+                                                                      publicKeyJwk: mockPublicKey,
                                                                       purposes: nil)
         let mockIdentifierDocument = IdentifierDocument(service: nil,
                                                         verificationMethod: [identifierDocumentPublicKey],
@@ -182,9 +187,7 @@ class OpenIdPresentationRequestValidatorTests: XCTestCase
         let identifierDocumentPublicKey = IdentifierDocumentPublicKey(id: nil,
                                                                       type: "type",
                                                                       controller: nil,
-                                                                      publicKeyJwk: ECPublicJwk(x: "x",
-                                                                                                y: "y",
-                                                                                                keyId: "keyId"),
+                                                                      publicKeyJwk: mockPublicKey,
                                                                       purposes: nil)
         let mockIdentifierDocument = IdentifierDocument(service: nil,
                                                         verificationMethod: [identifierDocumentPublicKey],

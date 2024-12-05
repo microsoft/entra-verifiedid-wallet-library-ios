@@ -67,7 +67,7 @@ class IdentifierDocumentExtensionTests: XCTestCase {
     private func createPublicKey(id: String) -> IdentifierDocumentPublicKey
     {
         let secpKey = Secp256k1PublicKey(x: Data(count: 32), y: Data(count: 32))!
-        let publicJwk = ECPublicJwk(withPublicKey: secpKey, withKeyId: id)
+        let publicJwk = PublicJWK(withPublicKey: secpKey, withKeyId: id)
         let publicKey = IdentifierDocumentPublicKey(id: id,
                                                     type: "mock",
                                                     controller: nil,

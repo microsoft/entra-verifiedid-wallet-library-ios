@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 protocol IdentifierFormatting {
-    func createIonLongFormDid(recoveryKey: ECPublicJwk,
-                           updateKey: ECPublicJwk,
-                           didDocumentKeys: [ECPublicJwk],
+    func createIonLongFormDid(recoveryKey: PublicJWK,
+                           updateKey: PublicJWK,
+                           didDocumentKeys: [PublicJWK],
                            serviceEndpoints: [IdentifierDocumentServiceEndpoint]) throws -> String
 }
 
@@ -23,9 +23,9 @@ struct IdentifierFormatter: IdentifierFormatting {
         encoder.outputFormatting = .sortedKeys
     }
     
-    func createIonLongFormDid(recoveryKey: ECPublicJwk,
-                              updateKey: ECPublicJwk,
-                              didDocumentKeys: [ECPublicJwk],
+    func createIonLongFormDid(recoveryKey: PublicJWK,
+                              updateKey: PublicJWK,
+                              didDocumentKeys: [PublicJWK],
                               serviceEndpoints: [IdentifierDocumentServiceEndpoint]) throws -> String {
         
         let document = IONDocumentModel(fromJwks: didDocumentKeys, andServiceEndpoints: serviceEndpoints)
@@ -57,7 +57,7 @@ struct IdentifierFormatter: IdentifierFormatting {
         return IdentifierFormatter.ionPrefix + hashedSuffixData
     }
     
-    private func createSuffixData(usingDelta delta: IONDocumentDeltaDescriptor, recoveryKey: ECPublicJwk) throws -> IdentifierDocumentSuffixDescriptor {
+    private func createSuffixData(usingDelta delta: IONDocumentDeltaDescriptor, recoveryKey: PublicJWK) throws -> IdentifierDocumentSuffixDescriptor {
         
         let encodedDelta = try encoder.encode(delta)
         let patchDescriptorHash = multihash.compute(from: encodedDelta).base64URLEncodedString()
@@ -67,7 +67,7 @@ struct IdentifierFormatter: IdentifierFormatting {
     }
     
     // double hashed commitment hash
-    private func createCommitmentHash(usingJwk jwk: ECPublicJwk) throws -> String {
+    private func createCommitmentHash(usingJwk jwk: PublicJWK) throws -> String {
         
         let canonicalizedPublicKey = try encoder.encode(jwk)
         let hashedPublicKey = multihash.compute(from: canonicalizedPublicKey)

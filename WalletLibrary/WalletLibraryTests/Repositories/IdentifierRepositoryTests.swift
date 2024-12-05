@@ -262,7 +262,6 @@ class IdentifierRepositoryTests: XCTestCase
     func testGetMainHolderIdentifier_WhenCreatingNewHolder_ReturnsHolderIdentifier() throws
     {
         // Arrange
-        let keyId = UUID()
         let keychainIdentifier = KeychainIdentifier(id: "mockId",
                                                     algorithm: "mockAlgorithm",
                                                     method: "mockMethod",
@@ -327,6 +326,8 @@ class IdentifierRepositoryTests: XCTestCase
 
 struct MockStoredHolderIdentifierProperties: HolderIdentifierStoredProperties
 {
+    let id: String?
+    
     let keyId: UUID?
     
     let didMethod: String?
@@ -334,4 +335,17 @@ struct MockStoredHolderIdentifierProperties: HolderIdentifierStoredProperties
     let algorithm: String?
     
     let keyReference: String?
+    
+    init(id: String? = nil,
+         keyId: UUID?,
+         didMethod: String?,
+         algorithm: String?,
+         keyReference: String?)
+    {
+        self.id = id
+        self.keyId = keyId
+        self.didMethod = didMethod
+        self.algorithm = algorithm
+        self.keyReference = keyReference
+    }
 }

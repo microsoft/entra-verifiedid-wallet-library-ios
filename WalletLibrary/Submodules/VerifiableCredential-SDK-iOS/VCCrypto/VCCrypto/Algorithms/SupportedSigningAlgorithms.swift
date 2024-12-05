@@ -16,18 +16,29 @@ struct SupportedSigningAlgorithms {
                                       algorithm: ES256k(),
                                       supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
         
+        let secp256k = SigningAlgorithm(curve: SupportedCurve.SECP256K.rawValue,
+                                        algorithm: ES256k(),
+                                        supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
+        
         let edDSA = SigningAlgorithm(curve: SupportedCurve.ED25519.rawValue,
                                      algorithm: EdDSA(),
                                      supportedSigningOperations: [.Verification])
         
         let p256 = SigningAlgorithm(curve: SupportedCurve.P256.rawValue,
-                                    algorithm: WalletLibrary.ES256(),
-                                    supportedSigningOperations: [.Verification])
+                                    algorithm: ES256(),
+                                    supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
+        
+        let es256 = SigningAlgorithm(curve: "ES256",
+                                    algorithm: ES256(),
+                                    supportedSigningOperations: [.Verification, .GetPublicKey, .Signing])
+        
         return [
             secp256k1.curve: secp256k1,
             es256k.curve: es256k,
             edDSA.curve: edDSA,
-            p256.curve: p256
+            p256.curve: p256,
+            es256.curve: es256,
+            secp256k.curve: secp256k
         ]
     }
 }

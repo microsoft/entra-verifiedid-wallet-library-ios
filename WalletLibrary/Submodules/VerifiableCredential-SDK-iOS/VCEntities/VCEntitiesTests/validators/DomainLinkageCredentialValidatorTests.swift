@@ -13,7 +13,12 @@ class DomainLinkageCredentialValidatorTests: XCTestCase {
     }
     
     let verifier: TokenVerifying = MockTokenVerifier(isTokenValid: true)
-    let mockPublicKey = ECPublicJwk(x: "x", y: "y", keyId: "keyId")
+    let mockPublicKey = PublicJWK(x: "x",
+                                  y: "y",
+                                  keyType: "EC",
+                                  keyId: "keyId",
+                                  algorithm: "mockAlgorithm",
+                                  curve: "mockCurve")
     let mockDomain = "test.com"
     var mockIdentifierDocument: IdentifierDocument!
     

@@ -52,11 +52,11 @@ struct IdentifierCreator {
         return try self.identifierFormatter.createIonLongFormDid(recoveryKey: recoveryJwk, updateKey: updateJwk, didDocumentKeys: [signingJwk], serviceEndpoints: [])
     }
     
-    private func generatePublicJwk(for keyMapping: KeyContainer) throws -> ECPublicJwk {
+    private func generatePublicJwk(for keyMapping: KeyContainer) throws -> PublicJWK {
         guard let publicKey = try cryptoOperations.getPublicKey(fromSecret: keyMapping.keyReference,
                                                                 algorithm: SupportedCurve.ES256K.rawValue) as? Secp256k1PublicKey else {
             throw IdentifierCreaterError.unableToCasePublicKeyToECPublicKey
         }
-        return ECPublicJwk(withPublicKey: publicKey, withKeyId: keyMapping.keyId)
+        return PublicJWK(withPublicKey: publicKey, withKeyId: keyMapping.keyId)
     }
 }

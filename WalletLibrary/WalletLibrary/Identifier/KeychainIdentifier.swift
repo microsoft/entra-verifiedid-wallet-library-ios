@@ -60,25 +60,29 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
                                   algorithm: algorithm)
     }
     
-    // TODO: Refactor to support other PublicKey types for FIPS work.
-    func getPublicKey() throws -> ECPublicJwk
+    /// Represents the public key in `PublicJWK` format.
+    ///
+    /// - Returns: An `PublicJWK` object representing the public key.
+    /// - Throws: An error if the public key cannot be exported (e.g., due to missing or malformed data).
+    func getPublicKey() throws -> PublicJWK
     {
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: keyReferenceSecret,
                                                           algorithm: algorithm)
         
-        guard let key = publicKey as? Secp256k1PublicKey else 
+        guard let key = publicKey as? EllipticCurvePublicKey else
         {
             // TODO: support other key types for FIPS compliance.
-            throw VerifiedIdErrors.MalformedInput(message: "Unable to case public key to Secp256k1.").error
+            throw VerifiedIdErrors.MalformedInput(message: "Unable to case public to EllipticCurvePublicKey.").error
         }
         
-        return ECPublicJwk(withPublicKey: key, 
-                           withKeyId: keyReference)
+        return PublicJWK(withPublicKey: key,
+                         withKeyId: keyReference)
     }
     
     func map(using mapper: any Mapping) throws -> HolderIdentifierStoredProperties
     {
         return KeychainHolderIdentifierStoredProperties(keyId: keyReferenceSecret.id,
+                                                        id: id,
                                                         didMethod: method,
                                                         algorithm: algorithm,
                                                         keyReference: keyReference)
@@ -86,6 +90,8 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
     
     private struct KeychainHolderIdentifierStoredProperties: HolderIdentifierStoredProperties
     {
+        var id: String?
+        
         var keyId: UUID?
         
         var didMethod: String?
@@ -95,11 +101,13 @@ class KeychainIdentifier: HolderIdentifier, JWKRepresentable, Mappable
         var keyReference: String?
         
         init(keyId: UUID,
+             id: String,
              didMethod: String,
              algorithm: String,
              keyReference: String)
         {
             self.keyId = keyId
+            self.id = id
             self.didMethod = didMethod
             self.algorithm = algorithm
             self.keyReference = keyReference

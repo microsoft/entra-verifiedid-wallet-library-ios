@@ -7,5 +7,5 @@ protocol TokenSigning {
      
     func sign<T>(token: JwsToken<T>, withSecret secret: VCCryptoSecret) throws -> Signature
     
-    func getPublicJwk(from secret: VCCryptoSecret, withKeyId keyId: String) throws -> ECPublicJwk
+    func getPublicJwk(from secret: VCCryptoSecret, withKeyId keyId: String) throws -> PublicJWK
 }

@@ -7,7 +7,7 @@ struct IONDocumentModel: Codable {
     let publicKeys: [IdentifierDocumentPublicKey]
     let services: [IdentifierDocumentServiceEndpoint]?
     
-    init(fromJwks jwks: [ECPublicJwk], andServiceEndpoints services: [IdentifierDocumentServiceEndpoint]) {
+    init(fromJwks jwks: [PublicJWK], andServiceEndpoints services: [IdentifierDocumentServiceEndpoint]) {
         var keys: [IdentifierDocumentPublicKey] = []
         for jwk in jwks {
             keys.append(IdentifierDocumentPublicKey(fromJwk: jwk))

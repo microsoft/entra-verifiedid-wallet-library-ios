@@ -3,8 +3,8 @@
 *  Licensed under the MIT License. See License.txt in the project root for license information.
 *--------------------------------------------------------------------------------------------*/
 
-/// TODO: deprecate entity for JWK
-public struct ECPublicJwk: Codable, Equatable {
+public struct PublicJWK: Codable, Equatable 
+{
     let keyType: String
     let keyId: String?
     let use: String?
@@ -14,7 +14,8 @@ public struct ECPublicJwk: Codable, Equatable {
     let x: String
     let y: String?
     
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey 
+    {
         case keyType = "kty"
         case keyId = "kid"
         case keyOperations = "key_ops"
@@ -23,21 +24,33 @@ public struct ECPublicJwk: Codable, Equatable {
         case use, x, y
     }
     
-    public init(x: String, y: String, keyId: String) {
-        self.keyType = "EC"
+    public init(x: String,
+                y: String?,
+                keyType: String,
+                keyId: String,
+                algorithm: String,
+                curve: String)
+    {
+        self.keyType = keyType
         self.keyId = keyId
         self.use = "sig"
         self.keyOperations = ["verify"]
-        self.algorithm = "ES256K"
-        self.curve = "secp256k1"
+        self.algorithm = algorithm
+        self.curve = curve
         self.x = x
         self.y = y
     }
     
-    init(withPublicKey key: Secp256k1PublicKey, withKeyId kid: String) {
+    init(withPublicKey key: EllipticCurvePublicKey, withKeyId kid: String)
+    {
         let x = key.x.base64URLEncodedString()
         let y = key.y.base64URLEncodedString()
-        self.init(x: x, y: y, keyId: kid)
+        self.init(x: x,
+                  y: y,
+                  keyType: key.keyType,
+                  keyId: kid,
+                  algorithm: key.algorithm,
+                  curve: key.curve)
     }
     
     func toJWK() -> JWK
