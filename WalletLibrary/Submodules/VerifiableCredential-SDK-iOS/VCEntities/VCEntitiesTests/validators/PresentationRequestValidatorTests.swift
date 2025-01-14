@@ -9,7 +9,12 @@ import XCTest
 class PresentationRequestValidatorTests: XCTestCase {
     
     let verifier: TokenVerifying = MockTokenVerifier(isTokenValid: true)
-    let mockPublicKey = ECPublicJwk(x: "x", y: "y", keyId: "keyId")
+    let mockPublicKey = PublicJWK(x: "x",
+                                  y: "y",
+                                  keyType: "EC",
+                                  keyId: "keyId",
+                                  algorithm: "mockAlgorithm",
+                                  curve: "mockCurve")
     var mockDidPublicKey: IdentifierDocumentPublicKey!
     
     override func setUpWithError() throws {

@@ -3,6 +3,7 @@
     <entity name="HolderIdentifierDataModel" representedClassName="HolderIdentifierDataModel" syncable="YES" codeGenerationType="category">
         <attribute name="algorithm" optional="YES" attributeType="String"/>
         <attribute name="didMethod" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="keyId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="keyReference" optional="YES" attributeType="String"/>
     </entity>

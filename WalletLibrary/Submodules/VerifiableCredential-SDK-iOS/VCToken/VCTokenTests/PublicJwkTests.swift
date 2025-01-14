@@ -8,9 +8,9 @@ import WalletLibrary
 
 @testable import WalletLibrary
 
-class ECPublicJwkTests: XCTestCase {
+class PublicJWKTests: XCTestCase {
     
-    var jwk: ECPublicJwk!
+    var jwk: PublicJWK!
     
     let expectedX = "8ZHxJnpwFHDQHLHFZeioQF28zfOxiFL_20TZ6MDwNHA"
     let expectedY = "6wmlF367mhEAcwpzcP9P7eEP2Kfj3Arg72Pl1NtYBoI"
@@ -19,11 +19,16 @@ class ECPublicJwkTests: XCTestCase {
     let expectedThumbprint = "RVdKoNzlIODuzv1J2zpIyGqTsMHkPesOBDbWx9kOCFk"
     
     override func setUpWithError() throws {
-        jwk = ECPublicJwk(x: expectedX, y: expectedY, keyId: expectedKid)
+        jwk = PublicJWK(x: expectedX,
+                        y: expectedY,
+                        keyType: "EC",
+                        keyId: expectedKid,
+                        algorithm: "ES256K",
+                        curve: expectedCurve)
     }
     
-    func testInit() throws {
-        let jwk = ECPublicJwk(x: expectedX, y: expectedY, keyId: expectedKid)
+    func testInit() throws
+    {
         self.checkProperties(of: jwk)
     }
     
@@ -36,7 +41,7 @@ class ECPublicJwkTests: XCTestCase {
         
         let key = Secp256k1PublicKey(x: x, y: y)
         
-        let jwt = ECPublicJwk(withPublicKey: key!, withKeyId: expectedKid)
+        let jwt = PublicJWK(withPublicKey: key!, withKeyId: expectedKid)
         self.checkProperties(of: jwt)
     }
     
@@ -45,7 +50,7 @@ class ECPublicJwkTests: XCTestCase {
         XCTAssertEqual(actualThumbprint, expectedThumbprint)
     }
     
-    func checkProperties(of key: ECPublicJwk) {
+    func checkProperties(of key: PublicJWK) {
         XCTAssertEqual(key.x, expectedX)
         XCTAssertEqual(key.y, expectedY)
         XCTAssertEqual(key.keyId, expectedKid)

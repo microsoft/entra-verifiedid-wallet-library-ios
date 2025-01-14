@@ -7,13 +7,13 @@ struct IdentifierDocumentPublicKey: Codable, Equatable {
     let id: String?
     let type: String
     let controller: String?
-    let publicKeyJwk: ECPublicJwk
+    let publicKeyJwk: PublicJWK
     let purposes: [String]?
     
     init(id: String?,
                 type: String,
                 controller: String?,
-                publicKeyJwk: ECPublicJwk,
+                publicKeyJwk: PublicJWK,
                 purposes: [String]?) {
         self.id = id
         self.type = type
@@ -22,7 +22,7 @@ struct IdentifierDocumentPublicKey: Codable, Equatable {
         self.purposes = purposes
     }
     
-    init(fromJwk key: ECPublicJwk) {
+    init(fromJwk key: PublicJWK) {
         self.init(id: key.keyId, type: VCEntitiesConstants.SUPPORTED_PUBLICKEY_TYPE, controller: nil, publicKeyJwk: key, purposes: [VCEntitiesConstants.PUBLICKEY_AUTHENTICATION_PURPOSE_V1])
     }
 }

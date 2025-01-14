@@ -7,10 +7,10 @@
 /// Types conforming to this protocol provide a way to expose their public key representation.
 public protocol JWKRepresentable
 {
-    /// Exports the public key in `ECPublicJwk` format.
+    /// Represents the public key in `PublicJWK` format.
     ///
-    /// - Returns: An `ECPublicJwk` object representing the public key.
+    /// - Returns: An `PublicJWK` object representing the public key.
     /// - Throws: An error if the public key cannot be exported (e.g., due to missing or malformed data).
-    func getPublicKey() throws -> ECPublicJwk
+    func getPublicKey() throws -> PublicJWK
 }
 

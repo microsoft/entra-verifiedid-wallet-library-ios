@@ -11,7 +11,12 @@ class DIDDocumentDecoderTests: XCTestCase {
     var expectedDocument: IdentifierDocument!
     var encodedDiscoveryServiceResponse: Data!
     let decoder = DIDDocumentDecoder()
-    let mockPublicKey = ECPublicJwk(x: "x", y: "y", keyId: "keyId")
+    let mockPublicKey = PublicJWK(x: "x",
+                                  y: "y",
+                                  keyType: "EC",
+                                  keyId: "keyId",
+                                  algorithm: "mockAlgorithm",
+                                  curve: "mockCurve")
     
     override func setUpWithError() throws {
         let publicKey = IdentifierDocumentPublicKey(id: "idTest",
