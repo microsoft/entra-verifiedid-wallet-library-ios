@@ -60,12 +60,12 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
     }
     
     /// Completes the request and returns a Result object containing void if successful, and an error if not successful.
-    func complete() async -> VerifiedIdResult<Void> 
+    func complete() async -> VerifiedIdResult<SuccessfulCompletionResult>
     {
             return await completeWithProcessorExtensions()
     }
     
-    private func completeWithProcessorExtensions() async -> VerifiedIdResult<Void>
+    private func completeWithProcessorExtensions() async -> VerifiedIdResult<SuccessfulCompletionResult>
     {
         return await VerifiedIdResult<Void>.getResult {
             
@@ -92,7 +92,7 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
             _ = try await self.configuration.networking.post(requestBody: response,
                                                              url: responseURL,
                                                              PostPresentationResponseOperation.self)
-            
+            return EmptyResult()
         }
     }
     

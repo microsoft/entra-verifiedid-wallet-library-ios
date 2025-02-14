@@ -7,7 +7,7 @@
  * A Verified Id Presentation Request contains the look and feel of the verifier,
  * the requirement needed to fulfill the request, and the root of trust.
  */
-public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void 
+public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == SuccessfulCompletionResult
 {
     /// The nonce on the request. Nonce must be public for the Id Token Issuance Flow.
     var nonce: String? { get }
@@ -15,3 +15,10 @@ public protocol VerifiedIdPresentationRequest: VerifiedIdRequest where T == Void
     /// The authority who initiated the request. For example, `did:web:microsoft.com`
     var authority: String? { get }
 }
+
+public protocol SuccessfulCompletionResult
+{
+    
+}
+
+struct EmptyResult: SuccessfulCompletionResult { }
