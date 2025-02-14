@@ -89,9 +89,10 @@ class OpenIdPresentationRequest: VerifiedIdPresentationRequest
             try requestProcessorSerializer.serialize(requirement: self.requirement,
                                                      verifiedIdSerializer: verifiedIdSerializer)
             let response = try requestProcessorSerializer.build()
-            return try await self.configuration.networking.post(requestBody: response,
-                                                                url: responseURL,
-                                                                PostPresentationResponseOperation.self)
+            _ = try await self.configuration.networking.post(requestBody: response,
+                                                             url: responseURL,
+                                                             PostPresentationResponseOperation.self)
+            return EmptyResult()
         }
     }
     
