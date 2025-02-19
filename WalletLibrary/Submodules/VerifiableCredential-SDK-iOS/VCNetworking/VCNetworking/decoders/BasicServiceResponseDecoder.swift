@@ -15,18 +15,12 @@ struct PresentationCompletionResponseDecoder: Decoding
 {
     func decode(data: Data) throws -> SuccessfulCompletionResult
     {
-        do
+        if JSONSerialization.isValidJSONObject(data)
         {
             let response = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-            
-            guard let redirectURI = response?["redirect_uri"] as? String else
-            {
-                return EmptyResult()
-            }
-            
-            return ContinuationResult(redirectUri: redirectURI)
+            return ContinuationResult(redirect_url: response?["redirect_url"] as? String)
         }
-        catch
+        else
         {
             return EmptyResult()
         }
@@ -35,5 +29,5 @@ struct PresentationCompletionResponseDecoder: Decoding
 
 public struct ContinuationResult: SuccessfulCompletionResult
 {
-    public let redirectUri: String?
+    public let redirect_url: String?
 }
