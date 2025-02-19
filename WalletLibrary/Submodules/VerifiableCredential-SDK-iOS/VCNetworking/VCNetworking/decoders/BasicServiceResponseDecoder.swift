@@ -10,3 +10,24 @@ struct BasicServiceResponseDecoder: Decoding {
         return nil
     }
 }
+
+struct PresentationCompletionResponseDecoder: Decoding
+{
+    func decode(data: Data) throws -> SuccessfulCompletionResult
+    {
+        if JSONSerialization.isValidJSONObject(data)
+        {
+            let response = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+            return ContinuationResult(redirect_url: response?["redirect_url"] as? String)
+        }
+        else
+        {
+            return EmptyResult()
+        }
+    }
+}
+
+public struct ContinuationResult: SuccessfulCompletionResult
+{
+    public let redirect_url: String?
+}

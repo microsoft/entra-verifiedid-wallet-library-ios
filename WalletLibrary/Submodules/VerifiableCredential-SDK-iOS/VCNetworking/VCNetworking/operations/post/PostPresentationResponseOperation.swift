@@ -7,9 +7,9 @@ class PostPresentationResponseOperation: InternalPostNetworkOperation, WalletLib
 {
     typealias Encoder = PresentationResponseEncoder
     typealias RequestBody = PresentationResponse
-    typealias ResponseBody = String?
+    typealias ResponseBody = SuccessfulCompletionResult
     
-    let decoder = BasicServiceResponseDecoder()
+    let decoder = PresentationCompletionResponseDecoder()
     let encoder = PresentationResponseEncoder()
     let urlSession: URLSession
     var urlRequest: URLRequest
