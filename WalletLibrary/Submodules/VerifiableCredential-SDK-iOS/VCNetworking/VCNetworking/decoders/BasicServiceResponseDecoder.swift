@@ -18,7 +18,13 @@ struct PresentationCompletionResponseDecoder: Decoding
         do
         {
             let response = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-            return ContinuationResult(redirectUri: response?["redirect_uri"] as? String)
+            
+            guard let redirectURI = response?["redirect_uri"] as? String else
+            {
+                return EmptyResult()
+            }
+            
+            return ContinuationResult(redirectUri: redirectURI)
         }
         catch
         {
