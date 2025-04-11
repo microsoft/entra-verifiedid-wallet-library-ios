@@ -153,6 +153,15 @@ public class VerifiedIdClientBuilder
         return self
     }
     
+    private var testClientCode: String?
+    
+    /// Testing in the translations.
+    public func with(testClientCode: String) -> VerifiedIdClientBuilder
+    {
+        self.testClientCode = testClientCode
+        return self
+    }
+    
     /// Optional method to use the given value to specify what Keychain Access Group keys should be stored in.
     public func with(keychainAccessGroupIdentifier: String) -> VerifiedIdClientBuilder 
     {
@@ -169,6 +178,7 @@ public class VerifiedIdClientBuilder
     
     private func registerSupportedResolvers(with configuration: LibraryConfiguration) 
     {
+        print(testClientCode)
         let presentationService = OpenIdPresentationRequestValidator(correlationVector: correlationHeader,
                                                                      rootOfTrustResolver: rootOfTrustResolver,
                                                                      urlSession: urlSession)
