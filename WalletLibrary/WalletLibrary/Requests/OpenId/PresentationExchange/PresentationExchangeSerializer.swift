@@ -59,7 +59,6 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     }
     
     /// Serializes a requirement into a partial input descriptor and adds it to the appropriate Verifiable Presentation builder.
-    /// Serializes a requirement into a partial input descriptor and adds it to the appropriate Verifiable Presentation builder.
     func serialize<T>(requirement: Requirement, verifiedIdSerializer: any VerifiedIdSerializing<T>) throws
     {
         let serializationResult = try requirement.serialize(protocolSerializer: self,
