@@ -5,7 +5,7 @@
 /**
  * Additional information for continuation
  */
-public struct ContinuationDescriptor: Codable, Equatable {
+struct ContinuationDescriptor: Codable, Equatable {
     /// Identifier the user would know
     let upn: String?
     
