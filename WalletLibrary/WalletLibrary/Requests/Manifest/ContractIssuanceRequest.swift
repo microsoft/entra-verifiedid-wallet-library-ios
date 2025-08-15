@@ -35,6 +35,10 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest
     
     private var responseContainer: IssuanceResponseContaining
     
+    public let scenario: String?
+    
+    public let continuation: ContinuationDescriptor?
+    
     init(content: IssuanceRequestContent,
          issuanceResponseContainer: IssuanceResponseContaining,
          verifiedIdRequester: VerifiedIdRequester,
