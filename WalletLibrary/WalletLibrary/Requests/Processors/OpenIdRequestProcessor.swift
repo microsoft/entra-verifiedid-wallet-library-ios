@@ -45,13 +45,13 @@ public class OpenIdRequestProcessor: RequestProcessing
         let requestContent = try configuration.mapper.map(request)
         
         if request.type == .Issuance {
-            return try await handleIssuanceRequest(from: requestContent)
+            return try await handleIssuanceRequest(from: requestContent, rawRequest: request)
         }
         
         return try processPresentationRequestWithExtension(requestContent: requestContent, rawRequest: request)
     }
     
-    private func handleIssuanceRequest(from presentationRequestContent: PresentationRequestContent) async throws -> any VerifiedIdIssuanceRequest 
+    private func handleIssuanceRequest(from presentationRequestContent: PresentationRequestContent, rawRequest: any OpenIdRawRequest) async throws -> any VerifiedIdIssuanceRequest
     {
         guard let verifiedIdRequirement = presentationRequestContent.requirement as? VerifiedIdRequirement else 
         {
@@ -80,7 +80,8 @@ public class OpenIdRequestProcessor: RequestProcessing
         return ContractIssuanceRequest(content: issuanceRequestContent,
                                        issuanceResponseContainer: issuanceResponseContainer,
                                        verifiedIdRequester: verifiedIdRequester,
-                                       configuration: configuration)
+                                       configuration: configuration,
+                                       rawRequest: rawRequest)
     }
     
     private func createIssuanceRequestContent(rawContract: any RawManifest,

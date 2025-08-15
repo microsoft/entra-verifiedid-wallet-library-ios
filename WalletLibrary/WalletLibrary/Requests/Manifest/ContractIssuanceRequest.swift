@@ -31,10 +31,15 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest
     
     private var responseContainer: IssuanceResponseContaining
     
+    public let scenario: String?
+    
+    public let continuation: ContinuationDescriptor?
+    
     init(content: IssuanceRequestContent,
          issuanceResponseContainer: IssuanceResponseContaining,
          verifiedIdRequester: VerifiedIdRequester,
-         configuration: LibraryConfiguration) 
+         configuration: LibraryConfiguration,
+         rawRequest: any OpenIdRawRequest)
     {
         self.style = content.style
         self.verifiedIdStyle = content.verifiedIdStyle
@@ -45,6 +50,15 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest
         self.responseContainer = issuanceResponseContainer
         self.verifiedIdRequester = verifiedIdRequester
         self.configuration = configuration
+        
+        if let presentationRequest = rawRequest as? PresentationRequest
+        {
+            self.scenario = presentationRequest.content.registration?.scenario
+            self.continuation = presentationRequest.content.continuation
+        } else {
+            self.scenario = nil
+            self.continuation = nil
+        }
     }
     
     public func isSatisfied() -> Bool 
