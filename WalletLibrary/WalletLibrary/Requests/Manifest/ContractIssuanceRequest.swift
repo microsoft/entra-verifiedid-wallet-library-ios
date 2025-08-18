@@ -21,6 +21,10 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest
     
     public let rootOfTrust: RootOfTrust
     
+    public let scenario: String?
+    
+    public let continuation: ContinuationDescriptor?
+    
     let requestState: String?
     
     let issuanceResultCallbackUrl: URL?
@@ -30,10 +34,6 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest
     private let configuration: LibraryConfiguration
     
     private var responseContainer: IssuanceResponseContaining
-    
-    public let scenario: String?
-    
-    public let continuation: ContinuationDescriptor?
     
     init(content: IssuanceRequestContent,
          issuanceResponseContainer: IssuanceResponseContaining,
