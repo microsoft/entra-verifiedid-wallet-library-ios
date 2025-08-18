@@ -48,6 +48,6 @@ struct RegistrationClaims: Codable, Equatable {
         case logoURI = "logo_uri"
         case subjectIdentifierTypesSupported = "subject_syntax_types_supported"
         case vpFormats = "vp_formats"
-        case scenario = "scenario"
+        case scenario = "client_scenario"
     }
 }
