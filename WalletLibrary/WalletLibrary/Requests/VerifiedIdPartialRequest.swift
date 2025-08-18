@@ -52,6 +52,27 @@ public class VerifiedIdPartialRequest
         return updatedRequirement
     }
     
+    public func addRequirement(newRequirement: Requirement) -> Bool
+    {
+        if let groupRequirement = requirement as? GroupRequirement
+        {
+            groupRequirement.requirements.append(newRequirement)
+            return true
+        }
+        else
+        {
+            let requirements = [requirement, newRequirement]
+
+            if let updatedRequirement = try? requirements.reduce()
+            {
+                requirement = updatedRequirement
+                return true
+            }
+            
+            return false
+        }
+    }
+    
     /**
      * Remove a `VerifiedIdRequirement` with given id in `Requirement` tree on the `VerifiedIdPartialRequest`.
      * - Returns:

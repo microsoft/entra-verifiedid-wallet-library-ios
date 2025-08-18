@@ -37,13 +37,15 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
     
     let pin: PinDescriptor?
     
+    let continuation: ContinuationDescriptor?
+    
     enum CodingKeys: String, CodingKey {
         case clientID = "client_id"
         case redirectURI = "redirect_uri"
         case responseType = "response_type"
         case responseMode = "response_mode"
         case idTokenHint = "id_token_hint"
-        case state, nonce, prompt, registration, iat, exp, scope, claims, jti, pin
+        case state, nonce, prompt, registration, iat, exp, scope, claims, jti, pin, continuation
     }
     
     init(jti: String? = nil,
@@ -60,7 +62,8 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
          idTokenHint: String? = nil,
          iat: Int? = nil,
          exp: Int? = nil,
-         pin: PinDescriptor? = nil) {
+         pin: PinDescriptor? = nil,
+         continuation: ContinuationDescriptor? = nil) {
         self.jti = jti
         self.clientID = clientID
         self.redirectURI = redirectURI
@@ -76,6 +79,7 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
         self.iat = iat
         self.exp = exp
         self.pin = pin
+        self.continuation = continuation
     }
 }
 

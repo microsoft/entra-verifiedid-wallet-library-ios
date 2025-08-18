@@ -11,4 +11,8 @@ public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == Verified
     
     /// The look and feel of the Verified Id.
     var verifiedIdStyle: VerifiedIdStyle { get }
+    
+    var scenario: String? { get }
+    
+    var continuation: ContinuationDescriptor? { get }
 }

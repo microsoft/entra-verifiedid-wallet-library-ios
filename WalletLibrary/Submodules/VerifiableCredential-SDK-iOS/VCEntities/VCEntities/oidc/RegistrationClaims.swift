@@ -25,16 +25,21 @@ struct RegistrationClaims: Codable, Equatable {
     /// The supported Verfiable Presentation Formats and Algorithms to respond to request.
     let vpFormats: SupportedVerifiablePresentationFormats?
     
+    /// Optional hint for ui treatment
+    let scenario: String?
+    
     init(clientName: String?,
          clientPurpose: String?,
          logoURI: String?,
          subjectIdentifierTypesSupported: [String]?,
-         vpFormats: SupportedVerifiablePresentationFormats?) {
+         vpFormats: SupportedVerifiablePresentationFormats?,
+         scenario: String?) {
         self.clientName = clientName
         self.clientPurpose = clientPurpose
         self.logoURI = logoURI
         self.subjectIdentifierTypesSupported = subjectIdentifierTypesSupported
         self.vpFormats = vpFormats
+        self.scenario = scenario
     }
 
     enum CodingKeys: String, CodingKey {
@@ -43,5 +48,6 @@ struct RegistrationClaims: Codable, Equatable {
         case logoURI = "logo_uri"
         case subjectIdentifierTypesSupported = "subject_syntax_types_supported"
         case vpFormats = "vp_formats"
+        case scenario = "client_scenario"
     }
 }

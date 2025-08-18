@@ -577,6 +577,7 @@
 		A497435F2B8EB29B004851C2 /* PresentationExchangeRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A497435E2B8EB29B004851C2 /* PresentationExchangeRequirement.swift */; };
 		A4A2D8422B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A2D8412B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift */; };
 		A4B4FA622B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */; };
+		A4B532512E4FE63700F7BC07 /* ContinuationDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B5324F2E4FE63200F7BC07 /* ContinuationDescriptor.swift */; };
 		A4D9F9C72B7AF2BF006D074E /* RequestProcessorExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D9F9C62B7AF2BF006D074E /* RequestProcessorExtendable.swift */; };
 		A4D9F9C92B7AF528006D074E /* VerifiedIdExtending.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D9F9C82B7AF528006D074E /* VerifiedIdExtending.swift */; };
 		A4DC99822B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DC99812B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift */; };
@@ -1182,6 +1183,7 @@
 		A497435E2B8EB29B004851C2 /* PresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeRequirement.swift; sourceTree = "<group>"; };
 		A4A2D8412B7BF320001128E6 /* PresentationExchangeVerifiedIdRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeVerifiedIdRequirement.swift; sourceTree = "<group>"; };
 		A4B4FA612B924E5C00F0AAF3 /* InternalExtensionIdentifierManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalExtensionIdentifierManager.swift; sourceTree = "<group>"; };
+		A4B5324F2E4FE63200F7BC07 /* ContinuationDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinuationDescriptor.swift; sourceTree = "<group>"; };
 		A4D9F9C62B7AF2BF006D074E /* RequestProcessorExtendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessorExtendable.swift; sourceTree = "<group>"; };
 		A4D9F9C82B7AF528006D074E /* VerifiedIdExtending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdExtending.swift; sourceTree = "<group>"; };
 		A4DC99812B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeVerifiedIdRequirementTests.swift; sourceTree = "<group>"; };
@@ -1649,6 +1651,7 @@
 		5552D31829EF47EC00B40302 /* oidc */ = {
 			isa = PBXGroup;
 			children = (
+				A4B5324F2E4FE63200F7BC07 /* ContinuationDescriptor.swift */,
 				5552D31929EF47EC00B40302 /* OIDCClaims.swift */,
 				5552D31A29EF47EC00B40302 /* AllowedAlgorithms.swift */,
 				5552D31B29EF47EC00B40302 /* PresentationRequestClaims.swift */,
@@ -3577,6 +3580,7 @@
 				5552D3D229EF48B200B40302 /* ClaimDescriptor.swift in Sources */,
 				5552D47E29EF4AAB00B40302 /* Claims.swift in Sources */,
 				5552D3F929EF48ED00B40302 /* WalletMetadata.swift in Sources */,
+				A4B532512E4FE63700F7BC07 /* ContinuationDescriptor.swift in Sources */,
 				55DECBE729B92E3900D5C802 /* RawPresentationResponse.swift in Sources */,
 				5552D48929EF4AAB00B40302 /* JweToken.swift in Sources */,
 				55265AF82B6D765D00BAD6A2 /* CredentialConfiguration.swift in Sources */,

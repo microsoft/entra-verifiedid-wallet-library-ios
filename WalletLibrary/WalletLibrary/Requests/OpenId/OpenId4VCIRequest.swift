@@ -11,6 +11,10 @@
  */
 class OpenId4VCIRequest: VerifiedIdIssuanceRequest
 {
+    var scenario: String?
+    
+    var continuation: ContinuationDescriptor?
+    
     /// The look and feel of the requester.
     public let style: RequesterStyle
     
@@ -56,6 +60,8 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
         self.credentialOffer = credentialOffer
         self.configuration = configuration
         self.requestFormatter = RawOpenID4VCIRequestFormatter(configuration: configuration)
+        self.continuation = nil
+        self.scenario = nil
     }
     
     /// Completes the issuance process, returning the result of the issuance request.
