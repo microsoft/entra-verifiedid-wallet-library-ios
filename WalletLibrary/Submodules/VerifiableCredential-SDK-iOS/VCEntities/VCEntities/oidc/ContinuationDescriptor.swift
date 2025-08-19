@@ -16,7 +16,6 @@ public struct ContinuationDescriptor: Codable, Equatable {
     let payload: String?
     
     init(upn: String?,
-         clientPurpose: String?,
          url: String?,
          payload: String?) {
         self.upn = upn
