@@ -7,15 +7,15 @@
  */
 public struct ContinuationDescriptor: Codable, Equatable {
     /// Identifier the user would know
-    let upn: String?
+    public let upn: String?
     
     /// continuation url
-    let url: String?
+    public let url: String?
     
     /// continuation payload
-    let payload: String?
+    public let payload: String?
     
-    init(upn: String?,
+    public init(upn: String?,
          url: String?,
          payload: String?) {
         self.upn = upn
