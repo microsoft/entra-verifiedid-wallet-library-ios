@@ -24,7 +24,9 @@ struct PresentationCompletionResponseDecoder: Decoding
                 return EmptyResult()
             }
             
-            return ContinuationResult(redirectUri: redirectURI)
+            let payload = response?["payload"] as? String
+            
+            return ContinuationResult(redirectUri: redirectURI, payload: payload)
         }
         catch
         {
@@ -36,4 +38,5 @@ struct PresentationCompletionResponseDecoder: Decoding
 public struct ContinuationResult: SuccessfulCompletionResult
 {
     public let redirectUri: String?
+    public let payload: String?
 }
