@@ -46,7 +46,7 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
                                keyReference: String,
                                algorithm: String) throws -> HolderIdentifier
     {
-        logger.logDebug(message: "Building Identifier")
+        logger.logVerbose(message: "Building Identifier")
         // We only support DID:JWK method for now.
         guard didMethod == "did:jwk" else
         {
@@ -56,10 +56,10 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
         }
         
         let key = try retrieveOrGenerateNewKey(keyId: keyId)
-        logger.logDebug(message: "Got private key")
+        logger.logVerbose(message: "Got private key")
         
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: key, algorithm: algorithm)
-        logger.logDebug(message: "Generated public key")
+        logger.logVerbose(message: "Generated public key")
         
         let did = try buildDIDIfNeeded(id: id,
                                        didMethod: didMethod,
@@ -85,7 +85,7 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
             return id
         }
         
-        logger.logDebug(message: "Building decentralized identifier")
+        logger.logVerbose(message: "Building decentralized identifier")
         return try didBuilder.build(from: publicKey, method: didMethod)
     }
     
@@ -93,12 +93,12 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
     {
         if let keyId = keyId
         {
-            logger.logDebug(message: "Retrieving private key")
+            logger.logVerbose(message: "Retrieving private key")
             return keyManagementOperations.retrieveKeyFromStorage(withId: keyId)
         }
         else
         {
-            logger.logDebug(message: "Generating new private key")
+            logger.logVerbose(message: "Generating new private key")
             return try keyManagementOperations.generateKey()
         }
     }

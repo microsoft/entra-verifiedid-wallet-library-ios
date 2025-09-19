@@ -32,21 +32,22 @@ class IdentifierRepository: HolderIdentifierRepository
     /// - Returns: The main `HolderIdentifier` instance.
     func getMainHolderIdentifier() throws -> HolderIdentifier
     {
-        logger.logDebug(message: "Fetching HolderIdentifiers")
+        logger.logVerbose(message: "Fetching HolderIdentifiers")
         let storedHolderIdentifier = try storage.fetchStoredHolderIdentifiers()
-        logger.logDebug(message: "Found \(storedHolderIdentifier.count) HolderIdentifiers")
+        
+        logger.logVerbose(message: "Found \(storedHolderIdentifier.count) HolderIdentifiers")
         
         /// We only support one `HolderIdentifier` per user as of now.
         if let firstHolderIdentifier = storedHolderIdentifier.first
         {
-            logger.logDebug(message: "An existing HolderIdentifier was found")
+            logger.logVerbose(message: "An existing HolderIdentifier was found")
             return try mapToHolderIdentifier(storedIdentifier: firstHolderIdentifier)
         }
         else
         {
             // If there are no identifiers in storage, create default one using FIPS compliant keys
             // and "did:jwk" method. The key reference is always "0" for "did:jwk" dids.
-            logger.logDebug(message: "Creating a new HolderIdentifier")
+            logger.logVerbose(message: "Creating a new HolderIdentifier")
             let mainIdentifier = try builder.buildHolderIdentifier(didMethod: "did:jwk",
                                                                    id: nil,
                                                                    keyId: nil,
@@ -69,7 +70,7 @@ class IdentifierRepository: HolderIdentifierRepository
                                                  propertyName: "KeyId")
         let keyReference = try String.getRequiredProperty(property: storedIdentifier.keyReference,
                                                           propertyName: "keyReference")
-        logger.logDebug(message: "All HolderIdentifier properties found")
+        logger.logVerbose(message: "All HolderIdentifier properties found")
         
         return try builder.buildHolderIdentifier(didMethod: method,
                                                  id: storedIdentifier.id,
@@ -89,7 +90,7 @@ class IdentifierRepository: HolderIdentifierRepository
         }
         
         try storage.storeHolderIdentifier(holderIdentifier: storedProperties)
-        logger.logDebug(message: "Successfully stored HolderIdentifier")
+        logger.logVerbose(message: "Successfully stored HolderIdentifier")
     }
 }
 

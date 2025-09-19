@@ -6,12 +6,12 @@
 /**
  * Object used to log data within the library.
  */
-struct WalletLibraryLogger: ExtensionWalletLibraryLogger
+class WalletLibraryLogger: ExtensionWalletLibraryLogger
 {
     var consumers: [WalletLibraryLogConsumer] = []
     
     /// Adds a log consumer to logger.
-    mutating func add(consumer: WalletLibraryLogConsumer) {
+    func add(consumer: WalletLibraryLogConsumer) {
         consumers.append(consumer)
     }
     

@@ -32,7 +32,7 @@ public class VerifiedIdClientBuilder
     
     public init() 
     {
-        logger = WalletLibraryLogger()
+        self.logger = WalletLibraryLogger()
         self.identifierRepository = IdentifierRepository(logger: logger)
     }
     
