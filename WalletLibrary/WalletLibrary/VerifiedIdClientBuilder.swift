@@ -32,8 +32,8 @@ public class VerifiedIdClientBuilder
     
     public init() 
     {
-        logger = WalletLibraryLogger()
-        self.identifierRepository = IdentifierRepository()
+        self.logger = WalletLibraryLogger()
+        self.identifierRepository = IdentifierRepository(logger: logger)
     }
     
     /// Internal init to help with testing.

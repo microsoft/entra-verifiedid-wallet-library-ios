@@ -9,6 +9,9 @@
  */
 class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
 {
+    /// An object responsible for logging
+    private let logger: WalletLibraryLogger
+    
     /// An object responsible for performing key management operations, such as key creation, retrieval, or deletion.
     private let keyManagementOperations: KeyManagementOperating
     
@@ -18,9 +21,11 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
     /// An instance of `DIDBuilder` used for creating decentralized identifiers (DIDs).
     private let didBuilder: DIDBuilder
     
-    init(keyManagementOperations: KeyManagementOperating = KeyManagementOperations(),
+    init(logger: WalletLibraryLogger,
+         keyManagementOperations: KeyManagementOperating = KeyManagementOperations(),
          cryptoOperations: CryptoOperating = CryptoOperations())
     {
+        self.logger = logger
         self.keyManagementOperations = keyManagementOperations
         self.cryptoOperations = cryptoOperations
         self.didBuilder = DIDBuilder()
@@ -41,16 +46,20 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
                                keyReference: String,
                                algorithm: String) throws -> HolderIdentifier
     {
+        logger.logVerbose(message: "Building Identifier")
         // We only support DID:JWK method for now.
         guard didMethod == "did:jwk" else
         {
+            logger.logError(message: "Unsupported DID Method: \(didMethod)")
             throw IdentifierError(message: "Unsupported DID Method: \(didMethod).",
                                   code: "unsupported_did_method")
         }
         
         let key = try retrieveOrGenerateNewKey(keyId: keyId)
+        logger.logVerbose(message: "Got private key")
         
         let publicKey = try cryptoOperations.getPublicKey(fromSecret: key, algorithm: algorithm)
+        logger.logVerbose(message: "Generated public key")
         
         let did = try buildDIDIfNeeded(id: id,
                                        didMethod: didMethod,
@@ -63,6 +72,7 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
                                             keyReferenceSecret: key,
                                             cryptoOperations: cryptoOperations)
         
+        logger.logInfo(message: "Successfully built identifier")
         return identifier
     }
     
@@ -75,6 +85,7 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
             return id
         }
         
+        logger.logVerbose(message: "Building decentralized identifier")
         return try didBuilder.build(from: publicKey, method: didMethod)
     }
     
@@ -82,10 +93,12 @@ class KeychainHolderIdentifierBuilder: HolderIdentifierBuilder
     {
         if let keyId = keyId
         {
+            logger.logVerbose(message: "Retrieving private key")
             return keyManagementOperations.retrieveKeyFromStorage(withId: keyId)
         }
         else
         {
+            logger.logVerbose(message: "Generating new private key")
             return try keyManagementOperations.generateKey()
         }
     }
