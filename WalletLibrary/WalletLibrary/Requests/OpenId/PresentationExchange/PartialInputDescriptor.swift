@@ -86,7 +86,8 @@ struct PartialInputDescriptor
     /// Constructs an appropriate crypto requirement given the InputDescriptor's requirement
     private func getCryptoRequirement() -> CryptoRequirement? {
         return if let vcRequirement = self.requirement as? PresentationExchangeVerifiedIdRequirement,
-                  let subjectToMatch = vcRequirement.selectedVerifiedId?.id
+                  let fulfilledVC = vcRequirement.selectedVerifiedId as? InternalVerifiedId,
+                  let subjectToMatch = fulfilledVC.raw.content.sub
         {
             MatchSubjectCryptoRequirement(subject: subjectToMatch)
         } else {
