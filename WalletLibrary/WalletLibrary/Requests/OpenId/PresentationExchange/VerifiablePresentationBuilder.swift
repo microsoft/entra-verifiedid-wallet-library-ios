@@ -19,8 +19,7 @@ protocol VerifiablePresentationBuilding
     func buildInputDescriptors() -> [InputDescriptorMapping]
     
     func buildVerifiablePresentation(audience: String,
-                                     nonce: String,
-                                     identifier: HolderIdentifier) throws -> VerifiablePresentation
+                                     nonce: String) throws -> VerifiablePresentation
 }
 
 /**
@@ -37,10 +36,15 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
     /// Formats headers for a JWS token.
     private let headerFormatter: JwsHeaderFormatter
     
+    /// The Decentralized Identifier of this presentation
+    private let holderIdentifier: HolderIdentifier
+    
     init(index: Int,
+         identifier: HolderIdentifier,
          headerFormatter: JwsHeaderFormatter = JwsHeaderFormatter())
     {
         self.index = index
+        self.holderIdentifier = identifier
         self.headerFormatter = headerFormatter
         partialInputDescriptors = []
     }
@@ -48,6 +52,9 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
     /// Determines if a given PartialInputDescriptor can be included in the Verifiable Presentation.
     func canInclude(partialInputDescriptor: PartialInputDescriptor) -> Bool
     {
+        if !partialInputDescriptor.isCompatibleWith(holderIdentifier: holderIdentifier) {
+            return false
+        }
         return partialInputDescriptors.reduce(true) { result, partial in
             result ? partial.isCompatibleWith(partialInputDescriptor: partialInputDescriptor) : result
         }
@@ -70,14 +77,13 @@ class VerifiablePresentationBuilder: VerifiablePresentationBuilding
     }
     
     func buildVerifiablePresentation(audience: String,
-                                     nonce: String,
-                                     identifier: HolderIdentifier) throws -> VerifiablePresentation
+                                     nonce: String) throws -> VerifiablePresentation
     {
         let serializedVerifiedIds = partialInputDescriptors.map { $0.serializedVerifiedId }
         return try build(rawVCs: serializedVerifiedIds,
                          audience: audience,
                          nonce: nonce,
-                         identifier: identifier)
+                         identifier: self.holderIdentifier)
     }
     
     private func build(rawVCs: [String],

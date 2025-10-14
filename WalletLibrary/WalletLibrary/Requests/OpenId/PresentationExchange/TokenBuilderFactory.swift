@@ -13,7 +13,7 @@ protocol TokenBuilderFactory
     func createPresentationExchangeIdTokenBuilder() -> any PresentationExchangeIdTokenBuilding
     
     /// Creates and returns an instance of a builder for Verifiable Presentations.
-    func createVerifiablePresentationBuilder(index: Int) -> any VerifiablePresentationBuilding
+    func createVerifiablePresentationBuilder(index: Int, identifier: HolderIdentifier) -> any VerifiablePresentationBuilding
 }
 
 /**
@@ -28,8 +28,8 @@ struct DefaultTokenBuilderFactory: TokenBuilderFactory
     }
     
     /// Creates and returns an instance of a builder for Verifiable Presentations.
-    func createVerifiablePresentationBuilder(index: Int) -> any VerifiablePresentationBuilding
+    func createVerifiablePresentationBuilder(index: Int, identifier: HolderIdentifier) -> any VerifiablePresentationBuilding
     {
-        return VerifiablePresentationBuilder(index: index)
+        return VerifiablePresentationBuilder(index: index, identifier: identifier)
     }
 }

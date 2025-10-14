@@ -32,6 +32,12 @@ struct PartialInputDescriptor
         self.requirement = requirement
     }
     
+    /// Determines if the given holderIdentifier is compatible with this InputDescriptor's requirements
+    func isCompatibleWith(holderIdentifier: HolderIdentifier) -> Bool
+    {
+        return getCryptoRequirement()?.isSupported(identifier: holderIdentifier) ?? true
+    }
+    
     /// Determines if this partial input descriptor is compatible with another partial input descriptor.
     /// Compatibility is defined based on the exclusivity criteria specified in their presentation exchange
     /// requirements. If both input descriptors have exclusive presentation criteria that do not conflict
@@ -59,5 +65,32 @@ struct PartialInputDescriptor
                                       format: Constants.JwtVp,
                                       path: "$[\(vpIndex)]",
                                       pathNested: nestedInputDesc)
+    }
+    
+    /// Tries to get a compatible HolderIdentifier for this input descriptor and (fulfilled) requirement
+    func getCompatibleIdentityHolder(holderIdentifierFactory: IdentifierFactory) throws -> HolderIdentifier
+    {
+        let cryptoRequirement = getCryptoRequirement()
+        do {
+            return try holderIdentifierFactory.getIdentifier(for: cryptoRequirement)
+        } catch {
+            // Try to throw a more accurate error to what has happened
+            if let subjectRequirement = cryptoRequirement as? MatchSubjectCryptoRequirement
+            {
+                throw TokenValidationError.UnableToUseIdentifier(subject: subjectRequirement.subject)
+            }
+            throw error
+        }
+    }
+    
+    /// Constructs an appropriate crypto requirement given the InputDescriptor's requirement
+    private func getCryptoRequirement() -> CryptoRequirement? {
+        return if let vcRequirement = self.requirement as? PresentationExchangeVerifiedIdRequirement,
+                  let subjectToMatch = vcRequirement.selectedVerifiedId?.id
+        {
+            MatchSubjectCryptoRequirement(subject: subjectToMatch)
+        } else {
+            nil
+        }
     }
 }
