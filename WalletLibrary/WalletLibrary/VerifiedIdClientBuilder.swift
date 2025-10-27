@@ -82,10 +82,11 @@ public class VerifiedIdClientBuilder
         if previewFeatureFlags.isPreviewFeatureSupported(PreviewFeatureFlags.FIPSCompliantIdentifier),
            let holderIdentifier = getMainHolderIdentifier()
         {
-            identifiers.append(holderIdentifier)
+            /// make the JWK identifier the default
+            identifiers.insert(holderIdentifier, at: 0)
         }
         else if let defaultIdentifier = try? VerifiableCredentialSDK.identifierService.fetchOrCreateMasterIdentifier(),
-                let holderIdentifier = try? defaultIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
+                  let holderIdentifier = try? defaultIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
         {
             identifiers.append(holderIdentifier)
         }

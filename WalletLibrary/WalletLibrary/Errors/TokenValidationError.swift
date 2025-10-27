@@ -61,4 +61,12 @@ class TokenValidationError: VerifiedIdError
                                     code: "token_creation_error",
                                     correlationId: nil)
     }
+    
+    static func UnableToUseIdentifier(subject: String) -> TokenValidationError
+    {
+        let message = "Unable to create a token using identifier: \(subject)"
+        return TokenValidationError(message: message,
+                                    code: "token_creation_error",
+                                    correlationId: nil)
+    }
 }

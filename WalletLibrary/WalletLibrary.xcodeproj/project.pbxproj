@@ -581,6 +581,7 @@
 		A4D9F9C72B7AF2BF006D074E /* RequestProcessorExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D9F9C62B7AF2BF006D074E /* RequestProcessorExtendable.swift */; };
 		A4D9F9C92B7AF528006D074E /* VerifiedIdExtending.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D9F9C82B7AF528006D074E /* VerifiedIdExtending.swift */; };
 		A4DC99822B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DC99812B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift */; };
+		A4DF2BF02E9EF8A4000AE314 /* MatchSubjectCryptoRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF2BEE2E9EF89B000AE314 /* MatchSubjectCryptoRequirement.swift */; };
 		A4F39A8B2B91571E005C12FC /* ExtensionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F39A8A2B91571E005C12FC /* ExtensionConfiguration.swift */; };
 /* End PBXBuildFile section */
 
@@ -1187,6 +1188,7 @@
 		A4D9F9C62B7AF2BF006D074E /* RequestProcessorExtendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProcessorExtendable.swift; sourceTree = "<group>"; };
 		A4D9F9C82B7AF528006D074E /* VerifiedIdExtending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdExtending.swift; sourceTree = "<group>"; };
 		A4DC99812B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeVerifiedIdRequirementTests.swift; sourceTree = "<group>"; };
+		A4DF2BEE2E9EF89B000AE314 /* MatchSubjectCryptoRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchSubjectCryptoRequirement.swift; sourceTree = "<group>"; };
 		A4F39A8A2B91571E005C12FC /* ExtensionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -3133,6 +3135,7 @@
 		55E336CF293FA6D900CD2ED7 /* Requirements */ = {
 			isa = PBXGroup;
 			children = (
+				A4DF2BEE2E9EF89B000AE314 /* MatchSubjectCryptoRequirement.swift */,
 				559C4E542C078F1300BA7888 /* OpenId4VCIRetryablePinRequirement.swift */,
 				559C4E532C078F1300BA7888 /* PrefilledAccessTokenRequirement.swift */,
 				55E33707293FD25900CD2ED7 /* AccessTokenRequirement.swift */,
@@ -3604,6 +3607,7 @@
 				5552D39E29EF481100B40302 /* ResponseMappings.swift in Sources */,
 				559BD453299D3DD800BD61AC /* IssuanceRequest+Mappable.swift in Sources */,
 				550AF7432B7E8C9A00E5F305 /* RawOpenID4VCIRequestFormatter.swift in Sources */,
+				A4DF2BF02E9EF8A4000AE314 /* MatchSubjectCryptoRequirement.swift in Sources */,
 				5552D45229EF4A8100B40302 /* String+PercentEncoding.swift in Sources */,
 				5552D45029EF4A8100B40302 /* FetchWellKnownConfigDocumentOperation.swift in Sources */,
 				550A9173299311A10014D030 /* VerifiedIdRequestURL.swift in Sources */,

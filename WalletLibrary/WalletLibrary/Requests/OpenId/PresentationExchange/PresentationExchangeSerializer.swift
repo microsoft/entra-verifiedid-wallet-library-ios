@@ -69,7 +69,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         {
             let partialInputDescriptor = PartialInputDescriptor(serializedVerifiedId: rawVC,
                                                                 requirement: peRequirement)
-            addToVPGroupings(partialInputDescriptor: partialInputDescriptor)
+            try addToVPGroupings(partialInputDescriptor: partialInputDescriptor)
         }
         else
         {
@@ -78,7 +78,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
         }
     }
     
-    private func addToVPGroupings(partialInputDescriptor: PartialInputDescriptor)
+    private func addToVPGroupings(partialInputDescriptor: PartialInputDescriptor) throws
     {
         for group in vpBuilders
         {
@@ -89,7 +89,8 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             }
         }
         
-        let newBuilder = tokenBuildFactory.createVerifiablePresentationBuilder(index: vpBuilders.count)
+        let identifier = try partialInputDescriptor.getCompatibleIdentityHolder(holderIdentifierFactory: configuration.identifierFactory)
+        let newBuilder = tokenBuildFactory.createVerifiablePresentationBuilder(index: vpBuilders.count, identifier: identifier)
         newBuilder.add(partialInputDescriptor: partialInputDescriptor)
         vpBuilders.append(newBuilder)
     }
@@ -127,8 +128,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     {
         return try vpBuilders.map { builder in
             return try builder.buildVerifiablePresentation(audience: audience,
-                                                           nonce: nonce,
-                                                           identifier: identifier)
+                                                           nonce: nonce)
         }
     }
 }
