@@ -24,17 +24,35 @@ class SimpleFailureHandler: FailureHandler
         {
             cvValue = response.allHeaderFields[cvName] as? String ?? ""
         }
+        
+        let headers = Dictionary(uniqueKeysWithValues: response.allHeaderFields.compactMap {
+            key, value in
+            if let stringValue = value as? String
+            {
+                return Dictionary.Element(key: key.description, value: stringValue)
+            }
+            else if let losslessStringValue = value as? LosslessStringConvertible
+            {
+                return Dictionary.Element(key: key.description, value: losslessStringValue.description)
+            }
+            else
+            {
+                return nil
+            }
+        })
 
         guard let responseBody = String(data: data, encoding: .utf8) else
         {
             throw VerifiedIdErrors.NetworkingError(message: "Unable to parse response body.",
                                                    correlationId: cvValue,
-                                                   statusCode: response.statusCode).error
+                                                   statusCode: response.statusCode,
+                                                   headers: headers).error
         }
         
         let networkingError = VerifiedIdErrors.NetworkingError(message: responseBody,
                                                                correlationId: cvValue,
-                                                               statusCode: response.statusCode).error
+                                                               statusCode: response.statusCode,
+                                                               headers: headers).error
         
         self.logNetworkingError(error: networkingError)
         return networkingError
