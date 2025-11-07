@@ -18,7 +18,7 @@ enum VerifiedIdErrors {
     
     /// Common Errors in Alphabetical Order.
     case MalformedInput(message: String, error: Error? = nil, correlationId: String? = nil)
-    case NetworkingError(message: String, correlationId: String, statusCode: Int? = nil, innerError: Error? = nil)
+    case NetworkingError(message: String, correlationId: String, statusCode: Int? = nil, innerError: Error? = nil, headers: [String: String]? = nil)
     case RequirementNotMet(message: String, errors: [Error]? = nil, correlationId: String? = nil, code: String? = nil)
     case UnspecifiedError(error: Error, correlationId: String? = nil)
     
@@ -30,12 +30,14 @@ enum VerifiedIdErrors {
         case .NetworkingError(message: let message,
                               correlationId: let correlationId,
                               statusCode: let statusCode,
-                              innerError: let error):
+                              innerError: let error,
+                              headers: let headers):
             return VerifiedIdNetworkingError(message: message,
                                              code: ErrorCode.NetworkingError,
                                              correlationId: correlationId,
                                              statusCode: statusCode,
-                                             innerError: error)
+                                             innerError: error,
+                                             headers: headers)
         case .RequirementNotMet(let message, let errors, let correlationId, let code):
             return RequirementNotMetError(message: message, errors: errors, correlationId: correlationId, code: code)
         case .UnspecifiedError(error: let error, let correlationId):
@@ -126,21 +128,24 @@ public class VerifiedIdNetworkingError: VerifiedIdError {
     public let statusCode: Int?
     public let innerError: Error?
     public let retryable: Bool
+    public let headers: [String: String]?
     
     fileprivate init(message: String,
                      code: String,
                      correlationId: String? = nil,
                      statusCode: Int? = nil,
                      innerError: Error? = nil,
-                     retryable: Bool = false) {
+                     retryable: Bool = false,
+                     headers: [String: String]? = nil) {
         self.statusCode = statusCode
         self.innerError = innerError
         self.retryable = retryable
+        self.headers = headers
         super.init(message: message, code: code, correlationId: correlationId)
     }
     
     private enum CodingKeys: String, CodingKey {
-        case message, code, correlationId, statusCode, innerError, retryable
+        case message, code, correlationId, statusCode, innerError, retryable, headers
     }
     
     public override func encode(to encoder: Encoder) throws {
@@ -148,6 +153,7 @@ public class VerifiedIdNetworkingError: VerifiedIdError {
         try container.encode(statusCode, forKey: .statusCode)
         try container.encode(String(describing: innerError), forKey: .innerError)
         try container.encode(retryable, forKey: .retryable)
+        try container.encode(headers, forKey: .headers)
         try super.encode(to: encoder)
     }
 }
