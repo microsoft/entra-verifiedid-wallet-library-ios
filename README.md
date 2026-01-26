@@ -1,5 +1,3 @@
-> # This project has concluded its lifecycle and will no longer receive updates or maintenance. Microsoft is no longer providing support for this library.
-
 # Microsoft Entra Wallet Library
 ![badge-packagemanagers-supported] 
 ![badge-pod-version] 
