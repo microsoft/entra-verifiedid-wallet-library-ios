@@ -40,24 +40,26 @@ class IdentifierRepository: HolderIdentifierRepository
         /// We only support one `HolderIdentifier` per user as of now.
         if let firstHolderIdentifier = storedHolderIdentifier.first
         {
-            logger.logVerbose(message: "An existing HolderIdentifier was found")
-            return try mapToHolderIdentifier(storedIdentifier: firstHolderIdentifier)
+            do {
+                logger.logVerbose(message: "An existing HolderIdentifier was found")
+                return try mapToHolderIdentifier(storedIdentifier: firstHolderIdentifier)
+            } catch (let error as SecretStoringError) {
+                logger.logWarning(message: "Stored HolderIdentifier has crypto key material error: \(String(describing: error))")
+            }
         }
-        else
-        {
-            // If there are no identifiers in storage, create default one using FIPS compliant keys
-            // and "did:jwk" method. The key reference is always "0" for "did:jwk" dids.
-            logger.logVerbose(message: "Creating a new HolderIdentifier")
-            let mainIdentifier = try builder.buildHolderIdentifier(didMethod: "did:jwk",
-                                                                   id: nil,
-                                                                   keyId: nil,
-                                                                   keyReference: "0",
-                                                                   algorithm: "ES256")
-            try storeNewIdentifier(identifier: mainIdentifier)
-            logger.logInfo(message: "New HolderIdentifier created")
-            
-            return mainIdentifier
-        }
+        
+        // If there are no identifiers in storage, create default one using FIPS compliant keys
+        // and "did:jwk" method. The key reference is always "0" for "did:jwk" dids.
+        logger.logVerbose(message: "Creating a new HolderIdentifier")
+        let mainIdentifier = try builder.buildHolderIdentifier(didMethod: "did:jwk",
+                                                               id: nil,
+                                                               keyId: nil,
+                                                               keyReference: "0",
+                                                               algorithm: "ES256")
+        try storeNewIdentifier(identifier: mainIdentifier)
+        logger.logInfo(message: "New HolderIdentifier created")
+        
+        return mainIdentifier
     }
     
     private func mapToHolderIdentifier(storedIdentifier: HolderIdentifierStoredProperties) throws -> HolderIdentifier
