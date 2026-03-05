@@ -19,7 +19,7 @@ class KeychainHolderIdentifierBuilderTests: XCTestCase
         
         let mockCryptoOperations = MockCryptoOperations()
         let mockKeyManagementOperations = MockKeyManagementOperations(secretStore: SecretStoreMock())
-        let builder = KeychainHolderIdentifierBuilder(keyManagementOperations: mockKeyManagementOperations,
+        let builder = KeychainHolderIdentifierBuilder(logger:  WalletLibraryLogger(), keyManagementOperations: mockKeyManagementOperations,
                                                       cryptoOperations: mockCryptoOperations)
         
         // Act / Assert
@@ -47,7 +47,7 @@ class KeychainHolderIdentifierBuilderTests: XCTestCase
         let mockCryptoOperations = MockCryptoOperations()
         let mockKeyManagementOperations = MockKeyManagementOperations(secretStore: SecretStoreMock(),
                                                                       expectedGenerateKeyError: expectedError)
-        let builder = KeychainHolderIdentifierBuilder(keyManagementOperations: mockKeyManagementOperations,
+        let builder = KeychainHolderIdentifierBuilder(logger:  WalletLibraryLogger(), keyManagementOperations: mockKeyManagementOperations,
                                                       cryptoOperations: mockCryptoOperations)
         
         // Act / Assert
@@ -73,7 +73,7 @@ class KeychainHolderIdentifierBuilderTests: XCTestCase
         // Arrange
         let mockCryptoOperations = MockCryptoOperations(throwWhenGettingPublicKey: true)
         let mockKeyManagementOperations = MockKeyManagementOperations(secretStore: SecretStoreMock())
-        let builder = KeychainHolderIdentifierBuilder(keyManagementOperations: mockKeyManagementOperations,
+        let builder = KeychainHolderIdentifierBuilder(logger:  WalletLibraryLogger(), keyManagementOperations: mockKeyManagementOperations,
                                                       cryptoOperations: mockCryptoOperations)
         
         // Act / Assert
@@ -90,7 +90,7 @@ class KeychainHolderIdentifierBuilderTests: XCTestCase
         // Arrange
         let mockCryptoOperations = MockCryptoOperations()
         let mockKeyManagementOperations = MockKeyManagementOperations(secretStore: SecretStoreMock())
-        let builder = KeychainHolderIdentifierBuilder(keyManagementOperations: mockKeyManagementOperations,
+        let builder = KeychainHolderIdentifierBuilder(logger:  WalletLibraryLogger(), keyManagementOperations: mockKeyManagementOperations,
                                                       cryptoOperations: mockCryptoOperations)
         
         // Act / Assert
@@ -116,7 +116,7 @@ class KeychainHolderIdentifierBuilderTests: XCTestCase
         let mockPublicKey = ES256PublicKey(x: Data(count: 32), y: Data(count: 32))!
         let mockCryptoOperations = MockCryptoOperations(publicKey: mockPublicKey)
         let mockKeyManagementOperations = MockKeyManagementOperations(secretStore: SecretStoreMock())
-        let builder = KeychainHolderIdentifierBuilder(keyManagementOperations: mockKeyManagementOperations,
+        let builder = KeychainHolderIdentifierBuilder(logger:  WalletLibraryLogger(), keyManagementOperations: mockKeyManagementOperations,
                                                       cryptoOperations: mockCryptoOperations)
         
         // Act

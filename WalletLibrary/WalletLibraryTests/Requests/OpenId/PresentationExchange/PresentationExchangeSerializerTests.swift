@@ -119,7 +119,8 @@ class PresentationExchangeSerializerTests: XCTestCase
                            "Unable to add requirement to VP grouping: MockPresentationExchangeRequirement")
         }
         
-        let logger = WalletLibraryLogger(consumers: [MockLogConsumer(logCallback: callback)])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: MockLogConsumer(logCallback: callback))
         let configuration = LibraryConfiguration(logger: logger)
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
@@ -145,7 +146,10 @@ class PresentationExchangeSerializerTests: XCTestCase
         }
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(vpTokenBuilderSpy: vpTokenBuilderSpy)
-        let configuration = LibraryConfiguration()
+        let mockIdentifier = MockHolderIdentifier()
+        let configuration = LibraryConfiguration(
+            identifiers: [mockIdentifier]
+        )
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
@@ -172,7 +176,10 @@ class PresentationExchangeSerializerTests: XCTestCase
         }
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(vpTokenBuilderSpy: vpTokenBuilderSpy)
-        let configuration = LibraryConfiguration()
+        let mockIdentifier = MockHolderIdentifier()
+        let configuration = LibraryConfiguration(
+            identifiers: [mockIdentifier]
+        )
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
@@ -202,7 +209,10 @@ class PresentationExchangeSerializerTests: XCTestCase
         }
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(vpTokenBuilderSpy: vpTokenBuilderSpy)
-        let configuration = LibraryConfiguration()
+        let mockIdentifier = MockHolderIdentifier()
+        let configuration = LibraryConfiguration(
+            identifiers: [mockIdentifier]
+        )
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,

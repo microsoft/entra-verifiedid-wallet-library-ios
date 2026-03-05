@@ -128,7 +128,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
-                                                  vpFormats: nil)
+                                                  vpFormats: nil,
+                                                  scenario: nil)
         let token = createPresentationRequestToken(registration: mockRegistration)
         
         let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
@@ -177,7 +178,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
-                                                  vpFormats: nil)
+                                                  vpFormats: nil,
+                                                  scenario: nil)
         let token = createPresentationRequestToken(registration: mockRegistration,
                                                    callbackUrl: nil)
         
@@ -225,7 +227,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
-                                                  vpFormats: nil)
+                                                  vpFormats: nil,
+                                                  scenario: nil)
         let token = createPresentationRequestToken(requestedClaims: mockRequestClaims,
                                                    registration: mockRegistration,
                                                    callbackUrl: "//|\\")
@@ -274,7 +277,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
-                                                  vpFormats: nil)
+                                                  vpFormats: nil,
+                                                  scenario: nil)
         let token = createPresentationRequestToken(requestedClaims: mockRequestClaims,
                                                    registration: mockRegistration,
                                                    state: nil)
@@ -323,7 +327,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
-                                                  vpFormats: nil)
+                                                  vpFormats: nil,
+                                                  scenario: nil)
         let token = createPresentationRequestToken(registration: mockRegistration)
         
         let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
@@ -375,7 +380,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                   clientPurpose: nil,
                                                   logoURI: "https://test.com",
                                                   subjectIdentifierTypesSupported: nil,
-                                                  vpFormats: nil)
+                                                  vpFormats: nil,
+                                                  scenario: nil)
         let token = createPresentationRequestToken(registration: mockRegistration)
         
         let expectedRootOfTrust = RootOfTrust(verified: false, source: "")
@@ -426,7 +432,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
-                                                  vpFormats: nil)
+                                                  vpFormats: nil,
+                                                  scenario: nil)
         let token = createPresentationRequestToken(registration: mockRegistration,
                                                    idTokenHint: "mock idToken hint")
         
@@ -483,7 +490,8 @@ class PresentationRequestMappingTests: XCTestCase {
                                                   clientPurpose: nil,
                                                   logoURI: nil,
                                                   subjectIdentifierTypesSupported: nil,
-                                                  vpFormats: nil)
+                                                  vpFormats: nil,
+                                                  scenario: nil)
         let pinDescriptor = PinDescriptor(type: "mock pin type",
                                           length: 4,
                                           hash: "mock hash",

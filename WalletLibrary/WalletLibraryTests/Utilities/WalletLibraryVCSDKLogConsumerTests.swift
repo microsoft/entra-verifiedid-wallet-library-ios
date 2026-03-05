@@ -30,7 +30,8 @@ class WalletLibraryVCSDKLogConsumerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .DEBUG)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let walletLibraryLogger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let walletLibraryLogger = WalletLibraryLogger()
+        walletLibraryLogger.add(consumer: mockWalletLibraryLogConsumer)
         let walletLibraryVCSDKLogConsumer = WalletLibraryVCSDKLogConsumer(logger: walletLibraryLogger)
         
         // Act
@@ -45,7 +46,8 @@ class WalletLibraryVCSDKLogConsumerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .INFO)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let walletLibraryLogger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let walletLibraryLogger = WalletLibraryLogger()
+        walletLibraryLogger.add(consumer: mockWalletLibraryLogConsumer)
         let walletLibraryVCSDKLogConsumer = WalletLibraryVCSDKLogConsumer(logger: walletLibraryLogger)
         
         // Act
@@ -60,7 +62,8 @@ class WalletLibraryVCSDKLogConsumerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .ERROR)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let walletLibraryLogger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let walletLibraryLogger = WalletLibraryLogger()
+        walletLibraryLogger.add(consumer: mockWalletLibraryLogConsumer)
         let walletLibraryVCSDKLogConsumer = WalletLibraryVCSDKLogConsumer(logger: walletLibraryLogger)
         
         // Act
@@ -75,7 +78,8 @@ class WalletLibraryVCSDKLogConsumerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .FAILURE)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let walletLibraryLogger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let walletLibraryLogger = WalletLibraryLogger()
+        walletLibraryLogger.add(consumer: mockWalletLibraryLogConsumer)
         let walletLibraryVCSDKLogConsumer = WalletLibraryVCSDKLogConsumer(logger: walletLibraryLogger)
         
         // Act
@@ -90,7 +94,8 @@ class WalletLibraryVCSDKLogConsumerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .WARN)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let walletLibraryLogger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let walletLibraryLogger = WalletLibraryLogger()
+        walletLibraryLogger.add(consumer: mockWalletLibraryLogConsumer)
         let walletLibraryVCSDKLogConsumer = WalletLibraryVCSDKLogConsumer(logger: walletLibraryLogger)
         
         // Act
@@ -105,7 +110,8 @@ class WalletLibraryVCSDKLogConsumerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .VERBOSE)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let walletLibraryLogger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let walletLibraryLogger = WalletLibraryLogger()
+        walletLibraryLogger.add(consumer: mockWalletLibraryLogConsumer)
         let walletLibraryVCSDKLogConsumer = WalletLibraryVCSDKLogConsumer(logger: walletLibraryLogger)
         
         // Act
@@ -124,7 +130,8 @@ class WalletLibraryVCSDKLogConsumerTests: XCTestCase {
         }
         
         let mockWalletLibraryLogConsumer = MockLogConsumer(eventCallback: eventCalled)
-        let walletLibraryLogger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let walletLibraryLogger = WalletLibraryLogger()
+        walletLibraryLogger.add(consumer: mockWalletLibraryLogConsumer)
         let walletLibraryVCSDKLogConsumer = WalletLibraryVCSDKLogConsumer(logger: walletLibraryLogger)
         
         // Act

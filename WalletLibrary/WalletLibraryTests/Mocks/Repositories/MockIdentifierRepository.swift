@@ -9,23 +9,33 @@ struct MockIdentifierRepository: HolderIdentifierRepository
 {
     private let expectedIdentifier: HolderIdentifier?
     
-    private let expectedErrorThrown: Error?
+    private let expectedSaveErrorThrown: Error?
     
-    init(expectedIdentifier: HolderIdentifier? = nil, expectedErrorThrown: Error? = nil)
+    private let expectedDeleteErrorThrown: Error?
+    
+    init(expectedIdentifier: HolderIdentifier? = nil, expectedErrorThrown: Error? = nil, expectedPruneErrorThrown: Error? = nil)
     {
         self.expectedIdentifier = expectedIdentifier
-        self.expectedErrorThrown = expectedErrorThrown
+        self.expectedSaveErrorThrown = expectedErrorThrown
+        self.expectedDeleteErrorThrown = expectedPruneErrorThrown
     }
     
     func getMainHolderIdentifier() throws -> HolderIdentifier
     {
-        if let error = expectedErrorThrown
+        if let error = expectedSaveErrorThrown
         {
             throw error
         }
         else
         {
             return expectedIdentifier ?? MockHolderIdentifier()
+        }
+    }
+    
+    func pruneHolderIdentifiers() throws {
+        if let error = expectedDeleteErrorThrown
+        {
+            throw error
         }
     }
 }

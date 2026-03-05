@@ -165,7 +165,7 @@ class PresentationRequestValidatorTests: XCTestCase {
                                   clientPurpose: "clientPurpose",
                                   logoURI: "logoURI",
                                   subjectIdentifierTypesSupported: [expectedSubjectIdentifierType],
-                                  vpFormats: SupportedVerifiablePresentationFormats(jwtVP: supportedAlgorithmsForVP, jwtVC: supportedAlgorithmsForVC))
+                                  vpFormats: SupportedVerifiablePresentationFormats(jwtVP: supportedAlgorithmsForVP, jwtVC: supportedAlgorithmsForVC), scenario: nil)
     }
     
 }

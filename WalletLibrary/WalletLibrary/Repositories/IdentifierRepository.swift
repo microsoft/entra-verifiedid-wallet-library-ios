@@ -60,6 +60,36 @@ class IdentifierRepository: HolderIdentifierRepository
         }
     }
     
+    /// Prunes the repository of `HolderIdentifier`s with no keychain material
+    func pruneHolderIdentifiers() throws
+    {
+        logger.logVerbose(message: "Fetching HolderIdentifiers")
+        let storedHolderIdentifier = try storage.fetchStoredHolderIdentifiers()
+        
+        logger.logVerbose(message: "Found \(storedHolderIdentifier.count) HolderIdentifiers")
+        
+        for holderIdentifier in storedHolderIdentifier
+        {
+            do {
+                // attempt resolving identifiers
+                _ = try mapToHolderIdentifier(storedIdentifier: holderIdentifier)
+            } catch (let error as SecretStoringError) {
+                switch error
+                {
+                case .invalidType, .invalidItemInStore, .itemNotFound:
+                    do {
+                        logger.logVerbose(message: "Pruning HolderIdentifier with keyId: \(String(describing: holderIdentifier.keyId)) (\(String(describing: error)))")
+                        try storage.deleteHolderIdentifier(identifier: holderIdentifier)
+                    } catch {
+                        logger.logError(message: "Failed to prune HolderIdentifier with keyid: \(String(describing: holderIdentifier.keyId)), \(String(describing: error))")
+                    }
+                default:
+                    logger.logError(message: "Unexpected error reading HolderIdentifier with keyid: \(String(describing: holderIdentifier.keyId)), \(String(describing: error))")
+                }
+            }
+        }
+    }
+    
     private func mapToHolderIdentifier(storedIdentifier: HolderIdentifierStoredProperties) throws -> HolderIdentifier
     {
         let method = try String.getRequiredProperty(property: storedIdentifier.didMethod,
