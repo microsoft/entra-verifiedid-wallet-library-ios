@@ -15,9 +15,10 @@ class IdentifierRepositoryTests: XCTestCase
         let mockBuilder = MockHolderIdentifierBuilder(expectedErrorToThrow: nil,
                                                       expectedHolderIdentifier: nil)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: expectedError,
-                                                      expectedErrorToThrowForStoring: nil)
+                                                      expectedErrorToThrowForStoring: nil,
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger: WalletLibraryLogger(), builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act / Assert
@@ -43,9 +44,11 @@ class IdentifierRepositoryTests: XCTestCase
         let mockBuilder = MockHolderIdentifierBuilder(expectedErrorToThrow: expectedError,
                                                       expectedHolderIdentifier: nil)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
-                                                      expectedErrorToThrowForStoring: nil)
+                                                      expectedErrorToThrowForStoring: nil,
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger:  WalletLibraryLogger(),
+                                              builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act / Assert
@@ -70,9 +73,11 @@ class IdentifierRepositoryTests: XCTestCase
         let mockBuilder = MockHolderIdentifierBuilder(expectedErrorToThrow: nil,
                                                       expectedHolderIdentifier: nil)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
-                                                      expectedErrorToThrowForStoring: nil)
+                                                      expectedErrorToThrowForStoring: nil,
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger:  WalletLibraryLogger(),
+                                              builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act / Assert
@@ -104,9 +109,11 @@ class IdentifierRepositoryTests: XCTestCase
         let mockBuilder = MockHolderIdentifierBuilder(expectedErrorToThrow: nil,
                                                       expectedHolderIdentifier: keychainIdentifier)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
-                                                      expectedErrorToThrowForStoring: expectedError)
+                                                      expectedErrorToThrowForStoring: expectedError,
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger:  WalletLibraryLogger(),
+                                              builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act / Assert
@@ -137,9 +144,11 @@ class IdentifierRepositoryTests: XCTestCase
                                                       expectedHolderIdentifier: nil)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
                                                       expectedErrorToThrowForStoring: nil,
-                                                      expectedHolderIdentifierProperties: [mockProperties])
+                                                      expectedHolderIdentifierProperties: [mockProperties],
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger:  WalletLibraryLogger(),
+                                              builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act / Assert
@@ -169,9 +178,11 @@ class IdentifierRepositoryTests: XCTestCase
                                                       expectedHolderIdentifier: nil)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
                                                       expectedErrorToThrowForStoring: nil,
-                                                      expectedHolderIdentifierProperties: [mockProperties])
+                                                      expectedHolderIdentifierProperties: [mockProperties],
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger:  WalletLibraryLogger(),
+                                              builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act / Assert
@@ -203,9 +214,10 @@ class IdentifierRepositoryTests: XCTestCase
                                                       expectedHolderIdentifier: nil)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
                                                       expectedErrorToThrowForStoring: nil,
-                                                      expectedHolderIdentifierProperties: [mockProperties])
+                                                      expectedHolderIdentifierProperties: [mockProperties],
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger: WalletLibraryLogger(), builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act / Assert
@@ -237,9 +249,11 @@ class IdentifierRepositoryTests: XCTestCase
                                                       expectedHolderIdentifier: nil)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
                                                       expectedErrorToThrowForStoring: nil,
-                                                      expectedHolderIdentifierProperties: [mockProperties])
+                                                      expectedHolderIdentifierProperties: [mockProperties],
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger:  WalletLibraryLogger(),
+                                              builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act / Assert
@@ -272,9 +286,11 @@ class IdentifierRepositoryTests: XCTestCase
         let mockBuilder = MockHolderIdentifierBuilder(expectedErrorToThrow: nil,
                                                       expectedHolderIdentifier: keychainIdentifier)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
-                                                      expectedErrorToThrowForStoring: nil)
+                                                      expectedErrorToThrowForStoring: nil,
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger:  WalletLibraryLogger(),
+                                              builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act
@@ -307,9 +323,11 @@ class IdentifierRepositoryTests: XCTestCase
                                                       expectedHolderIdentifier: keychainIdentifier)
         let mockStorage = MockHolderIdentifierStorage(expectedErrorToThrowForFetching: nil,
                                                       expectedErrorToThrowForStoring: nil,
-                                                      expectedHolderIdentifierProperties: [mockProperties])
+                                                      expectedHolderIdentifierProperties: [mockProperties],
+                                                      expectedErrorToThrowForDeleting: nil)
         
-        let repository = IdentifierRepository(builder: mockBuilder,
+        let repository = IdentifierRepository(logger:  WalletLibraryLogger(),
+                                              builder: mockBuilder,
                                               storage: mockStorage)
         
         // Act

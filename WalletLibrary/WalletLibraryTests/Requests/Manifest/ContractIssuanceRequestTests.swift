@@ -29,10 +29,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = contractIssuanceRequest.isSatisfied()
@@ -58,6 +61,8 @@ class ContractIssuanceRequestTests: XCTestCase {
                                                requirements: [firstValidRequirement, invalidRequirement, secondValidRequirement],
                                                requirementOperator: .ALL)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         
         let content = IssuanceRequestContent(style: mockStyle,
                                              verifiedIdStyle: MockVerifiedIdStyle(),
@@ -67,7 +72,8 @@ class ContractIssuanceRequestTests: XCTestCase {
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = contractIssuanceRequest.isSatisfied()
@@ -92,10 +98,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              requirement: validRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = contractIssuanceRequest.isSatisfied()
@@ -125,10 +134,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = contractIssuanceRequest.isSatisfied()
@@ -171,10 +183,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              issuanceResultCallbackUrl: URL(string: "https://test.com")!,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = await contractIssuanceRequest.complete()
@@ -217,10 +232,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = await contractIssuanceRequest.complete()
@@ -268,10 +286,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              issuanceResultCallbackUrl: URL(string: "https://test.com")!,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = await contractIssuanceRequest.complete()
@@ -314,10 +335,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              requirement: mockRequirement,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = await contractIssuanceRequest.complete()
@@ -360,10 +384,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              issuanceResultCallbackUrl: URL(string: "https://test.com")!,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = await contractIssuanceRequest.cancel()
@@ -407,10 +434,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              requestState: "mockState",
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = await contractIssuanceRequest.cancel()
@@ -459,10 +489,13 @@ class ContractIssuanceRequestTests: XCTestCase {
                                              issuanceResultCallbackUrl: URL(string: "https://test.com")!,
                                              rootOfTrust: mockRootOfTrust)
         
+        let mockRawRequest = MockOpenIdRawRequest(nonce: nil, state: nil, clientId: nil, definitionId: nil)
+        
         let contractIssuanceRequest = ContractIssuanceRequest(content: content,
                                                               issuanceResponseContainer: mockIssuanceResponseContainer,
                                                               verifiedIdRequester: mockVCRequester,
-                                                              configuration: configuration)
+                                                              configuration: configuration,
+                                                              rawRequest: mockRawRequest)
         
         // Act
         let actualResult = await contractIssuanceRequest.cancel()

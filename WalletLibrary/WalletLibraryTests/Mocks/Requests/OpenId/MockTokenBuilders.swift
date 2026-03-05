@@ -7,6 +7,7 @@
 
 struct MockTokenBuilderFactory: TokenBuilderFactory
 {
+    
     private let vpTokenBuilderSpy: ((Int) -> ())?
     
     private let doesPEIdTokenBuilderThrow: Bool
@@ -36,13 +37,15 @@ struct MockTokenBuilderFactory: TokenBuilderFactory
                                     expectedResult: expectedResultForPEIdToken)
     }
     
-    func createVerifiablePresentationBuilder(index: Int) ->VerifiablePresentationBuilding
+    func createVerifiablePresentationBuilder(index: Int, identifier: any WalletLibrary.HolderIdentifier) ->VerifiablePresentationBuilding
     {
         vpTokenBuilderSpy?(index)
         return MockVPBuilder(index: index,
                              doesThrow: doesVPTokenBuilderThrow,
-                             expectedResult: expectedResultForVPToken)
+                             expectedResult: expectedResultForVPToken,
+                             identifier: identifier)
     }
+    
 }
 
 struct MockPEIdTokenBuilder: PresentationExchangeIdTokenBuilding
@@ -94,9 +97,10 @@ struct MockVPBuilder: VerifiablePresentationBuilding
     
     init(index: Int,
          doesThrow: Bool = false,
-         expectedResult: VerifiablePresentation)
+         expectedResult: VerifiablePresentation,
+         identifier: HolderIdentifier)
     {
-        self.wrappedBuilder = VerifiablePresentationBuilder(index: index)
+        self.wrappedBuilder = VerifiablePresentationBuilder(index: index, identifier: identifier)
         self.doesThrow = doesThrow
         self.expectedResult = expectedResult
     }
@@ -117,8 +121,7 @@ struct MockVPBuilder: VerifiablePresentationBuilding
     }
     
     func buildVerifiablePresentation(audience: String,
-                                     nonce: String,
-                                     identifier: HolderIdentifier) throws -> VerifiablePresentation
+                                     nonce: String) throws -> VerifiablePresentation
     {
         if doesThrow
         {

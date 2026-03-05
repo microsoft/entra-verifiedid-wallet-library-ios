@@ -20,7 +20,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         
         let index = 1
         
-        let builder = VerifiablePresentationBuilder(index: index)
+        let builder = VerifiablePresentationBuilder(index: index, identifier: MockHolderIdentifier())
         builder.add(partialInputDescriptor: descriptor)
         
         // Act / Assert
@@ -41,7 +41,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         
         let index = 1
         
-        let builder = VerifiablePresentationBuilder(index: index)
+        let builder = VerifiablePresentationBuilder(index: index, identifier: MockHolderIdentifier())
         builder.add(partialInputDescriptor: descriptor1)
         builder.add(partialInputDescriptor: descriptor2)
         
@@ -57,7 +57,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         
         let index = 1
         
-        let builder = VerifiablePresentationBuilder(index: index)
+        let builder = VerifiablePresentationBuilder(index: index, identifier: MockHolderIdentifier())
         builder.add(partialInputDescriptor: input)
         
         // Act
@@ -87,7 +87,7 @@ class VerifiablePresentationBuilderTests: XCTestCase
         
         let index = 1
         
-        let builder = VerifiablePresentationBuilder(index: index)
+        let builder = VerifiablePresentationBuilder(index: index, identifier: MockHolderIdentifier())
         builder.add(partialInputDescriptor: descriptor1)
         builder.add(partialInputDescriptor: descriptor2)
         builder.add(partialInputDescriptor: descriptor3)
@@ -124,13 +124,12 @@ class VerifiablePresentationBuilderTests: XCTestCase
         
         let index = 1
         
-        let builder = VerifiablePresentationBuilder(index: index)
+        let builder = VerifiablePresentationBuilder(index: index, identifier: mockHolderIdentifier)
         builder.add(partialInputDescriptor: input)
         
         // Act
         let result = try builder.buildVerifiablePresentation(audience: mockAudience,
-                                                             nonce: mockNonce,
-                                                             identifier: mockHolderIdentifier)
+                                                             nonce: mockNonce)
         
         // Assert
         XCTAssertEqual(result.content.audience, mockAudience)
@@ -162,15 +161,14 @@ class VerifiablePresentationBuilderTests: XCTestCase
         
         let index = 1
         
-        let builder = VerifiablePresentationBuilder(index: index)
+        let builder = VerifiablePresentationBuilder(index: index, identifier: mockHolderIdentifier)
         builder.add(partialInputDescriptor: descriptor1)
         builder.add(partialInputDescriptor: descriptor2)
         builder.add(partialInputDescriptor: descriptor3)
         
         // Act
         let result = try builder.buildVerifiablePresentation(audience: mockAudience,
-                                                             nonce: mockNonce,
-                                                             identifier: mockHolderIdentifier)
+                                                             nonce: mockNonce)
         
         // Assert
         XCTAssertEqual(result.content.audience, mockAudience)
@@ -195,13 +193,12 @@ class VerifiablePresentationBuilderTests: XCTestCase
         
         let index = 1
         
-        let builder = VerifiablePresentationBuilder(index: index)
+        let builder = VerifiablePresentationBuilder(index: index, identifier: mockHolderIdentifier)
         builder.add(partialInputDescriptor: input)
         
         // Act / Assert
         XCTAssertThrowsError(try builder.buildVerifiablePresentation(audience: mockAudience,
-                                                                     nonce: mockNonce,
-                                                                     identifier: mockHolderIdentifier)) { error in
+                                                                     nonce: mockNonce)) { error in
             XCTAssert(error is VerifiedIdError)
             XCTAssertEqual((error as? VerifiedIdError)?.message, "expectedError")
             XCTAssertEqual((error as? VerifiedIdError)?.code, "expected_error")

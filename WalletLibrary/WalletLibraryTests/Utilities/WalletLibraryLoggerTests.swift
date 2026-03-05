@@ -30,7 +30,8 @@ class WalletLibraryLoggerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .DEBUG)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let logger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: mockWalletLibraryLogConsumer)
         
         // Act
         logger.logDebug(message: mockMessage,
@@ -43,7 +44,8 @@ class WalletLibraryLoggerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .INFO)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let logger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: mockWalletLibraryLogConsumer)
         
         // Act
         logger.logInfo(message: mockMessage,
@@ -56,7 +58,8 @@ class WalletLibraryLoggerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .VERBOSE)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let logger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: mockWalletLibraryLogConsumer)
         
         // Act
         logger.logVerbose(message: mockMessage,
@@ -69,7 +72,8 @@ class WalletLibraryLoggerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .WARN)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let logger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: mockWalletLibraryLogConsumer)
         
         // Act
         logger.logWarning(message: mockMessage,
@@ -82,7 +86,8 @@ class WalletLibraryLoggerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .FAILURE)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let logger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: mockWalletLibraryLogConsumer)
         
         // Act
         logger.logFailure(message: mockMessage,
@@ -95,7 +100,8 @@ class WalletLibraryLoggerTests: XCTestCase {
         // Arrange
         let testLogConsumer = testLogConsumer(with: .ERROR)
         let mockWalletLibraryLogConsumer = MockLogConsumer(logCallback: testLogConsumer)
-        let logger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: mockWalletLibraryLogConsumer)
         
         // Act
         logger.logError(message: mockMessage,
@@ -112,7 +118,8 @@ class WalletLibraryLoggerTests: XCTestCase {
         }
         
         let mockWalletLibraryLogConsumer = MockLogConsumer(eventCallback: eventCalled)
-        let logger = WalletLibraryLogger(consumers: [mockWalletLibraryLogConsumer])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: mockWalletLibraryLogConsumer)
         
         // Act
         logger.event(name: mockName)

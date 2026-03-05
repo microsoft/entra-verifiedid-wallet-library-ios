@@ -119,7 +119,8 @@ class PresentationExchangeSerializerTests: XCTestCase
                            "Unable to add requirement to VP grouping: MockPresentationExchangeRequirement")
         }
         
-        let logger = WalletLibraryLogger(consumers: [MockLogConsumer(logCallback: callback)])
+        let logger = WalletLibraryLogger()
+        logger.add(consumer: MockLogConsumer(logCallback: callback))
         let configuration = LibraryConfiguration(logger: logger)
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
