@@ -79,6 +79,7 @@ public class VerifiedIdClientBuilder
     
     private func getAllIdentifiers(previewFeatureFlags: PreviewFeatureFlags) -> [HolderIdentifier]
     {
+        
         if previewFeatureFlags.isPreviewFeatureSupported(PreviewFeatureFlags.FIPSCompliantIdentifier),
            let holderIdentifier = getMainHolderIdentifier()
         {
@@ -100,6 +101,15 @@ public class VerifiedIdClientBuilder
     
     private func getMainHolderIdentifier() -> HolderIdentifier?
     {
+        do
+        {
+            try identifierRepository.pruneHolderIdentifiers()
+        }
+        catch
+        {
+            logger.logWarning(message: "Unable to prune Holder Identifiers from repository, \(String(describing: error))")
+        }
+        
         do
         {
             let holderIdentifier = try identifierRepository.getMainHolderIdentifier()

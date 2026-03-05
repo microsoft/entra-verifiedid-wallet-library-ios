@@ -13,4 +13,8 @@ protocol HolderIdentifierRepository
     /// - Throws: An error if there is an issue retrieving the `HolderIdentifier`.
     /// - Returns: The main `HolderIdentifier` instance.
     func getMainHolderIdentifier() throws -> HolderIdentifier
+    
+    /// Prunes the repository of `HolderIdentifier`s not found in the keychain.
+    /// - Throws: unexpected keychain/storage errors
+    func pruneHolderIdentifiers() throws
 }

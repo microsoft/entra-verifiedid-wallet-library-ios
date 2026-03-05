@@ -40,26 +40,54 @@ class IdentifierRepository: HolderIdentifierRepository
         /// We only support one `HolderIdentifier` per user as of now.
         if let firstHolderIdentifier = storedHolderIdentifier.first
         {
+            logger.logVerbose(message: "An existing HolderIdentifier was found")
+            return try mapToHolderIdentifier(storedIdentifier: firstHolderIdentifier)
+        }
+        else
+        {
+            // If there are no identifiers in storage, create default one using FIPS compliant keys
+            // and "did:jwk" method. The key reference is always "0" for "did:jwk" dids.
+            logger.logVerbose(message: "Creating a new HolderIdentifier")
+            let mainIdentifier = try builder.buildHolderIdentifier(didMethod: "did:jwk",
+                                                                   id: nil,
+                                                                   keyId: nil,
+                                                                   keyReference: "0",
+                                                                   algorithm: "ES256")
+            try storeNewIdentifier(identifier: mainIdentifier)
+            logger.logInfo(message: "New HolderIdentifier created")
+            
+            return mainIdentifier
+        }
+    }
+    
+    /// Prunes the repository of `HolderIdentifier`s with no keychain material
+    func pruneHolderIdentifiers() throws
+    {
+        logger.logVerbose(message: "Fetching HolderIdentifiers")
+        let storedHolderIdentifier = try storage.fetchStoredHolderIdentifiers()
+        
+        logger.logVerbose(message: "Found \(storedHolderIdentifier.count) HolderIdentifiers")
+        
+        for holderIdentifier in storedHolderIdentifier
+        {
             do {
-                logger.logVerbose(message: "An existing HolderIdentifier was found")
-                return try mapToHolderIdentifier(storedIdentifier: firstHolderIdentifier)
+                // attempt resolving identifiers
+                _ = try mapToHolderIdentifier(storedIdentifier: holderIdentifier)
             } catch (let error as SecretStoringError) {
-                logger.logWarning(message: "Stored HolderIdentifier has crypto key material error: \(String(describing: error))")
+                switch error
+                {
+                case .invalidType, .invalidItemInStore, .itemNotFound:
+                    do {
+                        logger.logVerbose(message: "Pruning HolderIdentifier with keyId: \(String(describing: holderIdentifier.keyId)) (\(String(describing: error)))")
+                        try storage.deleteHolderIdentifier(identifier: holderIdentifier)
+                    } catch {
+                        logger.logError(message: "Failed to prune HolderIdentifier with keyid: \(String(describing: holderIdentifier.keyId)), \(String(describing: error))")
+                    }
+                default:
+                    logger.logError(message: "Unexpected error reading HolderIdentifier with keyid: \(String(describing: holderIdentifier.keyId)), \(String(describing: error))")
+                }
             }
         }
-        
-        // If there are no identifiers in storage, create default one using FIPS compliant keys
-        // and "did:jwk" method. The key reference is always "0" for "did:jwk" dids.
-        logger.logVerbose(message: "Creating a new HolderIdentifier")
-        let mainIdentifier = try builder.buildHolderIdentifier(didMethod: "did:jwk",
-                                                               id: nil,
-                                                               keyId: nil,
-                                                               keyReference: "0",
-                                                               algorithm: "ES256")
-        try storeNewIdentifier(identifier: mainIdentifier)
-        logger.logInfo(message: "New HolderIdentifier created")
-        
-        return mainIdentifier
     }
     
     private func mapToHolderIdentifier(storedIdentifier: HolderIdentifierStoredProperties) throws -> HolderIdentifier

@@ -67,6 +67,22 @@ class CoreDataManager: HolderIdentifierStorage
         return try persistentContainerContext.fetch(fetchRequest)
     }
     
+    /// Deletes teh Holder Identifier from the persistent storage.
+    func deleteHolderIdentifier(identifier: any HolderIdentifierStoredProperties) throws {
+        guard let persistentContainerContext = persistentContainer?.viewContext else
+        {
+            throw CoreDataManagerError.persistentStoreNotLoaded
+        }
+        
+        
+        let storedIdentifier = HolderIdentifierDataModel(holderIdentifier: identifier,
+                                                         context: persistentContainerContext)
+        
+        persistentContainerContext.delete(storedIdentifier)
+        
+        try persistentContainerContext.save()
+    }
+    
     func saveIdentifier(longformDid: String,
                         signingKeyId: UUID,
                         recoveryKeyId: UUID,

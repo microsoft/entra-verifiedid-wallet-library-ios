@@ -19,4 +19,10 @@ protocol HolderIdentifierStorage
     ///   - keyId: A `UUID` that uniquely identifies the holder in persistent storage.
     /// - Throws: A `CoreDataManagerError.persistentStoreNotLoaded` error if the persistent store is not loaded, or other errors related to saving the context.
     func storeHolderIdentifier(holderIdentifier: HolderIdentifierStoredProperties) throws
+    
+    /// Deletes the `HolderIdentifierStoredProperties` from storage `forKeyId`.
+    /// - Parameters:
+    ///   - identifier: `HolderIdentifierStoredProperties` to delete
+    /// - Throws:A `CoreDataManagerError.persistentStoreNotLoaded` error if the persistent store is not loaded, or other errors related to saving the context.
+    func deleteHolderIdentifier(identifier: HolderIdentifierStoredProperties) throws
 }
