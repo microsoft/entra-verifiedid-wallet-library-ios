@@ -146,7 +146,10 @@ class PresentationExchangeSerializerTests: XCTestCase
         }
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(vpTokenBuilderSpy: vpTokenBuilderSpy)
-        let configuration = LibraryConfiguration()
+        let mockIdentifier = MockHolderIdentifier()
+        let configuration = LibraryConfiguration(
+            identifiers: [mockIdentifier]
+        )
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
@@ -173,7 +176,10 @@ class PresentationExchangeSerializerTests: XCTestCase
         }
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(vpTokenBuilderSpy: vpTokenBuilderSpy)
-        let configuration = LibraryConfiguration()
+        let mockIdentifier = MockHolderIdentifier()
+        let configuration = LibraryConfiguration(
+            identifiers: [mockIdentifier]
+        )
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
@@ -203,7 +209,10 @@ class PresentationExchangeSerializerTests: XCTestCase
         }
         
         let mockTokenBuilderFactory = MockTokenBuilderFactory(vpTokenBuilderSpy: vpTokenBuilderSpy)
-        let configuration = LibraryConfiguration()
+        let mockIdentifier = MockHolderIdentifier()
+        let configuration = LibraryConfiguration(
+            identifiers: [mockIdentifier]
+        )
         
         let serializer = try PresentationExchangeSerializer(request: mockOpenIdRawRequest,
                                                             tokenBuilderFactory: mockTokenBuilderFactory,
