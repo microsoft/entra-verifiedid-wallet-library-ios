@@ -17,6 +17,9 @@ public struct PreviewFeatureFlags
     /// A preview feature for FIPS Complaint key support for holder.
     public static let FIPSCompliantIdentifier = "FIPSCompliantIdentifier"
     
+    /// Prunes HolderIdentifiers from use if the keychain is missing
+    public static let IdentifierPruning = "IdentifierPruning"
+    
     /// A preview feature to support building Presentation Exchange Response through serialization
     /// instead of using the old VC SDK. Default on now.
     /// public static let PresentationExchangeSerializationSupport = "PresentationExchangeSerializationSupport"
@@ -28,7 +31,8 @@ public struct PreviewFeatureFlags
     private var supportedPreviewFeatures: [String: Bool] = [
         OpenID4VCIAccessToken: false,
         OpenID4VCIPreAuth: false,
-        FIPSCompliantIdentifier: false
+        FIPSCompliantIdentifier: false,
+        IdentifierPruning: false
     ]
     
     init(previewFeatureFlags: [String] = [])

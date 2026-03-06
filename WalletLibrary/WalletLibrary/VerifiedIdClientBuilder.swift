@@ -81,7 +81,7 @@ public class VerifiedIdClientBuilder
     {
         
         if previewFeatureFlags.isPreviewFeatureSupported(PreviewFeatureFlags.FIPSCompliantIdentifier),
-           let holderIdentifier = getMainHolderIdentifier()
+           let holderIdentifier = getMainHolderIdentifier(previewFeatureFlags: previewFeatureFlags)
         {
             /// make the JWK identifier the default
             identifiers.insert(holderIdentifier, at: 0)
@@ -99,15 +99,18 @@ public class VerifiedIdClientBuilder
         return identifiers
     }
     
-    private func getMainHolderIdentifier() -> HolderIdentifier?
+    private func getMainHolderIdentifier(previewFeatureFlags: PreviewFeatureFlags) -> HolderIdentifier?
     {
-        do
+        if previewFeatureFlags.isPreviewFeatureSupported(PreviewFeatureFlags.IdentifierPruning)
         {
-            try identifierRepository.pruneHolderIdentifiers()
-        }
-        catch
-        {
-            logger.logWarning(message: "Unable to prune Holder Identifiers from repository, \(String(describing: error))")
+            do
+            {
+                try identifierRepository.pruneHolderIdentifiers()
+            }
+            catch
+            {
+                logger.logWarning(message: "Unable to prune Holder Identifiers from repository, \(String(describing: error))")
+            }
         }
         
         do
