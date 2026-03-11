@@ -9,6 +9,8 @@ import CoreData
 enum CoreDataManagerError: Error {
     case unableToCreatePersistentContainer
     case persistentStoreNotLoaded
+    case incompleteDataModel
+    case identifierNotFound
 }
 
 class CoreDataManager: HolderIdentifierStorage
@@ -74,11 +76,20 @@ class CoreDataManager: HolderIdentifierStorage
             throw CoreDataManagerError.persistentStoreNotLoaded
         }
         
+        guard let id = identifier.id else {
+            throw CoreDataManagerError.incompleteDataModel
+        }
         
-        let storedIdentifier = HolderIdentifierDataModel(holderIdentifier: identifier,
-                                                         context: persistentContainerContext)
+        let fetchRequest: NSFetchRequest<HolderIdentifierDataModel> = HolderIdentifierDataModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
         
-        persistentContainerContext.delete(storedIdentifier)
+        let result = try persistentContainerContext.fetch(fetchRequest)
+        
+        guard let identifier = result.first else {
+            throw CoreDataManagerError.identifierNotFound
+        }
+        
+        persistentContainerContext.delete(identifier)
         
         try persistentContainerContext.save()
     }
