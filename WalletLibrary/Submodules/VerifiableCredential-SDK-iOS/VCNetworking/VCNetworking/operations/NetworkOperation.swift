@@ -53,7 +53,7 @@ extension InternalNetworkOperation {
             cv.update()
             urlRequest.setValue(cv.value, forHTTPHeaderField: cv.name)
             
-            sdkLog.logInfo(message: "Correlation Vector for \(String(describing: self)): \(cv.value)")
+            sdkLog.logVerbose(message: "Correlation Vector for \(String(describing: self)): \(cv.value)")
         }
         
         return try await retryHandler.onRetry { [self] in
