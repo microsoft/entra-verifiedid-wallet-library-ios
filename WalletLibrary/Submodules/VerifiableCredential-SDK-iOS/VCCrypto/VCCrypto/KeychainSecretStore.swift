@@ -39,10 +39,7 @@ struct KeychainSecretStore: SecretStoring {
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
         
-        var statusMessage: String? = nil
-        if #available(iOS 11.3, *) {
-            statusMessage = SecCopyErrorMessageString(status, nil) as? String
-        }
+        let statusMessage = SecCopyErrorMessageString(status, nil) as? String
         
         guard status != errSecItemNotFound else { throw SecretStoringError.itemNotFound }
         
@@ -104,10 +101,7 @@ struct KeychainSecretStore: SecretStoring {
         
         let status = SecItemAdd(query as CFDictionary, nil)
         
-        var statusMessage: String? = nil
-        if #available(iOS 11.3, *) {
-            statusMessage = SecCopyErrorMessageString(status, nil) as? String
-        }
+        let statusMessage = SecCopyErrorMessageString(status, nil) as? String
         
         guard status == errSecSuccess else {
             throw SecretStoringError.saveToStoreError(status: status, message: statusMessage)
@@ -140,10 +134,7 @@ struct KeychainSecretStore: SecretStoring {
         
         let status = SecItemDelete(query as CFDictionary)
         
-        var statusMessage: String? = nil
-        if #available(iOS 11.3, *) {
-            statusMessage = SecCopyErrorMessageString(status, nil) as? String
-        }
+        let statusMessage = SecCopyErrorMessageString(status, nil) as? String
         
         guard status == errSecSuccess || status == errSecItemNotFound else {
             throw SecretStoringError.deleteFromStoreError(status: status, message: statusMessage)
