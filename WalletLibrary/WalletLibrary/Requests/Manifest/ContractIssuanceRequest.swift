@@ -24,7 +24,12 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest
     public let scenario: String?
     
     public let continuation: ContinuationDescriptor?
-    
+
+    public var credentialIssuer: String? { responseContainer.audienceUrl }
+
+    /// Legacy manifest flow uses `credentialIssuer` as the POST target.
+    public var credentialEndpoint: String? { nil }
+
     let requestState: String?
     
     let issuanceResultCallbackUrl: URL?
