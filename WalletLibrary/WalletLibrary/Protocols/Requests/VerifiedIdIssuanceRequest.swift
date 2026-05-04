@@ -15,4 +15,15 @@ public protocol VerifiedIdIssuanceRequest: VerifiedIdRequest where T == Verified
     var scenario: String? { get }
     
     var continuation: ContinuationDescriptor? { get }
+
+    /// The credential issuer endpoint URL.
+    var credentialIssuer: String? { get }
+
+    /// The credential endpoint URL. Will be `nil` for the manifest flow.
+    var credentialEndpoint: String? { get }
+}
+
+public extension VerifiedIdIssuanceRequest {
+    var credentialIssuer: String? { nil }
+    var credentialEndpoint: String? { nil }
 }

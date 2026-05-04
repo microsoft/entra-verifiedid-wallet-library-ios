@@ -24,7 +24,11 @@ class ContractIssuanceRequest: VerifiedIdIssuanceRequest
     public let scenario: String?
     
     public let continuation: ContinuationDescriptor?
-    
+
+    public var credentialIssuer: String? { responseContainer.audienceUrl }
+
+    public var credentialEndpoint: String? { nil }
+
     let requestState: String?
     
     let issuanceResultCallbackUrl: URL?

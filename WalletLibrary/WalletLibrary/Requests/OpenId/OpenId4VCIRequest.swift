@@ -26,7 +26,11 @@ class OpenId4VCIRequest: VerifiedIdIssuanceRequest
     
     /// The root of trust results between the request and the source of the request.
     public let rootOfTrust: RootOfTrust
-    
+
+    public var credentialIssuer: String? { credentialMetadata.credential_issuer }
+
+    public var credentialEndpoint: String? { credentialMetadata.credential_endpoint }
+
     /// The metadata about the credential being requested.
     private let credentialMetadata: CredentialMetadata
     
