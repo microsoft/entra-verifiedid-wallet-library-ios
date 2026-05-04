@@ -8,7 +8,6 @@
  * For example, it is used as a wrapper to wrap the VC SDK issuance response container.
  */
 protocol IssuanceResponseContaining {
-    /// The audience URL the issuance response will be sent to (the credential issuer endpoint).
     var audienceUrl: String { get }
 
     mutating func add(requirement: Requirement) throws
