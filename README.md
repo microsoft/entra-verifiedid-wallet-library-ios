@@ -12,15 +12,14 @@ The Microsoft Entra Wallet Library for iOS gives your app the ability to begin u
 ---
 ## Installation
 
-You can use cocoapods to install the Wallet Library by adding it to your Podfile:
-```ruby
+Releases are not maintained for this repository. To use this library, add this project as a submodule to your repository.
 
-target "YourApp" do
-  use_frameworks!
-  pod "WalletLibrary", "~> 0.0.1", :submodules => true
-end
 ```
-> note: use_frameworks! is required for this Pod.
+git submodule add https://github.com/microsoft/entra-verifiedid-wallet-library-ios
+```
+
+Then from XCode with your project open, select `File`, `Add Files to "Your Project Name"`, and navigate to the git submodule's `WalletLibrary/WalletLibrary.xcodeproj`. 
+
 ---
 ## Quick Start
 
