@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2ABE2AF6649EAD4BF92778D2 /* StatusCheckServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9DB54C60FA2A95C6332636 /* StatusCheckServiceTests.swift */; };
 		3043D92B5611982D88E50670 /* CollectionsQueryPostOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A32A62BBF9D9B5ECBC2483E /* CollectionsQueryPostOperation.swift */; };
 		5507A40B2BD99986003646EE /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5507A40A2BD99986003646EE /* PrivacyInfo.xcprivacy */; };
 		550A913D29930D970014D030 /* MockRawRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550A913C29930D970014D030 /* MockRawRequest.swift */; };
@@ -1203,6 +1204,7 @@
 		A4F39A8A2B91571E005C12FC /* ExtensionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionConfiguration.swift; sourceTree = "<group>"; };
 		A7A381EDDE78BCFE7BC8C85B /* CredentialStatusDescriptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CredentialStatusDescriptor.swift; path = StatusCheck/CredentialStatusDescriptor.swift; sourceTree = "<group>"; };
 		CB866B76909C2AD2B0D52847 /* VerifiedIdStatus.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VerifiedIdStatus.swift; sourceTree = "<group>"; };
+		DA9DB54C60FA2A95C6332636 /* StatusCheckServiceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StatusCheckServiceTests.swift; sourceTree = "<group>"; };
 		EE1B8B2800AA79BAED7CC9B7 /* StatusListCredentialFetchOperation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StatusListCredentialFetchOperation.swift; path = StatusCheck/StatusListCredentialFetchOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1450,6 +1452,7 @@
 				55265AD72B6C267300BAD6A2 /* LibraryConfigurationTests.swift */,
 				559BD30C2996C12500BD61AC /* VerifiedIdClientBuilderTests.swift */,
 				552E509F293E6AB200868F47 /* VerifiedIdClientTests.swift */,
+				E1C5D7D1C2EB62BA8B600708 /* StatusCheck */,
 			);
 			path = WalletLibraryTests;
 			sourceTree = "<group>";
@@ -3356,6 +3359,15 @@
 			name = StatusCheck;
 			sourceTree = "<group>";
 		};
+		E1C5D7D1C2EB62BA8B600708 /* StatusCheck */ = {
+			isa = PBXGroup;
+			children = (
+				DA9DB54C60FA2A95C6332636 /* StatusCheckServiceTests.swift */,
+			);
+			name = StatusCheck;
+			path = StatusCheck;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -4096,6 +4108,7 @@
 				55A268A82CC1B70300A8EA9C /* JwsHeaderFormatterTests.swift in Sources */,
 				559BD4F5299EEC9500BD61AC /* MockVerifiedIdRequester.swift in Sources */,
 				55DECC3F29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift in Sources */,
+				2ABE2AF6649EAD4BF92778D2 /* StatusCheckServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -4,11 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 
 /**
- * The status of a `VerifiedId`, returned by `VerifiedIdClient.checkVerifiedIdStatus(verifiedId:)`.
+ * The status of a `VerifiedId`, returned by `VerifiedIdClient.checkVerifiedIdStatus(_:)`.
  *
- * Status is informational and best-effort: the issuance/presentation server remains the
- * authoritative enforcement point. Callers should treat `.unknown` as "could not determine"
- * (fail-open) rather than as a failure.
+ * Status is informational: the issuance/presentation server remains the authoritative enforcement
+ * point. Treat `.unknown` as "could not determine" (fail-open), not as a failure.
  */
 public enum VerifiedIdStatus: Equatable {
 

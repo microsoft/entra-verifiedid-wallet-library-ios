@@ -10,11 +10,9 @@ extension Data {
 
     /// Inflates a GZIP (RFC 1952) payload, as used by the StatusList2021 `encodedList`.
     ///
-    /// Apple's `Compression` framework only inflates a raw DEFLATE stream, so this strips the
-    /// gzip header (including the optional FEXTRA / FNAME / FCOMMENT / FHCRC fields) and the
-    /// 8-byte trailer, then streams the DEFLATE payload through `COMPRESSION_ZLIB`. Returns
-    /// `nil` for any malformed input rather than throwing, so callers can treat a bad list as
-    /// an indeterminate (`.unknown`) status.
+    /// Apple's `Compression` framework inflates only a raw DEFLATE stream, so this strips the gzip
+    /// header (including the optional FEXTRA / FNAME / FCOMMENT / FHCRC fields) and the 8-byte trailer,
+    /// then streams the DEFLATE payload through `COMPRESSION_ZLIB`. Returns `nil` for malformed input.
     func gunzipped() -> Data? {
         // Smallest possible gzip stream: 10-byte header + 8-byte trailer.
         guard count >= 18,

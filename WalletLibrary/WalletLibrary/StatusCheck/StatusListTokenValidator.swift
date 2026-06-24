@@ -5,9 +5,9 @@
 
 import Foundation
 
-/// Minimal claims for a status list credential JWT. Only the fields needed to bind and time-box the
-/// token are modelled; `encodedList` / `statusPurpose` are read from the raw payload separately so a
-/// permissive shape can't block signature verification.
+/// Claims for a status list credential JWT. Only the fields needed to bind and time-box the token are
+/// modelled; `encodedList` / `statusPurpose` are read from the raw payload, so decoding never fails on
+/// list shape.
 struct StatusListClaims: Claims {
     let iss: String?
     let exp: Int?
@@ -47,7 +47,8 @@ class StatusListTokenValidator {
 
     func validate(_ token: JwsToken<StatusListClaims>,
                   expectedIssuerDid: String,
-                  now: Date) async throws {
+                  now: Date,
+                  preResolvedDocument: IdentifierDocument? = nil) async throws {
         guard !expectedIssuerDid.isEmpty else {
             throw StatusListValidationError.emptyIssuer
         }
@@ -67,7 +68,13 @@ class StatusListTokenValidator {
             throw StatusListValidationError.issuerMismatch
         }
 
-        let document = try await didResolver.getDocument(from: expectedIssuerDid)
+        // Reuse a document the caller already resolved for `expectedIssuerDid`; otherwise fetch it.
+        let document: IdentifierDocument
+        if let preResolvedDocument = preResolvedDocument {
+            document = preResolvedDocument
+        } else {
+            document = try await didResolver.getDocument(from: expectedIssuerDid)
+        }
         try verifySignature(of: token, keyId: keyId, document: document)
 
         if let exp = token.content.exp {

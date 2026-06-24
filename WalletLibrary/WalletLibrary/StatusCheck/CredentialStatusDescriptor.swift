@@ -19,34 +19,48 @@ struct CredentialStatusDescriptor: Equatable {
     let type: String
     let statusPurpose: String
     let statusListIndex: Int
-    let statusListCredential: String
+    let statusListCredential: String?
     let revocationListIndex: Int
-    let revocationListCredential: String
 
-    /// URL of the status list credential, normalised across the known type variants.
-    var effectiveStatusListCredential: String {
-        statusListCredential.isEmpty ? revocationListCredential : statusListCredential
+    /// Older Entra field name for the same concept as `statusListCredential`: the URL of the issuer's
+    /// status bitstring credential. The W3C StatusList2021 spec (§5.1, `StatusList2021Entry`) renamed
+    /// `revocationListCredential` to `statusListCredential`; both are accepted for backward
+    /// compatibility and normalised behind `effectiveStatusListCredential`.
+    let revocationListCredential: String?
+
+    /// URL of the status list credential, normalised across the known type variants, or `nil` when the
+    /// entry references neither.
+    var effectiveStatusListCredential: String? {
+        statusListCredential ?? revocationListCredential
     }
 
     /// Bit index within the status list bitstring, normalised across the known type variants.
     var effectiveStatusListIndex: Int {
-        statusListCredential.isEmpty ? revocationListIndex : statusListIndex
+        statusListCredential != nil ? statusListIndex : revocationListIndex
     }
 
     /// Builds a descriptor from a parsed `credentialStatus` JSON object. Returns `nil` when the entry
-    /// carries neither a status list reference nor an id, i.e. there is nothing to check.
+    /// carries neither a status list reference nor an id, i.e. there is nothing to check. Empty-string
+    /// credential URLs are normalised to `nil` so the `statusListCredential` / `revocationListCredential`
+    /// fallback behaves the same whether a field is absent or blank.
     init?(json: [String: Any]) {
         self.id = json["id"] as? String ?? ""
         self.type = (json["type"] as? String) ?? (json["type"] as? [String])?.first ?? ""
         self.statusPurpose = json["statusPurpose"] as? String ?? ""
         self.statusListIndex = CredentialStatusDescriptor.intValue(json["statusListIndex"])
-        self.statusListCredential = json["statusListCredential"] as? String ?? ""
+        self.statusListCredential = CredentialStatusDescriptor.nonEmpty(json["statusListCredential"])
         self.revocationListIndex = CredentialStatusDescriptor.intValue(json["revocationListIndex"])
-        self.revocationListCredential = json["revocationListCredential"] as? String ?? ""
+        self.revocationListCredential = CredentialStatusDescriptor.nonEmpty(json["revocationListCredential"])
 
-        if effectiveStatusListCredential.isEmpty && id.isEmpty {
+        if effectiveStatusListCredential == nil && id.isEmpty {
             return nil
         }
+    }
+
+    /// Reads a non-empty string value, mapping a missing or blank field to `nil`.
+    private static func nonEmpty(_ value: Any?) -> String? {
+        guard let string = value as? String, !string.isEmpty else { return nil }
+        return string
     }
 
     /// Status list indices appear as either a JSON number or a numeric string across issuers.

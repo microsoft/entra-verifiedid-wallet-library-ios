@@ -33,6 +33,12 @@ class StatusCheckService {
         self.dateProvider = dateProvider
     }
 
+    /// W3C StatusList2021 `statusPurpose` values. A credential's declared purpose must match the
+    /// fetched status list's purpose before its bit is trusted, and the purpose selects whether a
+    /// set bit means `.suspended` or `.revoked`.
+    static let statusPurposeRevocation = "revocation"
+    static let statusPurposeSuspension = "suspension"
+
     func checkStatus(of verifiedId: VerifiedId) async -> VerifiedIdStatus {
         if let expiresOn = verifiedId.expiresOn, expiresOn < dateProvider() {
             return .expired
@@ -43,6 +49,7 @@ class StatusCheckService {
         }
 
         guard let descriptor = StatusCheckService.parseCredentialStatus(from: credential.raw) else {
+            configuration.logger.logVerbose(message: "StatusCheck: credential has no parseable credentialStatus; treating as no status endpoint.")
             return .noStatusEndpoint
         }
 
@@ -54,15 +61,20 @@ class StatusCheckService {
                                          issuerDid: String) async -> VerifiedIdStatus {
         let statusListCredential = descriptor.effectiveStatusListCredential
 
-        if let url = await resolveStatusListURL(statusListCredential) {
+        if let statusListCredential = statusListCredential,
+           let url = await resolveStatusListURL(statusListCredential) {
             return await checkDirectStatusList(url: url, descriptor: descriptor, issuerDid: issuerDid)
         }
 
-        if statusListCredential.hasPrefix("did:") || descriptor.id.hasPrefix("urn:uuid:") {
-            guard !issuerDid.isEmpty else { return .unknown }
+        if statusListCredential?.hasPrefix("did:") == true || descriptor.id.hasPrefix("urn:uuid:") {
+            guard !issuerDid.isEmpty else {
+                configuration.logger.logVerbose(message: "StatusCheck: IdentityHub status list requires an issuer DID, but none was present.")
+                return .unknown
+            }
             return await checkStatusViaIdentityHub(descriptor: descriptor, issuerDid: issuerDid)
         }
 
+        configuration.logger.logVerbose(message: "StatusCheck: credential status uses an unsupported status list reference.")
         return .unknown
     }
 
@@ -76,12 +88,14 @@ class StatusCheckService {
                                                                         StatusListCredentialFetchOperation.self)
             guard let jwt = StatusCheckService.compactJws(from: responseData),
                   let statusList = await verifyAndExtractStatusList(fromJws: jwt, issuerDid: issuerDid) else {
+                configuration.logger.logVerbose(message: "StatusCheck: status list credential could not be parsed or verified.")
                 return .unknown
             }
             return StatusCheckService.evaluate(statusList: statusList,
                                                descriptor: descriptor,
                                                bitIndex: descriptor.effectiveStatusListIndex)
         } catch {
+            configuration.logger.logVerbose(message: "StatusCheck: failed to fetch status list credential.")
             return .unknown
         }
     }
@@ -107,6 +121,12 @@ class StatusCheckService {
         guard let services = await resolveDIDDocumentServices(did: did),
               let service = StatusCheckService.findService(services, named: serviceName),
               let endpoint = StatusCheckService.serviceEndpointURL(from: service) else {
+            configuration.logger.logVerbose(message: "StatusCheck: could not resolve a did:web service endpoint for the status list.")
+            return nil
+        }
+
+        guard StatusCheckService.isWellFormedHttpsURL(endpoint) else {
+            configuration.logger.logVerbose(message: "StatusCheck: resolved did:web status list endpoint is not a well-formed HTTPS URL.")
             return nil
         }
 
@@ -129,10 +149,20 @@ class StatusCheckService {
         }
         let bitIndex = resolveStatusListBitIndex(descriptor: descriptor)
 
-        guard let services = await resolveDIDDocumentServices(did: issuerDid),
+        // Resolve the issuer's DID document once and reuse it both to locate the IdentityHub endpoint
+        // (from the raw `instances` form the typed model omits) and to verify the status list
+        // signature, avoiding a second fetch of the same document inside the validator.
+        let issuerDocument = await resolveDIDDocument(did: issuerDid)
+
+        guard let services = issuerDocument.services,
               let hubService = StatusCheckService.findService(services, named: "IdentityHub"),
-              let hubEndpoint = StatusCheckService.serviceEndpointURL(from: hubService),
-              let hubURL = URL(string: hubEndpoint) else {
+              let hubEndpoint = StatusCheckService.serviceEndpointURL(from: hubService) else {
+            configuration.logger.logVerbose(message: "StatusCheck: issuer DID document has no IdentityHub service endpoint.")
+            return .unknown
+        }
+
+        guard StatusCheckService.isWellFormedHttpsURL(hubEndpoint), let hubURL = URL(string: hubEndpoint) else {
+            configuration.logger.logVerbose(message: "StatusCheck: IdentityHub endpoint is not a well-formed HTTPS URL.")
             return .unknown
         }
 
@@ -142,19 +172,26 @@ class StatusCheckService {
                                                                        url: hubURL,
                                                                        CollectionsQueryPostOperation.self)
             guard let responseBody = String(data: responseData, encoding: .utf8) else {
+                configuration.logger.logVerbose(message: "StatusCheck: IdentityHub response was not valid UTF-8.")
                 return .unknown
             }
 
-            var statusList = await verifyAndExtractStatusList(fromJws: responseBody, issuerDid: issuerDid)
+            var statusList = await verifyAndExtractStatusList(fromJws: responseBody,
+                                                              issuerDid: issuerDid,
+                                                              issuerDocument: issuerDocument.document)
             if statusList == nil {
-                statusList = await extractStatusListFromCollectionsResponse(responseBody, issuerDid: issuerDid)
+                statusList = await extractStatusListFromCollectionsResponse(responseBody,
+                                                                            issuerDid: issuerDid,
+                                                                            issuerDocument: issuerDocument.document)
             }
 
             guard let resolved = statusList else {
+                configuration.logger.logVerbose(message: "StatusCheck: no verifiable status list found in IdentityHub response.")
                 return .unknown
             }
             return StatusCheckService.evaluate(statusList: resolved, descriptor: descriptor, bitIndex: bitIndex)
         } catch {
+            configuration.logger.logVerbose(message: "StatusCheck: failed to query IdentityHub for the status list.")
             return .unknown
         }
     }
@@ -167,17 +204,28 @@ class StatusCheckService {
             return body.components(separatedBy: "?").first
         }
 
-        let statusCredential = descriptor.effectiveStatusListCredential
-        if statusCredential.hasPrefix("did:") {
-            guard let encodedQueries = StatusCheckService.didURLQueryParameter(statusCredential, key: "queries"),
-                  let decoded = Data(base64URLEncoded: encodedQueries),
-                  let array = try? JSONSerialization.jsonObject(with: decoded) as? [[String: Any]],
-                  let objectId = array.first?["objectId"] as? String else {
-                return nil
-            }
-            return objectId
+        guard let statusCredential = descriptor.effectiveStatusListCredential,
+              statusCredential.hasPrefix("did:") else {
+            return nil
         }
-        return nil
+        guard let encodedQueries = StatusCheckService.didURLQueryParameter(statusCredential, key: "queries") else {
+            configuration.logger.logVerbose(message: "StatusCheck: IdentityHub credential is missing a 'queries' parameter.")
+            return nil
+        }
+        guard let decoded = Data(base64URLEncoded: encodedQueries) else {
+            configuration.logger.logVerbose(message: "StatusCheck: IdentityHub 'queries' parameter is not valid base64url.")
+            return nil
+        }
+        guard let array = try? JSONSerialization.jsonObject(with: decoded) as? [[String: Any]],
+              let firstEntry = array.first else {
+            configuration.logger.logVerbose(message: "StatusCheck: IdentityHub 'queries' did not decode to a non-empty array.")
+            return nil
+        }
+        guard let objectId = firstEntry["objectId"] as? String else {
+            configuration.logger.logVerbose(message: "StatusCheck: IdentityHub query entry is missing 'objectId'.")
+            return nil
+        }
+        return objectId
     }
 
     /// Bit index from the `urn:uuid:...?bit-index=N` id when present, else the descriptor's index.
@@ -193,7 +241,8 @@ class StatusCheckService {
     /// Extracts the status list from a CollectionsQuery envelope: each `replies[].entries[].data` is a
     /// base64url-encoded JWT, decoded and verified via `verifyAndExtractStatusList` (raw value tried too).
     private func extractStatusListFromCollectionsResponse(_ responseBody: String,
-                                                          issuerDid: String) async -> (encodedList: String, statusPurpose: String)? {
+                                                          issuerDid: String,
+                                                          issuerDocument: IdentifierDocument? = nil) async -> (encodedList: String, statusPurpose: String)? {
         guard let data = responseBody.data(using: .utf8),
               let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               let replies = root["replies"] as? [[String: Any]] else {
@@ -205,10 +254,10 @@ class StatusCheckService {
             for entry in entries {
                 guard let entryData = entry["data"] as? String else { continue }
                 if let decoded = StatusCheckService.base64DecodeToString(entryData),
-                   let result = await verifyAndExtractStatusList(fromJws: decoded, issuerDid: issuerDid) {
+                   let result = await verifyAndExtractStatusList(fromJws: decoded, issuerDid: issuerDid, issuerDocument: issuerDocument) {
                     return result
                 }
-                if let result = await verifyAndExtractStatusList(fromJws: entryData, issuerDid: issuerDid) {
+                if let result = await verifyAndExtractStatusList(fromJws: entryData, issuerDid: issuerDid, issuerDocument: issuerDocument) {
                     return result
                 }
             }
@@ -222,13 +271,21 @@ class StatusCheckService {
     /// `encodedList` / `statusPurpose`. Returns `nil` for an unsigned body or any failed check, so the
     /// SDK never reads bits from unverified data.
     private func verifyAndExtractStatusList(fromJws jws: String,
-                                            issuerDid: String) async -> (encodedList: String, statusPurpose: String)? {
+                                            issuerDid: String,
+                                            issuerDocument: IdentifierDocument? = nil) async -> (encodedList: String, statusPurpose: String)? {
         guard let token = JwsToken<StatusListClaims>(from: jws) else {
             return nil
         }
         do {
-            try await validator.validate(token, expectedIssuerDid: issuerDid, now: dateProvider())
+            try await validator.validate(token,
+                                         expectedIssuerDid: issuerDid,
+                                         now: dateProvider(),
+                                         preResolvedDocument: issuerDocument)
+        } catch let error as StatusListValidationError {
+            configuration.logger.logVerbose(message: "StatusCheck: status list token failed validation (\(error)).")
+            return nil
         } catch {
+            configuration.logger.logVerbose(message: "StatusCheck: status list token validation could not complete.")
             return nil
         }
         return StatusCheckService.extractStatusListInfo(fromJws: jws)
@@ -253,7 +310,7 @@ class StatusCheckService {
         if !isFlagged {
             return .valid
         }
-        return statusList.statusPurpose == "suspension" ? .suspended : .revoked
+        return statusList.statusPurpose == statusPurposeSuspension ? .suspended : .revoked
     }
 
     /// Parses the credential's own `credentialStatus` entry from the raw VC payload. The decoded
@@ -296,16 +353,13 @@ class StatusCheckService {
             return nil
         }
 
-        let statusPurpose = subject["statusPurpose"] as? String ?? "revocation"
+        let statusPurpose = subject["statusPurpose"] as? String ?? statusPurposeRevocation
         return (encodedList, statusPurpose)
     }
 
-    /// Reads the bit at [index] using least-significant-bit-first ordering (index 0 = LSB of byte 0),
-    /// i.e. `1 << (index % 8)`. This matches Entra's status list encoding; MSB-first ordering would
-    /// break revocation detection for any index that is not a multiple of 8.
-    ///
-    /// Returns `true` if the bit is set (revoked/suspended), `false` if clear (valid), or `nil` when
-    /// [index] is outside the bitstring (caller treats as `.unknown`).
+    /// Reads the bit at [index] least-significant-bit-first (index 0 = LSB of byte 0), matching Entra's
+    /// status list encoding. Returns `true` if set (revoked/suspended), `false` if clear (valid), or
+    /// `nil` when [index] is outside the bitstring.
     static func checkBit(_ bitstring: Data, index: Int) -> Bool? {
         guard index >= 0 else { return nil }
         let byteIndex = index / 8
@@ -403,14 +457,32 @@ class StatusCheckService {
         return nil
     }
 
-    private func resolveDIDDocumentServices(did: String) async -> [[String: Any]]? {
-        guard let url = StatusCheckService.discoveryURL(for: did),
-              let data = try? await configuration.networking.fetch(url: url, StatusListCredentialFetchOperation.self),
-              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-            return nil
+    /// Resolves a DID document once, returning the typed model (for signature verification) and the raw
+    /// `service` array (which preserves the IdentityHub `instances` endpoint the typed model omits).
+    /// One fetch serves both, so the IdentityHub path verifies signatures without re-fetching.
+    private func resolveDIDDocument(did: String) async -> (document: IdentifierDocument?, services: [[String: Any]]?) {
+        guard let url = StatusCheckService.discoveryURL(for: did) else {
+            configuration.logger.logVerbose(message: "StatusCheck: could not build a discovery URL to resolve the DID document.")
+            return (nil, nil)
         }
-        let didDocument = (json["didDocument"] as? [String: Any]) ?? json
-        return didDocument["service"] as? [[String: Any]]
+        guard let data = try? await configuration.networking.fetch(url: url, StatusListCredentialFetchOperation.self) else {
+            configuration.logger.logVerbose(message: "StatusCheck: failed to fetch the DID document from the discovery service.")
+            return (nil, nil)
+        }
+
+        let document = try? JSONDecoder().decode(DiscoveryServiceResponse.self, from: data).didDocument
+
+        var services: [[String: Any]]?
+        if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+            let didDocument = (json["didDocument"] as? [String: Any]) ?? json
+            services = didDocument["service"] as? [[String: Any]]
+        }
+        return (document, services)
+    }
+
+    /// Convenience over `resolveDIDDocument` for callers that only need the raw service array.
+    private func resolveDIDDocumentServices(did: String) async -> [[String: Any]]? {
+        return await resolveDIDDocument(did: did).services
     }
 
     private static func discoveryURL(for did: String) -> URL? {
