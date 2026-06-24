@@ -64,6 +64,15 @@ struct OpenID4VCIPreAuthTokenResolver
             throw OpenId4VCIValidationError.PreAuthError(message: "Missing token endpoint in well-known configuration.")
         }
         
+        // RFC 8414 §3.3: the `issuer` returned in the authorization server metadata MUST be identical
+        // to the authorization server identifier used to fetch it. Enforcing this prevents a malicious
+        // host from serving metadata that impersonates a legitimate authorization server.
+        guard let wellKnownIssuer = wellKnownConfiguration.issuer,
+              URL.haveSameIdentifier(wellKnownIssuer, authorizationServer) else
+        {
+            throw OpenId4VCIValidationError.PreAuthError(message: "Well-known configuration issuer does not match the requested authorization server.")
+        }
+        
         return tokenEndpointURL
     }
 }

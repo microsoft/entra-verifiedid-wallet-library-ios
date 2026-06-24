@@ -60,6 +60,8 @@ struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
         // Validate signature and claims in token and wrap error in `OpenId4VCIValidationError` if thrown.
         do
         {
+            try signedMetadataToken.validateExpiryIsPresent()
+            
             try signedMetadataToken.validateClaims(expectedSubject: credentialIssuer,
                                                    expectedIssuer: kid.did)
             
