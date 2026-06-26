@@ -102,12 +102,17 @@ class StatusCheckService {
 
     /// Resolves the status list credential to a fetchable HTTPS URL: a direct `https://` URL, or a
     /// `did:web:` reference resolved through its DID document's service endpoint. Returns `nil` for
-    /// anything else (caller falls back to the IdentityHub path).
+    /// anything else — including a `did:web:` reference carrying a `queries` parameter, which is the
+    /// IdentityHub CollectionsQuery (POST) form — so the caller falls back to the IdentityHub path
+    /// instead of GETting an endpoint that only answers POST.
     private func resolveStatusListURL(_ raw: String) async -> URL? {
         if raw.hasPrefix("https://") {
             return StatusCheckService.isWellFormedHttpsURL(raw) ? URL(string: raw) : nil
         }
         if raw.hasPrefix("did:web:") {
+            if StatusCheckService.didURLQueryParameter(raw, key: "queries") != nil {
+                return nil
+            }
             return await resolveDidWebURL(raw)
         }
         return nil
