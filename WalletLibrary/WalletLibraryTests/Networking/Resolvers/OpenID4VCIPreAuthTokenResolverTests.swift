@@ -57,7 +57,7 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         let mockAccessToken = "mock access token"
         let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
                                                     token_type: nil,
-                                                    expires_in: nil)
+                                                    time_to_live_in_seconds: nil)
         let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
                                                               token_endpoint: "",
                                                               grant_types_supported: ["invalidGrantType"])
@@ -94,7 +94,7 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
         let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
                                                     token_type: nil,
-                                                    expires_in: nil)
+                                                    time_to_live_in_seconds: nil)
         let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
                                                               token_endpoint: nil,
                                                               grant_types_supported: [expectedGrantType])
@@ -130,8 +130,8 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
         let expectedResponse = PreAuthTokenResponse(access_token: nil,
                                                     token_type: nil,
-                                                    expires_in: nil)
-        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
+                                                    time_to_live_in_seconds: nil)
+        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "https://microsoft.com",
                                                               token_endpoint: "https://microsoft.com",
                                                               grant_types_supported: [expectedGrantType])
         let expectedResults: [(any Decodable, any InternalNetworkOperation.Type)] =
@@ -166,8 +166,8 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
         let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
                                                     token_type: nil,
-                                                    expires_in: nil)
-        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "",
+                                                    time_to_live_in_seconds: nil)
+        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "https://microsoft.com",
                                                               token_endpoint: "https://microsoft.com",
                                                               grant_types_supported: [expectedGrantType])
         let expectedResults: [(any Decodable, any InternalNetworkOperation.Type)] =
@@ -187,5 +187,42 @@ class OpenID4VCIPreAuthTokenResolverTests: XCTestCase
         // Assert
         XCTAssertEqual(result, mockAccessToken)
         
+    }
+    
+    func testResolve_WithMismatchedIssuer_ThrowsError() async throws
+    {
+        // Arrange
+        let mockAccessToken = "mock access token"
+        let expectedGrantType = "urn:ietf:params:oauth:grant-type:pre-authorized_code"
+        let expectedResponse = PreAuthTokenResponse(access_token: mockAccessToken,
+                                                    token_type: nil,
+                                                    time_to_live_in_seconds: nil)
+        let oidcConfigResponse = OpenIDWellKnownConfiguration(issuer: "https://malicious.example.com",
+                                                              token_endpoint: "https://microsoft.com",
+                                                              grant_types_supported: [expectedGrantType])
+        let expectedResults: [(any Decodable, any InternalNetworkOperation.Type)] =
+        [
+            (expectedResponse, OpenID4VCIPreAuthTokenPostOperation.self),
+            (oidcConfigResponse, OpenIDWellKnownConfigFetchOperation.self)
+        ]
+        let mockNetworking = MockLibraryNetworking.create(expectedResults: expectedResults)
+        let configuration = LibraryConfiguration(networking: mockNetworking)
+        let resolver = OpenID4VCIPreAuthTokenResolver(configuration: configuration)
+        let grant = CredentialOfferGrant(authorization_server: "https://microsoft.com",
+                                         pre_authorized_code: "mockCode")
+        
+        // Act / Assert
+        do
+        {
+            let _ = try await resolver.resolve(using: grant)
+            XCTFail()
+        }
+        catch
+        {
+            XCTAssert(error is OpenId4VCIValidationError)
+            let validationError = error as! OpenId4VCIValidationError
+            XCTAssertEqual(validationError.message, "Well-known configuration issuer does not match the requested authorization server.")
+            XCTAssertEqual(validationError.code, "preauth_issuance_error")
+        }
     }
 }

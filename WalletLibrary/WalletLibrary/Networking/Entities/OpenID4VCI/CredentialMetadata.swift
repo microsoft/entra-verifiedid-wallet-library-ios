@@ -53,12 +53,15 @@ extension CredentialMetadata
         let authorizationServers = try Self.getRequiredProperty(property: authorization_servers,
                                                                 propertyName: "authorization_servers")
         
-        let authorizatinServerURLHosts = authorizationServers.compactMap { URL(string: $0)?.host }
+        // Compare on the full normalized origin (scheme + host + port + path), not just the host.
+        // A host-only comparison lets an attacker substitute an authorization server that shares the
+        // host but differs in scheme/port/path, defeating the binding the offer is meant to enforce.
+        let metadataAuthServerIdentifiers = authorizationServers.compactMap { URL(string: $0)?.normalizedIdentifier }
         
         for grant in credentialOffer.grants
         {
-            guard let authServerURLHostFromGrant = URL(string: grant.value.authorization_server)?.host,
-                  authorizatinServerURLHosts.contains(authServerURLHostFromGrant) else
+            guard let grantAuthServerIdentifier = URL(string: grant.value.authorization_server)?.normalizedIdentifier,
+                  metadataAuthServerIdentifiers.contains(grantAuthServerIdentifier) else
             {
                 let errorMessage = "Authorization servers in Credential Metadata does not contain \(grant.value.authorization_server)"
                 throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
@@ -152,5 +155,64 @@ extension SignedMetadata
         
         try validateIatIfPresent()
         try validateExpIfPresent()
+    }
+    
+    /// Ensures the signed metadata token carries an expiry (`exp`) claim.
+    /// A token without an expiry never expires and can be replayed indefinitely, so a missing
+    /// `exp` is treated as a malformed token rather than silently accepted.
+    func validateExpiryIsPresent() throws
+    {
+        if content.exp == nil
+        {
+            throw TokenValidationError.InvalidProperty("exp", actual: nil, expected: "a non-nil expiry claim")
+        }
+    }
+}
+
+/**
+ * Helpers for comparing URLs by a normalized origin identity rather than by raw string or host alone.
+ */
+extension URL
+{
+    /// A normalized, comparable identifier for this URL: lowercased scheme and host, an explicit
+    /// port (defaulting https=443 / http=80), and a path with trailing slashes trimmed.
+    /// Returns nil when the scheme or host is missing (e.g. a bare, non-URL string).
+    var normalizedIdentifier: String?
+    {
+        guard let scheme = scheme?.lowercased(),
+              let host = host?.lowercased() else
+        {
+            return nil
+        }
+        
+        let defaultPort: Int
+        switch scheme
+        {
+            case "https": defaultPort = 443
+            case "http": defaultPort = 80
+            default: defaultPort = -1
+        }
+        let resolvedPort = port ?? defaultPort
+        
+        var normalizedPath = path
+        while normalizedPath.hasSuffix("/")
+        {
+            normalizedPath = String(normalizedPath.dropLast())
+        }
+        
+        return "\(scheme)://\(host):\(resolvedPort)\(normalizedPath)"
+    }
+    
+    /// Returns true only when both strings parse to URLs that share the same normalized identifier.
+    /// A non-URL string (no scheme/host) never matches, which intentionally rejects loosely formed values.
+    static func haveSameIdentifier(_ lhs: String, _ rhs: String) -> Bool
+    {
+        guard let lhsIdentifier = URL(string: lhs)?.normalizedIdentifier,
+              let rhsIdentifier = URL(string: rhs)?.normalizedIdentifier else
+        {
+            return false
+        }
+        
+        return lhsIdentifier == rhsIdentifier
     }
 }

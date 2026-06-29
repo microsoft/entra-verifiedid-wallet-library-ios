@@ -7,11 +7,13 @@
 
 struct MockIssuanceResponseContainer: IssuanceResponseContaining {
     
-    var audienceUrl: String = ""
+    let audienceUrl: String
     
     private let mockAddRequirementCallback: ((Requirement) throws -> Void)?
     
-    init(mockAddRequirementCallback: ((Requirement) throws -> Void)? = nil) {
+    init(audienceUrl: String = "",
+         mockAddRequirementCallback: ((Requirement) throws -> Void)? = nil) {
+        self.audienceUrl = audienceUrl
         self.mockAddRequirementCallback = mockAddRequirementCallback
     }
     

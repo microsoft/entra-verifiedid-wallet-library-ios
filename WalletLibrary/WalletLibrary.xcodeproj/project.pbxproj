@@ -591,6 +591,7 @@
 		D7FE11CA33A9C94CC671D210 /* VerifiedIdStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB866B76909C2AD2B0D52847 /* VerifiedIdStatus.swift */; };
 		DDE22801239649B008402D34 /* CredentialStatusDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A381EDDE78BCFE7BC8C85B /* CredentialStatusDescriptor.swift */; };
 		EF51B40753AD76C1021EA2C8 /* StatusCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A71E43EA44E649970BFF4A4 /* StatusCheckService.swift */; };
+		C2664A8238035CC7F3F12290 /* OpenID4VCIPreAuthTokenResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579AB305E7D8B83237CB22B1 /* OpenID4VCIPreAuthTokenResolverTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1191,6 +1192,7 @@
 		56A3C23380EEFA71F9985A36 /* StatusListTokenValidator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StatusListTokenValidator.swift; path = StatusCheck/StatusListTokenValidator.swift; sourceTree = "<group>"; };
 		7A71E43EA44E649970BFF4A4 /* StatusCheckService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StatusCheckService.swift; path = StatusCheck/StatusCheckService.swift; sourceTree = "<group>"; };
 		84BBF26C3A69F9DDE090BC28 /* Data+Gzip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
+		579AB305E7D8B83237CB22B1 /* OpenID4VCIPreAuthTokenResolverTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenID4VCIPreAuthTokenResolverTests.swift; sourceTree = "<group>"; };
 		A48C1EB52B8FF19000545FF6 /* VerifiedIdSerializing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdSerializing.swift; sourceTree = "<group>"; };
 		A497435A2B8EA367004851C2 /* VerifiedIdPartialRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdPartialRequest.swift; sourceTree = "<group>"; };
 		A497435E2B8EB29B004851C2 /* PresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeRequirement.swift; sourceTree = "<group>"; };
@@ -2523,6 +2525,7 @@
 				558328562B97A83A000CEC89 /* Encoders */,
 				558CF1A72B8680E100AF5D82 /* Formatters */,
 				555FB1672B73FB6300EE14BD /* Entities */,
+				D00E717D4815E62212E26C75 /* Resolvers */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -3368,6 +3371,15 @@
 			path = StatusCheck;
 			sourceTree = "<group>";
 		};
+		D00E717D4815E62212E26C75 /* Resolvers */ = {
+			isa = PBXGroup;
+			children = (
+				579AB305E7D8B83237CB22B1 /* OpenID4VCIPreAuthTokenResolverTests.swift */,
+			);
+			name = Resolvers;
+			path = Resolvers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -4109,6 +4121,7 @@
 				559BD4F5299EEC9500BD61AC /* MockVerifiedIdRequester.swift in Sources */,
 				55DECC3F29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift in Sources */,
 				2ABE2AF6649EAD4BF92778D2 /* StatusCheckServiceTests.swift in Sources */,
+				C2664A8238035CC7F3F12290 /* OpenID4VCIPreAuthTokenResolverTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

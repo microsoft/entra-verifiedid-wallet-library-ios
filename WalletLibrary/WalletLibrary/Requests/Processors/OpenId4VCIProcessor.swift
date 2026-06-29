@@ -57,6 +57,18 @@ struct OpenId4VCIProcessor: RequestProcessing
         let credentialOffer = try configuration.mapper.map(requestJson, type: CredentialOffer.self)
         let credentialMetadata = try await fetchCredentialMetadata(url: credentialOffer.credential_issuer)
         
+        /// Bind the fetched metadata to the offer's `credential_issuer`.
+        /// The metadata is fetched from the offer's issuer, but the issuer it advertises must also match.
+        /// Without this check a spoofed issuer can return metadata that points the wallet at a victim
+        /// authorization server / credential endpoint, enabling PIN harvesting and issuer impersonation.
+        let metadataCredentialIssuer = try CredentialMetadata.getRequiredProperty(property: credentialMetadata.credential_issuer,
+                                                                                  propertyName: "credential_issuer")
+        guard URL.haveSameIdentifier(credentialOffer.credential_issuer, metadataCredentialIssuer) else
+        {
+            let errorMessage = "Credential metadata issuer does not match the credential offer issuer."
+            throw OpenId4VCIValidationError.MalformedCredentialMetadata(message: errorMessage)
+        }
+        
         /// Validate the `CredentialMetadata` contains credential config ids from `CredentialOffer`.
         let configIds = credentialOffer.credential_configuration_ids
         guard let credentialConfig = credentialMetadata.getCredentialConfigurations(ids: configIds).first else
