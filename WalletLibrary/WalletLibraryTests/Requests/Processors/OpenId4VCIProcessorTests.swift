@@ -134,6 +134,58 @@ class OpenId4VCIProcessorTests: XCTestCase
         }
     }
     
+    func testProcess_WithMismatchedIssuerInMetadata_ThrowsError() async throws
+    {
+        // Arrange
+        let rawRequest = createJSONCredentialOffer()
+        let metadata = createCredentialMetadata(credentialIssuer: "https://evil.example.com")
+        let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
+        let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
+        let configuration = LibraryConfiguration(networking: mockNetworking)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
+        
+        do
+        {
+            // Act
+            let _ = try await handler.process(rawRequest: rawRequest)
+            XCTFail()
+        }
+        catch
+        {
+            // Assert
+            XCTAssert(error is OpenId4VCIValidationError)
+            let validationError = error as! OpenId4VCIValidationError
+            XCTAssertEqual(validationError.code, "credential_metadata_malformed")
+            XCTAssertEqual(validationError.message, "Credential metadata issuer does not match the credential offer issuer.")
+        }
+    }
+    
+    func testProcess_WithSchemeMismatchedAuthServer_ThrowsError() async throws
+    {
+        // Arrange
+        let rawRequest = createJSONCredentialOffer()
+        let metadata = createCredentialMetadata(authorizationServer: "http://login.microsoft.com")
+        let expectedResult = (metadata, CredentialMetadataFetchOperation.self)
+        let mockNetworking = MockLibraryNetworking.create(expectedResults: [expectedResult])
+        let configuration = LibraryConfiguration(networking: mockNetworking)
+        let handler = OpenId4VCIProcessor(configuration: configuration)
+        
+        do
+        {
+            // Act
+            let _ = try await handler.process(rawRequest: rawRequest)
+            XCTFail()
+        }
+        catch
+        {
+            // Assert
+            XCTAssert(error is OpenId4VCIValidationError)
+            let validationError = error as! OpenId4VCIValidationError
+            XCTAssertEqual(validationError.code, "credential_metadata_malformed")
+            XCTAssertEqual(validationError.message, "Authorization servers in Credential Metadata does not contain https://login.microsoft.com")
+        }
+    }
+    
     func testProcess_WithSignedMetadataProcessorError_ThrowsError() async throws
     {
         // Arrange
@@ -222,6 +274,7 @@ class OpenId4VCIProcessorTests: XCTestCase
     
     private func createCredentialMetadata(expectedConfigIds: [String] = ["expectedCredentialId"],
                                           authorizationServer: String = "https://login.microsoft.com",
+                                          credentialIssuer: String = "https://issuer.example.com",
                                           scope: String? = "expectedScope") -> CredentialMetadata
     {
         let credentialConfigs: [String: CredentialConfiguration] = expectedConfigIds.reduce(into: [:]) { (result, id) in
@@ -235,7 +288,7 @@ class OpenId4VCIProcessorTests: XCTestCase
             return result[id] = credentialConfig
         }
 
-        let metadata = CredentialMetadata(credential_issuer: "credentialIssuer",
+        let metadata = CredentialMetadata(credential_issuer: credentialIssuer,
                                           authorization_servers: [authorizationServer],
                                           credential_endpoint: nil,
                                           notification_endpoint: nil,
@@ -248,7 +301,7 @@ class OpenId4VCIProcessorTests: XCTestCase
     private func createJSONCredentialOffer() -> [String: Any]
     {
         let json: [String: Any] = [
-            "credential_issuer": "expectedCredentialIssuer",
+            "credential_issuer": "https://issuer.example.com",
             "issuer_session": "expectedIssuerSession",
             "credential_configuration_ids": ["expectedCredentialId"],
             "grants": [

@@ -583,6 +583,7 @@
 		A4DC99822B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DC99812B7D29FF008F389F /* PresentationExchangeVerifiedIdRequirementTests.swift */; };
 		A4DF2BF02E9EF8A4000AE314 /* MatchSubjectCryptoRequirement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DF2BEE2E9EF89B000AE314 /* MatchSubjectCryptoRequirement.swift */; };
 		A4F39A8B2B91571E005C12FC /* ExtensionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F39A8A2B91571E005C12FC /* ExtensionConfiguration.swift */; };
+		C2664A8238035CC7F3F12290 /* OpenID4VCIPreAuthTokenResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579AB305E7D8B83237CB22B1 /* OpenID4VCIPreAuthTokenResolverTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1179,6 +1180,7 @@
 		55F01CD32ACE100B000794B4 /* ES256PublicKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ES256PublicKeyTests.swift; sourceTree = "<group>"; };
 		55FE70792B72E7C600CC3018 /* OpenId4VCIProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenId4VCIProcessor.swift; sourceTree = "<group>"; };
 		55FE70812B730D1500CC3018 /* CredentialMetadataFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialMetadataFetchOperation.swift; sourceTree = "<group>"; };
+		579AB305E7D8B83237CB22B1 /* OpenID4VCIPreAuthTokenResolverTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenID4VCIPreAuthTokenResolverTests.swift; sourceTree = "<group>"; };
 		A48C1EB52B8FF19000545FF6 /* VerifiedIdSerializing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdSerializing.swift; sourceTree = "<group>"; };
 		A497435A2B8EA367004851C2 /* VerifiedIdPartialRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedIdPartialRequest.swift; sourceTree = "<group>"; };
 		A497435E2B8EB29B004851C2 /* PresentationExchangeRequirement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationExchangeRequirement.swift; sourceTree = "<group>"; };
@@ -2505,6 +2507,7 @@
 				558328562B97A83A000CEC89 /* Encoders */,
 				558CF1A72B8680E100AF5D82 /* Formatters */,
 				555FB1672B73FB6300EE14BD /* Entities */,
+				D00E717D4815E62212E26C75 /* Resolvers */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -3327,6 +3330,15 @@
 			path = ProcessorExtensions;
 			sourceTree = "<group>";
 		};
+		D00E717D4815E62212E26C75 /* Resolvers */ = {
+			isa = PBXGroup;
+			children = (
+				579AB305E7D8B83237CB22B1 /* OpenID4VCIPreAuthTokenResolverTests.swift */,
+			);
+			name = Resolvers;
+			path = Resolvers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -4060,6 +4072,7 @@
 				55A268A82CC1B70300A8EA9C /* JwsHeaderFormatterTests.swift in Sources */,
 				559BD4F5299EEC9500BD61AC /* MockVerifiedIdRequester.swift in Sources */,
 				55DECC3F29BFEACB00D5C802 /* MockVerifiableCredentialHelper.swift in Sources */,
+				C2664A8238035CC7F3F12290 /* OpenID4VCIPreAuthTokenResolverTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

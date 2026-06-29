@@ -166,6 +166,47 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
         }
     }
     
+    func testProcess_WithMissingExpClaim_ThrowsError() async throws
+    {
+        // Arrange
+        let keyId = "#mockKeyId"
+        let did = "did:test:mock"
+        let credentialIssuer = "credentialIssuer"
+        let mockDocumentResolver = MockIdentifierDocumentResolver(mockResolve: createMockResolve(keyId))
+        let mockRootOfTrustResolver = MockRootOfTrustResolver()
+        let mockTokenVerifier = MockTokenVerifier(isTokenValid: true)
+        let processor = SignedCredentialMetadataProcessor(tokenVerifier: mockTokenVerifier,
+                                                          identifierDocumentResolver:mockDocumentResolver,
+                                                          rootOfTrustResolver: mockRootOfTrustResolver)
+        
+        // `exp` is intentionally omitted (nil) to exercise the missing-expiry guard.
+        let metadataTokenClaims = SignedMetadataTokenClaims(sub: credentialIssuer,
+                                                            iss: did)
+        
+        let signedMetadata = SignedMetadata(headers: Header(keyId: "\(did)\(keyId)"),
+                                                     content: metadataTokenClaims)!
+        let serializedMetadata = try signedMetadata.serialize()
+        
+        do
+        {
+            // Act
+            let _ = try await processor.process(signedMetadata: serializedMetadata,
+                                                credentialIssuer: credentialIssuer)
+            XCTFail()
+        }
+        catch
+        {
+            // Assert
+            XCTAssert(error is OpenId4VCIValidationError)
+            let validationError = error as! OpenId4VCIValidationError
+            XCTAssertEqual(validationError.code, "signed_metadata_token_malformed")
+            XCTAssertEqual(validationError.message, "Signed metadata is not valid.")
+            XCTAssert(validationError.error is TokenValidationError)
+            let tokenError = validationError.error as! TokenValidationError
+            XCTAssertEqual(tokenError.code, "invalid_property")
+        }
+    }
+    
     func testProcess_WithSignatureFailed_ThrowsError() async throws
     {
         // Arrange
