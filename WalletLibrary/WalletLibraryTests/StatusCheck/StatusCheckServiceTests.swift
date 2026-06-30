@@ -293,14 +293,53 @@ struct StatusListTokenValidatorTests {
         }
     }
 
-    @Test func validSignatureWithPreResolvedDocument_succeedsWithoutResolving() async throws {
+    @Test func validSignatureWithFutureExpiry_succeedsWithoutResolving() async throws {
         // The resolver throws if hit; a passing validation proves the pre-resolved document was reused.
         let validator = makeValidator(verifies: true)
-        let token = makeToken(keyId: "\(issuer)#key-1", issuer: issuer, expiry: nil)
+        let futureExpiry = Int(Date().timeIntervalSince1970) + 10_000
+        let token = makeToken(keyId: "\(issuer)#key-1", issuer: issuer, expiry: futureExpiry)
         try await validator.validate(token,
                                      expectedIssuerDid: issuer,
                                      now: Date(),
                                      preResolvedDocument: makeDocument(keyId: "#key-1"))
+    }
+
+    @Test func missingExpiry_throwsMissingExpiry() async {
+        let validator = makeValidator(verifies: true)
+        let token = makeToken(keyId: "\(issuer)#key-1", issuer: issuer, expiry: nil)
+        await #expect(throws: StatusListValidationError.missingExpiry) {
+            try await validator.validate(token,
+                                         expectedIssuerDid: issuer,
+                                         now: Date(),
+                                         preResolvedDocument: makeDocument(keyId: "#key-1"))
+        }
+    }
+
+    @Test func notYetValidToken_throwsNotYetValid() async {
+        let validator = makeValidator(verifies: true)
+        let futureExpiry = Int(Date().timeIntervalSince1970) + 10_000
+        let futureNotBefore = Int(Date().timeIntervalSince1970) + 5_000
+        let token = makeToken(keyId: "\(issuer)#key-1", issuer: issuer, expiry: futureExpiry, notBefore: futureNotBefore)
+        await #expect(throws: StatusListValidationError.notYetValid) {
+            try await validator.validate(token,
+                                         expectedIssuerDid: issuer,
+                                         now: Date(),
+                                         preResolvedDocument: makeDocument(keyId: "#key-1"))
+        }
+    }
+
+    @Test func signatureVerifiesOnlyKidReferencedKey_notAnyKey() async {
+        // The kid-referenced key (#key-1) is absent from the document — only an unrelated #key-2 is
+        // present. Tight binding means we do NOT fall back to trying #key-2, so this fails.
+        let validator = makeValidator(verifies: true)
+        let futureExpiry = Int(Date().timeIntervalSince1970) + 10_000
+        let token = makeToken(keyId: "\(issuer)#key-1", issuer: issuer, expiry: futureExpiry)
+        await #expect(throws: StatusListValidationError.invalidSignature) {
+            try await validator.validate(token,
+                                         expectedIssuerDid: issuer,
+                                         now: Date(),
+                                         preResolvedDocument: makeDocument(keyId: "#key-2"))
+        }
     }
 
     @Test func invalidSignature_throwsInvalidSignature() async {
@@ -333,9 +372,9 @@ struct StatusListTokenValidatorTests {
                                  tokenVerifier: StubTokenVerifier(result: verifies))
     }
 
-    private func makeToken(keyId: String?, issuer: String?, expiry: Int?) -> JwsToken<StatusListClaims> {
+    private func makeToken(keyId: String?, issuer: String?, expiry: Int?, notBefore: Int? = nil) -> JwsToken<StatusListClaims> {
         let header = Header(keyId: keyId)
-        let claims = StatusListClaims(iss: issuer, exp: expiry)
+        let claims = StatusListClaims(iss: issuer, exp: expiry, nbf: notBefore)
         return JwsToken(headers: header, content: claims)!
     }
 
@@ -365,5 +404,204 @@ private struct StubTokenVerifier: TokenVerifying {
     let result: Bool
     func verify<T>(token: JwsToken<T>, usingPublicKey key: JWK) throws -> Bool {
         return result
+    }
+}
+
+/// End-to-end tests for `StatusCheckService.checkStatus(of:)`: expiry short-circuit, the
+/// no-status-endpoint path, that OpenID4VCI credentials are inspected (not silently skipped), and
+/// that every `credentialStatus` entry is evaluated so a suspension behind a clear revocation is caught.
+struct StatusCheckServiceOrchestrationTests {
+
+    private let helper = MockVerifiableCredentialHelper()
+    private let issuer = "did:web:issuer.example"
+
+    // GZIP+base64url of a bitstring with bit 5 set (flagged: revoked/suspended).
+    private static let bitSetEncodedList = "H4sIAAAAAAAC_1NgAABdNl3UAgAAAA"
+    // GZIP+base64url of an all-clear bitstring (valid).
+    private static let bitClearEncodedList = "H4sIAAAAAAAC_2NgAAD_EtlBAgAAAA"
+
+    private var futureUnixTime: Int { Int(Date().timeIntervalSince1970) + 100_000 }
+    private var pastUnixTime: Int { Int(Date().timeIntervalSince1970) - 100_000 }
+
+    @Test func expiredCredential_returnsExpired() async {
+        let service = makeService(networking: ThrowingNetworking())
+        let credential = makeVCVerifiedId(credentialStatus: nil, expiry: pastUnixTime)
+        let status = await service.checkStatus(of: credential)
+        #expect(status == .expired)
+    }
+
+    @Test func noCredentialStatus_returnsNoStatusEndpoint() async {
+        let service = makeService(networking: ThrowingNetworking())
+        let credential = makeVCVerifiedId(credentialStatus: nil, expiry: futureUnixTime)
+        let status = await service.checkStatus(of: credential)
+        #expect(status == .noStatusEndpoint)
+    }
+
+    @Test func openID4VCICredentialWithStatus_isInspectedNotSkipped() async throws {
+        // Regression guard: the cast is to `InternalVerifiedId`, so an OpenID4VCI credential carrying a
+        // status endpoint is inspected. The fetch throws, so the result is the indeterminate `.unknown`
+        // — never `.noStatusEndpoint`, which a caller could read as "nothing to check, accept it".
+        let service = makeService(networking: ThrowingNetworking())
+        let credential = try makeOpenID4VCIVerifiedId(statusListCredential: "https://issuer.example/status/1",
+                                                      expiry: futureUnixTime)
+        let status = await service.checkStatus(of: credential)
+        #expect(status == .unknown)
+    }
+
+    @Test func directHttpsRevocationBitSet_returnsRevoked() async {
+        let listURL = "https://issuer.example/revocation/1"
+        let networking = MapNetworking(bodies: [listURL: statusListJws(encodedList: Self.bitSetEncodedList,
+                                                                       statusPurpose: "revocation")])
+        let service = makeService(networking: networking, validator: AcceptingValidator())
+        let credential = makeVCVerifiedId(credentialStatus: [statusEntry(listURL: listURL, index: 5, purpose: "revocation")],
+                                          expiry: futureUnixTime)
+        let status = await service.checkStatus(of: credential)
+        #expect(status == .revoked)
+    }
+
+    @Test func multipleEntries_suspensionBehindClearRevocation_returnsSuspended() async {
+        // Revocation bit clear, suspension bit set. Evaluating only the first entry would report
+        // `.valid`; checking every entry surfaces the suspension.
+        let revocationURL = "https://issuer.example/revocation/1"
+        let suspensionURL = "https://issuer.example/suspension/1"
+        let networking = MapNetworking(bodies: [
+            revocationURL: statusListJws(encodedList: Self.bitClearEncodedList, statusPurpose: "revocation"),
+            suspensionURL: statusListJws(encodedList: Self.bitSetEncodedList, statusPurpose: "suspension")
+        ])
+        let service = makeService(networking: networking, validator: AcceptingValidator())
+        let credential = makeVCVerifiedId(credentialStatus: [
+            statusEntry(listURL: revocationURL, index: 5, purpose: "revocation"),
+            statusEntry(listURL: suspensionURL, index: 5, purpose: "suspension")
+        ], expiry: futureUnixTime)
+        let status = await service.checkStatus(of: credential)
+        #expect(status == .suspended)
+    }
+
+    // MARK: - Fixtures
+
+    private func makeService(networking: LibraryNetworking,
+                             validator: StatusListTokenValidator? = nil) -> StatusCheckService {
+        StatusCheckService(configuration: LibraryConfiguration(networking: networking),
+                           validator: validator)
+    }
+
+    private func statusEntry(listURL: String, index: Int, purpose: String) -> [String: Any] {
+        ["id": "urn:uuid:\(purpose)",
+         "type": "StatusList2021Entry",
+         "statusListCredential": listURL,
+         "statusListIndex": index,
+         "statusPurpose": purpose]
+    }
+
+    /// Builds a `VCVerifiedId` whose `raw.rawValue` carries the given `credentialStatus` (single object
+    /// when one entry, array when several). Using the raw-value initializer sidesteps typed decoding,
+    /// which models `credentialStatus` as a single object and so can't represent the array form.
+    private func makeVCVerifiedId(credentialStatus: [[String: Any]]?, expiry: Int) -> VCVerifiedId {
+        var vc: [String: Any] = [
+            "@context": ["https://www.w3.org/2018/credentials/v1"],
+            "type": ["VerifiableCredential"],
+            "credentialSubject": ["name": "test"]
+        ]
+        if let credentialStatus {
+            vc["credentialStatus"] = credentialStatus.count == 1 ? credentialStatus[0] : credentialStatus
+        }
+        let payload: [String: Any] = ["jti": "urn:vc:test", "iss": issuer, "iat": 0, "exp": expiry, "vc": vc]
+        let content = VCClaims(jti: "urn:vc:test", iss: issuer, sub: "", iat: 0, exp: expiry, vc: nil)
+        let raw = VerifiableCredential(headers: Header(), content: content, rawValue: Self.compactJws(payload))!
+        return try! VCVerifiedId(raw: raw, from: helper.createMockContract())
+    }
+
+    private func makeOpenID4VCIVerifiedId(statusListCredential: String, expiry: Int) throws -> OpenID4VCIVerifiedId {
+        let vc: [String: Any] = [
+            "@context": ["https://www.w3.org/2018/credentials/v1"],
+            "type": ["VerifiableCredential"],
+            "credentialSubject": ["name": "test"],
+            "credentialStatus": ["id": "urn:uuid:status",
+                                 "type": "StatusList2021Entry",
+                                 "statusListCredential": statusListCredential,
+                                 "statusListIndex": "3",
+                                 "statusPurpose": "revocation"]
+        ]
+        let payload: [String: Any] = ["jti": "urn:vc:openid", "iss": issuer, "iat": 0, "exp": expiry, "vc": vc]
+        let config = CredentialConfiguration(format: nil,
+                                             scope: nil,
+                                             cryptographic_binding_methods_supported: nil,
+                                             cryptographic_suites_supported: nil,
+                                             credential_definition: nil,
+                                             display: nil,
+                                             proof_types_supported: nil)
+        return try OpenID4VCIVerifiedId(raw: Self.compactJws(payload),
+                                        issuerName: "Test Issuer",
+                                        configuration: config)
+    }
+
+    private func statusListJws(encodedList: String, statusPurpose: String) -> Data {
+        let payload: [String: Any] = [
+            "iss": issuer,
+            "vc": ["credentialSubject": ["encodedList": encodedList, "statusPurpose": statusPurpose]]
+        ]
+        return Data(Self.compactJws(payload).utf8)
+    }
+
+    private static func compactJws(_ payload: [String: Any]) -> String {
+        let header = base64URL(try! JSONSerialization.data(withJSONObject: ["alg": "ES256K", "typ": "JWT"]))
+        let body = base64URL(try! JSONSerialization.data(withJSONObject: payload))
+        return "\(header).\(body).AAAA"
+    }
+
+    private static func base64URL(_ data: Data) -> String {
+        data.base64EncodedString()
+            .replacingOccurrences(of: "+", with: "-")
+            .replacingOccurrences(of: "/", with: "_")
+            .replacingOccurrences(of: "=", with: "")
+    }
+}
+
+/// A `LibraryNetworking` returning canned response bodies keyed by URL; unmapped requests throw.
+private struct MapNetworking: LibraryNetworking {
+    let bodies: [String: Data]
+    func resetCorrelationHeader() {}
+    func fetch<Operation: WalletLibraryFetchOperation>(url: URL,
+                                                       _ type: Operation.Type,
+                                                       additionalHeaders: [String: String]?) async throws -> Operation.ResponseBody {
+        guard let data = bodies[url.absoluteString], let body = data as? Operation.ResponseBody else {
+            throw StatusListValidationError.noPublicKeysInIdentifierDocument
+        }
+        return body
+    }
+    func post<Operation: WalletLibraryPostOperation>(requestBody: Operation.RequestBody,
+                                                     url: URL,
+                                                     _ type: Operation.Type,
+                                                     additionalHeaders: [String: String]?) async throws -> Operation.ResponseBody {
+        throw StatusListValidationError.noPublicKeysInIdentifierDocument
+    }
+}
+
+/// A `LibraryNetworking` that throws on every request, proving a credential is still inspected even
+/// when its status list can't be fetched.
+private struct ThrowingNetworking: LibraryNetworking {
+    func resetCorrelationHeader() {}
+    func fetch<Operation: WalletLibraryFetchOperation>(url: URL,
+                                                       _ type: Operation.Type,
+                                                       additionalHeaders: [String: String]?) async throws -> Operation.ResponseBody {
+        throw StatusListValidationError.noPublicKeysInIdentifierDocument
+    }
+    func post<Operation: WalletLibraryPostOperation>(requestBody: Operation.RequestBody,
+                                                     url: URL,
+                                                     _ type: Operation.Type,
+                                                     additionalHeaders: [String: String]?) async throws -> Operation.ResponseBody {
+        throw StatusListValidationError.noPublicKeysInIdentifierDocument
+    }
+}
+
+/// A validator that accepts every token, isolating the orchestration tests from signature and
+/// freshness checks (covered by `StatusListTokenValidatorTests`).
+private final class AcceptingValidator: StatusListTokenValidator {
+    init() { super.init(didResolver: ThrowingDiscoveryNetworking()) }
+    override func validate(_ token: JwsToken<StatusListClaims>,
+                           expectedIssuerDid: String,
+                           now: Date,
+                           preResolvedDocument: IdentifierDocument?) async throws {
+        // Accept: bits are trusted for these orchestration tests.
     }
 }

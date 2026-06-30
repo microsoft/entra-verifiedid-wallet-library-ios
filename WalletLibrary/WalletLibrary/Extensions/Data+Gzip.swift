@@ -8,11 +8,18 @@ import Foundation
 
 extension Data {
 
+    /// Upper bound on `gunzipped()` output. DEFLATE reaches ~1000:1 ratios, so an attacker-supplied
+    /// `encodedList` could inflate to gigabytes and OOM-crash the wallet. A StatusList2021 bitstring is
+    /// tiny (the W3C minimum is 16 KB; this 10 MB cap covers ~80 million credentials), so a payload
+    /// exceeding it is malformed or hostile and degrades to `nil` (caller treats as `.unknown`).
+    static let maxGunzippedByteCount = 10 * 1024 * 1024
+
     /// Inflates a GZIP (RFC 1952) payload, as used by the StatusList2021 `encodedList`.
     ///
     /// Apple's `Compression` framework inflates only a raw DEFLATE stream, so this strips the gzip
     /// header (including the optional FEXTRA / FNAME / FCOMMENT / FHCRC fields) and the 8-byte trailer,
-    /// then streams the DEFLATE payload through `COMPRESSION_ZLIB`. Returns `nil` for malformed input.
+    /// then streams the DEFLATE payload through `COMPRESSION_ZLIB`. Returns `nil` for malformed input or
+    /// when the inflated size exceeds `maxGunzippedByteCount` (zip-bomb guard).
     func gunzipped() -> Data? {
         // Smallest possible gzip stream: 10-byte header + 8-byte trailer.
         guard count >= 18,
@@ -83,6 +90,7 @@ extension Data {
                 switch status {
                 case COMPRESSION_STATUS_OK, COMPRESSION_STATUS_END:
                     output.append(destinationBuffer, count: bufferSize - stream.dst_size)
+                    if output.count > Data.maxGunzippedByteCount { return nil }
                     if status == COMPRESSION_STATUS_END { return output }
                 default:
                     return nil

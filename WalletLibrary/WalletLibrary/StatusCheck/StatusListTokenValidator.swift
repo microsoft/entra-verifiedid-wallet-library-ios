@@ -11,6 +11,7 @@ import Foundation
 struct StatusListClaims: Claims {
     let iss: String?
     let exp: Int?
+    let nbf: Int?
 }
 
 enum StatusListValidationError: Error, Equatable {
@@ -20,13 +21,16 @@ enum StatusListValidationError: Error, Equatable {
     case issuerMismatch
     case noPublicKeysInIdentifierDocument
     case invalidSignature
+    case missingExpiry
     case expired
+    case notYetValid
 }
 
 /**
  * Verifies a fetched StatusList2021 credential JWT before its bits are trusted: the signature must
- * verify against the issuer's resolved DID document, the signer (token `kid` DID and payload `iss`)
- * must be the credential's own issuer, and any `exp` must be in the future (with clock skew).
+ * verify against the `kid`-referenced key in the issuer's resolved DID document, the signer (token
+ * `kid` DID and payload `iss`) must be the credential's own issuer, and a required `exp` must be in
+ * the future (with clock skew); any `nbf` must not be in the future.
  *
  * This is defense-in-depth — the issuance/presentation server remains authoritative — but it stops a
  * man-in-the-middle from forging a "valid" list. Modelled on `DomainLinkageCredentialValidator`.
@@ -77,11 +81,20 @@ class StatusListTokenValidator {
         }
         try verifySignature(of: token, keyId: keyId, document: document)
 
-        if let exp = token.content.exp {
-            let expiry = Date(timeIntervalSince1970: TimeInterval(exp) + clockSkewSeconds)
-            if expiry < now {
-                throw StatusListValidationError.expired
-            }
+        // `exp` is required: a status list with no expiry would be trusted indefinitely, letting a
+        // replayed older "all-clear" list mask a later revocation. A missing or past expiry throws, so
+        // the caller degrades to `.unknown` (fail-open) rather than trusting a stale list as "valid".
+        guard let exp = token.content.exp else {
+            throw StatusListValidationError.missingExpiry
+        }
+        if Date(timeIntervalSince1970: TimeInterval(exp) + clockSkewSeconds) < now {
+            throw StatusListValidationError.expired
+        }
+
+        // Reject a token that is not yet valid (`nbf` in the future, beyond clock skew).
+        if let nbf = token.content.nbf,
+           Date(timeIntervalSince1970: TimeInterval(nbf) - clockSkewSeconds) > now {
+            throw StatusListValidationError.notYetValid
         }
     }
 
@@ -92,14 +105,13 @@ class StatusListTokenValidator {
             throw StatusListValidationError.noPublicKeysInIdentifierDocument
         }
 
+        // Bind verification to the `kid`-referenced key only (matched by full id or `#fragment`), like
+        // `DomainLinkageCredentialValidator` — not "any key in the document" — for tighter key binding.
         let fragments = keyId.split(separator: "#")
         let keyFragment = fragments.count == 2 ? "#" + String(fragments[1]) : nil
 
         let matchingKeys = keys.filter { $0.id == keyId || (keyFragment != nil && $0.id == keyFragment) }
         for key in matchingKeys where verify(token, with: key) {
-            return
-        }
-        for key in keys where verify(token, with: key) {
             return
         }
 

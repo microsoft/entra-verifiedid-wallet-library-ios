@@ -44,17 +44,53 @@ class StatusCheckService {
             return .expired
         }
 
-        guard let credential = verifiedId as? VCVerifiedId else {
-            return .noStatusEndpoint
+        // Both concrete VerifiedId types (`VCVerifiedId` and `OpenID4VCIVerifiedId`) conform to
+        // `InternalVerifiedId` and expose `.raw`, which is all the status parsing needs. Casting to the
+        // protocol — not a concrete type — keeps OpenID4VCI credentials in scope. An unrecognised type
+        // is `.unknown` (indeterminate), never `.noStatusEndpoint`, so a caller can't read it as "no
+        // status to check" and accept a credential whose status this SDK simply couldn't inspect.
+        guard let credential = verifiedId as? InternalVerifiedId else {
+            configuration.logger.logVerbose(message: "StatusCheck: unsupported VerifiedId type; status is indeterminate.")
+            return .unknown
         }
 
-        guard let descriptor = StatusCheckService.parseCredentialStatus(from: credential.raw) else {
+        let descriptors = StatusCheckService.parseCredentialStatuses(from: credential.raw)
+        guard !descriptors.isEmpty else {
             configuration.logger.logVerbose(message: "StatusCheck: credential has no parseable credentialStatus; treating as no status endpoint.")
             return .noStatusEndpoint
         }
 
         let issuerDid = credential.raw.content.iss ?? ""
-        return await fetchAndCheckStatusList(descriptor: descriptor, issuerDid: issuerDid)
+        return await evaluateAllStatusLists(descriptors: descriptors, issuerDid: issuerDid)
+    }
+
+    /// Evaluates every `credentialStatus` entry and combines them. StatusList2021 models revocation and
+    /// suspension as separate entries (distinct `statusPurpose`), so an issuer that supports both emits
+    /// two; checking only the first would let a set suspension bit be missed behind a clear revocation
+    /// bit. Revocation has priority (and short-circuits); an indeterminate entry downgrades the result
+    /// to `.unknown` rather than reporting a definitive `.valid` while ignoring data.
+    private func evaluateAllStatusLists(descriptors: [CredentialStatusDescriptor],
+                                        issuerDid: String) async -> VerifiedIdStatus {
+        var sawSuspended = false
+        var sawUnknown = false
+        var sawValid = false
+
+        for descriptor in descriptors {
+            switch await fetchAndCheckStatusList(descriptor: descriptor, issuerDid: issuerDid) {
+            case .revoked:
+                return .revoked
+            case .suspended:
+                sawSuspended = true
+            case .valid:
+                sawValid = true
+            case .expired, .unknown, .noStatusEndpoint:
+                sawUnknown = true
+            }
+        }
+
+        if sawSuspended { return .suspended }
+        if sawUnknown { return .unknown }
+        return sawValid ? .valid : .unknown
     }
 
     private func fetchAndCheckStatusList(descriptor: CredentialStatusDescriptor,
@@ -318,29 +354,28 @@ class StatusCheckService {
         return statusList.statusPurpose == statusPurposeSuspension ? .suspended : .revoked
     }
 
-    /// Parses the credential's own `credentialStatus` entry from the raw VC payload. The decoded
+    /// Parses the credential's own `credentialStatus` entries from the raw VC payload. The decoded
     /// `VerifiableCredentialDescriptor` only carries `id` / `type`, so the richer status-list fields
-    /// are read straight from the token payload here.
-    static func parseCredentialStatus(from raw: VerifiableCredential) -> CredentialStatusDescriptor? {
+    /// are read straight from the token payload here. Returns every entry (a `credentialStatus` may be
+    /// a single object or an array of objects) so the caller can evaluate revocation and suspension
+    /// independently.
+    static func parseCredentialStatuses(from raw: VerifiableCredential) -> [CredentialStatusDescriptor] {
         guard let compact = raw.rawValue ?? (try? raw.serialize()),
               let payload = jsonPayload(ofCompactJws: compact),
               let vc = payload["vc"] as? [String: Any] else {
-            return nil
+            return []
         }
 
-        let statusEntry: [String: Any]?
+        let entries: [[String: Any]]
         if let object = vc["credentialStatus"] as? [String: Any] {
-            statusEntry = object
+            entries = [object]
         } else if let array = vc["credentialStatus"] as? [[String: Any]] {
-            statusEntry = array.first
+            entries = array
         } else {
-            statusEntry = nil
+            entries = []
         }
 
-        guard let entry = statusEntry else {
-            return nil
-        }
-        return CredentialStatusDescriptor(json: entry)
+        return entries.compactMap { CredentialStatusDescriptor(json: $0) }
     }
 
     /// Reads `encodedList` and `statusPurpose` (defaulting to `"revocation"`) from a status list JWT
