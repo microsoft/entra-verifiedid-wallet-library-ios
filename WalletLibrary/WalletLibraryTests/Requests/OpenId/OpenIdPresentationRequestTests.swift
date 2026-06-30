@@ -233,7 +233,7 @@ class OpenIdPresentationRequestTests: XCTestCase
         // Arrange
         let mockRawOpenIdRequest = createMockRawOpenIdRequest()
         
-        let mockNetworkingLayer = MockLibraryNetworking.create(expectedResults: [("", PostPresentationResponseOperation.self)])
+        let mockNetworkingLayer = MockLibraryNetworking.create(expectedResults: [(MockSuccessfulCompletionResult(), PostPresentationResponseOperation.self)])
         let configuration = LibraryConfiguration(logger: WalletLibraryLogger(),
                                                  mapper: Mapper(),
                                                  networking: mockNetworkingLayer)
@@ -298,3 +298,7 @@ class OpenIdPresentationRequestTests: XCTestCase
         return mockPartialRequest
     }
 }
+
+/// A `Decodable` `SuccessfulCompletionResult` stand-in used to stub `PostPresentationResponseOperation`
+/// in `MockLibraryNetworking`, whose `ResponseBody` is the `SuccessfulCompletionResult` protocol.
+private struct MockSuccessfulCompletionResult: SuccessfulCompletionResult, Decodable {}

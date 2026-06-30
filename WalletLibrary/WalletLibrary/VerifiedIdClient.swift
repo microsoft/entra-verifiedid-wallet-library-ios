@@ -36,6 +36,18 @@ public class VerifiedIdClient {
         }
     }
     
+    /// Checks whether a `VerifiedId` has been revoked, suspended, or expired.
+    ///
+    /// Expiry is determined locally from the credential's `expiresOn`; revocation and suspension are
+    /// resolved against the issuer's W3C StatusList2021 endpoint. The check is fail-open: any error
+    /// or indeterminate result returns `.unknown` and never throws. The presentation/issuance server
+    /// remains the authoritative enforcement point.
+    public func checkVerifiedIdStatus(_ verifiedId: VerifiedId) async -> VerifiedIdStatus {
+        configuration.networking.resetCorrelationHeader()
+        let service = StatusCheckService(configuration: configuration)
+        return await service.checkStatus(of: verifiedId)
+    }
+
     /// Encode a VerifiedId into Data.
     public func encode(verifiedId: VerifiedId) -> VerifiedIdResult<Data> {
         do {
