@@ -50,8 +50,14 @@ struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
         }
         
         let identifierDocument = try await identifierDocumentResolver.resolve(identifier: kid.did)
+
+        guard identifierDocument.id == kid.did else
+        {
+            let errorMessage = "Resolved Identifier Document does not match the requested DID."
+            throw OpenId4VCIValidationError.MalformedSignedMetadataToken(message: errorMessage)
+        }
         
-        guard let publicKey = identifierDocument.getJWK(id: kid.keyId) else
+        guard let publicKey = identifierDocument.getJWK(id: kid.keyId, forDID: kid.did) else
         {
             let errorMessage = "Key Id not defined in Identifier Document."
             throw OpenId4VCIValidationError.MalformedSignedMetadataToken(message: errorMessage)

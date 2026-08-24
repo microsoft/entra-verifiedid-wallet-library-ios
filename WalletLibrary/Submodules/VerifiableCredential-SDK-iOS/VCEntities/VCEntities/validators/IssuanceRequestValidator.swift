@@ -28,20 +28,15 @@ struct IssuanceRequestValidator: IssuanceRequestValidating {
             throw IssuanceRequestValidatorError.noKeyIdInTokenHeader
         }
         
-        let keyIdComponents = kid.split(separator: "#").map { String($0) }
-        
-        guard keyIdComponents.count == 2 else {
+        guard let keyIdentifier = DIDVerificationMethodIdentifier(keyId: kid) else {
             throw IssuanceRequestValidatorError.keyIdInTokenHeaderMalformed
         }
-        
-        let publicKeyId = "#\(keyIdComponents[1])"
-        
-        /// check if key id is equal to keyId fragment in token header, and if so, validate signature. Else, continue loop.
-        for key in publicKeys {
-            if key.id == publicKeyId,
-               try request.verify(using: verifier, withPublicKey: key.publicKeyJwk) {
-                return
-            }
+
+        if try request.verify(
+            using: verifier,
+            keys: publicKeys,
+            keyIdentifier: keyIdentifier) {
+            return
         }
         
         throw IssuanceRequestValidatorError.invalidSignature

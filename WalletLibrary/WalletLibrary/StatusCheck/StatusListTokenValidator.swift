@@ -19,6 +19,7 @@ enum StatusListValidationError: Error, Equatable {
     case missingKeyId
     case malformedKeyId
     case issuerMismatch
+    case identifierDocumentMismatch
     case noPublicKeysInIdentifierDocument
     case invalidSignature
     case missingExpiry
@@ -79,6 +80,9 @@ class StatusListTokenValidator {
         } else {
             document = try await didResolver.getDocument(from: expectedIssuerDid)
         }
+        guard document.id == expectedIssuerDid else {
+            throw StatusListValidationError.identifierDocumentMismatch
+        }
         try verifySignature(of: token, keyId: keyId, document: document)
 
         // `exp` is required: a status list with no expiry would be trusted indefinitely, letting a
@@ -107,18 +111,17 @@ class StatusListTokenValidator {
 
         // Bind verification to the `kid`-referenced key only (matched by full id or `#fragment`), like
         // `DomainLinkageCredentialValidator` — not "any key in the document" — for tighter key binding.
-        let fragments = keyId.split(separator: "#")
-        let keyFragment = fragments.count == 2 ? "#" + String(fragments[1]) : nil
+        guard let keyIdentifier = DIDVerificationMethodIdentifier(keyId: keyId) else {
+            throw StatusListValidationError.malformedKeyId
+        }
 
-        let matchingKeys = keys.filter { $0.id == keyId || (keyFragment != nil && $0.id == keyFragment) }
-        for key in matchingKeys where verify(token, with: key) {
+        if (try? token.verify(
+            using: tokenVerifier,
+            keys: keys,
+            keyIdentifier: keyIdentifier)) == true {
             return
         }
 
         throw StatusListValidationError.invalidSignature
-    }
-
-    private func verify(_ token: JwsToken<StatusListClaims>, with key: IdentifierDocumentPublicKey) -> Bool {
-        return (try? token.verify(using: tokenVerifier, withPublicKey: key.publicKeyJwk)) == true
     }
 }

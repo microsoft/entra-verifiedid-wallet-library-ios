@@ -74,20 +74,15 @@ struct DomainLinkageCredentialValidator: DomainLinkageCredentialValidating {
             throw DomainLinkageCredentialValidatorError.noKeyIdInTokenHeader
         }
         
-        let keyIdComponents = kid.split(separator: "#").map { String($0) }
-        
-        guard keyIdComponents.count == 2 else {
+        guard let keyIdentifier = DIDVerificationMethodIdentifier(keyId: kid) else {
             throw DomainLinkageCredentialValidatorError.keyIdInTokenHeaderMalformed
         }
-        
-        let publicKeyId = "#\(keyIdComponents[1])"
-        
-        /// check if key id is equal to keyId fragment in token header, and if so, validate signature. Else, continue loop.
-        for key in keys {
-            if key.id == publicKeyId,
-               try token.verify(using: verifier, withPublicKey: key.publicKeyJwk) {
-                return
-            }
+
+        if try token.verify(
+            using: verifier,
+            keys: keys,
+            keyIdentifier: keyIdentifier) {
+            return
         }
         
         throw DomainLinkageCredentialValidatorError.invalidSignature

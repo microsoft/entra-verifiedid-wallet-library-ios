@@ -20,7 +20,7 @@ class PresentationRequestValidatorTests: XCTestCase {
     override func setUpWithError() throws {
         mockDidPublicKey = IdentifierDocumentPublicKey(id: "#keyId",
                                                        type: "Typetest",
-                                                       controller: "controllerTest",
+                                                       controller: "did:test",
                                                        publicKeyJwk: mockPublicKey,
                                                        purposes: ["purpose"])
     }
@@ -36,6 +36,56 @@ class PresentationRequestValidatorTests: XCTestCase {
             try validator.validate(request: mockRequest, usingKeys: [mockDidPublicKey])
             XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
         }
+    }
+
+    func testAbsoluteKeyIdForRequestedDidShouldBeValid() throws {
+        let validator = PresentationRequestValidator(verifier: verifier)
+        let key = IdentifierDocumentPublicKey(id: "did:test#keyId",
+                                              type: "Typetest",
+                                              controller: "did:test",
+                                              publicKeyJwk: mockPublicKey,
+                                              purposes: ["purpose"])
+        let mockRequestClaims = createMockPresentationRequestClaims()
+        let request = PresentationRequestToken(
+            headers: Header(keyId: "did:test#keyId"),
+            content: mockRequestClaims)!
+
+        try validator.validate(request: request, usingKeys: [key])
+
+        XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testAbsoluteKeyIdForDifferentDidIsRejected() throws {
+        let validator = PresentationRequestValidator(verifier: verifier)
+        let key = IdentifierDocumentPublicKey(id: "did:test:attacker#keyId",
+                                              type: "Typetest",
+                                              controller: "did:test:attacker",
+                                              publicKeyJwk: mockPublicKey,
+                                              purposes: ["purpose"])
+        let mockRequestClaims = createMockPresentationRequestClaims()
+        let request = PresentationRequestToken(
+            headers: Header(keyId: "did:test#keyId"),
+            content: mockRequestClaims)!
+
+        XCTAssertThrowsError(try validator.validate(request: request, usingKeys: [key])) { error in
+            XCTAssertEqual(error as? PresentationRequestValidatorError,
+                           PresentationRequestValidatorError.invalidSignature)
+        }
+        XCTAssertFalse(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testKeyIdWithMultipleFragmentsIsMalformed() throws {
+        let validator = PresentationRequestValidator(verifier: verifier)
+        let mockRequestClaims = createMockPresentationRequestClaims()
+        let request = PresentationRequestToken(
+            headers: Header(keyId: "did:test#keyId#other"),
+            content: mockRequestClaims)!
+
+        XCTAssertThrowsError(try validator.validate(request: request, usingKeys: [mockDidPublicKey])) { error in
+            XCTAssertEqual(error as? PresentationRequestValidatorError,
+                           PresentationRequestValidatorError.keyIdInTokenHeaderMalformed)
+        }
+        XCTAssertFalse(MockTokenVerifier.wasVerifyCalled)
     }
     
     func testInvalidScopeValue() throws {

@@ -122,6 +122,36 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
             XCTAssertEqual(validationError.message, "Key Id not defined in Identifier Document.")
         }
     }
+
+    func testProcess_WithMismatchedIdentifierDocument_ThrowsError() async throws
+    {
+        let document = IdentifierDocument(service: nil,
+                                          verificationMethod: nil,
+                                          authentication: [],
+                                          id: "did:test:attacker")
+        let resolver = MockIdentifierDocumentResolver(mockResolve: { _ in document })
+        let processor = SignedCredentialMetadataProcessor(
+            tokenVerifier: MockTokenVerifier(isTokenValid: true),
+            identifierDocumentResolver: resolver,
+            rootOfTrustResolver: MockRootOfTrustResolver())
+        let claims = SignedMetadataTokenClaims(sub: "credentialIssuer", iss: "did:test:mock")
+        let token = SignedMetadata(headers: Header(keyId: "did:test:mock#keyId"),
+                                   content: claims)!
+
+        do
+        {
+            let _ = try await processor.process(signedMetadata: token.serialize(),
+                                                credentialIssuer: "credentialIssuer")
+            XCTFail()
+        }
+        catch
+        {
+            XCTAssert(error is OpenId4VCIValidationError)
+            let validationError = error as! OpenId4VCIValidationError
+            XCTAssertEqual(validationError.message,
+                           "Resolved Identifier Document does not match the requested DID.")
+        }
+    }
     
     func testProcess_WithClaimsInTokenInvalid_ThrowsError() async throws
     {
@@ -329,7 +359,7 @@ class SignedCredentialMetadataProcessorTests: XCTestCase
         let document = IdentifierDocument(service: nil,
                                           verificationMethod: [publicKey],
                                           authentication: [],
-                                          id: "mock document")
+                                          id: "did:test:mock")
         
         let mockResolve = { (_: String) in
             return document

@@ -9,21 +9,21 @@
  */
 extension IdentifierDocument
 {
-    func getJWK(id: String) -> JWK?
+    func getJWK(id: String, forDID did: String? = nil) -> JWK?
     {
         guard let publicKeys = verificationMethod else
         {
             return nil
         }
         
-        for publicKey in publicKeys
-        {
-            if publicKey.id == id
-            {
-                return publicKey.publicKeyJwk.toJWK()
-            }
+        guard let did else {
+            return publicKeys.first(where: { $0.id == id })?.publicKeyJwk.toJWK()
         }
-        
-        return nil
+
+        guard let keyIdentifier = DIDVerificationMethodIdentifier(keyId: did + id) else {
+            return nil
+        }
+
+        return publicKeys.first(where: { $0.matches(keyIdentifier) })?.publicKeyJwk.toJWK()
     }
 }
