@@ -319,6 +319,8 @@
 		5552D82229F2E25900B40302 /* IssuanceResponseFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D80529F2E25900B40302 /* IssuanceResponseFormatterTests.swift */; };
 		5552D82429F2E25900B40302 /* IdentifierFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D80729F2E25900B40302 /* IdentifierFormatterTests.swift */; };
 		5552D82629F2E25900B40302 /* IdentifierCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D80A29F2E25900B40302 /* IdentifierCreatorTests.swift */; };
+		AB1D000000000000000A0001 /* DIDVerificationMethodIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D000000000000000A0002 /* DIDVerificationMethodIdentifierTests.swift */; };
+		AB1D000000000000000A0003 /* IdentifierDocumentPublicKeyMatchesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D000000000000000A0004 /* IdentifierDocumentPublicKeyMatchesTests.swift */; };
 		5552D82729F2E25900B40302 /* IssuanceServiceResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D80C29F2E25900B40302 /* IssuanceServiceResponseTests.swift */; };
 		5552D82829F2E25900B40302 /* IssuanceResponseClaimsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D80D29F2E25900B40302 /* IssuanceResponseClaimsTests.swift */; };
 		5552D82929F2E25900B40302 /* IssuancePinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D80E29F2E25900B40302 /* IssuancePinTests.swift */; };
@@ -935,6 +937,8 @@
 		5552D80529F2E25900B40302 /* IssuanceResponseFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssuanceResponseFormatterTests.swift; sourceTree = "<group>"; };
 		5552D80729F2E25900B40302 /* IdentifierFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierFormatterTests.swift; sourceTree = "<group>"; };
 		5552D80A29F2E25900B40302 /* IdentifierCreatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierCreatorTests.swift; sourceTree = "<group>"; };
+		AB1D000000000000000A0002 /* DIDVerificationMethodIdentifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIDVerificationMethodIdentifierTests.swift; sourceTree = "<group>"; };
+		AB1D000000000000000A0004 /* IdentifierDocumentPublicKeyMatchesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierDocumentPublicKeyMatchesTests.swift; sourceTree = "<group>"; };
 		5552D80C29F2E25900B40302 /* IssuanceServiceResponseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssuanceServiceResponseTests.swift; sourceTree = "<group>"; };
 		5552D80D29F2E25900B40302 /* IssuanceResponseClaimsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssuanceResponseClaimsTests.swift; sourceTree = "<group>"; };
 		5552D80E29F2E25900B40302 /* IssuancePinTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssuancePinTests.swift; sourceTree = "<group>"; };
@@ -2287,6 +2291,8 @@
 			isa = PBXGroup;
 			children = (
 				5552D80A29F2E25900B40302 /* IdentifierCreatorTests.swift */,
+				AB1D000000000000000A0002 /* DIDVerificationMethodIdentifierTests.swift */,
+				AB1D000000000000000A0004 /* IdentifierDocumentPublicKeyMatchesTests.swift */,
 			);
 			path = identifier;
 			sourceTree = "<group>";
@@ -4004,6 +4010,8 @@
 				55F01CCF2ACDFF55000794B4 /* ES256Tests.swift in Sources */,
 				559BD3AF299AF42C00BD61AC /* MockManifestResolver.swift in Sources */,
 				5552D82629F2E25900B40302 /* IdentifierCreatorTests.swift in Sources */,
+				AB1D000000000000000A0001 /* DIDVerificationMethodIdentifierTests.swift in Sources */,
+				AB1D000000000000000A0003 /* IdentifierDocumentPublicKeyMatchesTests.swift in Sources */,
 				5552D85B29F2E43900B40302 /* SimpleSuccessHandlerTests.swift in Sources */,
 				55C422DC2CD2DC440013F44F /* MockOpenIdRequestValidator.swift in Sources */,
 				5552D85729F2E43900B40302 /* UrlProtocolMock.swift in Sources */,

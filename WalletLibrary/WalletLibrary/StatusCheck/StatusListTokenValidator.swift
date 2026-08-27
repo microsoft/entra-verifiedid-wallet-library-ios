@@ -115,10 +115,10 @@ class StatusListTokenValidator {
             throw StatusListValidationError.malformedKeyId
         }
 
-        if (try? token.verify(
+        if token.verify(
             using: tokenVerifier,
             keys: keys,
-            keyIdentifier: keyIdentifier)) == true {
+            keyIdentifier: keyIdentifier) {
             return
         }
 

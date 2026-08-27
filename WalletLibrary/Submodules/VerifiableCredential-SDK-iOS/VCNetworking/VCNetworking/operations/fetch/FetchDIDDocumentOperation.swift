@@ -28,15 +28,10 @@ enum DIDDiscoveryValidation {
     }
 
     private static func validate(identifier: String) throws {
-        let allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-%:"
-        guard !identifier.isEmpty,
-              identifier.allSatisfy({ allowedCharacters.contains($0) }) else {
-            throw malformedInput("Invalid DID identifier.")
-        }
-
         var candidate = identifier
 
         for _ in 0..<5 {
+            try validateAllowedCharacters(candidate)
             try validateDecodedIdentifier(candidate)
 
             guard candidate.contains("%") else {
@@ -53,7 +48,16 @@ enum DIDDiscoveryValidation {
         guard !candidate.contains("%") else {
             throw malformedInput("Invalid DID identifier.")
         }
+        try validateAllowedCharacters(candidate)
         try validateDecodedIdentifier(candidate)
+    }
+
+    private static func validateAllowedCharacters(_ identifier: String) throws {
+        let allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-%:"
+        guard !identifier.isEmpty,
+              identifier.allSatisfy({ allowedCharacters.contains($0) }) else {
+            throw malformedInput("Invalid DID identifier.")
+        }
     }
 
     private static func validateDecodedIdentifier(_ identifier: String) throws {
