@@ -25,7 +25,7 @@ class DomainLinkageCredentialValidatorTests: XCTestCase {
     override func setUpWithError() throws {
         let mockDidPublicKey = IdentifierDocumentPublicKey(id: "#keyId",
                                                        type: "Typetest",
-                                                       controller: "controllerTest",
+                                                       controller: Mocks.credentialSubjectDid,
                                                        publicKeyJwk: mockPublicKey,
                                                        purposes: ["purpose"])
         mockIdentifierDocument = IdentifierDocument(service: [],
@@ -112,7 +112,7 @@ class DomainLinkageCredentialValidatorTests: XCTestCase {
         let wrongIdentifierDocumentDid = "did:test:notMatching"
         let mockDidPublicKey = IdentifierDocumentPublicKey(id: "#keyId",
                                                        type: "Typetest",
-                                                       controller: "controllerTest",
+                                                       controller: Mocks.credentialSubjectDid,
                                                        publicKeyJwk: mockPublicKey,
                                                        purposes: ["purpose"])
         let identifierDocument = IdentifierDocument(service: [],

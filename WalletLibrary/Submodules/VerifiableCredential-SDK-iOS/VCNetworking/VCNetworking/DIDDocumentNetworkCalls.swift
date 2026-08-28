@@ -22,8 +22,9 @@ class DIDDocumentNetworkCalls: DiscoveryNetworking {
         let operation = try FetchDIDDocumentOperation(withIdentifier: identifier,
                                                       andCorrelationVector: correlationVector,
                                                       session: self.urlSession)
-        return try await operation.fire()
+        let document = try await operation.fire()
+        try DIDDiscoveryValidation.validate(document: document, requestedIdentifier: identifier)
+        return document
     }
 }
-
 

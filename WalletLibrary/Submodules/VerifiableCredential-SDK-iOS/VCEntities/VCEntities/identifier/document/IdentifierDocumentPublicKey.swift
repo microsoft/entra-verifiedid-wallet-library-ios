@@ -25,4 +25,10 @@ struct IdentifierDocumentPublicKey: Codable, Equatable {
     init(fromJwk key: PublicJWK) {
         self.init(id: key.keyId, type: VCEntitiesConstants.SUPPORTED_PUBLICKEY_TYPE, controller: nil, publicKeyJwk: key, purposes: [VCEntitiesConstants.PUBLICKEY_AUTHENTICATION_PURPOSE_V1])
     }
+
+    func matches(_ keyIdentifier: DIDVerificationMethodIdentifier) -> Bool {
+        let controllerMatches = controller == nil || controller == keyIdentifier.did
+        let identifierMatches = id == keyIdentifier.absoluteId || id == keyIdentifier.relativeId
+        return controllerMatches && identifierMatches
+    }
 }

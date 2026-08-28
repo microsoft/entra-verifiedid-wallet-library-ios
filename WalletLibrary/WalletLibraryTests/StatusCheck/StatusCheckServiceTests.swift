@@ -304,6 +304,39 @@ struct StatusListTokenValidatorTests {
                                      preResolvedDocument: makeDocument(keyId: "#key-1"))
     }
 
+    @Test func mismatchedPreResolvedDocument_throwsIdentifierDocumentMismatch() async {
+        let validator = makeValidator(verifies: true)
+        let futureExpiry = Int(Date().timeIntervalSince1970) + 10_000
+        let token = makeToken(keyId: "\(issuer)#key-1", issuer: issuer, expiry: futureExpiry)
+        let mismatchedDocument = IdentifierDocument(
+            service: nil,
+            verificationMethod: nil,
+            authentication: [],
+            id: "did:web:attacker.example")
+
+        await #expect(throws: StatusListValidationError.identifierDocumentMismatch) {
+            try await validator.validate(
+                token,
+                expectedIssuerDid: issuer,
+                now: Date(),
+                preResolvedDocument: mismatchedDocument)
+        }
+    }
+
+    @Test func sameFragmentOnAnotherDidKey_throwsInvalidSignature() async {
+        let validator = makeValidator(verifies: true)
+        let futureExpiry = Int(Date().timeIntervalSince1970) + 10_000
+        let token = makeToken(keyId: "\(issuer)#key-1", issuer: issuer, expiry: futureExpiry)
+
+        await #expect(throws: StatusListValidationError.invalidSignature) {
+            try await validator.validate(
+                token,
+                expectedIssuerDid: issuer,
+                now: Date(),
+                preResolvedDocument: makeDocument(keyId: "did:web:attacker.example#key-1"))
+        }
+    }
+
     @Test func missingExpiry_throwsMissingExpiry() async {
         let validator = makeValidator(verifies: true)
         let token = makeToken(keyId: "\(issuer)#key-1", issuer: issuer, expiry: nil)

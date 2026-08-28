@@ -510,7 +510,11 @@ class StatusCheckService {
             return (nil, nil)
         }
 
-        let document = try? JSONDecoder().decode(DiscoveryServiceResponse.self, from: data).didDocument
+        guard let document = try? JSONDecoder().decode(DiscoveryServiceResponse.self, from: data).didDocument,
+              document.id == did else {
+            configuration.logger.logVerbose(message: "StatusCheck: resolved DID document did not match the requested DID.")
+            return (nil, nil)
+        }
 
         var services: [[String: Any]]?
         if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
@@ -526,12 +530,9 @@ class StatusCheckService {
     }
 
     private static func discoveryURL(for did: String) -> URL? {
-        guard var components = URLComponents(string: VCSDKConfiguration.sharedInstance.discoveryUrl) else {
-            return nil
-        }
-        let suffix = components.path.hasSuffix("/") ? did : "/" + did
-        components.path = components.path + suffix
-        return components.url
+        return try? DIDDiscoveryValidation.discoveryURL(
+            for: did,
+            baseURL: VCSDKConfiguration.sharedInstance.discoveryUrl)
     }
 
     private static func compactJws(from data: Data) -> String? {

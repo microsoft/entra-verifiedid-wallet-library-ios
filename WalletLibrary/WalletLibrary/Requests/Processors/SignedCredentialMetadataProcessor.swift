@@ -14,20 +14,25 @@ struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
     
     private let rootOfTrustResolver: RootOfTrustResolver
     
+    private let configuration: LibraryConfiguration
+    
     init(tokenVerifier: TokenVerifying, 
          identifierDocumentResolver: IdentifierDocumentResolving,
-         rootOfTrustResolver: RootOfTrustResolver)
+         rootOfTrustResolver: RootOfTrustResolver,
+         configuration: LibraryConfiguration = LibraryConfiguration())
     {
         self.tokenVerifier = tokenVerifier
         self.identifierDocumentResolver = identifierDocumentResolver
         self.rootOfTrustResolver = rootOfTrustResolver
+        self.configuration = configuration
     }
     
     init(configuration: LibraryConfiguration, rootOfTrustResolver: RootOfTrustResolver? = nil)
     {
         self.init(tokenVerifier: TokenVerifier(),
                   identifierDocumentResolver: DIDDocumentResolver(configuration: configuration),
-                  rootOfTrustResolver: rootOfTrustResolver ?? LinkedDomainResolver(configuration: configuration))
+                  rootOfTrustResolver: rootOfTrustResolver ?? LinkedDomainResolver(configuration: configuration),
+                  configuration: configuration)
     }
     
     /// Processes the signed metadata, verifying its integrity and authenticity, and resolving the root of trust.
@@ -50,8 +55,14 @@ struct SignedCredentialMetadataProcessor: SignedCredentialMetadataProcessing
         }
         
         let identifierDocument = try await identifierDocumentResolver.resolve(identifier: kid.did)
+
+        guard identifierDocument.id == kid.did else
+        {
+            let errorMessage = "Resolved Identifier Document does not match the requested DID."
+            throw OpenId4VCIValidationError.MalformedSignedMetadataToken(message: errorMessage)
+        }
         
-        guard let publicKey = identifierDocument.getJWK(id: kid.keyId) else
+        guard let publicKey = identifierDocument.getJWK(id: kid.keyId, forDID: kid.did, configuration: configuration) else
         {
             let errorMessage = "Key Id not defined in Identifier Document."
             throw OpenId4VCIValidationError.MalformedSignedMetadataToken(message: errorMessage)

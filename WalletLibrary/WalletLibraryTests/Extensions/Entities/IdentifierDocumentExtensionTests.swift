@@ -19,7 +19,7 @@ class IdentifierDocumentExtensionTests: XCTestCase {
                                           id: "mock document")
         
         // Act / Assert
-        XCTAssertNil(document.getJWK(id: wrongId))
+        XCTAssertNil(document.getJWK(id: wrongId, forDID: nil, configuration: LibraryConfiguration()))
     }
     
     func testGetJWK_WithOnePublicKey_ReturnJWK() throws
@@ -33,7 +33,7 @@ class IdentifierDocumentExtensionTests: XCTestCase {
                                           id: "mock document")
         
         // Act
-        let result = document.getJWK(id: id)
+        let result = document.getJWK(id: id, forDID: nil, configuration: LibraryConfiguration())
         
         // Assert
         XCTAssertNotNil(result)
@@ -55,7 +55,7 @@ class IdentifierDocumentExtensionTests: XCTestCase {
                                           id: "mock document")
         
         // Act
-        let result = document.getJWK(id: id)
+        let result = document.getJWK(id: id, forDID: nil, configuration: LibraryConfiguration())
         
         // Assert
         XCTAssertNotNil(result)
