@@ -20,10 +20,8 @@ public struct PreviewFeatureFlags
     /// Prunes HolderIdentifiers from use if the keychain is missing
     public static let IdentifierPruning = "IdentifierPruning"
     
-    /// A preview feature that hardens DID document JWK lookup, requiring the verification method's
-    /// `id`/`controller` to match the requested DID rather than matching on key id alone.
-    /// Default is on.
-    public static let HardenedJwkValidation = "HardenedJwkValidation"
+    /// Disables hardened DID document JWK lookup and restores legacy key id-only matching.
+    public static let DisableResolverHardening = "DisableResolverHardening"
     
     /// A preview feature to support building Presentation Exchange Response through serialization
     /// instead of using the old VC SDK. Default on now.
@@ -38,7 +36,7 @@ public struct PreviewFeatureFlags
         OpenID4VCIPreAuth: false,
         FIPSCompliantIdentifier: false,
         IdentifierPruning: false,
-        HardenedJwkValidation: true
+        DisableResolverHardening: false
     ]
     
     init(previewFeatureFlags: [String] = [])

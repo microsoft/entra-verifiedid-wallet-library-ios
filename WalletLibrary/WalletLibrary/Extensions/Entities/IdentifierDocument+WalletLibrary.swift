@@ -9,11 +9,9 @@
  */
 extension IdentifierDocument
 {
-    /// Looks up a verification method's JWK by `id`. When the `HardenedJwkValidation` preview
-    /// feature is supported, a `did` is required and the lookup requires the verification
-    /// method's `id`/`controller` to belong to it; a `nil` did returns `nil` rather than
-    /// silently falling back. When the feature is not supported, matching falls back to the
-    /// legacy `id`-only lookup regardless of whether `did` was provided.
+    /// Looks up a verification method's JWK by `id`. Hardened lookup requires a `did` and verifies
+    /// that the method's `id`/`controller` belongs to it. The `DisableResolverHardening` preview
+    /// feature restores the legacy `id`-only lookup.
     func getJWK(id: String, forDID did: String?, configuration: LibraryConfiguration) -> JWK?
     {
         guard let publicKeys = verificationMethod else
@@ -21,7 +19,7 @@ extension IdentifierDocument
             return nil
         }
 
-        guard configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.HardenedJwkValidation) else {
+        if configuration.isPreviewFeatureFlagSupported(PreviewFeatureFlags.DisableResolverHardening) {
             return publicKeys.first(where: { $0.id == id })?.publicKeyJwk.toJWK()
         }
 
