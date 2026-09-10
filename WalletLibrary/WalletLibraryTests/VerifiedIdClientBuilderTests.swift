@@ -174,6 +174,26 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.isPreviewFeatureFlagSupported(mockPreviewFeature))
         XCTAssertFalse(actualResult.configuration.isPreviewFeatureFlagSupported(unsupportedPreviewFeature))
     }
+
+    func testBuild_WithoutDisableResolverHardeningFlag_KeepsResolverHardeningEnabled() throws {
+        // Act
+        let actualResult = VerifiedIdClientBuilder().build()
+
+        // Assert
+        XCTAssertFalse(actualResult.configuration.isPreviewFeatureFlagSupported(
+            PreviewFeatureFlags.DisableResolverHardening))
+    }
+
+    func testBuild_WithDisableResolverHardeningFlag_DisablesResolverHardening() throws {
+        // Act
+        let actualResult = VerifiedIdClientBuilder()
+            .with(previewFeatureFlags: [PreviewFeatureFlags.DisableResolverHardening])
+            .build()
+
+        // Assert
+        XCTAssert(actualResult.configuration.isPreviewFeatureFlagSupported(
+            PreviewFeatureFlags.DisableResolverHardening))
+    }
     
     func testBuild_WithVerifiedIdExtensionInjection_ReturnsVerifiedIdClient() throws {
         // Arrange

@@ -11,69 +11,100 @@ class IdentifierDocumentExtensionTests: XCTestCase {
     func testGetJWK_WithInvalidId_ReturnNil() throws
     {
         // Arrange
-        let wrongId = "wrong id"
-        let publicKey = createPublicKey(id: "mock id")
+        let did = "did:test:mock"
+        let wrongId = "#wrong-id"
+        let publicKey = createPublicKey(id: "#key-id")
         let document = IdentifierDocument(service: nil,
                                           verificationMethod: [publicKey], 
                                           authentication: [],
-                                          id: "mock document")
+                                          id: did)
         
         // Act / Assert
-        XCTAssertNil(document.getJWK(id: wrongId, forDID: nil, configuration: LibraryConfiguration()))
+        XCTAssertNil(document.getJWK(id: wrongId, forDID: did, configuration: LibraryConfiguration()))
     }
     
-    func testGetJWK_WithOnePublicKey_ReturnJWK() throws
+    func testGetJWK_WithDefaultConfigurationAndNilDID_ReturnNil() throws
     {
         // Arrange
-        let id = "mock id"
+        let id = "#key-id"
         let publicKey = createPublicKey(id: id)
         let document = IdentifierDocument(service: nil,
                                           verificationMethod: [publicKey],
                                           authentication: [],
-                                          id: "mock document")
+                                          id: "did:test:mock")
         
         // Act
         let result = document.getJWK(id: id, forDID: nil, configuration: LibraryConfiguration())
         
         // Assert
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result, publicKey.publicKeyJwk.toJWK())
+        XCTAssertNil(result)
     }
     
-    func testGetJWK_WithMultiplePublicKeys_ReturnJWK() throws
+    func testGetJWK_WithDefaultConfiguration_ReturnsHardenedMatch() throws
     {
         // Arrange
-        let id = "mock id"
-        let publicKey1 = createPublicKey(id: id)
-        let publicKey2 = createPublicKey(id: "extraKey1")
-        let publicKey3 = createPublicKey(id: "extraKey2")
+        let did = "did:test:mock"
+        let id = "#key-id"
+        let publicKey = createPublicKey(id: id, controller: did)
         let document = IdentifierDocument(service: nil,
-                                          verificationMethod: [publicKey1,
-                                                               publicKey2,
-                                                               publicKey3],
+                                          verificationMethod: [publicKey],
                                           authentication: [],
-                                          id: "mock document")
+                                          id: did)
         
         // Act
-        let result = document.getJWK(id: id, forDID: nil, configuration: LibraryConfiguration())
+        let result = document.getJWK(id: id, forDID: did, configuration: LibraryConfiguration())
         
         // Assert
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result, publicKey1.publicKeyJwk.toJWK())
-        XCTAssertNotEqual(result, publicKey2.publicKeyJwk.toJWK())
-        XCTAssertNotEqual(result, publicKey3.publicKeyJwk.toJWK())
+        XCTAssertEqual(result, publicKey.publicKeyJwk.toJWK())
     }
-    
-    private func createPublicKey(id: String) -> IdentifierDocumentPublicKey
+
+    func testGetJWK_WithDefaultConfigurationAndMismatchedController_ReturnNil() throws
+    {
+        // Arrange
+        let did = "did:test:mock"
+        let id = "#key-id"
+        let publicKey = createPublicKey(id: id, controller: "did:test:attacker")
+        let document = IdentifierDocument(service: nil,
+                                          verificationMethod: [publicKey],
+                                          authentication: [],
+                                          id: did)
+
+        // Act
+        let result = document.getJWK(id: id, forDID: did, configuration: LibraryConfiguration())
+
+        // Assert
+        XCTAssertNil(result)
+    }
+
+    func testGetJWK_WithResolverHardeningDisabled_ReturnsLegacyIdMatch() throws
+    {
+        // Arrange
+        let id = "#key-id"
+        let publicKey = createPublicKey(id: id, controller: "did:test:attacker")
+        let document = IdentifierDocument(service: nil,
+                                          verificationMethod: [publicKey],
+                                          authentication: [],
+                                          id: "did:test:mock")
+        let previewFeatureFlags = PreviewFeatureFlags(
+            previewFeatureFlags: [PreviewFeatureFlags.DisableResolverHardening])
+        let configuration = LibraryConfiguration(previewFeatureFlags: previewFeatureFlags)
+
+        // Act
+        let result = document.getJWK(id: id, forDID: nil, configuration: configuration)
+
+        // Assert
+        XCTAssertEqual(result, publicKey.publicKeyJwk.toJWK())
+    }
+
+    private func createPublicKey(id: String, controller: String? = nil) -> IdentifierDocumentPublicKey
     {
         let secpKey = Secp256k1PublicKey(x: Data(count: 32), y: Data(count: 32))!
         let publicJwk = PublicJWK(withPublicKey: secpKey, withKeyId: id)
         let publicKey = IdentifierDocumentPublicKey(id: id,
                                                     type: "mock",
-                                                    controller: nil,
+                                                    controller: controller,
                                                     publicKeyJwk: publicJwk,
                                                     purposes: nil)
         return publicKey
     }
 }
-
