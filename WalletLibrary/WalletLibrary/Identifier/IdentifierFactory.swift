@@ -8,13 +8,16 @@ class IdentifierFactory
 {
     /// A list of all available identifiers, arranged in priority order, with FIPS-compliant identifiers listed first.
     let identifiers: [HolderIdentifier]
+
+    let loadingError: Error?
     
     /// Initializes a new `IdentifierFactory` with a prioritized list of identifiers.
     ///
     /// - Parameter identifiers: An array of `HolderIdentifier` instances, ordered by priority.
-    init(identifiers: [HolderIdentifier])
+    init(identifiers: [HolderIdentifier], loadingError: Error? = nil)
     {
         self.identifiers = identifiers
+        self.loadingError = loadingError
     }
     
     /// Retrieves an identifier that meets the specified cryptographic requirements.
@@ -27,6 +30,10 @@ class IdentifierFactory
         guard !identifiers.isEmpty,
               let firstIdentifier = identifiers.first else
         {
+            if let loadingError = loadingError
+            {
+                throw loadingError
+            }
             throw VerifiedIdError(message: "No Holder Identifiers found.",
                                   code: "no_holder_identifier_found.")
         }

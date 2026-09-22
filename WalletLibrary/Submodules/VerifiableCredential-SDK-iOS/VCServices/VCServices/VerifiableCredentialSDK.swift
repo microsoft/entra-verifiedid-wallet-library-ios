@@ -12,7 +12,7 @@ enum VCSDKInitStatus
 /// Class used to Initialize the SDK.
 class VerifiableCredentialSDK {
     
-    static let identifierService = IdentifierService()
+    static var identifierService: IdentifierService { IdentifierService() }
     
     /// Initialized the SDK.
     /// Returns:  Result<VCSDKInitStatus>, if successfully initialized the SDK.
@@ -25,9 +25,7 @@ class VerifiableCredentialSDK {
         VCSDKLog.sharedInstance.add(consumer: logConsumer)
         
         /// Step 2: Set access group identifier for key chain.
-        if let accessGroupIdentifier = accessGroupIdentifier {
-            VCSDKConfiguration.sharedInstance.setAccessGroupIdentifier(with: accessGroupIdentifier)
-        }
+        VCSDKConfiguration.sharedInstance.setAccessGroupIdentifier(with: accessGroupIdentifier)
         
         if let discoveryUrl = discoveryUrl {
             VCSDKConfiguration.sharedInstance.setDiscoveryUrl(with: discoveryUrl)

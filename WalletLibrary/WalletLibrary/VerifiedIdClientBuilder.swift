@@ -28,12 +28,21 @@ public class VerifiedIdClientBuilder
     
     private var identifiers: [HolderIdentifier] = []
     
-    private let identifierRepository: HolderIdentifierRepository
+    private let identifierRepository: HolderIdentifierRepository?
+
+    var identifierRepositoryFactory: (WalletLibraryLogger) -> HolderIdentifierRepository = {
+        IdentifierRepository(logger: $0)
+    }
+
+    var legacyHolderIdentifierLoader: () throws -> HolderIdentifier = {
+        let identifier = try VerifiableCredentialSDK.identifierService.fetchOrCreateMasterIdentifier()
+        return try identifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
+    }
     
     public init() 
     {
         self.logger = WalletLibraryLogger()
-        self.identifierRepository = IdentifierRepository(logger: logger)
+        self.identifierRepository = nil
     }
     
     /// Internal init to help with testing.
@@ -56,7 +65,7 @@ public class VerifiedIdClientBuilder
                                                               logger: logger,
                                                               correlationHeader: correlationHeader)
         
-        let identifiers = getAllIdentifiers(previewFeatureFlags: previewFeatureFlags)
+        let selection = getAllIdentifiers(previewFeatureFlags: previewFeatureFlags)
         
         let configuration = LibraryConfiguration(logger: logger,
                                                  mapper: Mapper(),
@@ -64,8 +73,12 @@ public class VerifiedIdClientBuilder
                                                  verifiedIdDecoder: VerifiedIdDecoder(),
                                                  verifiedIdEncoder: VerifiedIdEncoder(),
                                                  previewFeatureFlags: previewFeatureFlags,
-                                                 identifiers: identifiers)
+                                                 identifiers: selection.identifiers,
+                                                 identifierLoadingError: selection.error,
+                                                 isDefaultHolderIdentifierFIPSCompliant: selection.isFIPSCompliant)
         
+        requestResolvers.removeAll()
+        requestProcessors.removeAll()
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestProcessors(with: configuration)
         registerVerifiedIdExtensions(with: configuration)
@@ -77,30 +90,44 @@ public class VerifiedIdClientBuilder
                                 configuration: configuration)
     }
     
-    private func getAllIdentifiers(previewFeatureFlags: PreviewFeatureFlags) -> [HolderIdentifier]
+    private func getAllIdentifiers(previewFeatureFlags: PreviewFeatureFlags)
+        -> (identifiers: [HolderIdentifier], error: Error?, isFIPSCompliant: Bool)
     {
-        
-        if previewFeatureFlags.isPreviewFeatureSupported(PreviewFeatureFlags.FIPSCompliantIdentifier),
-           let holderIdentifier = getMainHolderIdentifier(previewFeatureFlags: previewFeatureFlags)
+        var selectedIdentifiers = identifiers
+        var primaryError: Error?
+
+        if previewFeatureFlags.isPreviewFeatureSupported(PreviewFeatureFlags.FIPSCompliantIdentifier)
         {
-            /// make the JWK identifier the default
-            identifiers.insert(holderIdentifier, at: 0)
+            do
+            {
+                let holderIdentifier = try getMainHolderIdentifier(previewFeatureFlags: previewFeatureFlags)
+                selectedIdentifiers.insert(holderIdentifier, at: 0)
+                return (selectedIdentifiers, nil,
+                        holderIdentifier.method == "did:jwk" && holderIdentifier.algorithm == "ES256")
+            }
+            catch
+            {
+                primaryError = error
+                logger.logError(message: "Unable to load the FIPS holder identifier.")
+            }
         }
-        else if let defaultIdentifier = try? VerifiableCredentialSDK.identifierService.fetchOrCreateMasterIdentifier(),
-                  let holderIdentifier = try? defaultIdentifier.toHolderIdentifier(cryptoOperations: CryptoOperations())
+
+        do
         {
-            identifiers.append(holderIdentifier)
+            selectedIdentifiers.append(try legacyHolderIdentifierLoader())
         }
-        else
+        catch
         {
-            logger.logError(message: "Unable to load default Identifiers.")
+            primaryError = primaryError ?? error
+            logger.logError(message: "Unable to load the legacy holder identifier.")
         }
-        
-        return identifiers
+
+        return (selectedIdentifiers, selectedIdentifiers.isEmpty ? primaryError : nil, false)
     }
     
-    private func getMainHolderIdentifier(previewFeatureFlags: PreviewFeatureFlags) -> HolderIdentifier?
+    private func getMainHolderIdentifier(previewFeatureFlags: PreviewFeatureFlags) throws -> HolderIdentifier
     {
+        let identifierRepository = identifierRepository ?? identifierRepositoryFactory(logger)
         if previewFeatureFlags.isPreviewFeatureSupported(PreviewFeatureFlags.IdentifierPruning)
         {
             do
@@ -109,20 +136,11 @@ public class VerifiedIdClientBuilder
             }
             catch
             {
-                logger.logWarning(message: "Unable to prune Holder Identifiers from repository, \(String(describing: error))")
+                logger.logWarning(message: "Unable to prune holder identifiers from repository.")
             }
         }
         
-        do
-        {
-            let holderIdentifier = try identifierRepository.getMainHolderIdentifier()
-            return holderIdentifier
-        }
-        catch
-        {
-            logger.logError(message: "Unable to get main Holder Identifier from repository, \(String(describing: error))")
-            return nil
-        }
+        return try identifierRepository.getMainHolderIdentifier()
     }
     
     /// Optional method to add new Identifiers to Wallet Library..
@@ -167,8 +185,8 @@ public class VerifiedIdClientBuilder
         return self
     }
     
-    /// Optional method to use the given value to specify what Keychain Access Group keys should be stored in.
-    public func with(keychainAccessGroupIdentifier: String) -> VerifiedIdClientBuilder 
+    /// Specifies the keychain access group. Passing nil clears any previously configured group.
+    public func with(keychainAccessGroupIdentifier: String?) -> VerifiedIdClientBuilder
     {
         self.keychainAccessGroupIdentifier = keychainAccessGroupIdentifier
         return self

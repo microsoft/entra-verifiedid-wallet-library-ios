@@ -63,19 +63,35 @@ final class Random32BytesSecret: Secret {
     }
     
     func isValidKey() throws {
-        _ = try self.store.getSecret(id: id, itemTypeCode: Random32BytesSecret.itemTypeCode, accessGroup: accessGroup)
+        try withUnsafeBytes { bytes in
+            guard bytes.count == 32 else { throw SecretStoringError.invalidItemInStore }
+        }
     }
     
     func migrateKey(fromAccessGroup currentAccessGroup: String?) throws {
         
-        /// If old access group is equal to new access group, no action required.
         if currentAccessGroup == accessGroup {
+            try isValidKey()
+            return
+        }
+
+        if let migratingStore = store as? SecretMigrating {
+            try migratingStore.migrateSecret(id: id,
+                                             itemTypeCode: Self.itemTypeCode,
+                                             fromAccessGroup: currentAccessGroup,
+                                             toAccessGroup: accessGroup)
+            try isValidKey()
             return
         }
         
-        var value = try self.store.getSecret(id: id,
-                                             itemTypeCode: Random32BytesSecret.itemTypeCode,
-                                             accessGroup: currentAccessGroup)
+        var value: Data
+        do {
+            value = try store.getSecret(id: id, itemTypeCode: Self.itemTypeCode, accessGroup: currentAccessGroup)
+        } catch SecretStoringError.itemNotFound {
+            // A previous attempt may already have moved this key.
+            try isValidKey()
+            return
+        }
         defer {
             let secretSize = value.count
             value.withUnsafeMutableBytes { (secretPtr) in
@@ -84,15 +100,32 @@ final class Random32BytesSecret: Secret {
             }
         }
         
-        /// Delete from old access group
-        try self.store.deleteSecret(id: id,
-                                    itemTypeCode: Random32BytesSecret.itemTypeCode,
-                                    accessGroup: currentAccessGroup)
+        guard value.count == 32 else { throw SecretStoringError.invalidItemInStore }
+
+        do {
+            try verifyStoredValue(value)
+            return
+        } catch SecretStoringError.itemNotFound {
+            // Only confirmed absence permits adding the destination.
+        }
         
-        /// Save to new access group
-        try self.store.saveSecret(id: id,
-                                  itemTypeCode: Random32BytesSecret.itemTypeCode,
-                                  accessGroup: accessGroup,
-                                  value: &value)
+        var copy = value
+        defer { copy.resetBytes(in: 0..<copy.count) }
+        do {
+            try store.saveSecret(id: id, itemTypeCode: Self.itemTypeCode, accessGroup: accessGroup, value: &copy)
+        } catch SecretStoringError.itemAlreadyInStore {
+            // Another attempt may have added the same key; verify rather than overwrite.
+        } catch SecretStoringError.saveToStoreError(status: errSecDuplicateItem, message: _) {
+            // Keychain-backed custom stores may return the OS status directly.
+        }
+        try verifyStoredValue(value)
+        // SecretStoring cannot identify the actual group of a nil-group source.
+        // Retain it rather than risk deleting the verified destination.
+    }
+
+    private func verifyStoredValue(_ expected: Data) throws {
+        try withUnsafeBytes { bytes in
+            guard Data(bytes) == expected else { throw SecretStoringError.invalidItemInStore }
+        }
     }
 }

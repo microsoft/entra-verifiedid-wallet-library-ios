@@ -13,6 +13,17 @@ public class VerifiedIdClient {
     let requestResolverFactory: RequestResolverFactory
     
     let requestHandlerFactory: RequestProcessorFactory
+
+    /// Whether this client successfully selected its built-in did:jwk/ES256 default holder.
+    /// False when a legacy fallback or only custom holders were selected.
+    /// Throws the original loading error when no default holder could be selected.
+    /// This reports selection at build time, not the availability of keychain material at a later time.
+    public var isDefaultHolderIdentifierFIPSCompliant: Bool {
+        get throws {
+            _ = try configuration.identifierFactory.getIdentifier()
+            return configuration.isDefaultHolderIdentifierFIPSCompliant
+        }
+    }
     
     init(requestResolverFactory: RequestResolverFactory,
          requestHandlerFactory: RequestProcessorFactory,
@@ -29,6 +40,10 @@ public class VerifiedIdClient {
         self.configuration.networking.resetCorrelationHeader()
         
         return await VerifiedIdResult<VerifiedId>.getResult {
+            if self.configuration.identifierFactory.identifiers.isEmpty,
+               let error = self.configuration.identifierFactory.loadingError {
+                throw error
+            }
             let resolver = try self.requestResolverFactory.getResolver(from: input)
             let rawRequest = try await resolver.resolve(input: input)
             let handler = try self.requestHandlerFactory.getHandler(from: rawRequest)

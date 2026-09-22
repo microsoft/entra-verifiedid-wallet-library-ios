@@ -102,6 +102,30 @@ let encodedVerifiedId = verifiedIdClient.encode(verifiedId: <Insert VerifiedId>)
 let verifiedId = verifiedIdClient.decode(from: encodedVerifiedId)
 ```
 
+### Holder configuration and availability
+
+Set the keychain access group on `VerifiedIdClientBuilder` before calling `build()`.
+Default keychain dependencies are created with that final configuration; omitting
+the group (or explicitly passing `nil`) does not reuse a previously configured client's group. Injected holder
+identifiers retain their existing ordering, except that a successfully loaded
+built-in FIPS holder takes precedence when the existing FIPS preview flag is enabled.
+
+`try client.isDefaultHolderIdentifierFIPSCompliant` is a read-only, throwing,
+build-time indication that the built-in default holder was successfully loaded
+as `did:jwk` with `ES256`. The preview flag alone, a custom-only holder, or legacy
+fallback does not make it true. It is not a guarantee of future keychain availability
+and does not change an application's rollout or persistence policy. When no
+holder was selected, the getter throws the original loading error rather than
+returning `false`. A built client retains its selection or loading error; build a
+new client to retry after resolving a transient failure. The builder is a mutable
+reference type, so use a fresh builder when reapplying append-style configuration.
+
+The builder retains the existing legacy fallback when FIPS loading fails. If no
+holder can be loaded, request creation fails with the original loading error
+(wrapped using the existing error API), rather than continuing with an unusable
+holder. If both loads fail, the FIPS loading error remains primary. Existing
+identity metadata and keys are not automatically reset to recover from failure.
+
 ## Sample App
 1. Clone the repository.
 2. Open a terminal window and go to the location where you cloned the repository.

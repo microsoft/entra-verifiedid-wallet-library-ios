@@ -7,6 +7,29 @@ import XCTest
 @testable import WalletLibrary
 
 class VerifiedIdClientTests: XCTestCase {
+
+    func testCreateRequest_WhenHolderLoadingFailed_ReturnsOriginalErrorBeforeResolving() async throws
+    {
+        let expectedError = NSError(domain: "holder-loading", code: 37)
+        let resolver = MockResolver(canResolveUsingInput: true, mockResolve: { _ in
+            XCTFail("Must not resolve requests without a usable holder")
+            throw ExpectedError.expectedToBeThrownInResolver
+        })
+        let configuration = LibraryConfiguration(logger: WalletLibraryLogger(), mapper: Mapper(),
+                                                 identifierLoadingError: expectedError)
+        let client = VerifiedIdClient(requestResolverFactory: RequestResolverFactory(resolvers: [resolver]),
+                                      requestHandlerFactory: RequestProcessorFactory(requestHandlers: []),
+                                      configuration: configuration)
+        let result = await client.createRequest(from: MockInput(mockData: ""))
+        switch result
+        {
+        case .success:
+            XCTFail("Must fail explicitly")
+        case .failure(let error):
+            let wrapped = try XCTUnwrap(error as? UnspecifiedVerifiedIdError)
+            XCTAssertTrue(wrapped.error as NSError === expectedError)
+        }
+    }
     
     enum ExpectedError: Error {
         case expectedToBeThrownInResolver
