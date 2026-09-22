@@ -23,13 +23,17 @@ class LibraryConfiguration
     
     let previewFeatureFlags: PreviewFeatureFlags
 
+    let isDefaultHolderIdentifierFIPSCompliant: Bool
+
     init(logger: WalletLibraryLogger = WalletLibraryLogger(),
          mapper: Mapping = Mapper(),
          networking: LibraryNetworking? = nil,
          verifiedIdDecoder: VerifiedIdDecoding = VerifiedIdDecoder(),
          verifiedIdEncoder: VerifiedIdEncoding = VerifiedIdEncoder(),
          previewFeatureFlags: PreviewFeatureFlags = PreviewFeatureFlags(),
-         identifiers: [HolderIdentifier] = [])
+         identifiers: [HolderIdentifier] = [],
+         identifierLoadingError: Error? = nil,
+         isDefaultHolderIdentifierFIPSCompliant: Bool = false)
     {
         self.logger = logger
         self.mapper = mapper
@@ -39,7 +43,9 @@ class LibraryConfiguration
         self.verifiedIdDecoder = verifiedIdDecoder
         self.verifiedIdEncoder = verifiedIdEncoder
         self.previewFeatureFlags = previewFeatureFlags
-        self.identifierFactory = IdentifierFactory(identifiers: identifiers)
+        self.identifierFactory = IdentifierFactory(identifiers: identifiers,
+                                                    loadingError: identifierLoadingError)
+        self.isDefaultHolderIdentifierFIPSCompliant = isDefaultHolderIdentifierFIPSCompliant
     }
     
     /// Helper function to determine if a preview feature flag is supported

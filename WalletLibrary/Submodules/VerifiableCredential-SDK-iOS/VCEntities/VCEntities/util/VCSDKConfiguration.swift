@@ -13,7 +13,7 @@ struct VCSDKConfiguration: VCSDKConfigurable {
     
     private init() {}
     
-    mutating func setAccessGroupIdentifier(with id: String) {
+    mutating func setAccessGroupIdentifier(with id: String?) {
         self.accessGroupIdentifier = id
     }
     

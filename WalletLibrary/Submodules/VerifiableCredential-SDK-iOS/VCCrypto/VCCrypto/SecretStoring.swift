@@ -23,3 +23,8 @@ protocol SecretStoring {
     func deleteSecret(id: UUID, itemTypeCode: String, accessGroup: String?) throws
 
 }
+
+// Stores that can identify an exact source may migrate without copying key material.
+protocol SecretMigrating {
+    func migrateSecret(id: UUID, itemTypeCode: String, fromAccessGroup: String?, toAccessGroup: String?) throws
+}

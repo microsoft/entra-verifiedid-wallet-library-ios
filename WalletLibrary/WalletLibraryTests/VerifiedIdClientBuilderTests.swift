@@ -6,6 +6,162 @@
 import XCTest
 @testable import WalletLibrary
 
+class VerifiedIdClientKeyRecoveryTests: XCTestCase
+{
+    enum LoadingError: Error
+    {
+        case fips
+        case legacy
+    }
+
+    private var originalConfiguration = VCSDKConfiguration.sharedInstance
+    private var originalLog = VCSDKLog.sharedInstance
+    private let fipsHolder = MockHolderIdentifier(id: "fips-test-holder", algorithm: "ES256", method: "did:jwk")
+
+    override func setUp()
+    {
+        super.setUp()
+        originalConfiguration = VCSDKConfiguration.sharedInstance
+        originalLog = VCSDKLog.sharedInstance
+    }
+
+    override func tearDown()
+    {
+        VCSDKConfiguration.sharedInstance = originalConfiguration
+        VCSDKLog.sharedInstance = originalLog
+        super.tearDown()
+    }
+
+    func testDefaultRepositoryIsCreatedWithFinalGroupAndFreshSnapshot() throws
+    {
+        VCSDKConfiguration.sharedInstance.setAccessGroupIdentifier(with: "old-group")
+        let builder = VerifiedIdClientBuilder()
+        var snapshots: [Random32BytesSecret] = []
+        builder.identifierRepositoryFactory = { _ in
+            let key = KeyManagementOperations().retrieveKeyFromStorage(withId: UUID())
+            if let secret = key as? Random32BytesSecret {
+                snapshots.append(secret)
+            } else {
+                XCTFail("Expected the default key operations to create a stored 32-byte secret")
+            }
+            return MockIdentifierRepository(expectedIdentifier: self.fipsHolder)
+        }
+        XCTAssertTrue(snapshots.isEmpty)
+        _ = builder.with(keychainAccessGroupIdentifier: "final-group")
+            .with(previewFeatureFlags: [PreviewFeatureFlags.FIPSCompliantIdentifier])
+            .build()
+        _ = builder.with(keychainAccessGroupIdentifier: nil).build()
+
+        XCTAssertEqual(snapshots.count, 2)
+        XCTAssertEqual(try XCTUnwrap(snapshots.first).accessGroup, "final-group")
+        XCTAssertNil(try XCTUnwrap(snapshots.last).accessGroup)
+        XCTAssertNil(VCSDKConfiguration.sharedInstance.accessGroupIdentifier)
+    }
+
+    func testInjectedRepositorySelectsFIPSWithoutLoadingLegacy() throws
+    {
+        let builder = VerifiedIdClientBuilder(identifierRepository:
+            MockIdentifierRepository(expectedIdentifier: fipsHolder))
+        builder.identifierRepositoryFactory = { _ in
+            XCTFail("Must preserve injected repository")
+            return MockIdentifierRepository()
+        }
+        builder.legacyHolderIdentifierLoader = {
+            XCTFail("Successful FIPS selection must not load legacy")
+            throw LoadingError.legacy
+        }
+        let client = builder.with(previewFeatureFlags: [PreviewFeatureFlags.FIPSCompliantIdentifier])
+            .with(identifier: MockHolderIdentifier()).build()
+
+        XCTAssertTrue(try client.isDefaultHolderIdentifierFIPSCompliant)
+        XCTAssertEqual(try client.configuration.identifierFactory.getIdentifier() as? MockHolderIdentifier,
+                       fipsHolder)
+    }
+
+    func testFlagAloneDoesNotReportFIPSForWrongMethodOrAlgorithm()
+    {
+        for holder in [MockHolderIdentifier(algorithm: "ES256K", method: "did:jwk"),
+                       MockHolderIdentifier(algorithm: "ES256", method: "did:ion")]
+        {
+            let client = VerifiedIdClientBuilder(identifierRepository:
+                MockIdentifierRepository(expectedIdentifier: holder))
+                .with(previewFeatureFlags: [PreviewFeatureFlags.FIPSCompliantIdentifier]).build()
+            XCTAssertFalse(try client.isDefaultHolderIdentifierFIPSCompliant)
+        }
+    }
+
+    func testFIPSFailureRetainsLegacyFallback() throws
+    {
+        let legacy = MockHolderIdentifier()
+        let builder = VerifiedIdClientBuilder(identifierRepository:
+            MockIdentifierRepository(expectedErrorThrown: LoadingError.fips))
+        builder.legacyHolderIdentifierLoader = { legacy }
+        let client = builder.with(previewFeatureFlags: [PreviewFeatureFlags.FIPSCompliantIdentifier]).build()
+
+        XCTAssertFalse(try client.isDefaultHolderIdentifierFIPSCompliant)
+        XCTAssertEqual(try client.configuration.identifierFactory.getIdentifier() as? MockHolderIdentifier, legacy)
+    }
+
+    func testBothFailuresPreservePrimaryFIPSError()
+    {
+        let builder = VerifiedIdClientBuilder(identifierRepository:
+            MockIdentifierRepository(expectedErrorThrown: LoadingError.fips))
+        builder.legacyHolderIdentifierLoader = { throw LoadingError.legacy }
+        let client = builder.with(previewFeatureFlags: [PreviewFeatureFlags.FIPSCompliantIdentifier]).build()
+
+        XCTAssertThrowsError(try client.isDefaultHolderIdentifierFIPSCompliant) {
+            XCTAssertEqual($0 as? LoadingError, .fips)
+        }
+        XCTAssertThrowsError(try client.configuration.identifierFactory.getIdentifier()) {
+            XCTAssertEqual($0 as? LoadingError, .fips)
+        }
+    }
+
+    func testLegacyFailureIsPreservedWithoutFIPS()
+    {
+        let builder = VerifiedIdClientBuilder()
+        builder.legacyHolderIdentifierLoader = { throw LoadingError.legacy }
+        let client = builder.build()
+
+        XCTAssertThrowsError(try client.isDefaultHolderIdentifierFIPSCompliant) {
+            XCTAssertEqual($0 as? LoadingError, .legacy)
+        }
+        XCTAssertThrowsError(try client.configuration.identifierFactory.getIdentifier()) {
+            XCTAssertEqual($0 as? LoadingError, .legacy)
+        }
+    }
+
+    func testInjectedHolderRemainsUsableWhenBuiltInLoadingFails() throws
+    {
+        let builder = VerifiedIdClientBuilder(identifierRepository:
+            MockIdentifierRepository(expectedErrorThrown: LoadingError.fips))
+        builder.legacyHolderIdentifierLoader = { throw LoadingError.legacy }
+        let client = builder.with(identifier: fipsHolder)
+            .with(previewFeatureFlags: [PreviewFeatureFlags.FIPSCompliantIdentifier]).build()
+
+        XCTAssertFalse(try client.isDefaultHolderIdentifierFIPSCompliant)
+        XCTAssertEqual(try client.configuration.identifierFactory.getIdentifier() as? MockHolderIdentifier,
+                       fipsHolder)
+    }
+
+    func testRepeatedBuildDoesNotRetainPreviousHolderOrRequestDependencies()
+    {
+        let builder = VerifiedIdClientBuilder()
+        builder.legacyHolderIdentifierLoader = { self.fipsHolder }
+        let first = builder.build()
+        builder.legacyHolderIdentifierLoader = { throw LoadingError.legacy }
+        let second = builder.build()
+
+        XCTAssertEqual(first.configuration.identifierFactory.identifiers.count, 1)
+        XCTAssertTrue(second.configuration.identifierFactory.identifiers.isEmpty)
+        XCTAssertEqual(second.requestResolverFactory.resolvers.count, 1)
+        XCTAssertEqual(second.requestHandlerFactory.requestHandlers.count, 2)
+        XCTAssertThrowsError(try second.configuration.identifierFactory.getIdentifier()) {
+            XCTAssertEqual($0 as? LoadingError, .legacy)
+        }
+    }
+}
+
 class VerifiedIdClientBuilderTests: XCTestCase {
 
     func testBuild_WithNoLogConsumers_ReturnsVerifiedIdClient() throws {

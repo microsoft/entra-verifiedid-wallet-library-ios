@@ -40,34 +40,17 @@ class IdentifierService {
         let identifier: Identifier
         do {
             identifier = try fetchMasterIdentifier()
-        } catch {
-            sdkLog.logError(message: "Master identifier does not exist with error: \(String(describing: error))")
+        } catch IdentifierDatabaseError.noIdentifierModelSaved {
             sdkLog.logInfo(message: "Creating new Identifier.")
             return try createMasterIdentifier()
         }
         
-        do {
-            try validateAndHandleKeys(for: identifier)
-            return identifier
-        } catch {
-            /// in rare chance no keys are saved, create a new identifier.
-            if case IdentifierServiceError.noKeysSavedForIdentifier = error {
-                return try refreshIdentifiers()
-            } else {
-                throw error
-            }
-        }
+        try validateAndHandleKeys(for: identifier)
+        return identifier
     }
     
     func createMasterIdentifier() throws -> Identifier {
         try createAndSaveIdentifier(forId: VCEntitiesConstants.MASTER_ID, andRelyingParty: VCEntitiesConstants.MASTER_ID)
-    }
-    
-    private func refreshIdentifiers() throws -> Identifier {
-        try identifierDB.removeAllIdentifiers()
-        let identifier = try createMasterIdentifier()
-        sdkLog.logInfo(message: "Refreshed identifier.")
-        return identifier
     }
     
     func fetchIdentifiersForExport() throws -> [Identifier] {
@@ -85,9 +68,11 @@ class IdentifierService {
             do {
                 let fetched = try identifierDB.fetchIdentifier(withAlias: alias)
                 try migrateKeys(in: fetched, fromAccessGroup: nil)
+                try areKeysValid(for: fetched)
             }
             catch {
-                sdkLog.logWarning(message: "Failed to migrate keys in imported identifier w/alias: \(alias)")
+                sdkLog.logWarning(message: "Failed to migrate keys in imported identifier.")
+                throw error
             }
         }
     }
@@ -110,7 +95,7 @@ class IdentifierService {
     func createAndSaveIdentifier(forId id: String, andRelyingParty rp: String) throws -> Identifier {
         let identifier = try identifierCreator.create(forId: id, andRelyingParty: rp)
         try identifierDB.saveIdentifier(identifier: identifier)
-        sdkLog.logVerbose(message: "Created Identifier with alias:\(identifier.alias)")
+        sdkLog.logVerbose(message: "Created Identifier.")
         return identifier
     }
     
@@ -123,32 +108,14 @@ class IdentifierService {
             
             /// Step 2: If keys are not valid, check to see if we need to migrate keys.
             if case IdentifierServiceError.keyNotFoundInKeyStore = error {
-                try migrateKeys()
+                try migrateKeys(in: identifier, fromAccessGroup: nil)
+                try areKeysValid(for: identifier)
                 return
             }
             
             /// Else, throw error.
             throw error
         }
-    }
-    
-    /// Migrate keys from default access group to new access group.
-    private func migrateKeys() throws
-    {
-        do {
-            /// Step 3: migrate keys.
-            try migrateKeys(fromAccessGroup: nil)
-            sdkLog.logInfo(message: "Keys successfully migrated to new access group.")
-        } catch {
-            sdkLog.logError(message: "failed to migrate keys to new access group with error: \(String(describing: error))")
-            throw IdentifierServiceError.noKeysSavedForIdentifier
-        }
-    }
-    
-    /// updates access group for keys if it needs to be updated.
-    private func migrateKeys(fromAccessGroup currentAccessGroup: String?) throws {
-        let identifier = try fetchMasterIdentifier()
-        try migrateKeys(in: identifier, fromAccessGroup: currentAccessGroup)
     }
     
     private func migrateKeys(in identifier: Identifier, fromAccessGroup currentAccessGroup: String?) throws {
@@ -172,10 +139,6 @@ class IdentifierService {
             
             if case SecretStoringError.itemNotFound = error {
                 throw IdentifierServiceError.keyNotFoundInKeyStore(innerError: error)
-            }
-            
-            if case SecretStoringError.readFromStoreError(status: _, message: let message) = error {
-                throw IdentifierServiceError.keyStoreError(message: message ?? "Unable to retrieve keys")
             }
             
             /// rethrow error if not key not found error.
