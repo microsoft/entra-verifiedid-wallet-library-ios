@@ -58,7 +58,7 @@ struct PresentationRequestValidator: RequestValidating {
             throw PresentationRequestValidatorError.keyIdInTokenHeaderMalformed
         }
 
-        if try token.verify(
+        if token.verify(
             using: verifier,
             keys: keys,
             keyIdentifier: keyIdentifier) {
