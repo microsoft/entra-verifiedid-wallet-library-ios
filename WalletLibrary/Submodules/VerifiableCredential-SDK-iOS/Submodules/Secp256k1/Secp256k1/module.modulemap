@@ -1,0 +1,4 @@
+framework module WalletLibrarySecp256k1 {
+    header "secp256k1.h"
+    export *
+}

@@ -367,7 +367,7 @@
 		5552D89E29F2E58000B40302 /* IdentifierDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */; };
 		5552D89F29F2E58000B40302 /* OpenIdPresentationRequestValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D88729F2E58000B40302 /* OpenIdPresentationRequestValidatorTests.swift */; };
 		5552D8A429F2E87000B40302 /* DifWordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5552D27B29EF335600B40302 /* DifWordList.swift */; };
-		5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* Secp256k1.framework */; platformFilter = ios; };
+		5552D9A829F2F1B900B40302 /* WalletLibrarySecp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552D98729F2F17F00B40302 /* WalletLibrarySecp256k1.framework */; platformFilter = ios; };
 		5555F1A02BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */; };
 		5555F1A22BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */; };
 		5555F1A42BAA135600B41FD4 /* IdentifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555F1A32BAA135600B41FD4 /* IdentifierError.swift */; };
@@ -613,17 +613,17 @@
 		};
 		5552D98629F2F17F00B40302 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */;
+			containerPortal = 5552D98229F2F17F00B40302 /* WalletLibrarySecp256k1.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 92B9684D25240F2100F64AB0;
-			remoteInfo = Secp256k1;
+			remoteInfo = WalletLibrarySecp256k1;
 		};
 		A76D145F2FF01E2A00B842C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */;
+			containerPortal = 5552D98229F2F17F00B40302 /* WalletLibrarySecp256k1.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 92B9684C25240F2100F64AB0;
-			remoteInfo = Secp256k1;
+			remoteInfo = WalletLibrarySecp256k1;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -989,7 +989,7 @@
 		5552D88429F2E58000B40302 /* LinkedDomainServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedDomainServiceTests.swift; sourceTree = "<group>"; };
 		5552D88629F2E58000B40302 /* IdentifierDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierDatabaseTests.swift; sourceTree = "<group>"; };
 		5552D88729F2E58000B40302 /* OpenIdPresentationRequestValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenIdPresentationRequestValidatorTests.swift; sourceTree = "<group>"; };
-		5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Secp256k1.xcodeproj; path = Secp256k1/Secp256k1.xcodeproj; sourceTree = "<group>"; };
+		5552D98229F2F17F00B40302 /* WalletLibrarySecp256k1.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WalletLibrarySecp256k1.xcodeproj; path = Secp256k1/WalletLibrarySecp256k1.xcodeproj; sourceTree = "<group>"; };
 		5555F19F2BA9F67C00B41FD4 /* ExtensionIdentifierManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionIdentifierManager.swift; sourceTree = "<group>"; };
 		5555F1A12BAA11E400B41FD4 /* SelfSignedVerifiableCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSignedVerifiableCredential.swift; sourceTree = "<group>"; };
 		5555F1A32BAA135600B41FD4 /* IdentifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierError.swift; sourceTree = "<group>"; };
@@ -1226,7 +1226,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5552D9A829F2F1B900B40302 /* Secp256k1.framework in Frameworks */,
+				5552D9A829F2F1B900B40302 /* WalletLibrarySecp256k1.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2472,7 +2472,7 @@
 		5552D8A529F2F09E00B40302 /* Submodules */ = {
 			isa = PBXGroup;
 			children = (
-				5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */,
+				5552D98229F2F17F00B40302 /* WalletLibrarySecp256k1.xcodeproj */,
 			);
 			name = Submodules;
 			path = "Submodules/VerifiableCredential-SDK-iOS/Submodules";
@@ -2481,7 +2481,7 @@
 		5552D98329F2F17F00B40302 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5552D98729F2F17F00B40302 /* Secp256k1.framework */,
+				5552D98729F2F17F00B40302 /* WalletLibrarySecp256k1.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3491,7 +3491,7 @@
 			projectReferences = (
 				{
 					ProductGroup = 5552D98329F2F17F00B40302 /* Products */;
-					ProjectRef = 5552D98229F2F17F00B40302 /* Secp256k1.xcodeproj */;
+					ProjectRef = 5552D98229F2F17F00B40302 /* WalletLibrarySecp256k1.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -3504,10 +3504,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		5552D98729F2F17F00B40302 /* Secp256k1.framework */ = {
+		5552D98729F2F17F00B40302 /* WalletLibrarySecp256k1.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = Secp256k1.framework;
+			path = WalletLibrarySecp256k1.framework;
 			remoteRef = 5552D98629F2F17F00B40302 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -4148,7 +4148,7 @@
 /* Begin PBXTargetDependency section */
 		A76D14602FF01E2A00B842C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Secp256k1;
+			name = WalletLibrarySecp256k1;
 			targetProxy = A76D145F2FF01E2A00B842C1 /* PBXContainerItemProxy */;
 		};
 		552E509D293E6AB200868F47 /* PBXTargetDependency */ = {
