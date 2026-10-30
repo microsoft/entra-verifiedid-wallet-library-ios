@@ -77,7 +77,7 @@ struct SelfSignedVerifiableCredential: InternalVerifiedId
     // TODO: implement in next PR.
     public func getClaims() -> [VerifiedIdClaim]
     {
-        var verifiedIdClaims: [VerifiedIdClaim] = []
+        let verifiedIdClaims: [VerifiedIdClaim] = []
         return verifiedIdClaims
     }
 }

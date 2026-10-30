@@ -80,7 +80,7 @@
 		552A74DF29C24E2B005BFF3D /* ecmult_gen_compute_table_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecmult_gen_compute_table_impl.h; sourceTree = "<group>"; };
 		552A74E029C24E2B005BFF3D /* precomputed_ecmult_gen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = precomputed_ecmult_gen.c; sourceTree = "<group>"; };
 		922D837625253C2600E4C8B5 /* libsecp256k1-config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libsecp256k1-config.h"; sourceTree = "<group>"; };
-		92B9684D25240F2100F64AB0 /* Secp256k1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Secp256k1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		92B9684D25240F2100F64AB0 /* WalletLibrarySecp256k1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WalletLibrarySecp256k1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B9685125240F2100F64AB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92E7A9432524E45B000E8246 /* secp256k1_ecdh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1_ecdh.h; sourceTree = "<group>"; };
 		92E7A9442524E45B000E8246 /* secp256k1_schnorrsig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1_schnorrsig.h; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 		92B9684E25240F2100F64AB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				92B9684D25240F2100F64AB0 /* Secp256k1.framework */,
+				92B9684D25240F2100F64AB0 /* WalletLibrarySecp256k1.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -362,9 +362,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		92B9684C25240F2100F64AB0 /* Secp256k1 */ = {
+		92B9684C25240F2100F64AB0 /* WalletLibrarySecp256k1 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 92B9685525240F2100F64AB0 /* Build configuration list for PBXNativeTarget "Secp256k1" */;
+			buildConfigurationList = 92B9685525240F2100F64AB0 /* Build configuration list for PBXNativeTarget "WalletLibrarySecp256k1" */;
 			buildPhases = (
 				92B9684825240F2100F64AB0 /* Headers */,
 				92B9684925240F2100F64AB0 /* Sources */,
@@ -375,9 +375,9 @@
 			);
 			dependencies = (
 			);
-			name = Secp256k1;
-			productName = Secp256k1;
-			productReference = 92B9684D25240F2100F64AB0 /* Secp256k1.framework */;
+			name = WalletLibrarySecp256k1;
+			productName = WalletLibrarySecp256k1;
+			productReference = 92B9684D25240F2100F64AB0 /* WalletLibrarySecp256k1.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -394,7 +394,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 92B9684725240F2100F64AB0 /* Build configuration list for PBXProject "Secp256k1" */;
+			buildConfigurationList = 92B9684725240F2100F64AB0 /* Build configuration list for PBXProject "WalletLibrarySecp256k1" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -407,7 +407,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				92B9684C25240F2100F64AB0 /* Secp256k1 */,
+				92B9684C25240F2100F64AB0 /* WalletLibrarySecp256k1 */,
 			);
 		};
 /* End PBXProject section */
@@ -581,6 +581,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = Secp256k1/module.modulemap;
 				OTHER_CFLAGS = (
 					"-O3",
 					"-fvisibility=hidden",
@@ -600,7 +601,8 @@
 					"-DHAVE_CONFIG_H=1",
 					"-Wno-shorten-64-to-32",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Secp256k1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.WalletLibrarySecp256k1;
+				PRODUCT_MODULE_NAME = WalletLibrarySecp256k1;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -631,6 +633,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = Secp256k1/module.modulemap;
 				OTHER_CFLAGS = (
 					"-O3",
 					"-fvisibility=hidden",
@@ -650,7 +653,8 @@
 					"-DHAVE_CONFIG_H=1",
 					"-Wno-shorten-64-to-32",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.Secp256k1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.WalletLibrarySecp256k1;
+				PRODUCT_MODULE_NAME = WalletLibrarySecp256k1;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -663,7 +667,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		92B9684725240F2100F64AB0 /* Build configuration list for PBXProject "Secp256k1" */ = {
+		92B9684725240F2100F64AB0 /* Build configuration list for PBXProject "WalletLibrarySecp256k1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				92B9685325240F2100F64AB0 /* Debug */,
@@ -672,7 +676,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		92B9685525240F2100F64AB0 /* Build configuration list for PBXNativeTarget "Secp256k1" */ = {
+		92B9685525240F2100F64AB0 /* Build configuration list for PBXNativeTarget "WalletLibrarySecp256k1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				92B9685625240F2100F64AB0 /* Debug */,

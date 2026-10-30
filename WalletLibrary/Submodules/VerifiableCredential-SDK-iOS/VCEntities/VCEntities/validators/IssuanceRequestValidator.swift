@@ -32,7 +32,7 @@ struct IssuanceRequestValidator: IssuanceRequestValidating {
             throw IssuanceRequestValidatorError.keyIdInTokenHeaderMalformed
         }
 
-        if try request.verify(
+        if request.verify(
             using: verifier,
             keys: publicKeys,
             keyIdentifier: keyIdentifier) {
