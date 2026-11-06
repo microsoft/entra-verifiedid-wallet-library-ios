@@ -20,7 +20,8 @@ public struct PreviewFeatureFlags
     /// Prunes HolderIdentifiers from use if the keychain is missing
     public static let IdentifierPruning = "IdentifierPruning"
     
-    /// Disables hardened DID document JWK lookup and restores legacy key id-only matching.
+    /// Restores legacy key id-only matching for issuance metadata and presentation requests.
+    /// Hardened matching is enabled by default; each built client retains its policy snapshot.
     public static let DisableResolverHardening = "DisableResolverHardening"
     
     /// A preview feature to support building Presentation Exchange Response through serialization
