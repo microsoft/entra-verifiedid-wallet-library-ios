@@ -6,24 +6,67 @@
 /**
  *  A VC Log Consumer that can be injected into the VC SDK and route to Wallet Library Logger.
  */
-struct WalletLibraryVCSDKLogConsumer: VCLogConsumer {
-    
-    private let logger: WalletLibraryLogger
+final class WalletLibraryVCSDKLogConsumer: VCLogConsumer {
+
+    private final class LoggerReference {
+        weak var logger: WalletLibraryLogger?
+
+        init(_ logger: WalletLibraryLogger) {
+            self.logger = logger
+        }
+    }
+
+    private static let shared = WalletLibraryVCSDKLogConsumer()
+    private static let registration: Void = {
+        _ = VerifiableCredentialSDK.initialize(logConsumer: shared)
+    }()
+
+    private let lock = NSLock()
+    private var loggers: [LoggerReference] = []
+
+    private init() {}
     
     init(logger: WalletLibraryLogger) {
-        self.logger = logger
+        loggers = [LoggerReference(logger)]
+    }
+
+    static func register(logger: WalletLibraryLogger) {
+        _ = registration
+        shared.lock.lock()
+        defer { shared.lock.unlock() }
+        shared.loggers.removeAll { $0.logger == nil }
+        if !shared.loggers.contains(where: { $0.logger === logger }) {
+            shared.loggers.append(LoggerReference(logger))
+        }
+    }
+
+    private func consumers() -> [WalletLibraryLogConsumer] {
+        lock.lock()
+        let activeLoggers = loggers.compactMap { $0.logger }
+        lock.unlock()
+
+        var seen = Set<ObjectIdentifier>()
+        return activeLoggers.flatMap { $0.consumers }.filter { consumer in
+            // Value-type consumers retain their independent per-client registrations.
+            guard type(of: consumer) is AnyClass else { return true }
+            return seen.insert(ObjectIdentifier(consumer as AnyObject)).inserted
+        }
     }
     
     func log(_ traceLevel: VCTraceLevel, message: String, functionName: String, file: String, line: Int) {
-        logger.log(convertVCTraceLevelToWalletLibraryTraceLevel(traceLevel),
-                   message: message,
-                   functionName: functionName,
-                   file: file,
-                   line: line)
+        for consumer in consumers() {
+            consumer.log(convertVCTraceLevelToWalletLibraryTraceLevel(traceLevel),
+                         message: message,
+                         functionName: functionName,
+                         file: file,
+                         line: line)
+        }
     }
     
     func event(name: String, properties: [String : String]?, measurements: [String : NSNumber]?) {
-        logger.event(name: name, properties: properties, measurements: measurements)
+        for consumer in consumers() {
+            consumer.event(name: name, properties: properties, measurements: measurements)
+        }
     }
     
     /// TODO: converge VCLogger and Wallet Library Logger.

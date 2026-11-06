@@ -16,26 +16,33 @@ class OpenIdPresentationRequestValidator: OpenIdRequestValidating
     
     /// Service for validating the linked domain associated with a DID document.
     private let linkedDomainService: LinkedDomainService
+
+    private let disableResolverHardening: Bool
     
     convenience init(correlationVector: VerifiedIdCorrelationHeader? = nil,
                      rootOfTrustResolver: RootOfTrustResolver?,
-                     urlSession: URLSession) 
+                     urlSession: URLSession,
+                     configuration: LibraryConfiguration = LibraryConfiguration())
     {
         self.init(didDocumentDiscoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
                                                                         urlSession: urlSession),
                   requestValidator: PresentationRequestValidator(),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
                                                            rootOfTrustResolver: rootOfTrustResolver,
-                                                           urlSession: urlSession))
+                                                           urlSession: urlSession),
+                  disableResolverHardening: configuration.isPreviewFeatureFlagSupported(
+                    PreviewFeatureFlags.DisableResolverHardening))
     }
     
     init(didDocumentDiscoveryApiCalls: DiscoveryNetworking,
          requestValidator: RequestValidating,
-         linkedDomainService: LinkedDomainService)
+         linkedDomainService: LinkedDomainService,
+         disableResolverHardening: Bool = false)
     {
         self.didDocumentDiscoveryApiCalls = didDocumentDiscoveryApiCalls
         self.requestValidator = requestValidator
         self.linkedDomainService = linkedDomainService
+        self.disableResolverHardening = disableResolverHardening
     }
     
     /// Validates the given presentation request token by checking its identifier document,
@@ -57,7 +64,21 @@ class OpenIdPresentationRequestValidator: OpenIdRequestValidating
             throw VerifiedIdErrors.MalformedInput(message: "No Public Keys in Identifier Document.").error
         }
         
-        try self.requestValidator.validate(request: request, usingKeys: publicKeys)
+        // Legacy matching ignores controllers, but still validates key IDs, claims, and signatures.
+        // Adapt only the validation input; linked-domain validation keeps the original document.
+        let legacyKeyId = request.headers.keyId.flatMap {
+            DIDVerificationMethodIdentifier(keyId: $0)?.relativeId
+        }
+        let validationKeys = disableResolverHardening ? publicKeys.filter {
+            $0.id != nil && $0.id == legacyKeyId
+        }.map {
+            IdentifierDocumentPublicKey(id: $0.id,
+                                        type: $0.type,
+                                        controller: nil,
+                                        publicKeyJwk: $0.publicKeyJwk,
+                                        purposes: $0.purposes)
+        } : publicKeys
+        try self.requestValidator.validate(request: request, usingKeys: validationKeys)
         let result = try await self.linkedDomainService.validateLinkedDomain(from: document)
         return PresentationRequest(from: request, linkedDomainResult: result)
     }

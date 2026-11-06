@@ -123,6 +123,20 @@ let client = VerifiedIdClientBuilder()
     .build()
 ```
 
+The SDK logging bridge is registered once per process and forwards to consumers of live
+clients. Reusing the same class-based consumer across rebuilt clients delivers each SDK
+trace or event once to that instance. Separate consumer instances and value-type consumer
+registrations remain independent. The bridge does not retain clients or their loggers.
+
+## Resolver policy
+
+DID verification-method matching is hardened by default. To temporarily restore legacy
+key ID-only matching for signed issuance metadata and presentation requests, build a new
+client with `.with(previewFeatureFlags: [PreviewFeatureFlags.DisableResolverHardening])`.
+This opt-out ignores verification-method controllers; it does not bypass signature,
+claim, expiry, or resolved-document identity validation. Each client retains its policy
+snapshot, so rebuilding a client does not change requests using an existing client.
+
 ## Documentation
 
 * [External Architecture](Docs/LibraryArchitecture.md)
