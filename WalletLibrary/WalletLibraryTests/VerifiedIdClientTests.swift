@@ -9,6 +9,37 @@ import CryptoKit
 
 class VerifiedIdClientTests: XCTestCase {
 
+    func testCreateRequest_ReusingBuilderUsesNewPolicyAndPreservesExistingClient() async throws {
+        let session = try presentationSession(controller: "did:test:other")
+        defer { session.invalidateAndCancel() }
+        let builder = VerifiedIdClientBuilder().with(urlSession: session)
+        let hardened = builder.build()
+        await assertPresentationFailure(hardened, expected: "invalidSignature")
+
+        let legacy = builder
+            .with(previewFeatureFlags: [PreviewFeatureFlags.DisableResolverHardening])
+            .build()
+        let request = try await legacy.createRequest(from: presentationInput).get()
+        XCTAssert(request is OpenIdPresentationRequest)
+        await assertPresentationFailure(hardened, expected: "invalidSignature")
+
+        let legacyAgain = builder.build()
+        let nextRequest = try await legacyAgain.createRequest(from: presentationInput).get()
+        XCTAssert(nextRequest is OpenIdPresentationRequest)
+        for client in [hardened, legacy, legacyAgain] {
+            XCTAssertEqual(client.requestResolverFactory.resolvers.count, 1)
+            XCTAssertEqual(client.requestHandlerFactory.requestHandlers.count, 2)
+        }
+        XCTAssertFalse(hardened.requestResolverFactory.resolvers[0] as AnyObject
+                       === legacy.requestResolverFactory.resolvers[0] as AnyObject)
+        for index in 0..<2 {
+            XCTAssertFalse(hardened.requestHandlerFactory.requestHandlers[index] as AnyObject
+                           === legacy.requestHandlerFactory.requestHandlers[index] as AnyObject)
+            XCTAssertFalse(legacy.requestHandlerFactory.requestHandlers[index] as AnyObject
+                           === legacyAgain.requestHandlerFactory.requestHandlers[index] as AnyObject)
+        }
+    }
+
     func testCreateRequest_ResolverPolicyTransitionsPreserveExistingClients() async throws {
         let session = try presentationSession(controller: "did:test:other")
         defer { session.invalidateAndCancel() }

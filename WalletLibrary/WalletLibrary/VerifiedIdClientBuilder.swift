@@ -67,6 +67,8 @@ public class VerifiedIdClientBuilder
                                                  previewFeatureFlags: previewFeatureFlags,
                                                  identifiers: identifiers)
         
+        requestResolvers = []
+        requestProcessors = []
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestProcessors(with: configuration)
         registerVerifiedIdExtensions(with: configuration)
