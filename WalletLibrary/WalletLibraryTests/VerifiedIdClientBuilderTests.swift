@@ -8,6 +8,64 @@ import XCTest
 
 class VerifiedIdClientBuilderTests: XCTestCase {
 
+    func testBuild_PolicyTransitionsDeliverSDKEventsOncePerConsumer() throws {
+        let consumer = RecordingSDKConsumer()
+        let independent = RecordingSDKConsumer()
+        let directSDKConsumer = RecordingSDKConsumer()
+        VCSDKLog.sharedInstance.add(consumer: directSDKConsumer)
+        let independentClient = VerifiedIdClientBuilder().with(logConsumer: independent).build()
+        var clients: [VerifiedIdClient] = []
+
+        for disabled in [false, true, false] {
+            clients.append(VerifiedIdClientBuilder()
+                .with(logConsumer: consumer)
+                .with(previewFeatureFlags: disabled ? [PreviewFeatureFlags.DisableResolverHardening] : [])
+                .build())
+            VCSDKLog.sharedInstance.event(name: consumer.eventName)
+            XCTAssertEqual(consumer.events, clients.count)
+        }
+
+        VCSDKLog.sharedInstance.event(name: independent.eventName)
+        VCSDKLog.sharedInstance.event(name: directSDKConsumer.eventName)
+        XCTAssertEqual(independent.events, 1)
+        XCTAssertEqual(directSDKConsumer.events, 1)
+
+        consumer.logs = 0
+        VCSDKLog.sharedInstance.logInfo(message: consumer.eventName)
+        XCTAssertEqual(consumer.logs, 1)
+        withExtendedLifetime((clients, independentClient)) {}
+    }
+
+    func testBuild_SDKBridgeDoesNotRetainReleasedClientLogger() throws {
+        let consumer = RecordingSDKConsumer()
+        weak var logger: WalletLibraryLogger?
+        autoreleasepool {
+            let client = VerifiedIdClientBuilder().with(logConsumer: consumer).build()
+            logger = client.configuration.logger
+            VCSDKLog.sharedInstance.event(name: consumer.eventName)
+            XCTAssertEqual(consumer.events, 1)
+        }
+        XCTAssertNil(logger)
+        VCSDKLog.sharedInstance.event(name: consumer.eventName)
+        XCTAssertEqual(consumer.events, 1)
+    }
+
+    func testBuild_IndependentValueConsumersKeepTheirRegistrations() throws {
+        let name = UUID().uuidString
+        var firstEvents = 0
+        var secondEvents = 0
+        let first = VerifiedIdClientBuilder()
+            .with(logConsumer: MockLogConsumer(eventCallback: { if $0 == name { firstEvents += 1 } }))
+            .build()
+        let second = VerifiedIdClientBuilder()
+            .with(logConsumer: MockLogConsumer(eventCallback: { if $0 == name { secondEvents += 1 } }))
+            .build()
+        VCSDKLog.sharedInstance.event(name: name)
+        XCTAssertEqual(firstEvents, 1)
+        XCTAssertEqual(secondEvents, 1)
+        withExtendedLifetime((first, second)) {}
+    }
+
     func testBuild_WithNoLogConsumers_ReturnsVerifiedIdClient() throws {
         // Arrange
         let builder = VerifiedIdClientBuilder()
@@ -26,6 +84,24 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
         XCTAssertNil(builder.keychainAccessGroupIdentifier)
+    }
+
+    private final class RecordingSDKConsumer: WalletLibraryLogConsumer, VCLogConsumer {
+        let eventName = UUID().uuidString
+        var events = 0
+        var logs = 0
+
+        func event(name: String, properties: [String: String]?, measurements: [String: NSNumber]?) {
+            if name == eventName { events += 1 }
+        }
+
+        func log(_ traceLevel: TraceLevel, message: String, functionName: String, file: String, line: Int) {
+            if message == eventName { logs += 1 }
+        }
+
+        func log(_ traceLevel: VCTraceLevel, message: String, functionName: String, file: String, line: Int) {
+            if message == eventName { logs += 1 }
+        }
     }
     
     func testBuild_WithOneLogConsumer_ReturnsVerifiedIdClient() throws {

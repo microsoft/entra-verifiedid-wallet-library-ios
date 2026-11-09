@@ -48,9 +48,10 @@ public class VerifiedIdClientBuilder
     {
 
         let previewFeatureFlags = PreviewFeatureFlags(previewFeatureFlags: previewFeatureFlagsSupported)
-        let vcLogConsumer = WalletLibraryVCSDKLogConsumer(logger: logger)
-        let _ = VerifiableCredentialSDK.initialize(logConsumer: vcLogConsumer,
-                                                   accessGroupIdentifier: keychainAccessGroupIdentifier)
+        WalletLibraryVCSDKLogConsumer.register(logger: logger)
+        if let keychainAccessGroupIdentifier {
+            VCSDKConfiguration.sharedInstance.setAccessGroupIdentifier(with: keychainAccessGroupIdentifier)
+        }
         
         let walletLibraryNetworking = WalletLibraryNetworking(urlSession: urlSession,
                                                               logger: logger,
@@ -66,6 +67,8 @@ public class VerifiedIdClientBuilder
                                                  previewFeatureFlags: previewFeatureFlags,
                                                  identifiers: identifiers)
         
+        requestResolvers = []
+        requestProcessors = []
         registerSupportedResolvers(with: configuration)
         registerSupportedRequestProcessors(with: configuration)
         registerVerifiedIdExtensions(with: configuration)
@@ -185,7 +188,8 @@ public class VerifiedIdClientBuilder
     {
         let presentationService = OpenIdPresentationRequestValidator(correlationVector: correlationHeader,
                                                                      rootOfTrustResolver: rootOfTrustResolver,
-                                                                     urlSession: urlSession)
+                                                                     urlSession: urlSession,
+                                                                     configuration: configuration)
         let openIdURLResolver = OpenIdURLRequestResolver(validator: presentationService,
                                                          configuration: configuration)
         requestResolvers.append(openIdURLResolver)

@@ -4,10 +4,74 @@
 *--------------------------------------------------------------------------------------------*/
 
 import XCTest
+import CryptoKit
 @testable import WalletLibrary
 
 class SignedCredentialMetadataProcessorTests: XCTestCase
 {
+    func testProcess_ResolverPolicyOnlyChangesControllerMatching() async throws
+    {
+        let did = "did:test:mock"
+        let issuer = "https://issuer.example"
+        let privateKey = P256.Signing.PrivateKey()
+        let rawKey = privateKey.publicKey.x963Representation
+        let publicKey = PublicJWK(x: Data(rawKey[1..<33]).base64URLEncodedString(),
+                                   y: Data(rawKey[33..<65]).base64URLEncodedString(),
+                                   keyType: "EC", keyId: "#key", algorithm: "ES256", curve: "P-256")
+        let method = IdentifierDocumentPublicKey(id: "#key", type: "JsonWebKey2020",
+                                                 controller: "did:test:other",
+                                                 publicKeyJwk: publicKey, purposes: nil)
+        let document = IdentifierDocument(service: nil, verificationMethod: [method],
+                                          authentication: [], id: did)
+        let claims = SignedMetadataTokenClaims(sub: issuer, iss: did,
+                                                exp: Int(Date().timeIntervalSince1970) + 600)
+        var token = try XCTUnwrap(SignedMetadata(headers: Header(algorithm: "ES256", keyId: did + "#key"),
+                                                 content: claims))
+        token.signature = try privateKey.signature(for: Data(token.protectedMessage.utf8)).rawRepresentation
+        let serializedToken = try token.serialize()
+
+        for disabled in [false, true, false]
+        {
+            let configuration = LibraryConfiguration(previewFeatureFlags: PreviewFeatureFlags(
+                previewFeatureFlags: disabled ? [PreviewFeatureFlags.DisableResolverHardening] : []))
+            let processor = SignedCredentialMetadataProcessor(
+                tokenVerifier: TokenVerifier(),
+                identifierDocumentResolver: MockIdentifierDocumentResolver(mockResolve: { _ in document }),
+                rootOfTrustResolver: MockRootOfTrustResolver(),
+                configuration: configuration)
+            do
+            {
+                let result = try await processor.process(signedMetadata: serializedToken,
+                                                          credentialIssuer: issuer)
+                XCTAssertTrue(disabled)
+                XCTAssertEqual(result, RootOfTrust(verified: true, source: "mockSource"))
+            }
+            catch
+            {
+                XCTAssertFalse(disabled, "\(error)")
+                XCTAssertEqual((error as? OpenId4VCIValidationError)?.message,
+                               "Key Id not defined in Identifier Document.")
+            }
+
+            if disabled
+            {
+                token.signature = try P256.Signing.PrivateKey()
+                    .signature(for: Data(token.protectedMessage.utf8)).rawRepresentation
+                do
+                {
+                    _ = try await processor.process(signedMetadata: token.serialize(), credentialIssuer: issuer)
+                    XCTFail("Legacy matching must still verify signatures")
+                }
+                catch
+                {
+                    let validationError = error as? OpenId4VCIValidationError
+                    XCTAssertEqual(validationError?.message, "Signed metadata is not valid.")
+                    XCTAssertEqual((validationError?.error as? TokenValidationError)?.code, "signature_invalid")
+                }
+            }
+        }
+    }
+
     func testProcess_WithInvalidRawRequest_ThrowsError() async throws
     {
         // Arrange
