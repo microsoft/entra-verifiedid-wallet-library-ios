@@ -9,6 +9,8 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
     let jti: String?
     
     let clientID: String?
+
+    let issuer: String?
     
     let redirectURI: String?
     
@@ -41,6 +43,7 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
     
     enum CodingKeys: String, CodingKey {
         case clientID = "client_id"
+        case issuer = "iss"
         case redirectURI = "redirect_uri"
         case responseType = "response_type"
         case responseMode = "response_mode"
@@ -63,9 +66,11 @@ struct PresentationRequestClaims: OIDCClaims, Equatable {
          iat: Int? = nil,
          exp: Int? = nil,
          pin: PinDescriptor? = nil,
-         continuation: ContinuationDescriptor? = nil) {
+         continuation: ContinuationDescriptor? = nil,
+         issuer: String? = nil) {
         self.jti = jti
         self.clientID = clientID
+        self.issuer = issuer
         self.redirectURI = redirectURI
         self.responseType = responseType
         self.responseMode = responseMode

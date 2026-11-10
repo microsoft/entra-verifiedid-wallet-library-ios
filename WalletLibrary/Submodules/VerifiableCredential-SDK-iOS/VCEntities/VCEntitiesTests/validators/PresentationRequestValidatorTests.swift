@@ -177,13 +177,68 @@ class PresentationRequestValidatorTests: XCTestCase {
         }
     }
     
-    private func createMockPresentationRequestClaims(responseType: String = VCEntitiesConstants.RESPONSE_TYPE,
+    func testRejectsClientIdNotBoundToSigner() throws {
+        let validator = PresentationRequestValidator(verifier: verifier)
+        for clientID in [nil, "", "did:test:other", "did:test#keyId", "did:test:long-form"] as [String?] {
+            let request = try createSerializedRequest(clientID: clientID)
+            XCTAssertThrowsError(try validator.validate(request: request, usingKeys: [mockDidPublicKey])) { error in
+                XCTAssertEqual(error as? PresentationRequestValidatorError, .clientIdentifierDoesNotMatchSigner)
+            }
+        }
+        XCTAssertFalse(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testRejectsIssuerNotBoundToSigner() throws {
+        let validator = PresentationRequestValidator(verifier: verifier)
+        for issuer in ["", "did:test:other", "did:test#keyId"] {
+            let request = try createSerializedRequest(issuer: issuer)
+            XCTAssertThrowsError(try validator.validate(request: request, usingKeys: [mockDidPublicKey])) { error in
+                XCTAssertEqual(error as? PresentationRequestValidatorError, .issuerDoesNotMatchSigner)
+            }
+        }
+        XCTAssertFalse(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testAcceptsMatchingIdentityWithOptionalIssuer() throws {
+        let validator = PresentationRequestValidator(verifier: verifier)
+        for issuer in [nil, "did:test"] as [String?] {
+            let request = try createSerializedRequest(issuer: issuer)
+            let claims: OIDCClaims = request.content
+            XCTAssertEqual(claims.issuer, issuer)
+            try validator.validate(request: request, usingKeys: [mockDidPublicKey])
+        }
+        XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testMatchingIdentityStillRequiresValidSignature() throws {
+        let validator = PresentationRequestValidator(verifier: MockTokenVerifier(isTokenValid: false))
+        let request = try createSerializedRequest(issuer: "did:test")
+        XCTAssertThrowsError(try validator.validate(request: request, usingKeys: [mockDidPublicKey])) { error in
+            XCTAssertEqual(error as? PresentationRequestValidatorError, .invalidSignature)
+        }
+        XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    private func createSerializedRequest(clientID: String? = "did:test",
+                                         issuer: String? = nil) throws -> PresentationRequestToken {
+        let claims = createMockPresentationRequestClaims(clientID: clientID)
+        var payload = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(claims)) as? [String: Any])
+        payload["iss"] = issuer
+        let decodedClaims = try JSONDecoder().decode(PresentationRequestClaims.self,
+                                                     from: JSONSerialization.data(withJSONObject: payload))
+        let token = try XCTUnwrap(PresentationRequestToken(headers: Header(keyId: "did:test#keyId"),
+                                                          content: decodedClaims))
+        return try XCTUnwrap(PresentationRequestToken(from: Data(try token.serialize().utf8)))
+    }
+
+    private func createMockPresentationRequestClaims(clientID: String? = "did:test",
+                                                     responseType: String = VCEntitiesConstants.RESPONSE_TYPE,
                                                      responseMode: String = VCEntitiesConstants.RESPONSE_MODE,
                                                      registration: RegistrationClaims = PresentationRequestValidatorTests.createRegistration(),
                                                      scope: String = VCEntitiesConstants.SCOPE,
                                                      timeConstraints: TokenTimeConstraints = TokenTimeConstraints(expiryInSeconds: 300)) -> PresentationRequestClaims {
         return PresentationRequestClaims(jti: "testId",
-                                         clientID: "clientID",
+                                         clientID: clientID,
                                          redirectURI: "redirectURI",
                                          responseMode: responseMode,
                                          responseType: responseType,

@@ -88,6 +88,13 @@ let result = await presentationRequest.complete()
 ## VerifiedId
 A Verified Id is a verifiable piece of information that contains claims about an entity. 
 
+### Signed presentation request identities
+
+For DID-signed presentation requests, `client_id` must exactly match the DID in the
+signing key's `kid`, excluding its key fragment. If `iss` is supplied, it must
+match that same DID. Requests without `iss` remain supported. These checks apply
+regardless of the resolver-hardening preview setting.
+
 ### Style
 Issuers have the ability to customize the style of a Verified Id. We support `BasicVerifiedIdStyle` which contains basic traits like name, issuer, background color, text color, and logo that can be used to represent the look and feel of a Verified Id.
 

@@ -10,6 +10,8 @@ enum PresentationRequestValidatorError: Error {
     case invalidResponseTypeValue
     case invalidScopeValue
     case invalidSignature
+    case clientIdentifierDoesNotMatchSigner
+    case issuerDoesNotMatchSigner
     case noExpirationPresent
     case noRegistrationPresent
     case noKeyIdInTokenHeader
@@ -56,6 +58,14 @@ struct PresentationRequestValidator: RequestValidating {
         
         guard let keyIdentifier = DIDVerificationMethodIdentifier(keyId: kid) else {
             throw PresentationRequestValidatorError.keyIdInTokenHeaderMalformed
+        }
+
+        guard token.content.clientID == keyIdentifier.did else {
+            throw PresentationRequestValidatorError.clientIdentifierDoesNotMatchSigner
+        }
+
+        if let issuer = token.content.issuer, issuer != keyIdentifier.did {
+            throw PresentationRequestValidatorError.issuerDoesNotMatchSigner
         }
 
         if try token.verify(
