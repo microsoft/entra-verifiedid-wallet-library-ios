@@ -224,9 +224,61 @@ class OpenIdPresentationRequestValidatorTests: XCTestCase
         }
     }
     
-    private func createRawPresentationRequest(expectedKeyId: String? = "did:test:microsoft.com") -> Data
+    func testValidateRequest_WithInconsistentIdentity_ThrowsBeforeResolvingLinkedDomain() async throws
     {
-        let request = PresentationRequestClaims(claims: nil)
+        let publicKey = IdentifierDocumentPublicKey(id: "#keyId",
+                                                   type: "type",
+                                                   controller: "did:test:microsoft.com",
+                                                   publicKeyJwk: mockPublicKey,
+                                                   purposes: nil)
+        let document = IdentifierDocument(service: nil,
+                                          verificationMethod: [publicKey],
+                                          authentication: [],
+                                          id: "did:test:microsoft.com")
+        let linkedDomainService = LinkedDomainService(rootOfTrustResolver: MockRootOfTrustResolver(shouldThrowError: true),
+                                                       urlSession: URLSession.shared)
+        let validator = OpenIdPresentationRequestValidator(
+            didDocumentDiscoveryApiCalls: MockDiscoveryApiCalls(withIdentifierDocument: document),
+            requestValidator: PresentationRequestValidator(verifier: MockTokenVerifier(isTokenValid: true)),
+            linkedDomainService: linkedDomainService)
+        let cases: [(String, String?, PresentationRequestValidatorError)] = [
+            ("did:test:other", nil, .clientIdentifierDoesNotMatchSigner),
+            ("did:test:microsoft.com", "did:test:other", .issuerDoesNotMatchSigner)
+        ]
+
+        for (clientID, issuer, expectedError) in cases
+        {
+            let input = createRawPresentationRequest(clientID: clientID, issuer: issuer)
+            do
+            {
+                _ = try await validator.validateRequest(data: input)
+                XCTFail("Expected inconsistent request identity to be rejected.")
+            }
+            catch
+            {
+                XCTAssertEqual(error as? PresentationRequestValidatorError, expectedError)
+            }
+        }
+    }
+
+    private func createRawPresentationRequest(expectedKeyId: String? = "did:test:microsoft.com#keyId",
+                                               clientID: String = "did:test:microsoft.com",
+                                               issuer: String? = nil) -> Data
+    {
+        let registration = RegistrationClaims(clientName: "name",
+                                               clientPurpose: nil,
+                                               logoURI: nil,
+                                               subjectIdentifierTypesSupported: nil,
+                                               vpFormats: nil,
+                                               scenario: nil)
+        let request = PresentationRequestClaims(clientID: clientID,
+                                                 responseMode: VCEntitiesConstants.RESPONSE_MODE,
+                                                 responseType: VCEntitiesConstants.RESPONSE_TYPE,
+                                                 claims: nil,
+                                                 scope: VCEntitiesConstants.SCOPE,
+                                                 registration: registration,
+                                                 exp: Int(Date().timeIntervalSince1970) + 300,
+                                                 issuer: issuer)
         let header = Header(keyId: expectedKeyId)
         let token = PresentationRequestToken(headers: header, content: request)!
         return try! token.serialize().data(using: .utf8)!

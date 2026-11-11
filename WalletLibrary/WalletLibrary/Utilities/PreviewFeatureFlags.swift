@@ -23,6 +23,10 @@ public struct PreviewFeatureFlags
     /// Restores legacy key id-only matching for issuance metadata and presentation requests.
     /// Hardened matching is enabled by default; each built client retains its policy snapshot.
     public static let DisableResolverHardening = "DisableResolverHardening"
+
+    /// Restores legacy presentation identity handling without changing signature validation.
+    /// Identity validation is enabled by default; each built client retains its policy snapshot.
+    public static let DisablePresentationIdentityValidation = "DisablePresentationIdentityValidation"
     
     /// A preview feature to support building Presentation Exchange Response through serialization
     /// instead of using the old VC SDK. Default on now.
@@ -37,7 +41,8 @@ public struct PreviewFeatureFlags
         OpenID4VCIPreAuth: false,
         FIPSCompliantIdentifier: false,
         IdentifierPruning: false,
-        DisableResolverHardening: false
+        DisableResolverHardening: false,
+        DisablePresentationIdentityValidation: false
     ]
     
     init(previewFeatureFlags: [String] = [])
