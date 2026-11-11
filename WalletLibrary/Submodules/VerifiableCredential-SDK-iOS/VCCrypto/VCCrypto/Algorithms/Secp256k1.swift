@@ -5,8 +5,8 @@
 
 import Foundation
 
-#if canImport(Secp256k1)
-    import Secp256k1
+#if canImport(WalletLibrarySecp256k1)
+    import WalletLibrarySecp256k1
 #endif
 
 enum Secp256k1Error: Error {

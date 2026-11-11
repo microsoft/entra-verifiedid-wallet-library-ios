@@ -20,6 +20,18 @@ git submodule add https://github.com/microsoft/entra-verifiedid-wallet-library-i
 
 Then from XCode with your project open, select `File`, `Add Files to "Your Project Name"`, and navigate to the git submodule's `WalletLibrary/WalletLibrary.xcodeproj`. 
 
+WalletLibrary explicitly depends on the internal `WalletLibrarySecp256k1` target in
+`WalletLibrary/Submodules/VerifiableCredential-SDK-iOS/Submodules/Secp256k1/WalletLibrarySecp256k1.xcodeproj`.
+Its project, target, framework product, and Clang module are namespaced so workspaces
+can also build an independent `Secp256k1` provider without conflicting build outputs
+or ambiguous module imports. This static framework is linked into WalletLibrary;
+it does not need to be embedded separately. No public WalletLibrary types change.
+Consumers referencing the former vendored Xcode project directly must update that
+reference; consumers referencing only `WalletLibrary.xcodeproj` need no project change.
+The CocoaPods `WalletLibrary/Secp256k1` subspec name is unchanged.
+WalletLibrary's iOS 14 minimum and the vendored wrapper's deployment targets are
+unchanged; consumers must not override the wrapper's minimum above the devices they support.
+
 ---
 ## Quick Start
 

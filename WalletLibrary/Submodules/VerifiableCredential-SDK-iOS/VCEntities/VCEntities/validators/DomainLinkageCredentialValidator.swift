@@ -78,7 +78,7 @@ struct DomainLinkageCredentialValidator: DomainLinkageCredentialValidating {
             throw DomainLinkageCredentialValidatorError.keyIdInTokenHeaderMalformed
         }
 
-        if try token.verify(
+        if token.verify(
             using: verifier,
             keys: keys,
             keyIdentifier: keyIdentifier) {
