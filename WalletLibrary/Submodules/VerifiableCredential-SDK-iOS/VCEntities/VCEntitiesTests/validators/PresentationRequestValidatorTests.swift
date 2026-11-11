@@ -211,12 +211,40 @@ class PresentationRequestValidatorTests: XCTestCase {
     }
 
     func testMatchingIdentityStillRequiresValidSignature() throws {
-        let validator = PresentationRequestValidator(verifier: MockTokenVerifier(isTokenValid: false))
-        let request = try createSerializedRequest(issuer: "did:test")
-        XCTAssertThrowsError(try validator.validate(request: request, usingKeys: [mockDidPublicKey])) { error in
-            XCTAssertEqual(error as? PresentationRequestValidatorError, .invalidSignature)
+        for validateIdentity in [true, false] {
+            let validator = PresentationRequestValidator(verifier: MockTokenVerifier(isTokenValid: false),
+                                                         validateIdentity: validateIdentity)
+            let request = try createSerializedRequest(issuer: "did:test")
+            XCTAssertThrowsError(try validator.validate(request: request, usingKeys: [mockDidPublicKey])) { error in
+                XCTAssertEqual(error as? PresentationRequestValidatorError, .invalidSignature)
+            }
         }
         XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testIdentityRollbackAcceptsLegacyIdentities() throws {
+        let validator = PresentationRequestValidator(verifier: verifier, validateIdentity: false)
+        for clientID in [nil, "", "did:test:other", "did:test#keyId"] as [String?] {
+            let request = try createSerializedRequest(clientID: clientID, issuer: "did:test:other")
+            try validator.validate(request: request, usingKeys: [mockDidPublicKey])
+        }
+        XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testIdentityRollbackStillValidatesClaimsAndKeyIdentifier() throws {
+        let validator = PresentationRequestValidator(verifier: verifier, validateIdentity: false)
+        let expiredClaims = createMockPresentationRequestClaims(timeConstraints: TokenTimeConstraints(expiryInSeconds: -500))
+        let expiredRequest = try XCTUnwrap(PresentationRequestToken(headers: Header(keyId: "did:test#keyId"),
+                                                                    content: expiredClaims))
+        XCTAssertThrowsError(try validator.validate(request: expiredRequest, usingKeys: [mockDidPublicKey])) { error in
+            XCTAssertEqual(error as? PresentationRequestValidatorError, .tokenExpired)
+        }
+        let malformedRequest = try XCTUnwrap(PresentationRequestToken(headers: Header(keyId: "did:test#keyId#other"),
+                                                                      content: createMockPresentationRequestClaims()))
+        XCTAssertThrowsError(try validator.validate(request: malformedRequest, usingKeys: [mockDidPublicKey])) { error in
+            XCTAssertEqual(error as? PresentationRequestValidatorError, .keyIdInTokenHeaderMalformed)
+        }
+        XCTAssertFalse(MockTokenVerifier.wasVerifyCalled)
     }
 
     private func createSerializedRequest(clientID: String? = "did:test",

@@ -26,7 +26,9 @@ class OpenIdPresentationRequestValidator: OpenIdRequestValidating
     {
         self.init(didDocumentDiscoveryApiCalls: DIDDocumentNetworkCalls(correlationVector: correlationVector,
                                                                         urlSession: urlSession),
-                  requestValidator: PresentationRequestValidator(),
+                  requestValidator: PresentationRequestValidator(
+                    validateIdentity: !configuration.isPreviewFeatureFlagSupported(
+                        PreviewFeatureFlags.DisablePresentationIdentityValidation)),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
                                                            rootOfTrustResolver: rootOfTrustResolver,
                                                            urlSession: urlSession),

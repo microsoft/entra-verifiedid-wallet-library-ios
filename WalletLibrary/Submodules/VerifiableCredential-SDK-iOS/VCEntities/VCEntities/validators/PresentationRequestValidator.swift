@@ -28,9 +28,11 @@ protocol RequestValidating {
 struct PresentationRequestValidator: RequestValidating {
     
     private let verifier: TokenVerifying
+    private let validateIdentity: Bool
     
-    init(verifier: TokenVerifying = TokenVerifier()) {
+    init(verifier: TokenVerifying = TokenVerifier(), validateIdentity: Bool = true) {
         self.verifier = verifier
+        self.validateIdentity = validateIdentity
     }
     
     func validate(request: PresentationRequestToken, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws {
@@ -60,12 +62,14 @@ struct PresentationRequestValidator: RequestValidating {
             throw PresentationRequestValidatorError.keyIdInTokenHeaderMalformed
         }
 
-        guard token.content.clientID == keyIdentifier.did else {
-            throw PresentationRequestValidatorError.clientIdentifierDoesNotMatchSigner
-        }
+        if validateIdentity {
+            guard token.content.clientID == keyIdentifier.did else {
+                throw PresentationRequestValidatorError.clientIdentifierDoesNotMatchSigner
+            }
 
-        if let issuer = token.content.issuer, issuer != keyIdentifier.did {
-            throw PresentationRequestValidatorError.issuerDoesNotMatchSigner
+            if let issuer = token.content.issuer, issuer != keyIdentifier.did {
+                throw PresentationRequestValidatorError.issuerDoesNotMatchSigner
+            }
         }
 
         if try token.verify(
