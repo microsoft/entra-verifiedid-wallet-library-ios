@@ -427,10 +427,10 @@ class VerifiedIdClientBuilderTests: XCTestCase {
     func testBuild_WithIdentifierHolderInjection_ReturnsVerifiedIdClient() throws 
     {
         // Arrange
-        let builder = VerifiedIdClientBuilder()
-        let _ = VerifiableCredentialSDK.initialize()
         let mockHolder1 = MockHolderIdentifier(id: "mock1")
         let mockHolder2 = MockHolderIdentifier(id: "mock2")
+        let mockRepository = MockIdentifierRepository()
+        let builder = VerifiedIdClientBuilder(identifierRepository: mockRepository)
         
         // Act
         let actualResult = builder
@@ -448,6 +448,7 @@ class VerifiedIdClientBuilderTests: XCTestCase {
         XCTAssert(actualResult.configuration.logger.consumers.isEmpty)
         XCTAssert(actualResult.configuration.verifiedIdDecoder is VerifiedIdDecoder)
         XCTAssert(actualResult.configuration.verifiedIdEncoder is VerifiedIdEncoder)
+        XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers.count, 2)
         XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers[0] as? MockHolderIdentifier, mockHolder1)
         XCTAssertEqual(actualResult.configuration.identifierFactory.identifiers[1] as? MockHolderIdentifier, mockHolder2)
     }

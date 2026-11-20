@@ -207,6 +207,9 @@ class PresentationRequestValidatorTests: XCTestCase {
             XCTAssertEqual(claims.issuer, issuer)
             try validator.validate(request: request, usingKeys: [mockDidPublicKey])
         }
+        let nullIssuerRequest = try createSerializedRequestWithExplicitNullIssuer()
+        XCTAssertNil(nullIssuerRequest.content.issuer)
+        try validator.validate(request: nullIssuerRequest, usingKeys: [mockDidPublicKey])
         XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
     }
 
@@ -257,6 +260,15 @@ class PresentationRequestValidatorTests: XCTestCase {
         let token = try XCTUnwrap(PresentationRequestToken(headers: Header(keyId: "did:test#keyId"),
                                                           content: decodedClaims))
         return try XCTUnwrap(PresentationRequestToken(from: Data(try token.serialize().utf8)))
+    }
+
+    private func createSerializedRequestWithExplicitNullIssuer() throws -> PresentationRequestToken {
+        let claims = createMockPresentationRequestClaims()
+        var payload = try XCTUnwrap(JSONSerialization.jsonObject(with: JSONEncoder().encode(claims)) as? [String: Any])
+        payload["iss"] = NSNull()
+        let header = try JSONEncoder().encode(Header(keyId: "did:test#keyId")).base64URLEncodedString()
+        let content = try JSONSerialization.data(withJSONObject: payload).base64URLEncodedString()
+        return try XCTUnwrap(PresentationRequestToken(from: Data("\(header).\(content).signature".utf8)))
     }
 
     private func createMockPresentationRequestClaims(clientID: String? = "did:test",
