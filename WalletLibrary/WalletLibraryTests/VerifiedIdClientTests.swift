@@ -12,7 +12,9 @@ class VerifiedIdClientTests: XCTestCase {
     func testCreateRequest_ReusingBuilderUsesNewPolicyAndPreservesExistingClient() async throws {
         let session = try presentationSession(controller: "did:test:other")
         defer { session.invalidateAndCancel() }
-        let builder = VerifiedIdClientBuilder().with(urlSession: session)
+        let builder = VerifiedIdClientBuilder(identifierRepository: MockIdentifierRepository())
+            .with(identifier: MockHolderIdentifier(id: "did:test:holder"))
+            .with(urlSession: session)
         let hardened = builder.build()
         await assertPresentationFailure(hardened, expected: "invalidSignature")
 
@@ -138,12 +140,39 @@ class VerifiedIdClientTests: XCTestCase {
         }
     }
 
+    func testCreateRequest_IdentityValidationRollbackPreservesExistingClients() async throws {
+        for (clientID, issuer, expectedError) in [
+            ("did:test:other", nil as String?, "clientIdentifierDoesNotMatchSigner"),
+            ("did:test:verifier", "did:test:other", "issuerDoesNotMatchSigner")
+        ] {
+            let session = try presentationSession(controller: "did:test:verifier",
+                                                  clientID: clientID,
+                                                  issuer: issuer)
+            defer { session.invalidateAndCancel() }
+            let defaultClient = presentationClient(session: session, disableHardening: false)
+            let resolverRollbackOnly = presentationClient(session: session, disableHardening: true)
+            await assertPresentationFailure(defaultClient, expected: expectedError)
+            await assertPresentationFailure(resolverRollbackOnly, expected: expectedError)
+
+            let identityRollback = VerifiedIdClientBuilder(identifierRepository: MockIdentifierRepository())
+                .with(identifier: MockHolderIdentifier(id: "did:test:holder"))
+                .with(urlSession: session)
+                .with(previewFeatureFlags: [PreviewFeatureFlags.DisablePresentationIdentityValidation])
+                .build()
+            let request = try await identityRollback.createRequest(from: presentationInput).get()
+            XCTAssert(request is OpenIdPresentationRequest)
+            await assertPresentationFailure(defaultClient, expected: expectedError)
+            await assertPresentationFailure(resolverRollbackOnly, expected: expectedError)
+        }
+    }
+
     private var presentationInput: VerifiedIdRequestURL {
         VerifiedIdRequestURL(url: URL(string: "openid-vc://?request_uri=https%3A%2F%2Fpresentation.example%2Frequest")!)
     }
 
     private func presentationClient(session: URLSession, disableHardening: Bool) -> VerifiedIdClient {
-        VerifiedIdClientBuilder()
+        VerifiedIdClientBuilder(identifierRepository: MockIdentifierRepository())
+            .with(identifier: MockHolderIdentifier(id: "did:test:holder"))
             .with(urlSession: session)
             .with(previewFeatureFlags: disableHardening ? [PreviewFeatureFlags.DisableResolverHardening] : [])
             .build()
@@ -164,11 +193,13 @@ class VerifiedIdClientTests: XCTestCase {
 
     private func presentationSession(controller: String?, keyId: String = "#key",
                                      invalidSignature: Bool = false, expired: Bool = false,
-                                     scope: String = "openid", documentId: String = "did:test:verifier") throws -> URLSession {
+                                     scope: String = "openid", documentId: String = "did:test:verifier",
+                                     clientID: String = "did:test:verifier",
+                                     issuer: String? = nil) throws -> URLSession {
         let privateKey = P256.Signing.PrivateKey()
         let header: [String: Any] = ["alg": "ES256", "kid": "did:test:verifier#key"]
-        let claims: [String: Any] = [
-            "client_id": "did:test:verifier",
+        var claims: [String: Any] = [
+            "client_id": clientID,
             "redirect_uri": "https://presentation.example/callback",
             "response_mode": "post",
             "response_type": "id_token",
@@ -182,6 +213,7 @@ class VerifiedIdClientTests: XCTestCase {
                 "input_descriptors": [["id": "test-credential", "schema": [["uri": "TestCredential"]]]]
             ]]]
         ]
+        claims["iss"] = issuer
         let message = try JSONSerialization.data(withJSONObject: header).base64URLEncodedString()
             + "." + JSONSerialization.data(withJSONObject: claims).base64URLEncodedString()
         let signingKey = invalidSignature ? P256.Signing.PrivateKey() : privateKey
