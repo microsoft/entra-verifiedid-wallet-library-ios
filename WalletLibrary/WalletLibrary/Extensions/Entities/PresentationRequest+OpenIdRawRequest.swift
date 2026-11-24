@@ -42,6 +42,10 @@ extension PresentationRequest: OpenIdRawRequest
     var state: String? {
         return content.state
     }
+
+    var registration: RegistrationClaims? {
+        return content.registration
+    }
     
     var clientId: String? {
         return content.clientID
