@@ -26,6 +26,8 @@ struct MockOpenIdRawRequest: OpenIdRawRequest, Equatable {
     var definitionId: String? = ""
     
     var responseURL: URL? = URL(string: "https://microsoft.com")
+
+    var registration: RegistrationClaims?
     
     init(raw: Data?, type: RequestType = .Presentation) {
         self.raw = raw

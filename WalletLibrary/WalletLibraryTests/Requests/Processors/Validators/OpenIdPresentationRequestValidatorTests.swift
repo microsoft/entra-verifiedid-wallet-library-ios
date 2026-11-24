@@ -261,11 +261,41 @@ class OpenIdPresentationRequestValidatorTests: XCTestCase
         }
     }
 
+    func testFipsRequestRetainsRegistrationAfterSignatureAndLinkedDomainValidation() async throws
+    {
+        defer { MockTokenVerifier.wasVerifyCalled = false }
+        let registration = RegistrationClaims(
+            clientName: "name", clientPurpose: nil, logoURI: nil, subjectIdentifierTypesSupported: ["did:jwk"],
+            vpFormats: SupportedVerifiablePresentationFormats(
+                jwtVP: AllowedAlgorithms(algorithms: ["ES256"]),
+                jwtVC: AllowedAlgorithms(algorithms: ["ES256", "EdDSA"])),
+            scenario: nil)
+        let publicKey = IdentifierDocumentPublicKey(id: "#keyId", type: "type",
+                                                    controller: "did:test:microsoft.com",
+                                                    publicKeyJwk: mockPublicKey, purposes: nil)
+        let document = IdentifierDocument(service: nil, verificationMethod: [publicKey],
+                                          authentication: [], id: "did:test:microsoft.com")
+        let validator = OpenIdPresentationRequestValidator(
+            didDocumentDiscoveryApiCalls: MockDiscoveryApiCalls(withIdentifierDocument: document),
+            requestValidator: PresentationRequestValidator(
+                verifier: MockTokenVerifier(isTokenValid: true),
+                responseCapabilities: [PresentationResponseCapability(method: "did:jwk", algorithm: "ES256")]),
+            linkedDomainService: LinkedDomainService(rootOfTrustResolver: MockRootOfTrustResolver(),
+                                                     urlSession: URLSession.shared))
+
+        let request = try await validator.validateRequest(data: createRawPresentationRequest(registration: registration))
+
+        XCTAssertEqual(request.registration, registration)
+        let presentationRequest = try XCTUnwrap(request as? PresentationRequest)
+        XCTAssertEqual(presentationRequest.linkedDomainResult, .linkedDomainVerified(domainUrl: "mockSource"))
+    }
+
     private func createRawPresentationRequest(expectedKeyId: String? = "did:test:microsoft.com#keyId",
                                                clientID: String = "did:test:microsoft.com",
-                                               issuer: String? = nil) -> Data
+                                               issuer: String? = nil,
+                                               registration: RegistrationClaims? = nil) -> Data
     {
-        let registration = RegistrationClaims(clientName: "name",
+        let registration = registration ?? RegistrationClaims(clientName: "name",
                                                clientPurpose: nil,
                                                logoURI: nil,
                                                subjectIdentifierTypesSupported: nil,

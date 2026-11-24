@@ -25,14 +25,76 @@ protocol RequestValidating {
     func validate(request: PresentationRequestToken, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws
 }
 
+struct PresentationResponseCapability: Equatable {
+    let method: String
+    let algorithm: String
+
+    static let supported = [
+        PresentationResponseCapability(method: "did:ion", algorithm: "ES256K"),
+        PresentationResponseCapability(method: "did:jwk", algorithm: "ES256")
+    ]
+
+    static func forIdentifier(_ identifier: HolderIdentifier) -> PresentationResponseCapability? {
+        return supported.first { $0.method == identifier.method && $0.algorithm == identifier.algorithm }
+    }
+}
+
+extension RegistrationClaims {
+    // VC signatures belong to issuers, not to the holder signing the surrounding VP.
+    private static let supportedCredentialAlgorithms: Set<String> = ["ES256K", "ES256", "EdDSA"]
+
+    var passesLegacyCapabilityChecks: Bool {
+        return (subjectIdentifierTypesSupported?.contains(VCEntitiesConstants.SUBJECT_IDENTIFIER_TYPE_DID) ?? true)
+            && (vpFormats?.jwtVP?.algorithms?.contains(VCEntitiesConstants.ALGORITHM_SUPPORTED_IN_VP) ?? true)
+            && (vpFormats?.jwtVC?.algorithms?.contains(VCEntitiesConstants.ALGORITHM_SUPPORTED_IN_VP) ?? true)
+    }
+
+    func validateResponseCapabilities(_ capabilities: [PresentationResponseCapability]) throws {
+        // Preserve acceptance of legacy metadata without imposing new holder inventory requirements.
+        if !passesLegacyCapabilityChecks {
+            let matchingMethods = capabilities.filter {
+                subjectIdentifierTypesSupported?.contains($0.method) ?? true
+            }
+            if subjectIdentifierTypesSupported != nil && matchingMethods.isEmpty {
+                throw PresentationRequestValidatorError.subjectIdentifierTypeNotSupported
+            }
+
+            if let algorithms = vpFormats?.jwtVP?.algorithms,
+               !matchingMethods.contains(where: { algorithms.contains($0.algorithm) }) {
+                throw PresentationRequestValidatorError.responseSigningAlgorithmNotSupportedForVPs
+            }
+        }
+
+        if let algorithms = vpFormats?.jwtVC?.algorithms,
+           Self.supportedCredentialAlgorithms.isDisjoint(with: algorithms) {
+            throw PresentationRequestValidatorError.responseSigningAlgorithmNotSupportedForVCs
+        }
+    }
+
+    func supportsHolder(_ identifier: HolderIdentifier) -> Bool {
+        guard !passesLegacyCapabilityChecks else {
+            return true
+        }
+        guard let capability = PresentationResponseCapability.forIdentifier(identifier) else {
+            return false
+        }
+        return (subjectIdentifierTypesSupported?.contains(capability.method) ?? true)
+            && (vpFormats?.jwtVP?.algorithms?.contains(capability.algorithm) ?? true)
+    }
+}
+
 struct PresentationRequestValidator: RequestValidating {
     
     private let verifier: TokenVerifying
     private let validateIdentity: Bool
+    private let responseCapabilities: [PresentationResponseCapability]
     
-    init(verifier: TokenVerifying = TokenVerifier(), validateIdentity: Bool = true) {
+    init(verifier: TokenVerifying = TokenVerifier(),
+         validateIdentity: Bool = true,
+         responseCapabilities: [PresentationResponseCapability] = PresentationResponseCapability.supported) {
         self.verifier = verifier
         self.validateIdentity = validateIdentity
+        self.responseCapabilities = responseCapabilities.filter { PresentationResponseCapability.supported.contains($0) }
     }
     
     func validate(request: PresentationRequestToken, usingKeys publicKeys: [IdentifierDocumentPublicKey]) throws {
@@ -45,7 +107,7 @@ struct PresentationRequestValidator: RequestValidating {
             throw PresentationRequestValidatorError.noRegistrationPresent
         }
         
-        try validate(registration: registration)
+        try registration.validateResponseCapabilities(responseCapabilities)
         
         try validate(token: request, using: publicKeys)
     }
@@ -89,23 +151,6 @@ struct PresentationRequestValidator: RequestValidating {
     
     private func validate(_ value: String?, equals correctValue: String, throws error: Error) throws {
         guard value == correctValue else { throw error }
-    }
-    
-    private func validate(registration: RegistrationClaims) throws {
-        if let isSubjectIdentifierTypeSupported =         registration.subjectIdentifierTypesSupported?.contains(VCEntitiesConstants.SUBJECT_IDENTIFIER_TYPE_DID),
-           !isSubjectIdentifierTypeSupported {
-            throw PresentationRequestValidatorError.subjectIdentifierTypeNotSupported
-        }
-        
-        if let isAlgorithmSupportedInVp = registration.vpFormats?.jwtVP?.algorithms?.contains(VCEntitiesConstants.ALGORITHM_SUPPORTED_IN_VP),
-           !isAlgorithmSupportedInVp {
-            throw PresentationRequestValidatorError.responseSigningAlgorithmNotSupportedForVPs
-        }
-        
-        if let isAlgorithmSupportedInVp = registration.vpFormats?.jwtVC?.algorithms?.contains(VCEntitiesConstants.ALGORITHM_SUPPORTED_IN_VP),
-           !isAlgorithmSupportedInVp {
-            throw PresentationRequestValidatorError.responseSigningAlgorithmNotSupportedForVCs
-        }
     }
     
     private func getExpirationDeadlineInSeconds(expirationCheckTimeOffsetInSeconds: Int = 300) -> Int {

@@ -28,7 +28,10 @@ class OpenIdPresentationRequestValidator: OpenIdRequestValidating
                                                                         urlSession: urlSession),
                   requestValidator: PresentationRequestValidator(
                     validateIdentity: !configuration.isPreviewFeatureFlagSupported(
-                        PreviewFeatureFlags.DisablePresentationIdentityValidation)),
+                        PreviewFeatureFlags.DisablePresentationIdentityValidation),
+                    responseCapabilities: configuration.identifierFactory.identifiers.compactMap {
+                        PresentationResponseCapability.forIdentifier($0)
+                    }),
                   linkedDomainService: LinkedDomainService(correlationVector: correlationVector,
                                                            rootOfTrustResolver: rootOfTrustResolver,
                                                            urlSession: urlSession),

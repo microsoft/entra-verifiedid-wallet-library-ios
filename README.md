@@ -99,6 +99,27 @@ handling for new clients; signature verification and other request checks remain
 required. Without that flag, identity validation is enabled by default. Existing
 clients retain their policy snapshot.
 
+### Presentation response capabilities
+
+Registrations that pass the existing DID:ION/ES256K checks retain their existing
+acceptance and holder selection, including mixed DID:ION/DID:JWK metadata and omitted
+optional lists. The existing legacy holder remains the default unless
+`PreviewFeatureFlags.FIPSCompliantIdentifier` is enabled or holders are supplied explicitly.
+
+Previously rejected registrations, such as DID:JWK-only requests with ES256, are checked
+against configured holder capabilities: `did:ion` with `ES256K`, or `did:jwk` with `ES256`.
+These requests require a compatible method/VP-algorithm pair, and serialization selects
+only compatible holders while preserving their priority and credential subject binding.
+Unsupported entries may coexist with supported entries; explicit empty or non-intersecting
+lists are still rejected.
+
+`vp_formats.jwt_vc.alg` describes issuer-signed credentials, not holder-signed VPs.
+Request-level algorithm compatibility is checked separately against ES256K, ES256, and
+EdDSA verification support. This change adds no per-credential header rejection or changes
+to issuer signature verification. EdDSA verification does not imply holder signing support;
+ES384 and ES512 are not implemented. Request signature, identity, expiration, linked-domain,
+and protocol checks remain required.
+
 ### Style
 Issuers have the ability to customize the style of a Verified Id. We support `BasicVerifiedIdStyle` which contains basic traits like name, issuer, background color, text color, and logo that can be used to represent the look and feel of a Verified Id.
 

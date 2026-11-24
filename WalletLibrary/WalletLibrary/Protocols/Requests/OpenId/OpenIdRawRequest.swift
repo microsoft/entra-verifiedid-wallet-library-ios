@@ -23,4 +23,10 @@ protocol OpenIdRawRequest: Mappable where T == PresentationRequestContent
     var definitionId: String? { get }
     
     var responseURL: URL? { get }
+
+    var registration: RegistrationClaims? { get }
+}
+
+extension OpenIdRawRequest {
+    var registration: RegistrationClaims? { nil }
 }

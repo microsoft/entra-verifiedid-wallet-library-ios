@@ -176,6 +176,154 @@ class PresentationRequestValidatorTests: XCTestCase {
             XCTAssertTrue(!MockTokenVerifier.wasVerifyCalled)
         }
     }
+
+    func testFipsRegistrationAcceptsConfiguredJwkHolder() throws {
+        let registration = try JSONDecoder().decode(RegistrationClaims.self, from: Data("""
+            {"subject_syntax_types_supported":["did:jwk"],
+             "vp_formats":{"jwt_vp":{"alg":["ES256","ES384","ES512","EdDSA"]},
+                           "jwt_vc":{"alg":["ES256","ES384","ES512","EdDSA"]}}}
+            """.utf8))
+        let validator = PresentationRequestValidator(
+            verifier: verifier,
+            responseCapabilities: [PresentationResponseCapability(method: "did:jwk", algorithm: "ES256")])
+        let token = try XCTUnwrap(PresentationRequestToken(
+            headers: Header(keyId: "did:test#keyId"),
+            content: createMockPresentationRequestClaims(registration: registration)))
+        let request = try XCTUnwrap(PresentationRequestToken(from: try token.serialize()))
+
+        try validator.validate(request: request, usingKeys: [mockDidPublicKey])
+
+        XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testLegacyAndMixedRegistrationPreserveAcceptanceAcrossHolderInventories() throws {
+        let legacy = PresentationResponseCapability(method: "did:ion", algorithm: "ES256K")
+        let fips = PresentationResponseCapability(method: "did:jwk", algorithm: "ES256")
+        for methods in [["did:ion"], ["did:ion", "did:jwk"]] {
+            for capabilities in [[], [legacy], [fips], [fips, legacy]] {
+                let registration = capabilityRegistration(methods: methods, vpAlgorithms: ["ES256K"],
+                                                          vcAlgorithms: ["ES256K"])
+                let validator = PresentationRequestValidator(verifier: verifier, responseCapabilities: capabilities)
+                let request = try XCTUnwrap(PresentationRequestToken(
+                    headers: Header(keyId: "did:test#keyId"),
+                    content: createMockPresentationRequestClaims(registration: registration)))
+                try validator.validate(request: request, usingKeys: [mockDidPublicKey])
+            }
+        }
+        XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testRejectsIncompatibleMethodAlgorithmPairsAndNoIntersection() throws {
+        let cases: [([String], [String], [PresentationResponseCapability], PresentationRequestValidatorError)] = [
+            (["did:ion"], ["ES256"], PresentationResponseCapability.supported, .responseSigningAlgorithmNotSupportedForVPs),
+            (["did:jwk"], ["ES256K"], PresentationResponseCapability.supported, .responseSigningAlgorithmNotSupportedForVPs),
+            (["did:jwk"], ["ES256"],
+             [PresentationResponseCapability(method: "did:ion", algorithm: "ES256K")], .subjectIdentifierTypeNotSupported),
+            (["did:jwk"], ["EdDSA", "ES384", "ES512"], PresentationResponseCapability.supported,
+             .responseSigningAlgorithmNotSupportedForVPs),
+            (["did:jwk"], ["ES256"], [], .subjectIdentifierTypeNotSupported),
+            (["did:jwk"], ["ES384"],
+             [PresentationResponseCapability(method: "did:jwk", algorithm: "ES384")], .subjectIdentifierTypeNotSupported),
+            ([], ["ES256"], PresentationResponseCapability.supported, .subjectIdentifierTypeNotSupported),
+            (["did:jwk"], [], PresentationResponseCapability.supported, .responseSigningAlgorithmNotSupportedForVPs)
+        ]
+        for (methods, algorithms, capabilities, expectedError) in cases {
+            let validator = PresentationRequestValidator(verifier: verifier, responseCapabilities: capabilities)
+            let registration = capabilityRegistration(methods: methods, vpAlgorithms: algorithms, vcAlgorithms: ["ES256"])
+            let request = try XCTUnwrap(PresentationRequestToken(
+                headers: Header(keyId: "did:test#keyId"),
+                content: createMockPresentationRequestClaims(registration: registration)))
+            XCTAssertThrowsError(try validator.validate(request: request, usingKeys: [mockDidPublicKey])) { error in
+                XCTAssertEqual(error as? PresentationRequestValidatorError, expectedError)
+            }
+        }
+        XCTAssertFalse(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testCredentialAlgorithmsAreIndependentOfHolderSigningAlgorithm() throws {
+        for vcAlgorithms in [["ES256K"], ["EdDSA"], ["ES256"]] {
+            let registration = capabilityRegistration(methods: ["did:jwk"], vpAlgorithms: ["ES256"],
+                                                      vcAlgorithms: vcAlgorithms)
+            let validator = PresentationRequestValidator(verifier: verifier)
+            let request = try XCTUnwrap(PresentationRequestToken(
+                headers: Header(keyId: "did:test#keyId"),
+                content: createMockPresentationRequestClaims(registration: registration)))
+            try validator.validate(request: request, usingKeys: [mockDidPublicKey])
+        }
+        for vcAlgorithms in [[], ["ES384", "ES512"], ["none"]] {
+            let registration = capabilityRegistration(methods: ["did:jwk"], vpAlgorithms: ["ES256"],
+                                                      vcAlgorithms: vcAlgorithms)
+            let request = try XCTUnwrap(PresentationRequestToken(
+                headers: Header(keyId: "did:test#keyId"),
+                content: createMockPresentationRequestClaims(registration: registration)))
+            XCTAssertThrowsError(try PresentationRequestValidator(verifier: verifier)
+                .validate(request: request, usingKeys: [mockDidPublicKey])) { error in
+                XCTAssertEqual(error as? PresentationRequestValidatorError, .responseSigningAlgorithmNotSupportedForVCs)
+            }
+        }
+    }
+
+    func testOmittedRegistrationConstraintsRemainOptional() throws {
+        let registrations = [
+            capabilityRegistration(methods: nil, vpAlgorithms: nil, vcAlgorithms: nil),
+            capabilityRegistration(methods: ["did:jwk"], vpAlgorithms: nil, vcAlgorithms: nil),
+            capabilityRegistration(methods: nil, vpAlgorithms: ["ES256"], vcAlgorithms: nil)
+        ]
+        for registration in registrations {
+            let request = try XCTUnwrap(PresentationRequestToken(
+                headers: Header(keyId: "did:test#keyId"),
+                content: createMockPresentationRequestClaims(registration: registration)))
+            try PresentationRequestValidator(verifier: verifier).validate(request: request, usingKeys: [mockDidPublicKey])
+        }
+        XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testLegacyOptionalListsDoNotIntroduceHolderInventoryRequirements() throws {
+        let registrations = [
+            capabilityRegistration(methods: nil, vpAlgorithms: nil, vcAlgorithms: nil),
+            capabilityRegistration(methods: ["did:ion"], vpAlgorithms: nil, vcAlgorithms: nil),
+            capabilityRegistration(methods: nil, vpAlgorithms: ["ES256K"], vcAlgorithms: nil),
+            capabilityRegistration(methods: nil, vpAlgorithms: nil, vcAlgorithms: ["ES256K"])
+        ]
+        for capabilities in [[], [PresentationResponseCapability(method: "did:jwk", algorithm: "ES256")]] {
+            for registration in registrations {
+                let request = try XCTUnwrap(PresentationRequestToken(
+                    headers: Header(keyId: "did:test#keyId"),
+                    content: createMockPresentationRequestClaims(registration: registration)))
+                try PresentationRequestValidator(verifier: verifier, responseCapabilities: capabilities)
+                    .validate(request: request, usingKeys: [mockDidPublicKey])
+            }
+        }
+        XCTAssertTrue(MockTokenVerifier.wasVerifyCalled)
+    }
+
+    func testFipsRegistrationStillRequiresIdentityAndSignatureValidation() throws {
+        let registration = capabilityRegistration(methods: ["did:jwk"], vpAlgorithms: ["ES256"], vcAlgorithms: ["ES256"])
+        let request = try XCTUnwrap(PresentationRequestToken(
+            headers: Header(keyId: "did:test#keyId"),
+            content: createMockPresentationRequestClaims(registration: registration)))
+        XCTAssertThrowsError(try PresentationRequestValidator(verifier: MockTokenVerifier(isTokenValid: false))
+            .validate(request: request, usingKeys: [mockDidPublicKey])) { error in
+            XCTAssertEqual(error as? PresentationRequestValidatorError, .invalidSignature)
+        }
+        let inconsistentRequest = try XCTUnwrap(PresentationRequestToken(
+            headers: Header(keyId: "did:test#keyId"),
+            content: createMockPresentationRequestClaims(clientID: "did:test:other", registration: registration)))
+        XCTAssertThrowsError(try PresentationRequestValidator(verifier: verifier)
+            .validate(request: inconsistentRequest, usingKeys: [mockDidPublicKey])) { error in
+            XCTAssertEqual(error as? PresentationRequestValidatorError, .clientIdentifierDoesNotMatchSigner)
+        }
+    }
+
+    private func capabilityRegistration(methods: [String]?, vpAlgorithms: [String]?,
+                                        vcAlgorithms: [String]?) -> RegistrationClaims {
+        return RegistrationClaims(clientName: nil, clientPurpose: nil, logoURI: nil,
+                                  subjectIdentifierTypesSupported: methods,
+                                  vpFormats: SupportedVerifiablePresentationFormats(
+                                    jwtVP: vpAlgorithms.map { AllowedAlgorithms(algorithms: $0) },
+                                    jwtVC: vcAlgorithms.map { AllowedAlgorithms(algorithms: $0) }),
+                                  scenario: nil)
+    }
     
     func testRejectsClientIdNotBoundToSigner() throws {
         let validator = PresentationRequestValidator(verifier: verifier)

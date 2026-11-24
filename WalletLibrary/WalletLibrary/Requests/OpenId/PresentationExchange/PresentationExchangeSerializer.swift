@@ -10,6 +10,8 @@
 class PresentationExchangeSerializer: RequestProcessorSerializing
 {
     private let configuration: LibraryConfiguration
+
+    private let identifierFactory: IdentifierFactory
     
     /// A collection of builders for creating verifiable presentations.
     private var vpBuilders: [any VerifiablePresentationBuilding]
@@ -47,6 +49,9 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             self.definitionId = try request.getRequiredProperty(property: request.definitionId,
                                                                 propertyName: "definitionId")
             self.configuration = libraryConfiguration
+            self.identifierFactory = IdentifierFactory(identifiers: libraryConfiguration.identifierFactory.identifiers.filter {
+                request.registration?.supportsHolder($0) ?? true
+            })
             self.tokenBuildFactory = tokenBuilderFactory
             self.idTokenBuilder = tokenBuilderFactory.createPresentationExchangeIdTokenBuilder()
             self.vpBuilders = []
@@ -89,7 +94,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
             }
         }
         
-        let identifier = try partialInputDescriptor.getCompatibleIdentityHolder(holderIdentifierFactory: configuration.identifierFactory)
+        let identifier = try partialInputDescriptor.getCompatibleIdentityHolder(holderIdentifierFactory: identifierFactory)
         let newBuilder = tokenBuildFactory.createVerifiablePresentationBuilder(index: vpBuilders.count, identifier: identifier)
         newBuilder.add(partialInputDescriptor: partialInputDescriptor)
         vpBuilders.append(newBuilder)
@@ -98,7 +103,7 @@ class PresentationExchangeSerializer: RequestProcessorSerializing
     /// Builds the final presentation response which includes the ID token and Verifiable Presentations.
     func build() throws -> PresentationResponse
     {
-        let holderIdentifier = try configuration.identifierFactory.getIdentifier()
+        let holderIdentifier = try identifierFactory.getIdentifier()
         let idToken = try buildIdToken(identifier: holderIdentifier)
         let vpTokens = try buildVpTokens(identifier: holderIdentifier)
         let response = PresentationResponse(idToken: idToken,
